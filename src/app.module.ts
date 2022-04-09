@@ -1,0 +1,30 @@
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { WorkspaceModule } from './workspace/workspace.module';
+import { AuthModule } from './auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
+import { AccountModule } from './account/account.module';
+import { MailingModule } from './mailing/mailing.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmConfigService } from './db/typeorm.config.service';
+import { PassportModule } from '@nestjs/passport';
+
+@Module({
+  imports: [
+    AuthModule,
+    TypeOrmModule.forRootAsync({
+      useClass: TypeOrmConfigService
+    }),
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+    }),
+    ScheduleModule.forRoot(),
+    AccountModule,
+    WorkspaceModule,
+    MailingModule
+  ],
+  controllers: [AppController],
+  providers: [],
+})
+export class AppModule { }
