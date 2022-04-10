@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { createHmac } from 'crypto';
 import { CreateAccountDto } from 'src/account/account.model';
 import { AccountService } from 'src/account/account.service';
@@ -7,8 +7,7 @@ import { AccountCredentialsDto, RequestUser, UpdatePasswordDto } from './auth.mo
 import { JwtPayload } from './jwt.payload.interface';
 import { JwtService } from "@nestjs/jwt"
 import { EntityManager } from 'typeorm';
-import { AccountNotExistsError, BadPasswordOrNotExists, BadRequestError } from 'src/helpers/errors';
-import { bool } from 'aws-sdk/clients/signer';
+import { AccountNotExistsError, BadPasswordOrNotExists } from 'src/helpers/errors';
 
 @Injectable()
 export class AuthService {
@@ -21,9 +20,9 @@ export class AuthService {
     public async login(
         accountCredentials: AccountCredentialsDto
     ): Promise<{ accessToken: string }> {
-        return await this.entityManager.transaction(async (transaction) => {
+        return await this.entityManager.transaction(async (manager) => {
 
-            const { isCorrect, account } = await this.checkUserPassword(accountCredentials, transaction);
+            const { isCorrect, account } = await this.checkUserPassword(accountCredentials, manager);
             if (!isCorrect) {
                 throw new BadPasswordOrNotExists();
             }
@@ -46,9 +45,9 @@ export class AuthService {
         return this.accountService.createAccount(accountDto);
     }
 
-    async checkUserPassword(credentials: AccountCredentialsDto, transaction: EntityManager): Promise<{ isCorrect: boolean, account?: Account }> {
+    async checkUserPassword(credentials: AccountCredentialsDto, manager: EntityManager = this.entityManager): Promise<{ isCorrect: boolean, account?: Account }> {
         const { email, password } = credentials;
-        const account = await transaction.getRepository(Account).findOne({
+        const account = await manager.getRepository(Account).findOne({
             where: {
                 email,
                 password: createHmac('sha256', password).digest('hex'),
@@ -74,8 +73,8 @@ export class AuthService {
         const { id } = currentUser;
         const { newPassword, password } = passwords;
 
-        await this.entityManager.transaction(async (transaction) => {
-            const account = await transaction.getRepository(Account).findOneByOrFail({ _id: id });
+        await this.entityManager.transaction(async (manager) => {
+            const account = await manager.getRepository(Account).findOneByOrFail({ _id: id });
 
             if (!account) {
                 throw new AccountNotExistsError();
@@ -86,13 +85,13 @@ export class AuthService {
                 password,
             );
 
-            const correctPassword = await this.checkUserPassword(credentials, transaction);
+            const correctPassword = await this.checkUserPassword(credentials, manager);
             if (!correctPassword) {
                 throw new BadPasswordOrNotExists();
             }
 
             account.password = createHmac('sha256', newPassword).digest('hex')
-            await transaction.getRepository(Account).save(account);
+            await manager.getRepository(Account).save(account);
 
             return {
                 status: 200,

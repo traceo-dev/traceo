@@ -66,6 +66,30 @@ export class AccountAlreadyExistsError extends KlepperError {
     }
 }
 
+export class WorkspaceWithNameAlreadyExistsError extends KlepperError {
+    constructor(message?) {
+        super(message || 'Workspace with this name already exists.');
+        this.name = 'WorkspaceWithNameAlreadyExistsError';
+        this.status = 455;
+    }
+}
+
+export class AccountAlreadyInWorkspaceError extends KlepperError {
+    constructor(message?) {
+        super(message || 'Account already exists in this workspace.');
+        this.name = 'AccountAlreadyInWorkspaceError';
+        this.status = 455;
+    }
+}
+
+export class WorkspaceNotExistsError extends KlepperError {
+    constructor(message?) {
+        super(message || 'Workspace not exists.');
+        this.name = 'WorkspaceNotExistsError';
+        this.status = 456;
+    }
+}
+
 export class InternalServerError extends KlepperError {
     constructor(message?) {
         super(message || 'Internal server error.');

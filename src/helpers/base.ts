@@ -6,6 +6,6 @@ export const isEmpty = (
   });
 };
 
-export const getKeyFromBucketUrl = (url: string) => url.split("/")[3];
+export const getKeyFromBucketUrl = (url: string) => url.split("/")[4];
 
 export const combineArray = (arr: [], arr2: []) => [...arr, ...arr2];

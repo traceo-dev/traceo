@@ -1,44 +1,66 @@
 import { Injectable } from "@nestjs/common";
 import { sendMail } from "src/libs/nodemailer";
+import { WorkspaceQueryService } from "src/workspace/workspace-query/workspace-query.service";
+
+enum EMAIL_TYPE {
+    CONFIRM_REGISTRATION = 'confirmRegistration',
+    WORKSPACE_INVITE_NO_ACCOUNT = 'workspaceInviteNoAccount',
+    WORKSPACE_INVITE_ACCOUNT = 'workspaceInviteAccount'
+}
 
 @Injectable()
 export class MailingService {
-    constructor() { }
+    constructor(
+        private readonly workspaceQueryService: WorkspaceQueryService
+    ) { }
 
     public async sendInviteToMemberWithoutAccount(
+    { 
+        email,
+        url,
+        workspaceId
+    }: {
         email: string,
         url: string,
-        workspaceName: string
-    ): Promise<void> {
+        workspaceId: string
+    }): Promise<void> {
+        const workspace = await this.workspaceQueryService.getWorkspaceById(workspaceId);
         const mailParams = {
             to: email,
             subject: "Invite",
             context: {
                 link: url,
-                workspaceName: workspaceName,
+                workspaceName: workspace?.name,
                 app_name: process.env.APP_NAME,
             },
-            template: "workspaceInviteNoAccount",
+            template: EMAIL_TYPE.WORKSPACE_INVITE_NO_ACCOUNT,
         };
         await sendMail(mailParams);
     };
 
     public async sendInviteToMember(
-        email: string,
-        url: string,
-        accountName: string,
-        workspaceName: string
-    ): Promise<void> {
+        {
+            email,
+            url,
+            accountName,
+            workspaceId
+        }: {
+            email: string,
+            url: string,
+            accountName: string,
+            workspaceId: string
+        }): Promise<void> {
+        const workspace = await this.workspaceQueryService.getWorkspaceById(workspaceId);
         const mailParams = {
             to: email,
             subject: "Invite",
             context: {
                 link: url,
                 accountName: accountName,
-                workspaceName: workspaceName,
+                workspaceName: workspace?.name,
                 app_name: process.env.APP_NAME,
             },
-            template: "workspaceInviteAccount",
+            template: EMAIL_TYPE.WORKSPACE_INVITE_ACCOUNT,
         };
         await sendMail(mailParams);
     };
@@ -51,7 +73,7 @@ export class MailingService {
                 link: url,
                 appName: process.env.APP_NAME,
             },
-            template: "confirmRegistration",
+            template: EMAIL_TYPE.CONFIRM_REGISTRATION,
         };
         await sendMail(mailParams);
     };

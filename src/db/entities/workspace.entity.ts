@@ -1,59 +1,68 @@
-import { IsNotEmpty } from "class-validator";
+import { IsNotEmpty, MaxLength } from "class-validator";
 import {
   BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { Account } from "./account.entity";
-import { WorkspaceAccount } from "./workspace_account.entity";
+import { AccountWorkspaceRelationship } from "./account-workspace-relationship.entity";
+import dateUtils from "src/helpers/dateUtils";
 
 @Entity()
 export class Workspace extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   _id: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   @IsNotEmpty()
   name: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   @IsNotEmpty()
   privateKey: string;
 
   @ManyToOne(() => Account)
   @JoinColumn()
   @IsNotEmpty()
-  owner?: Account;
+  owner: Account;
 
-  @Column({ nullable: true })
-  shortDescription?: string;
-
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 256, type: 'varchar' })
   aboutDescription?: string;
 
   @Column({ nullable: true })
   logo?: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
+  @Column({ nullable: true })
+  createdAt: number;
 
-  @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
+  @Column({ nullable: true })
+  updatedAt: number;
 
   @OneToMany(
-    () => WorkspaceAccount,
-    (workspaceAccount) => workspaceAccount.workspace,
+    () => AccountWorkspaceRelationship,
+    (accountWorkspace) => accountWorkspace.workspace,
     {
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     }
   )
-  members?: WorkspaceAccount[];
+  members?: AccountWorkspaceRelationship[];
+
+  @BeforeUpdate()
+  public setUpdatedAt() {
+    this.updatedAt = dateUtils.toUnix();
+  }
+
+  @BeforeInsert()
+  public setCreatedAt() {
+    this.createdAt = dateUtils.toUnix();
+  }
 }

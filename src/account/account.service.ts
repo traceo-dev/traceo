@@ -8,18 +8,28 @@ import tokenService from 'src/helpers/tokens';
 import { EntityManager } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { AccountDto, CreateAccountDto } from './account.model';
+import { AccountQueryService } from './account-query/account-query.service';
+import { AwrService } from 'src/awr/awr.service';
+import { WorkspaceQueryService } from 'src/workspace/workspace-query/workspace-query.service';
+import { MEMBER_STATUS } from 'src/db/entities/account-workspace-relationship.entity';
+import { getKeyFromBucketUrl } from 'src/helpers/base';
+import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 
 @Injectable()
 export class AccountService {
     constructor(
         readonly mailingService: MailingService,
         readonly entityManager: EntityManager,
+        readonly accountQueryService: AccountQueryService,
+        readonly workspaceQueryService: WorkspaceQueryService,
+        readonly awrService: AwrService,
+        readonly awsBucketService: AWSBucketService
     ) { }
 
     public async createAccount(accountDto: CreateAccountDto): Promise<any> {
         const { name, email, password, wid } = accountDto;
 
-        const account = await this.getAccountByEmail(email);
+        const account = await this.accountQueryService.getAccountByEmail(email);
         if (account) {
             throw new AccountAlreadyExistsError();
         }
@@ -30,7 +40,6 @@ export class AccountService {
                 name,
                 password: tokenService.generate(password),
                 role: ROLE.GUEST,
-                createdAt: dateUtils.toUnix(),
                 active: false,
                 activateHash: randomUUID(),
             };
@@ -55,18 +64,10 @@ export class AccountService {
             : `${appOrigin}/confirm?ac=${activateHash}`;
     }
 
-    public async getAccountById(id: string): Promise<Account | null> {
-        return this.entityManager.getRepository(Account).findOneBy({ _id: id })
-    }
-
-    public async getAccountByEmail(email: string): Promise<Account | null> {
-        return this.entityManager.getRepository(Account).findOneBy({ email })
-    }
-
     public async confirmAccount(hash: string, workspaceId?: string): Promise<void> {
         try {
-            await this.entityManager.transaction(async (transaction) => {
-                const accountRepository = transaction.getRepository(Account);
+            await this.entityManager.transaction(async (manager) => {
+                const accountRepository = manager.getRepository(Account);
 
                 const account = await accountRepository.findOne({
                     where: {
@@ -85,11 +86,12 @@ export class AccountService {
                 );
 
                 if (workspaceId) {
-                    // await workspaceService.addMemberToWorkspace(
-                    //     transactionManager,
-                    //     account?._id as string,
-                    //     wid as string
-                    // );
+                    const workspace = await this.workspaceQueryService.getWorkspaceById(workspaceId, manager);
+                    await this.awrService.createAwr({
+                        account,
+                        workspace,
+                        memberStatus: MEMBER_STATUS.DEVELOPER
+                    }, manager);
                 }
             });
         } catch (error) {
@@ -100,7 +102,13 @@ export class AccountService {
 
     public async updateAccount(accountDto: AccountDto): Promise<void> {
         const { id, ...rest } = accountDto;
+        const { logo } = rest;
         try {
+            const account = await this.accountQueryService.getAccountById(id);
+            if (logo && account?.logo) {
+                const keyName = `attachments/${getKeyFromBucketUrl(account?.logo)}`;
+                await this.awsBucketService.removeFileFromBucket(keyName);
+            }
             await this.entityManager.getRepository(Account).update({ _id: id }, rest);
         } catch (error) {
             Logger.error(`[${this.updateAccount.name}] Caused by: ${error}`)

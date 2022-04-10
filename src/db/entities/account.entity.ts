@@ -2,12 +2,10 @@ import {
   IsBoolean,
   IsEmail,
   IsEnum,
-  IsNotEmpty,
-  IsString,
-  MaxLength,
+  IsNotEmpty
 } from "class-validator";
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { WorkspaceAccount } from "./workspace_account.entity";
+import { AccountWorkspaceRelationship } from "./account-workspace-relationship.entity";
 
 export enum ROLE {
   ADMIN = "admin",
@@ -55,11 +53,11 @@ export class Account extends BaseEntity {
   updatedAt: Date;
 
   @OneToMany(
-    () => WorkspaceAccount,
-    (workspaceAccount) => workspaceAccount.account,
+    () => AccountWorkspaceRelationship,
+    (accountWorkspace) => accountWorkspace.account,
     {
       cascade: true,
     }
   )
-  workspaces: WorkspaceAccount[];
+  workspaces: AccountWorkspaceRelationship[];
 }

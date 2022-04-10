@@ -60,10 +60,11 @@ export class AttachmentsService {
         id: string;
     }> {
         try {
-            const url = await this.attachmentBucket.uploadImage(
+            const { bucketKey, url } = await this.attachmentBucket.uploadImage(
                 file,
                 defaultAttachmentBucket,
                 { maxWidth: 780, maxHeight: 560 },
+                type
             );
             const { originalname, size, mimetype } = file;
             const attachment = new Attachment();
@@ -73,6 +74,7 @@ export class AttachmentsService {
             attachment.size = size;
             attachment.type = type;
             attachment.url = url;
+            attachment.bucketKey = bucketKey;
             attachment.metadata = metadata;
             const { id } = await this.entityManager.save(attachment);
 

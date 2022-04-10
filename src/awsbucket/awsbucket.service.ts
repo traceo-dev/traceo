@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
+import { Attachment, AttachmentType } from 'src/db/entities/attachment.entity';
+import { EntityManager } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -11,6 +13,10 @@ interface ResizeParam {
 }
 @Injectable()
 export class AWSBucketService {
+    constructor(
+        private readonly entityManger: EntityManager
+    ) {}
+
     private _client: AWS.S3;
 
     private get client() {
@@ -77,20 +83,42 @@ export class AWSBucketService {
         file: Express.Multer.File,
         bucketName: string,
         resize?: ResizeParam,
+        type?: AttachmentType
     ) {
         const ext = file.originalname.includes('.')
             ? `.${file.originalname.split('.').pop()}`
             : '';
-        const keyName = `attachments/${uuid()}${ext}`;
+        const folder = this.getBucketFolder(type);
+        const keyName = `${folder}/${uuid()}${ext}`;
         await this.putObjectToBucket(file, bucketName, keyName, resize);
-        return `https://${bucketName}.s3.amazonaws.com/${keyName}`;
+        return {
+            url: `https://${bucketName}.s3.amazonaws.com/${keyName}`,
+            bucketKey: keyName
+        };
     }
 
-    public async removeFileFromBucket(bucketName: string, keyName: string) {
+    getBucketFolder(type: AttachmentType) {
+        switch(type) {
+            case AttachmentType.ACCOUNT_AVATAR:
+                return "account_avatar";
+            case AttachmentType.WORKSPACE_AVATAR:
+                return "workspace_avatar";
+            default:
+                return;
+        }
+    }
+
+    public async removeFileFromBucket(keyName: string) {
         const params = {
-            Bucket: bucketName,
+            Bucket: process.env.AWS_BUCKET_NAME,
             Key: keyName,
         };
-        return await this.client.deleteObject(params).promise();
+
+        const promises = [
+            await this.client.deleteObject(params).promise(),
+            await this.entityManger.getRepository(Attachment).delete({ bucketKey: keyName })
+        ];
+
+        await Promise.all(promises);
     }
 }

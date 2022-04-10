@@ -8,8 +8,9 @@ import { MailingModule } from './mailing/mailing.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm.config.service';
-import { PassportModule } from '@nestjs/passport';
 import { AttachmentsModule } from './attachments/attachments.module';
+import { AwrModule } from './awr/awr.module';
+import { CoreModule } from './core/core.module';
 
 @Module({
   imports: [
@@ -24,7 +25,9 @@ import { AttachmentsModule } from './attachments/attachments.module';
     AccountModule,
     WorkspaceModule,
     MailingModule,
-    AttachmentsModule
+    AttachmentsModule,
+    AwrModule,
+    CoreModule
   ],
   controllers: [AppController],
   providers: [],

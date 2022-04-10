@@ -1,12 +1,13 @@
+import dateUtils from "src/helpers/dateUtils";
 import {
   BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  PrimaryGeneratedColumn
 } from "typeorm";
 import { Account } from "./account.entity";
 import { Workspace } from "./workspace.entity";
@@ -18,7 +19,7 @@ export enum MEMBER_STATUS {
 }
 
 @Entity()
-export class WorkspaceAccount extends BaseEntity {
+export class AccountWorkspaceRelationship extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   _id: string;
 
@@ -28,20 +29,11 @@ export class WorkspaceAccount extends BaseEntity {
   })
   status: MEMBER_STATUS;
 
-  @Column()
-  lastUpdate: number;
+  @Column({ nullable: true })
+  createdAt: number;
 
-  @Column({
-    type: "boolean",
-    default: false,
-  })
-  favorite: boolean;
-
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
+  @Column({ nullable: true })
+  updatedAt: number;
 
   @ManyToOne(() => Account, {
     onUpdate: "CASCADE",
@@ -60,4 +52,14 @@ export class WorkspaceAccount extends BaseEntity {
     name: "workspace",
   })
   workspace: Workspace;
+
+  @BeforeUpdate()
+  public setUpdatedAt() {
+    this.updatedAt = dateUtils.toUnix();
+  }
+
+  @BeforeInsert()
+  public setCreatedAt() {
+    this.createdAt = dateUtils.toUnix();
+  }
 }

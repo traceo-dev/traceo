@@ -24,6 +24,7 @@ export class Attachment {
   @Column({
     type: 'enum',
     enum: AttachmentType,
+    nullable: true
   })
   type: AttachmentType;
 
@@ -47,6 +48,12 @@ export class Attachment {
     nullable: true,
   })
   metadata?: string;
+
+  @Column({
+    type: 'varchar',
+    nullable: false
+  })
+  bucketKey: string;
 
   @Column({
     type: 'integer',

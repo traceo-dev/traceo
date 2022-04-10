@@ -1,9 +1,9 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Patch } from '@nestjs/common';
+import { Body, Controller, Get, ParseUUIDPipe, Patch, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
-import { Account } from 'src/db/entities/account.entity';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/decorators/auth-user.decorator';
+import { AccountQueryService } from './account-query/account-query.service';
 import { AccountDto } from './account.model';
 import { AccountService } from './account.service';
 
@@ -11,15 +11,9 @@ import { AccountService } from './account.service';
 @Controller('account')
 export class AccountController {
     constructor(
-        readonly accountService: AccountService
+        readonly accountService: AccountService,
+        readonly accountQueryService: AccountQueryService
     ) {}
-
-    @Get('/:id')
-    async getAccountById(
-        @Param('id', new ParseUUIDPipe()) id: string,
-    ): Promise<Account | null> {
-        return await this.accountService.getAccountById(id);
-    }
 
     @Patch()
     @AuthRequired()
@@ -30,10 +24,10 @@ export class AccountController {
         return await this.accountService.updateAccount({ id: account.id, ...accountDto });
     }
 
-    @Get("/:hash/:workspaceId")
+    @Get("/confirm")
     async confirmAccount(
-        @Param('hash') hash: string,
-        @Param('workspaceId', new ParseUUIDPipe()) workspaceId: string,
+        @Query('hash') hash: string,
+        @Query('workspaceId') workspaceId: string,
     ): Promise<void> {
         return await this.accountService.confirmAccount(hash, workspaceId);
     }
