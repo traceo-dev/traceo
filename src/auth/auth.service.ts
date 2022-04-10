@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { createHmac } from 'crypto';
 import { CreateAccountDto } from 'src/account/account.model';
 import { AccountService } from 'src/account/account.service';
@@ -7,7 +7,8 @@ import { AccountCredentialsDto, RequestUser, UpdatePasswordDto } from './auth.mo
 import { JwtPayload } from './jwt.payload.interface';
 import { JwtService } from "@nestjs/jwt"
 import { EntityManager } from 'typeorm';
-import { AccountNotExistsError, BadPasswordOrNotExists } from 'src/utils/errors';
+import { AccountNotExistsError, BadPasswordOrNotExists, BadRequestError } from 'src/helpers/errors';
+import { bool } from 'aws-sdk/clients/signer';
 
 @Injectable()
 export class AuthService {
@@ -19,36 +20,51 @@ export class AuthService {
 
     public async login(
         accountCredentials: AccountCredentialsDto
-    ): Promise<any | { status: number }> {
-        await this.validate(accountCredentials);
+    ): Promise<{ accessToken: string }> {
+        return await this.entityManager.transaction(async (transaction) => {
 
-        const user = await this.accountService.getAccountByEmail(accountCredentials.email);
-        const payload: JwtPayload = {
-            id: user._id,
-            name: user.name,
-            email: user.email,
-        };
-        const { accessToken } = await this.createToken(payload);
+            const { isCorrect, account } = await this.checkUserPassword(accountCredentials, transaction);
+            if (!isCorrect) {
+                throw new BadPasswordOrNotExists();
+            }
 
-        return {
-            accessToken
-        };
+            const { _id, name, email } = account;
+            const payload: JwtPayload = {
+                id: _id,
+                name,
+                email,
+            };
+            const { accessToken } = await this.createToken(payload);
+
+            return {
+                accessToken
+            };
+        });
     }
 
     public async register(accountDto: CreateAccountDto): Promise<any> {
         return this.accountService.createAccount(accountDto);
     }
 
-    async checkUserPassword(credentials: AccountCredentialsDto): Promise<void> {
+    async checkUserPassword(credentials: AccountCredentialsDto, transaction: EntityManager): Promise<{ isCorrect: boolean, account?: Account }> {
         const { email, password } = credentials;
-        await Account.findOneOrFail({
+        const account = await transaction.getRepository(Account).findOne({
             where: {
                 email,
                 password: createHmac('sha256', password).digest('hex'),
             }
-        }).catch(() => {
-            throw new BadPasswordOrNotExists();
         });
+
+        if (!account) {
+            return {
+                isCorrect: false
+            };
+        }
+
+        return {
+            isCorrect: true,
+            account
+        };
     }
 
     public async updateUserPassword(
@@ -58,51 +74,35 @@ export class AuthService {
         const { id } = currentUser;
         const { newPassword, password } = passwords;
 
-        try {
-            await this.entityManager.transaction(async (transaction) => {
-                const account = await transaction.getRepository(Account).findOneByOrFail({ _id: id });
+        await this.entityManager.transaction(async (transaction) => {
+            const account = await transaction.getRepository(Account).findOneByOrFail({ _id: id });
 
-                if (!account) {
-                    throw new AccountNotExistsError();
-                }
-
-                const credentials = new AccountCredentialsDto(
-                    account?.email,
-                    password,
-                );
-
-                await this.checkUserPassword(credentials)
-                    .then(async () => {
-                        account.password = createHmac('sha256', newPassword).digest('hex')
-                        await transaction.getRepository(Account).save(account);
-                    }).catch(() => {
-                        throw new BadPasswordOrNotExists();
-                    });
-
-                return {
-                    status: 200,
-                    data: "Password updated!"
-                }
-            });
-        } catch (error) {
-            return {
-                status: 400,
-                data: "Error during updating account password."
+            if (!account) {
+                throw new AccountNotExistsError();
             }
-        }
+
+            const credentials = new AccountCredentialsDto(
+                account?.email,
+                password,
+            );
+
+            const correctPassword = await this.checkUserPassword(credentials, transaction);
+            if (!correctPassword) {
+                throw new BadPasswordOrNotExists();
+            }
+
+            account.password = createHmac('sha256', newPassword).digest('hex')
+            await transaction.getRepository(Account).save(account);
+
+            return {
+                status: 200,
+                data: "Password updated!"
+            }
+        });
     }
 
     public async createToken(payload: JwtPayload): Promise<{ accessToken: string }> {
         const accessToken = this.jwtService.sign(payload);
         return { accessToken };
-    }
-
-    private async validate(userData: AccountCredentialsDto): Promise<void> {
-        const user = await this.accountService.getAccountByEmail(userData.email);
-        if (user) {
-            await this.checkUserPassword(userData);
-        } else {
-            throw new AccountNotExistsError();
-        }
     }
 }

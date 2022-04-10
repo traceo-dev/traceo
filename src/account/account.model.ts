@@ -31,8 +31,8 @@ export class CreateAccountDto {
 
 export class AccountDto {
   @IsString()
-  @IsNotEmpty()
-  @ApiProperty({ type: String, description: 'account name' })
+  @IsOptional()
+  @ApiProperty({ type: String, description: 'account id' })
   id: string;
 
   @IsString()

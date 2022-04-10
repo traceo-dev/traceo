@@ -1,10 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { Account, ROLE } from 'src/db/entities/account.entity';
 import { MailingService } from 'src/mailing/mailing.service';
-import dateUtils from 'src/utils/dateUtils';
-import { AccountAlreadyExistsError, InternalServerError } from 'src/utils/errors';
-import tokenService from 'src/utils/tokens';
+import dateUtils from 'src/helpers/dateUtils';
+import { AccountAlreadyExistsError, InternalServerError } from 'src/helpers/errors';
+import tokenService from 'src/helpers/tokens';
 import { EntityManager } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { AccountDto, CreateAccountDto } from './account.model';
@@ -43,6 +43,7 @@ export class AccountService {
             
             await this.mailingService.sendSignUpConfirmation(email, confirmUrl);
         } catch (error) {
+            Logger.error(`[${this.createAccount.name}] Caused by: ${error}`)
             throw new InternalServerError();
         }
     }
@@ -92,14 +93,17 @@ export class AccountService {
                 }
             });
         } catch (error) {
+            Logger.error(`[${this.confirmAccount.name}] Caused by: ${error}`)
             throw new InternalServerError();
         }
     }
 
     public async updateAccount(accountDto: AccountDto): Promise<void> {
+        const { id, ...rest } = accountDto;
         try {
-            await this.entityManager.getRepository(Account).update({ _id: accountDto?.id }, { ...accountDto })
+            await this.entityManager.getRepository(Account).update({ _id: id }, rest);
         } catch (error) {
+            Logger.error(`[${this.updateAccount.name}] Caused by: ${error}`)
             throw new InternalServerError();
         }
     }

@@ -9,6 +9,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm.config.service';
 import { PassportModule } from '@nestjs/passport';
+import { AttachmentsModule } from './attachments/attachments.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { PassportModule } from '@nestjs/passport';
     ScheduleModule.forRoot(),
     AccountModule,
     WorkspaceModule,
-    MailingModule
+    MailingModule,
+    AttachmentsModule
   ],
   controllers: [AppController],
   providers: [],

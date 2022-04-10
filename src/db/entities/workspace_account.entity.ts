@@ -1,10 +1,12 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { Account } from "./account.entity";
 import { Workspace } from "./workspace.entity";
@@ -34,6 +36,12 @@ export class WorkspaceAccount extends BaseEntity {
     default: false,
   })
   favorite: boolean;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @ManyToOne(() => Account, {
     onUpdate: "CASCADE",

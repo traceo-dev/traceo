@@ -1,11 +1,13 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { CreateAccountDto } from 'src/account/account.model';
 import { Account } from 'src/db/entities/account.entity';
-import { AuthRequired } from 'src/middlewares/auth-required.decorator';
-import { AuthAccount } from 'src/middlewares/auth-user.decorator';
+import { AuthRequired } from 'src/decorators/auth-required.decorator';
+import { AuthAccount } from 'src/decorators/auth-user.decorator';
 import { AccountCredentialsDto, RequestUser, UpdatePasswordDto } from './auth.model';
 import { AuthService } from './auth.service';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(

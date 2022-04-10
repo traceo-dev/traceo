@@ -2,12 +2,14 @@ import { IsNotEmpty } from "class-validator";
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from "typeorm";
 import { Account } from "./account.entity";
 import { WorkspaceAccount } from "./workspace_account.entity";
@@ -38,6 +40,12 @@ export class Workspace extends BaseEntity {
 
   @Column({ nullable: true })
   logo?: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @OneToMany(
     () => WorkspaceAccount,

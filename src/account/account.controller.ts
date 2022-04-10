@@ -1,7 +1,9 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { RequestUser } from 'src/auth/auth.model';
 import { Account } from 'src/db/entities/account.entity';
-import { AuthRequired } from 'src/middlewares/auth-required.decorator';
+import { AuthRequired } from 'src/decorators/auth-required.decorator';
+import { AuthAccount } from 'src/decorators/auth-user.decorator';
 import { AccountDto } from './account.model';
 import { AccountService } from './account.service';
 
@@ -23,8 +25,9 @@ export class AccountController {
     @AuthRequired()
     async updateAccount(
         @Body() accountDto: AccountDto,
+        @AuthAccount() account: RequestUser
     ): Promise<void> {
-        return await this.accountService.updateAccount(accountDto);
+        return await this.accountService.updateAccount({ id: account.id, ...accountDto });
     }
 
     @Get("/:hash/:workspaceId")

@@ -6,7 +6,7 @@ import {
   IsString,
   MaxLength,
 } from "class-validator";
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { WorkspaceAccount } from "./workspace_account.entity";
 
 export enum ROLE {
@@ -48,9 +48,11 @@ export class Account extends BaseEntity {
   @Column({ nullable: true })
   logo?: string;
 
-  @Column()
-  @IsNotEmpty()
-  createdAt: number;
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 
   @OneToMany(
     () => WorkspaceAccount,
