@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { Attachment, AttachmentType } from 'src/db/entities/attachment.entity';
+import { bucketFolderName } from 'src/helpers/base';
 import { EntityManager } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
@@ -88,24 +89,13 @@ export class AWSBucketService {
         const ext = file.originalname.includes('.')
             ? `.${file.originalname.split('.').pop()}`
             : '';
-        const folder = this.getBucketFolder(type);
+        const folder = bucketFolderName[type];
         const keyName = `${folder}/${uuid()}${ext}`;
         await this.putObjectToBucket(file, bucketName, keyName, resize);
         return {
             url: `https://${bucketName}.s3.amazonaws.com/${keyName}`,
             bucketKey: keyName
         };
-    }
-
-    getBucketFolder(type: AttachmentType) {
-        switch(type) {
-            case AttachmentType.ACCOUNT_AVATAR:
-                return "account_avatar";
-            case AttachmentType.WORKSPACE_AVATAR:
-                return "workspace_avatar";
-            default:
-                return;
-        }
     }
 
     public async removeFileFromBucket(keyName: string) {

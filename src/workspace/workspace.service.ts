@@ -59,31 +59,30 @@ export class WorkspaceService {
         })
     }
 
-    public async updateWorkspace(workspace: WorkspaceModel, account: RequestUser, manager: EntityManager = this.entityManager): Promise<void> {
-        const { id, ...rest } = workspace;
-        const { logo } = rest;
-        try {
-            const workspace = await this.workspaceQueryService.getWorkspaceById(id);
-            
-            //check here for privilleges
+    public async updateWorkspace(workspaceModel: WorkspaceModel, account: RequestUser, manager: EntityManager = this.entityManager): Promise<any> {
+        const { id, ...rest } = workspaceModel;
+        const { logo, name } = rest;
+        const workspace = await this.workspaceQueryService.getWorkspaceById(id);
 
-            if (logo && workspace?.logo) {
-                const keyName = `attachments/${getKeyFromBucketUrl(workspace?.logo)}`;
-                await this.awsBucketService.removeFileFromBucket(keyName);
-            }
+        //check here for privilleges
 
-            await manager.getRepository(Workspace).update({ _id: id }, {
-                updatedAt: dateUtils.toUnix(),
-                ...rest
-            });
-        } catch (error) {
-            Logger.error(`[${this.updateWorkspace.name}] Caused by: ${error}`)
-            throw new InternalServerError();
+        if (logo && workspace?.logo) {
+            const keyName = `attachments/${getKeyFromBucketUrl(workspace?.logo)}`;
+            await this.awsBucketService.removeFileFromBucket(keyName);
         }
+
+        if (name) {
+            await this.validate(name);
+        }
+
+        await manager.getRepository(Workspace).update({ _id: id }, {
+            updatedAt: dateUtils.toUnix(),
+            ...rest
+        });
     }
 
     private async validate(name: string, manager: EntityManager = this.entityManager): Promise<void> {
-        const workspace = await manager.getRepository(Workspace).findOneBy({ name });
+        const workspace = await this.workspaceQueryService.getWorkspaceByName(name, manager);
         if (workspace) {
             throw new WorkspaceWithNameAlreadyExistsError();
         }

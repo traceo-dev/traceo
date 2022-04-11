@@ -14,6 +14,7 @@ import { WorkspaceQueryService } from 'src/workspace/workspace-query/workspace-q
 import { MEMBER_STATUS } from 'src/db/entities/account-workspace-relationship.entity';
 import { getKeyFromBucketUrl } from 'src/helpers/base';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
+import { AttachmentType } from 'src/db/entities/attachment.entity';
 
 @Injectable()
 export class AccountService {
@@ -106,7 +107,7 @@ export class AccountService {
         try {
             const account = await this.accountQueryService.getAccountById(id);
             if (logo && account?.logo) {
-                const keyName = `attachments/${getKeyFromBucketUrl(account?.logo)}`;
+                const keyName = `${AttachmentType.ACCOUNT_AVATAR}/${getKeyFromBucketUrl(account?.logo)}`;
                 await this.awsBucketService.removeFileFromBucket(keyName);
             }
             await this.entityManager.getRepository(Account).update({ _id: id }, rest);

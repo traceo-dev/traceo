@@ -11,4 +11,8 @@ export class WorkspaceQueryService {
     public async getWorkspaceById(id: string, manager: EntityManager = this.entityManager): Promise<Workspace | null> {
         return manager.getRepository(Workspace).findOneBy({ _id: id });
     }
+
+    public async getWorkspaceByName(name: string, manager: EntityManager = this.entityManager): Promise<Workspace | null> {
+        return manager.getRepository(Workspace).findOneBy({ name });
+    }
 }
