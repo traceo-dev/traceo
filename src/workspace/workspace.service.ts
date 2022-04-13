@@ -6,12 +6,13 @@ import { Workspace } from 'src/db/entities/workspace.entity';
 import { MEMBER_STATUS } from 'src/db/entities/account-workspace-relationship.entity';
 import { EntityManager } from 'typeorm';
 import * as crypto from "crypto";
-import { InternalServerError, WorkspaceWithNameAlreadyExistsError } from 'src/helpers/errors';
+import { WorkspaceWithNameAlreadyExistsError } from 'src/helpers/errors';
 import { WorkspaceModel } from './workspace.model';
 import dateUtils from 'src/helpers/dateUtils';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { WorkspaceQueryService } from './workspace-query/workspace-query.service';
 import { getKeyFromBucketUrl } from 'src/helpers/base';
+import { AttachmentType } from 'src/db/entities/attachment.entity';
 
 @Injectable()
 export class WorkspaceService {
@@ -67,7 +68,7 @@ export class WorkspaceService {
         //check here for privilleges
 
         if (logo && workspace?.logo) {
-            const keyName = `attachments/${getKeyFromBucketUrl(workspace?.logo)}`;
+            const keyName = `${AttachmentType.WORKSPACE_AVATAR}/${getKeyFromBucketUrl(workspace?.logo)}`;
             await this.awsBucketService.removeFileFromBucket(keyName);
         }
 

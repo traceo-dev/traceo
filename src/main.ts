@@ -24,13 +24,12 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.use(cors({ credentials: true, origin: true }));
-  app.use(bodyParser.json({limit: '10mb'}));
-  app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
+  app.use(bodyParser.json({ limit: '10mb' }));
+  app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
   app.use(morgan("[:date[iso]] :method :url :status :response-time ms"));
   
-  // const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
-  
+
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

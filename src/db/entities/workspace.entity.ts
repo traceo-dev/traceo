@@ -1,16 +1,14 @@
-import { IsNotEmpty, MaxLength } from "class-validator";
+import { IsNotEmpty } from "class-validator";
 import {
   BaseEntity,
   BeforeInsert,
   BeforeUpdate,
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from "typeorm";
 import { Account } from "./account.entity";
 import { AccountWorkspaceRelationship } from "./account-workspace-relationship.entity";

@@ -38,3 +38,5 @@ lerna-debug.log*
 .env.*
 
 *.lock
+
+*.tgz

@@ -9,7 +9,13 @@ export class WorkspaceQueryService {
     ) { }
 
     public async getWorkspaceById(id: string, manager: EntityManager = this.entityManager): Promise<Workspace | null> {
-        return manager.getRepository(Workspace).findOneBy({ _id: id });
+        return manager
+            .getRepository(Workspace)
+            .createQueryBuilder('workspace')
+            .where('workspace._id = :workspaceId', { workspaceId: id })
+            .leftJoin('workspace.owner', 'owner')
+            .addSelect(['owner.name', 'owner.logo'])
+            .getOne()
     }
 
     public async getWorkspaceByName(name: string, manager: EntityManager = this.entityManager): Promise<Workspace | null> {
