@@ -12,6 +12,9 @@ import { AttachmentsModule } from './attachments/attachments.module';
 import { AwrModule } from './awr/awr.module';
 import { CoreModule } from './core/core.module';
 import { MongodbModule } from './db/mongodb.module';
+import { IncidentsModule } from './incidents/incidents.module';
+import { AnalyticsModule } from './analytics/analytics.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
@@ -29,7 +32,10 @@ import { MongodbModule } from './db/mongodb.module';
     AttachmentsModule,
     AwrModule,
     CoreModule,
-    MongodbModule
+    MongodbModule,
+    IncidentsModule,
+    AnalyticsModule,
+    StatisticsModule
   ],
   controllers: [AppController],
   providers: [],
