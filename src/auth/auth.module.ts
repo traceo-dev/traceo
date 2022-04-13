@@ -11,13 +11,15 @@ import { WorkspaceQueryService } from 'src/workspace/workspace-query/workspace-q
 import { AwrService } from 'src/awr/awr.service';
 import { AwrQueryService } from 'src/awr/awr-query/awr-query.service';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
+import { MongodbModule } from 'src/db/mongodb.module';
 
 @Module({
   imports: [
     JwtModule.register({
       secret: process.env.JWT_SECRET,
     }),
-    PassportModule.register({ defaultStrategy: 'jwt' })
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    MongodbModule
   ],
   providers: [
     AuthService, 

@@ -11,6 +11,7 @@ import { TypeOrmConfigService } from './db/typeorm.config.service';
 import { AttachmentsModule } from './attachments/attachments.module';
 import { AwrModule } from './awr/awr.module';
 import { CoreModule } from './core/core.module';
+import { MongodbModule } from './db/mongodb.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { CoreModule } from './core/core.module';
     MailingModule,
     AttachmentsModule,
     AwrModule,
-    CoreModule
+    CoreModule,
+    MongodbModule
   ],
   controllers: [AppController],
   providers: [],

@@ -13,6 +13,7 @@ import {
 import { Account } from "./account.entity";
 import { AccountWorkspaceRelationship } from "./account-workspace-relationship.entity";
 import dateUtils from "src/helpers/dateUtils";
+import { Environment } from "../documents/release";
 
 @Entity()
 export class Workspace extends BaseEntity {
@@ -43,6 +44,9 @@ export class Workspace extends BaseEntity {
 
   @Column({ nullable: true })
   updatedAt: number;
+
+  @Column({ nullable: false, default: 'dev'})
+  defaultEnv: Environment;
 
   @OneToMany(
     () => AccountWorkspaceRelationship,

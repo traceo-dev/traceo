@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from 
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { Workspace } from 'src/db/entities/workspace.entity';
+import { WorkspaceResponse } from 'src/db/models/workspace';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/decorators/auth-user.decorator';
 import { WorkspaceQueryService } from './workspace-query/workspace-query.service';
@@ -17,10 +18,10 @@ export class WorkspaceController {
     ) {}
 
     @Get()
-    async getWorkspaceById(
+    async getWorkspace(
         @Query('id') id: string,
-    ): Promise<Workspace | null> {
-        return await this.workspaceQueryService.getWorkspaceById(id);
+    ): Promise<WorkspaceResponse | null> {
+        return await this.workspaceQueryService.getWorkspace(id);
     }
 
     @Post()

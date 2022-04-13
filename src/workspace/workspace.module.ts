@@ -8,10 +8,12 @@ import { AwrQueryService } from 'src/awr/awr-query/awr-query.service';
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
 import { MailingService } from 'src/mailing/mailing.service';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
+import { MongodbModule } from 'src/db/mongodb.module';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    MongodbModule
   ],
   providers: [
     WorkspaceService,
