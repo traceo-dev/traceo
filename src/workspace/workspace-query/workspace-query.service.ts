@@ -2,14 +2,14 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Release } from 'src/db/documents/release';
 import { Workspace } from 'src/db/entities/workspace.entity';
 import { WorkspaceResponse } from 'src/db/models/workspace';
-import { COLLECTION } from 'src/db/mongodb.module';
+import { COLLECTION, MONGODB_CONNECTION } from 'src/db/mongodb.module';
 import { mongoDbUtils } from 'src/helpers/mongodb';
 import { Db, EntityManager } from 'typeorm';
 
 @Injectable()
 export class WorkspaceQueryService {
     constructor(
-        @Inject('MONGODB_CONNECTION')
+        @Inject(MONGODB_CONNECTION)
         private db: Db,
         private readonly entityManager: EntityManager,
     ) { }

@@ -3,7 +3,7 @@ import { ApiExtraModels, ApiOkResponse, getSchemaPath } from "@nestjs/swagger";
 import { PageableDto } from "src/core/core.model";
 
 export const ApiPaginatedResponse = <TModel extends Type<any>>(
-  model: TModel
+  model?: TModel
 ) => {
   return applyDecorators(
     ApiExtraModels(PageableDto),

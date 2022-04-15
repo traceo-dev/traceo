@@ -7,10 +7,12 @@ export enum COLLECTION {
     RELEASES = "releases"
 }
 
+export const MONGODB_CONNECTION = 'MONGODB_CONNECTION'
+
 @Module({
     providers: [
         {
-            provide: 'MONGODB_CONNECTION',
+            provide: MONGODB_CONNECTION,
             useFactory: async (): Promise<Db> => {
                 try {
                     const MONGODB_PASS = process.env.MONGODB_PASS;
@@ -28,6 +30,6 @@ export enum COLLECTION {
             }
         }
     ],
-    exports: ['MONGODB_CONNECTION'],
+    exports: [MONGODB_CONNECTION],
 })
 export class MongodbModule { }
