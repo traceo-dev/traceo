@@ -5,10 +5,17 @@ import * as bodyParser from 'body-parser';
 import { AppModule } from './app.module';
 import morgan from "morgan";
 import { AllExceptionsFilter } from './all-exception.filter';
+import { Klepper } from "klepper";
 
 var cors = require('cors');
 
 async function bootstrap() {
+  Klepper.init({
+    appId: "db2a99ed-cc7f-4745-99e9-e993adaf12a3",
+    environment: "dev",
+    privateKey: "xxx"
+  });
+  
   const app = await NestFactory.create(AppModule);
 
   const options = new DocumentBuilder()

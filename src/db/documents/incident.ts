@@ -3,7 +3,7 @@ export interface Incident {
     message: string;
     date: number;
     stack: string;
-    stackFrames?: StackFrame[];
+    traces?: Trace[];
     projectId?: string;
     requestData?: KlepperRequest;
     catchType?: CatchType;
@@ -43,7 +43,7 @@ export enum ExceptionPriority {
     CRITICAL = "critical",
 }
 
-export interface StackFrame {
+export interface Trace {
     filename?: string;
     function?: string;
     lineNo?: number;
@@ -51,4 +51,7 @@ export interface StackFrame {
     internal?: boolean;
     absPath?: string;
     extension?: string;
+    code: string;
+    preCode: string[];
+    postCode: string[];
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { PageableDto, PageOptionsDto } from 'src/core/core.model';
@@ -7,7 +7,7 @@ import { ApiPaginatedResponse } from 'src/decorators/api-paginated-response.deco
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/decorators/auth-user.decorator';
 import { AwrQueryService } from './awr-query/awr-query.service';
-import { AddAccountToWorkspaceModel, AssignAccountToWorkspaceModel, AwrModel } from './awr.model';
+import { AddAccountToWorkspaceModel, AwrModel } from './awr.model';
 import { AwrService } from './awr.service';
 
 @ApiTags('account-workspace-relationship')

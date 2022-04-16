@@ -35,8 +35,8 @@ export class IncidentsQueryService extends CoreService {
                 .find({
                     projectId: workspaceId
                 })
-                .project({ stackFrames: 0, stack: 0, requestData: 0 }) //omit this value while fetching data
-                .sort({ createdAt: order === Order.ASC ? 1 : -1 })
+                .project({ traces: 0, stack: 0, requestData: 0 }) //omit this value while fetching data
+                .sort({ createdAt: order === Order.DESC ? -1 : 1 })
                 .limit(take)
                 .skip(skip)
                 .toArray();
