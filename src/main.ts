@@ -10,11 +10,11 @@ import { Klepper } from "klepper";
 var cors = require('cors');
 
 async function bootstrap() {
-  Klepper.init({
-    appId: "db2a99ed-cc7f-4745-99e9-e993adaf12a3",
-    environment: "dev",
-    privateKey: "xxx"
-  });
+  // Klepper.init({
+  //   appId: "db2a99ed-cc7f-4745-99e9-e993adaf12a3",
+  //   environment: "dev",
+  //   privateKey: "xxx"
+  // });
   
   const app = await NestFactory.create(AppModule);
 

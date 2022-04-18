@@ -11,3 +11,10 @@ export interface Release {
     versionSetter: VersionSetter,
     createdAt: number
 }
+
+export interface Platform {
+    arch: string,
+    platform: string,
+    release: string,
+    version: string
+}

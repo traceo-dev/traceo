@@ -1,3 +1,5 @@
+import { Environment, Platform } from "./release";
+
 export interface Incident {
     type: string;
     message: string;
@@ -11,7 +13,18 @@ export interface Incident {
         priority?: ExceptionPriority;
         tag?: string;
     };
-    persist?: boolean;
+
+    env?: Environment;
+    version?: string;
+    platform: Platform;
+    
+    occuredCount?: number;
+    lastOccur?: number;
+    occurDates?: OccurrDate[];
+}
+
+export interface OccurrDate {
+    date: number;
 }
 
 export class KlepperRequest {
