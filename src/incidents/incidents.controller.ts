@@ -1,7 +1,7 @@
 import { Controller, Get, Param, ParseUUIDPipe, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PageableDto, PageOptionsDto } from 'src/core/core.model';
-import { Incident } from 'src/db/documents/incident';
+import { Incident, IncidentSearchDto } from 'src/db/documents/incident';
 import { ApiPaginatedResponse } from 'src/decorators/api-paginated-response.decorator';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
@@ -26,7 +26,7 @@ export class IncidentsController {
     @ApiPaginatedResponse()
     public async getIncidents(
         @Query("id", new ParseUUIDPipe()) id: string,
-        @Query() pageOptionsDto: PageOptionsDto
+        @Query() pageOptionsDto: IncidentSearchDto
     ): Promise<PageableDto<Incident>> {
         return await this.incidentsQueryService.getIncidents(id, pageOptionsDto);
     }

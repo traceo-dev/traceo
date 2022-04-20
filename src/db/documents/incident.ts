@@ -1,6 +1,19 @@
+import { ApiPropertyOptional } from "@nestjs/swagger";
+import { Type } from "class-transformer";
+import { IsOptional } from "class-validator";
+import { PageOptionsDto } from "src/core/core.model";
 import { Environment, Platform } from "./release";
 
+export enum IncidentStatus {
+    RESOLVED = "resolved",
+    UNRESOLVED = "unresolved",
+    ARCHIVED = "archived",
+    MUTED = "muted"
+}
+
+
 export interface Incident {
+    status: IncidentStatus;
     type: string;
     message: string;
     date: number;
@@ -17,7 +30,7 @@ export interface Incident {
     env?: Environment;
     version?: string;
     platform: Platform;
-    
+
     occuredCount?: number;
     lastOccur?: number;
     occurDates?: OccurrDate[];
@@ -67,4 +80,20 @@ export interface Trace {
     code: string;
     preCode: string[];
     postCode: string[];
+}
+
+
+export class IncidentSearchDto extends PageOptionsDto {
+    @ApiPropertyOptional()
+    @Type(() => String)
+    @IsOptional()
+    readonly status?: IncidentStatusSearch;
+}
+
+export enum IncidentStatusSearch {
+    RESOLVED = "resolved",
+    UNRESOLVED = "unresolved",
+    ARCHIVED = "archived",
+    MUTED = "muted",
+    ALL = "all"
 }

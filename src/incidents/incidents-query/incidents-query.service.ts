@@ -1,8 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { ObjectId } from "mongodb";
-import { Order, PageableDto, PageOptionsDto } from "src/core/core.model";
+import { Order, PageableDto } from "src/core/core.model";
 import { CoreService } from "src/core/core.service";
-import { Incident } from "src/db/documents/incident";
+import { Incident, IncidentSearchDto, IncidentStatusSearch } from "src/db/documents/incident";
 import { COLLECTION, MONGODB_CONNECTION } from "src/db/mongodb.module";
 import { mongoDbUtils } from "src/helpers/mongodb";
 import { Db } from "typeorm";
@@ -17,7 +17,7 @@ export class IncidentsQueryService extends CoreService {
     }
 
     async getIncident(id: string): Promise<Incident | null> {
-        const incidentQuery = 
+        const incidentQuery =
             await this.db
                 .collection(COLLECTION.INCIDENTS)
                 .findOne({
@@ -27,16 +27,40 @@ export class IncidentsQueryService extends CoreService {
         return incident;
     }
 
-    async getIncidents(workspaceId: string, pagination: PageOptionsDto): Promise<PageableDto<Incident>> {
-        const { skip, order, take } = pagination;
-        const incidentsQuery = 
+    
+    private prepareTextSearchFields = (): string[] => {
+        return ["version", "status", "type", "message"]
+    }
+
+    private createTextSearch = (search: string) => {
+        const result = [];
+        const fields = this.prepareTextSearchFields();
+        fields.map((f) => {
+            result.push({
+                [f]: new RegExp('.*' + (search || " ") + '.*', 'i')
+            });
+        });
+
+        return result;
+    }
+
+    async getIncidents(workspaceId: string, pagination: IncidentSearchDto): Promise<PageableDto<Incident>> {
+        const { skip, order, take, search, status, sortBy } = pagination;
+
+        const incidentsQuery =
             await this.db
                 .collection(COLLECTION.INCIDENTS)
                 .find({
-                    projectId: workspaceId
+                    projectId: workspaceId,
+                    status: status === IncidentStatusSearch.ALL ? {
+                        $ne: null
+                    } : status,
+                    $or: [
+                        ...this.createTextSearch(search)
+                    ]  
                 })
-                .project({ traces: 0, stack: 0, requestData: 0 }) //omit this value while fetching data
-                .sort({ createdAt: order === Order.DESC ? -1 : 1 })
+                .project({ traces: 0, stack: 0, requestData: 0 })
+                .sort(sortBy, order === Order.DESC ? -1 : 1)
                 .limit(take)
                 .skip(skip)
                 .toArray();
