@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsOptional } from "class-validator";
+import { IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
 import { PageOptionsDto } from "src/core/core.model";
 import { Environment, Platform } from "./release";
 
@@ -34,6 +34,12 @@ export interface Incident {
     occuredCount?: number;
     lastOccur?: number;
     occurDates?: OccurrDate[];
+
+    assigned: {
+        id: string;
+        name: string;
+        logo: string;
+    }
 }
 
 export interface OccurrDate {
@@ -96,4 +102,32 @@ export enum IncidentStatusSearch {
     ARCHIVED = "archived",
     MUTED = "muted",
     ALL = "all"
+}
+
+export class Assigned {
+    @Type(() => String)
+    @IsString()
+    readonly id?: string;
+
+    @Type(() => String)
+    @IsString()
+    readonly name?: string;
+
+    @ApiPropertyOptional()
+    @Type(() => String)
+    @IsOptional()
+    readonly logo?: string;
+}
+
+export class IncidentUpdateDto {
+    @ApiPropertyOptional()
+    @IsEnum(IncidentStatus)
+    @IsOptional()
+    readonly status?: IncidentStatus;
+
+    @ApiPropertyOptional()
+    @ValidateNested({ each: true })
+    @Type(() => Assigned)
+    @IsOptional()
+    readonly assigned?: Assigned;  
 }

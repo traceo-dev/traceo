@@ -29,7 +29,7 @@ export class IncidentsQueryService extends CoreService {
 
     
     private prepareTextSearchFields = (): string[] => {
-        return ["version", "status", "type", "message"]
+        return ["version", "status", "type", "message", "assigned.name"]
     }
 
     private createTextSearch = (search: string) => {
