@@ -66,14 +66,20 @@ export class AwrQueryService extends CoreService {
      * @returns 
      */
     public async getWorkspaceMembers(workspaceId: string, pageOptionsDto: PageOptionsDto): Promise<PageableDto<AccountWorkspaceRelationship>> {
-        const { order, skip, take } = pageOptionsDto;
-        const queryBuilder = await this.entityManager
+        const { order, skip, take, search } = pageOptionsDto;
+        let queryBuilder = await this.entityManager
             .getRepository(AccountWorkspaceRelationship)
             .createQueryBuilder("accountWorkspaceRelationship")
             .innerJoin("accountWorkspaceRelationship.workspace", "workspace", "workspace._id = :workspaceId", {
                 workspaceId
             })
-            .leftJoin("accountWorkspaceRelationship.account", "account")
+            .leftJoin("accountWorkspaceRelationship.account", "account");
+
+        if (search) {
+            queryBuilder.where("LOWER(account.name) LIKE LOWER(:name)", { name: `%${search}%` })
+        }
+
+        queryBuilder
             .addSelect(["account.name", "account.email", "account._id", "account.logo"])
             .orderBy("accountWorkspaceRelationship.createdAt", order)
             .skip(skip)
