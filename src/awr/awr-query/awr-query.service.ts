@@ -35,8 +35,8 @@ export class AwrQueryService extends CoreService {
             .getOne();
 
         const res = {
-            status: response.status,
-            ...response.account
+            status: response?.status,
+            ...response?.account
         };
 
         return res as unknown as AccountWorkspaceRelationship;

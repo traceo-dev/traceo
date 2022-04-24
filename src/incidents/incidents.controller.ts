@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PageableDto, PageOptionsDto } from 'src/core/core.model';
+import { PageableDto } from 'src/core/core.model';
 import { Incident, IncidentSearchDto, IncidentUpdateDto } from 'src/db/documents/incident';
 import { ApiPaginatedResponse } from 'src/decorators/api-paginated-response.decorator';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';

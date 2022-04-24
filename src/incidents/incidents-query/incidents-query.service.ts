@@ -37,7 +37,7 @@ export class IncidentsQueryService extends CoreService {
         const fields = this.prepareTextSearchFields();
         fields.map((f) => {
             result.push({
-                [f]: new RegExp('.*' + (search || " ") + '.*', 'i')
+                [f]: new RegExp('.*' + (search || "") + '.*', 'i')
             });
         });
 
