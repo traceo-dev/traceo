@@ -59,7 +59,7 @@ export class IncidentsQueryService extends CoreService {
                         ...this.createTextSearch(search)
                     ]  
                 })
-                .project({ traces: 0, stack: 0, requestData: 0 })
+                .project({ traces: 0, stack: 0, requestData: 0, comments: 0 })
                 .sort(sortBy, order === Order.DESC ? -1 : 1)
                 .limit(take)
                 .skip(skip)

@@ -15,6 +15,7 @@ import { MongodbModule } from './db/mongodb.module';
 import { IncidentsModule } from './incidents/incidents.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import { CommentsModule } from './comments/comments.module';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { StatisticsModule } from './statistics/statistics.module';
     MongodbModule,
     IncidentsModule,
     AnalyticsModule,
-    StatisticsModule
+    StatisticsModule,
+    CommentsModule
   ],
   controllers: [AppController],
   providers: [],

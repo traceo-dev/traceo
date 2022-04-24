@@ -3,6 +3,7 @@ import { Type } from "class-transformer";
 import { IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
 import { PageOptionsDto } from "src/core/core.model";
 import { Environment, Platform } from "./release";
+import { Comment } from "./comments";
 
 export enum IncidentStatus {
     RESOLVED = "resolved",
@@ -40,6 +41,9 @@ export interface Incident {
         name: string;
         logo: string;
     }
+
+    comments: Comment[];
+    commentsCount?: number;
 }
 
 export interface OccurrDate {

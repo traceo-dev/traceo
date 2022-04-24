@@ -27,11 +27,12 @@ export class AuthService {
                 throw new BadPasswordOrNotExists();
             }
 
-            const { _id, name, email } = account;
+            const { _id, name, email, logo } = account;
             const payload: JwtPayload = {
                 id: _id,
                 name,
                 email,
+                logo
             };
             const { accessToken } = await this.createToken(payload);
 

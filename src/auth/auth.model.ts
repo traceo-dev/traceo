@@ -5,6 +5,7 @@ export interface RequestUser {
     id: string;
     email: string;
     name: string;
+    logo: string;
 }
 
 export class AccountCredentialsDto {
