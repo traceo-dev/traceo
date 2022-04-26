@@ -16,6 +16,7 @@ import { IncidentsModule } from './incidents/incidents.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { CommentsModule } from './comments/comments.module';
+import { WebsocketsModule } from './websockets/websockets.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { CommentsModule } from './comments/comments.module';
     IncidentsModule,
     AnalyticsModule,
     StatisticsModule,
-    CommentsModule
+    CommentsModule,
+    WebsocketsModule
   ],
   controllers: [AppController],
   providers: [],

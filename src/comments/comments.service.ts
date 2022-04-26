@@ -1,16 +1,18 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { Db, ObjectId } from 'mongodb';
 import { COLLECTION, MONGODB_CONNECTION } from 'src/db/mongodb.module';
-import { Comment, CommentDto } from 'src/db/documents/comments';
+import { Comment, CommentDto, PatchCommentDto } from 'src/db/documents/comments';
 import { mongoDbUtils } from 'src/helpers/mongodb';
 import { RequestUser } from 'src/auth/auth.model';
 import dateUtils from 'src/helpers/dateUtils';
+import { CommentsGateway } from 'src/websockets/comments.gateway';
 
 @Injectable()
 export class CommentsService {
     constructor(
         @Inject(MONGODB_CONNECTION)
-        private db: Db
+        private db: Db,
+        private commentsGateway: CommentsGateway
     ) { }
 
     public async getComments(
@@ -30,6 +32,7 @@ export class CommentsService {
                             sender: "$comments.sender",
                             createdAt: "$comments.createdAt",
                             removed: "$comments.removed",
+                            lastUpdateAt: "$comments.lastUpdateAt"
                         },
                     },
                 ])
@@ -42,7 +45,7 @@ export class CommentsService {
         }
     };
 
-    public async saveMessage(comment: CommentDto, account: RequestUser): Promise<void> {
+    public async saveComment(comment: PatchCommentDto, account: RequestUser): Promise<void> {
         const { message, incidentId, workspaceId } = comment;
         const { email, id, name, logo } = account;
 
@@ -77,9 +80,60 @@ export class CommentsService {
                 }
             );
 
-            // await webSocketService.emitMessage(chatId, msg);
+            this.commentsGateway.onNewComment(incidentId, comment);
         } catch (error) {
             throw error;
         }
     };
+
+    public async updateComment(commentId: string, comment: PatchCommentDto): Promise<void> {
+        const { incidentId, message, workspaceId } = comment;
+
+        try {
+            await this.db.collection(COLLECTION.INCIDENTS).findOneAndUpdate(
+                {
+                    _id: new ObjectId(incidentId),
+                    projectId: workspaceId,
+                    "comments._id": new ObjectId(commentId),
+                },
+                {
+                    $set: {
+                        "comments.$.message": message,
+                        "comments.$.lastUpdateAt": dateUtils.toUnix(),
+                    },
+                }
+            );
+
+            this.commentsGateway.onUpdateComment(incidentId);
+        } catch (error) {
+            console.log(error)
+            throw error;
+        }
+    }
+
+    public async removeComment(commentId: string, comment: CommentDto): Promise<void> {
+        const { incidentId, workspaceId } = comment;
+
+        try {
+            await this.db.collection(COLLECTION.INCIDENTS).findOneAndUpdate(
+                {
+                    _id: new ObjectId(incidentId),
+                    projectId: workspaceId,
+                    "comments._id": new ObjectId(commentId),
+                },
+                {
+                    $set: {
+                        "comments.$.message": 'This message has been removed.',
+                        "comments.$.removed": true,
+                        "comments.$.lastUpdateAt": dateUtils.toUnix()
+                    },
+                }
+            );
+
+            this.commentsGateway.onUpdateComment(incidentId);
+        } catch (error) {
+            console.log(error)
+            throw error;
+        }
+    }
 }

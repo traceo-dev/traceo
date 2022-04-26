@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsString } from "class-validator";
+import { IsBoolean, IsOptional, IsString } from "class-validator";
 
 export interface Comment {
   _id?: string;
@@ -11,18 +11,21 @@ export interface Comment {
     logo: string;
   };
   createdAt: number;
+  lastUpdateAt?: number;
   removed: boolean;
 }
 
 export class CommentDto {
-    @Type(() => String)
-    @IsString()
-    readonly incidentId: string;
+  @Type(() => String)
+  @IsString()
+  readonly incidentId: string;
 
-    @Type(() => String)
-    @IsString()
-    readonly workspaceId: string;
+  @Type(() => String)
+  @IsString()
+  readonly workspaceId: string;
+}
 
+export class PatchCommentDto extends CommentDto {
     @Type(() => String)
     @IsString()
     readonly message: string;
