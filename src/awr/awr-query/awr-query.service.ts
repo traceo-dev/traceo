@@ -82,8 +82,8 @@ export class AwrQueryService extends CoreService {
         queryBuilder
             .addSelect(["account.name", "account.email", "account._id", "account.logo"])
             .orderBy("accountWorkspaceRelationship.createdAt", order)
-            .skip(skip)
-            .take(take);
+            // .skip(skip)
+            // .take(take);
 
         return this.preparePageable(queryBuilder, pageOptionsDto);
     }

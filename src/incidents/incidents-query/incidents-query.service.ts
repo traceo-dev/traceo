@@ -27,7 +27,7 @@ export class IncidentsQueryService extends CoreService {
         return incident;
     }
 
-    
+
     private prepareTextSearchFields = (): string[] => {
         return ["version", "status", "type", "message", "assigned.name"]
     }
@@ -57,11 +57,11 @@ export class IncidentsQueryService extends CoreService {
                     } : status,
                     $or: [
                         ...this.createTextSearch(search)
-                    ]  
+                    ]
                 })
                 .project({ traces: 0, stack: 0, requestData: 0, comments: 0 })
                 .sort(sortBy, order === Order.DESC ? -1 : 1)
-                .limit(take)
+                // .limit(take)
                 .skip(skip)
                 .toArray();
 

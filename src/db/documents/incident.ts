@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsArray, IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
 import { PageOptionsDto } from "src/core/core.model";
 import { Environment, Platform } from "./release";
 import { Comment } from "./comments";
@@ -134,4 +134,9 @@ export class IncidentUpdateDto {
     @Type(() => Assigned)
     @IsOptional()
     readonly assigned?: Assigned;  
+}
+
+export class IncidentBatchUpdateDto extends IncidentUpdateDto {
+    @IsOptional()
+    incidentsIds: string[];
 }

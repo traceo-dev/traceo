@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PageableDto } from 'src/core/core.model';
-import { Incident, IncidentSearchDto, IncidentUpdateDto } from 'src/db/documents/incident';
+import { Incident, IncidentBatchUpdateDto, IncidentSearchDto, IncidentUpdateDto } from 'src/db/documents/incident';
 import { ApiPaginatedResponse } from 'src/decorators/api-paginated-response.decorator';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
@@ -40,5 +40,14 @@ export class IncidentsController {
         @Body() body: IncidentUpdateDto
     ): Promise<void> {
         return await this.incidentsService.updateIncident(id, body);
+    }
+
+    @Post('/batch')
+    @AuthRequired()
+    public async updateBatchIncidents(
+        @Body() body: IncidentBatchUpdateDto
+    ): Promise<void> {
+        console.log("BODY: ", body)
+        return await this.incidentsService.updateBatchIncidents(body);
     }
 }
