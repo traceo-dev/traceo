@@ -63,7 +63,7 @@ export class CommentsService {
             };
 
             await this.db.collection(COLLECTION.INCIDENTS).updateOne(
-                { _id: new ObjectId(incidentId), projectId: workspaceId },
+                { _id: new ObjectId(incidentId), appId: workspaceId },
                 {
                     $addToSet: {
                         comments: {
@@ -93,7 +93,7 @@ export class CommentsService {
             await this.db.collection(COLLECTION.INCIDENTS).findOneAndUpdate(
                 {
                     _id: new ObjectId(incidentId),
-                    projectId: workspaceId,
+                    appId: workspaceId,
                     "comments._id": new ObjectId(commentId),
                 },
                 {
@@ -118,7 +118,7 @@ export class CommentsService {
             await this.db.collection(COLLECTION.INCIDENTS).findOneAndUpdate(
                 {
                     _id: new ObjectId(incidentId),
-                    projectId: workspaceId,
+                    appId: workspaceId,
                     "comments._id": new ObjectId(commentId),
                 },
                 {

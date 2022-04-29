@@ -20,7 +20,7 @@ export interface Incident {
     date: number;
     stack: string;
     traces?: Trace[];
-    projectId?: string;
+    appId: string;
     requestData?: KlepperRequest;
     catchType?: CatchType;
     options?: {

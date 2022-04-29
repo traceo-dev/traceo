@@ -20,7 +20,7 @@ export class WorkspaceController {
     @Get()
     async getWorkspace(
         @Query('id') id: string,
-    ): Promise<WorkspaceResponse | null> {
+    ): Promise<Workspace> {
         return await this.workspaceQueryService.getWorkspace(id);
     }
 

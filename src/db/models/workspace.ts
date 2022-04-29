@@ -12,6 +12,8 @@ export interface WorkspaceResponse {
     logo?: string;
     createdAt: number;
     updatedAt: number;
-    version: string;
     defaultEnv: string;
+    release: {
+        version: string;
+    }
 }

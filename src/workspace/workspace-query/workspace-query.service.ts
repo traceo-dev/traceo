@@ -1,31 +1,19 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { Release } from 'src/db/documents/release';
+import { Injectable } from '@nestjs/common';
 import { Workspace } from 'src/db/entities/workspace.entity';
 import { WorkspaceResponse } from 'src/db/models/workspace';
-import { COLLECTION, MONGODB_CONNECTION } from 'src/db/mongodb.module';
-import { mongoDbUtils } from 'src/helpers/mongodb';
-import { Db, EntityManager } from 'typeorm';
+import { ReleaseQueryService } from 'src/release/query/release-query.service';
+import { EntityManager } from 'typeorm';
 
 @Injectable()
 export class WorkspaceQueryService {
     constructor(
-        @Inject(MONGODB_CONNECTION)
-        private db: Db,
         private readonly entityManager: EntityManager,
+        private readonly releaseQueryService: ReleaseQueryService
     ) { }
 
-    public async getWorkspace(id: string, manager: EntityManager = this.entityManager): Promise<WorkspaceResponse | null> {
-        const releaseInfoQuery = await this.db.collection(COLLECTION.RELEASES).find({
-            appId: id,
-            env: 'dev' //change to property getting from request
-        }).sort({ createdAt: -1 }).limit(1).toArray();
-        const releaseInfo = mongoDbUtils.getDocuments<Release>(releaseInfoQuery);
+    public async getWorkspace(id: string, manager: EntityManager = this.entityManager): Promise<Workspace | null> {
         const workspace = await this.getWorkspaceById(id, manager);
-
-        return {
-            version: releaseInfo[0]?.version || " ",
-            ...workspace
-        }
+        return workspace;
     }
 
     public async getWorkspaceById(id: string, manager: EntityManager = this.entityManager): Promise<Workspace | null> {

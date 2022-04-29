@@ -51,7 +51,7 @@ export class IncidentsQueryService extends CoreService {
             await this.db
                 .collection(COLLECTION.INCIDENTS)
                 .find({
-                    projectId: workspaceId,
+                    appId: workspaceId,
                     status: status === IncidentStatusSearch.ALL ? {
                         $ne: null
                     } : status,
@@ -61,7 +61,7 @@ export class IncidentsQueryService extends CoreService {
                 })
                 .project({ traces: 0, stack: 0, requestData: 0, comments: 0 })
                 .sort(sortBy, order === Order.DESC ? -1 : 1)
-                // .limit(take)
+                .limit(take)
                 .skip(skip)
                 .toArray();
 

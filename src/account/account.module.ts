@@ -10,6 +10,7 @@ import { AwrService } from 'src/awr/awr.service';
 import { AwrQueryService } from 'src/awr/awr-query/awr-query.service';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { MongodbModule } from 'src/db/mongodb.module';
+import { ReleaseQueryService } from 'src/release/query/release-query.service';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { MongodbModule } from 'src/db/mongodb.module';
     WorkspaceQueryService, 
     AwrService, 
     AwrQueryService, 
-    AWSBucketService
+    AWSBucketService,
+    ReleaseQueryService
   ],
   controllers: [AccountController],
   exports: [AccountService]

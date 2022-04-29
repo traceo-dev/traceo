@@ -9,6 +9,7 @@ import { AccountQueryService } from 'src/account/account-query/account-query.ser
 import { MailingService } from 'src/mailing/mailing.service';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { MongodbModule } from 'src/db/mongodb.module';
+import { ReleaseQueryService } from 'src/release/query/release-query.service';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { MongodbModule } from 'src/db/mongodb.module';
     AccountQueryService,
     MailingService,
     WorkspaceQueryService,
-    AWSBucketService
+    AWSBucketService,
+    ReleaseQueryService
   ],
   controllers: [WorkspaceController]
 })

@@ -4,7 +4,7 @@ export interface KlepperIncidentModel {
     date: number;
     stack: string;
     stackFrames?: StackFrame[];
-    projectId?: string;
+    appId: string;
     requestData?: KlepperRequest;
     catchType?: CatchType;
     options?: {

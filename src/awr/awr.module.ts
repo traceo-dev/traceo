@@ -7,13 +7,14 @@ import { WorkspaceQueryService } from 'src/workspace/workspace-query/workspace-q
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
 import { MailingService } from 'src/mailing/mailing.service';
 import { MongodbModule } from 'src/db/mongodb.module';
+import { ReleaseQueryService } from 'src/release/query/release-query.service';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     MongodbModule
   ],
-  providers: [AwrService, AwrQueryService, WorkspaceQueryService, AccountQueryService, MailingService],
+  providers: [AwrService, AwrQueryService, WorkspaceQueryService, AccountQueryService, MailingService, ReleaseQueryService],
   controllers: [AwrController]
 })
 export class AwrModule {}
