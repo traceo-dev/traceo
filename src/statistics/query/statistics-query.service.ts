@@ -37,9 +37,9 @@ export class StatisticsQueryService {
                 incidentsOccurCount: totalIncidentsOccurCount,
             },
             release: {
-                version: lastRelease.version,
-                incidentsCount: lastRelease.incidentsCount,
-                incidentsOccurCount: lastRelease.incidentsOccurCount,
+                version: lastRelease?.version,
+                incidentsCount: lastRelease?.incidentsCount | 0,
+                incidentsOccurCount: lastRelease?.incidentsOccurCount | 0,
             }
         };
     }
