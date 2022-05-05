@@ -45,6 +45,9 @@ export class Workspace extends BaseEntity {
   @Column({ nullable: true })
   updatedAt: number;
 
+  @Column({ nullable: true })
+  lastIncidentAt: number;
+
   @Column({ nullable: false, default: 'dev'})
   defaultEnv: Environment;
 

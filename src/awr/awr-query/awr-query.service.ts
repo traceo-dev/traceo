@@ -19,18 +19,23 @@ export class AwrQueryService extends CoreService {
      * @param workspaceId 
      * @returns 
      */
-    public async getAccountWithWorkspaceStatus(accountId: string, workspaceId: string): Promise<AccountWorkspaceRelationship | null> {
-        const response = await this.entityManager.getRepository(AccountWorkspaceRelationship)
+    public async getAccountWithWorkspaceStatus(accountId: string, workspaceId?: string): Promise<AccountWorkspaceRelationship | null> {
+        let queryBuilder = await this.entityManager.getRepository(AccountWorkspaceRelationship)
             .createQueryBuilder("accountWorkspaceRelationship")
             .where(
-                'accountWorkspaceRelationship.account = :accountId AND accountWorkspaceRelationship.workspace = :workspaceId',
+                'accountWorkspaceRelationship.account = :accountId',
                 {
                     accountId,
-                    workspaceId,
                 },
-            )
+            );
+
+        if (workspaceId) {
+            queryBuilder.andWhere('accountWorkspaceRelationship.workspace = :workspaceId', { workspaceId })
+        }
+
+        const response = await queryBuilder
             .leftJoin("accountWorkspaceRelationship.account", "account")
-            .addSelect(["account.name", "account.email", "account._id", "account.logo"])
+            .addSelect(["account.name", "account.email", "account._id", "account.logo", "account.role"])
             .addSelect(["accountWorkspaceRelationship.status"])
             .getOne();
 
@@ -82,8 +87,8 @@ export class AwrQueryService extends CoreService {
         queryBuilder
             .addSelect(["account.name", "account.email", "account._id", "account.logo"])
             .orderBy("accountWorkspaceRelationship.createdAt", order)
-            // .skip(skip)
-            // .take(take);
+        // .skip(skip)
+        // .take(take);
 
         return this.preparePageable(queryBuilder, pageOptionsDto);
     }

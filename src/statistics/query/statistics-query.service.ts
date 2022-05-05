@@ -1,7 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Db } from "mongodb";
-import { map } from "rxjs";
-import { Environment, Release, WorkspaceRelease } from "src/db/documents/release";
+import { Environment, Release } from "src/db/documents/release";
 import { WorkspaceStatistics } from "src/db/models/statistics";
 import { COLLECTION, MONGODB_CONNECTION } from "src/db/mongodb.module";
 import { mongoDbUtils } from "src/helpers/mongodb";
@@ -21,8 +20,6 @@ export class StatisticsQueryService {
         const releases = mongoDbUtils.getDocuments<Release>(releaseInfoQuery);
 
         const lastRelease = releases[0];
-
-        console.log("RELEASE: ", lastRelease)
 
         let totalIncidentsCount: number = 0;
         let totalIncidentsOccurCount: number = 0;
