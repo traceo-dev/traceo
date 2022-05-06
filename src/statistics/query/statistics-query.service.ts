@@ -1,5 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Db } from "mongodb";
+import { features } from "process";
 import { Environment, Release } from "src/db/documents/release";
 import { WorkspaceStatistics } from "src/db/models/statistics";
 import { COLLECTION, MONGODB_CONNECTION } from "src/db/mongodb.module";
@@ -21,12 +22,12 @@ export class StatisticsQueryService {
 
         const lastRelease = releases[0];
 
-        let totalIncidentsCount: number = 0;
-        let totalIncidentsOccurCount: number = 0;
-        for (const release of releases) {
-            totalIncidentsCount += release?.incidentsCount;
-            totalIncidentsOccurCount += release?.incidentsOccurCount;
-        }
+        const { totalIncidentsCount, totalIncidentsOccurCount } = releases.reduce((acc, item) => {
+            acc.totalIncidentsCount += item.incidentsCount;
+            acc.totalIncidentsOccurCount += item.incidentsOccurCount;
+
+            return acc;
+        }, { totalIncidentsCount: 0, totalIncidentsOccurCount: 0 })
 
         return {
             total: {
