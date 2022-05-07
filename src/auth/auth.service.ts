@@ -27,9 +27,9 @@ export class AuthService {
                 throw new BadPasswordOrNotExists();
             }
 
-            const { _id, name, email, logo } = account;
+            const { id, name, email, logo } = account;
             const payload: JwtPayload = {
-                id: _id,
+                id,
                 name,
                 email,
                 logo
@@ -75,7 +75,7 @@ export class AuthService {
         const { newPassword, password } = passwords;
 
         await this.entityManager.transaction(async (manager) => {
-            const account = await manager.getRepository(Account).findOneByOrFail({ _id: id });
+            const account = await manager.getRepository(Account).findOneByOrFail({ id });
 
             if (!account) {
                 throw new AccountNotExistsError();

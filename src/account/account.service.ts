@@ -1,8 +1,7 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { randomUUID } from 'crypto';
-import { Account, ROLE } from 'src/db/entities/account.entity';
+import { Account, AccountRole } from 'src/db/entities/account.entity';
 import { MailingService } from 'src/mailing/mailing.service';
-import dateUtils from 'src/helpers/dateUtils';
 import { AccountAlreadyExistsError, InternalServerError } from 'src/helpers/errors';
 import tokenService from 'src/helpers/tokens';
 import { EntityManager } from 'typeorm';
@@ -40,7 +39,7 @@ export class AccountService {
                 email,
                 name,
                 password: tokenService.generate(password),
-                role: ROLE.GUEST,
+                role: AccountRole.GUEST,
                 active: false,
                 activateHash: randomUUID(),
             };
@@ -82,7 +81,7 @@ export class AccountService {
                 }
 
                 await accountRepository.update(
-                    { _id: account?._id },
+                    { id: account?.id },
                     { activateHash: null, active: true }
                 );
 
@@ -110,7 +109,7 @@ export class AccountService {
                 const keyName = `${AttachmentType.ACCOUNT_AVATAR}/${getKeyFromBucketUrl(account?.logo)}`;
                 await this.awsBucketService.removeFileFromBucket(keyName);
             }
-            await this.entityManager.getRepository(Account).update({ _id: id }, rest);
+            await this.entityManager.getRepository(Account).update({ id }, rest);
         } catch (error) {
             Logger.error(`[${this.updateAccount.name}] Caused by: ${error}`)
             throw new InternalServerError();

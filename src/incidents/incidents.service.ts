@@ -1,44 +1,34 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { Db, ObjectId } from "mongodb";
-import { Incident, IncidentBatchUpdateDto, IncidentUpdateDto } from "src/db/documents/incident";
-import { COLLECTION, MONGODB_CONNECTION } from "src/db/mongodb.module";
+import { Injectable } from "@nestjs/common";
+import { Account } from "src/db/entities/account.entity";
+import { Incident } from "src/db/entities/incident.entity";
+import { IncidentBatchUpdateDto, IncidentUpdateDto } from "src/db/models/incident";
+import { EntityManager } from "typeorm";
 
 @Injectable()
 export class IncidentsService {
     constructor(
-        @Inject(MONGODB_CONNECTION)
-        private db: Db
+        private entityManger: EntityManager
     ) { }
 
     async updateIncident(incidentId: string, update: IncidentUpdateDto): Promise<void> {
-        await this.db.collection(COLLECTION.INCIDENTS).updateOne(
-            {
-                _id: new ObjectId(incidentId)
-            },
-            {
-                $set: update
+        await this.entityManger.transaction(async (manager) => {
+            if (update.assignedId) {
+                const account = await manager.getRepository(Account).findOneBy({ id: update.assignedId });
+                await manager.getRepository(Incident).update({ id: incidentId }, { assigned: account });
+                return;
             }
-        )
+
+            await manager.getRepository(Incident).update({ id: incidentId }, update);
+        });
     }
 
     async updateBatchIncidents(update: IncidentBatchUpdateDto): Promise<void> {
         const { incidentsIds, ...rest } = update;
 
-        try {
-            const bulk = this.db.collection(COLLECTION.INCIDENTS).initializeOrderedBulkOp();
-    
-            incidentsIds?.map((id) => (
-                bulk.find({
-                    _id: new ObjectId(id)
-                }).update({
-                    $set: rest
-                })
-            ));
-    
-            bulk.execute();
-        } catch (error) {
-            console.log(error);
-            throw error;
-        }
+        await this.entityManger.getRepository(Incident)
+            .createQueryBuilder('incident')
+            .whereInIds(incidentsIds)
+            .update(rest)
+            .execute();
     }
 }

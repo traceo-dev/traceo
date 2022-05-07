@@ -1,70 +1,57 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { ObjectId } from "mongodb";
-import { Order, PageableDto } from "src/core/core.model";
+import { Injectable } from "@nestjs/common";
+import { PageableDto } from "src/core/core.model";
 import { CoreService } from "src/core/core.service";
-import { Incident, IncidentSearchDto, IncidentStatusSearch } from "src/db/documents/incident";
-import { COLLECTION, MONGODB_CONNECTION } from "src/db/mongodb.module";
-import { mongoDbUtils } from "src/helpers/mongodb";
-import { Db } from "typeorm";
+import { Incident } from "src/db/entities/incident.entity";
+import { IncidentSearchDto, IncidentStatusSearch } from "src/db/models/incident";
+import { Brackets, EntityManager } from "typeorm";
 
 @Injectable()
 export class IncidentsQueryService extends CoreService {
     constructor(
-        @Inject(MONGODB_CONNECTION)
-        private db: Db,
+        private entityManger: EntityManager
     ) {
         super();
     }
 
     async getIncident(id: string): Promise<Incident | null> {
-        const incidentQuery =
-            await this.db
-                .collection(COLLECTION.INCIDENTS)
-                .findOne({
-                    _id: new ObjectId(id)
-                });
-        const incident = mongoDbUtils.getDocument<Incident>(incidentQuery);
-        return incident;
-    }
-
-
-    private prepareTextSearchFields = (): string[] => {
-        return ["version", "status", "type", "message", "assigned.name"]
-    }
-
-    private createTextSearch = (search: string) => {
-        const result = [];
-        const fields = this.prepareTextSearchFields();
-        fields.map((f) => {
-            result.push({
-                [f]: new RegExp('.*' + (search || "") + '.*', 'i')
-            });
-        });
-
-        return result;
+        return await this.entityManger
+            .getRepository(Incident)
+            .createQueryBuilder('incident')
+            .where('incident.id = :id', { id })
+            .leftJoin('incident.assigned', 'assigned')
+            .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.logo"])
+            .getOne();
     }
 
     async getIncidents(workspaceId: string, pagination: IncidentSearchDto): Promise<PageableDto<Incident>> {
         const { skip, order, take, search, status, sortBy } = pagination;
 
-        const incidentsQuery =
-            await this.db
-                .collection(COLLECTION.INCIDENTS)
-                .find({
-                    appId: workspaceId,
-                    status: status === IncidentStatusSearch.ALL ? {
-                        $ne: null
-                    } : status,
-                    $or: [
-                        ...this.createTextSearch(search)
-                    ]
-                })
-                .project({ traces: 0, stack: 0, requestData: 0, comments: 0 })
-                .sort(sortBy, order === Order.DESC ? -1 : 1)
-                .limit(take)
-                .skip(skip)
-                .toArray();
+        let queryBuilder = await this.entityManger.getRepository(Incident)
+            .createQueryBuilder('incident')
+            .where('incident.workspaceId = :workspaceId', { workspaceId })
 
-        return this.preparePageableMongo<Incident>(incidentsQuery, pagination);
+        if (status && status !== IncidentStatusSearch.ALL) {
+            queryBuilder.where('incident.status = :status', { status })
+        }
+
+        if (search) {
+            queryBuilder
+                .andWhere(new Brackets(qb => {
+                    qb.where('LOWER(incident.message) LIKE LOWER(:search)', { search: `%${search}%` })
+                        .orWhere('LOWER(incident.type) LIKE LOWER(:search)', { search: `%${search}%` })
+                        .orWhere('LOWER(incident.status) LIKE LOWER(:search)', { search: `%${search}%` })
+                        .orWhere('LOWER(incident.release) LIKE LOWER(:search)', { search: `%${search}%` })
+                }));
+        }
+
+        queryBuilder
+            .leftJoin('incident.assigned', 'assigned')
+            .select(['incident.id', 'incident.status', 'incident.env', 'incident.type', 'incident.message', 'incident.lastOccur', 'incident.occuredCount', 'incident.release', 'incident.commentsCount', 'incident.occurDates'])
+            .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.logo"])
+            .orderBy(`incident.${sortBy}`, order)
+            .limit(take)
+            .skip(skip);
+
+        return this.preparePageable<Incident>(queryBuilder, pagination);
     }
 }

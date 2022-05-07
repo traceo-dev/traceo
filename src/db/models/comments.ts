@@ -1,19 +1,5 @@
 import { Type } from "class-transformer";
-import { IsBoolean, IsOptional, IsString } from "class-validator";
-
-export interface Comment {
-  _id?: string;
-  message: string;
-  sender: {
-    _id: string;
-    name: string;
-    email: string;
-    logo: string;
-  };
-  createdAt: number;
-  lastUpdateAt?: number;
-  removed: boolean;
-}
+import { IsString } from "class-validator";
 
 export class CommentDto {
   @Type(() => String)

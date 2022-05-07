@@ -20,7 +20,7 @@ export class WorkspaceQueryService {
         return await manager
             .getRepository(Workspace)
             .createQueryBuilder('workspace')
-            .where('workspace._id = :workspaceId', { workspaceId: id })
+            .where('workspace.id = :id', { id })
             .leftJoin('workspace.owner', 'owner')
             .addSelect(['owner.name', 'owner.logo'])
             .getOne();

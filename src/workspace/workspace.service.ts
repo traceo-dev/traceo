@@ -32,7 +32,7 @@ export class WorkspaceService {
 
             await this.validate(name, manager);
 
-            const account = await manager.getRepository(Account).findOneBy({ _id: id });
+            const account = await manager.getRepository(Account).findOneBy({ id });
             if (!account) {
                 throw new NotFoundException();
             }
@@ -76,7 +76,7 @@ export class WorkspaceService {
             await this.validate(name);
         }
 
-        await manager.getRepository(Workspace).update({ _id: id }, {
+        await manager.getRepository(Workspace).update({ id }, {
             updatedAt: dateUtils.toUnix(),
             ...rest
         });

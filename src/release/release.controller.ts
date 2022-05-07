@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PageOptionsDto } from 'src/core/core.model';
-import { Release } from 'src/db/documents/release';
+import { Release } from 'src/db/entities/release.entity';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { ReleaseQueryService } from './query/release-query.service';
 

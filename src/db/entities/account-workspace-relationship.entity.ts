@@ -20,8 +20,9 @@ export enum MEMBER_STATUS {
 
 @Entity()
 export class AccountWorkspaceRelationship extends BaseEntity {
+  
   @PrimaryGeneratedColumn("uuid")
-  _id: string;
+  id: string;
 
   @Column("enum", {
     enum: MEMBER_STATUS,
@@ -52,14 +53,4 @@ export class AccountWorkspaceRelationship extends BaseEntity {
     name: "workspace",
   })
   workspace: Workspace;
-
-  @BeforeUpdate()
-  public setUpdatedAt() {
-    this.updatedAt = dateUtils.toUnix();
-  }
-
-  @BeforeInsert()
-  public setCreatedAt() {
-    this.createdAt = dateUtils.toUnix();
-  }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PageableDto, PageOptionsDto } from 'src/core/core.model';
 import { CoreService } from 'src/core/core.service';
 import { AccountWorkspaceRelationship } from 'src/db/entities/account-workspace-relationship.entity';
+import { Account } from 'src/db/entities/account.entity';
 import { EntityManager } from 'typeorm';
 
 @Injectable()
@@ -19,23 +20,23 @@ export class AwrQueryService extends CoreService {
      * @param workspaceId 
      * @returns 
      */
-    public async getAccountWithWorkspaceStatus(accountId: string, workspaceId?: string): Promise<AccountWorkspaceRelationship | null> {
-        let queryBuilder = await this.entityManager.getRepository(AccountWorkspaceRelationship)
+    public async getAccount(accountId: string, workspaceId?: string): Promise<Account | AccountWorkspaceRelationship | null> {
+        
+        if (!workspaceId) {
+            return await this.entityManager.getRepository(Account).findOneBy({ id: accountId });
+        }
+                
+        const response = await this.entityManager.getRepository(AccountWorkspaceRelationship)
             .createQueryBuilder("accountWorkspaceRelationship")
             .where(
                 'accountWorkspaceRelationship.account = :accountId',
                 {
                     accountId,
                 },
-            );
-
-        if (workspaceId) {
-            queryBuilder.andWhere('accountWorkspaceRelationship.workspace = :workspaceId', { workspaceId })
-        }
-
-        const response = await queryBuilder
+            )
+            .andWhere('accountWorkspaceRelationship.workspace = :workspaceId', { workspaceId })
             .leftJoin("accountWorkspaceRelationship.account", "account")
-            .addSelect(["account.name", "account.email", "account._id", "account.logo", "account.role"])
+            .addSelect(["account.name", "account.email", "account.id", "account.logo", "account.role"])
             .addSelect(["accountWorkspaceRelationship.status"])
             .getOne();
 
@@ -57,9 +58,9 @@ export class AwrQueryService extends CoreService {
     //     return await this.entityManager
     //         .getRepository(AccountWorkspaceRelationship)
     //         .createQueryBuilder("accountWorkspaceRelationship")
-    //         .where("accountWorkspaceRelationship._id = :id", { id })
+    //         .where("accountWorkspaceRelationship.id = :id", { id })
     //         .leftJoin("accountWorkspaceRelationship.account", "account")
-    //         .addSelect(["account.name", "account.email", "account._id", "account.logo"])
+    //         .addSelect(["account.name", "account.email", "account.id", "account.logo"])
     //         .getOne();
     // }
 
@@ -75,7 +76,7 @@ export class AwrQueryService extends CoreService {
         let queryBuilder = await this.entityManager
             .getRepository(AccountWorkspaceRelationship)
             .createQueryBuilder("accountWorkspaceRelationship")
-            .innerJoin("accountWorkspaceRelationship.workspace", "workspace", "workspace._id = :workspaceId", {
+            .innerJoin("accountWorkspaceRelationship.workspace", "workspace", "workspace.id = :workspaceId", {
                 workspaceId
             })
             .leftJoin("accountWorkspaceRelationship.account", "account");
@@ -85,10 +86,10 @@ export class AwrQueryService extends CoreService {
         }
 
         queryBuilder
-            .addSelect(["account.name", "account.email", "account._id", "account.logo"])
+            .addSelect(["account.name", "account.email", "account.id", "account.logo"])
             .orderBy("accountWorkspaceRelationship.createdAt", order)
-        // .skip(skip)
-        // .take(take);
+            .skip(skip)
+            .take(take);
 
         return this.preparePageable(queryBuilder, pageOptionsDto);
     }
@@ -106,12 +107,12 @@ export class AwrQueryService extends CoreService {
         const queryBuilder = await this.entityManager
             .getRepository(AccountWorkspaceRelationship)
             .createQueryBuilder("accountWorkspaceRelationship")
-            .innerJoin("accountWorkspaceRelationship.account", "account", "account._id = :accountId", {
+            .innerJoin("accountWorkspaceRelationship.account", "account", "account.id = :accountId", {
                 accountId,
             })
             .leftJoinAndSelect("accountWorkspaceRelationship.workspace", "workspace")
             .leftJoin("workspace.owner", "owner")
-            .addSelect(["owner.name", "owner.email", "owner._id"])
+            .addSelect(["owner.name", "owner.email", "owner.id"])
             .orderBy("accountWorkspaceRelationship.createdAt", order)
             .skip(skip)
             .take(take);
