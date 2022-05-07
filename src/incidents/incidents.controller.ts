@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PageableDto } from 'src/core/core.model';
-import { Incident, IncidentBatchUpdateDto, IncidentSearchDto, IncidentUpdateDto } from 'src/db/documents/incident';
+import { Incident } from 'src/db/entities/incident.entity';
+import { IncidentBatchUpdateDto, IncidentSearchDto, IncidentUpdateDto } from 'src/db/models/incident';
 import { ApiPaginatedResponse } from 'src/decorators/api-paginated-response.decorator';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';

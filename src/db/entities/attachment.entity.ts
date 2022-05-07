@@ -13,7 +13,7 @@ export enum AttachmentType {
 
 @Entity()
 export class Attachment {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({

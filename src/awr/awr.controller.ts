@@ -3,6 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { PageableDto, PageOptionsDto } from 'src/core/core.model';
 import { AccountWorkspaceRelationship } from 'src/db/entities/account-workspace-relationship.entity';
+import { Account } from 'src/db/entities/account.entity';
 import { ApiPaginatedResponse } from 'src/decorators/api-paginated-response.decorator';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/decorators/auth-user.decorator';
@@ -23,8 +24,8 @@ export class AwrController {
     async getAccountById(
         @Query('id') id: string,
         @Query('wid') wid: string,
-    ): Promise<AccountWorkspaceRelationship> {
-        return await this.awrQueryService.getAccountWithWorkspaceStatus(id, wid);
+    ): Promise<Account | AccountWorkspaceRelationship> {
+        return await this.awrQueryService.getAccount(id, wid);
     }
 
     // @Get('/member')

@@ -1,25 +1,27 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { Db } from "mongodb";
-import { features } from "process";
-import { Environment, Release } from "src/db/documents/release";
+import { Injectable } from "@nestjs/common";
+import { Environment } from "src/db/models/release";
+import { Release } from "src/db/entities/release.entity";
 import { WorkspaceStatistics } from "src/db/models/statistics";
-import { COLLECTION, MONGODB_CONNECTION } from "src/db/mongodb.module";
-import { mongoDbUtils } from "src/helpers/mongodb";
+import { EntityManager } from "typeorm";
 
 @Injectable()
 export class StatisticsQueryService {
     constructor(
-        @Inject(MONGODB_CONNECTION)
-        private readonly db: Db
+        private entityManger: EntityManager
     ) { }
 
-    async getWorkspaceStatistics(appId: string, env: Environment = 'dev'): Promise<WorkspaceStatistics> {
-        const releaseInfoQuery = await this.db.collection(COLLECTION.RELEASES).find({
-            appId,
-            env
-        }).sort({ createdAt: -1 }).toArray();
-        const releases = mongoDbUtils.getDocuments<Release>(releaseInfoQuery);
-
+    async getWorkspaceStatistics(id: string, env: Environment = 'dev'): Promise<WorkspaceStatistics> {
+        const releases = await this.entityManger.getRepository(Release).find({
+            where: {
+                workspace: {
+                    id
+                },
+                env
+            },
+            order: {
+                createdAt: 'DESC'
+            }
+        })
         const lastRelease = releases[0];
 
         const { totalIncidentsCount, totalIncidentsOccurCount } = releases.reduce((acc, item) => {

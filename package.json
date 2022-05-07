@@ -1,10 +1,6 @@
 {
   "name": "klepper-api",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
   "private": true,
-  "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -16,6 +12,9 @@
     "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest"
+  },
+  "engines": {
+    "node": "16"
   },
   "dependencies": {
     "@nestjs/common": "^8.4.4",

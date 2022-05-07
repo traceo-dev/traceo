@@ -6,8 +6,9 @@ import {
 } from "class-validator";
 import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { AccountWorkspaceRelationship } from "./account-workspace-relationship.entity";
+import { Incident } from "./incident.entity";
 
-export enum ROLE {
+export enum AccountRole {
   ADMIN = "admin",
   GUEST = "guest",
 }
@@ -15,29 +16,24 @@ export enum ROLE {
 @Entity()
 export class Account extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
-  _id: string;
+  id: string;
 
-  @Column()
-  @IsNotEmpty()
+  @Column({ nullable: false })
   name: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: false })
   @IsEmail()
-  @IsNotEmpty()
   email: string;
 
-  @Column({ select: false })
-  @IsNotEmpty()
+  @Column({ select: false, nullable: false })
   password: string;
 
-  @Column({ select: false })
-  @IsEnum(ROLE)
-  @IsNotEmpty()
-  role: ROLE;
+  @Column({ select: false, nullable: false })
+  @IsEnum(AccountRole)
+  role: AccountRole;
 
-  @Column({ select: false })
+  @Column({ select: false, nullable: false })
   @IsBoolean()
-  @IsNotEmpty()
   active: boolean;
 
   @Column({ nullable: true, select: false })
@@ -49,7 +45,7 @@ export class Account extends BaseEntity {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp', nullable: false })
   updatedAt: Date;
 
   @OneToMany(
@@ -60,4 +56,7 @@ export class Account extends BaseEntity {
     }
   )
   workspaces: AccountWorkspaceRelationship[];
+
+  @OneToMany(() => Incident, incident => incident.assigned)
+  incidents: Incident[];
 }

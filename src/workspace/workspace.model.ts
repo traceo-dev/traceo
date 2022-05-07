@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
-import { Environment } from "src/db/documents/release";
+import { Environment } from "src/db/models/release";
 
 export class CreateWorkspaceModel {
     @IsString()

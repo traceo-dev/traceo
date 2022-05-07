@@ -11,11 +11,11 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
             url: this.dbURL(),
             entities: [join(__dirname, 'entities/*.entity.{js,ts}')],
             migrations: [join(__dirname, 'migrations/*.{js,ts}')],
-            subscribers: [],
             migrationsTransactionMode: 'each',
             migrationsRun: true,
             synchronize: true,
-            keepConnectionAlive: true,
+            logging: false,
+            // keepConnectionAlive: true,
             // ssl: {
             //     require: true,
             //     rejectUnauthorized: false,

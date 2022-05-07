@@ -12,7 +12,7 @@ export class AccountQueryService extends CoreService {
     }
 
     public async getAccountById(id: string, manager: EntityManager = this.entityManager): Promise<Account | null> {
-        return manager.getRepository(Account).findOneBy({ _id: id })
+        return manager.getRepository(Account).findOneBy({ id })
     }
 
     public async getAccountByEmail(email: string, manager: EntityManager = this.entityManager): Promise<Account | null> {

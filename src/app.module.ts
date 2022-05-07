@@ -11,7 +11,6 @@ import { TypeOrmConfigService } from './db/typeorm.config.service';
 import { AttachmentsModule } from './attachments/attachments.module';
 import { AwrModule } from './awr/awr.module';
 import { CoreModule } from './core/core.module';
-import { MongodbModule } from './db/mongodb.module';
 import { IncidentsModule } from './incidents/incidents.module';
 import { AnalyticsModule } from './analytics/analytics.module';
 import { StatisticsModule } from './statistics/statistics.module';
@@ -35,7 +34,6 @@ import { ReleaseModule } from './release/release.module';
     AttachmentsModule,
     AwrModule,
     CoreModule,
-    MongodbModule,
     IncidentsModule,
     AnalyticsModule,
     StatisticsModule,

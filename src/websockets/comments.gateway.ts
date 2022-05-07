@@ -1,6 +1,7 @@
 import { ConnectedSocket, MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
-import { Comment } from "../db/documents/comments";
+import { DeepPartial } from 'typeorm';
+import { Comment } from "../db/entities/comment.entity";
 
 @WebSocketGateway({
     cors: {
@@ -12,7 +13,7 @@ export class CommentsGateway {
     @WebSocketServer()
     private server: Server;
 
-    onNewComment(incidentId: string, comment: Comment) {
+    onNewComment(incidentId: string, comment: DeepPartial<Comment>) {
         this.server.to(incidentId).emit('new_comment', comment);
     }
 

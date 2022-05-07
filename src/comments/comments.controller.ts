@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
-import { CommentDto, PatchCommentDto } from 'src/db/documents/comments';
+import { CommentDto, PatchCommentDto } from 'src/db/models/comments';
+import { Comment } from 'src/db/entities/comment.entity';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/decorators/auth-user.decorator';
 import { CommentsService } from './comments.service';
-import { Comment } from "src/db/documents/comments";
 
 @ApiTags('comments')
 @Controller('comments')
@@ -37,9 +37,8 @@ export class CommentsController {
   async removeComment(
     @Param('id') commentId: string,
     @Query("incidentId") incidentId: string,
-    @Query("workspaceId") workspaceId: string,
   ): Promise<any> {
-    return await this.commentsService.removeComment(commentId, { workspaceId, incidentId });
+    return await this.commentsService.removeComment(commentId, incidentId);
   }
 
   @Get()

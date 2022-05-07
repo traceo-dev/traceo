@@ -56,12 +56,12 @@ export class AwrService {
                 return;
             }
 
-            const exists = await this.awrQueryService.awrExists({ accountId: account?._id, workspaceId }, manager);
+            const exists = await this.awrQueryService.awrExists({ accountId: account?.id, workspaceId }, manager);
             if (exists) {
                 throw new AccountAlreadyInWorkspaceError();
             }
 
-            const url = `${process.env.APP_ORIGIN}/invite?w=${workspaceId}&ac=${account._id}`;
+            const url = `${process.env.APP_ORIGIN}/invite?w=${workspaceId}&ac=${account.id}`;
             await this.mailingService.sendInviteToMember({
                 email,
                 url,
@@ -100,7 +100,7 @@ export class AwrService {
     public async updateWorkspaceAccount(awrModel: AwrModel, manager: EntityManager = this.entityManager): Promise<void> {
         const { id, ...rest } = awrModel;
         await manager.transaction(async (manager) => {
-            manager.getRepository(AccountWorkspaceRelationship).update({ _id: id }, rest);
+            manager.getRepository(AccountWorkspaceRelationship).update({ id }, rest);
         });
     }
 
@@ -110,7 +110,7 @@ export class AwrService {
 
     private async removeAwr(awrId: string, manager: EntityManager = this.entityManager): Promise<void> {
         await manager.transaction(async (manager) => {
-            manager.getRepository(AccountWorkspaceRelationship).delete({ _id: awrId });
-        })
+            manager.getRepository(AccountWorkspaceRelationship).delete({ id: awrId });
+        });
     }
 }
