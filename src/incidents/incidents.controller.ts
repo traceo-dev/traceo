@@ -1,9 +1,7 @@
 import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PageableDto } from 'src/core/core.model';
 import { Incident } from 'src/db/entities/incident.entity';
-import { IncidentBatchUpdateDto, IncidentSearchDto, IncidentUpdateDto } from 'src/db/models/incident';
-import { ApiPaginatedResponse } from 'src/decorators/api-paginated-response.decorator';
+import { IncidentBatchUpdateDto, IncidentQueryDto, IncidentUpdateDto } from 'src/db/models/incident';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsService } from './incidents.service';
@@ -21,17 +19,16 @@ export class IncidentsController {
     public async getIncident(
         @Param("id") id: string,
     ): Promise<Incident | null> {
-        return await this.incidentsQueryService.getIncident(id);
+        return await this.incidentsQueryService.getDto(id);
     }
 
     @Get()
     @AuthRequired()
-    @ApiPaginatedResponse()
     public async getIncidents(
         @Query("id", new ParseUUIDPipe()) id: string,
-        @Query() pageOptionsDto: IncidentSearchDto
-    ): Promise<PageableDto<Incident>> {
-        return await this.incidentsQueryService.getIncidents(id, pageOptionsDto);
+        @Query() query: IncidentQueryDto
+    ): Promise<Incident[]> {
+        return await this.incidentsQueryService.listDto({ workspaceId: id, ...query });
     }
 
     @Patch('/:id')
@@ -48,7 +45,6 @@ export class IncidentsController {
     public async updateBatchIncidents(
         @Body() body: IncidentBatchUpdateDto
     ): Promise<void> {
-        console.log("BODY: ", body)
         return await this.incidentsService.updateBatchIncidents(body);
     }
 }

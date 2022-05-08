@@ -86,7 +86,7 @@ export class AccountService {
                 );
 
                 if (workspaceId) {
-                    const workspace = await this.workspaceQueryService.getWorkspaceById(workspaceId, manager);
+                    const workspace = await this.workspaceQueryService.getDto(workspaceId);
                     await this.awrService.createAwr({
                         account,
                         workspace,
@@ -104,7 +104,7 @@ export class AccountService {
         const { id, ...rest } = accountDto;
         const { logo } = rest;
         try {
-            const account = await this.accountQueryService.getAccountById(id);
+            const account = await this.accountQueryService.getDto(id);
             if (logo && account?.logo) {
                 const keyName = `${AttachmentType.ACCOUNT_AVATAR}/${getKeyFromBucketUrl(account?.logo)}`;
                 await this.awsBucketService.removeFileFromBucket(keyName);

@@ -1,21 +1,30 @@
 import { Injectable } from '@nestjs/common';
-import { CoreService } from 'src/core/core.service';
+import { BaseDtoQuery } from 'src/core/generic.model';
+import { GenericQueryService } from 'src/core/generic-query.service';
 import { Account } from 'src/db/entities/account.entity';
-import { EntityManager } from 'typeorm';
+import { EntityManager, SelectQueryBuilder } from 'typeorm';
 
 @Injectable()
-export class AccountQueryService extends CoreService {
+export class AccountQueryService extends GenericQueryService<Account, BaseDtoQuery> {
     constructor(
-        private readonly entityManager: EntityManager
+        readonly entityManager: EntityManager
     ) {
-        super();
+        super(entityManager, Account);
     }
 
-    public async getAccountById(id: string, manager: EntityManager = this.entityManager): Promise<Account | null> {
-        return manager.getRepository(Account).findOneBy({ id })
+    public async getAccountByEmail(email: string): Promise<Account | null> {
+        return this.repository.findOneBy({ email })
     }
 
-    public async getAccountByEmail(email: string, manager: EntityManager = this.entityManager): Promise<Account | null> {
-        return manager.getRepository(Account).findOneBy({ email })
+    public getBuilderAlias(): string {
+        return 'account';
+    }
+    
+    public extendQueryBuilder(builder: SelectQueryBuilder<Account>, query: BaseDtoQuery): SelectQueryBuilder<Account> {
+        throw new Error('Method not implemented.');
+    }
+    
+    public selectedColumns(): string[] {
+        throw new Error('Method not implemented.');
     }
 }

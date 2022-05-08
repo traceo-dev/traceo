@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { RequestUser } from 'src/auth/auth.model';
 import { AwrService } from 'src/awr/awr.service';
 import { Account } from 'src/db/entities/account.entity';
@@ -63,7 +63,7 @@ export class WorkspaceService {
     public async updateWorkspace(workspaceModel: WorkspaceModel, account: RequestUser, manager: EntityManager = this.entityManager): Promise<any> {
         const { id, ...rest } = workspaceModel;
         const { logo, name } = rest;
-        const workspace = await this.workspaceQueryService.getWorkspaceById(id);
+        const workspace = await this.workspaceQueryService.getDto(id);
 
         //check here for privilleges
 
@@ -83,7 +83,7 @@ export class WorkspaceService {
     }
 
     private async validate(name: string, manager: EntityManager = this.entityManager): Promise<void> {
-        const workspace = await this.workspaceQueryService.getWorkspaceByName(name, manager);
+        const workspace = await this.workspaceQueryService.getWorkspaceByName(name);
         if (workspace) {
             throw new WorkspaceWithNameAlreadyExistsError();
         }

@@ -1,12 +1,10 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { GenericEntity } from "src/core/generic.entity";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { Account } from "./account.entity";
 import { Incident } from "./incident.entity";
 
 @Entity()
-export class Comment {
-    
-    @PrimaryGeneratedColumn('uuid')
-    id?: string;
+export class Comment extends GenericEntity {
 
     @Column({
         type: 'varchar'
@@ -18,11 +16,6 @@ export class Comment {
       name: 'senderId'
     })
     sender: Account;
-
-    @Column({
-        type: 'bigint'
-    })
-    createdAt: number;
 
     @Column({
         type: 'bigint',

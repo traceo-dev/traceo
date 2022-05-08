@@ -1,3 +1,4 @@
+import { GenericEntity } from 'src/core/generic.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -12,9 +13,7 @@ export enum AttachmentType {
 }
 
 @Entity()
-export class Attachment {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class Attachment extends GenericEntity {
 
   @Column({
     nullable: false,
@@ -59,10 +58,4 @@ export class Attachment {
     type: 'integer',
   })
   size: number;
-
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
 }

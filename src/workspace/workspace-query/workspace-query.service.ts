@@ -1,32 +1,44 @@
 import { Injectable } from '@nestjs/common';
+import { BaseDtoQuery } from 'src/core/generic.model';
+import { GenericQueryService } from 'src/core/generic-query.service';
 import { Workspace } from 'src/db/entities/workspace.entity';
-import { WorkspaceResponse } from 'src/db/models/workspace';
-import { ReleaseQueryService } from 'src/release/query/release-query.service';
-import { EntityManager } from 'typeorm';
+import { EntityManager, SelectQueryBuilder } from 'typeorm';
 
 @Injectable()
-export class WorkspaceQueryService {
+export class WorkspaceQueryService extends GenericQueryService<Workspace, BaseDtoQuery> {
     constructor(
-        private readonly entityManager: EntityManager,
-        private readonly releaseQueryService: ReleaseQueryService
-    ) { }
-
-    public async getWorkspace(id: string, manager: EntityManager = this.entityManager): Promise<Workspace | null> {
-        const workspace = await this.getWorkspaceById(id, manager);
-        return workspace;
+        readonly entityManager: EntityManager
+    ) {
+        super(entityManager, Workspace);
     }
 
-    public async getWorkspaceById(id: string, manager: EntityManager = this.entityManager): Promise<Workspace | null> {
-        return await manager
-            .getRepository(Workspace)
-            .createQueryBuilder('workspace')
-            .where('workspace.id = :id', { id })
-            .leftJoin('workspace.owner', 'owner')
-            .addSelect(['owner.name', 'owner.logo'])
-            .getOne();
+    public async getWorkspace(id: string): Promise<Workspace | null> {
+        return await this.getDto(id);
     }
 
-    public async getWorkspaceByName(name: string, manager: EntityManager = this.entityManager): Promise<Workspace | null> {
-        return manager.getRepository(Workspace).findOneBy({ name });
+    public override async getDto(id: string): Promise<Workspace | null> {
+        return await
+            this.repository
+                .createQueryBuilder('workspace')
+                .where('workspace.id = :id', { id })
+                .leftJoin('workspace.owner', 'owner')
+                .addSelect(['owner.name', 'owner.logo'])
+                .getOne();
+    }
+
+    public async getWorkspaceByName(name: string): Promise<Workspace | null> {
+        return this.repository.findOneBy({ name });
+    }
+
+    public getBuilderAlias(): string {
+        return 'workspace';
+    }
+
+    public extendQueryBuilder(builder: SelectQueryBuilder<Workspace>, query: BaseDtoQuery): SelectQueryBuilder<Workspace> {
+        throw new Error('Method not implemented.');
+    }
+
+    public selectedColumns(): string[] {
+        throw new Error('Method not implemented.');
     }
 }

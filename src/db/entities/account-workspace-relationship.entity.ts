@@ -1,13 +1,9 @@
-import dateUtils from "src/helpers/dateUtils";
+import { GenericEntity } from "src/core/generic.entity";
 import {
-  BaseEntity,
-  BeforeInsert,
-  BeforeUpdate,
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn
 } from "typeorm";
 import { Account } from "./account.entity";
 import { Workspace } from "./workspace.entity";
@@ -19,22 +15,13 @@ export enum MEMBER_STATUS {
 }
 
 @Entity()
-export class AccountWorkspaceRelationship extends BaseEntity {
-  
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+export class AccountWorkspaceRelationship extends GenericEntity {
 
   @Column("enum", {
     enum: MEMBER_STATUS,
     nullable: false,
   })
   status: MEMBER_STATUS;
-
-  @Column({ nullable: true })
-  createdAt: number;
-
-  @Column({ nullable: true })
-  updatedAt: number;
 
   @ManyToOne(() => Account, {
     onUpdate: "CASCADE",

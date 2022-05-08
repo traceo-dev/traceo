@@ -1,11 +1,10 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { GenericEntity } from "src/core/generic.entity";
+import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { Deployment, Environment, Platform } from "../models/release";
 import { Workspace } from "./workspace.entity";
 
 @Entity()
-export class Release extends BaseEntity {
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+export class Release extends GenericEntity {
     
     @Column({
         type: 'varchar'
@@ -42,17 +41,6 @@ export class Release extends BaseEntity {
         type: 'int'
     })
     incidentsCount: number;
-
-    @Column({
-        type: 'bigint'
-    })
-    createdAt: number;
-
-    @Column({
-        type: 'bigint',
-        nullable: true
-    })
-    updatedAt: number;
 
     @Column({
         type: 'json',

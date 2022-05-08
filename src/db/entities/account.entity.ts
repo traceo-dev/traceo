@@ -2,9 +2,9 @@ import {
   IsBoolean,
   IsEmail,
   IsEnum,
-  IsNotEmpty
 } from "class-validator";
-import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { GenericEntity } from "src/core/generic.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, UpdateDateColumn } from "typeorm";
 import { AccountWorkspaceRelationship } from "./account-workspace-relationship.entity";
 import { Incident } from "./incident.entity";
 
@@ -14,9 +14,7 @@ export enum AccountRole {
 }
 
 @Entity()
-export class Account extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+export class Account extends GenericEntity {
 
   @Column({ nullable: false })
   name: string;
@@ -41,12 +39,6 @@ export class Account extends BaseEntity {
 
   @Column({ nullable: true })
   logo?: string;
-
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp', nullable: false })
-  updatedAt: Date;
 
   @OneToMany(
     () => AccountWorkspaceRelationship,

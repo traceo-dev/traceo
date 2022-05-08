@@ -1,21 +1,19 @@
 import { Injectable } from "@nestjs/common";
-import { PageableDto } from "src/core/core.model";
-import { CoreService } from "src/core/core.service";
+import { GenericQueryService } from "src/core/generic-query.service";
 import { Incident } from "src/db/entities/incident.entity";
-import { IncidentSearchDto, IncidentStatusSearch } from "src/db/models/incident";
-import { Brackets, EntityManager } from "typeorm";
+import { IncidentQueryDto, IncidentStatusSearch } from "src/db/models/incident";
+import { Brackets, EntityManager, Repository, SelectQueryBuilder } from "typeorm";
 
 @Injectable()
-export class IncidentsQueryService extends CoreService {
+export class IncidentsQueryService extends GenericQueryService<Incident, IncidentQueryDto> {
     constructor(
-        private entityManger: EntityManager
+        readonly entityManager: EntityManager
     ) {
-        super();
+        super(entityManager, Incident);
     }
 
-    async getIncident(id: string): Promise<Incident | null> {
-        return await this.entityManger
-            .getRepository(Incident)
+    override async getDto(id: string): Promise<Incident> {
+        return await this.repository
             .createQueryBuilder('incident')
             .where('incident.id = :id', { id })
             .leftJoin('incident.assigned', 'assigned')
@@ -23,19 +21,17 @@ export class IncidentsQueryService extends CoreService {
             .getOne();
     }
 
-    async getIncidents(workspaceId: string, pagination: IncidentSearchDto): Promise<PageableDto<Incident>> {
-        const { skip, order, take, search, status, sortBy } = pagination;
+    public extendQueryBuilder(builder: SelectQueryBuilder<Incident>, query: IncidentQueryDto): SelectQueryBuilder<Incident> {
+        const { search, status, workspaceId } = query;
 
-        let queryBuilder = await this.entityManger.getRepository(Incident)
-            .createQueryBuilder('incident')
-            .where('incident.workspaceId = :workspaceId', { workspaceId })
+        builder.where('incident.workspaceId = :workspaceId', { workspaceId })
 
         if (status && status !== IncidentStatusSearch.ALL) {
-            queryBuilder.where('incident.status = :status', { status })
+            builder.where('incident.status = :status', { status })
         }
 
         if (search) {
-            queryBuilder
+            builder
                 .andWhere(new Brackets(qb => {
                     qb.where('LOWER(incident.message) LIKE LOWER(:search)', { search: `%${search}%` })
                         .orWhere('LOWER(incident.type) LIKE LOWER(:search)', { search: `%${search}%` })
@@ -44,14 +40,18 @@ export class IncidentsQueryService extends CoreService {
                 }));
         }
 
-        queryBuilder
+        builder
             .leftJoin('incident.assigned', 'assigned')
-            .select(['incident.id', 'incident.status', 'incident.env', 'incident.type', 'incident.message', 'incident.lastOccur', 'incident.occuredCount', 'incident.release', 'incident.commentsCount', 'incident.occurDates'])
-            .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.logo"])
-            .orderBy(`incident.${sortBy}`, order)
-            .limit(take)
-            .skip(skip);
+            .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.logo"]);
 
-        return this.preparePageable<Incident>(queryBuilder, pagination);
+        return builder;
+    }
+
+    public getBuilderAlias(): string {
+        return 'incident';
+    }
+
+    public selectedColumns(): string[] {
+        return ['id', 'status', 'env', 'type', 'message', 'lastOccur', 'occuredCount', 'release', 'release', 'occurDates'];
     }
 }

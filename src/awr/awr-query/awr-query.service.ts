@@ -1,17 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { PageableDto, PageOptionsDto } from 'src/core/core.model';
-import { CoreService } from 'src/core/core.service';
+import { BaseDtoQuery } from 'src/core/generic.model';
 import { AccountWorkspaceRelationship } from 'src/db/entities/account-workspace-relationship.entity';
 import { Account } from 'src/db/entities/account.entity';
 import { EntityManager } from 'typeorm';
 
 @Injectable()
-export class AwrQueryService extends CoreService {
+export class AwrQueryService {
     constructor(
         private readonly entityManager: EntityManager
-    ) {
-        super();
-    }
+    ) { }
 
     /**
      * Return single object with account data and status field from AccountWorkspaceRelationship
@@ -21,11 +18,11 @@ export class AwrQueryService extends CoreService {
      * @returns 
      */
     public async getAccount(accountId: string, workspaceId?: string): Promise<Account | AccountWorkspaceRelationship | null> {
-        
+
         if (!workspaceId) {
             return await this.entityManager.getRepository(Account).findOneBy({ id: accountId });
         }
-                
+
         const response = await this.entityManager.getRepository(AccountWorkspaceRelationship)
             .createQueryBuilder("accountWorkspaceRelationship")
             .where(
@@ -71,8 +68,8 @@ export class AwrQueryService extends CoreService {
      * @param pageOptionsDto 
      * @returns 
      */
-    public async getWorkspaceMembers(workspaceId: string, pageOptionsDto: PageOptionsDto): Promise<PageableDto<AccountWorkspaceRelationship>> {
-        const { order, skip, take, search } = pageOptionsDto;
+    public async getWorkspaceMembers(workspaceId: string, pageOptionsDto: BaseDtoQuery): Promise<AccountWorkspaceRelationship[]> {
+        const { order, take, search, page } = pageOptionsDto;
         let queryBuilder = await this.entityManager
             .getRepository(AccountWorkspaceRelationship)
             .createQueryBuilder("accountWorkspaceRelationship")
@@ -88,10 +85,10 @@ export class AwrQueryService extends CoreService {
         queryBuilder
             .addSelect(["account.name", "account.email", "account.id", "account.logo"])
             .orderBy("accountWorkspaceRelationship.createdAt", order)
-            .skip(skip)
+            .skip((page - 1) * take)
             .take(take);
 
-        return this.preparePageable(queryBuilder, pageOptionsDto);
+        return await queryBuilder.getMany();
     }
 
     /**
@@ -102,22 +99,26 @@ export class AwrQueryService extends CoreService {
      * @returns 
      */
 
-    public async getAccountWorkspaces(accountId: string, pageOptionsDto: PageOptionsDto): Promise<PageableDto<AccountWorkspaceRelationship>> {
-        const { skip, take, order } = pageOptionsDto;
-        const queryBuilder = await this.entityManager
-            .getRepository(AccountWorkspaceRelationship)
-            .createQueryBuilder("accountWorkspaceRelationship")
-            .innerJoin("accountWorkspaceRelationship.account", "account", "account.id = :accountId", {
-                accountId,
-            })
-            .leftJoinAndSelect("accountWorkspaceRelationship.workspace", "workspace")
-            .leftJoin("workspace.owner", "owner")
-            .addSelect(["owner.name", "owner.email", "owner.id"])
-            .orderBy("accountWorkspaceRelationship.createdAt", order)
-            .skip(skip)
-            .take(take);
+    public async getWorkspacesForAccount(accountId: string, pageOptionsDto: BaseDtoQuery): Promise<AccountWorkspaceRelationship[]> {
+        const { page, take, order } = pageOptionsDto;
+        try {
+            return await this.entityManager
+                .getRepository(AccountWorkspaceRelationship)
+                .createQueryBuilder("accountWorkspaceRelationship")
+                .innerJoin("accountWorkspaceRelationship.account", "account", "account.id = :accountId", {
+                    accountId,
+                })
+                .leftJoinAndSelect("accountWorkspaceRelationship.workspace", "workspace")
+                .leftJoin("workspace.owner", "owner")
+                .addSelect(["owner.name", "owner.email", "owner.id"])
+                .orderBy("accountWorkspaceRelationship.createdAt", order)
+                .skip((page - 1) * take)
+                .take(take)
+                .getMany();
 
-        return this.preparePageable(queryBuilder, pageOptionsDto);
+        } catch (error) {
+            throw error;
+        }
     }
 
     public async awrExists({ accountId, workspaceId }: { accountId: string, workspaceId: string }, manager: EntityManager = this.entityManager): Promise<boolean> {

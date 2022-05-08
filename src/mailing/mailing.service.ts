@@ -24,7 +24,7 @@ export class MailingService {
         url: string,
         workspaceId: string
     }): Promise<void> {
-        const workspace = await this.workspaceQueryService.getWorkspaceById(workspaceId);
+        const workspace = await this.workspaceQueryService.getDto(workspaceId);
         const mailParams = {
             to: email,
             subject: "Invite",
@@ -50,7 +50,7 @@ export class MailingService {
             accountName: string,
             workspaceId: string
         }): Promise<void> {
-        const workspace = await this.workspaceQueryService.getWorkspaceById(workspaceId);
+        const workspace = await this.workspaceQueryService.getDto(workspaceId);
         const mailParams = {
             to: email,
             subject: "Invite",

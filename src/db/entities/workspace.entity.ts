@@ -1,22 +1,19 @@
 import {
-  BaseEntity,
   Column,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Account } from "./account.entity";
 import { AccountWorkspaceRelationship } from "./account-workspace-relationship.entity";
 import { Environment } from "../models/release";
 import { Incident } from "./incident.entity";
 import { Release } from "./release.entity";
+import { GenericEntity } from "src/core/generic.entity";
 
 @Entity()
-export class Workspace extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+export class Workspace extends GenericEntity {
 
   @Column({ type: 'varchar', unique: true })
   name: string;
@@ -35,17 +32,6 @@ export class Workspace extends BaseEntity {
 
   @Column({ nullable: true })
   logo?: string;
-
-  @Column({
-    type: 'bigint'
-  })
-  createdAt: number;
-
-  @Column({
-    type: 'bigint',
-    nullable: true
-  })
-  updatedAt: number;
 
   @Column({ nullable: true })
   lastIncidentAt: number;

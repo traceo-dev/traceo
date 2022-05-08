@@ -6,12 +6,15 @@ import { Comment } from 'src/db/entities/comment.entity';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/decorators/auth-user.decorator';
 import { CommentsService } from './comments.service';
+import { CommentsQueryService } from './query/comments-query.service';
+import { BaseDtoQuery } from 'src/core/generic.model';
 
 @ApiTags('comments')
 @Controller('comments')
 export class CommentsController {
   constructor(
-    private commentsService: CommentsService
+    private commentsService: CommentsService,
+    private commentsQueryService: CommentsQueryService
   ) { }
 
   @Post('/send')
@@ -45,7 +48,8 @@ export class CommentsController {
   @AuthRequired()
   public async getComments(
     @Query("id") id: string,
+    @Query() query: BaseDtoQuery,
   ): Promise<Comment[]> {
-    return await this.commentsService.getComments(id);
+    return await this.commentsQueryService.listDto({ incidentId: id, ...query });
   }
 }

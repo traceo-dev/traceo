@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsEnum, IsOptional, IsString } from "class-validator";
-import { PageOptionsDto } from "src/core/core.model";
+import { BaseDtoQuery } from "src/core/generic.model";
 import { Environment, Platform } from "../models/release";
 
 export interface KlepperIncidentModel {
@@ -117,7 +117,7 @@ export interface Trace {
 }
 
 
-export class IncidentSearchDto extends PageOptionsDto {
+export class IncidentQueryDto extends BaseDtoQuery {
     @ApiPropertyOptional()
     @Type(() => String)
     @IsOptional()

@@ -36,6 +36,7 @@ lerna-debug.log*
 # ENVS
 .env
 .env.*
+*.env
 
 *.lock
 

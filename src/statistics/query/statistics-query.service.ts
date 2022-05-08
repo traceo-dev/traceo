@@ -10,6 +10,9 @@ export class StatisticsQueryService {
         private entityManger: EntityManager
     ) { }
 
+    /**
+     * TO REFACTORING
+     */
     async getWorkspaceStatistics(id: string, env: Environment = 'dev'): Promise<WorkspaceStatistics> {
         const releases = await this.entityManger.getRepository(Release).find({
             where: {

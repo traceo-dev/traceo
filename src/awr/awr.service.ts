@@ -4,7 +4,7 @@ import { Workspace } from 'src/db/entities/workspace.entity';
 import { MEMBER_STATUS, AccountWorkspaceRelationship } from 'src/db/entities/account-workspace-relationship.entity';
 import { EntityManager } from 'typeorm';
 import { AwrQueryService } from './awr-query/awr-query.service';
-import { AccountAlreadyInWorkspaceError, AccountNotExistsError, WorkspaceNotExistsError } from 'src/helpers/errors';
+import { AccountAlreadyInWorkspaceError } from 'src/helpers/errors';
 import { WorkspaceQueryService } from 'src/workspace/workspace-query/workspace-query.service';
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
 import { MailingService } from 'src/mailing/mailing.service';
@@ -44,7 +44,7 @@ export class AwrService {
             /**
              * Send Email when account not exists
              */
-            const account = await this.accountQueryService.getAccountByEmail(email, manager);
+            const account = await this.accountQueryService.getAccountByEmail(email);
             if (!account) {
                 const url = `${process.env.APP_ORIGIN}/signUp?w=${workspaceId}`;
                 await this.mailingService.sendInviteToMemberWithoutAccount({
@@ -80,15 +80,8 @@ export class AwrService {
                 throw new AccountAlreadyInWorkspaceError();
             }
 
-            const account = await this.accountQueryService.getAccountById(accountId, manager);
-            if (!account) {
-                throw new AccountNotExistsError();
-            }
-
-            const workspace = await this.workspaceQueryService.getWorkspaceById(workspaceId, manager);
-            if (!workspace) {
-                throw new WorkspaceNotExistsError();
-            }
+            const account = await this.accountQueryService.getDto(accountId);
+            const workspace = await this.workspaceQueryService.getDto(workspaceId);
 
             await this.createAwr({
                 account,

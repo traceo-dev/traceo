@@ -1,24 +1,28 @@
 import { Injectable } from "@nestjs/common";
-import { PageOptionsDto } from "src/core/core.model";
+import { BaseDtoQuery } from "src/core/generic.model";
+import { GenericQueryService } from "src/core/generic-query.service";
 import { Release } from "src/db/entities/release.entity";
-import { EntityManager } from "typeorm";
+import { EntityManager, SelectQueryBuilder } from "typeorm";
 
 @Injectable()
-export class ReleaseQueryService {
+export class ReleaseQueryService extends GenericQueryService<Release, BaseDtoQuery> {
     constructor(
-        private entityManager: EntityManager
-    ) { }
+        readonly entityManager: EntityManager
+    ) {
+        super(entityManager, Release)
+    }
 
-    public async getReleases(workspaceId: string, pagination: PageOptionsDto): Promise<Release[]> {
-        const { skip, order, take, search, sortBy } = pagination;
-        return await this.entityManager
-            .getRepository(Release)
-            .createQueryBuilder("release")
-            .where('release.workspaceId = :workspaceId', { workspaceId })
-            .addSelect(['release.id', 'release.env', 'release.version', 'release.lastDeploymentAt', 'release.incidentsOccurCount', 'release.incidentsCount'])
-            .orderBy(`release.${sortBy}`, order)
-            .skip(skip)
-            .take(take)
-            .getMany();
+    public extendQueryBuilder(builder: SelectQueryBuilder<Release>, query: BaseDtoQuery): SelectQueryBuilder<Release> {
+        const { workspaceId } = query;
+
+        return builder.where('release.workspaceId = :workspaceId', { workspaceId });
+    }
+
+    public getBuilderAlias(): string {
+        return 'release';
+    }
+
+    public selectedColumns(): string[] {
+        return ['id', 'env', 'version', 'lastDeploymentAt', 'incidentsOccurCount', 'incidentsCount'];
     }
 }

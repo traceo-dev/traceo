@@ -1,4 +1,5 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { GenericEntity } from "src/core/generic.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { OccurrDate, Trace } from "../models/incident";
 import { Environment, Platform } from "../models/release";
 import { Account } from "./account.entity";
@@ -13,10 +14,7 @@ export enum IncidentStatus {
 }
 
 @Entity()
-export class Incident extends BaseEntity {
-
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+export class Incident extends GenericEntity {
 
     @Column({
         type: 'varchar',
@@ -58,17 +56,6 @@ export class Incident extends BaseEntity {
         type: 'varchar'
     })
     release: string;
-
-    @Column({
-        type: 'bigint'
-    })
-    createdAt: number;
-
-    @Column({
-        type: 'bigint',
-        nullable: true
-    })
-    updatedAt: number;
 
     @Column({
         type: 'int',

@@ -1,10 +1,9 @@
 import { Body, Controller, Delete, Get, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
-import { PageableDto, PageOptionsDto } from 'src/core/core.model';
+import { BaseDtoQuery } from 'src/core/generic.model';
 import { AccountWorkspaceRelationship } from 'src/db/entities/account-workspace-relationship.entity';
 import { Account } from 'src/db/entities/account.entity';
-import { ApiPaginatedResponse } from 'src/decorators/api-paginated-response.decorator';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/decorators/auth-user.decorator';
 import { AwrQueryService } from './awr-query/awr-query.service';
@@ -38,22 +37,20 @@ export class AwrController {
 
     @Get('/members')
     @AuthRequired()
-    @ApiPaginatedResponse(AccountWorkspaceRelationship)
     public async getWorkspaceMembers(
         @Query("id", new ParseUUIDPipe()) id: string,
-        @Query() pageOptionsDto: PageOptionsDto
-    ): Promise<PageableDto<AccountWorkspaceRelationship>> {
-        return await this.awrQueryService.getWorkspaceMembers(id, pageOptionsDto);
+        @Query() query: BaseDtoQuery
+    ): Promise<AccountWorkspaceRelationship[]> {
+        return await this.awrQueryService.getWorkspaceMembers(id, query);
     }
 
     @Get('/workspaces')
     @AuthRequired()
-    @ApiPaginatedResponse(AccountWorkspaceRelationship)
     public async getAccountWorkspaces(
-        @Query() pageOptionsDto: PageOptionsDto,
+        @Query() pageOptionsDto: BaseDtoQuery,
         @AuthAccount() account: RequestUser
-    ): Promise<PageableDto<AccountWorkspaceRelationship>> {
-        return await this.awrQueryService.getAccountWorkspaces(account?.id, pageOptionsDto);
+    ): Promise<AccountWorkspaceRelationship[]> {
+        return await this.awrQueryService.getWorkspacesForAccount(account?.id, pageOptionsDto);
     }
 
     @Post('/workspace/add')
