@@ -23,6 +23,12 @@ export class AccountWorkspaceRelationship extends GenericEntity {
   })
   status: MEMBER_STATUS;
 
+  @Column({
+    default: false,
+    type: "bool"
+  })
+  favorite: boolean;
+
   @ManyToOne(() => Account, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE"

@@ -100,9 +100,9 @@ export class AwrQueryService {
      */
 
     public async getWorkspacesForAccount(accountId: string, pageOptionsDto: BaseDtoQuery): Promise<AccountWorkspaceRelationship[]> {
-        const { page, take, order } = pageOptionsDto;
+        const { page, take, order, search, sortBy } = pageOptionsDto;
         try {
-            return await this.entityManager
+            const queryBuilder = await this.entityManager
                 .getRepository(AccountWorkspaceRelationship)
                 .createQueryBuilder("accountWorkspaceRelationship")
                 .innerJoin("accountWorkspaceRelationship.account", "account", "account.id = :accountId", {
@@ -110,8 +110,18 @@ export class AwrQueryService {
                 })
                 .leftJoinAndSelect("accountWorkspaceRelationship.workspace", "workspace")
                 .leftJoin("workspace.owner", "owner")
+                .orderBy("accountWorkspaceRelationship.favorite", "DESC")
+
+            if (search) {
+                queryBuilder.where("LOWER(workspace.name) LIKE LOWER(:name)", { name: `%${search}%` })
+            }
+
+            if (sortBy){
+                queryBuilder.addOrderBy(sortBy, order)
+            }
+
+            return queryBuilder
                 .addSelect(["owner.name", "owner.email", "owner.id"])
-                .orderBy("accountWorkspaceRelationship.createdAt", order)
                 .skip((page - 1) * take)
                 .take(take)
                 .getMany();

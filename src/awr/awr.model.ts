@@ -36,4 +36,8 @@ export class AwrModel {
     @IsOptional()
     @ApiProperty()
     status: MEMBER_STATUS;
+        
+    @IsOptional()
+    @ApiProperty()
+    favorite: boolean;
 }
