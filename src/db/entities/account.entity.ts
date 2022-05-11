@@ -26,7 +26,7 @@ export class Account extends GenericEntity {
   @Column({ select: false, nullable: false })
   password: string;
 
-  @Column({ select: false, nullable: false })
+  @Column({ nullable: false })
   @IsEnum(AccountRole)
   role: AccountRole;
 
