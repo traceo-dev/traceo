@@ -11,6 +11,7 @@ import { Environment } from "../models/release";
 import { Incident } from "./incident.entity";
 import { Release } from "./release.entity";
 import { GenericEntity } from "src/core/generic.entity";
+import { GitProvider } from "./git-provider.entity";
 
 @Entity()
 export class Workspace extends GenericEntity {
@@ -30,6 +31,12 @@ export class Workspace extends GenericEntity {
   @Column({ nullable: true, length: 256, type: 'varchar' })
   aboutDescription?: string;
 
+  @Column({ nullable: true, type: 'varchar' })
+  technology?: string;
+
+  @Column({ nullable: true, type: 'varchar' })
+  framework?: string;
+
   @Column({ nullable: true })
   logo?: string;
 
@@ -38,6 +45,9 @@ export class Workspace extends GenericEntity {
 
   @Column({ nullable: false, default: 'dev' })
   defaultEnv: Environment;
+
+  @Column({ nullable: true })
+  git: GitProvider;
 
   @OneToMany(
     () => AccountWorkspaceRelationship,

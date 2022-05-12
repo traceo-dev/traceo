@@ -7,7 +7,7 @@ import { MEMBER_STATUS } from 'src/db/entities/account-workspace-relationship.en
 import { EntityManager } from 'typeorm';
 import * as crypto from "crypto";
 import { WorkspaceWithNameAlreadyExistsError } from 'src/helpers/errors';
-import { WorkspaceModel } from './workspace.model';
+import { CreateWorkspaceModel, WorkspaceModel } from './workspace.model';
 import dateUtils from 'src/helpers/dateUtils';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { WorkspaceQueryService } from './workspace-query/workspace-query.service';
@@ -23,14 +23,13 @@ export class WorkspaceService {
         private readonly workspaceQueryService: WorkspaceQueryService
     ) { }
 
-    public async createWorkspace(data: { name: string }, account: RequestUser): Promise<Workspace> {
-        const { name } = data;
+    public async createWorkspace(data: CreateWorkspaceModel, account: RequestUser): Promise<Workspace> {
         const { id } = account;
 
         const privateKey = crypto.randomUUID();
         return await this.entityManager.transaction(async (manager) => {
 
-            await this.validate(name, manager);
+            await this.validate(data.name, manager);
 
             const account = await manager.getRepository(Account).findOneBy({ id });
             if (!account) {
@@ -38,7 +37,7 @@ export class WorkspaceService {
             }
 
             const workspace = await manager.getRepository(Workspace).save({
-                name,
+                ...data,
                 privateKey,
                 owner: account,
                 createdAt: dateUtils.toUnix(),

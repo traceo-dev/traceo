@@ -30,7 +30,7 @@ export class WorkspaceController {
         @Body() body: CreateWorkspaceModel,
         @AuthAccount() account: RequestUser
     ): Promise<Workspace> {
-        return await this.workspaceService.createWorkspace({ name: body?.name }, account)
+        return await this.workspaceService.createWorkspace(body, account)
     }
 
     @Patch()

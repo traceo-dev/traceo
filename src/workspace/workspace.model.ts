@@ -1,12 +1,27 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 import { Environment } from "src/db/models/release";
 
 export class CreateWorkspaceModel {
     @IsString()
     @IsNotEmpty()
-    @ApiProperty({ description: 'workspace name' })
+    @ApiProperty({ description: 'name' })
     public name: string;
+
+    @IsString()
+    @IsOptional()
+    @ApiPropertyOptional({ description: 'aboutDescription' })
+    public aboutDescription: string;
+
+    @IsString()
+    @IsOptional()
+    @ApiPropertyOptional({ description: 'framework' })
+    public framework: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({ description: 'technology' })
+    public technology: string;
 }
 
 export class WorkspaceModel {
