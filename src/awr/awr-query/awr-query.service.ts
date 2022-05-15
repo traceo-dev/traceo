@@ -20,7 +20,12 @@ export class AwrQueryService {
     public async getAccount(accountId: string, workspaceId?: string): Promise<Account | AccountWorkspaceRelationship | null> {
 
         if (!workspaceId) {
-            return await this.entityManager.getRepository(Account).findOneBy({ id: accountId });
+            return await this.entityManager.getRepository(Account)
+                .createQueryBuilder('account')
+                .where('account.id = :id', { id: accountId })
+                .leftJoin('account.github', 'github')
+                .addSelect(["github.name", "github.avatar", "github.profileUrl", "github.createdAt", "github.login"])
+                .getOne();
         }
 
         const response = await this.entityManager.getRepository(AccountWorkspaceRelationship)
@@ -35,6 +40,8 @@ export class AwrQueryService {
             .leftJoin("accountWorkspaceRelationship.account", "account")
             .addSelect(["account.name", "account.email", "account.id", "account.logo", "account.role"])
             .addSelect(["accountWorkspaceRelationship.status"])
+            .leftJoin('account.github', 'github')
+            .addSelect(["github.name", "github.avatar", "github.profileUrl", "github.createdAt", "github.login"])
             .getOne();
 
         const res = {

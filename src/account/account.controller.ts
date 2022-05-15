@@ -1,4 +1,4 @@
-import { Body, Controller, Get, ParseUUIDPipe, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, ParseUUIDPipe, Patch, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { AuthRequired } from 'src/decorators/auth-required.decorator';
@@ -13,7 +13,7 @@ export class AccountController {
     constructor(
         readonly accountService: AccountService,
         readonly accountQueryService: AccountQueryService
-    ) {}
+    ) { }
 
     @Patch()
     @AuthRequired()
@@ -30,5 +30,23 @@ export class AccountController {
         @Query('workspaceId') workspaceId: string,
     ): Promise<void> {
         return await this.accountService.confirmAccount(hash, workspaceId);
+    }
+
+
+    @Get("/github-handle")
+    @AuthRequired()
+    async githubCallback(
+        @Query('code') code: string,
+        @AuthAccount() account: RequestUser
+    ): Promise<{ connected: boolean }> {
+        return await this.accountService.handleGithubAuth(code, account);
+    }
+
+    @Delete("/github")
+    @AuthRequired()
+    async removeGithubAuth(
+        @AuthAccount() account: RequestUser
+    ): Promise<void> {
+        return await this.accountService.removeGithubAuth(account);
     }
 }

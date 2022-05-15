@@ -11,7 +11,7 @@ import { Environment } from "../models/release";
 import { Incident } from "./incident.entity";
 import { Release } from "./release.entity";
 import { GenericEntity } from "src/core/generic.entity";
-import { GitProvider } from "./git-provider.entity";
+import { Github } from "./github.entity";
 
 @Entity()
 export class Workspace extends GenericEntity {
@@ -46,8 +46,11 @@ export class Workspace extends GenericEntity {
   @Column({ nullable: false, default: 'dev' })
   defaultEnv: Environment;
 
-  @Column({ nullable: true })
-  git: GitProvider;
+  @ManyToOne(() => Github)
+  @JoinColumn({
+    name: 'githubId'
+  })
+  github: Github;
 
   @OneToMany(
     () => AccountWorkspaceRelationship,

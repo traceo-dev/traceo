@@ -10,10 +10,12 @@ import { AwrService } from 'src/awr/awr.service';
 import { AwrQueryService } from 'src/awr/awr-query/awr-query.service';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { ReleaseQueryService } from 'src/release/query/release-query.service';
+import { HttpModule } from "@nestjs/axios";
 
 @Module({
   imports: [
     AuthModule,
+    HttpModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   providers: [

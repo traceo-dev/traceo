@@ -4,8 +4,9 @@ import {
   IsEnum,
 } from "class-validator";
 import { GenericEntity } from "src/core/generic.entity";
-import { Column, CreateDateColumn, Entity, OneToMany, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, UpdateDateColumn } from "typeorm";
 import { AccountWorkspaceRelationship } from "./account-workspace-relationship.entity";
+import { Github } from "./github.entity";
 import { Incident } from "./incident.entity";
 
 export enum AccountRole {
@@ -39,6 +40,14 @@ export class Account extends GenericEntity {
 
   @Column({ nullable: true })
   logo?: string;
+
+  @OneToOne(() => Github, {
+    cascade: true,
+    // onDelete: "CASCADE",
+    // onUpdate: "CASCADE"
+  })
+  @JoinColumn()
+  github: Github;
 
   @OneToMany(
     () => AccountWorkspaceRelationship,
