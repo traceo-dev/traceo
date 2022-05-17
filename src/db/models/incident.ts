@@ -157,6 +157,11 @@ export class IncidentUpdateDto {
     @IsString()
     @IsOptional()
     readonly assignedId?: string;  
+
+    @ApiPropertyOptional()
+    @IsString()
+    @IsOptional()
+    readonly assigned: any;  
 }
 
 export class IncidentBatchUpdateDto extends IncidentUpdateDto {

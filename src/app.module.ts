@@ -16,6 +16,7 @@ import { StatisticsModule } from './statistics/statistics.module';
 import { CommentsModule } from './comments/comments.module';
 import { WebsocketsModule } from './websockets/websockets.module';
 import { ReleaseModule } from './release/release.module';
+import { GithubModule } from './github/github.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { ReleaseModule } from './release/release.module';
     StatisticsModule,
     CommentsModule,
     WebsocketsModule,
-    ReleaseModule
+    ReleaseModule,
+    GithubModule
   ],
   controllers: [AppController],
   providers: [],
