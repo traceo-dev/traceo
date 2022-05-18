@@ -13,6 +13,7 @@ import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { WorkspaceQueryService } from './workspace-query/workspace-query.service';
 import { getKeyFromBucketUrl } from 'src/helpers/base';
 import { AttachmentType } from 'src/db/entities/attachment.entity';
+import { ClusterService } from 'src/cluster/cluster.service';
 
 @Injectable()
 export class WorkspaceService {
@@ -20,43 +21,55 @@ export class WorkspaceService {
         private readonly entityManager: EntityManager,
         private readonly awrService: AwrService,
         private readonly awsBucketService: AWSBucketService,
-        private readonly workspaceQueryService: WorkspaceQueryService
+        private readonly workspaceQueryService: WorkspaceQueryService,
+        private readonly clusterService: ClusterService
     ) { }
 
     public async createWorkspace(data: CreateWorkspaceModel, account: RequestUser): Promise<Workspace> {
         const { id } = account;
+        const { clusterId, ...rest } = data;
 
         const privateKey = crypto.randomUUID();
-        return await this.entityManager.transaction(async (manager) => {
+        try {
+            return await this.entityManager.transaction(async (manager) => {
 
-            await this.validate(data.name, manager);
+                await this.validate(data.name, manager);
 
-            const account = await manager.getRepository(Account).findOneBy({ id });
-            if (!account) {
-                throw new NotFoundException();
-            }
+                const account = await manager.getRepository(Account).findOneBy({ id });
+                if (!account) {
+                    throw new NotFoundException();
+                }
 
-            const workspace = await manager.getRepository(Workspace).save({
-                ...data,
-                privateKey,
-                owner: account,
-                createdAt: dateUtils.toUnix(),
-                updatedAt: dateUtils.toUnix()
-            });
+                const workspacePayload: Workspace = {
+                    ...rest,
+                    privateKey,
+                    owner: account,
+                    createdAt: dateUtils.toUnix(),
+                    updatedAt: dateUtils.toUnix()
+                }
 
-            await this.awrService.createAwr(
-                {
+                if (data?.clusterId) {
+                    const cluster = await this.clusterService.handleClusterOnCreateWithWorkspace(data?.clusterId, manager)
+                    workspacePayload.cluster = cluster;
+                }
+
+                const workspace = await manager.getRepository(Workspace).save(workspacePayload);
+
+                await this.awrService.createAwr(
                     account,
                     workspace,
-                    memberStatus: MEMBER_STATUS.OWNER,
-                },
-                manager
-            );
+                    MEMBER_STATUS.OWNER,
+                    manager
+                );
 
-            //create statistics
+                //create statistics
 
-            return workspace;
-        })
+                return workspace;
+            })
+        } catch (error) {
+            console.log(error)
+            throw new Error(error);
+        }
     }
 
     public async updateWorkspace(workspaceModel: WorkspaceModel, account: RequestUser, manager: EntityManager = this.entityManager): Promise<any> {

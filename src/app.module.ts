@@ -17,6 +17,8 @@ import { CommentsModule } from './comments/comments.module';
 import { WebsocketsModule } from './websockets/websockets.module';
 import { ReleaseModule } from './release/release.module';
 import { GithubModule } from './github/github.module';
+import { ClusterModule } from './cluster/cluster.module';
+import { AcrModule } from './acr/acr.module';
 
 @Module({
   imports: [
@@ -39,7 +41,9 @@ import { GithubModule } from './github/github.module';
     CommentsModule,
     WebsocketsModule,
     ReleaseModule,
-    GithubModule
+    GithubModule,
+    ClusterModule,
+    AcrModule
   ],
   controllers: [AppController],
   providers: [],

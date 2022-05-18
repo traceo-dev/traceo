@@ -22,6 +22,11 @@ export class CreateWorkspaceModel {
     @IsNotEmpty()
     @ApiProperty({ description: 'technology' })
     public technology: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({ description: 'cluster' })
+    public clusterId: string;
 }
 
 export class WorkspaceModel {

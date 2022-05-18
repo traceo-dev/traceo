@@ -117,10 +117,15 @@ export class AwrQueryService {
                 })
                 .leftJoinAndSelect("accountWorkspaceRelationship.workspace", "workspace")
                 .leftJoin("workspace.owner", "owner")
+                .leftJoin("workspace.cluster", "cluster")
                 .orderBy("accountWorkspaceRelationship.favorite", "DESC")
 
             if (search) {
                 queryBuilder.where("LOWER(workspace.name) LIKE LOWER(:name)", { name: `%${search}%` })
+                queryBuilder.orWhere("LOWER(workspace.technology) LIKE LOWER(:name)", { name: `%${search}%` })
+                queryBuilder.orWhere("LOWER(workspace.framework) LIKE LOWER(:name)", { name: `%${search}%` })
+                queryBuilder.orWhere("LOWER(cluster.name) LIKE LOWER(:name)", { name: `%${search}%` })
+                queryBuilder.orWhere("LOWER(owner.name) LIKE LOWER(:name)", { name: `%${search}%` })
             }
 
             if (sortBy){
@@ -129,6 +134,7 @@ export class AwrQueryService {
 
             return queryBuilder
                 .addSelect(["owner.name", "owner.email", "owner.id"])
+                .addSelect(["cluster.name", "cluster.id"])
                 .skip((page - 1) * take)
                 .take(take)
                 .getMany();

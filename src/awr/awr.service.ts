@@ -25,10 +25,7 @@ export class AwrService {
         private readonly mailingService: MailingService
     ) { }
 
-    public async createAwr(
-        { account, workspace, memberStatus = MEMBER_STATUS.DEVELOPER }:
-            { account: Account, workspace: Workspace, memberStatus?: MEMBER_STATUS },
-        manager: EntityManager = this.entityManager): Promise<void> {
+    public async createAwr(account: Account, workspace: Workspace, memberStatus: MEMBER_STATUS = MEMBER_STATUS.DEVELOPER, manager: EntityManager = this.entityManager): Promise<void> {
         const awr: Partial<AccountWorkspaceRelationship> = {
             account,
             workspace,
@@ -83,10 +80,10 @@ export class AwrService {
             const account = await this.accountQueryService.getDto(accountId);
             const workspace = await this.workspaceQueryService.getDto(workspaceId);
 
-            await this.createAwr({
+            await this.createAwr(
                 account,
                 workspace
-            });
+            );
         });
     }
 

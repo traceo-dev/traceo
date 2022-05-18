@@ -12,6 +12,7 @@ import { Incident } from "./incident.entity";
 import { Release } from "./release.entity";
 import { GenericEntity } from "src/core/generic.entity";
 import { Github } from "./github.entity";
+import { Cluster } from "./cluster.entity";
 
 @Entity()
 export class Workspace extends GenericEntity {
@@ -41,16 +42,16 @@ export class Workspace extends GenericEntity {
   logo?: string;
 
   @Column({ nullable: true })
-  lastIncidentAt: number;
+  lastIncidentAt?: number;
 
   @Column({ nullable: false, default: 'dev' })
-  defaultEnv: Environment;
+  defaultEnv?: Environment = "dev";
 
   @ManyToOne(() => Github)
   @JoinColumn({
     name: 'githubId'
   })
-  github: Github;
+  github?: Github;
 
   @OneToMany(
     () => AccountWorkspaceRelationship,
@@ -81,4 +82,13 @@ export class Workspace extends GenericEntity {
     }
   )
   releases?: Release[];
+
+  @ManyToOne(() => Cluster, {
+    onUpdate: "CASCADE",
+    onDelete: "CASCADE"
+  })
+  @JoinColumn({
+    name: "cluster",
+  })
+  cluster?: Cluster;
 }
