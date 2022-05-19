@@ -2,7 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BaseDtoQuery } from 'src/core/generic.model';
 import { Release } from 'src/db/entities/release.entity';
-import { AuthRequired } from 'src/decorators/auth-required.decorator';
+import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { ReleaseQueryService } from './query/release-query.service';
 
 @ApiTags('releases')

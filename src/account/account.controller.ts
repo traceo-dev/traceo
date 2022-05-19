@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Patch, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
-import { AuthRequired } from 'src/decorators/auth-required.decorator';
-import { AuthAccount } from 'src/decorators/auth-user.decorator';
+import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
+import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
 import { AccountQueryService } from './account-query/account-query.service';
 import { AccountDto } from './account.model';
 import { AccountService } from './account.service';

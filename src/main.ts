@@ -6,7 +6,7 @@ import { AppModule } from './app.module';
 import morgan from "morgan";
 import { AllExceptionsFilter } from './all-exception.filter';
 import { Klepper } from "klepper";
-import { KlepperInterceptor } from './interceptors/KlepperInterceptor';
+import { KlepperInterceptor } from './libs/klepper.interceptor';
 
 var cors = require('cors');
 

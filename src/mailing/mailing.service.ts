@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { sendMail } from "src/libs/nodemailer";
+import { sendMail } from "src/mailing/nodemailer";
 import { WorkspaceQueryService } from "src/workspace/workspace-query/workspace-query.service";
 
 enum EMAIL_TYPE {

@@ -3,8 +3,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { AttachmentType } from 'src/db/entities/attachment.entity';
-import { AuthRequired } from 'src/decorators/auth-required.decorator';
-import { AuthAccount } from 'src/decorators/auth-user.decorator';
+import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
+import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
 import { UploadFileDto } from './attachments.model';
 import { AttachmentsService } from './attachments.service';
 

@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { WorkspaceStatistics } from 'src/db/models/statistics';
-import { AuthRequired } from 'src/decorators/auth-required.decorator';
+import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { StatisticsQueryService } from './query/statistics-query.service';
 
 @ApiTags('statistics')

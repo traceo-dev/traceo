@@ -11,14 +11,12 @@ import { TypeOrmConfigService } from './db/typeorm.config.service';
 import { AttachmentsModule } from './attachments/attachments.module';
 import { AwrModule } from './awr/awr.module';
 import { IncidentsModule } from './incidents/incidents.module';
-import { AnalyticsModule } from './analytics/analytics.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { CommentsModule } from './comments/comments.module';
 import { WebsocketsModule } from './websockets/websockets.module';
 import { ReleaseModule } from './release/release.module';
 import { GithubModule } from './github/github.module';
 import { ClusterModule } from './cluster/cluster.module';
-import { AcrModule } from './acr/acr.module';
 
 @Module({
   imports: [
@@ -36,14 +34,12 @@ import { AcrModule } from './acr/acr.module';
     AttachmentsModule,
     AwrModule,
     IncidentsModule,
-    AnalyticsModule,
     StatisticsModule,
     CommentsModule,
     WebsocketsModule,
     ReleaseModule,
     GithubModule,
-    ClusterModule,
-    AcrModule
+    ClusterModule
   ],
   controllers: [AppController],
   providers: [],

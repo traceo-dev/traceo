@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from 
 import { ApiTags } from '@nestjs/swagger';
 import { Incident } from 'src/db/entities/incident.entity';
 import { IncidentBatchUpdateDto, IncidentQueryDto, IncidentUpdateDto } from 'src/db/models/incident';
-import { AuthRequired } from 'src/decorators/auth-required.decorator';
+import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsService } from './incidents.service';
 

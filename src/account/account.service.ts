@@ -89,11 +89,11 @@ export class AccountService {
 
                 if (workspaceId) {
                     const workspace = await this.workspaceQueryService.getDto(workspaceId);
-                    await this.awrService.createAwr({
+                    await this.awrService.createAwr(
                         account,
                         workspace,
-                        memberStatus: MEMBER_STATUS.DEVELOPER
-                    }, manager);
+                        MEMBER_STATUS.DEVELOPER,
+                        manager);
                 }
             });
         } catch (error) {
