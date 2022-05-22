@@ -10,15 +10,17 @@ import { EntityManager } from 'typeorm';
 import { HttpService } from "@nestjs/axios";
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
 import { Account } from 'src/db/entities/account.entity';
+import { Workspace } from 'src/db/entities/workspace.entity';
+import { Incident } from 'src/db/entities/incident.entity';
 
 @Injectable()
 export class GithubService {
-    constructor (
+    constructor(
         readonly entityManager: EntityManager,
         readonly httpService: HttpService,
         readonly accountQueryService: AccountQueryService,
-    ) {}
-    
+    ) { }
+
     public async handleGithubAuth(code: string, account: RequestUser): Promise<{ connected: boolean }> {
         const { id } = account;
 
@@ -90,7 +92,7 @@ export class GithubService {
         });
     }
 
-    async getGithubRepositories(search: string, user: RequestUser): Promise<any> {
+    async getGithubRepositories(search: string, user: RequestUser): Promise<GithubRepository[]> {
         const account = await this.getAccountWithGithub(user.id);
         const { github } = account;
 
@@ -115,10 +117,11 @@ export class GithubService {
                     .startsWith(search?.toLowerCase() || ""))
                 .map((repo) => {
                     return {
+                        id: repo.id,
                         full_name: repo.full_name,
                         html_url: repo.html_url,
-                        name: repo.name
-                    } as GithubRepository
+                        name: repo.name,
+                    } as unknown as GithubRepository
                 });
 
             return repositories;
@@ -133,6 +136,98 @@ export class GithubService {
             relations: {
                 github: true
             }
+        });
+    }
+
+    async disconnectGithubRepository(id: string): Promise<void> {
+        console.log("ID: ", id)
+        await this.entityManager.getRepository(Workspace).update({ id }, {
+            github: null
+        });
+    }
+
+    async connectGithubRepository(body: { name: string, id: string }, user: RequestUser): Promise<void> {
+        const account = await this.getAccountWithGithub(user.id);
+        const { github } = account;
+
+        const { name, id } = body;
+
+        if (!github) {
+            throw new Error('Github authentication is required!');
+        }
+
+        try {
+            const octokit = new Octokit({
+                auth: github.accessToken
+            });
+
+            const repository = await octokit.rest.repos.get({
+                owner: github.login,
+                repo: name
+            });
+
+            const { name: repoName, full_name, html_url } = repository.data;
+
+            await this.entityManager.getRepository(Workspace).update({ id }, {
+                github: {
+                    user_id: user.id,
+                    full_name,
+                    html_url,
+                    name: repoName
+                }
+            });
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    async createGithubIssue(incidentId: string): Promise<void> {
+        if (!incidentId) {
+            throw new Error('Incident id is required!');
+        }
+
+        const incident = await this.entityManager.getRepository(Incident).findOne({
+            where: {
+                id: incidentId
+            },
+            relations: ['workspace']
+        });
+
+        if (!incident.workspace?.github) {
+            throw new Error('Github repository connection is required!');
+        }
+
+        const { user_id, full_name } = incident.workspace.github;
+
+        const account = await this.entityManager.getRepository(Account).findOne({
+            where: {
+                id: user_id
+            },
+            relations: ['github']
+        });
+
+        if (!account?.github.accessToken) {
+            throw new Error('Github access token is required!')
+        }
+
+        const octokit = new Octokit({
+            auth: account.github.accessToken
+        });
+
+        const [owner, repo] = full_name.split("/");
+
+        const { type, message, stack, release, platform } = incident;
+        const { data } = await octokit.rest.issues.create({
+            owner,
+            repo,
+            title: `${type}: ${message}`,
+            body: `## Details\n\n\n#### Type: ${type}\n#### Message: ${message}\n#### Version: ${release}\n\n#### Platform:\n- System: ${platform.version}\n- Platform: ${platform.platform}\n- Release: ${platform.release}\n- Arch: ${platform.arch}\n\n#### Incident Stack Trace:\n\n<pre>${stack}</pre>\n\n\nIssue created with Klepper.IO`,
+            labels: ['bug']
+        });
+
+        await this.entityManager.getRepository(Incident).save({
+            ...incident,
+            githubIssueUrl: data.html_url
         });
     }
 }

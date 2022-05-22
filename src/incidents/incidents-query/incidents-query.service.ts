@@ -52,6 +52,6 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
     }
 
     public selectedColumns(): string[] {
-        return ['id', 'status', 'env', 'type', 'message', 'lastOccur', 'occuredCount', 'release', 'release', 'occurDates'];
+        return ['id', 'status', 'env', 'type', 'message', 'lastOccur', 'occuredCount', 'release', 'release', 'occurDates', 'githubIssueUrl'];
     }
 }

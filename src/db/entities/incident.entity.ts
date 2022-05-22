@@ -58,6 +58,12 @@ export class Incident extends GenericEntity {
     release: string;
 
     @Column({
+        type: 'varchar',
+        nullable: true
+    })
+    githubIssueUrl: string;
+
+    @Column({
         type: 'int',
         nullable: true,
         default: 0

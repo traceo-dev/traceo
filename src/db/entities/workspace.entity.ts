@@ -13,6 +13,7 @@ import { Release } from "./release.entity";
 import { GenericEntity } from "src/core/generic.entity";
 import { Github } from "./github.entity";
 import { Cluster } from "./cluster.entity";
+import { GithubRepository } from "../models/github";
 
 @Entity()
 export class Workspace extends GenericEntity {
@@ -47,11 +48,11 @@ export class Workspace extends GenericEntity {
   @Column({ nullable: false, default: 'dev' })
   defaultEnv?: Environment = "dev";
 
-  @ManyToOne(() => Github)
-  @JoinColumn({
-    name: 'githubId'
+  @Column({
+    type: 'json',
+    nullable: true
   })
-  github?: Github;
+  github?: GithubRepository;
 
   @OneToMany(
     () => AccountWorkspaceRelationship,
