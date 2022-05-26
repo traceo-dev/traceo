@@ -1,6 +1,7 @@
 import { GenericEntity } from "src/core/generic.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import { Deployment, Environment, Platform } from "../models/release";
+import { Incident } from "./incident.entity";
 import { Workspace } from "./workspace.entity";
 
 export enum RELEASE_STATUS {
@@ -17,7 +18,7 @@ export class Release extends GenericEntity {
         nullable: true
     })
     status: RELEASE_STATUS;
-    
+
     @Column({
         type: 'varchar'
     })
@@ -75,4 +76,13 @@ export class Release extends GenericEntity {
         name: "workspaceId"
     })
     workspace: Workspace;
+
+    @OneToMany(
+        () => Incident,
+        (incident) => incident.resolved,
+        {
+            cascade: true,
+        }
+    )
+    resolves?: Incident[];
 }

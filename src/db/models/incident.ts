@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsEnum, IsOptional, IsString } from "class-validator";
+import { IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
 import { BaseDtoQuery } from "src/core/generic.model";
 import { Environment, Platform } from "../models/release";
 
@@ -147,6 +147,13 @@ export class Assigned {
     readonly logo?: string;
 }
 
+export class Resolved {
+    @ApiPropertyOptional()
+    @IsString()
+    @IsOptional()
+    readonly id: string;
+}
+
 export class IncidentUpdateDto {
     @ApiPropertyOptional()
     @IsEnum(IncidentStatus)
@@ -161,7 +168,13 @@ export class IncidentUpdateDto {
     @ApiPropertyOptional()
     @IsString()
     @IsOptional()
-    readonly assigned: any;  
+    readonly assigned: any;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    @ValidateNested({ each: true })
+    @Type(() => Resolved)
+    readonly resolved: Resolved;
 }
 
 export class IncidentBatchUpdateDto extends IncidentUpdateDto {

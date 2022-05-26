@@ -4,6 +4,7 @@ import { OccurrDate, Trace } from "../models/incident";
 import { Environment, Platform } from "../models/release";
 import { Account } from "./account.entity";
 import { Comment } from "./comment.entity";
+import { Release } from "./release.entity";
 import { Workspace } from "./workspace.entity";
 
 export enum IncidentStatus {
@@ -103,4 +104,13 @@ export class Incident extends GenericEntity {
         type: 'json'
     })
     traces: Array<Trace>;
+
+    @ManyToOne(() => Release, {
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
+    })
+    @JoinColumn({
+        name: "resolved",
+    })
+    resolved?: Release;
 }
