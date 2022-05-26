@@ -1,6 +1,18 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsString, IsNotEmpty, IsOptional, IsEnum } from "class-validator";
-import { ReleaseStatus } from "src/db/entities/release.entity";
+import { RELEASE_STATUS } from "src/db/entities/release.entity";
+
+export class CreateReleaseModal {
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({ description: 'version' })
+    public version?: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({ description: 'workspaceId' })
+    public workspaceId?: string;
+}
 
 export class ReleaseModel {
     @IsString()
@@ -13,8 +25,8 @@ export class ReleaseModel {
     @ApiPropertyOptional({ description: 'changelog' })
     public changelog?: string;
 
-    @IsEnum(ReleaseStatus)
+    @IsEnum(RELEASE_STATUS)
     @IsOptional()
     @ApiPropertyOptional({ description: 'status' })
-    public status?: ReleaseStatus;
+    public status?: RELEASE_STATUS;
 }

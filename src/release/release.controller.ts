@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { BaseDtoQuery } from 'src/core/generic.model';
@@ -7,7 +7,7 @@ import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
 import { WorkspaceModel } from 'src/workspace/workspace.model';
 import { ReleaseQueryService } from './query/release-query.service';
-import { ReleaseModel } from './release.model';
+import { CreateReleaseModal, ReleaseModel } from './release.model';
 import { ReleaseService } from './release.service';
 
 @ApiTags('releases')
@@ -44,5 +44,13 @@ export class ReleaseController {
         @Body() update: ReleaseModel,
     ): Promise<void> {
         return await this.releaseService.updateRelease(update);
+    }
+
+    @Post()
+    @AuthRequired()
+    async createWorkspace(
+        @Body() body: CreateReleaseModal,
+    ): Promise<void> {
+        return await this.releaseService.createRelease(body)
     }
 }

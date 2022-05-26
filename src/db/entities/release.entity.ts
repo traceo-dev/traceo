@@ -3,8 +3,9 @@ import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { Deployment, Environment, Platform } from "../models/release";
 import { Workspace } from "./workspace.entity";
 
-export enum ReleaseStatus {
+export enum RELEASE_STATUS {
     ACTIVE = "active",
+    INACTIVE = "inactive",
     CLOSED = "closed"
 }
 
@@ -15,7 +16,7 @@ export class Release extends GenericEntity {
         type: 'varchar',
         nullable: true
     })
-    status: ReleaseStatus;
+    status: RELEASE_STATUS;
     
     @Column({
         type: 'varchar'
@@ -28,12 +29,8 @@ export class Release extends GenericEntity {
     version: string;
 
     @Column({
-        type: 'varchar'
-    })
-    versionSetter: string;
-
-    @Column({
-        type: 'bigint'
+        type: 'bigint',
+        nullable: true
     })
     lastDeploymentAt: number;
 
@@ -44,14 +41,18 @@ export class Release extends GenericEntity {
     os: Platform;
 
     @Column({
-        type: 'int'
+        type: 'int',
+        nullable: true,
+        default: 0
     })
-    incidentsOccurCount: number;
+    incidentsOccurCount: number = 0;
 
     @Column({
-        type: 'int'
+        type: 'int',
+        nullable: true,
+        default: 0
     })
-    incidentsCount: number;
+    incidentsCount: number = 0;
 
     @Column({
         type: 'json',

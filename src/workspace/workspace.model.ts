@@ -24,8 +24,8 @@ export class CreateWorkspaceModel {
     public technology: string;
 
     @IsString()
-    @IsNotEmpty()
-    @ApiProperty({ description: 'cluster' })
+    @IsOptional()
+    @ApiPropertyOptional({ description: 'cluster' })
     public clusterId: string;
 }
 
