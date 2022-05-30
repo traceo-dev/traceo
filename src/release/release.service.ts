@@ -32,4 +32,12 @@ export class ReleaseService {
             ...rest
         });
     }
+
+    async removeRelease(id: string, manager: EntityManager = this.entityManager): Promise<void> {
+        await manager.getRepository(Release)
+            .createQueryBuilder('release')
+            .where('release.id = :id', { id })
+            .delete()
+            .execute();
+    }
 }

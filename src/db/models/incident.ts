@@ -61,9 +61,7 @@ export interface StackFrame {
 
 export enum IncidentStatus {
     RESOLVED = "resolved",
-    UNRESOLVED = "unresolved",
-    ARCHIVED = "archived",
-    MUTED = "muted"
+    UNRESOLVED = "unresolved"
 }
 
 export interface Incident {

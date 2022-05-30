@@ -3,6 +3,7 @@ import { BaseDtoQuery } from "src/core/generic.model";
 import { GenericQueryService } from "src/core/generic-query.service";
 import { Release } from "src/db/entities/release.entity";
 import { EntityManager, SelectQueryBuilder } from "typeorm";
+import { Incident } from "src/db/entities/incident.entity";
 
 @Injectable()
 export class ReleaseQueryService extends GenericQueryService<Release, BaseDtoQuery> {
@@ -24,5 +25,16 @@ export class ReleaseQueryService extends GenericQueryService<Release, BaseDtoQue
 
     public selectedColumns(): string[] {
         return ['id', 'env', 'version', 'lastDeploymentAt', 'incidentsOccurCount', 'incidentsCount'];
+    }
+
+    public async getResolvedIncidentsInRelease(id: string): Promise<Incident[]> {
+        return await this.entityManager.getRepository(Incident).find({
+            where: {
+                resolved: {
+                    id
+                }
+            },
+            relations: ['assigned']
+        })
     }
 }

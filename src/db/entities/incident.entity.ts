@@ -9,9 +9,7 @@ import { Workspace } from "./workspace.entity";
 
 export enum IncidentStatus {
     RESOLVED = "resolved",
-    UNRESOLVED = "unresolved",
-    ARCHIVED = "archived",
-    MUTED = "muted"
+    UNRESOLVED = "unresolved"
 }
 
 @Entity()
@@ -107,7 +105,7 @@ export class Incident extends GenericEntity {
 
     @ManyToOne(() => Release, {
         onUpdate: "CASCADE",
-        onDelete: "CASCADE"
+        onDelete: "SET NULL"
     })
     @JoinColumn({
         name: "resolved",

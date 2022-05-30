@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Incident } from 'src/db/entities/incident.entity';
 import { IncidentBatchUpdateDto, IncidentQueryDto, IncidentUpdateDto } from 'src/db/models/incident';
@@ -46,5 +46,21 @@ export class IncidentsController {
         @Body() body: IncidentBatchUpdateDto
     ): Promise<void> {
         return await this.incidentsService.updateBatchIncidents(body);
+    }
+
+    @Delete('/:id')
+    @AuthRequired()
+    public async deleteIncident(
+        @Param("id") id: string
+    ): Promise<void> {
+        return await this.incidentsService.removeIncident(id);
+    }
+
+    @Post('/remove/batch')
+    @AuthRequired()
+    public async removeBatchIncidents(
+        @Body() body: IncidentBatchUpdateDto
+    ): Promise<void> {
+        return await this.incidentsService.removeBatchIncidents(body);
     }
 }

@@ -22,6 +22,11 @@ export class ReleaseModel {
 
     @IsString()
     @IsOptional()
+    @ApiPropertyOptional({ description: 'version' })
+    public version?: string;
+
+    @IsString()
+    @IsOptional()
     @ApiPropertyOptional({ description: 'changelog' })
     public changelog?: string;
 

@@ -14,6 +14,12 @@ export enum AccountRole {
   GUEST = "guest",
 }
 
+export enum AccountStatus {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+  SUSPENDED = "suspended"
+}
+
 @Entity()
 export class Account extends GenericEntity {
 
@@ -26,6 +32,9 @@ export class Account extends GenericEntity {
 
   @Column({ select: false, nullable: false })
   password: string;
+
+  @Column({ nullable: true }) //TODO: this should be not optional
+  status: AccountStatus;
 
   @Column({ nullable: false })
   @IsEnum(AccountRole)
@@ -42,9 +51,7 @@ export class Account extends GenericEntity {
   logo?: string;
 
   @OneToOne(() => Github, {
-    cascade: true,
-    // onDelete: "CASCADE",
-    // onUpdate: "CASCADE"
+    cascade: true
   })
   @JoinColumn()
   github: Github;
