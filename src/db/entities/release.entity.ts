@@ -57,14 +57,14 @@ export class Release extends GenericEntity {
 
     @Column({
         type: 'json',
-        nullable: true
+        nullable: false,
+        default: []
     })
     deployments: Array<Deployment>
 
     @Column({
         type: 'varchar',
-        nullable: true,
-        default: "Place for your changes"
+        nullable: true
     })
     changelog: string;
 

@@ -21,6 +21,7 @@ export class ReleaseService {
             workspace: {
                 id: workspaceId
             },
+            deployments: [],
             ...rest
         })
     }

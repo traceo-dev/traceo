@@ -45,6 +45,9 @@ export class Workspace extends GenericEntity {
   @Column({ nullable: true })
   lastIncidentAt?: number;
 
+  // @Column({ nullable: true })
+  // previousDayIncidentsCount?: number;
+
   @Column({ nullable: false, default: 'dev' })
   defaultEnv?: Environment = "dev";
 

@@ -9,3 +9,8 @@ export interface WorkspaceStatistics {
         incidentsOccurCount: number,
     }
 }
+
+export interface HourlyStatistic {
+    hour: string;
+    count: number;
+}
