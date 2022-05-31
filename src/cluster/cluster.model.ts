@@ -12,3 +12,15 @@ export class CreateClusterModel {
     @ApiPropertyOptional({ description: 'description' })
     public description: string;
 }
+
+export class WorkspaceToCluster {
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({ description: 'clusterId' })
+    public clusterId: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @ApiProperty({ description: 'clusterId' })
+    public workspaceId: string;
+}

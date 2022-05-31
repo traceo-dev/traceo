@@ -1,6 +1,8 @@
 import { Injectable } from "@nestjs/common";
+import { RequestUser } from "src/auth/auth.model";
 import { BaseDtoQuery } from "src/core/generic.model";
 import { AccountClusterRelationship } from "src/db/entities/account-cluster-relationship.entity";
+import { AccountWorkspaceRelationship } from "src/db/entities/account-workspace-relationship.entity";
 import { Workspace } from "src/db/entities/workspace.entity";
 import { EntityManager } from "typeorm";
 
@@ -22,6 +24,21 @@ export class ClusterQueryService {
         } catch (error) {
             throw error;
         }
+    }
+
+    public async getWorkspacesWithoutCluster(account: RequestUser): Promise<AccountWorkspaceRelationship[]> {
+        const { id } = account;
+
+        return await this.entityManager
+            .getRepository(AccountWorkspaceRelationship)
+            .createQueryBuilder("accountWorkspaceRelationship")
+            .innerJoin("accountWorkspaceRelationship.account", "account", "account.id = :id", {
+                id,
+            })
+            .leftJoinAndSelect("accountWorkspaceRelationship.workspace", "workspace")
+            .where("workspace.clusterId IS NULL")
+            .addSelect(['workspace.name', 'workspace.id'])
+            .getMany();
     }
 
     public async getClustersForAccount(accountId: string, pageOptionsDto: BaseDtoQuery): Promise<AccountClusterRelationship[]> {

@@ -7,6 +7,7 @@ import dateUtils from 'src/helpers/dateUtils';
 import { EntityManager } from 'typeorm';
 import { CreateClusterModel } from './cluster.model';
 import { AccountClusterRelationship } from 'src/db/entities/account-cluster-relationship.entity';
+import { Workspace } from 'src/db/entities/workspace.entity';
 
 @Injectable()
 export class ClusterService {
@@ -58,5 +59,35 @@ export class ClusterService {
             updatedAt: dateUtils.toUnix()
         }
         await manager.getRepository(AccountClusterRelationship).save(acr);
+    }
+
+    public async addWorkspaceToCluster(workspaceId: string, clusterId: string): Promise<void> {
+        await this.entityManager.transaction(async (manager) => {
+            await manager.getRepository(Workspace).update({ id: workspaceId}, {
+                cluster: {
+                    id: clusterId,
+                }
+            });
+
+            await manager.increment(Cluster, { id: clusterId }, "appsCount", 1);
+        })
+        await this.entityManager.getRepository(Workspace).update({ id: workspaceId}, {
+            cluster: {
+                id: clusterId,
+                appsCount: () => "appsCount + 1"
+            }
+        });
+    }
+
+    public async removeWorkspaceFromCluster(workspaceId: string, clusterId: string): Promise<void> {
+        await this.entityManager.transaction(async (manager) => {
+            await manager.getRepository(Workspace).update({ id: workspaceId}, {
+                cluster: {
+                    id: null
+                }
+            });
+
+            await manager.decrement(Cluster, { id: clusterId }, "appsCount", 1);
+        })
     }
 }

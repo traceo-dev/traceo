@@ -92,7 +92,7 @@ export class Workspace extends GenericEntity {
     onDelete: "CASCADE"
   })
   @JoinColumn({
-    name: "cluster",
+    name: "clusterId",
   })
   cluster?: Cluster;
 }
