@@ -11,12 +11,12 @@ import { KlepperInterceptor } from './libs/klepper.interceptor';
 var cors = require('cors');
 
 async function bootstrap() {
-  Klepper.init({
-    appId: process.env.KLEPPER_APP_ID,
-    privateKey: process.env.KLEPPER_PRIVATE_KEY,
-    environment: "dev",
-    version: "0.0.2c"
-  });
+  // Klepper.init({
+  //   appId: process.env.KLEPPER_APP_ID,
+  //   privateKey: process.env.KLEPPER_PRIVATE_KEY,
+  //   environment: "dev",
+  //   version: "0.0.2c"
+  // });
   
   const app = await NestFactory.create(AppModule);
 

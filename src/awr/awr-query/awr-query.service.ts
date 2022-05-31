@@ -90,7 +90,7 @@ export class AwrQueryService {
         }
 
         queryBuilder
-            .addSelect(["account.n", "account.email", "account.id", "account.logo"])
+            .addSelect(["account.name", "account.email", "account.id", "account.logo"])
             .orderBy("accountWorkspaceRelationship.createdAt", order)
             .skip((page - 1) * take)
             .take(take);

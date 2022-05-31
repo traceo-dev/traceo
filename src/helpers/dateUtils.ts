@@ -1,4 +1,7 @@
 import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+
+dayjs.extend(isBetween);
 
 const toUnix = (date: string | Date = new Date()) => dayjs(date).unix();
 const formatDate = (date: number, format = "DD-MM-YYYY") =>
