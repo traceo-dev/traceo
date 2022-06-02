@@ -18,7 +18,7 @@ import { GithubRepository } from "../models/github";
 @Entity()
 export class Workspace extends GenericEntity {
 
-  @Column({ type: 'varchar', unique: true })
+  @Column({ type: 'varchar', unique: true, length: 24 })
   name: string;
 
   @Column({ type: 'varchar' })
