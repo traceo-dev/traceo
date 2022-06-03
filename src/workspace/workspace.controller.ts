@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { Workspace } from 'src/db/entities/workspace.entity';
@@ -40,5 +40,14 @@ export class WorkspaceController {
         @AuthAccount() account: RequestUser
     ): Promise<void> {
         return await this.workspaceService.updateWorkspace(workspace, account);
+    }
+
+    @Delete('/:id')
+    @AuthRequired()
+    public async deleteWorkspace(
+        @Param("id") id: string,
+        @AuthAccount() account: RequestUser
+    ): Promise<void> {
+        return await this.workspaceService.deleteWorkspace(id, account);
     }
 }

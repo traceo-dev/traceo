@@ -22,7 +22,7 @@ export class AuthService {
     ): Promise<{ accessToken: string }> {
         return await this.entityManager.transaction(async (manager) => {
 
-            const { isCorrect, account } = await this.checkUserPassword(accountCredentials, manager);
+            const { isCorrect, account } = await this.checkCredentials(accountCredentials, manager);
             if (!isCorrect) {
                 throw new BadPasswordOrNotExists();
             }
@@ -46,7 +46,7 @@ export class AuthService {
         return this.accountService.createAccount(accountDto);
     }
 
-    async checkUserPassword(credentials: AccountCredentialsDto, manager: EntityManager = this.entityManager): Promise<{ isCorrect: boolean, account?: Account }> {
+    public async checkCredentials(credentials: AccountCredentialsDto, manager: EntityManager = this.entityManager): Promise<{ isCorrect: boolean, account?: Account }> {
         const { email, password } = credentials;
         const account = await manager.getRepository(Account).findOne({
             where: {
@@ -86,7 +86,7 @@ export class AuthService {
                 password,
             );
 
-            const correctPassword = await this.checkUserPassword(credentials, manager);
+            const correctPassword = await this.checkCredentials(credentials, manager);
             if (!correctPassword) {
                 throw new BadPasswordOrNotExists();
             }

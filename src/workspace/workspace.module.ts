@@ -9,7 +9,6 @@ import { AccountQueryService } from 'src/account/account-query/account-query.ser
 import { MailingService } from 'src/mailing/mailing.service';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { ReleaseQueryService } from 'src/release/query/release-query.service';
-import { ClusterService } from 'src/cluster/cluster.service';
 
 @Module({
   imports: [
@@ -24,7 +23,6 @@ import { ClusterService } from 'src/cluster/cluster.service';
     WorkspaceQueryService,
     AWSBucketService,
     ReleaseQueryService,
-    ClusterService
   ],
   controllers: [WorkspaceController]
 })

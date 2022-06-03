@@ -103,4 +103,21 @@ export class AwrService {
             manager.getRepository(AccountWorkspaceRelationship).delete({ id: awrId });
         });
     }
+
+    public async leaveWorkspace(aid: string, wid: string): Promise<void> {
+        const awr = await this.entityManager.getRepository(AccountWorkspaceRelationship).findOneBy({
+            account: {
+                id: aid
+            },
+            workspace: {
+                id: wid
+            }
+        });
+
+        if (!awr) {
+            throw new Error("Relationship does not exists!");
+        }
+
+        await this.removeAccountFromWorkspace(awr.id);
+    }
 }

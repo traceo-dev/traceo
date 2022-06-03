@@ -23,8 +23,15 @@ export class AuthController {
   @Post('login')
   async login(
     @Body() user: AccountCredentialsDto,
-  ): Promise<any> {
+  ): Promise<{ accessToken: string }> {
     return this.authService.login(user);
+  }
+
+  @Post('check')
+  async check(
+    @Body() user: AccountCredentialsDto,
+  ): Promise<{ isCorrect: boolean, account?: Account }> {
+    return this.authService.checkCredentials(user);
   }
 
   @Post('register')

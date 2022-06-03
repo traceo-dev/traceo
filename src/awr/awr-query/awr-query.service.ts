@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { BaseDtoQuery } from 'src/core/generic.model';
 import { AccountWorkspaceRelationship } from 'src/db/entities/account-workspace-relationship.entity';
 import { Account } from 'src/db/entities/account.entity';
+import { Incident } from 'src/db/entities/incident.entity';
 import { EntityManager } from 'typeorm';
 
 @Injectable()
@@ -116,30 +117,29 @@ export class AwrQueryService {
                     accountId,
                 })
                 .leftJoinAndSelect("accountWorkspaceRelationship.workspace", "workspace")
+                .loadRelationCountAndMap("workspace.incidentsCount", "workspace.incidents")
                 .leftJoin("workspace.owner", "owner")
-                .leftJoin("workspace.cluster", "cluster")
                 .orderBy("accountWorkspaceRelationship.favorite", "DESC")
 
             if (search) {
                 queryBuilder.where("LOWER(workspace.name) LIKE LOWER(:name)", { name: `%${search}%` })
-                queryBuilder.orWhere("LOWER(workspace.technology) LIKE LOWER(:name)", { name: `%${search}%` })
-                queryBuilder.orWhere("LOWER(workspace.framework) LIKE LOWER(:name)", { name: `%${search}%` })
-                queryBuilder.orWhere("LOWER(cluster.name) LIKE LOWER(:name)", { name: `%${search}%` })
-                queryBuilder.orWhere("LOWER(owner.name) LIKE LOWER(:name)", { name: `%${search}%` })
+                            .orWhere("LOWER(workspace.technology) LIKE LOWER(:name)", { name: `%${search}%` })
+                            .orWhere("LOWER(workspace.framework) LIKE LOWER(:name)", { name: `%${search}%` })
+                            .orWhere("LOWER(owner.name) LIKE LOWER(:name)", { name: `%${search}%` })
             }
 
             if (sortBy){
                 queryBuilder.addOrderBy(sortBy, order)
             }
 
-            return queryBuilder
+            return await queryBuilder
                 .addSelect(["owner.name", "owner.email", "owner.id"])
-                .addSelect(["cluster.name", "cluster.id"])
                 .skip((page - 1) * take)
                 .take(take)
                 .getMany();
 
         } catch (error) {
+            console.log("ER: ", error)
             throw error;
         }
     }

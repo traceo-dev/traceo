@@ -5,9 +5,6 @@ import dateUtils from 'src/helpers/dateUtils';
 import { CommentsGateway } from 'src/websockets/comments.gateway';
 import { EntityManager } from 'typeorm';
 import { Comment } from 'src/db/entities/comment.entity';
-import { Account } from 'src/db/entities/account.entity';
-import { Incident } from 'src/db/entities/incident.entity';
-import { Workspace } from 'src/db/entities/workspace.entity';
 
 @Injectable()
 export class CommentsService {
@@ -33,18 +30,17 @@ export class CommentsService {
 
         try {
             await this.entityManager.transaction(async (manager) => {
-                const sender = await manager.getRepository(Account).findOneByOrFail({ id });
-                const incident = await manager.getRepository(Incident).findOneByOrFail({ id: incidentId })
-
-                const comment: Comment = {
+                await manager.getRepository(Comment).save({
                     message: message,
-                    sender,
+                    sender: {
+                        id
+                    },
                     removed: false,
                     createdAt: dateUtils.toUnix(),
-                    incident
-                }
-                await manager.getRepository(Comment).save(comment);
-                await manager.increment(Incident, { id: incidentId }, "commentsCount", 1);
+                    incident: {
+                        id: incidentId
+                    }
+                });
             });
 
             this.commentsGateway.onNewComment(incidentId, comment);

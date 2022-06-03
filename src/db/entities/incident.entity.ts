@@ -62,12 +62,12 @@ export class Incident extends GenericEntity {
     })
     githubIssueUrl: string;
 
-    @Column({
-        type: 'int',
-        nullable: true,
-        default: 0
-    })
-    commentsCount: number;
+    // @Column({
+    //     type: 'int',
+    //     nullable: true,
+    //     default: 0
+    // })
+    // commentsCount: number;
 
     @ManyToOne(() => Workspace, {
         onUpdate: "CASCADE",
@@ -86,6 +86,7 @@ export class Incident extends GenericEntity {
 
     @OneToMany(() => Comment, comment => comment.incident, { nullable: true })
     comments: Comment[];
+    commentsCount: number;
 
     @Column({
         type: 'json',

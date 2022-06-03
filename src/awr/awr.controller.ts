@@ -86,4 +86,13 @@ export class AwrController {
     ): Promise<void> {
         return await this.awrService.removeAccountFromWorkspace(id);
     }
+
+    @Delete('/workspace/leave')
+    @AuthRequired()
+    public async leaveWorkspace(
+        @Query("aid", new ParseUUIDPipe()) aid: string,
+        @Query("wid", new ParseUUIDPipe()) wid: string,
+    ): Promise<void> {
+        return await this.awrService.leaveWorkspace(aid, wid);
+    }
 }

@@ -15,7 +15,7 @@ async function bootstrap() {
   //   appId: process.env.KLEPPER_APP_ID,
   //   privateKey: process.env.KLEPPER_PRIVATE_KEY,
   //   environment: "dev",
-  //   version: "0.0.2c"
+  //   version: "0.0.3"
   // });
   
   const app = await NestFactory.create(AppModule);

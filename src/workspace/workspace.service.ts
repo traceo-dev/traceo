@@ -13,7 +13,6 @@ import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { WorkspaceQueryService } from './workspace-query/workspace-query.service';
 import { getKeyFromBucketUrl } from 'src/helpers/base';
 import { AttachmentType } from 'src/db/entities/attachment.entity';
-import { ClusterService } from 'src/cluster/cluster.service';
 
 @Injectable()
 export class WorkspaceService {
@@ -21,13 +20,11 @@ export class WorkspaceService {
         private readonly entityManager: EntityManager,
         private readonly awrService: AwrService,
         private readonly awsBucketService: AWSBucketService,
-        private readonly workspaceQueryService: WorkspaceQueryService,
-        private readonly clusterService: ClusterService
+        private readonly workspaceQueryService: WorkspaceQueryService
     ) { }
 
     public async createWorkspace(data: CreateWorkspaceModel, account: RequestUser): Promise<Workspace> {
         const { id } = account;
-        const { clusterId, ...rest } = data;
 
         const privateKey = crypto.randomUUID();
         try {
@@ -41,16 +38,11 @@ export class WorkspaceService {
                 }
 
                 const workspacePayload: Workspace = {
-                    ...rest,
+                    ...data,
                     privateKey,
                     owner: account,
                     createdAt: dateUtils.toUnix(),
                     updatedAt: dateUtils.toUnix()
-                }
-
-                if (data?.clusterId) {
-                    const cluster = await this.clusterService.handleClusterOnCreateWithWorkspace(data?.clusterId, manager)
-                    workspacePayload.cluster = cluster;
                 }
 
                 const workspace = await manager.getRepository(Workspace).save(workspacePayload);
@@ -61,8 +53,6 @@ export class WorkspaceService {
                     MEMBER_STATUS.OWNER,
                     manager
                 );
-
-                //create statistics
 
                 return workspace;
             })
@@ -99,5 +89,16 @@ export class WorkspaceService {
         if (workspace) {
             throw new WorkspaceWithNameAlreadyExistsError();
         }
+    }
+
+    public async deleteWorkspace(workspaceId: string, user: RequestUser): Promise<void> {
+        
+        //check here permission, create util for this
+        
+        await this.entityManager.getRepository(Workspace)
+            .createQueryBuilder('workspace')
+            .where('workspace.id = :workspaceId', { workspaceId })
+            .delete()
+            .execute();
     }
 }
