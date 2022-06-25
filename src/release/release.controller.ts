@@ -22,7 +22,6 @@ export class ReleaseController {
         @Query('id') id: string,
         @Query() query: BaseDtoQuery
     ): Promise<Release[]> {
-
         return await this.releaseQueryService.listDto({
             workspaceId: id, ...query
         });

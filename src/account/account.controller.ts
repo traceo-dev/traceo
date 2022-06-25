@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Patch, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
@@ -30,5 +30,13 @@ export class AccountController {
         @Query('workspaceId') workspaceId: string,
     ): Promise<void> {
         return await this.accountService.confirmAccount(hash, workspaceId);
+    }
+
+    @Delete()
+    @AuthRequired()
+    public async deleteWorkspace(
+        @AuthAccount() account: RequestUser
+    ): Promise<void> {
+        return await this.accountService.deleteAccount(account);
     }
 }

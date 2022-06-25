@@ -88,7 +88,7 @@ export class StatisticsQueryService {
             const count = cachedDates.filter((o) => ((dayjs.unix(o.date).get('hour') === i) && (dayjs.unix(o.date).isAfter(today))))?.length;
             totalCount += count;
             response.push({
-                hour: `${i}:00`,
+                date: dayjs().hour(i).startOf('h').unix(),
                 count: count || 0
             })
         }
@@ -120,7 +120,7 @@ export class StatisticsQueryService {
             for (let i=0; i < 7; i++) {
                 const mockedDate = dayjs().subtract(7, 'day').unix();
                 mock.push({
-                    date: dayjs.unix(mockedDate).add(i, 'day').format("DD-MM"),
+                    date: mockedDate,
                     count: 0
                 });
             }
@@ -166,7 +166,7 @@ export class StatisticsQueryService {
                 (a) => dayjs.unix(a?.date).endOf("day").unix() === formatted
             ).length;
             response.push({
-                date: dateUtils.formatDate(formatted, "DD-MM"),
+                date: currentDate,
                 count: count || 0
             });
             currentDate = dayjs.unix(currentDate).add(1, "day").endOf("day").unix();

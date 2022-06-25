@@ -14,11 +14,11 @@ export interface WorkspaceStatistics {
 }
 
 export interface HourlyStatistic {
-    hour: string;
+    date: number;
     count: number;
 }
 
 export interface PlotData {
-    date: string;
+    date: number;
     count: number;
 }

@@ -87,7 +87,7 @@ export class AuthService {
             );
 
             const correctPassword = await this.checkCredentials(credentials, manager);
-            if (!correctPassword) {
+            if (!correctPassword.isCorrect) {
                 throw new BadPasswordOrNotExists();
             }
 

@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { BaseDtoQuery } from "src/core/generic.model";
 import { GenericQueryService } from "src/core/generic-query.service";
 import { Release } from "src/db/entities/release.entity";
-import { EntityManager, SelectQueryBuilder } from "typeorm";
+import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 import { Incident } from "src/db/entities/incident.entity";
 
 @Injectable()
@@ -14,9 +14,18 @@ export class ReleaseQueryService extends GenericQueryService<Release, BaseDtoQue
     }
 
     public extendQueryBuilder(builder: SelectQueryBuilder<Release>, query: BaseDtoQuery): SelectQueryBuilder<Release> {
-        const { workspaceId } = query;
+        const { workspaceId, search } = query;
 
-        return builder.where('release.workspaceId = :workspaceId', { workspaceId });
+        builder.where('release.workspaceId = :workspaceId', { workspaceId })
+
+        if (search) {
+            builder
+                .andWhere(new Brackets(qb => {
+                    qb.where('LOWER(release.version) LIKE LOWER(:search)', { search: `%${search}%` })
+                }));
+        }
+
+        return builder;
     }
 
     public getBuilderAlias(): string {

@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Response } from 'express';
 import { CreateAccountDto } from 'src/account/account.model';
 import { Account } from 'src/db/entities/account.entity';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
@@ -23,8 +24,8 @@ export class AuthController {
   @Post('login')
   async login(
     @Body() user: AccountCredentialsDto,
-  ): Promise<{ accessToken: string }> {
-    return this.authService.login(user);
+  ): Promise<any> {
+    return await this.authService.login(user);
   }
 
   @Post('check')
