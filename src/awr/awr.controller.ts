@@ -7,7 +7,7 @@ import { Account } from 'src/db/entities/account.entity';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
 import { AwrQueryService } from './awr-query/awr-query.service';
-import { AddAccountToWorkspaceModel, AwrModel } from './awr.model';
+import { AddAccountToWorkspaceModel, AwrModel, WorkspaceDtoQuery } from './awr.model';
 import { AwrService } from './awr.service';
 
 @ApiTags('account-workspace-relationship')
@@ -47,7 +47,7 @@ export class AwrController {
     @Get('/workspaces')
     @AuthRequired()
     public async getAccountWorkspaces(
-        @Query() pageOptionsDto: BaseDtoQuery,
+        @Query() pageOptionsDto: WorkspaceDtoQuery,
         @AuthAccount() account: RequestUser
     ): Promise<AccountWorkspaceRelationship[]> {
         return await this.awrQueryService.getWorkspacesForAccount(account?.id, pageOptionsDto);

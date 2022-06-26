@@ -118,7 +118,7 @@ export class StatisticsQueryService {
         if (occurDates?.length === 0) {
             const mock: PlotData[] = [];
             for (let i=0; i < 7; i++) {
-                const mockedDate = dayjs().subtract(7, 'day').unix();
+                const mockedDate = dayjs().subtract(i, 'day').unix();
                 mock.push({
                     date: mockedDate,
                     count: 0

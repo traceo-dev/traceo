@@ -1,8 +1,10 @@
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { RequestUser } from 'src/auth/auth.model';
 import { Incident } from 'src/db/entities/incident.entity';
 import { IncidentBatchUpdateDto, IncidentQueryDto, IncidentUpdateDto } from 'src/db/models/incident';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
+import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsService } from './incidents.service';
 
@@ -12,7 +14,7 @@ export class IncidentsController {
     constructor(
         private readonly incidentsQueryService: IncidentsQueryService,
         private readonly incidentsService: IncidentsService
-    ) {}
+    ) { }
 
     @Get('/:id')
     @AuthRequired()
@@ -29,6 +31,15 @@ export class IncidentsController {
         @Query() query: IncidentQueryDto
     ): Promise<Incident[]> {
         return await this.incidentsQueryService.listDto({ workspaceId: id, ...query });
+    }
+
+    @Get('/assigned/account')
+    @AuthRequired()
+    public async getAssignedIncidents(
+        @Query() query: IncidentQueryDto,
+        @AuthAccount() account: RequestUser
+    ): Promise<Incident[]> {
+        return await this.incidentsQueryService.getAssignedIncidents(query, account);
     }
 
     @Patch('/:id')

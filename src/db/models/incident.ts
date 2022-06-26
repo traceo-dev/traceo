@@ -120,6 +120,11 @@ export class IncidentQueryDto extends BaseDtoQuery {
     @Type(() => String)
     @IsOptional()
     readonly status?: IncidentStatusSearch;
+
+    @ApiPropertyOptional()
+    @Type(() => Number)
+    @IsOptional()
+    readonly size?: number;
 }
 
 export enum IncidentStatusSearch {

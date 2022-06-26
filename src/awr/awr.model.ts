@@ -1,7 +1,13 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUUID } from "class-validator";
+import { BaseDtoQuery } from "src/core/generic.model";
 import { MEMBER_STATUS } from "src/db/entities/account-workspace-relationship.entity";
 
+export class WorkspaceDtoQuery extends BaseDtoQuery {
+    @IsOptional()
+    @ApiPropertyOptional()
+    favorite?: boolean;
+}
 export class AddAccountToWorkspaceModel {
     @IsEmail()
     @IsNotEmpty()

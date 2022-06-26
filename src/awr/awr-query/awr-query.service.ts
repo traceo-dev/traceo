@@ -4,6 +4,7 @@ import { AccountWorkspaceRelationship } from 'src/db/entities/account-workspace-
 import { Account } from 'src/db/entities/account.entity';
 import { Incident } from 'src/db/entities/incident.entity';
 import { EntityManager } from 'typeorm';
+import { WorkspaceDtoQuery } from '../awr.model';
 
 @Injectable()
 export class AwrQueryService {
@@ -107,8 +108,8 @@ export class AwrQueryService {
      * @returns 
      */
 
-    public async getWorkspacesForAccount(accountId: string, pageOptionsDto: BaseDtoQuery): Promise<AccountWorkspaceRelationship[]> {
-        const { page, take, order, search, sortBy } = pageOptionsDto;
+    public async getWorkspacesForAccount(accountId: string, pageOptionsDto: WorkspaceDtoQuery): Promise<AccountWorkspaceRelationship[]> {
+        const { page, take, order, search, sortBy, favorite } = pageOptionsDto;
         try {
             const queryBuilder = await this.entityManager
                 .getRepository(AccountWorkspaceRelationship)
@@ -123,13 +124,17 @@ export class AwrQueryService {
 
             if (search) {
                 queryBuilder.where("LOWER(workspace.name) LIKE LOWER(:name)", { name: `%${search}%` })
-                            .orWhere("LOWER(workspace.technology) LIKE LOWER(:name)", { name: `%${search}%` })
-                            .orWhere("LOWER(workspace.framework) LIKE LOWER(:name)", { name: `%${search}%` })
-                            .orWhere("LOWER(owner.name) LIKE LOWER(:name)", { name: `%${search}%` })
+                    .orWhere("LOWER(workspace.technology) LIKE LOWER(:name)", { name: `%${search}%` })
+                    .orWhere("LOWER(workspace.framework) LIKE LOWER(:name)", { name: `%${search}%` })
+                    .orWhere("LOWER(owner.name) LIKE LOWER(:name)", { name: `%${search}%` })
             }
 
-            if (sortBy){
+            if (sortBy) {
                 queryBuilder.addOrderBy(sortBy, order)
+            }
+
+            if (favorite) {
+                queryBuilder.andWhere("accountWorkspaceRelationship.favorite = :favorite", { favorite })
             }
 
             return await queryBuilder
