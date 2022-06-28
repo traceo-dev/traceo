@@ -1,8 +1,10 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { RequestUser } from 'src/auth/auth.model';
 import { OccurrDate } from 'src/db/models/incident';
 import { HourlyStatistic, PlotData, WorkspaceStatistics } from 'src/db/models/statistics';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
+import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
 import { StatisticsQueryService } from './query/statistics-query.service';
 
 @ApiTags('statistics')
@@ -41,8 +43,15 @@ export class StatisticsController {
     @AuthRequired()
     async getTotalOverview(
         @Query('id') id: string,
-        @Query('range') range: number,
     ): Promise<PlotData[]> {
-        return await this.statisticsQueryService.getTotalOverview(id, range);
+        return await this.statisticsQueryService.getTotalOverview(id);
+    }
+
+    @Get('/dashboard')
+    @AuthRequired()
+    async getDashboardOverviewStatistics(
+        @AuthAccount() account: RequestUser
+    ): Promise<any> {
+        return await this.statisticsQueryService.getDashboardOverviewStatistics(account);
     }
 }

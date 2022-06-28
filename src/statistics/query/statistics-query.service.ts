@@ -1,12 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { Environment } from "src/db/models/release";
 import { Release } from "src/db/entities/release.entity";
-import { HourlyStatistic, PlotData, WorkspaceStatistics } from "src/db/models/statistics";
-import { EntityManager } from "typeorm";
+import { DashboardStatistics, HourlyStatistic, PlotData, WorkspaceStatistics } from "src/db/models/statistics";
+import { EntityManager, MoreThan } from "typeorm";
 import dayjs from "dayjs";
 import { Incident } from "src/db/entities/incident.entity";
 import { OccurrDate } from "src/db/models/incident";
 import dateUtils from "src/helpers/dateUtils";
+import { RequestUser } from "src/auth/auth.model";
+import { Workspace } from "src/db/entities/workspace.entity";
+import { AccountWorkspaceRelationship } from "src/db/entities/account-workspace-relationship.entity";
 
 @Injectable()
 export class StatisticsQueryService {
@@ -99,7 +102,7 @@ export class StatisticsQueryService {
         };
     }
 
-    public async getTotalOverview(workspaceId: string, range: number = 2): Promise<PlotData[]> {
+    public async getTotalOverview(workspaceId: string): Promise<PlotData[]> {
         const occurDates: OccurrDate[] = [];
 
         await this.entityManger.getRepository(Incident)
@@ -117,7 +120,7 @@ export class StatisticsQueryService {
         //because plot need some data to properly rendering
         if (occurDates?.length === 0) {
             const mock: PlotData[] = [];
-            for (let i=0; i < 7; i++) {
+            for (let i = 0; i < 7; i++) {
                 const mockedDate = dayjs().subtract(i, 'day').unix();
                 mock.push({
                     date: mockedDate,
@@ -128,7 +131,7 @@ export class StatisticsQueryService {
             return mock;
         }
 
-        return this.parseOccurDatesToPlotData(occurDates, range);
+        return this.parseOccurDatesToPlotData(occurDates);
     }
 
     public async getTotalOverviewForIncident(incidentId: string, range: number = 2): Promise<PlotData[]> {
@@ -140,10 +143,10 @@ export class StatisticsQueryService {
 
         const occurDates = incident?.occurDates;
 
-        return this.parseOccurDatesToPlotData(occurDates, range);
+        return this.parseOccurDatesToPlotData(occurDates);
     }
 
-    protected parseOccurDatesToPlotData(occurDates: OccurrDate[], range: number): PlotData[] {
+    protected parseOccurDatesToPlotData(occurDates: OccurrDate[]): PlotData[] {
         const sortedDates = occurDates?.sort((a, b) => a.date - b.date);
         const beginDate = occurDates[0];
 
@@ -151,7 +154,7 @@ export class StatisticsQueryService {
 
         let currentDate = dayjs
             .unix(beginDate?.date)
-            .subtract(range + 1, "day")
+            .subtract(3, "day")
             .endOf("day")
             .unix();
         const endDate = dayjs().endOf("day").unix();
@@ -173,6 +176,7 @@ export class StatisticsQueryService {
         }
 
         return response;
+
     }
 
     protected calculatePercentageDiff(one: number, two: number): { percentage: string, isMore: boolean } {
@@ -187,5 +191,47 @@ export class StatisticsQueryService {
                 isMore: res > 0 ? true : false
             }
         }
+    }
+
+    public async getDashboardOverviewStatistics(account: RequestUser): Promise<DashboardStatistics> {
+        const { id } = account;
+
+        return this.entityManger.transaction(async (manager) => {
+            const ownerAppsCount = await manager.getRepository(Workspace).count({
+                where: {
+                    owner: {
+                        id
+                    }
+                }
+            });
+
+            const memberCount = await manager.getRepository(AccountWorkspaceRelationship).count({
+                where: {
+                    account: {
+                        id
+                    }
+                }
+            });
+
+            const monthStart = dayjs().subtract(1, 'month').startOf('day').unix();
+            const incidents = await manager.getRepository(Incident).count({
+                where: {
+                    workspace: {
+                        owner: {
+                            id
+                        }
+                    },
+                    createdAt: MoreThan(monthStart)
+                }
+            });
+
+            return {
+                incidents,
+                apps: {
+                    all: memberCount,
+                    owner: ownerAppsCount
+                }
+            }
+        })
     }
 }

@@ -22,3 +22,11 @@ export interface PlotData {
     date: number;
     count: number;
 }
+
+export interface DashboardStatistics {
+    apps: {
+        owner: number;
+        all: number;
+    },
+    incidents: number;
+}
