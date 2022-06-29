@@ -49,7 +49,7 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
     }
 
     public async getAssignedIncidents(query: IncidentQueryDto, user: RequestUser): Promise<Incident[]> {
-        const { take, sortBy, order, page } = query;
+        const { take, sortBy, order, page, size } = query;
         const queryBuilder = await this.entityManager.getRepository(Incident)
             .createQueryBuilder('incident')
             .where('incident.assignedId = :id', { id: user.id })
@@ -60,7 +60,7 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
 
         queryBuilder
             .orderBy(`incident.${sortBy}`, order)
-            .limit(take)
+            .limit(size)
             .skip(page > 0 ? (page - 1) * take : 0);
 
         return queryBuilder.getMany();
