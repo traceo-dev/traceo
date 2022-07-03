@@ -1,27 +1,25 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import * as bodyParser from 'body-parser';
 import { AppModule } from './app.module';
 import morgan from "morgan";
 import { AllExceptionsFilter } from './all-exception.filter';
-import { Klepper } from "klepper";
-import { KlepperInterceptor } from './libs/klepper.interceptor';
+import { Traceo } from "traceo";
+import { TraceoInterceptor } from './libs/traceo.interceptor';
 
 var cors = require('cors');
 
 async function bootstrap() {
-  // Klepper.init({
-  //   appId: process.env.KLEPPER_APP_ID,
-  //   privateKey: process.env.KLEPPER_PRIVATE_KEY,
-  //   environment: "dev",
-  //   version: "0.0.3"
+  // Traceo.init({
+  //   dsn: "https://a42292b3-d07c-45fe-8c86-b10894db93ae:127.0.0.1:3005/1",
+  //   environment: "dev"
   // });
   
   const app = await NestFactory.create(AppModule);
 
   const options = new DocumentBuilder()
-    .setTitle('Klepper REST API')
+    .setTitle('Traceo REST API')
     .setVersion('0.0.1')
     .addServer('/api', 'Main server - current/local')
     .addBearerAuth()
@@ -38,12 +36,12 @@ async function bootstrap() {
   app.use(morgan("[:date[iso]] :method :url :status :response-time ms"));
   
   app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
-  app.useGlobalInterceptors(new KlepperInterceptor());
+  app.useGlobalInterceptors(new TraceoInterceptor());
 
   const PORT = process.env.PORT || 3000;
   await app.listen(PORT, () => {
-    console.log(`Application started on PORT: ${PORT}.`);
-    console.log(`Application started in ${process.env.NODE_ENV} mode.`);
+    Logger.log(`Application started on PORT: ${PORT}.`);
+    Logger.log(`Application started in ${process.env.NODE_ENV} mode.`);
   });
 }
 bootstrap();

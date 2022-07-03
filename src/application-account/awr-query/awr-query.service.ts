@@ -68,7 +68,7 @@ export class AwrQueryService {
             .innerJoin("accountApplicationRelationship.application", "app", "app.id = :appId", {
                 appId
             })
-            .leftJoin("accountApplicationRelationship.account", "account");
+            .leftJoin("accountApplicationRelatio.account", "account");
 
         if (search) {
             queryBuilder.where("LOWER(account.name) LIKE LOWER(:name)", { name: `%${search}%` })

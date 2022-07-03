@@ -6,10 +6,10 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { catchException } from "klepper";
+import { catchException } from "traceo";
 
 @Injectable()
-export class KlepperInterceptor implements NestInterceptor {
+export class TraceoInterceptor implements NestInterceptor {
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         return next

@@ -26,7 +26,8 @@ export class Incident extends GenericEntity {
     status: IncidentStatus;
 
     @Column({
-        type: 'varchar'
+        type: 'varchar',
+        nullable: true
     })
     env: Environment;
 

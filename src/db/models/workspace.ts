@@ -1,6 +1,6 @@
 import { Account } from "../entities/account.entity";
 
-export interface WorkspaceResponse {
+export interface ApplicationResponse {
     _id: string;
     name: string;
     privateKey: string;
