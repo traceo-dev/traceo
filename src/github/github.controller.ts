@@ -43,7 +43,7 @@ export class GithubController {
     @Post("/connect")
     @AuthRequired()
     async connectGithubRepository(
-        @Body() body: { name: string, id: string },
+        @Body() body: { name: string, id: number },
         @AuthAccount() account: RequestUser
     ): Promise<any> {
         return await this.githubService.connectGithubRepository(body, account);
@@ -52,7 +52,7 @@ export class GithubController {
     @Delete("/disconnect")
     @AuthRequired()
     async disconnectGithubRepository(
-        @Query('id') id: string,
+        @Query('id') id: number,
     ): Promise<any> {
         return await this.githubService.disconnectGithubRepository(id);
     }

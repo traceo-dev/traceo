@@ -1,11 +1,12 @@
-import { GenericEntity } from "src/core/generic.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
-import { OccurrDate, Trace } from "../models/incident";
-import { Environment, Platform } from "../models/release";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Account } from "./account.entity";
 import { Comment } from "./comment.entity";
 import { Release } from "./release.entity";
-import { Workspace } from "./workspace.entity";
+import { Application } from "./application.entity";
+import { Trace } from "aws-sdk/clients/xray";
+import { GenericEntity } from "src/core/generic.entity";
+import { OccurrDate } from "../models/incident";
+import { Environment, Platform } from "../models/release";
 
 export enum IncidentStatus {
     RESOLVED = "resolved",
@@ -14,6 +15,9 @@ export enum IncidentStatus {
 
 @Entity()
 export class Incident extends GenericEntity {
+
+    @PrimaryGeneratedColumn('uuid')
+    id?: string;
 
     @Column({
         type: 'varchar',
@@ -69,14 +73,14 @@ export class Incident extends GenericEntity {
     // })
     // commentsCount: number;
 
-    @ManyToOne(() => Workspace, {
+    @ManyToOne(() => Application, {
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
     })
     @JoinColumn({
-        name: "workspaceId"
+        name: "applicationId"
     })
-    workspace: Workspace;
+    application: Application;
 
     @ManyToOne(() => Account, account => account.incidents)
     @JoinColumn({

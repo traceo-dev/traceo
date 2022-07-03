@@ -27,14 +27,14 @@ export class AccountController {
     @Get("/confirm")
     async confirmAccount(
         @Query('hash') hash: string,
-        @Query('workspaceId') workspaceId: string,
+        @Query('applicationId') applicationId: number,
     ): Promise<void> {
-        return await this.accountService.confirmAccount(hash, workspaceId);
+        return await this.accountService.confirmAccount(hash, applicationId);
     }
 
     @Delete()
     @AuthRequired()
-    public async deleteWorkspace(
+    public async deleteApplication(
         @AuthAccount() account: RequestUser
     ): Promise<void> {
         return await this.accountService.deleteAccount(account);

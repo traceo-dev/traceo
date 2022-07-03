@@ -1,8 +1,8 @@
-import { GenericEntity } from "src/core/generic.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
-import { Deployment, Environment, Platform } from "../models/release";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Incident } from "./incident.entity";
-import { Workspace } from "./workspace.entity";
+import { Application } from "./application.entity";
+import { GenericEntity } from "src/core/generic.entity";
+import { Environment, Platform, Deployment } from "../models/release";
 
 export enum RELEASE_STATUS {
     ACTIVE = "active",
@@ -12,6 +12,9 @@ export enum RELEASE_STATUS {
 
 @Entity()
 export class Release extends GenericEntity {
+
+    @PrimaryGeneratedColumn('uuid')
+    id?: string;
 
     @Column({
         type: 'varchar',
@@ -68,14 +71,14 @@ export class Release extends GenericEntity {
     })
     changelog: string;
 
-    @ManyToOne(() => Workspace, {
+    @ManyToOne(() => Application, {
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
     })
     @JoinColumn({
-        name: "workspaceId"
+        name: "applicationId"
     })
-    workspace: Workspace;
+    application: Application;
 
     @OneToMany(
         () => Incident,

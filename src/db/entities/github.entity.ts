@@ -1,6 +1,5 @@
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { GenericEntity } from "src/core/generic.entity";
-import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
-import { Account } from "./account.entity";
 
 export enum GitProviderType {
     GITHUB = "github",
@@ -9,6 +8,9 @@ export enum GitProviderType {
 
 @Entity()
 export class Github extends GenericEntity {
+    @PrimaryGeneratedColumn('uuid')
+    id?: string;
+    
     @Column({
         type: 'varchar',
         nullable: true

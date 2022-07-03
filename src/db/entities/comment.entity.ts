@@ -1,11 +1,13 @@
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GenericEntity } from "src/core/generic.entity";
-import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
 import { Account } from "./account.entity";
 import { Incident } from "./incident.entity";
 
 @Entity()
 export class Comment extends GenericEntity {
-
+    @PrimaryGeneratedColumn('uuid')
+    id?: string;
+    
     @Column({
         type: 'varchar'
     })

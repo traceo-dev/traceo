@@ -6,24 +6,43 @@ import { join } from 'path';
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
-        return {
-            type: 'postgres',
-            url: this.dbURL(),
-            entities: [join(__dirname, 'entities/*.entity.{js,ts}')],
-            migrations: [join(__dirname, 'migrations/*.{js,ts}')],
-            migrationsTransactionMode: 'each',
-            migrationsRun: true,
-            synchronize: true,
-            logging: false,
-            // keepConnectionAlive: true,
-            // ssl: {
-            //     require: true,
-            //     rejectUnauthorized: false,
-            // },
-        };
-    }
-
-    dbURL(): string {
-        return process.env.NODE_ENV === 'LOCAL' ? process.env.LOCAL_POSTGRESQL_URL : process.env.NODE_ENV === 'DEV' ? process.env.HEROKU_POSTGRESQL_URL : process.env.DATABASE_URL;
+        if (process.env.NODE_ENV === 'Local') {
+            return {
+                type: 'postgres',
+                host: 'localhost',
+                port: 5432,
+                username: 'postgres',
+                database: 'traceo_local',
+                password: 'postgres',
+                entities: [join(__dirname, 'entities/*.entity.{js,ts}')],
+                migrations: [join(__dirname, 'migrations/*.{js,ts}')],
+                migrationsTransactionMode: 'each',
+                migrationsRun: true,
+                synchronize: true,
+                logging: false,
+            }
+        } else if (process.env.NODE_ENV === 'Development') {
+            return {
+                type: 'postgres',
+                host: process.env.AWS_S3_POSTGRES_HOST,
+                port: +process.env.AWS_S3_POSTGRES_PORT,
+                username: process.env.AWS_S3_POSTGRES_USER,
+                database: process.env.AWS_S3_POSTGRES_DB_NAME,
+                password: process.env.AWS_S3_POSTGRES_PASS,
+                entities: [join(__dirname, 'entities/*.entity.{js,ts}')],
+                migrations: [join(__dirname, 'migrations/*.{js,ts}')],
+                migrationsTransactionMode: 'each',
+                migrationsRun: true,
+                synchronize: false,
+                logging: false,
+                // keepConnectionAlive: true,
+                // ssl: {
+                //     require: true,
+                //     rejectUnauthorized: false,
+                // },
+            };
+        } else if (process.env.NODE_ENV === 'Production') {
+            return {}
+        }
     }
 }

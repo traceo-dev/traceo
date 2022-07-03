@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { WorkspaceModule } from './workspace/workspace.module';
+import { ApplicationModule } from './application/application.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { AccountModule } from './account/account.module';
@@ -9,7 +9,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm.config.service';
 import { AttachmentsModule } from './attachments/attachments.module';
-import { AwrModule } from './awr/awr.module';
+import { AwrModule } from './application-account/awr.module';
 import { IncidentsModule } from './incidents/incidents.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { CommentsModule } from './comments/comments.module';
@@ -28,7 +28,7 @@ import { GithubModule } from './github/github.module';
     }),
     ScheduleModule.forRoot(),
     AccountModule,
-    WorkspaceModule,
+    ApplicationModule,
     MailingModule,
     AttachmentsModule,
     AwrModule,

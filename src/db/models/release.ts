@@ -27,7 +27,7 @@ export interface Platform {
     version: string
 }
 
-export interface WorkspaceRelease {
+export interface ApplicationRelease {
     release: Release,
     totalIncidentsCount: number,
     totalIncidentsOccurCount: number

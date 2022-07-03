@@ -66,26 +66,26 @@ export class AccountAlreadyExistsError extends KlepperError {
     }
 }
 
-export class WorkspaceWithNameAlreadyExistsError extends KlepperError {
+export class ApplicationWithNameAlreadyExistsError extends KlepperError {
     constructor(message?) {
-        super(message || 'Workspace with this name already exists.');
-        this.name = 'WorkspaceWithNameAlreadyExistsError';
+        super(message || 'Application with this name already exists.');
+        this.name = 'ApplicationWithNameAlreadyExistsError';
         this.status = 455;
     }
 }
 
-export class AccountAlreadyInWorkspaceError extends KlepperError {
+export class AccountAlreadyInApplicationError extends KlepperError {
     constructor(message?) {
-        super(message || 'Account already exists in this workspace.');
-        this.name = 'AccountAlreadyInWorkspaceError';
+        super(message || 'Account already exists in this app.');
+        this.name = 'AccountAlreadyInApplicationError';
         this.status = 455;
     }
 }
 
-export class WorkspaceNotExistsError extends KlepperError {
+export class ApplicationNotExistsError extends KlepperError {
     constructor(message?) {
-        super(message || 'Workspace not exists.');
-        this.name = 'WorkspaceNotExistsError';
+        super(message || 'App not exists.');
+        this.name = 'ApplicationNotExistsError';
         this.status = 456;
     }
 }

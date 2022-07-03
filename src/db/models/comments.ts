@@ -8,7 +8,7 @@ export class CommentDto {
 
   @Type(() => String)
   @IsString()
-  readonly workspaceId: string;
+  readonly applicationId: string;
 }
 
 export class PatchCommentDto extends CommentDto {

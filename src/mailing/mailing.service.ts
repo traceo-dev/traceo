@@ -1,39 +1,39 @@
 import { Injectable } from "@nestjs/common";
 import { sendMail } from "src/mailing/nodemailer";
-import { WorkspaceQueryService } from "src/workspace/workspace-query/workspace-query.service";
+import { ApplicationQueryService } from "src/application/application-query/application-query.service";
 
 enum EMAIL_TYPE {
     CONFIRM_REGISTRATION = 'confirmRegistration',
-    WORKSPACE_INVITE_NO_ACCOUNT = 'workspaceInviteNoAccount',
-    WORKSPACE_INVITE_ACCOUNT = 'workspaceInviteAccount'
+    APPLICATION_INVITE_NO_ACCOUNT = 'applicationInviteNoAccount',
+    APPLICATION_INVITE_ACCOUNT = 'applicationInviteAccount'
 }
 
 @Injectable()
 export class MailingService {
     constructor(
-        private readonly workspaceQueryService: WorkspaceQueryService
+        private readonly applicationQueryService: ApplicationQueryService
     ) { }
 
     public async sendInviteToMemberWithoutAccount(
     { 
         email,
         url,
-        workspaceId
+        appId
     }: {
         email: string,
         url: string,
-        workspaceId: string
+        appId: number
     }): Promise<void> {
-        const workspace = await this.workspaceQueryService.getDto(workspaceId);
+        const application = await this.applicationQueryService.getDto(appId);
         const mailParams = {
             to: email,
-            subject: "Invite",
+            subject: "Invite to Traceo",
             context: {
                 link: url,
-                workspaceName: workspace?.name,
-                app_name: process.env.APP_NAME,
+                appName: application?.name,
+                traceo_name: process.env.TRACEO_APP_NAME,
             },
-            template: EMAIL_TYPE.WORKSPACE_INVITE_NO_ACCOUNT,
+            template: EMAIL_TYPE.APPLICATION_INVITE_NO_ACCOUNT,
         };
         await sendMail(mailParams);
     };
@@ -43,24 +43,24 @@ export class MailingService {
             email,
             url,
             accountName,
-            workspaceId
+            appId
         }: {
             email: string,
             url: string,
             accountName: string,
-            workspaceId: string
+            appId: number
         }): Promise<void> {
-        const workspace = await this.workspaceQueryService.getDto(workspaceId);
+        const application = await this.applicationQueryService.getDto(appId);
         const mailParams = {
             to: email,
-            subject: "Invite",
+            subject: "Invite to Traceo",
             context: {
                 link: url,
-                accountName: accountName,
-                workspaceName: workspace?.name,
-                app_name: process.env.APP_NAME,
+                accountName,
+                appName: application?.name,
+                traceo_name: process.env.TRACEO_APP_NAME,
             },
-            template: EMAIL_TYPE.WORKSPACE_INVITE_ACCOUNT,
+            template: EMAIL_TYPE.APPLICATION_INVITE_ACCOUNT,
         };
         await sendMail(mailParams);
     };
@@ -71,7 +71,7 @@ export class MailingService {
             subject: "Confirm registration",
             context: {
                 link: url,
-                appName: process.env.APP_NAME,
+                appName: process.env.TRACEO_APP_NAME,
             },
             template: EMAIL_TYPE.CONFIRM_REGISTRATION,
         };

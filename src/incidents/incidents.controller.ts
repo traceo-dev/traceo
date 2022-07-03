@@ -27,10 +27,10 @@ export class IncidentsController {
     @Get()
     @AuthRequired()
     public async getIncidents(
-        @Query("id", new ParseUUIDPipe()) id: string,
+        @Query("id") id: number,
         @Query() query: IncidentQueryDto
     ): Promise<Incident[]> {
-        return await this.incidentsQueryService.listDto({ workspaceId: id, ...query });
+        return await this.incidentsQueryService.listDto({ appId: id, ...query });
     }
 
     @Get('/assigned/account')
@@ -51,20 +51,20 @@ export class IncidentsController {
         return await this.incidentsService.updateIncident(id, body);
     }
 
-    @Post('/batch')
-    @AuthRequired()
-    public async updateBatchIncidents(
-        @Body() body: IncidentBatchUpdateDto
-    ): Promise<void> {
-        return await this.incidentsService.updateBatchIncidents(body);
-    }
-
     @Delete('/:id')
     @AuthRequired()
     public async deleteIncident(
         @Param("id") id: string
     ): Promise<void> {
         return await this.incidentsService.removeIncident(id);
+    }
+
+    @Post('/batch')
+    @AuthRequired()
+    public async updateBatchIncidents(
+        @Body() body: IncidentBatchUpdateDto
+    ): Promise<void> {
+        return await this.incidentsService.updateBatchIncidents(body);
     }
 
     @Post('/remove/batch')

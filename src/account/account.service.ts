@@ -8,9 +8,9 @@ import { EntityManager } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { AccountDto, CreateAccountDto } from './account.model';
 import { AccountQueryService } from './account-query/account-query.service';
-import { AwrService } from 'src/awr/awr.service';
-import { WorkspaceQueryService } from 'src/workspace/workspace-query/workspace-query.service';
-import { AccountWorkspaceRelationship, MEMBER_STATUS } from 'src/db/entities/account-workspace-relationship.entity';
+import { AwrService } from 'src/application-account/awr.service';
+import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
+import { AccountApplicationRelationship, MEMBER_STATUS } from 'src/db/entities/account-application-relationship.entity';
 import { getKeyFromBucketUrl } from 'src/helpers/base';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { AttachmentType } from 'src/db/entities/attachment.entity';
@@ -23,14 +23,14 @@ export class AccountService {
         readonly mailingService: MailingService,
         readonly entityManager: EntityManager,
         readonly accountQueryService: AccountQueryService,
-        readonly workspaceQueryService: WorkspaceQueryService,
+        readonly applicationQueryService: ApplicationQueryService,
         readonly awrService: AwrService,
         readonly awsBucketService: AWSBucketService,
         readonly httpService: HttpService
     ) { }
 
     public async createAccount(accountDto: CreateAccountDto): Promise<any> {
-        const { name, email, password, wid } = accountDto;
+        const { name, email, password, appId } = accountDto;
 
         const account = await this.accountQueryService.getAccountByEmail(email);
         if (account) {
@@ -51,7 +51,7 @@ export class AccountService {
                 .getRepository(Account)
                 .insert({ ...account });
 
-            const confirmUrl = this.getConfirmUrl(wid, String(account?.activateHash));
+            const confirmUrl = this.getConfirmUrl(appId, String(account?.activateHash));
 
             await this.mailingService.sendSignUpConfirmation(email, confirmUrl);
         } catch (error) {
@@ -60,14 +60,14 @@ export class AccountService {
         }
     }
 
-    private getConfirmUrl(workspaceId: string, activateHash: string) {
+    private getConfirmUrl(applicationId: string, activateHash: string) {
         const appOrigin = process.env.APP_ORIGIN;
-        return workspaceId
-            ? `${appOrigin}/confirm?ac=${activateHash}&w=${workspaceId}`
+        return applicationId
+            ? `${appOrigin}/confirm?ac=${activateHash}&w=${applicationId}`
             : `${appOrigin}/confirm?ac=${activateHash}`;
     }
 
-    public async confirmAccount(hash: string, workspaceId?: string): Promise<void> {
+    public async confirmAccount(hash: string, applicationId?: number): Promise<void> {
         try {
             await this.entityManager.transaction(async (manager) => {
                 const accountRepository = manager.getRepository(Account);
@@ -88,11 +88,11 @@ export class AccountService {
                     { activateHash: null, active: true }
                 );
 
-                if (workspaceId) {
-                    const workspace = await this.workspaceQueryService.getDto(workspaceId);
+                if (applicationId) {
+                    const application = await this.applicationQueryService.getDto(applicationId);
                     await this.awrService.createAwr(
                         account,
-                        workspace,
+                        application,
                         MEMBER_STATUS.DEVELOPER,
                         manager);
                 }
@@ -123,7 +123,7 @@ export class AccountService {
         const { id } = user;
 
         await this.entityManager.transaction(async (manager) => {
-            const awrWithOwnerStatus = await manager.getRepository(AccountWorkspaceRelationship).find({
+            const awrWithOwnerStatus = await manager.getRepository(AccountApplicationRelationship).find({
                 where: {
                     account: {
                         id

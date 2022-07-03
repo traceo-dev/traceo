@@ -3,9 +3,9 @@ import {
   IsEmail,
   IsEnum,
 } from "class-validator";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GenericEntity } from "src/core/generic.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, UpdateDateColumn } from "typeorm";
-import { AccountWorkspaceRelationship } from "./account-workspace-relationship.entity";
+import { AccountApplicationRelationship } from "./account-application-relationship.entity";
 import { Github } from "./github.entity";
 import { Incident } from "./incident.entity";
 
@@ -22,7 +22,9 @@ export enum AccountStatus {
 
 @Entity()
 export class Account extends GenericEntity {
-
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
+  
   @Column({ nullable: false })
   name: string;
 
@@ -57,13 +59,13 @@ export class Account extends GenericEntity {
   github: Github;
 
   @OneToMany(
-    () => AccountWorkspaceRelationship,
-    (accountWorkspace) => accountWorkspace.account,
+    () => AccountApplicationRelationship,
+    (accountApp) => accountApp.account,
     {
       cascade: true,
     }
   )
-  workspaces: AccountWorkspaceRelationship[];
+  applications: AccountApplicationRelationship[];
 
   @OneToMany(() => Incident, incident => incident.assigned)
   incidents: Incident[];

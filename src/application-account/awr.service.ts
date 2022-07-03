@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { Account } from 'src/db/entities/account.entity';
-import { Workspace } from 'src/db/entities/workspace.entity';
-import { MEMBER_STATUS, AccountWorkspaceRelationship } from 'src/db/entities/account-workspace-relationship.entity';
+import { MEMBER_STATUS, AccountApplicationRelationship } from 'src/db/entities/account-application-relationship.entity';
 import { EntityManager } from 'typeorm';
 import { AwrQueryService } from './awr-query/awr-query.service';
-import { AccountAlreadyInWorkspaceError } from 'src/helpers/errors';
-import { WorkspaceQueryService } from 'src/workspace/workspace-query/workspace-query.service';
+import { AccountAlreadyInApplicationError } from 'src/helpers/errors';
+import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
 import { MailingService } from 'src/mailing/mailing.service';
 import { AwrModel } from './awr.model';
 import dateUtils from 'src/helpers/dateUtils';
+import { Application } from 'src/db/entities/application.entity';
 
 /**
- * AWR - Account-Workspace-Relationship
+ * AWR - Account-Application-Relationship
  */
 
 @Injectable()
@@ -21,96 +21,96 @@ export class AwrService {
         private readonly entityManager: EntityManager,
         private readonly awrQueryService: AwrQueryService,
         private readonly accountQueryService: AccountQueryService,
-        private readonly workspaceQueryService: WorkspaceQueryService,
+        private readonly applicationQueryService: ApplicationQueryService,
         private readonly mailingService: MailingService
     ) { }
 
-    public async createAwr(account: Account, workspace: Workspace, memberStatus: MEMBER_STATUS = MEMBER_STATUS.DEVELOPER, manager: EntityManager = this.entityManager): Promise<void> {
-        const awr: Partial<AccountWorkspaceRelationship> = {
+    public async createAwr(account: Account, application: Application, memberStatus: MEMBER_STATUS = MEMBER_STATUS.DEVELOPER, manager: EntityManager = this.entityManager): Promise<void> {
+        const awr: Partial<AccountApplicationRelationship> = {
             account,
-            workspace,
+            application,
             status: memberStatus,
             createdAt: dateUtils.toUnix(),
             updatedAt: dateUtils.toUnix()
         }
-        await manager.getRepository(AccountWorkspaceRelationship).save(awr);
+        await manager.getRepository(AccountApplicationRelationship).save(awr);
     }
 
-    public async addAccountToWorkspace(email: string, workspaceId: string): Promise<void> {
+    public async addAccountToApplication(email: string, appId: number): Promise<void> {
         await this.entityManager.transaction(async (manager) => {
             /**
              * Send Email when account not exists
              */
             const account = await this.accountQueryService.getAccountByEmail(email);
             if (!account) {
-                const url = `${process.env.APP_ORIGIN}/signUp?w=${workspaceId}`;
+                const url = `${process.env.APP_ORIGIN}/signUp?w=${appId}`;
                 await this.mailingService.sendInviteToMemberWithoutAccount({
                     email,
                     url,
-                    workspaceId
+                    appId
                 });
 
                 return;
             }
 
-            const exists = await this.awrQueryService.awrExists({ accountId: account?.id, workspaceId }, manager);
+            const exists = await this.awrQueryService.awrExists({ accountId: account?.id, appId }, manager);
             if (exists) {
-                throw new AccountAlreadyInWorkspaceError();
+                throw new AccountAlreadyInApplicationError();
             }
 
-            const url = `${process.env.APP_ORIGIN}/invite?w=${workspaceId}&ac=${account.id}`;
+            const url = `${process.env.APP_ORIGIN}/invite?w=${appId}&ac=${account.id}`;
             await this.mailingService.sendInviteToMember({
                 email,
                 url,
                 accountName: account.name,
-                workspaceId
+                appId
             });
 
             return;
         });
     }
 
-    public async assignAccountToWorkspace(accountId: string, workspaceId: string): Promise<void> {
+    public async assignAccountToApplication(accountId: string, appId: number): Promise<void> {
         await this.entityManager.transaction(async (manager) => {
-            const exists = await this.awrQueryService.awrExists({ accountId, workspaceId }, manager);
+            const exists = await this.awrQueryService.awrExists({ accountId, appId }, manager);
             if (exists) {
-                throw new AccountAlreadyInWorkspaceError();
+                throw new AccountAlreadyInApplicationError();
             }
 
             const account = await this.accountQueryService.getDto(accountId);
-            const workspace = await this.workspaceQueryService.getDto(workspaceId);
+            const application = await this.applicationQueryService.getDto(appId);
 
             await this.createAwr(
                 account,
-                workspace
+                application
             );
         });
     }
 
-    public async updateWorkspaceAccount(awrModel: AwrModel, manager: EntityManager = this.entityManager): Promise<void> {
+    public async updateApplicationAccount(awrModel: AwrModel, manager: EntityManager = this.entityManager): Promise<void> {
         const { id, ...rest } = awrModel;
         await manager.transaction(async (manager) => {
-            manager.getRepository(AccountWorkspaceRelationship).update({ id }, rest);
+            manager.getRepository(AccountApplicationRelationship).update({ id }, rest);
         });
     }
 
-    public async removeAccountFromWorkspace(awrId: string): Promise<void> {
+    public async removeAccountFromApplication(awrId: string): Promise<void> {
         return this.removeAwr(awrId);
     }
 
     private async removeAwr(awrId: string, manager: EntityManager = this.entityManager): Promise<void> {
         await manager.transaction(async (manager) => {
-            manager.getRepository(AccountWorkspaceRelationship).delete({ id: awrId });
+            manager.getRepository(AccountApplicationRelationship).delete({ id: awrId });
         });
     }
 
-    public async leaveWorkspace(aid: string, wid: string): Promise<void> {
-        const awr = await this.entityManager.getRepository(AccountWorkspaceRelationship).findOneBy({
+    public async leaveApplication(aid: string, appId: number): Promise<void> {
+        const awr = await this.entityManager.getRepository(AccountApplicationRelationship).findOneBy({
             account: {
                 id: aid
             },
-            workspace: {
-                id: wid
+            application: {
+                id: appId
             }
         });
 
@@ -118,6 +118,6 @@ export class AwrService {
             throw new Error("Relationship does not exists!");
         }
 
-        await this.removeAccountFromWorkspace(awr.id);
+        await this.removeAccountFromApplication(awr.id);
     }
 }

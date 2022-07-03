@@ -4,23 +4,30 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Account } from "./account.entity";
-import { AccountWorkspaceRelationship } from "./account-workspace-relationship.entity";
-import { Environment } from "../models/release";
+import { AccountApplicationRelationship } from "./account-application-relationship.entity";
 import { Incident } from "./incident.entity";
 import { Release } from "./release.entity";
 import { GenericEntity } from "src/core/generic.entity";
 import { GithubRepository } from "../models/github";
+import { Environment } from "../models/release";
 
 @Entity()
-export class Workspace extends GenericEntity {
+export class Application extends GenericEntity {
+  
+  @PrimaryGeneratedColumn()
+  id?: number;
 
   @Column({ type: 'varchar', unique: true })
   name: string;
 
   @Column({ type: 'varchar' })
   privateKey: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  dsn?: string;
 
   @ManyToOne(() => Account)
   @JoinColumn({
@@ -53,19 +60,19 @@ export class Workspace extends GenericEntity {
   github?: GithubRepository;
 
   @OneToMany(
-    () => AccountWorkspaceRelationship,
-    (accountWorkspace) => accountWorkspace.workspace,
+    () => AccountApplicationRelationship,
+    (accountApp) => accountApp.application,
     {
       onUpdate: "CASCADE",
       onDelete: "CASCADE"
     }
   )
-  members?: AccountWorkspaceRelationship[];
+  members?: AccountApplicationRelationship[];
 
 
   @OneToMany(
     () => Incident,
-    (incident) => incident.workspace,
+    (incident) => incident.application,
     {
       onUpdate: "CASCADE",
       onDelete: "CASCADE"
@@ -76,7 +83,7 @@ export class Workspace extends GenericEntity {
 
   @OneToMany(
     () => Release,
-    (release) => release.workspace,
+    (release) => release.application,
     {
       onUpdate: "CASCADE",
       onDelete: "CASCADE"

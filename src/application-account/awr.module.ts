@@ -3,7 +3,7 @@ import { AwrService } from './awr.service';
 import { AwrController } from './awr.controller';
 import { AwrQueryService } from './awr-query/awr-query.service';
 import { PassportModule } from '@nestjs/passport';
-import { WorkspaceQueryService } from 'src/workspace/workspace-query/workspace-query.service';
+import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
 import { MailingService } from 'src/mailing/mailing.service';
 import { ReleaseQueryService } from 'src/release/query/release-query.service';
@@ -12,7 +12,7 @@ import { ReleaseQueryService } from 'src/release/query/release-query.service';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
-  providers: [AwrService, AwrQueryService, WorkspaceQueryService, AccountQueryService, MailingService, ReleaseQueryService],
+  providers: [AwrService, AwrQueryService, ApplicationQueryService, AccountQueryService, MailingService, ReleaseQueryService],
   controllers: [AwrController]
 })
 export class AwrModule {}

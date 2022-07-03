@@ -2,7 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 import { Environment } from "src/db/models/release";
 
-export class CreateWorkspaceModel {
+export class CreateApplicationBody {
     @IsString()
     @IsNotEmpty()
     @ApiProperty({ description: 'name' })
@@ -24,30 +24,30 @@ export class CreateWorkspaceModel {
     public technology: string;
 }
 
-export class WorkspaceModel {
+export class ApplicationBody {
     @IsString()
     @IsNotEmpty()
-    @ApiProperty({ description: 'workspace id' })
-    public id?: string;
+    @ApiProperty({ description: 'app id' })
+    public id?: number;
 
     @IsString()
     @IsOptional()
-    @ApiProperty({ description: 'workspace name' })
+    @ApiProperty({ description: 'app name' })
     public name?: string;
 
     @IsString()
     @IsOptional()
-    @ApiProperty({ description: 'workspace logo url' })
+    @ApiProperty({ description: 'app logo url' })
     public logo?: string;
 
     @IsString()
     @IsOptional()
     @MaxLength(256)
-    @ApiProperty({ description: 'workspace about description' })
+    @ApiProperty({ description: 'app about description' })
     public aboutDescription?: string;
 
     @IsString()
     @IsOptional()
-    @ApiProperty({ description: 'workspace default env' })
+    @ApiProperty({ description: 'app default env' })
     public defaultEnv?: Environment;
 }

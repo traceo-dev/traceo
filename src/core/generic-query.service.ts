@@ -15,7 +15,7 @@ export abstract class GenericQueryService<ENTITY extends GenericEntity, QUERY ex
     this.repository = manager.getRepository<ENTITY>(repository);
   }
 
-  public async getDto(id: string): Promise<ENTITY> {
+  public async getDto(id: number | string): Promise<ENTITY> {
     return await this.repository.findOneByOrFail({ id } as any);
   }
 

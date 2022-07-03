@@ -1,9 +1,6 @@
 import { Column, PrimaryGeneratedColumn } from "typeorm";
 
 export class GenericEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id?: string;
-
     @Column({
         type: 'bigint',
         nullable: true

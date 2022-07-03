@@ -2,7 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { OccurrDate } from 'src/db/models/incident';
-import { HourlyStatistic, PlotData, WorkspaceStatistics } from 'src/db/models/statistics';
+import { HourlyStats, PlotData, AppStats } from 'src/db/models/statistics';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
 import { StatisticsQueryService } from './query/statistics-query.service';
@@ -16,10 +16,10 @@ export class StatisticsController {
 
     @Get()
     @AuthRequired()
-    async getWorkspaceStatistics(
+    async getApplicationStatistics(
         @Query('id') id: string,
-    ): Promise<WorkspaceStatistics> {
-        return await this.statisticsQueryService.getWorkspaceStatistics(id);
+    ): Promise<AppStats> {
+        return await this.statisticsQueryService.getApplicationStatistics(id);
     }
 
     @Get('/incident/total')
@@ -35,7 +35,7 @@ export class StatisticsController {
     @AuthRequired()
     async getDailyOverview(
         @Query('id') id: string,
-    ): Promise<{ count: number, data: HourlyStatistic[] }> {
+    ): Promise<{ count: number, data: HourlyStats[] }> {
         return await this.statisticsQueryService.getDailyOverview(id);
     }
 

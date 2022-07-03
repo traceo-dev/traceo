@@ -1,4 +1,4 @@
-export interface WorkspaceStatistics {
+export interface AppStats {
     total: {
         incidentsCount: number,
         incidentsOccurCount: number,
@@ -13,7 +13,7 @@ export interface WorkspaceStatistics {
     }
 }
 
-export interface HourlyStatistic {
+export interface HourlyStats {
     date: number;
     count: number;
 }
@@ -23,7 +23,7 @@ export interface PlotData {
     count: number;
 }
 
-export interface DashboardStatistics {
+export interface DashboardStats {
     apps: {
         owner: number;
         all: number;

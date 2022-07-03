@@ -10,7 +10,7 @@ import { EntityManager } from 'typeorm';
 import { HttpService } from "@nestjs/axios";
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
 import { Account } from 'src/db/entities/account.entity';
-import { Workspace } from 'src/db/entities/workspace.entity';
+import { Application } from 'src/db/entities/application.entity';
 import { Incident } from 'src/db/entities/incident.entity';
 
 @Injectable()
@@ -24,10 +24,10 @@ export class GithubService {
     public async handleGithubAuth(code: string, account: RequestUser): Promise<{ connected: boolean }> {
         const { id } = account;
 
-        const GH_CLIENT_ID = process.env.GH_CLIENT_ID;
-        const GH_CLIENT_SECRET = process.env.GH_CLIENT_SECRET;
+        const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
+        const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
 
-        if (!GH_CLIENT_ID || !GH_CLIENT_SECRET) {
+        if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
             throw new Error("Github client ID and client secret are required!");
         }
 
@@ -37,8 +37,8 @@ export class GithubService {
             };
 
             const payload = {
-                client_id: GH_CLIENT_ID,
-                client_secret: GH_CLIENT_SECRET,
+                client_id: GITHUB_CLIENT_ID,
+                client_secret: GITHUB_CLIENT_SECRET,
                 code
             }
 
@@ -139,14 +139,14 @@ export class GithubService {
         });
     }
 
-    async disconnectGithubRepository(id: string): Promise<void> {
+    async disconnectGithubRepository(id: number): Promise<void> {
         console.log("ID: ", id)
-        await this.entityManager.getRepository(Workspace).update({ id }, {
+        await this.entityManager.getRepository(Application).update({ id }, {
             github: null
         });
     }
 
-    async connectGithubRepository(body: { name: string, id: string }, user: RequestUser): Promise<void> {
+    async connectGithubRepository(body: { name: string, id: number }, user: RequestUser): Promise<void> {
         const account = await this.getAccountWithGithub(user.id);
         const { github } = account;
 
@@ -168,7 +168,7 @@ export class GithubService {
 
             const { name: repoName, full_name, html_url } = repository.data;
 
-            await this.entityManager.getRepository(Workspace).update({ id }, {
+            await this.entityManager.getRepository(Application).update({ id }, {
                 github: {
                     user_id: user.id,
                     full_name,
@@ -190,14 +190,14 @@ export class GithubService {
             where: {
                 id: incidentId
             },
-            relations: ['workspace']
+            relations: ['application']
         });
 
-        if (!incident.workspace?.github) {
+        if (!incident.application?.github) {
             throw new Error('Github repository connection is required!');
         }
 
-        const { user_id, full_name } = incident.workspace.github;
+        const { user_id, full_name } = incident.application.github;
 
         const account = await this.entityManager.getRepository(Account).findOne({
             where: {

@@ -4,9 +4,10 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Account } from "./account.entity";
-import { Workspace } from "./workspace.entity";
+import { Application } from "./application.entity";
 
 export enum MEMBER_STATUS {
   OWNER = "Owner",
@@ -15,8 +16,10 @@ export enum MEMBER_STATUS {
 }
 
 @Entity()
-export class AccountWorkspaceRelationship extends GenericEntity {
-
+export class AccountApplicationRelationship extends GenericEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
+  
   @Column("enum", {
     enum: MEMBER_STATUS,
     nullable: false,
@@ -38,12 +41,12 @@ export class AccountWorkspaceRelationship extends GenericEntity {
   })
   account: Account;
 
-  @ManyToOne(() => Workspace, {
+  @ManyToOne(() => Application, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE",
   })
   @JoinColumn({
-    name: "workspace",
+    name: "application",
   })
-  workspace: Workspace;
+  application: Application;
 }

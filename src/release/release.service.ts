@@ -11,15 +11,15 @@ export class ReleaseService {
     ) { }
 
     async createRelease(body: CreateReleaseModal, manager: EntityManager = this.entityManager): Promise<void> {
-        const { workspaceId, ...rest } = body;
+        const { applicationId, ...rest } = body;
         await manager.getRepository(Release).save({
             status: RELEASE_STATUS.INACTIVE,
             createdAt: dateUtils.toUnix(),
             env: "dev",
             incidentsCount: 0,
             incidentsOccurCount: 0,
-            workspace: {
-                id: workspaceId
+            application: {
+                id: applicationId
             },
             deployments: [],
             ...rest

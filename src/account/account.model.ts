@@ -25,8 +25,8 @@ export class CreateAccountDto {
 
     @IsString()
     @IsOptional()
-    @ApiProperty({ type: String, description: 'workspace identifier' })
-    public wid?: string;
+    @ApiProperty({ type: String, description: 'app identifier' })
+    public appId?: string;
 }
 
 export class AccountDto {

@@ -12,7 +12,7 @@ import { AWSBucketService } from '../awsbucket/awsbucket.service';
 
 
 const defaultAttachmentBucket =
-    process.env.AWS_BUCKET_NAME || 'workspace-bucket-test';
+    process.env.AWS_BUCKET_NAME || 'traceo-bucket-dev';
 
 @Injectable()
 export class AttachmentsService {

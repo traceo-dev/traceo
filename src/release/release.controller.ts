@@ -19,11 +19,11 @@ export class ReleaseController {
     @Get()
     @AuthRequired()
     async getReleases(
-        @Query('id') id: string,
+        @Query('id') id: number,
         @Query() query: BaseDtoQuery
     ): Promise<Release[]> {
         return await this.releaseQueryService.listDto({
-            workspaceId: id, ...query
+            appId: id, ...query
         });
     }
 

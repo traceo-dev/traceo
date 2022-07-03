@@ -40,6 +40,10 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
   app.useGlobalInterceptors(new KlepperInterceptor());
 
-  await app.listen(process.env.PORT || 3000);
+  const PORT = process.env.PORT || 3000;
+  await app.listen(PORT, () => {
+    console.log(`Application started on PORT: ${PORT}.`);
+    console.log(`Application started in ${process.env.NODE_ENV} mode.`);
+  });
 }
 bootstrap();

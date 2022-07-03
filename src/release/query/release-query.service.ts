@@ -14,9 +14,9 @@ export class ReleaseQueryService extends GenericQueryService<Release, BaseDtoQue
     }
 
     public extendQueryBuilder(builder: SelectQueryBuilder<Release>, query: BaseDtoQuery): SelectQueryBuilder<Release> {
-        const { workspaceId, search } = query;
+        const { appId, search } = query;
 
-        builder.where('release.workspaceId = :workspaceId', { workspaceId })
+        builder.where('release.applicationId = :appId', { appId })
 
         if (search) {
             builder

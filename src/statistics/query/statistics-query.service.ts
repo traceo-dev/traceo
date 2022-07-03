@@ -1,15 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { Environment } from "src/db/models/release";
 import { Release } from "src/db/entities/release.entity";
-import { DashboardStatistics, HourlyStatistic, PlotData, WorkspaceStatistics } from "src/db/models/statistics";
+import { DashboardStats, HourlyStats, PlotData, AppStats } from "src/db/models/statistics";
 import { EntityManager, MoreThan } from "typeorm";
 import dayjs from "dayjs";
 import { Incident } from "src/db/entities/incident.entity";
 import { OccurrDate } from "src/db/models/incident";
 import dateUtils from "src/helpers/dateUtils";
 import { RequestUser } from "src/auth/auth.model";
-import { Workspace } from "src/db/entities/workspace.entity";
-import { AccountWorkspaceRelationship } from "src/db/entities/account-workspace-relationship.entity";
+import { Application } from "src/db/entities/application.entity";
+import { AccountApplicationRelationship } from "src/db/entities/account-application-relationship.entity";
 
 @Injectable()
 export class StatisticsQueryService {
@@ -17,12 +17,12 @@ export class StatisticsQueryService {
         private entityManger: EntityManager
     ) { }
 
-    async getWorkspaceStatistics(id: string): Promise<WorkspaceStatistics> {
+    async getApplicationStatistics(id: string): Promise<AppStats> {
         const occurDates: OccurrDate[] = [];
 
         const incidents = await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
-            .where('incident.workspaceId = :id', { id })
+            .where('incident.applicationId = :id', { id })
             .orderBy('incident.createdAt', 'DESC')
             .select(['incident.occurDates', 'incident.occuredCount'])
             .getMany();
@@ -42,7 +42,7 @@ export class StatisticsQueryService {
 
         const releases = await this.entityManger.getRepository(Release)
             .createQueryBuilder('release')
-            .where('release.workspaceId = :id', { id })
+            .where('release.applicationId = :id', { id })
             .orderBy('release.createdAt', 'DESC')
             .getMany();
 
@@ -64,20 +64,20 @@ export class StatisticsQueryService {
         };
     }
 
-    public async getDailyOverview(workspaceId: string): Promise<{ count: number, data: HourlyStatistic[] }> {
+    public async getDailyOverview(applicationId: string): Promise<{ count: number, data: HourlyStats[] }> {
         const today = dayjs().startOf('day').unix();
         let totalCount: number = 0;
 
-        const response: HourlyStatistic[] = [];
+        const response: HourlyStats[] = [];
         const cachedDates: OccurrDate[] = [];
 
         await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
-            .where("incident.workspaceId = :workspaceId", { workspaceId })
+            .where("incident.applicationId = :applicationId", { applicationId })
             .andWhere("incident.lastOccur > :today", { today })
             .select('incident.occurDates')
             .getMany()
-            .then((response) => {
+            .then((response) => { //improve this
                 response.forEach((incident) => {
                     incident.occurDates.forEach((occur) => {
                         if (dayjs(occur.date).isAfter(today)) {
@@ -87,7 +87,7 @@ export class StatisticsQueryService {
                 })
             });
 
-        for (let i = 0; i <= 23; i++) {
+        for (let i = 0; i <= 24; i++) {
             const count = cachedDates.filter((o) => ((dayjs.unix(o.date).get('hour') === i) && (dayjs.unix(o.date).isAfter(today))))?.length;
             totalCount += count;
             response.push({
@@ -102,12 +102,12 @@ export class StatisticsQueryService {
         };
     }
 
-    public async getTotalOverview(workspaceId: string): Promise<PlotData[]> {
+    public async getTotalOverview(appId: string): Promise<PlotData[]> {
         const occurDates: OccurrDate[] = [];
 
         await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
-            .where("incident.workspaceId = :workspaceId", { workspaceId })
+            .where("incident.applicationId = :appId", { appId })
             .select('incident.occurDates')
             .getMany()
             .then((response) => {
@@ -116,11 +116,11 @@ export class StatisticsQueryService {
                 })
             });
 
-        //for case when eq. is new workspace without any incidents we return mocked data from past 7 days
+        //for case when eq. is new app without any incidents we return mocked data from past 7 days
         //because plot need some data to properly rendering
         if (occurDates?.length === 0) {
             const mock: PlotData[] = [];
-            for (let i = 0; i < 7; i++) {
+            for (let i = 0; i < 3; i++) {
                 const mockedDate = dayjs().subtract(i, 'day').unix();
                 mock.push({
                     date: mockedDate,
@@ -193,11 +193,11 @@ export class StatisticsQueryService {
         }
     }
 
-    public async getDashboardOverviewStatistics(account: RequestUser): Promise<DashboardStatistics> {
+    public async getDashboardOverviewStatistics(account: RequestUser): Promise<DashboardStats> {
         const { id } = account;
 
         return this.entityManger.transaction(async (manager) => {
-            const ownerAppsCount = await manager.getRepository(Workspace).count({
+            const ownerAppsCount = await manager.getRepository(Application).count({
                 where: {
                     owner: {
                         id
@@ -205,7 +205,7 @@ export class StatisticsQueryService {
                 }
             });
 
-            const memberCount = await manager.getRepository(AccountWorkspaceRelationship).count({
+            const memberCount = await manager.getRepository(AccountApplicationRelationship).count({
                 where: {
                     account: {
                         id
@@ -216,7 +216,7 @@ export class StatisticsQueryService {
             const monthStart = dayjs().subtract(1, 'month').startOf('day').unix();
             const incidents = await manager.getRepository(Incident).count({
                 where: {
-                    workspace: {
+                    application: {
                         owner: {
                             id
                         }

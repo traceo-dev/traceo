@@ -26,9 +26,9 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
     }
 
     public extendQueryBuilder(builder: SelectQueryBuilder<Incident>, query: IncidentQueryDto): SelectQueryBuilder<Incident> {
-        const { workspaceId } = query;
+        const { appId } = query;
 
-        builder.where('incident.workspaceId = :workspaceId', { workspaceId })
+        builder.where('incident.applicationId = :appId', { appId })
 
         this.commonQuery(builder, query);
 
@@ -53,7 +53,7 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
         const queryBuilder = await this.entityManager.getRepository(Incident)
             .createQueryBuilder('incident')
             .where('incident.assignedId = :id', { id: user.id })
-            .leftJoinAndSelect('incident.workspace', 'workspace')
+            .leftJoinAndSelect('incident.application', 'application')
             .leftJoinAndSelect('incident.assigned', 'assigned');
 
         this.commonQuery(queryBuilder, query);

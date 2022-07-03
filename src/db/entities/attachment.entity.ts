@@ -1,19 +1,19 @@
-import { GenericEntity } from 'src/core/generic.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
+  Column
 } from 'typeorm';
+import { GenericEntity } from "src/core/generic.entity";
 
 export enum AttachmentType {
   ACCOUNT_AVATAR = 'ACCOUNT_AVATAR',
-  WORKSPACE_AVATAR = 'WORKSPACE_AVATAR'
+  APPLICATION_AVATAR = 'APPLICATION_AVATAR'
 }
 
 @Entity()
 export class Attachment extends GenericEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id?: string;
 
   @Column({
     nullable: false,

@@ -7,9 +7,9 @@ import { AccountService } from 'src/account/account.service';
 import { MailingService } from 'src/mailing/mailing.service';
 import { JwtStrategy } from './jwt.strategy';
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
-import { WorkspaceQueryService } from 'src/workspace/workspace-query/workspace-query.service';
-import { AwrService } from 'src/awr/awr.service';
-import { AwrQueryService } from 'src/awr/awr-query/awr-query.service';
+import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
+import { AwrService } from 'src/application-account/awr.service';
+import { AwrQueryService } from 'src/application-account/awr-query/awr-query.service';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { ReleaseQueryService } from 'src/release/query/release-query.service';
 import { HttpModule } from "@nestjs/axios";
@@ -28,7 +28,7 @@ import { HttpModule } from "@nestjs/axios";
     MailingService, 
     JwtStrategy, 
     AccountQueryService, 
-    WorkspaceQueryService, 
+    ApplicationQueryService, 
     AwrService,
     AwrQueryService,
     AWSBucketService,

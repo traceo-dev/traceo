@@ -11,7 +11,7 @@ export class BaseDtoQuery  {
 
     @IsString()
     @IsOptional()
-    readonly workspaceId?: string;
+    readonly appId?: number;
 
     @IsString()
     @IsOptional()
