@@ -11,11 +11,11 @@ import { TraceoInterceptor } from './libs/traceo.interceptor';
 var cors = require('cors');
 
 async function bootstrap() {
-  // Traceo.init({
-  //   dsn: "https://a42292b3-d07c-45fe-8c86-b10894db93ae:127.0.0.1:3005/1",
-  //   environment: "dev"
-  // });
-  
+  Traceo.init({
+    dsn: process.env.TRACEO_DSN,
+    version: "0.0.1"
+  });
+
   const app = await NestFactory.create(AppModule);
 
   const options = new DocumentBuilder()
@@ -34,7 +34,7 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '10mb' }));
   app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
   app.use(morgan("[:date[iso]] :method :url :status :response-time ms"));
-  
+
   app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
   app.useGlobalInterceptors(new TraceoInterceptor());
 

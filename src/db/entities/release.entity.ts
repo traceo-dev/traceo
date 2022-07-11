@@ -23,7 +23,8 @@ export class Release extends GenericEntity {
     status: RELEASE_STATUS;
 
     @Column({
-        type: 'varchar'
+        type: 'varchar',
+        nullable: true
     })
     env: Environment;
 

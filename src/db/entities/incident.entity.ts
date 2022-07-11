@@ -5,7 +5,7 @@ import { Release } from "./release.entity";
 import { Application } from "./application.entity";
 import { Trace } from "aws-sdk/clients/xray";
 import { GenericEntity } from "src/core/generic.entity";
-import { OccurrDate } from "../models/incident";
+import { OccurrDate, OccurRelease } from "../models/incident";
 import { Environment, Platform } from "../models/release";
 
 export enum IncidentStatus {
@@ -57,9 +57,10 @@ export class Incident extends GenericEntity {
     occuredCount: number;
 
     @Column({
-        type: 'varchar'
+        type: 'json',
+        nullable: true
     })
-    release: string;
+    release: OccurRelease;
 
     @Column({
         type: 'varchar',

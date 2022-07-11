@@ -221,7 +221,7 @@ export class GithubService {
             owner,
             repo,
             title: `${type}: ${message}`,
-            body: `## Details\n\n\n#### Type: ${type}\n#### Message: ${message}\n#### Version: ${release}\n\n#### Platform:\n- System: ${platform.version}\n- Platform: ${platform.platform}\n- Release: ${platform.release}\n- Arch: ${platform.arch}\n\n#### Incident Stack Trace:\n\n<pre>${stack}</pre>\n\n\nIssue created with Klepper.IO`,
+            body: `## Details\n\n\n#### Type: ${type}\n#### Message: ${message}\n#### Version: ${release.name}\n\n#### Platform:\n- System: ${platform.version}\n- Platform: ${platform.platform}\n- Release: ${platform.release}\n- Arch: ${platform.arch}\n\n#### Incident Stack Trace:\n\n<pre>${stack}</pre>\n\n\nIssue created with Klepper.IO`,
             labels: ['bug']
         });
 

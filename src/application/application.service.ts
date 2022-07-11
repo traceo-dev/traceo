@@ -66,9 +66,10 @@ export class ApplicationService {
 
     private async attachDsn(application: Application, user: RequestUser, manager: EntityManager = this.entityManager): Promise<void> {
         const { id, privateKey } = application;
-        const workerUrl = process.env.TRACEO_WORKER_URL;
+        const workerUrl = process.env.TRACEO_WORKER_HOST;
 
-        const dsn = `https://${privateKey}:${workerUrl}/${id}`;
+        //TODO: support for https
+        const dsn = `http://${privateKey}:${workerUrl}/${id}`;
 
         await this.updateApplication({ id, dsn }, user, manager);
     }

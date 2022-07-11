@@ -99,6 +99,10 @@ export interface Incident {
 
 export interface OccurrDate {
     date: number;
+    version?: {
+        id: string;
+        name: string;
+    }
 }
 
 export interface Trace {
@@ -183,4 +187,9 @@ export class IncidentUpdateDto {
 export class IncidentBatchUpdateDto extends IncidentUpdateDto {
     @IsOptional()
     incidentsIds: string[];
+}
+
+export interface OccurRelease {
+    id: string;
+    name: string;
 }
