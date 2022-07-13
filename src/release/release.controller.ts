@@ -51,12 +51,21 @@ export class ReleaseController {
         return await this.releaseService.createRelease(body)
     }
 
-    @Get('/resolved/:id')
+    @Get('/incidents/resolved/:id')
     @AuthRequired()
     async getIncidentsResolvedInRelease(
         @Param("id") id: string
     ): Promise<Incident[]> {
-        return await this.releaseQueryService.getResolvedIncidentsInRelease(id)
+        return await this.releaseQueryService.getIncidentsResolvedInRelease(id)
+    }
+
+    @Get('/incidents/catched')
+    @AuthRequired()
+    async getIncidentsCatchedInRelease(
+        @Query() query: { id: number, version: string }
+    ): Promise<Incident[]> {
+        const { id, version } = query;
+        return await this.releaseQueryService.getIncidentsCatchedInRelease(id, version);
     }
 
     @Delete('/:id')

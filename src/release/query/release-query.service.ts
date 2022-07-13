@@ -36,7 +36,19 @@ export class ReleaseQueryService extends GenericQueryService<Release, BaseDtoQue
         return ['id', 'env', 'version', 'lastDeploymentAt', 'incidentsOccurCount', 'incidentsCount'];
     }
 
-    public async getResolvedIncidentsInRelease(id: string): Promise<Incident[]> {
+    public async getIncidentsCatchedInRelease(id: number, version: string): Promise<Incident[]> {
+        const incidents = await this.entityManager.getRepository(Incident).find({
+            where: {
+                application: {
+                    id
+                }
+            }
+        });
+
+        return incidents?.filter((incident) => incident.occurDates.some((a) => a.version?.name === version));
+    }
+
+    public async getIncidentsResolvedInRelease(id: string): Promise<Incident[]> {
         return await this.entityManager.getRepository(Incident).find({
             where: {
                 resolved: {

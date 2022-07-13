@@ -5,7 +5,7 @@ import { Release } from "./release.entity";
 import { Application } from "./application.entity";
 import { Trace } from "aws-sdk/clients/xray";
 import { GenericEntity } from "src/core/generic.entity";
-import { OccurrDate, OccurRelease } from "../models/incident";
+import { ErrorDetails, ErrorRelease } from "../models/incident";
 import { Environment, Platform } from "../models/release";
 
 export enum IncidentStatus {
@@ -60,20 +60,13 @@ export class Incident extends GenericEntity {
         type: 'json',
         nullable: true
     })
-    release: OccurRelease;
+    release: ErrorRelease;
 
     @Column({
         type: 'varchar',
         nullable: true
     })
     githubIssueUrl: string;
-
-    // @Column({
-    //     type: 'int',
-    //     nullable: true,
-    //     default: 0
-    // })
-    // commentsCount: number;
 
     @ManyToOne(() => Application, {
         onUpdate: "CASCADE",
@@ -103,7 +96,7 @@ export class Incident extends GenericEntity {
     @Column({
         type: 'json'
     })
-    occurDates: Array<OccurrDate>;
+    occurDates: Array<ErrorDetails>;
 
     @Column({
         type: 'json'

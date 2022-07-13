@@ -1,12 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { Environment } from "src/db/models/release";
-import { Release } from "src/db/entities/release.entity";
+import { Release, RELEASE_STATUS } from "src/db/entities/release.entity";
 import { DashboardStats, HourlyStats, PlotData, AppStats } from "src/db/models/statistics";
 import { EntityManager, MoreThan } from "typeorm";
 import dayjs from "dayjs";
 import { Incident } from "src/db/entities/incident.entity";
-import { OccurrDate } from "src/db/models/incident";
-import dateUtils from "src/helpers/dateUtils";
+import { ErrorDetails } from "src/db/models/incident";
 import { RequestUser } from "src/auth/auth.model";
 import { Application } from "src/db/entities/application.entity";
 import { AccountApplicationRelationship } from "src/db/entities/account-application-relationship.entity";
@@ -18,7 +17,7 @@ export class StatisticsQueryService {
     ) { }
 
     async getApplicationStatistics(id: string): Promise<AppStats> {
-        const occurDates: OccurrDate[] = [];
+        const occurDates: ErrorDetails[] = [];
 
         const incidents = await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
@@ -43,6 +42,7 @@ export class StatisticsQueryService {
         const releases = await this.entityManger.getRepository(Release)
             .createQueryBuilder('release')
             .where('release.applicationId = :id', { id })
+            .andWhere('release.status = :status', { status: RELEASE_STATUS.ACTIVE })
             .orderBy('release.createdAt', 'DESC')
             .getMany();
 
@@ -69,7 +69,7 @@ export class StatisticsQueryService {
         let totalCount: number = 0;
 
         const response: HourlyStats[] = [];
-        const cachedDates: OccurrDate[] = [];
+        const cachedDates: ErrorDetails[] = [];
 
         await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
@@ -103,7 +103,7 @@ export class StatisticsQueryService {
     }
 
     public async getTotalOverview(appId: string): Promise<PlotData[]> {
-        const occurDates: OccurrDate[] = [];
+        const occurDates: ErrorDetails[] = [];
 
         await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
@@ -146,7 +146,7 @@ export class StatisticsQueryService {
         return this.parseOccurDatesToPlotData(occurDates);
     }
 
-    protected parseOccurDatesToPlotData(occurDates: OccurrDate[]): PlotData[] {
+    protected parseOccurDatesToPlotData(occurDates: ErrorDetails[]): PlotData[] {
         const sortedDates = occurDates?.sort((a, b) => a.date - b.date);
         const beginDate = occurDates[0];
 

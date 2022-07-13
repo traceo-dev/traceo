@@ -85,7 +85,7 @@ export interface Incident {
 
     occuredCount?: number;
     lastOccur?: number;
-    occurDates?: OccurrDate[];
+    occurDates?: ErrorDetails[];
 
     assigned: {
         id: string;
@@ -97,7 +97,7 @@ export interface Incident {
     commentsCount?: number;
 }
 
-export interface OccurrDate {
+export interface ErrorDetails {
     date: number;
     version?: {
         id: string;
@@ -189,7 +189,7 @@ export class IncidentBatchUpdateDto extends IncidentUpdateDto {
     incidentsIds: string[];
 }
 
-export interface OccurRelease {
+export interface ErrorRelease {
     id: string;
     name: string;
 }

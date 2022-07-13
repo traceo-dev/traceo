@@ -13,7 +13,7 @@ var cors = require('cors');
 async function bootstrap() {
   Traceo.init({
     dsn: process.env.TRACEO_DSN,
-    version: "0.0.1"
+    version: "0.0.2"
   });
 
   const app = await NestFactory.create(AppModule);
