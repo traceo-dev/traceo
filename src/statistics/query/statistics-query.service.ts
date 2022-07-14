@@ -1,8 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { Environment } from "src/db/models/release";
 import { Release, RELEASE_STATUS } from "src/db/entities/release.entity";
 import { DashboardStats, HourlyStats, PlotData, AppStats } from "src/db/models/statistics";
-import { EntityManager, MoreThan } from "typeorm";
+import { EntityManager } from "typeorm";
 import dayjs from "dayjs";
 import { Incident } from "src/db/entities/incident.entity";
 import { ErrorDetails } from "src/db/models/incident";
@@ -34,11 +33,6 @@ export class StatisticsQueryService {
         const minDateBefore = dayjs().subtract(7, 'day').unix();
         const lastWeekIncidentsCount = occurDates?.filter((o) => dayjs(o.date).isAfter(minDateBefore))?.length || 0;
 
-        const maxDateBefore = dayjs().subtract(14, 'day').unix();
-
-        const twoWeeksAgoIncidentsCount = occurDates?.filter((o) => dayjs(o.date).isBetween(minDateBefore, maxDateBefore))?.length || 0;
-        const { isMore, percentage } = this.calculatePercentageDiff(lastWeekIncidentsCount, twoWeeksAgoIncidentsCount);
-
         const releases = await this.entityManger.getRepository(Release)
             .createQueryBuilder('release')
             .where('release.applicationId = :id', { id })
@@ -48,19 +42,21 @@ export class StatisticsQueryService {
 
         const lastRelease = releases[0];
 
+        const total = {
+            incidentsCount,
+            incidentsOccurCount,
+            lastWeek: lastWeekIncidentsCount
+        }
+
+        const release = {
+            version: lastRelease?.version,
+            incidentsCount: lastRelease?.incidentsCount || 0,
+            incidentsOccurCount: lastRelease?.incidentsOccurCount || 0,
+        }
+
         return {
-            total: {
-                incidentsCount,
-                incidentsOccurCount,
-                lastWeek: lastWeekIncidentsCount,
-                percentage,
-                isMore
-            },
-            release: {
-                version: lastRelease?.version,
-                incidentsCount: lastRelease?.incidentsCount | 0,
-                incidentsOccurCount: lastRelease?.incidentsOccurCount | 0,
-            }
+            total,
+            release
         };
     }
 
@@ -71,21 +67,20 @@ export class StatisticsQueryService {
         const response: HourlyStats[] = [];
         const cachedDates: ErrorDetails[] = [];
 
-        await this.entityManger.getRepository(Incident)
+        const incidents = await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
             .where("incident.applicationId = :applicationId", { applicationId })
             .andWhere("incident.lastOccur > :today", { today })
             .select('incident.occurDates')
-            .getMany()
-            .then((response) => { //improve this
-                response.forEach((incident) => {
-                    incident.occurDates.forEach((occur) => {
-                        if (dayjs(occur.date).isAfter(today)) {
-                            cachedDates.push(occur);
-                        }
-                    })
-                })
-            });
+            .getMany();
+
+        incidents.forEach((incident) => {
+            incident.occurDates.forEach((occur) => {
+                if (dayjs(occur.date).isAfter(today)) {
+                    cachedDates.push(occur);
+                }
+            })
+        })
 
         for (let i = 0; i <= 24; i++) {
             const count = cachedDates.filter((o) => ((dayjs.unix(o.date).get('hour') === i) && (dayjs.unix(o.date).isAfter(today))))?.length;
@@ -105,31 +100,13 @@ export class StatisticsQueryService {
     public async getTotalOverview(appId: string): Promise<PlotData[]> {
         const occurDates: ErrorDetails[] = [];
 
-        await this.entityManger.getRepository(Incident)
+        const incidents = await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
             .where("incident.applicationId = :appId", { appId })
             .select('incident.occurDates')
-            .getMany()
-            .then((response) => {
-                response.forEach((incident) => {
-                    occurDates.push(...incident.occurDates);
-                })
-            });
-
-        //for case when eq. is new app without any incidents we return mocked data from past 7 days
-        //because plot need some data to properly rendering
-        if (occurDates?.length === 0) {
-            const mock: PlotData[] = [];
-            for (let i = 0; i < 3; i++) {
-                const mockedDate = dayjs().subtract(i, 'day').unix();
-                mock.push({
-                    date: mockedDate,
-                    count: 0
-                });
-            }
-
-            return mock;
-        }
+            .getMany();
+        
+        incidents.forEach((i) => { occurDates.push(...i.occurDates) })
 
         return this.parseOccurDatesToPlotData(occurDates);
     }
@@ -197,33 +174,21 @@ export class StatisticsQueryService {
         const { id } = account;
 
         return this.entityManger.transaction(async (manager) => {
-            const ownerAppsCount = await manager.getRepository(Application).count({
-                where: {
-                    owner: {
-                        id
-                    }
-                }
-            });
+            const ownerAppsCount = await manager.getRepository(Application)
+                .createQueryBuilder('application')
+                .leftJoin('application.owner', 'owner', 'owner.id = :id', { id })
+                .getCount();
 
-            const memberCount = await manager.getRepository(AccountApplicationRelationship).count({
-                where: {
-                    account: {
-                        id
-                    }
-                }
-            });
+            const memberCount = await manager.getRepository(AccountApplicationRelationship).createQueryBuilder('aar')
+                .leftJoin('aar.account', 'account', 'account.id = :id', { id })
+                .getCount();
 
             const monthStart = dayjs().subtract(1, 'month').startOf('day').unix();
-            const incidents = await manager.getRepository(Incident).count({
-                where: {
-                    application: {
-                        owner: {
-                            id
-                        }
-                    },
-                    createdAt: MoreThan(monthStart)
-                }
-            });
+            const incidents = await manager.getRepository(Incident).createQueryBuilder('incident')
+                .leftJoin('incident.application', 'application')
+                .leftJoin('application.owner', 'owner', 'owner.id = :id', { id })
+                .where('incident.createdAt > :than', { than: monthStart })
+                .getCount();
 
             return {
                 incidents,

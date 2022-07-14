@@ -3,8 +3,6 @@ export interface AppStats {
         incidentsCount: number,
         incidentsOccurCount: number,
         lastWeek: number;
-        percentage: string;
-        isMore: boolean;
     },
     release: {
         version: string,
