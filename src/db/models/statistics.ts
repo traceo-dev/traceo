@@ -24,7 +24,6 @@ export interface PlotData {
 export interface DashboardStats {
     apps: {
         owner: number;
-        all: number;
     },
     incidents: number;
 }

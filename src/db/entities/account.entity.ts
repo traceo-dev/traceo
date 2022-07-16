@@ -42,7 +42,7 @@ export class Account extends GenericEntity {
   @IsEnum(AccountRole)
   role: AccountRole;
 
-  @Column({ select: false, nullable: false })
+  @Column({ nullable: false })
   @IsBoolean()
   active: boolean;
 

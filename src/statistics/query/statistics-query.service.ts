@@ -176,24 +176,19 @@ export class StatisticsQueryService {
         return this.entityManger.transaction(async (manager) => {
             const ownerAppsCount = await manager.getRepository(Application)
                 .createQueryBuilder('application')
-                .leftJoin('application.owner', 'owner', 'owner.id = :id', { id })
-                .getCount();
-
-            const memberCount = await manager.getRepository(AccountApplicationRelationship).createQueryBuilder('aar')
-                .leftJoin('aar.account', 'account', 'account.id = :id', { id })
+                .innerJoin('application.owner', 'owner', 'owner.id = :id', { id })
                 .getCount();
 
             const monthStart = dayjs().subtract(1, 'month').startOf('day').unix();
             const incidents = await manager.getRepository(Incident).createQueryBuilder('incident')
                 .leftJoin('incident.application', 'application')
-                .leftJoin('application.owner', 'owner', 'owner.id = :id', { id })
-                .where('incident.createdAt > :than', { than: monthStart })
+                .innerJoin('application.owner', 'owner', 'owner.id = :id', { id })
+                .andWhere('incident.createdAt > :than', { than: monthStart })
                 .getCount();
 
             return {
                 incidents,
                 apps: {
-                    all: memberCount,
                     owner: ownerAppsCount
                 }
             }

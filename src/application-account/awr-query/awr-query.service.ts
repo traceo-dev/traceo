@@ -34,7 +34,7 @@ export class AwrQueryService {
             .where('accountApplicationRelationship.application = :appId', { appId })
             .leftJoin("accountApplicationRelationship.account", "account", "account.id = :accountId", { accountId })
             .leftJoin('account.github', 'github')
-            .addSelect(["account.name", "account.email", "account.id", "account.logo", "account.role"])
+            .addSelect(["account.name", "account.email", "account.id", "account.logo", "account.role", "account.active"])
             .addSelect(["accountApplicationRelationship.status"])
             .addSelect(["github.name", "github.avatar", "github.profileUrl", "github.createdAt", "github.login"])
             .getOne();

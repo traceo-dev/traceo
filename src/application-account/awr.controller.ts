@@ -45,7 +45,7 @@ export class AwrController {
         return await this.awrQueryService.getApplicationsForAccount(account?.id, pageOptionsDto);
     }
 
-    @Post('/applications/add')
+    @Post('/application/add')
     @AuthRequired()
     public async addAccountToApplication(
         @Body() body: AddAccountToApplicationModel
@@ -55,7 +55,6 @@ export class AwrController {
     }
 
     @Get('/application/assign')
-    // @AuthRequired()
     public async assignAccountToApplication(
         @Query("appId") appId: number,
         @Query("aid") accountId: string
