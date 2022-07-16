@@ -51,7 +51,6 @@ export class AwrController {
         @Body() body: AddAccountToApplicationModel
     ): Promise<void> {
         const { email, appId } = body;
-        console.log("BODY: ", body);
         return await this.awrService.addAccountToApplication(email, appId);
     }
 

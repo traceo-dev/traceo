@@ -33,7 +33,7 @@ async function bootstrap() {
   app.use(cors({ credentials: true, origin: true }));
   app.use(bodyParser.json({ limit: '10mb' }));
   app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
-  app.use(morgan("[:date[iso]] :method :url :status :response-time ms"));
+  app.use(morgan("[:date[iso]] :status :method :url :response-time ms"));
 
   app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
   app.useGlobalInterceptors(new TraceoInterceptor());

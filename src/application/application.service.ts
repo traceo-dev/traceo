@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { RequestUser } from 'src/auth/auth.model';
 import { AwrService } from 'src/application-account/awr.service';
 import { Account } from 'src/db/entities/account.entity';
@@ -59,7 +59,7 @@ export class ApplicationService {
                 return application;
             })
         } catch (error) {
-            console.log(error)
+            Logger.error(`[${this.createApplication.name}] Caused by: ${error}`);
             throw new Error(error);
         }
     }
@@ -77,23 +77,26 @@ export class ApplicationService {
     public async updateApplication(appBody: ApplicationBody | Partial<Application>, account: RequestUser, manager: EntityManager = this.entityManager): Promise<any> {
         const { id, ...rest } = appBody;
         const { logo, name } = rest;
-        const application = await this.applicationQueryService.getDto(id);
+        try {
+            //check here for privilleges
+            const application = await this.applicationQueryService.getDto(id);
+            if (logo && application?.logo) {
+                const keyName = `${AttachmentType.APPLICATION_AVATAR}/${getKeyFromBucketUrl(application?.logo)}`;
+                await this.awsBucketService.removeFileFromBucket(keyName);
+            }
 
-        //check here for privilleges
+            if (name) {
+                await this.validate(name);
+            }
 
-        if (logo && application?.logo) {
-            const keyName = `${AttachmentType.APPLICATION_AVATAR}/${getKeyFromBucketUrl(application?.logo)}`;
-            await this.awsBucketService.removeFileFromBucket(keyName);
+            await manager.getRepository(Application).update({ id }, {
+                updatedAt: dateUtils.toUnix(),
+                ...rest
+            });
+        } catch (error) {
+            Logger.error(`[${this.updateApplication.name}] Caused by: ${error}`);
+            throw new Error(error);
         }
-
-        if (name) {
-            await this.validate(name);
-        }
-
-        await manager.getRepository(Application).update({ id }, {
-            updatedAt: dateUtils.toUnix(),
-            ...rest
-        });
     }
 
     private async validate(name: string, manager: EntityManager = this.entityManager): Promise<void> {

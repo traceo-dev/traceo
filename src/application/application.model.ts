@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength } from "class-validator";
 import { Environment } from "src/db/models/release";
 
 export class CreateApplicationBody {
@@ -25,7 +25,7 @@ export class CreateApplicationBody {
 }
 
 export class ApplicationBody {
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
     @ApiProperty({ description: 'app id' })
     public id?: number;

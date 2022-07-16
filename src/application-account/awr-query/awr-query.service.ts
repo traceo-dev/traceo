@@ -31,17 +31,11 @@ export class AwrQueryService {
 
         const response = await this.entityManager.getRepository(AccountApplicationRelationship)
             .createQueryBuilder("accountApplicationRelationship")
-            .where(
-                'accountApplicationRelationship.account = :accountId',
-                {
-                    accountId,
-                },
-            )
-            .andWhere('accountApplicationRelationship.application = :appId', { appId })
-            .leftJoin("accountApplicationRelationship.account", "account")
+            .where('accountApplicationRelationship.application = :appId', { appId })
+            .leftJoin("accountApplicationRelationship.account", "account", "account.id = :accountId", { accountId })
+            .leftJoin('account.github', 'github')
             .addSelect(["account.name", "account.email", "account.id", "account.logo", "account.role"])
             .addSelect(["accountApplicationRelationship.status"])
-            .leftJoin('account.github', 'github')
             .addSelect(["github.name", "github.avatar", "github.profileUrl", "github.createdAt", "github.login"])
             .getOne();
 

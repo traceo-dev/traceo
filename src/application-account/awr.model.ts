@@ -29,7 +29,7 @@ export class AssignAccountToApplicationModel {
     @IsString()
     @IsNotEmpty()
     @ApiProperty()
-    appId: string;
+    appId: number;
 }
 
 export class AwrModel {

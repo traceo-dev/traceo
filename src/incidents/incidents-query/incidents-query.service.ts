@@ -79,7 +79,6 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
                     qb.where('LOWER(incident.message) LIKE LOWER(:search)', { search: `%${search}%` })
                         .orWhere('LOWER(incident.type) LIKE LOWER(:search)', { search: `%${search}%` })
                         .orWhere('LOWER(incident.status) LIKE LOWER(:search)', { search: `%${search}%` })
-                        .orWhere('LOWER(incident.release) LIKE LOWER(:search)', { search: `%${search}%` })
                 }));
         }
 
