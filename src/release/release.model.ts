@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsString, IsNotEmpty, IsOptional, IsEnum, IsNumber } from "class-validator";
 import { RELEASE_STATUS } from "src/db/entities/release.entity";
+import { Environment } from "src/db/models/release";
 
 export class CreateReleaseModal {
     @IsString()

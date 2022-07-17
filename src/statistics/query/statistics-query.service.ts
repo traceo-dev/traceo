@@ -8,6 +8,7 @@ import { ErrorDetails } from "src/db/models/incident";
 import { RequestUser } from "src/auth/auth.model";
 import { Application } from "src/db/entities/application.entity";
 import { AccountApplicationRelationship } from "src/db/entities/account-application-relationship.entity";
+import { Environment } from "src/db/models/release";
 
 @Injectable()
 export class StatisticsQueryService {
@@ -15,12 +16,13 @@ export class StatisticsQueryService {
         private entityManger: EntityManager
     ) { }
 
-    async getApplicationStatistics(id: string): Promise<AppStats> {
+    async getApplicationStatistics(id: string, env: Environment): Promise<AppStats> {
         const occurDates: ErrorDetails[] = [];
 
         const incidents = await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
             .where('incident.applicationId = :id', { id })
+            .andWhere('incident.env = :env', { env })
             .orderBy('incident.createdAt', 'DESC')
             .select(['incident.occurDates', 'incident.occuredCount'])
             .getMany();
@@ -36,6 +38,7 @@ export class StatisticsQueryService {
         const releases = await this.entityManger.getRepository(Release)
             .createQueryBuilder('release')
             .where('release.applicationId = :id', { id })
+            .andWhere('release.env = :env', { env })
             .andWhere('release.status = :status', { status: RELEASE_STATUS.ACTIVE })
             .orderBy('release.createdAt', 'DESC')
             .getMany();
@@ -60,7 +63,7 @@ export class StatisticsQueryService {
         };
     }
 
-    public async getDailyOverview(applicationId: string): Promise<{ count: number, data: HourlyStats[] }> {
+    public async getDailyOverview(applicationId: string, environment: Environment): Promise<{ count: number, data: HourlyStats[] }> {
         const today = dayjs().startOf('day').unix();
         let totalCount: number = 0;
 
@@ -70,6 +73,7 @@ export class StatisticsQueryService {
         const incidents = await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
             .where("incident.applicationId = :applicationId", { applicationId })
+            .andWhere("incident.env = :environment", { environment })
             .andWhere("incident.lastOccur > :today", { today })
             .select('incident.occurDates')
             .getMany();
@@ -97,24 +101,26 @@ export class StatisticsQueryService {
         };
     }
 
-    public async getTotalOverview(appId: string): Promise<PlotData[]> {
+    public async getTotalOverview(appId: string, environment: Environment): Promise<PlotData[]> {
         const occurDates: ErrorDetails[] = [];
 
         const incidents = await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
             .where("incident.applicationId = :appId", { appId })
+            .andWhere("incident.env = :environment", { environment })
             .select('incident.occurDates')
             .getMany();
-        
+
         incidents.forEach((i) => { occurDates.push(...i.occurDates) })
 
         return this.parseOccurDatesToPlotData(occurDates);
     }
 
-    public async getTotalOverviewForIncident(incidentId: string, range: number = 2): Promise<PlotData[]> {
+    public async getTotalOverviewForIncident(incidentId: string, env: Environment): Promise<PlotData[]> {
         const incident = await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
             .where("incident.id = :incidentId", { incidentId })
+            .andWhere('incident.env = :env', { env })
             .select('incident.occurDates')
             .getOne();
 

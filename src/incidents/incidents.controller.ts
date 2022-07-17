@@ -1,10 +1,12 @@
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { Environment } from 'aws-sdk/clients/iot';
 import { RequestUser } from 'src/auth/auth.model';
 import { Incident } from 'src/db/entities/incident.entity';
 import { IncidentBatchUpdateDto, IncidentQueryDto, IncidentUpdateDto } from 'src/db/models/incident';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
+import { Env } from 'src/libs/decorators/env.decorator';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsService } from './incidents.service';
 
@@ -28,9 +30,10 @@ export class IncidentsController {
     @AuthRequired()
     public async getIncidents(
         @Query("id") id: number,
-        @Query() query: IncidentQueryDto
+        @Query() query: IncidentQueryDto,
+        @Env() env: Environment
     ): Promise<Incident[]> {
-        return await this.incidentsQueryService.listDto({ appId: id, ...query });
+        return await this.incidentsQueryService.listDto({ appId: id, env, ...query });
     }
 
     @Get('/assigned/account')

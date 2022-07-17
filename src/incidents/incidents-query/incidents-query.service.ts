@@ -26,9 +26,10 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
     }
 
     public extendQueryBuilder(builder: SelectQueryBuilder<Incident>, query: IncidentQueryDto): SelectQueryBuilder<Incident> {
-        const { appId } = query;
+        const { appId, env } = query;
 
         builder.where('incident.applicationId = :appId', { appId })
+            .andWhere('incident.env = :env', { env })
 
         this.commonQuery(builder, query);
 

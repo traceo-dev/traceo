@@ -1,9 +1,11 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
+import { Environment } from 'src/db/models/release';
 import { HourlyStats, PlotData, AppStats } from 'src/db/models/statistics';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
+import { Env } from 'src/libs/decorators/env.decorator';
 import { StatisticsQueryService } from './query/statistics-query.service';
 
 @ApiTags('statistics')
@@ -17,33 +19,36 @@ export class StatisticsController {
     @AuthRequired()
     async getApplicationStatistics(
         @Query('id') id: string,
+        @Env() env: Environment
     ): Promise<AppStats> {
-        return await this.statisticsQueryService.getApplicationStatistics(id);
+        return await this.statisticsQueryService.getApplicationStatistics(id, env);
     }
 
     @Get('/incident/total')
     @AuthRequired()
     async getIncidentTotalOverview(
         @Query('id') id: string,
-        @Query('range') range: number,
+        @Env() env: Environment
     ): Promise<PlotData[]> {
-        return await this.statisticsQueryService.getTotalOverviewForIncident(id, range);
+        return await this.statisticsQueryService.getTotalOverviewForIncident(id, env);
     }
 
     @Get('/daily')
     @AuthRequired()
     async getDailyOverview(
         @Query('id') id: string,
+        @Env() env: Environment
     ): Promise<{ count: number, data: HourlyStats[] }> {
-        return await this.statisticsQueryService.getDailyOverview(id);
+        return await this.statisticsQueryService.getDailyOverview(id, env);
     }
 
     @Get('/total')
     @AuthRequired()
     async getTotalOverview(
         @Query('id') id: string,
+        @Env() env: Environment
     ): Promise<PlotData[]> {
-        return await this.statisticsQueryService.getTotalOverview(id);
+        return await this.statisticsQueryService.getTotalOverview(id, env);
     }
 
     @Get('/dashboard')

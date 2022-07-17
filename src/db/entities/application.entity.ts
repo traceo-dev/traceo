@@ -50,8 +50,8 @@ export class Application extends GenericEntity {
   @Column({ nullable: true })
   lastIncidentAt?: number;
 
-  @Column({ nullable: false, default: 'dev' })
-  defaultEnv?: Environment = "dev";
+  @Column({ nullable: false, default: 'development' })
+  defaultEnv?: Environment = "development";
 
   @Column({
     type: 'json',

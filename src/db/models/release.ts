@@ -1,4 +1,4 @@
-export type Environment = "prod" | "dev";
+export type Environment = "production" | "development" | "test";
 export type VersionSetter = "klepper" | "sdk";
 
 export interface Release {

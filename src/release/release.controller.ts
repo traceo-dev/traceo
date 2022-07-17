@@ -3,7 +3,9 @@ import { ApiTags } from '@nestjs/swagger';
 import { BaseDtoQuery } from 'src/core/generic.model';
 import { Incident } from 'src/db/entities/incident.entity';
 import { Release } from 'src/db/entities/release.entity';
+import { Environment } from 'src/db/models/release';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
+import { Env } from 'src/libs/decorators/env.decorator';
 import { ReleaseQueryService } from './query/release-query.service';
 import { CreateReleaseModal, ReleaseModel } from './release.model';
 import { ReleaseService } from './release.service';
@@ -20,10 +22,11 @@ export class ReleaseController {
     @AuthRequired()
     async getReleases(
         @Query('id') id: number,
-        @Query() query: BaseDtoQuery
+        @Query() query: BaseDtoQuery,
+        @Env() env: Environment
     ): Promise<Release[]> {
         return await this.releaseQueryService.listDto({
-            appId: id, ...query
+            appId: id, env, ...query
         });
     }
 
@@ -47,8 +50,9 @@ export class ReleaseController {
     @AuthRequired()
     async createRelease(
         @Body() body: CreateReleaseModal,
+        @Env() env: Environment
     ): Promise<void> {
-        return await this.releaseService.createRelease(body)
+        return await this.releaseService.createRelease(body, env)
     }
 
     @Get('/incidents/resolved/:id')

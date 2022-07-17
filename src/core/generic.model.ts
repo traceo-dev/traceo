@@ -1,6 +1,7 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsEnum, IsInt, IsNumber, IsOptional, IsString, Max, Min } from "class-validator";
+import { Environment } from "src/db/models/release";
 
 enum Order {
     ASC = 'ASC',
@@ -53,4 +54,8 @@ export class BaseDtoQuery  {
     @Type(() => String)
     @IsOptional()
     readonly sortBy?: string;
+
+    @ApiPropertyOptional()
+    @IsOptional()
+    readonly env: Environment;
 }

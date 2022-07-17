@@ -32,7 +32,7 @@ export class AwrQueryService {
         const response = await this.entityManager.getRepository(AccountApplicationRelationship)
             .createQueryBuilder("accountApplicationRelationship")
             .where('accountApplicationRelationship.application = :appId', { appId })
-            .leftJoin("accountApplicationRelationship.account", "account", "account.id = :accountId", { accountId })
+            .innerJoin("accountApplicationRelationship.account", "account", "account.id = :accountId", { accountId })
             .leftJoin('account.github', 'github')
             .addSelect(["account.name", "account.email", "account.id", "account.logo", "account.role", "account.active"])
             .addSelect(["accountApplicationRelationship.status"])
@@ -97,7 +97,7 @@ export class AwrQueryService {
                 .leftJoinAndSelect("accountApplicationRelationship.application", "application")
                 .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
                 .leftJoin("application.owner", "owner")
-                .orderBy("accountApplicationRelationship.favorite", "DESC")
+                // .orderBy("accountApplicationRelationship.favorite", "DESC")
 
             if (search) {
                 queryBuilder.where("LOWER(application.name) LIKE LOWER(:name)", { name: `%${search}%` })
@@ -106,9 +106,7 @@ export class AwrQueryService {
                     .orWhere("LOWER(owner.name) LIKE LOWER(:name)", { name: `%${search}%` })
             }
 
-            if (sortBy) {
-                queryBuilder.addOrderBy(sortBy, order)
-            }
+            queryBuilder.orderBy(sortBy, order)
 
             if (favorite) {
                 queryBuilder.andWhere("accountApplicationRelationship.favorite = :favorite", { favorite })

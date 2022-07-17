@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { Release, RELEASE_STATUS } from "src/db/entities/release.entity";
+import { Environment } from "src/db/models/release";
 import dateUtils from "src/helpers/dateUtils";
 import { EntityManager } from "typeorm";
 import { CreateReleaseModal, ReleaseModel } from "./release.model";
@@ -10,12 +11,12 @@ export class ReleaseService {
         private readonly entityManager: EntityManager
     ) { }
 
-    async createRelease(body: CreateReleaseModal, manager: EntityManager = this.entityManager): Promise<void> {
+    async createRelease(body: CreateReleaseModal, env: Environment): Promise<void> {
         const { applicationId, ...rest } = body;
-        await manager.getRepository(Release).save({
+        await this.entityManager.getRepository(Release).save({
             status: RELEASE_STATUS.INACTIVE,
             createdAt: dateUtils.toUnix(),
-            env: "dev",
+            env,
             incidentsCount: 0,
             incidentsOccurCount: 0,
             application: {
@@ -26,16 +27,16 @@ export class ReleaseService {
         })
     }
 
-    async updateRelease(update: ReleaseModel, manager: EntityManager = this.entityManager): Promise<void> {
+    async updateRelease(update: ReleaseModel): Promise<void> {
         const { id, ...rest } = update;
-        await manager.getRepository(Release).update({ id }, {
+        await this.entityManager.getRepository(Release).update({ id }, {
             updatedAt: dateUtils.toUnix(),
             ...rest
         });
     }
 
-    async removeRelease(id: string, manager: EntityManager = this.entityManager): Promise<void> {
-        await manager.getRepository(Release)
+    async removeRelease(id: string): Promise<void> {
+        await this.entityManager.getRepository(Release)
             .createQueryBuilder('release')
             .where('release.id = :id', { id })
             .delete()
