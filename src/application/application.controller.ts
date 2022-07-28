@@ -4,6 +4,7 @@ import { RequestUser } from 'src/auth/auth.model';
 import { Application } from 'src/db/entities/application.entity';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
+import { ApplicationResponse } from 'src/types/application';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { CreateApplicationBody, ApplicationBody } from './application.model';
 import { ApplicationService } from './application.service';
@@ -17,10 +18,12 @@ export class ApplicationController {
     ) {}
 
     @Get()
+    @AuthRequired()
     async getApplication(
         @Query('id') id: number,
-    ): Promise<Application> {
-        return await this.applicationQueryService.getApplication(id);
+        @AuthAccount() user: RequestUser
+    ): Promise<ApplicationResponse | null> {
+        return await this.applicationQueryService.getApplication(id, user);
     }
 
     @Post()

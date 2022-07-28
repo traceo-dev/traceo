@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
 import { BaseDtoQuery } from "src/core/generic.model";
-import { MEMBER_STATUS } from "src/db/entities/account-application-relationship.entity";
+import { MEMBER_STATUS } from "src/db/entities/account-member-relationship.entity";
 
 export class ApplicationDtoQuery extends BaseDtoQuery {
     @IsOptional()

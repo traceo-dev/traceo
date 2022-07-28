@@ -1,14 +1,13 @@
 import { Injectable } from "@nestjs/common";
-import { Release, RELEASE_STATUS } from "src/db/entities/release.entity";
-import { DashboardStats, HourlyStats, PlotData, AppStats } from "src/db/models/statistics";
+import { DashboardStats, HourlyStats, PlotData, AppStats } from "src/types/statistics";
 import { EntityManager } from "typeorm";
 import dayjs from "dayjs";
 import { Incident } from "src/db/entities/incident.entity";
-import { ErrorDetails } from "src/db/models/incident";
 import { RequestUser } from "src/auth/auth.model";
 import { Application } from "src/db/entities/application.entity";
-import { AccountApplicationRelationship } from "src/db/entities/account-application-relationship.entity";
-import { Environment } from "src/db/models/release";
+import { Environment } from "src/core/generic.model";
+import { ErrorDetails } from "src/types/incident";
+
 
 @Injectable()
 export class StatisticsQueryService {
@@ -35,31 +34,14 @@ export class StatisticsQueryService {
         const minDateBefore = dayjs().subtract(7, 'day').unix();
         const lastWeekIncidentsCount = occurDates?.filter((o) => dayjs(o.date).isAfter(minDateBefore))?.length || 0;
 
-        const releases = await this.entityManger.getRepository(Release)
-            .createQueryBuilder('release')
-            .where('release.applicationId = :id', { id })
-            .andWhere('release.env = :env', { env })
-            .andWhere('release.status = :status', { status: RELEASE_STATUS.ACTIVE })
-            .orderBy('release.createdAt', 'DESC')
-            .getMany();
-
-        const lastRelease = releases[0];
-
         const total = {
             incidentsCount,
             incidentsOccurCount,
             lastWeek: lastWeekIncidentsCount
         }
 
-        const release = {
-            version: lastRelease?.version,
-            incidentsCount: lastRelease?.incidentsCount || 0,
-            incidentsOccurCount: lastRelease?.incidentsOccurCount || 0,
-        }
-
         return {
-            total,
-            release
+            total
         };
     }
 

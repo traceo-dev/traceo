@@ -9,12 +9,11 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm.config.service';
 import { AttachmentsModule } from './attachments/attachments.module';
-import { AwrModule } from './application-account/awr.module';
+import { AmrModule } from './application-member/amr.module';
 import { IncidentsModule } from './incidents/incidents.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { CommentsModule } from './comments/comments.module';
 import { WebsocketsModule } from './websockets/websockets.module';
-import { ReleaseModule } from './release/release.module';
 import { GithubModule } from './github/github.module';
 
 @Module({
@@ -31,12 +30,11 @@ import { GithubModule } from './github/github.module';
     ApplicationModule,
     MailingModule,
     AttachmentsModule,
-    AwrModule,
+    AmrModule,
     IncidentsModule,
     StatisticsModule,
     CommentsModule,
     WebsocketsModule,
-    ReleaseModule,
     GithubModule
   ],
   controllers: [AppController],

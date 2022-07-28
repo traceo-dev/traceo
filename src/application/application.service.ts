@@ -1,9 +1,9 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { RequestUser } from 'src/auth/auth.model';
-import { AwrService } from 'src/application-account/awr.service';
+import { AmrService } from 'src/application-member/amr.service';
 import { Account } from 'src/db/entities/account.entity';
 import { Application } from 'src/db/entities/application.entity';
-import { MEMBER_STATUS } from 'src/db/entities/account-application-relationship.entity';
+import { MEMBER_STATUS } from 'src/db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
 import * as crypto from "crypto";
 import { ApplicationWithNameAlreadyExistsError } from 'src/helpers/errors';
@@ -18,7 +18,7 @@ import { AttachmentType } from 'src/db/entities/attachment.entity';
 export class ApplicationService {
     constructor(
         private readonly entityManager: EntityManager,
-        private readonly awrService: AwrService,
+        private readonly awrService: AmrService,
         private readonly awsBucketService: AWSBucketService,
         private readonly applicationQueryService: ApplicationQueryService
     ) { }
@@ -46,7 +46,7 @@ export class ApplicationService {
                 }
 
                 const application = await manager.getRepository(Application).save(applicationPayload);
-
+                console.log("APPLICATION: ", application);
                 await this.attachDsn(application, user, manager);
 
                 await this.awrService.createAwr(
@@ -77,9 +77,12 @@ export class ApplicationService {
     public async updateApplication(appBody: ApplicationBody | Partial<Application>, account: RequestUser, manager: EntityManager = this.entityManager): Promise<any> {
         const { id, ...rest } = appBody;
         const { logo, name } = rest;
+        console.log("ID: ", id);
         try {
             //check here for privilleges
             const application = await this.applicationQueryService.getDto(id);
+            console.log("APP 2: ", application);
+
             if (logo && application?.logo) {
                 const keyName = `${AttachmentType.APPLICATION_AVATAR}/${getKeyFromBucketUrl(application?.logo)}`;
                 await this.awsBucketService.removeFileFromBucket(keyName);
@@ -88,6 +91,8 @@ export class ApplicationService {
             if (name) {
                 await this.validate(name);
             }
+
+            console.log("HERE")
 
             await manager.getRepository(Application).update({ id }, {
                 updatedAt: dateUtils.toUnix(),

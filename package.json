@@ -9,7 +9,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js",
+    "typeorm": "typeorm-ts-node-commonjs",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "lint:fix": "eslint . --fix --ext .js,.ts,.tsx",
     "test": "jest"
@@ -39,7 +39,7 @@
     "dayjs": "^1.11.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
-    "traceo": "file:traceo-sdk-0.0.78-alpha.tgz",
+    "traceo": "file:traceo-sdk-0.0.82-alpha.tgz",
     "mongodb": "^4.5.0",
     "morgan": "^1.10.0",
     "nodemailer": "^6.7.3",

@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { PatchCommentDto } from 'src/db/models/comments';
 import { RequestUser } from 'src/auth/auth.model';
 import dateUtils from 'src/helpers/dateUtils';
 import { CommentsGateway } from 'src/websockets/comments.gateway';
 import { EntityManager } from 'typeorm';
 import { Comment } from 'src/db/entities/comment.entity';
+import { PatchCommentDto } from 'src/types/comments';
 
 @Injectable()
 export class CommentsService {

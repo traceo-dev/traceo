@@ -5,7 +5,7 @@ import {
 } from "class-validator";
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GenericEntity } from "src/core/generic.entity";
-import { AccountApplicationRelationship } from "./account-application-relationship.entity";
+import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Github } from "./github.entity";
 import { Incident } from "./incident.entity";
 
@@ -59,13 +59,13 @@ export class Account extends GenericEntity {
   github: Github;
 
   @OneToMany(
-    () => AccountApplicationRelationship,
+    () => AccountMemberRelationship,
     (accountApp) => accountApp.account,
     {
       cascade: true,
     }
   )
-  applications: AccountApplicationRelationship[];
+  applications: AccountMemberRelationship[];
 
   @OneToMany(() => Incident, incident => incident.assigned)
   incidents: Incident[];

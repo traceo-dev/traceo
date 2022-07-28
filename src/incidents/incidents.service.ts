@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Account } from "src/db/entities/account.entity";
 import { Incident } from "src/db/entities/incident.entity";
-import { IncidentBatchUpdateDto, IncidentUpdateDto } from "src/db/models/incident";
+import { IncidentBatchUpdateDto, IncidentUpdateDto } from "src/types/incident";
 import { EntityManager } from "typeorm";
 
 @Injectable()

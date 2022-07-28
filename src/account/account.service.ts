@@ -8,9 +8,9 @@ import { EntityManager } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { AccountDto, CreateAccountDto } from './account.model';
 import { AccountQueryService } from './account-query/account-query.service';
-import { AwrService } from 'src/application-account/awr.service';
+import { AmrService } from 'src/application-member/amr.service';
 import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
-import { AccountApplicationRelationship, MEMBER_STATUS } from 'src/db/entities/account-application-relationship.entity';
+import { AccountMemberRelationship, MEMBER_STATUS } from 'src/db/entities/account-member-relationship.entity';
 import { getKeyFromBucketUrl } from 'src/helpers/base';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { AttachmentType } from 'src/db/entities/attachment.entity';
@@ -24,7 +24,7 @@ export class AccountService {
         readonly entityManager: EntityManager,
         readonly accountQueryService: AccountQueryService,
         readonly applicationQueryService: ApplicationQueryService,
-        readonly awrService: AwrService,
+        readonly awrService: AmrService,
         readonly awsBucketService: AWSBucketService,
         readonly httpService: HttpService
     ) { }
@@ -123,7 +123,7 @@ export class AccountService {
         const { id } = user;
 
         await this.entityManager.transaction(async (manager) => {
-            const awrWithOwnerStatus = await manager.getRepository(AccountApplicationRelationship).find({
+            const awrWithOwnerStatus = await manager.getRepository(AccountMemberRelationship).find({
                 where: {
                     account: {
                         id

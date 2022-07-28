@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
-import { CommentDto, PatchCommentDto } from 'src/db/models/comments';
 import { Comment } from 'src/db/entities/comment.entity';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
 import { CommentsService } from './comments.service';
 import { CommentsQueryService } from './query/comments-query.service';
 import { BaseDtoQuery } from 'src/core/generic.model';
+import { PatchCommentDto } from 'src/types/comments';
 
 @ApiTags('comments')
 @Controller('comments')

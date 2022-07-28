@@ -18,7 +18,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
                 migrations: [join(__dirname, 'migrations/*.{js,ts}')],
                 migrationsTransactionMode: 'each',
                 migrationsRun: true,
-                synchronize: true,
+                synchronize: false,
                 logging: false,
             }
         } else if (process.env.NODE_ENV === 'Development') {
@@ -33,7 +33,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
                 migrations: [join(__dirname, 'migrations/*.{js,ts}')],
                 migrationsTransactionMode: 'each',
                 migrationsRun: true,
-                synchronize: false,
+                synchronize: true,
                 logging: false,
                 // keepConnectionAlive: true,
                 // ssl: {

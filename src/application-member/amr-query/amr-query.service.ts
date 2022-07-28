@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { BaseDtoQuery } from 'src/core/generic.model';
-import { AccountApplicationRelationship } from 'src/db/entities/account-application-relationship.entity';
+import { AccountMemberRelationship } from 'src/db/entities/account-member-relationship.entity';
 import { Account } from 'src/db/entities/account.entity';
 import { EntityManager } from 'typeorm';
-import { ApplicationDtoQuery } from '../awr.model';
+import { ApplicationDtoQuery } from '../amr.model';
 
 @Injectable()
-export class AwrQueryService {
+export class AmrQueryService {
     constructor(
         private readonly entityManager: EntityManager
     ) { }
@@ -18,33 +18,14 @@ export class AwrQueryService {
      * @param appId 
      * @returns 
      */
-    public async getAccount(accountId: string, appId?: string): Promise<Account | AccountApplicationRelationship | null> {
-
-        if (!appId) {
-            return await this.entityManager.getRepository(Account)
-                .createQueryBuilder('account')
-                .where('account.id = :id', { id: accountId })
-                .leftJoin('account.github', 'github')
-                .addSelect(["github.name", "github.avatar", "github.profileUrl", "github.createdAt", "github.login"])
-                .getOne();
-        }
-
-        const response = await this.entityManager.getRepository(AccountApplicationRelationship)
-            .createQueryBuilder("accountApplicationRelationship")
-            .where('accountApplicationRelationship.application = :appId', { appId })
-            .innerJoin("accountApplicationRelationship.account", "account", "account.id = :accountId", { accountId })
+    public async getAccount(accountId: string, appId?: string): Promise<Account | null> {
+        return await this.entityManager.getRepository(Account)
+            .createQueryBuilder('account')
+            .where('account.id = :id', { id: accountId })
             .leftJoin('account.github', 'github')
-            .addSelect(["account.name", "account.email", "account.id", "account.logo", "account.role", "account.active"])
-            .addSelect(["accountApplicationRelationship.status"])
             .addSelect(["github.name", "github.avatar", "github.profileUrl", "github.createdAt", "github.login"])
             .getOne();
 
-        const res = {
-            status: response?.status,
-            ...response?.account
-        };
-
-        return res as unknown as AccountApplicationRelationship;
     }
 
     /**
@@ -54,10 +35,10 @@ export class AwrQueryService {
      * @param pageOptionsDto 
      * @returns 
      */
-    public async getApplicationMembers(appId: number, pageOptionsDto: BaseDtoQuery): Promise<AccountApplicationRelationship[]> {
+    public async getApplicationMembers(appId: number, pageOptionsDto: BaseDtoQuery): Promise<AccountMemberRelationship[]> {
         const { order, take, search, page } = pageOptionsDto;
         let queryBuilder = await this.entityManager
-            .getRepository(AccountApplicationRelationship)
+            .getRepository(AccountMemberRelationship)
             .createQueryBuilder("accountApplicationRelationship")
             .innerJoin("accountApplicationRelationship.application", "app", "app.id = :appId", {
                 appId
@@ -85,11 +66,12 @@ export class AwrQueryService {
      * @returns 
      */
 
-    public async getApplicationsForAccount(accountId: string, pageOptionsDto: ApplicationDtoQuery): Promise<AccountApplicationRelationship[]> {
-        const { page, take, order, search, sortBy, favorite } = pageOptionsDto;
+    public async getApplicationsForAccount(accountId: string, pageOptionsDto: ApplicationDtoQuery): Promise<AccountMemberRelationship[]> {
+        const { page, take, order, search, sortBy } = pageOptionsDto;
+        console.log({ sortBy, order })
         try {
             const queryBuilder = this.entityManager
-                .getRepository(AccountApplicationRelationship)
+                .getRepository(AccountMemberRelationship)
                 .createQueryBuilder("accountApplicationRelationship")
                 .innerJoin("accountApplicationRelationship.account", "account", "account.id = :accountId", {
                     accountId,
@@ -97,19 +79,14 @@ export class AwrQueryService {
                 .leftJoinAndSelect("accountApplicationRelationship.application", "application")
                 .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
                 .leftJoin("application.owner", "owner")
-                // .orderBy("accountApplicationRelationship.favorite", "DESC")
+                .orderBy(sortBy, order)
+            // .orderBy("accountApplicationRelationship.favorite", "DESC")
 
             if (search) {
                 queryBuilder.where("LOWER(application.name) LIKE LOWER(:name)", { name: `%${search}%` })
                     .orWhere("LOWER(application.technology) LIKE LOWER(:name)", { name: `%${search}%` })
                     .orWhere("LOWER(application.framework) LIKE LOWER(:name)", { name: `%${search}%` })
                     .orWhere("LOWER(owner.name) LIKE LOWER(:name)", { name: `%${search}%` })
-            }
-
-            queryBuilder.orderBy(sortBy, order)
-
-            if (favorite) {
-                queryBuilder.andWhere("accountApplicationRelationship.favorite = :favorite", { favorite })
             }
 
             return await queryBuilder
@@ -125,7 +102,7 @@ export class AwrQueryService {
     }
 
     public async awrExists({ accountId, appId }: { accountId: string, appId: number }, manager: EntityManager = this.entityManager): Promise<boolean> {
-        const count = await manager.getRepository(AccountApplicationRelationship)
+        const count = await manager.getRepository(AccountMemberRelationship)
             .createQueryBuilder("accountApplicationRelationship")
             .where(
                 'accountApplicationRelationship.account = :accountId AND accountApplicationRelationship.application = :appId',

@@ -1,9 +1,9 @@
 import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
-import { GithubRepository } from 'src/db/models/github';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
+import { GithubRepository } from 'src/types/github';
 import { GithubService } from './github.service';
 
 @ApiTags('github')

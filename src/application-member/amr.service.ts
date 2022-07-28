@@ -1,39 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { Account } from 'src/db/entities/account.entity';
-import { MEMBER_STATUS, AccountApplicationRelationship } from 'src/db/entities/account-application-relationship.entity';
+import { MEMBER_STATUS, AccountMemberRelationship } from 'src/db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
-import { AwrQueryService } from './awr-query/awr-query.service';
+import { AmrQueryService } from './amr-query/amr-query.service';
 import { AccountAlreadyInApplicationError } from 'src/helpers/errors';
 import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
 import { MailingService } from 'src/mailing/mailing.service';
-import { AwrModel } from './awr.model';
+import { AwrModel } from './amr.model';
 import dateUtils from 'src/helpers/dateUtils';
 import { Application } from 'src/db/entities/application.entity';
+import { Incident } from 'src/db/entities/incident.entity';
 
 /**
- * AWR - Account-Application-Relationship
+ * AMR - Application-Member-Relationship
  */
 
 @Injectable()
-export class AwrService {
+export class AmrService {
     constructor(
         private readonly entityManager: EntityManager,
-        private readonly awrQueryService: AwrQueryService,
+        private readonly awrQueryService: AmrQueryService,
         private readonly accountQueryService: AccountQueryService,
         private readonly applicationQueryService: ApplicationQueryService,
         private readonly mailingService: MailingService
     ) { }
 
     public async createAwr(account: Account, application: Application, memberStatus: MEMBER_STATUS = MEMBER_STATUS.DEVELOPER, manager: EntityManager = this.entityManager): Promise<void> {
-        const awr: Partial<AccountApplicationRelationship> = {
+        const awr: Partial<AccountMemberRelationship> = {
             account,
             application,
             status: memberStatus,
             createdAt: dateUtils.toUnix(),
             updatedAt: dateUtils.toUnix()
         }
-        await manager.getRepository(AccountApplicationRelationship).save(awr);
+        await manager.getRepository(AccountMemberRelationship).save(awr);
     }
 
     public async addAccountToApplication(email: string, appId: number): Promise<void> {
@@ -90,7 +91,7 @@ export class AwrService {
     public async updateApplicationAccount(awrModel: AwrModel, manager: EntityManager = this.entityManager): Promise<void> {
         const { id, ...rest } = awrModel;
         await manager.transaction(async (manager) => {
-            manager.getRepository(AccountApplicationRelationship).update({ id }, rest);
+            manager.getRepository(AccountMemberRelationship).update({ id }, rest);
         });
     }
 
@@ -100,24 +101,39 @@ export class AwrService {
 
     private async removeAwr(awrId: string, manager: EntityManager = this.entityManager): Promise<void> {
         await manager.transaction(async (manager) => {
-            manager.getRepository(AccountApplicationRelationship).delete({ id: awrId });
+            manager.getRepository(AccountMemberRelationship).delete({ id: awrId });
         });
     }
 
     public async leaveApplication(aid: string, appId: number): Promise<void> {
-        const awr = await this.entityManager.getRepository(AccountApplicationRelationship).findOneBy({
-            account: {
-                id: aid
-            },
-            application: {
-                id: appId
+        await this.entityManager.transaction(async (manager) => {
+            const assignedIncidents = await manager.getRepository(Incident).find({
+                where: {
+                    assigned: {
+                        id: aid
+                    }
+                }
+            });
+
+            const promises = assignedIncidents?.map(async (incident) => {
+                await this.entityManager.getRepository(Incident).update({ id: incident.id }, { assigned: null })
+            });
+            await Promise.all(promises);
+
+            const awr = await this.entityManager.getRepository(AccountMemberRelationship).findOneBy({
+                account: {
+                    id: aid
+                },
+                application: {
+                    id: appId
+                }
+            });
+
+            if (!awr) {
+                throw new Error("Relationship does not exists!");
             }
+
+            await this.removeAccountFromApplication(awr.id);
         });
-
-        if (!awr) {
-            throw new Error("Relationship does not exists!");
-        }
-
-        await this.removeAccountFromApplication(awr.id);
     }
 }

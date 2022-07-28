@@ -3,11 +3,6 @@ export interface AppStats {
         incidentsCount: number,
         incidentsOccurCount: number,
         lastWeek: number;
-    },
-    release: {
-        version: string,
-        incidentsCount: number,
-        incidentsOccurCount: number,
     }
 }
 

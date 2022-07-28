@@ -1,12 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Account } from "./account.entity";
 import { Comment } from "./comment.entity";
-import { Release } from "./release.entity";
 import { Application } from "./application.entity";
 import { Trace } from "aws-sdk/clients/xray";
 import { GenericEntity } from "src/core/generic.entity";
-import { ErrorDetails, ErrorRelease } from "../models/incident";
-import { Environment, Platform } from "../models/release";
+import { Environment } from "src/core/generic.model";
+import { ErrorDetails, Platform } from "src/types/incident";
 
 export enum IncidentStatus {
     RESOLVED = "resolved",
@@ -57,12 +56,6 @@ export class Incident extends GenericEntity {
     occuredCount: number;
 
     @Column({
-        type: 'json',
-        nullable: true
-    })
-    release: ErrorRelease;
-
-    @Column({
         type: 'varchar',
         nullable: true
     })
@@ -102,13 +95,4 @@ export class Incident extends GenericEntity {
         type: 'json'
     })
     traces: Array<Trace>;
-
-    @ManyToOne(() => Release, {
-        onUpdate: "CASCADE",
-        onDelete: "SET NULL"
-    })
-    @JoinColumn({
-        name: "resolved",
-    })
-    resolved?: Release;
 }

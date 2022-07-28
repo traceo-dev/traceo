@@ -6,10 +6,9 @@ import { AuthModule } from 'src/auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { AccountQueryService } from './account-query/account-query.service';
 import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
-import { AwrService } from 'src/application-account/awr.service';
-import { AwrQueryService } from 'src/application-account/awr-query/awr-query.service';
+import { AmrService } from 'src/application-member/amr.service';
+import { AmrQueryService } from 'src/application-member/amr-query/amr-query.service';
 import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
-import { ReleaseQueryService } from 'src/release/query/release-query.service';
 import { HttpModule } from "@nestjs/axios";
 
 @Module({
@@ -23,10 +22,9 @@ import { HttpModule } from "@nestjs/axios";
     MailingService, 
     AccountQueryService, 
     ApplicationQueryService, 
-    AwrService, 
-    AwrQueryService, 
-    AWSBucketService,
-    ReleaseQueryService
+    AmrService, 
+    AmrQueryService, 
+    AWSBucketService
   ],
   controllers: [AccountController],
   exports: [AccountService]

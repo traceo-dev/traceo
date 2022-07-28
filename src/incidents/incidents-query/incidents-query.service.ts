@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { RequestUser } from "src/auth/auth.model";
 import { GenericQueryService } from "src/core/generic-query.service";
 import { Incident } from "src/db/entities/incident.entity";
-import { IncidentQueryDto, IncidentStatusSearch } from "src/db/models/incident";
-import { Brackets, EntityManager, Repository, SelectQueryBuilder } from "typeorm";
+import { IncidentQueryDto, IncidentStatusSearch } from "src/types/incident";
+import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 
 @Injectable()
 export class IncidentsQueryService extends GenericQueryService<Incident, IncidentQueryDto> {
@@ -46,7 +46,7 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
     }
 
     public selectedColumns(): string[] {
-        return ['id', 'status', 'env', 'type', 'message', 'lastOccur', 'occuredCount', 'release', 'release', 'occurDates', 'githubIssueUrl'];
+        return ['id', 'status', 'env', 'type', 'message', 'lastOccur', 'occuredCount', 'occurDates', 'githubIssueUrl'];
     }
 
     public async getAssignedIncidents(query: IncidentQueryDto, user: RequestUser): Promise<Incident[]> {

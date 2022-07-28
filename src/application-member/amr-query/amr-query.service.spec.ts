@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AwrQueryService } from './awr-query.service';
+import { AmrQueryService } from './amr-query.service';
 
 describe('AwrQueryService', () => {
-  let service: AwrQueryService;
+  let service: AmrQueryService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AwrQueryService],
+      providers: [AmrQueryService],
     }).compile();
 
-    service = module.get<AwrQueryService>(AwrQueryService);
+    service = module.get<AmrQueryService>(AmrQueryService);
   });
 
   it('should be defined', () => {

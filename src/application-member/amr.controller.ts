@@ -2,20 +2,20 @@ import { Body, Controller, Delete, Get, ParseUUIDPipe, Patch, Post, Query } from
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { BaseDtoQuery } from 'src/core/generic.model';
-import { AccountApplicationRelationship } from 'src/db/entities/account-application-relationship.entity';
+import { AccountMemberRelationship } from 'src/db/entities/account-member-relationship.entity';
 import { Account } from 'src/db/entities/account.entity';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
-import { AwrQueryService } from './awr-query/awr-query.service';
-import { AddAccountToApplicationModel, AwrModel, ApplicationDtoQuery } from './awr.model';
-import { AwrService } from './awr.service';
+import { AmrQueryService } from './amr-query/amr-query.service';
+import { AddAccountToApplicationModel, AwrModel, ApplicationDtoQuery } from './amr.model';
+import { AmrService } from './amr.service';
 
-@ApiTags('account-application-relationship')
-@Controller('awr')
-export class AwrController {
+@ApiTags('application-member-relationship')
+@Controller('amr')
+export class AmrController {
     constructor(
-        private readonly awrService: AwrService,
-        private readonly awrQueryService: AwrQueryService
+        private readonly awrService: AmrService,
+        private readonly awrQueryService: AmrQueryService
     ) {}
 
     @Get('/account')
@@ -23,7 +23,7 @@ export class AwrController {
     async getAccountById(
         @Query('id') id: string,
         @Query('appId') appId: string,
-    ): Promise<Account | AccountApplicationRelationship> {
+    ): Promise<Account> {
         return await this.awrQueryService.getAccount(id, appId);
     }
 
@@ -32,7 +32,7 @@ export class AwrController {
     public async getApplicationMembers(
         @Query("id") id: number,
         @Query() query: BaseDtoQuery
-    ): Promise<AccountApplicationRelationship[]> {
+    ): Promise<AccountMemberRelationship[]> {
         return await this.awrQueryService.getApplicationMembers(id, query);
     }
 
@@ -41,7 +41,7 @@ export class AwrController {
     public async getAccountApplications(
         @Query() pageOptionsDto: ApplicationDtoQuery,
         @AuthAccount() account: RequestUser
-    ): Promise<AccountApplicationRelationship[]> {
+    ): Promise<AccountMemberRelationship[]> {
         return await this.awrQueryService.getApplicationsForAccount(account?.id, pageOptionsDto);
     }
 

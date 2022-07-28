@@ -4,7 +4,6 @@ import { Octokit } from 'octokit';
 import { firstValueFrom } from 'rxjs';
 import { RequestUser } from 'src/auth/auth.model';
 import { Github } from 'src/db/entities/github.entity';
-import { GithubRepository } from 'src/db/models/github';
 import dateUtils from 'src/helpers/dateUtils';
 import { EntityManager } from 'typeorm';
 import { HttpService } from "@nestjs/axios";
@@ -12,6 +11,7 @@ import { AccountQueryService } from 'src/account/account-query/account-query.ser
 import { Account } from 'src/db/entities/account.entity';
 import { Application } from 'src/db/entities/application.entity';
 import { Incident } from 'src/db/entities/incident.entity';
+import { GithubRepository } from 'src/types/github';
 
 @Injectable()
 export class GithubService {
@@ -216,12 +216,12 @@ export class GithubService {
 
         const [owner, repo] = full_name.split("/");
 
-        const { type, message, stack, release, platform } = incident;
+        const { type, message, stack, platform } = incident;
         const { data } = await octokit.rest.issues.create({
             owner,
             repo,
             title: `${type}: ${message}`,
-            body: `## Details\n\n\n#### Type: ${type}\n#### Message: ${message}\n#### Version: ${release.name}\n\n#### Platform:\n- System: ${platform.version}\n- Platform: ${platform.platform}\n- Release: ${platform.release}\n- Arch: ${platform.arch}\n\n#### Incident Stack Trace:\n\n<pre>${stack}</pre>\n\n\nIssue created with Klepper.IO`,
+            body: `## Details\n\n\n#### Type: ${type}\n#### Message: ${message}\n#### Platform:\n- System: ${platform.version}\n- Platform: ${platform.platform}\n- Release: ${platform.release}\n- Arch: ${platform.arch}\n\n#### Incident Stack Trace:\n\n<pre>${stack}</pre>\n\n\nIssue created with Klepper.IO`,
             labels: ['bug']
         });
 

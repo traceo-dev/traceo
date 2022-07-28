@@ -7,12 +7,11 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Account } from "./account.entity";
-import { AccountApplicationRelationship } from "./account-application-relationship.entity";
+import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
-import { Release } from "./release.entity";
 import { GenericEntity } from "src/core/generic.entity";
-import { GithubRepository } from "../models/github";
-import { Environment } from "../models/release";
+import { Environment } from "src/core/generic.model";
+import { GithubRepository } from "src/types/github";
 
 @Entity()
 export class Application extends GenericEntity {
@@ -60,14 +59,14 @@ export class Application extends GenericEntity {
   github?: GithubRepository;
 
   @OneToMany(
-    () => AccountApplicationRelationship,
+    () => AccountMemberRelationship,
     (accountApp) => accountApp.application,
     {
       onUpdate: "CASCADE",
       onDelete: "CASCADE"
     }
   )
-  members?: AccountApplicationRelationship[];
+  members?: AccountMemberRelationship[];
 
 
   @OneToMany(
@@ -80,14 +79,4 @@ export class Application extends GenericEntity {
   )
   incidents?: Incident[];
   incidentsCount?: number;
-
-  @OneToMany(
-    () => Release,
-    (release) => release.application,
-    {
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE"
-    }
-  )
-  releases?: Release[];
 }

@@ -1,8 +1,7 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
-import { BaseDtoQuery } from "src/core/generic.model";
-import { Environment, Platform } from "../models/release";
+import { BaseDtoQuery, Environment } from "src/core/generic.model";
 
 export interface KlepperIncidentModel {
     type: string;
@@ -99,10 +98,6 @@ export interface Incident {
 
 export interface ErrorDetails {
     date: number;
-    version?: {
-        id: string;
-        name: string;
-    }
 }
 
 export interface Trace {
@@ -189,7 +184,16 @@ export class IncidentBatchUpdateDto extends IncidentUpdateDto {
     incidentsIds: string[];
 }
 
-export interface ErrorRelease {
-    id: string;
-    name: string;
+export type VersionSetter = "klepper" | "sdk";
+
+export interface Deployment {
+    deployedAt: number;
+    os: Platform;
+}
+
+export interface Platform {
+    arch: string,
+    platform: string,
+    release: string,
+    version: string
 }

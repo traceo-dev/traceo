@@ -16,7 +16,7 @@ export enum MEMBER_STATUS {
 }
 
 @Entity()
-export class AccountApplicationRelationship extends GenericEntity {
+export class AccountMemberRelationship extends GenericEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
   
