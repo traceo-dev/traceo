@@ -16,8 +16,6 @@ export class StatisticsQueryService {
     ) { }
 
     async getApplicationStatistics(id: string, env: Environment): Promise<AppStats> {
-        const occurDates: ErrorDetails[] = [];
-
         const incidents = await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
             .where('incident.applicationId = :id', { id })
@@ -29,7 +27,7 @@ export class StatisticsQueryService {
         const incidentsCount = incidents?.length || 0;
         const incidentsOccurCount = incidents?.reduce((acc, incident) => acc += incident?.occuredCount, 0);
 
-        incidents.map((incident) => occurDates.push(...incident.occurDates));
+        const occurDates: ErrorDetails[] = incidents.reduce((acc, curr) => acc.concat(curr.occurDates) , []);
 
         const minDateBefore = dayjs().subtract(7, 'day').unix();
         const lastWeekIncidentsCount = occurDates?.filter((o) => dayjs(o.date).isAfter(minDateBefore))?.length || 0;
@@ -47,30 +45,22 @@ export class StatisticsQueryService {
 
     public async getDailyOverview(applicationId: string, environment: Environment): Promise<{ count: number, data: HourlyStats[] }> {
         const today = dayjs().startOf('day').unix();
-        let totalCount: number = 0;
 
         const response: HourlyStats[] = [];
-        const cachedDates: ErrorDetails[] = [];
 
         const incidents = await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
             .where("incident.applicationId = :applicationId", { applicationId })
             .andWhere("incident.env = :environment", { environment })
             .andWhere("incident.lastOccur > :today", { today })
-            .select('incident.occurDates')
+            .select(['incident.occurDates', 'incident.occuredCount'])
             .getMany();
 
-        incidents.forEach((incident) => {
-            incident.occurDates.forEach((occur) => {
-                if (dayjs(occur.date).isAfter(today)) {
-                    cachedDates.push(occur);
-                }
-            })
-        })
+        const cachedDates: ErrorDetails[] = incidents.reduce((acc, curr) => acc.concat(curr.occurDates) , []);
+        const count = incidents?.reduce((acc, val) => acc += val.occuredCount, 0);
 
         for (let i = 0; i <= 24; i++) {
             const count = cachedDates.filter((o) => ((dayjs.unix(o.date).get('hour') === i) && (dayjs.unix(o.date).isAfter(today))))?.length;
-            totalCount += count;
             response.push({
                 date: dayjs().hour(i).startOf('h').unix(),
                 count: count || 0
@@ -78,14 +68,12 @@ export class StatisticsQueryService {
         }
 
         return {
-            count: totalCount,
+            count,
             data: response
         };
     }
 
     public async getTotalOverview(appId: string, environment: Environment): Promise<PlotData[]> {
-        const occurDates: ErrorDetails[] = [];
-
         const incidents = await this.entityManger.getRepository(Incident)
             .createQueryBuilder('incident')
             .where("incident.applicationId = :appId", { appId })
@@ -93,8 +81,7 @@ export class StatisticsQueryService {
             .select('incident.occurDates')
             .getMany();
 
-        incidents.forEach((i) => { occurDates.push(...i.occurDates) })
-
+        const occurDates: ErrorDetails[] = incidents.reduce((acc, curr) => acc.concat(curr.occurDates) , []);
         return this.parseOccurDatesToPlotData(occurDates);
     }
 
@@ -142,20 +129,6 @@ export class StatisticsQueryService {
 
         return response;
 
-    }
-
-    protected calculatePercentageDiff(one: number, two: number): { percentage: string, isMore: boolean } {
-        if (two === 0 && one !== 0) {
-            return { percentage: "100%", isMore: true };
-        } else if (one === 0 && two === 0) {
-            return { percentage: "0%", isMore: false };
-        } else {
-            const res = ((one / two) * 100) - 100;
-            return {
-                percentage: `${res.toFixed(1)}%`,
-                isMore: res > 0 ? true : false
-            }
-        }
     }
 
     public async getDashboardOverviewStatistics(account: RequestUser): Promise<DashboardStats> {

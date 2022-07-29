@@ -46,7 +46,6 @@ export class ApplicationService {
                 }
 
                 const application = await manager.getRepository(Application).save(applicationPayload);
-                console.log("APPLICATION: ", application);
                 await this.attachDsn(application, user, manager);
 
                 await this.awrService.createAwr(
@@ -77,11 +76,10 @@ export class ApplicationService {
     public async updateApplication(appBody: ApplicationBody | Partial<Application>, account: RequestUser, manager: EntityManager = this.entityManager): Promise<any> {
         const { id, ...rest } = appBody;
         const { logo, name } = rest;
-        console.log("ID: ", id);
+
         try {
             //check here for privilleges
             const application = await this.applicationQueryService.getDto(id);
-            console.log("APP 2: ", application);
 
             if (logo && application?.logo) {
                 const keyName = `${AttachmentType.APPLICATION_AVATAR}/${getKeyFromBucketUrl(application?.logo)}`;
@@ -91,8 +89,6 @@ export class ApplicationService {
             if (name) {
                 await this.validate(name);
             }
-
-            console.log("HERE")
 
             await manager.getRepository(Application).update({ id }, {
                 updatedAt: dateUtils.toUnix(),
