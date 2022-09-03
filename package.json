@@ -1,5 +1,5 @@
 {
-  "name": "klepper-api",
+  "name": "traceo-api",
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
@@ -39,7 +39,6 @@
     "dayjs": "^1.11.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
-    "traceo": "file:traceo-sdk-0.0.82-alpha.tgz",
     "mongodb": "^4.5.0",
     "morgan": "^1.10.0",
     "nodemailer": "^6.7.3",
@@ -52,6 +51,7 @@
     "rxjs": "^7",
     "sharp": "^0.30.3",
     "swagger-ui-express": "^4.3.0",
+    "traceo": "file:traceo-sdk-0.0.86.tgz",
     "typeorm": "^0.3.5"
   },
   "devDependencies": {
@@ -67,8 +67,8 @@
     "@typescript-eslint/parser": "^5.27.1",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "7.1.0",
-    "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.6.3",
     "pg": "^8.7.3",
     "prettier": "^2.1.2",

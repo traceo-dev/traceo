@@ -14,7 +14,6 @@ import { IncidentsModule } from './incidents/incidents.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { CommentsModule } from './comments/comments.module';
 import { WebsocketsModule } from './websockets/websockets.module';
-import { GithubModule } from './github/github.module';
 
 @Module({
   imports: [
@@ -34,8 +33,7 @@ import { GithubModule } from './github/github.module';
     IncidentsModule,
     StatisticsModule,
     CommentsModule,
-    WebsocketsModule,
-    GithubModule
+    WebsocketsModule
   ],
   controllers: [AppController],
   providers: [],

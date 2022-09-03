@@ -44,7 +44,7 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
     }
 
     public selectedColumns(): string[] {
-        return ['id', 'status', 'env', 'type', 'message', 'lastOccur', 'occuredCount', 'occurDates', 'githubIssueUrl'];
+        return ['id', 'status', 'env', 'type', 'message', 'lastOccur', 'occuredCount', 'occurDates'];
     }
 
     public async getAssignedIncidents(query: IncidentQueryDto, user: RequestUser): Promise<Incident[]> {

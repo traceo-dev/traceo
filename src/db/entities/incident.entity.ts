@@ -54,12 +54,6 @@ export class Incident extends GenericEntity {
     })
     occuredCount: number;
 
-    @Column({
-        type: 'varchar',
-        nullable: true
-    })
-    githubIssueUrl: string;
-
     @ManyToOne(() => Application, {
         onUpdate: "CASCADE",
         onDelete: "CASCADE"

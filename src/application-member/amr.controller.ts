@@ -21,10 +21,9 @@ export class AmrController {
     @Get('/account')
     @AuthRequired()
     async getAccountById(
-        @Query('id') id: string,
-        @Query('appId') appId: string,
+        @Query('id') id: string
     ): Promise<Account> {
-        return await this.awrQueryService.getAccount(id, appId);
+        return await this.awrQueryService.getAccount(id);
     }
 
     @Get('/members')

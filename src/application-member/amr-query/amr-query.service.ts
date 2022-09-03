@@ -4,7 +4,6 @@ import { AccountMemberRelationship } from 'src/db/entities/account-member-relati
 import { Account } from 'src/db/entities/account.entity';
 import { EntityManager } from 'typeorm';
 import { ApplicationDtoQuery } from '../amr.model';
-
 @Injectable()
 export class AmrQueryService {
     constructor(
@@ -18,14 +17,8 @@ export class AmrQueryService {
      * @param appId 
      * @returns 
      */
-    public async getAccount(accountId: string, appId?: string): Promise<Account | null> {
-        return await this.entityManager.getRepository(Account)
-            .createQueryBuilder('account')
-            .where('account.id = :id', { id: accountId })
-            .leftJoin('account.github', 'github')
-            .addSelect(["github.name", "github.avatar", "github.profileUrl", "github.createdAt", "github.login"])
-            .getOne();
-
+    public async getAccount(accountId: string): Promise<Account | null> {
+        return await this.entityManager.getRepository(Account).findOne({ where: { id: accountId } });
     }
 
     /**
@@ -40,7 +33,7 @@ export class AmrQueryService {
         let queryBuilder = await this.entityManager
             .getRepository(AccountMemberRelationship)
             .createQueryBuilder("accountApplicationRelationship")
-            .innerJoin("accountApplicationRelationship.application", "app", "app.id = :appId", {
+            .innerJoin("accountApplicationRelationship.application", "ap", "app.id = :appId", {
                 appId
             })
             .leftJoin("accountApplicationRelationship.account", "account");
@@ -68,7 +61,6 @@ export class AmrQueryService {
 
     public async getApplicationsForAccount(accountId: string, pageOptionsDto: ApplicationDtoQuery): Promise<AccountMemberRelationship[]> {
         const { page, take, order, search, sortBy } = pageOptionsDto;
-        console.log({ sortBy, order })
         try {
             const queryBuilder = this.entityManager
                 .getRepository(AccountMemberRelationship)
@@ -79,8 +71,7 @@ export class AmrQueryService {
                 .leftJoinAndSelect("accountApplicationRelationship.application", "application")
                 .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
                 .leftJoin("application.owner", "owner")
-                .orderBy(sortBy, order)
-            // .orderBy("accountApplicationRelationship.favorite", "DESC")
+                .orderBy(sortBy, order);
 
             if (search) {
                 queryBuilder.where("LOWER(application.name) LIKE LOWER(:name)", { name: `%${search}%` })
@@ -96,7 +87,6 @@ export class AmrQueryService {
                 .getMany();
 
         } catch (error) {
-            console.log("ER: ", error)
             throw error;
         }
     }

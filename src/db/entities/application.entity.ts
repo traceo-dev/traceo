@@ -11,7 +11,6 @@ import { AccountMemberRelationship } from "./account-member-relationship.entity"
 import { Incident } from "./incident.entity";
 import { GenericEntity } from "src/core/generic.entity";
 import { Environment } from "src/core/generic.model";
-import { GithubRepository } from "src/types/github";
 
 @Entity()
 export class Application extends GenericEntity {
@@ -51,12 +50,6 @@ export class Application extends GenericEntity {
 
   @Column({ nullable: false, default: 'development' })
   defaultEnv?: Environment = "development";
-
-  @Column({
-    type: 'json',
-    nullable: true
-  })
-  github?: GithubRepository;
 
   @OneToMany(
     () => AccountMemberRelationship,
