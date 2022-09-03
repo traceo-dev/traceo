@@ -33,7 +33,7 @@ export class AmrQueryService {
         let queryBuilder = await this.entityManager
             .getRepository(AccountMemberRelationship)
             .createQueryBuilder("accountApplicationRelationship")
-            .innerJoin("accountApplicationRelationship.application", "ap", "app.id = :appId", {
+            .innerJoin("accountApplicationRelationship.application", "app", "app.id = :appId", {
                 appId
             })
             .leftJoin("accountApplicationRelationship.account", "account");
