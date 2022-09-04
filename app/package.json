@@ -9,8 +9,7 @@
     "test": "react-scripts test",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "lint:fix": "eslint . --fix --ext .js,.ts,.tsx",
-    "prettier": "prettier */**/*.{js,ts,tsx} --write --fix",
-    "postinstall": "husky install"
+    "prettier": "prettier */**/*.{js,ts,tsx} --write --fix"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
