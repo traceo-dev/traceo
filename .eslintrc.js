@@ -23,6 +23,7 @@ module.exports = {
     quotes: ["error", "double"],
     semi: ["error", "always"],
     camelcase: 0,
+    'unused-imports/no-unused-imports-ts': 2,
     "object-curly-spacing": ["error", "always"],
     "max-len": [
       "error",
@@ -39,15 +40,15 @@ module.exports = {
     "no-empty": 0,
     "operator-linebreak": 0,
     "quote-props": [2, "as-needed"],
-    "require-await": "off",
+    // "require-await": "off",
     "@typescript-eslint/require-await": "error",
     "no-return-await": "error",
     "@typescript-eslint/await-thenable": "error",
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { argsIgnorePattern: "^_", varsIgnorePattern: "^_", ignoreRestSiblings: true }
-    ],
+    // "@typescript-eslint/no-unused-vars": [
+    //   "error",
+    //   { argsIgnorePattern: "^_", varsIgnorePattern: "^_", ignoreRestSiblings: true }
+    // ],
   },
 };
