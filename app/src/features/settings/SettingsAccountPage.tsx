@@ -18,26 +18,23 @@ const SettingsAccountPage = () => {
   const [loadingConfirmPassword, setLoadingConfirmPassword] = useState<boolean>(false);
   const [loadingUpdateAccount, setLoadingUpdateAccount] = useState<boolean>(false);
 
-  const onUploadAvatar = async (logo: string) => {
+  const onUploadAvatar = (logo: string) => {
     dispatch(updateAccount({ logo }));
   };
 
-  const onFinishUpdateAccount = async (form: { name: string }) => {
+  const onFinishUpdateAccount = (form: { name: string }) => {
     setLoadingUpdateAccount(true);
     dispatch(updateAccount(form));
     setLoadingUpdateAccount(false);
   };
 
-  const onFinishUpdatePassword = async (form: {
-    password: string;
-    newPassword: string;
-  }) => {
+  const onFinishUpdatePassword = (form: { password: string; newPassword: string }) => {
     setLoadingConfirmPassword(true);
     dispatch(updateAccountPassword(form));
     setLoadingConfirmPassword(false);
   };
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = () => {
     dispatch(deleteAccount());
   };
 

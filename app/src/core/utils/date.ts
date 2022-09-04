@@ -49,7 +49,7 @@ const formatDateTime = (date: number) => {
   }
 };
 
-const getNow = (format: string = "DD-MM-YYYY HH:mm") => formatDate(toUnix(), format);
+const getNow = (format = "DD-MM-YYYY HH:mm") => formatDate(toUnix(), format);
 const getMonth = (date: number = toUnix()) => dayjs.unix(date).month();
 const getYear = (date: number = toUnix()) => dayjs.unix(date).year();
 const getDayInUnix = (date = dayjs()) => dayjs(date).startOf("day").unix();

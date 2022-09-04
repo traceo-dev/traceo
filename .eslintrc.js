@@ -16,14 +16,14 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js'],
+  ignorePatterns: ['.eslintrc.js','tailwind.config.js'],
   rules: {
     indent: [0],
     eqeqeq: ["error", "always"],
     quotes: ["error", "double"],
     semi: ["error", "always"],
     camelcase: 0,
-    'unused-imports/no-unused-imports-ts': 2,
+    // 'unused-imports/no-unused-imports-ts': 2,
     "object-curly-spacing": ["error", "always"],
     "max-len": [
       "error",

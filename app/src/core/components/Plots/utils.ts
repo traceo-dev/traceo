@@ -60,23 +60,23 @@ export const paths = (u, seriesIdx, idx0, idx1) => {
   const _spline = spline();
 
   const renderer =
-    style == DrawStyle.LINE
-      ? interp == LineInterpolation.LINEAR
+    style === DrawStyle.LINE
+      ? interp === LineInterpolation.LINEAR
         ? _linear
-        : interp == LineInterpolation.STEP_AFTER
+        : interp === LineInterpolation.STEP_AFTER
         ? _stepAfter
-        : interp == LineInterpolation.STEP_BEFORE
+        : interp === LineInterpolation.STEP_BEFORE
         ? _stepBefore
-        : interp == LineInterpolation.SPLINE
+        : interp === LineInterpolation.SPLINE
         ? _spline
         : null
-      : style == DrawStyle.BARS
+      : style === DrawStyle.BARS
       ? _bars60_100
-      : style == DrawStyle.BARS_LEFT
+      : style === DrawStyle.BARS_LEFT
       ? _bars100Left
-      : style == DrawStyle.BARS_RIGHT
+      : style === DrawStyle.BARS_RIGHT
       ? _bars100Right
-      : style == DrawStyle.POINTS
+      : style === DrawStyle.POINTS
       ? () => null
       : () => null;
 

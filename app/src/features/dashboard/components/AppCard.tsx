@@ -15,7 +15,7 @@ interface Props {
 export const AppCard: FC<Props> = ({ app }) => {
   const navigate = useNavigate();
 
-  const go = async () => {
+  const go = () => {
     const { application } = app;
     navigate(`/app/${application.id}/${slugifyForUrl(application.name)}/overview`);
     dispatch(loadApplication(application.id));

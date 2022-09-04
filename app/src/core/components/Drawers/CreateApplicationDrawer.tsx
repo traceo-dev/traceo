@@ -11,7 +11,7 @@ export const CreateApplicationDrawer = ({ isOpen, onCancel }) => {
 
   const submit = () => form.submit();
 
-  const onFinish = async (form: CreateApplicationProps) => {
+  const onFinish = (form: CreateApplicationProps) => {
     setLoading(true);
     dispatch(createApplication(form));
     setLoading(false);

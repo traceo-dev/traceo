@@ -11,7 +11,7 @@ interface Props {
   member: ApplicationMember;
 }
 export const EditMemberDrawer: FC<Props> = ({ isOpen, onCancel, member }) => {
-  const handleChangeStatus = async (status: MEMBER_STATUS) => {
+  const handleChangeStatus = (status: MEMBER_STATUS) => {
     dispatch(updateMember({ id: member.id, status }));
     onCancel();
     window.location.reload();
