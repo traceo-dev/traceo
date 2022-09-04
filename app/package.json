@@ -6,10 +6,7 @@
     "webpack": "webpack --progress --color --config scripts/webpack/webpack.dev.js",
     "dev": "react-scripts --max-http-header-size 16000 start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "lint": "eslint . --ext .js,.ts,.tsx",
-    "lint:fix": "eslint . --fix --ext .js,.ts,.tsx",
-    "prettier": "prettier */**/*.{js,ts,tsx} --write --fix"
+    "test": "react-scripts test"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
