@@ -6,7 +6,6 @@ import {
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GenericEntity } from "src/core/generic.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
-import { Github } from "./github.entity";
 import { Incident } from "./incident.entity";
 
 export enum AccountRole {
@@ -51,12 +50,6 @@ export class Account extends GenericEntity {
 
   @Column({ nullable: true })
   logo?: string;
-
-  @OneToOne(() => Github, {
-    cascade: true
-  })
-  @JoinColumn()
-  github: Github;
 
   @OneToMany(
     () => AccountMemberRelationship,

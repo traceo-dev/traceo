@@ -24,11 +24,11 @@ export const sendMail = async (
     hbs({
       viewEngine: {
         extname: ".handlebars",
-        layoutsDir: join(process.cwd(), "/assets/mails"),
+        layoutsDir: join(process.cwd(), "/templates/mails"),
         defaultLayout: "main",
-        partialsDir: join(process.cwd(), "/assets/mails"),
+        partialsDir: join(process.cwd(), "/templates/mails"),
       },
-      viewPath: join(process.cwd(), "/assets/mails"),
+      viewPath: join(process.cwd(), "/templates/mails"),
     })
   );
 

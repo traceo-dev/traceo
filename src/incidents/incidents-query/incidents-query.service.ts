@@ -18,10 +18,8 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
             .createQueryBuilder('incident')
             .where('incident.id = :id', { id })
             .leftJoin('incident.assigned', 'assigned')
-            .leftJoin('incident.resolved', 'resolved')
             .loadRelationCountAndMap('incident.commentsCount', 'incident.comments')
             .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.logo"])
-            .addSelect(["resolved.id", "resolved.version"])
             .getOne();
     }
 
@@ -46,7 +44,7 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
     }
 
     public selectedColumns(): string[] {
-        return ['id', 'status', 'env', 'type', 'message', 'lastOccur', 'occuredCount', 'occurDates', 'githubIssueUrl'];
+        return ['id', 'status', 'env', 'type', 'message', 'lastOccur', 'occuredCount', 'occurDates'];
     }
 
     public async getAssignedIncidents(query: IncidentQueryDto, user: RequestUser): Promise<Incident[]> {

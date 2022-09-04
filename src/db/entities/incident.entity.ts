@@ -2,10 +2,9 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColum
 import { Account } from "./account.entity";
 import { Comment } from "./comment.entity";
 import { Application } from "./application.entity";
-import { Trace } from "aws-sdk/clients/xray";
 import { GenericEntity } from "src/core/generic.entity";
 import { Environment } from "src/core/generic.model";
-import { ErrorDetails, Platform } from "src/types/incident";
+import { ErrorDetails, Platform, Trace } from "src/types/incident";
 
 export enum IncidentStatus {
     RESOLVED = "resolved",
@@ -54,12 +53,6 @@ export class Incident extends GenericEntity {
         type: 'int'
     })
     occuredCount: number;
-
-    @Column({
-        type: 'varchar',
-        nullable: true
-    })
-    githubIssueUrl: string;
 
     @ManyToOne(() => Application, {
         onUpdate: "CASCADE",

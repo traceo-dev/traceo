@@ -1,0 +1,29 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Application } from "src/types/application";
+
+export interface ApplicationState {
+  application: Application;
+  hasFetched: boolean;
+}
+
+const initialState: ApplicationState = {
+  application: {} as Application,
+  hasFetched: false
+};
+
+const applicationSlice = createSlice({
+  name: "application",
+  initialState: initialState,
+  reducers: {
+    applicationLoaded: (state, action: PayloadAction<Application>): ApplicationState => {
+      return { ...state, hasFetched: true, application: action.payload };
+    }
+  }
+});
+
+export const { applicationLoaded } = applicationSlice.actions;
+export const applicationReducer = applicationSlice.reducer;
+
+export default {
+  application: applicationReducer
+};

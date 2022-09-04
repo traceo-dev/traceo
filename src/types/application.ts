@@ -1,6 +1,5 @@
 import { Environment } from "src/core/generic.model";
 import { MEMBER_STATUS } from "src/db/entities/account-member-relationship.entity";
-import { GithubRepository } from "./github";
 
 export interface OwnerAccount {
     name: string;
@@ -17,7 +16,6 @@ export interface Application {
     logo?: string;
     lastIncidentAt?: number;
     defaultEnv?: Environment;
-    github?: GithubRepository;
 }
 
 export interface ApplicationResponse extends Application {

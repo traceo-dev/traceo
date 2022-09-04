@@ -12,16 +12,6 @@ export class CreateApplicationBody {
     @IsOptional()
     @ApiPropertyOptional({ description: 'aboutDescription' })
     public aboutDescription: string;
-
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional({ description: 'framework' })
-    public framework: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @ApiProperty({ description: 'technology' })
-    public technology: string;
 }
 
 export class ApplicationBody {
