@@ -1,1 +1,1 @@
-# Traceo - backend
+# Traceo
