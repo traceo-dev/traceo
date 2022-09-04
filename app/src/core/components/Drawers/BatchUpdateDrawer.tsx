@@ -17,7 +17,7 @@ export const BatchUpdateDrawer: FC<Props> = ({ incidentsIds, isOpen, onClose }) 
   const [isLoading, setLoading] = useState<boolean>(false);
   const [form] = Form.useForm();
 
-  const update = async () => {
+  const update = () => {
     setLoading(true);
 
     const update = form.getFieldsValue();

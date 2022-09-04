@@ -1,6 +1,6 @@
 import { notification } from "antd";
 
-const success = (message: string, description: string = "") => {
+const success = (message: string, description = "") => {
   notification.success({
     description,
     message,
@@ -10,7 +10,7 @@ const success = (message: string, description: string = "") => {
   });
 };
 
-const error = (message: string | unknown, description: string = "") => {
+const error = (message: string | unknown, description = "") => {
   notification.error({
     description,
     message,
@@ -20,7 +20,7 @@ const error = (message: string | unknown, description: string = "") => {
   });
 };
 
-const warning = (message: string, description: string = "") => {
+const warning = (message: string, description = "") => {
   notification.info({
     description,
     message,
@@ -30,7 +30,7 @@ const warning = (message: string, description: string = "") => {
   });
 };
 
-const info = (message: string, description: string = "") => {
+const info = (message: string, description = "") => {
   notification.info({
     description,
     message,

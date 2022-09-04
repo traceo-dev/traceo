@@ -116,7 +116,7 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
     }
   };
 
-  const handleRemoveMember = async (memberId: string) => {
+  const handleRemoveMember = (memberId: string) => {
     dispatch(removeMember(memberId));
   };
 

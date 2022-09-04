@@ -11,7 +11,7 @@ export const AddMemberDrawer = ({ isOpen, onCancel }) => {
 
   const submit = () => form.submit();
 
-  const onFinish = async (form: { email: string }) => {
+  const onFinish = (form: { email: string }) => {
     setLoading(true);
     dispatch(addMember({ email: form.email }));
     setLoading(false);

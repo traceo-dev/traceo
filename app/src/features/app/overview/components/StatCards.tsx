@@ -43,31 +43,6 @@ export const StatCards: FC<Props> = ({ stats, isLoading }) => {
             </Typography>
           }
         />
-        {/* <Divider type="vertical" className="bg-gray-200" />
-        <Statistic
-          className="font-semibold"
-          loading={isLoading}
-          title={<TextLabel className="font-medium" label="Current release version" />}
-          value={stats?.release?.version || "N/A"}
-        />
-        <Divider type="vertical" className="bg-gray-200" />
-        <Statistic
-          className="font-semibold"
-          loading={isLoading}
-          title={
-            <TextLabel
-              className="font-medium"
-              label="Current release incidents"
-              hint="Number of incidents in current release. Big number is a count of main incidents while small number is a number of occurrences of main incidents"
-            />
-          }
-          value={stats?.release?.incidentsCount}
-          suffix={
-            <Typography className="text-xs">
-              | {stats?.release?.incidentsOccurCount || 0}
-            </Typography>
-          }
-        /> */}
       </Row>
     </>
   );

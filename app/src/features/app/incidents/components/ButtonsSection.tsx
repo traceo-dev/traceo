@@ -32,11 +32,11 @@ export const ButtonsSection: FC<Props> = ({ incident }) => {
 
   const isAssigned = !!incident?.assigned;
 
-  const update = async (update: { [key: string]: any }) => {
+  const update = (update: { [key: string]: any }) => {
     dispatch(updateIncident(update));
   };
 
-  const changeStatus = async () => {
+  const changeStatus = () => {
     const status =
       incident?.status === IncidentStatus.UNRESOLVED
         ? IncidentStatus.RESOLVED

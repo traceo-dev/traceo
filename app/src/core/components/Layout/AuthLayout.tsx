@@ -17,7 +17,7 @@ export const AuthLayout: FC<Props> = ({ children, title, subtitle }) => {
         <TraceoLogo size="small" withName={true} />
       </Row> */}
       <div className="wrapper">
-        <Card className={`ant-card ant-card-bordered card`}>
+        <Card className={"ant-card ant-card-bordered card"}>
           <Col span={24}>
             <Space
               direction="vertical"

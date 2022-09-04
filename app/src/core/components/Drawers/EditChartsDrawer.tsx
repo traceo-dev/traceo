@@ -10,7 +10,7 @@ export const EditChartsDrawer = ({ isOpen, onCancel }) => {
   const currentChartsEnv = localStorage.getItem("chartsEnv") || "development";
   const [selectedChartEnv, setSelectedChartEnv] = useState<string>(currentChartsEnv);
 
-  const onFinish = async () => {
+  const onFinish = () => {
     setLoading(true);
 
     localStorage.setItem("chartsEnv", selectedChartEnv);

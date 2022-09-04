@@ -12,7 +12,7 @@ export const EnvironmentSwitcher = () => {
   const currentEnv = localStorage.getItem("env") || application?.defaultEnv;
   const isDashboard = !location.pathname.split("/").includes("app");
 
-  const changeApplicationEnvironment = async (val: string) => {
+  const changeApplicationEnvironment = (val: string) => {
     localStorage.setItem("env", val);
     navigate(`/app/${application.id}/${slugifyForUrl(application.name)}/overview`);
     window.location.reload();

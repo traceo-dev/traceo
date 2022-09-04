@@ -29,7 +29,7 @@ export const AppSettingsDetailsPage = () => {
     return null;
   }
 
-  const update = async (update: UpdateApplicationProps) => {
+  const update = (update: UpdateApplicationProps) => {
     dispatch(updateAplication(update));
   };
 

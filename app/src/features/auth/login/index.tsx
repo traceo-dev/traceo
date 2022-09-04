@@ -32,7 +32,7 @@ const Login = () => {
     };
   }, []);
 
-  const onFinish = async (credentials: LoginProps) => {
+  const onFinish = (credentials: LoginProps) => {
     if (!credentials.email || !credentials.password) {
       return;
     }

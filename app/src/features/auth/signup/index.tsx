@@ -42,7 +42,7 @@ const SignUp = () => {
     };
   }, []);
 
-  const onSubmit = async (form: SignupForm) => {
+  const onSubmit = (form: SignupForm) => {
     setLoading(true);
 
     const payload = {

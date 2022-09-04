@@ -6,7 +6,7 @@ import { notify } from "src/core/utils/notify";
 import { ButtonsSection } from "./ButtonsSection";
 
 export const IncidentHeader = ({ incident, onExecute }) => {
-  const refresh = async () => {
+  const refresh = () => {
     onExecute();
     notify.success("Refreshed");
   };
