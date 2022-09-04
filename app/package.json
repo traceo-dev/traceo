@@ -19,6 +19,7 @@
     "@types/node": "^17.0.8",
     "@types/react": "17.0.2",
     "@types/react-dom": "17.0.2",
+    "@typescript-eslint/eslint-plugin": "^5.36.1",
     "antd": "^4.16.6",
     "antd-img-crop": "^4.1.0",
     "axios": "^0.24.0",
