@@ -41,7 +41,7 @@ const SettingsAccountPage = () => {
   return (
     <>
       <DashboardSettingsNavigation>
-        <ColumnSection
+        {/* <ColumnSection
           marginTop={24}
           firstColumnWidth={10}
           secondColumnWidth={14}
@@ -54,7 +54,7 @@ const SettingsAccountPage = () => {
             onChange={onUploadAvatar}
             type={ATTACHMENT_TYPE.ACCOUNT_AVATAR}
           />
-        </ColumnSection>
+        </ColumnSection> */}
         <ColumnSection
           firstColumnWidth={10}
           secondColumnWidth={14}

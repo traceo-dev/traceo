@@ -9,17 +9,13 @@ import * as crypto from "crypto";
 import { ApplicationWithNameAlreadyExistsError } from 'src/helpers/errors';
 import { CreateApplicationBody, ApplicationBody } from './application.model';
 import dateUtils from 'src/helpers/dateUtils';
-import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { ApplicationQueryService } from './application-query/application-query.service';
-import { getKeyFromBucketUrl } from 'src/helpers/base';
-import { AttachmentType } from 'src/db/entities/attachment.entity';
 
 @Injectable()
 export class ApplicationService {
     constructor(
         private readonly entityManager: EntityManager,
         private readonly awrService: AmrService,
-        private readonly awsBucketService: AWSBucketService,
         private readonly applicationQueryService: ApplicationQueryService
     ) { }
 
@@ -75,17 +71,9 @@ export class ApplicationService {
 
     public async updateApplication(appBody: ApplicationBody | Partial<Application>, account: RequestUser, manager: EntityManager = this.entityManager): Promise<any> {
         const { id, ...rest } = appBody;
-        const { logo, name } = rest;
+        const { name } = rest;
 
         try {
-            //check here for privilleges
-            const application = await this.applicationQueryService.getDto(id);
-
-            if (logo && application?.logo) {
-                const keyName = `${AttachmentType.APPLICATION_AVATAR}/${getKeyFromBucketUrl(application?.logo)}`;
-                await this.awsBucketService.removeFileFromBucket(keyName);
-            }
-
             if (name) {
                 await this.validate(name);
             }
@@ -108,9 +96,9 @@ export class ApplicationService {
     }
 
     public async deleteApplication(appId: string, user: RequestUser): Promise<void> {
-        
+
         //check here permission, create util for this
-        
+
         await this.entityManager.getRepository(Application)
             .createQueryBuilder('application')
             .where('application.id = :appId', { appId })

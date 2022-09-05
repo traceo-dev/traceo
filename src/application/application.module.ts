@@ -7,7 +7,6 @@ import { ApplicationQueryService } from './application-query/application-query.s
 import { AmrQueryService } from 'src/application-member/amr-query/amr-query.service';
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
 import { MailingService } from 'src/mailing/mailing.service';
-import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 
 @Module({
   imports: [
@@ -19,8 +18,7 @@ import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
     AmrQueryService,
     AccountQueryService,
     MailingService,
-    ApplicationQueryService,
-    AWSBucketService
+    ApplicationQueryService
   ],
   controllers: [ApplicationController]
 })

@@ -1,5 +1,3 @@
-import { AttachmentType } from "src/db/entities/attachment.entity";
-
 export const isEmpty = (
   obj: { [s: string]: unknown } | ArrayLike<unknown>
 ): boolean => {
@@ -11,8 +9,3 @@ export const isEmpty = (
 export const getKeyFromBucketUrl = (url: string) => url.split("/")[4];
 
 export const combineArray = (arr: [], arr2: []) => [...arr, ...arr2];
-
-export const bucketFolderName: Record<AttachmentType, string> = {
-  [AttachmentType.ACCOUNT_AVATAR]: "account_avatar",
-  [AttachmentType.APPLICATION_AVATAR]: "application_avatar"
-}

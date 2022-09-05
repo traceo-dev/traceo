@@ -6,6 +6,6 @@ export class AppController {
 
   @Get("/heartbeat")
   heartbeat(): string {
-    return `Klepper - backend, v.${process.env.VERSION} - ${process.env.NODE_ENV}`
+    return `Traceo - backend, v.${process.env.VERSION} - ${process.env.NODE_ENV}`
   }
 }

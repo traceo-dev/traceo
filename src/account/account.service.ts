@@ -11,9 +11,6 @@ import { AccountQueryService } from './account-query/account-query.service';
 import { AmrService } from 'src/application-member/amr.service';
 import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
 import { AccountMemberRelationship, MEMBER_STATUS } from 'src/db/entities/account-member-relationship.entity';
-import { getKeyFromBucketUrl } from 'src/helpers/base';
-import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
-import { AttachmentType } from 'src/db/entities/attachment.entity';
 import { HttpService } from "@nestjs/axios";
 import { RequestUser } from 'src/auth/auth.model';
 
@@ -25,7 +22,6 @@ export class AccountService {
         readonly accountQueryService: AccountQueryService,
         readonly applicationQueryService: ApplicationQueryService,
         readonly awrService: AmrService,
-        readonly awsBucketService: AWSBucketService,
         readonly httpService: HttpService
     ) { }
 
@@ -105,13 +101,7 @@ export class AccountService {
 
     public async updateAccount(accountDto: AccountDto): Promise<void> {
         const { id, ...rest } = accountDto;
-        const { logo } = rest;
         try {
-            const account = await this.accountQueryService.getDto(id);
-            if (logo && account?.logo) {
-                const keyName = `${AttachmentType.ACCOUNT_AVATAR}/${getKeyFromBucketUrl(account?.logo)}`;
-                await this.awsBucketService.removeFileFromBucket(keyName);
-            }
             await this.entityManager.getRepository(Account).update({ id }, rest);
         } catch (error) {
             Logger.error(`[${this.updateAccount.name}] Caused by: ${error}`)

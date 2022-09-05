@@ -8,7 +8,6 @@ import { MailingModule } from './mailing/mailing.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm.config.service';
-import { AttachmentsModule } from './attachments/attachments.module';
 import { AmrModule } from './application-member/amr.module';
 import { IncidentsModule } from './incidents/incidents.module';
 import { StatisticsModule } from './statistics/statistics.module';
@@ -28,7 +27,6 @@ import { WebsocketsModule } from './websockets/websockets.module';
     AccountModule,
     ApplicationModule,
     MailingModule,
-    AttachmentsModule,
     AmrModule,
     IncidentsModule,
     StatisticsModule,

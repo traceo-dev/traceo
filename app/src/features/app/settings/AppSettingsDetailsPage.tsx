@@ -104,7 +104,7 @@ export const AppSettingsDetailsPage = () => {
         </Form>
       </ColumnSection>
 
-      <ColumnSection
+      {/* <ColumnSection
         firstColumnWidth={12}
         secondColumnWidth={12}
         divider={true}
@@ -117,7 +117,7 @@ export const AppSettingsDetailsPage = () => {
           onChange={(val) => update({ logo: val })}
           type={ATTACHMENT_TYPE.APPLICATION_AVATAR}
         />
-      </ColumnSection>
+      </ColumnSection> */}
       <ColumnSection
         firstColumnWidth={12}
         secondColumnWidth={12}

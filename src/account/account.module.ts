@@ -8,7 +8,6 @@ import { AccountQueryService } from './account-query/account-query.service';
 import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
 import { AmrService } from 'src/application-member/amr.service';
 import { AmrQueryService } from 'src/application-member/amr-query/amr-query.service';
-import { AWSBucketService } from 'src/awsbucket/awsbucket.service';
 import { HttpModule } from "@nestjs/axios";
 
 @Module({
@@ -23,8 +22,7 @@ import { HttpModule } from "@nestjs/axios";
     AccountQueryService, 
     ApplicationQueryService, 
     AmrService, 
-    AmrQueryService, 
-    AWSBucketService
+    AmrQueryService
   ],
   controllers: [AccountController],
   exports: [AccountService]
