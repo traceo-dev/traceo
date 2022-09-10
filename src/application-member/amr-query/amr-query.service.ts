@@ -43,7 +43,7 @@ export class AmrQueryService {
         }
 
         queryBuilder
-            .addSelect(["account.name", "account.email", "account.id"])
+            .addSelect(["account.name", "account.email", "account.id", "account.gravatar"])
             .orderBy("accountApplicationRelationship.createdAt", order)
             .skip((page - 1) * take)
             .take(take);

@@ -8,7 +8,7 @@ interface PermissionsProps {
   statuses: MemberRole[];
 }
 
-const Permissions: FC<PermissionsProps> = ({ statuses, children }) => {
+export const Permissions: FC<PermissionsProps> = ({ statuses, children }) => {
   const { application } = useSelector((state: StoreState) => state.application);
 
   const status = application.member.role;
@@ -18,5 +18,3 @@ const Permissions: FC<PermissionsProps> = ({ statuses, children }) => {
 
   return null;
 };
-
-export default Permissions;

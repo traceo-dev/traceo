@@ -1,7 +1,4 @@
-import {
-  CheckCircleFilled,
-  SafetyCertificateFilled
-} from "@ant-design/icons";
+import { CheckCircleFilled, SafetyCertificateFilled } from "@ant-design/icons";
 import { Row, Space, Tooltip, Typography } from "antd";
 import { FC } from "react";
 import { useSelector } from "react-redux";
@@ -27,17 +24,12 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
       render: (account: Account) => renderProfile(account)
     },
     {
-      title: "Email",
-      dataIndex: "email"
-    },
-    {
       title: "Name",
       dataIndex: "name"
     },
     {
-      title: "Last active",
-      dataIndex: "lastActiveAt",
-      render: (val: number) => dateUtils.fromNow(val)
+      title: "Email",
+      dataIndex: "email"
     },
     {
       title: "Status",
@@ -49,7 +41,7 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
   const renderProfile = (currentAccount: Account) => {
     return (
       <Row className="w-full items-center">
-        <Avatar shape="circle" size="small" name={currentAccount?.username} />
+        <Avatar shape="circle" size="small" url={currentAccount?.gravatar} name={currentAccount?.username} />
         <Space>
           <Typography className="pl-2 text-primary">
             {currentAccount?.username}

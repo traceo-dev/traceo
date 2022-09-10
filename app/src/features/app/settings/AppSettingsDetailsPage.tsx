@@ -10,15 +10,11 @@ import { handleStatus } from "src/core/utils/response";
 import { dispatch } from "src/store/store";
 import { ApiResponse } from "src/types/api";
 import { StoreState } from "src/types/store";
-import {
-  ENVIRONMENT,
-  MemberRole,
-  UpdateApplicationProps
-} from "src/types/application";
+import { ENVIRONMENT, MemberRole, UpdateApplicationProps } from "src/types/application";
 import { updateAplication } from "../state/actions";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "src/core/components/Confirm";
-import Permissions from "src/core/components/Permissions";
+import { Permissions } from "src/core/components/Permissions";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();

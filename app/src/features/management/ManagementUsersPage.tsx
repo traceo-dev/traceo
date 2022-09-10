@@ -7,9 +7,9 @@ import { SearchInput } from "src/core/components/SearchInput";
 import { ApiQueryParams } from "src/core/lib/api";
 import { dispatch } from "src/store/store";
 import { StoreState } from "src/types/store";
-import { AccountsTable } from "./components/AccountsTable";
+import { AccountsTable } from "./components/AccountManagement/AccountsTable";
 import { ManagementNavigation } from "./components/ManagementNavigation";
-import { loadServerAccounts } from "./state/actions";
+import { loadServerAccounts } from "./state/accounts/actions";
 
 const ManagementUsersPage = () => {
   const { accounts, hasFetched } = useSelector(

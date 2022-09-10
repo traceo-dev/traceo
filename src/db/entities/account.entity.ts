@@ -34,6 +34,11 @@ export class Account extends GenericEntity {
   @IsEmail()
   email: string;
 
+  
+  @Column({ nullable: true, type: 'varchar' })
+  @IsEmail()
+  gravatar: string;
+
   @Column({ select: false, nullable: false, type: 'varchar' })
   password: string;
 

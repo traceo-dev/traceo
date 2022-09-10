@@ -6,8 +6,8 @@ import PageHeader from "src/core/components/PageHeader";
 import { dispatch } from "src/store/store";
 import { AccountStatus } from "src/types/accounts";
 import { StoreState } from "src/types/store";
-import { updateServerAccount } from "../state/actions";
-import { AccountDetailsSection } from "./AccountDetailsSection";
+import { updateServerAccount } from "../../state/accounts/actions";
+import { DetailsSection } from "../../../../core/components/DetailsSection";
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -75,7 +75,7 @@ export const AccountInformation = () => {
 
   return (
     <>
-      <AccountDetailsSection>
+      <DetailsSection>
         <PageHeader
           fontSize={22}
           title="Personal information"
@@ -95,7 +95,7 @@ export const AccountInformation = () => {
             {account.email}
           </DescriptionInputRow>
         </Descriptions>
-      </AccountDetailsSection>
+      </DetailsSection>
     </>
   );
 };

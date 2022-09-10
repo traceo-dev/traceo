@@ -1,11 +1,14 @@
 import { Typography, Radio, Button, Row, Space } from "antd";
+import { application } from "express";
 import { FC, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Avatar } from "src/core/components/Avatar";
+import api from "src/core/lib/api";
+import { notify } from "src/core/utils/notify";
+import { slugifyForUrl } from "src/core/utils/stringUtils";
 import { ApplicationMember, MemberRole } from "src/types/application";
-import api from "../../../core/lib/api";
-import { notify } from "../../../core/utils/notify";
-import { Avatar } from "../../../core/components/Avatar";
 
-export const AccountDescriptionAppTable = ({ children }) => {
+export const ApplicationMemberDescriptionTable = ({ children }) => {
   return (
     <>
       <table className="details-table">
@@ -45,6 +48,7 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
   member,
   postExecute
 }) => {
+  const navigate = useNavigate();
   const [updateMode, setUpdateMode] = useState<boolean>(false);
   const [deleteMode, setDeleteMode] = useState<boolean>(false);
   const [value, setValue] = useState<MemberRole>();
@@ -82,17 +86,35 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
     }
   };
 
+  const navigateTo = () => {
+    if (member.application?.name) {
+      navigate(`/dashboard/management/apps/${member.application.id}`);
+    } else {
+      navigate(`/dashboard/management/users/${member.account.id}`);
+    }
+  };
+
   return (
     <>
       <tr>
         <td className="details-table-label">
-          <Row className="w-full items-center">
-            <Avatar shape="circle" size="small" name={member.application.name} />
-            <Space>
-              <Typography className="pl-2 text-sm font-normal">
-                {member.application.name}
-              </Typography>
-            </Space>
+          <Row
+            onClick={() => navigateTo()}
+            className="w-full items-center cursor-pointer"
+          >
+            {member.account && (
+              <Avatar
+                shape="circle"
+                size="small"
+                className="mr-3"
+                url={member.account?.gravatar}
+                name={member.account.name}
+              />
+            )}
+
+            <Typography className="text-sm font-normal hover:text-amber-600">
+              {member.application?.name || member.account.name}
+            </Typography>
           </Row>
         </td>
         <td className="details-table-value" colSpan={2}>
@@ -117,7 +139,12 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
             </Button>
           ) : (
             <Space>
-              <Button loading={loadingDelete} danger type="primary" onClick={() => onRemoveFromApp()}>
+              <Button
+                loading={loadingDelete}
+                danger
+                type="primary"
+                onClick={() => onRemoveFromApp()}
+              >
                 Confirm
               </Button>
               <Button type="primary" onClick={() => setDeleteMode(false)} ghost>
@@ -133,7 +160,11 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
             </Button>
           ) : (
             <Space>
-              <Button loading={loadingUpdate} type="primary" onClick={() => onUpdateRole()}>
+              <Button
+                loading={loadingUpdate}
+                type="primary"
+                onClick={() => onUpdateRole()}
+              >
                 Save
               </Button>
               <Button type="primary" onClick={() => setUpdateMode(false)} ghost>

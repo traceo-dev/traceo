@@ -1,10 +1,3 @@
-import { ElectronIcon } from "src/core/components/Icons/ElectronIcon";
-import { ExpressIcon } from "src/core/components/Icons/ExpressIcon";
-import { JavascriptIcon } from "src/core/components/Icons/JavascriptIcon";
-import { NestJsIcon } from "src/core/components/Icons/NestJsIcon";
-import { NodeJsIcon } from "src/core/components/Icons/NodeJsIcon";
-import { TypescriptIcon } from "src/core/components/Icons/TypecriptIcon";
-
 export enum ReleaseSortBy {
   INCIDENTS_COUNT = "incidentsCount",
   INCIDENTS_OCCUR_COUNT = "incidentsOccurCount",

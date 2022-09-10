@@ -260,7 +260,7 @@ body {
 .details-table td, .details-table th {
   height: 30px;
   line-height: 30px;
-  padding: 4px 8px;
+  padding: 6px 8px;
   white-space: nowrap;
 }
 
@@ -269,7 +269,7 @@ body {
 }
 
 .details-table-label {
-  font-weight: 500;
+  font-weight: 400 !important;
   width: 256px!important;
 }
 

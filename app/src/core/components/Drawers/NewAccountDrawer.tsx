@@ -4,7 +4,7 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import { DrawerButtons } from "../DrawerButtons";
 import { dispatch } from "src/store/store";
 import { addMember } from "src/features/app/members/state/actions";
-import { addServerAccount } from "src/features/management/state/actions";
+import { addServerAccount } from "src/features/management/state/accounts/actions";
 import { AddAccountProps } from "src/types/accounts";
 import validators from "src/core/lib/validators";
 

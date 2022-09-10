@@ -30,7 +30,7 @@ export const Header: FC<Props> = ({ routes }) => {
           <Alert
             message={
               <Space>
-                Your password has not been changed since you created your account. Please
+                Your password has not been changed since of creating your account. Please
                 change your password now.
               </Space>
             }

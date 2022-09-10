@@ -2,16 +2,18 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { Space, Typography, Button } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { ConditionLayout } from "src/core/components/ConditionLayout";
 import { AddToApplicationDrawer } from "src/core/components/Drawers/AddToApplicationDrawer";
 import PageHeader from "src/core/components/PageHeader";
 import { useApi } from "src/core/lib/useApi";
 import { ApplicationMember, MemberRole } from "src/types/application";
 import { StoreState } from "src/types/store";
+
+import { DetailsSection } from "../../../../core/components/DetailsSection";
 import {
-  AccountDescriptionAppTable,
+  ApplicationMemberDescriptionTable,
   DescriptionAppRadioRow
-} from "./AccountDescriptionsAppTable";
-import { AccountDetailsSection } from "./AccountDetailsSection";
+} from "../ApplicationMemberDescriptionTable";
 
 export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -30,7 +32,7 @@ export const AccountApplications = () => {
 
   return (
     <>
-      <AccountDetailsSection>
+      <DetailsSection>
         <PageHeader
           fontSize={22}
           title="Applications"
@@ -43,8 +45,18 @@ export const AccountApplications = () => {
             Add user to application
           </Button>
         </Space>
-        {applications?.length > 0 ? (
-          <AccountDescriptionAppTable>
+        <ConditionLayout
+          emptyView={
+            <Space className="w-full justify-center">
+              <Typography.Text className="w-full justify-center">
+                No applications
+              </Typography.Text>
+            </Space>
+          }
+          isEmpty={applications?.length === 0}
+          isLoading={isLoading}
+        >
+          <ApplicationMemberDescriptionTable>
             {applications?.map((member) => (
               <DescriptionAppRadioRow
                 member={member}
@@ -56,21 +68,15 @@ export const AccountApplications = () => {
                 postExecute={postExecute}
               />
             ))}
-          </AccountDescriptionAppTable>
-        ) : (
-          <Space className="w-full justify-center">
-            <Typography.Text className="w-full justify-center">
-              No applications
-            </Typography.Text>
-          </Space>
-        )}
+          </ApplicationMemberDescriptionTable>
+        </ConditionLayout>
 
         <AddToApplicationDrawer
           isOpen={isOpenAddAppDrawer}
           onCancel={() => setOpenAddAppDrawer(false)}
           postExecute={() => postExecute()}
         />
-      </AccountDetailsSection>
+      </DetailsSection>
     </>
   );
 };

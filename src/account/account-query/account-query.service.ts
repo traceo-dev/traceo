@@ -35,6 +35,10 @@ export class AccountQueryService extends GenericQueryService<Account, BaseDtoQue
         return this.repository.findOneBy({ email })
     }
 
+    public async getAccountByUsername(username: string): Promise<Account | null> {
+        return this.repository.findOneBy({ username })
+    }
+
     public getBuilderAlias(): string {
         return 'account';
     }

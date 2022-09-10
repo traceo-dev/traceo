@@ -15,6 +15,7 @@ export interface Account {
   createdAt: number;
   about: string;
   isPasswordUpdated: boolean;
+  gravatar: string;
 }
 
 export interface AddAccountProps {

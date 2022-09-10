@@ -58,11 +58,19 @@ export class AccountNotExistsError extends KlepperError {
     }
 }
 
-export class AccountAlreadyExistsError extends KlepperError {
+export class AccountEmailAlreadyExistsError extends KlepperError {
     constructor(message?) {
-        super(message || 'Account already exists.');
-        this.name = 'AccountAlreadyExistsError';
+        super(message || 'Account with this email already exists.');
+        this.name = 'AccountEmailAlreadyExistsError';
         this.status = 454;
+    }
+}
+
+export class AccountUsernameEmailAlreadyExistsError extends KlepperError {
+    constructor(message?) {
+        super(message || 'Account with this username already exists.');
+        this.name = 'AccountUsernameEmailAlreadyExistsError';
+        this.status = 458;
     }
 }
 

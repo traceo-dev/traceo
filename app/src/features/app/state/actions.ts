@@ -10,6 +10,7 @@ import { notify } from "src/core/utils/notify";
 import { ApiResponse } from "src/types/api";
 import { handleStatus } from "src/core/utils/response";
 import { loadApplications } from "src/features/dashboard/state/actions";
+import { loadServerApplications } from "src/features/management/state/applications/actions";
 
 export const loadApplication = (applicationId?: any): ThunkResult<void> => {
   return async (dispatch, getStore) => {
@@ -34,11 +35,15 @@ export const loadApplication = (applicationId?: any): ThunkResult<void> => {
   };
 };
 
-export const createApplication = (body: CreateApplicationProps): ThunkResult<void> => {
+export const createApplication = (body: CreateApplicationProps, isAdmin?: boolean): ThunkResult<void> => {
   return async (dispatch) => {
     const response: { id: string } = await api.post("/api/application", body);
     if (response.id) {
-      dispatch(loadApplications());
+      if (isAdmin) {
+        dispatch(loadServerApplications());
+      } else {
+        dispatch(loadApplications());
+      }
       notify.success("Application created");
     } else {
       notify.error("Error. Try again later.");

@@ -20,7 +20,7 @@ import { PagePanel } from "src/core/components/PagePanel";
 import { Confirm } from "src/core/components/Confirm";
 import { ConditionLayout } from "src/core/components/ConditionLayout";
 import { EmptyMembersList } from "src/core/components/EmptyViews/EmptyMembersList";
-import Permissions from "src/core/components/Permissions";
+import { Permissions } from "src/core/components/Permissions";
 
 export const AppMembersListPage = () => {
   const { id } = useParams();
@@ -74,9 +74,7 @@ export const AppMembersListPage = () => {
           title="Members"
           icon={<TeamOutlined />}
           extra={
-            <Permissions
-              statuses={[MemberRole.MAINTAINER, MemberRole.ADMINISTRATOR]}
-            >
+            <Permissions statuses={[MemberRole.MAINTAINER, MemberRole.ADMINISTRATOR]}>
               <Confirm
                 onOk={() => handleLeave()}
                 withAuth={true}

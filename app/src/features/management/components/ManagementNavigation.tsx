@@ -1,4 +1,5 @@
 import {
+  AppstoreFilled,
   SettingOutlined,
   TeamOutlined
 } from "@ant-design/icons";
@@ -12,7 +13,6 @@ import { StoreState } from "src/types/store";
 import { useEffect } from "react";
 import { dispatch } from "src/store/store";
 import { loadAccount } from "src/features/auth/state/actions";
-import { useNavigate } from "react-router-dom";
 import { isEmptyObject } from "src/core/utils/object";
 import { TraceoLoading } from "src/core/components/TraceoLoading";
 
@@ -33,6 +33,12 @@ export const ManagementNavigation = ({ children }) => {
       label: "Users",
       key: "users",
       icon: <TeamOutlined />
+    },
+    {
+      href: "/dashboard/management/apps",
+      label: "Applications",
+      key: "apps",
+      icon: <AppstoreFilled />
     }
   ];
 

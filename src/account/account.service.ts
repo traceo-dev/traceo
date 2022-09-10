@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Account, AccountStatus } from 'src/db/entities/account.entity';
 import { MailingService } from 'src/mailing/mailing.service';
-import { AccountAlreadyExistsError, InternalServerError } from 'src/helpers/errors';
+import { AccountEmailAlreadyExistsError, AccountUsernameEmailAlreadyExistsError, InternalServerError } from 'src/helpers/errors';
 import tokenService from 'src/helpers/tokens';
 import { EntityManager } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
@@ -13,6 +13,7 @@ import { AccountMemberRelationship, MemberRole } from 'src/db/entities/account-m
 import { HttpService } from "@nestjs/axios";
 import { RequestUser } from 'src/auth/auth.model';
 import dateUtils from 'src/helpers/dateUtils';
+import * as gravatar from "gravatar";
 
 @Injectable()
 export class AccountService {
@@ -25,23 +26,34 @@ export class AccountService {
         readonly httpService: HttpService
     ) { }
 
-    public async createAccount(accountDto: CreateAccountDto): Promise<any> {
-        const { name, email, password, username } = accountDto;
+    private async checkDuplicate(username: string, email: string) {
+        const account = await this.accountQueryService.getAccountByUsername(username.toLowerCase());
+        if (account) {
+            throw new AccountUsernameEmailAlreadyExistsError();
+        }
 
         if (email) {
             const account = await this.accountQueryService.getAccountByEmail(email);
             if (account) {
-                throw new AccountAlreadyExistsError();
+                throw new AccountEmailAlreadyExistsError();
             }
         }
+    }
+
+    public async createAccount(accountDto: CreateAccountDto): Promise<any> {
+        const { name, email, password, username } = accountDto;
+
+        await this.checkDuplicate(username, email);
 
         try {
+            const url = this.getGravatarUrl(email, username);
             const account: QueryDeepPartialEntity<Account> = {
                 email,
                 name,
-                username,
+                username: username.toLowerCase(),
                 password: tokenService.generate(password),
                 isAdmin: false,
+                gravatar: url,
                 status: AccountStatus.INACTIVE,
                 createdAt: dateUtils.toUnix()
             };
@@ -53,6 +65,10 @@ export class AccountService {
             Logger.error(`[${this.createAccount.name}] Caused by: ${error}`)
             throw new InternalServerError();
         }
+    }
+
+    private getGravatarUrl(email: string, username: string): string {
+        return gravatar.url(email || username, { s: '100', r: 'x', d: 'retro', f: "y" }, false);
     }
 
     public async updateAccount(accountId: string, accountDto: AccountDto): Promise<void> {

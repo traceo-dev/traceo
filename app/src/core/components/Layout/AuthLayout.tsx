@@ -8,8 +8,6 @@ interface Props {
   subtitle?: string;
 }
 
-const { Header: AntHeader } = Layout;
-
 export const AuthLayout: FC<Props> = ({ children, title, subtitle }) => {
   return (
     <>
