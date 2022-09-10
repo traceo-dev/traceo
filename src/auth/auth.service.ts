@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { createHmac } from 'crypto';
-import { CreateAccountDto } from 'src/account/account.model';
 import { AccountService } from 'src/account/account.service';
-import { Account } from 'src/db/entities/account.entity';
+import { Account, AccountStatus } from 'src/db/entities/account.entity';
 import { AccountCredentialsDto, RequestUser, UpdatePasswordDto } from './auth.model';
 import { JwtPayload } from './jwt.payload.interface';
 import { JwtService } from "@nestjs/jwt"
 import { EntityManager } from 'typeorm';
-import { AccountNotExistsError, BadPasswordOrNotExists } from 'src/helpers/errors';
+import { AccountNotExistsError, AccountSuspendedError, BadPasswordOrNotExists } from 'src/helpers/errors';
 
 @Injectable()
 export class AuthService {
@@ -27,33 +26,37 @@ export class AuthService {
                 throw new BadPasswordOrNotExists();
             }
 
-            const { id, name, email, logo } = account;
+            if (!account?.lastActiveAt) {
+                await this.accountService.updateAccount(account.id, { status: AccountStatus.ACTIVE });
+            }
+
+            if (account.status === AccountStatus.DISABLED) {
+                throw new AccountSuspendedError();
+            }
+
+            const { id, name, email, username } = account;
             const payload: JwtPayload = {
                 id,
                 name,
                 email,
-                logo
+                username
             };
             const { accessToken } = await this.createToken(payload);
-
+            console.log({ accessToken })
             return {
                 accessToken
             };
         });
     }
 
-    public async register(accountDto: CreateAccountDto): Promise<any> {
-        return this.accountService.createAccount(accountDto);
-    }
-
     public async checkCredentials(credentials: AccountCredentialsDto, manager: EntityManager = this.entityManager): Promise<{ isCorrect: boolean, account?: Account }> {
-        const { email, password } = credentials;
-        const account = await manager.getRepository(Account).findOne({
-            where: {
-                email,
-                password: createHmac('sha256', password).digest('hex'),
-            }
-        });
+        const { usernameOrEmail, password } = credentials;
+
+        const account = await manager.getRepository(Account).createQueryBuilder('account')
+            .where('account.email = :email', { email: usernameOrEmail })
+            .orWhere('account.username = :username', { username: usernameOrEmail })
+            .andWhere('account.password = :password', { password: createHmac('sha256', password).digest('hex') })
+            .getOne();
 
         if (!account) {
             return {
@@ -82,7 +85,7 @@ export class AuthService {
             }
 
             const credentials = new AccountCredentialsDto(
-                account?.email,
+                account?.email || account?.username,
                 password,
             );
 
@@ -91,7 +94,8 @@ export class AuthService {
                 throw new BadPasswordOrNotExists();
             }
 
-            account.password = createHmac('sha256', newPassword).digest('hex')
+            account.password = createHmac('sha256', newPassword).digest('hex');
+            account.isPasswordUpdated = true;
             await manager.getRepository(Account).save(account);
 
             return {

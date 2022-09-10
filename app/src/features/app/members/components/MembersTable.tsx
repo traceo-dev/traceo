@@ -3,9 +3,8 @@ import { Typography, Row, Space, Popconfirm } from "antd";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import {
-  AccountApplication,
   ApplicationMember,
-  MEMBER_STATUS
+  MemberRole
 } from "src/types/application";
 import { removeMember } from "src/features/app/members/state/actions";
 import { Avatar } from "../../../../core/components/Avatar";
@@ -16,7 +15,7 @@ import { dispatch } from "src/store/store";
 import { StoreState } from "src/types/store";
 
 interface Props {
-  members: AccountApplication[];
+  members: ApplicationMember[];
   hasFetched?: boolean;
 }
 export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
@@ -39,7 +38,7 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
     {
       title: "Status",
       dataIndex: "status",
-      render: (status: MEMBER_STATUS) => <MemberStatusTag status={status} />
+      render: (status: MemberRole) => <MemberStatusTag status={status} />
     },
     {
       align: "right" as const,
@@ -51,12 +50,7 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
   const renderProfile = (member: ApplicationMember) => {
     return (
       <Row className="w-full items-center">
-        <Avatar
-          shape="circle"
-          size="small"
-          url={member?.account?.logo}
-          name={member?.account?.name}
-        />
+        <Avatar shape="circle" size="small" name={member?.account?.name} />
         <Space>
           <Typography className="pl-2 text-primary">{member?.account?.name}</Typography>
           {member?.account?.id === account?.id && <CheckCircleFilled className="p-1" />}
@@ -76,10 +70,12 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
     );
   };
 
-  const isEdit = (member: ApplicationMember) =>
-    member?.status !== MEMBER_STATUS.OWNER &&
-    (account?.status === MEMBER_STATUS.OWNER ||
-      account?.status === MEMBER_STATUS.ADMINISTRATOR);
+  // const isEdit = (member: ApplicationMember) =>
+  //   member?.status !== MEMBER_STATUS.OWNER &&
+  //   (account?.status === MEMBER_STATUS.OWNER ||
+  //     account?.status === MEMBER_STATUS.ADMINISTRATOR);
+
+  const isEdit = (_member: ApplicationMember) => true;
 
   const renderEdit = (member: ApplicationMember) => {
     if (isEdit(member)) {
@@ -95,11 +91,14 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
     }
   };
 
-  const isTrash = (member: ApplicationMember) =>
-    member?.status !== MEMBER_STATUS.OWNER &&
-    (account?.status === MEMBER_STATUS.OWNER ||
-      account?.status === MEMBER_STATUS.DEVELOPER) &&
-    member?.account.id !== account?.id;
+  // TODO: fix this
+  // const isTrash = (member: ApplicationMember) =>
+  //   member?.status !== MEMBER_STATUS.OWNER &&
+  //   (account?.status === MEMBER_STATUS.OWNER ||
+  //     account?.status === MEMBER_STATUS.DEVELOPER) &&
+  //   member?.account.id !== account?.id;
+
+  const isTrash = (_member: ApplicationMember) => true;
 
   const renderTrash = (member: ApplicationMember) => {
     if (isTrash(member)) {

@@ -20,7 +20,7 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .setTitle('Traceo REST API')
-    .setVersion('0.0.3')
+    .setVersion('2.0.0')
     .addServer('/api', 'Main server - current/local')
     .addBearerAuth()
     .build();

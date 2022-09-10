@@ -4,7 +4,7 @@ import { ConfirmModal } from "./ConfirmModal";
 import { ConfirmModalWithAuth } from "./ConfirmModalWithAuth";
 
 interface Props {
-  description: string;
+  description: string | JSX.Element;
   children: any;
   onOk: () => void;
   withAuth?: boolean;

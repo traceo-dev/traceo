@@ -32,17 +32,17 @@ export const DashboardSettingsNavigation = ({ children }) => {
   const menu: MenuRoute[] = [
     {
       href: "/dashboard/account/settings",
-      label: "Account",
+      label: "Settings",
       key: "settings",
-      icon: <UserOutlined />
+      icon: <SettingOutlined />
     }
   ];
 
   return (
     <DashboardPage>
       <PageHeader
-        icon={<SettingOutlined />}
-        title={"Settings"}
+        icon={<UserOutlined />}
+        title={"Account"}
         subTitle={"Your account settings"}
       />
       <Menu className="mt-5" routes={menu} />

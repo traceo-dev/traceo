@@ -19,6 +19,24 @@ export class ApplicationQueryService extends GenericQueryService<Application, Ba
         return await this.entityManager.getRepository(Application).findOneBy({ id });
     }
 
+    public async getApplications(pageOptionsDto: BaseDtoQuery): Promise<Application[]> {
+        const { order, take, search, page } = pageOptionsDto;
+        let queryBuilder = this.entityManager
+            .getRepository(Application)
+            .createQueryBuilder("application");
+
+        if (search) {
+            queryBuilder.where("LOWER(application.name) LIKE LOWER(:name)", { name: `%${search}%` })
+        }
+
+        queryBuilder
+            .orderBy("application.updatedAt", order)
+            .skip((page - 1) * take)
+            .take(take);
+
+        return await queryBuilder.getMany();
+    }
+
     public async getApplication(appId: number, user: RequestUser): Promise<ApplicationResponse | null> {
         const { id } = user;
 
@@ -34,16 +52,15 @@ export class ApplicationQueryService extends GenericQueryService<Application, Ba
             return null;
         }
 
-        const { status, application } = applicationQuery;
+        const { role, application } = applicationQuery;
 
         return {
             ...application,
             member: {
-                status
+                role
             },
             owner: {
-                name: application?.owner.name,
-                logo: application?.owner?.logo
+                name: application?.owner.name
             }
         }
     }

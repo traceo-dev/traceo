@@ -19,7 +19,7 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
             .where('incident.id = :id', { id })
             .leftJoin('incident.assigned', 'assigned')
             .loadRelationCountAndMap('incident.commentsCount', 'incident.comments')
-            .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.logo"])
+            .addSelect(["assigned.name", "assigned.email", "assigned.id"])
             .getOne();
     }
 
@@ -34,7 +34,7 @@ export class IncidentsQueryService extends GenericQueryService<Incident, Inciden
         builder
             .leftJoin('incident.assigned', 'assigned')
             .loadRelationCountAndMap('incident.commentsCount', 'incident.comments')
-            .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.logo"]);
+            .addSelect(["assigned.name", "assigned.email", "assigned.id"]);
 
         return builder;
     }

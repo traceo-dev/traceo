@@ -19,7 +19,7 @@ export const Avatar: FC<Props> = ({
   size,
   className
 }) => {
-  const initials = name?.substring(0, 1);
+  const initials = name?.substring(0, 1).toUpperCase();
 
   const handleInitialsColor: Record<string, string> = {
     A: "bg-red-600 text-white",
@@ -53,7 +53,7 @@ export const Avatar: FC<Props> = ({
   return (
     <>
       <AntAvatar
-        className={joinClasses(handleInitialsColor[initials], className)}
+        className={joinClasses(handleInitialsColor[initials], className, "capitalize")}
         size={size}
         gap={gap}
         shape={shape}

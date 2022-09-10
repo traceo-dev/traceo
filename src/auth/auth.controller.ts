@@ -35,11 +35,6 @@ export class AuthController {
     return this.authService.checkCredentials(user);
   }
 
-  @Post('register')
-  async register(@Body() accountDto: CreateAccountDto): Promise<any> {
-    return this.authService.register(accountDto);
-  }
-
   @Post('update-password')
   @AuthRequired()
   async updatePassword(

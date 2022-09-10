@@ -1,9 +1,8 @@
 import { Environment } from "src/core/generic.model";
-import { MEMBER_STATUS } from "src/db/entities/account-member-relationship.entity";
+import { MemberRole } from "src/db/entities/account-member-relationship.entity";
 
 export interface OwnerAccount {
     name: string;
-    logo: string;
 }
 
 export interface Application {
@@ -20,6 +19,6 @@ export interface Application {
 
 export interface ApplicationResponse extends Application {
     member: {
-        status: MEMBER_STATUS
+        role: MemberRole
     };
 }

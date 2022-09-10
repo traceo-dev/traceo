@@ -1,7 +1,7 @@
 import api from "src/core/lib/api";
 import { ThunkResult } from "src/types/store";
 import {
-  AccountApplication,
+  ApplicationMember,
   SearchApplicationQueryParams,
   UpdateAccountApplicationProps
 } from "src/types/application";
@@ -10,17 +10,22 @@ import { applicationsLoaded } from "./reducers";
 export const loadApplications = (
   query?: SearchApplicationQueryParams
 ): ThunkResult<void> => {
-  return async (dispatch) => {
+  return async (dispatch, getStore) => {
+    const account = getStore().account.account;
     if (!query) {
       query = {
         order: "ASC",
-        sortBy: "application.lastIncidentAt"
+        sortBy: "application.lastIncidentAt",
+        accountId: account.id
       };
     }
 
-    const application = await api.get<AccountApplication[]>(
+    const application = await api.get<ApplicationMember[]>(
       "/api/amr/applications",
-      query
+      {
+        accountId: query.accountId || account.id,
+        ...query
+      }
     );
     dispatch(applicationsLoaded(application));
   };

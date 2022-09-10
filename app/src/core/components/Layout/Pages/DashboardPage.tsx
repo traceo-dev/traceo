@@ -16,15 +16,15 @@ export const DashboardPage = ({ children }) => {
       href: "/dashboard/overview",
       label: "Overview"
     },
-    // {
-    //   key: "usage",
-    //   href: "/dashboard/usage",
-    //   label: "Usage"
-    // },
+    {
+      key: "management",
+      href: "/dashboard/management/users",
+      label: "Management"
+    },
     {
       key: "account",
       href: "/dashboard/account/settings",
-      label: "Settings"
+      label: "Account"
     },
     {
       key: "updates",

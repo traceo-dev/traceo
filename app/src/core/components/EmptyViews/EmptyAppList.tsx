@@ -1,5 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Space, Typography } from "antd";
+import { Space, Typography } from "antd";
 import { FC, useState } from "react";
 import { CreateApplicationDrawer } from "../Drawers/CreateApplicationDrawer";
 
@@ -12,7 +11,6 @@ export const EmptyAppList: FC<Props> = ({ constraints }) => {
   return (
     <>
       <Space direction="vertical" className="pt-5">
-        {/* <BorderOutlined className="text-5xl text-cyan-500" /> */}
         <Typography.Text className="text-3xl font-bold" strong>
           Applications not found
         </Typography.Text>
@@ -21,19 +19,9 @@ export const EmptyAppList: FC<Props> = ({ constraints }) => {
             No results for <b>{constraints}</b>
           </Typography.Text>
         ) : (
-          <>
-            <Typography.Text>
-              To fully use the Traceo platform, you must first create your own
-              application. Share app with the people who need it and and work together to
-              solve new problems together.{" "}
-            </Typography.Text>
-            <Button
-              onClick={() => setOpenApplicationModal(true)}
-              className="secondary-btn mt-5"
-            >
-              <PlusOutlined /> Create an app
-            </Button>
-          </>
+          <Typography.Text>
+            Contact the administrator and start monitoring the applications.
+          </Typography.Text>
         )}
       </Space>
       <CreateApplicationDrawer

@@ -19,7 +19,7 @@ export const Profile = () => {
   const logout = () => {
     localStorage.removeItem("session");
     sessionStorage.clear();
-    window.location.href = "/";
+    window.location.href = "/login";
   };
 
   const routes: ProfileRoute[] = [
@@ -57,8 +57,8 @@ export const Profile = () => {
       <Popover
         title={
           <Space className="px-1 py-2">
-            <Avatar size="small" shape="circle" name={account.name} url={account.logo} />
-            <Typography.Text>{account.name}</Typography.Text>
+            <Avatar size="small" shape="circle" name={account?.name} />
+            <Typography.Text>{account?.name}</Typography.Text>
           </Space>
         }
         placement="bottomLeft"

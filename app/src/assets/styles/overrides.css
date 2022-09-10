@@ -240,7 +240,7 @@
   height: 32px;
   padding: 4px 15px;
   font-weight: 600;
-  border-radius: 6px;
+  border-radius: 2px;
 }
 
 .ant-dropdown-trigger {
@@ -349,6 +349,10 @@
   background-color: var(--color-bg-canvas);
 }
 
-.ant-select:not(.ant-select-customize-input) .ant-select-selector {
-  border-radius: 6px;
+.ant-select-single.ant-select-show-arrow .ant-select-selection-item, .ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+  text-align: start;
+}
+
+.ant-table-row.ant-table-row-level-0:hover {
+  background-color: transparent !important;
 }

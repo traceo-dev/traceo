@@ -7,10 +7,10 @@ import dateUtils from "src/core/utils/date";
 import { slugifyForUrl } from "src/core/utils/stringUtils";
 import { loadApplication } from "src/features/app/state/actions";
 import { dispatch } from "src/store/store";
-import { AccountApplication } from "src/types/application";
+import { ApplicationMember } from "src/types/application";
 
 interface Props {
-  app: AccountApplication;
+  app: ApplicationMember;
 }
 export const AppCard: FC<Props> = ({ app }) => {
   const navigate = useNavigate();

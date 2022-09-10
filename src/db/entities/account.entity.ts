@@ -16,40 +16,33 @@ export enum AccountRole {
 export enum AccountStatus {
   ACTIVE = "active",
   INACTIVE = "inactive",
-  SUSPENDED = "suspended"
+  DISABLED = "disabled"
 }
 
 @Entity()
 export class Account extends GenericEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
-  
-  @Column({ nullable: false })
+
+  @Column({ nullable: true, type: 'varchar' })
   name: string;
 
-  @Column({ unique: true, nullable: false })
+  @Column({ unique: true, type: 'varchar' })
+  username: string;
+
+  @Column({ nullable: true, unique: true, type: 'varchar' })
   @IsEmail()
   email: string;
 
-  @Column({ select: false, nullable: false })
+  @Column({ select: false, nullable: false, type: 'varchar' })
   password: string;
 
-  @Column({ nullable: true }) //TODO: this should be not optional
+  @Column({ nullable: false })
   status: AccountStatus;
 
-  @Column({ nullable: false })
-  @IsEnum(AccountRole)
-  role: AccountRole;
-
-  @Column({ nullable: false })
+  @Column({ nullable: true, default: false })
   @IsBoolean()
-  active: boolean;
-
-  @Column({ nullable: true, select: false })
-  activateHash?: string;
-
-  @Column({ nullable: true })
-  logo?: string;
+  isAdmin: boolean;
 
   @OneToMany(
     () => AccountMemberRelationship,
@@ -62,4 +55,13 @@ export class Account extends GenericEntity {
 
   @OneToMany(() => Incident, incident => incident.assigned)
   incidents: Incident[];
+
+  @Column({ nullable: false, type: "boolean", default: false })
+  isPasswordUpdated: boolean;
+
+  @Column({
+    type: 'bigint',
+    nullable: true
+  })
+  lastActiveAt?: number;
 }

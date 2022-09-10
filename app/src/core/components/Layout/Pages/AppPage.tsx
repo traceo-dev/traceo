@@ -23,7 +23,7 @@ export const AppPage = ({ children }) => {
 
   if (isEmptyObject(application)) {
     return <TraceoLoading />;
-  } else if (!application?.member?.status || !isSlugCorrect(application.name)) {
+  } else if (!application?.member?.role || !isSlugCorrect(application.name)) {
     return (
       <PageCenter>
         <NotFound />

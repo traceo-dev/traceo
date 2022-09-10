@@ -1,10 +1,10 @@
 import { Account } from "./accounts";
 import { SortOrder } from "./api";
 
-export enum MEMBER_STATUS {
-  OWNER = "Owner",
+export enum MemberRole {
   ADMINISTRATOR = "Administrator",
-  DEVELOPER = "Developer"
+  MAINTAINER = "Maintainer",
+  VIEWER = "Viewer"
 }
 
 export enum ENVIRONMENT {
@@ -12,19 +12,6 @@ export enum ENVIRONMENT {
   development = "development",
   test = "test"
 }
-
-export enum TECHNOLOGY {
-  NODEJS = "nodejs",
-  JAVASCRIPT = "js",
-  TYPESCRIPT = "ts"
-}
-
-export enum FRAMEWORK {
-  EXPRESS = "express",
-  NESTJS = "nestjs",
-  ELECTRON = "electron"
-}
-
 export interface OwnerAccount {
   name: string;
   logo: string;
@@ -35,8 +22,6 @@ export interface Application {
   name: string;
   dsn?: string;
   owner: OwnerAccount;
-  technology: TECHNOLOGY;
-  framework: FRAMEWORK;
   logo?: string;
   lastIncidentAt?: number;
   incidentsCount: number;
@@ -44,25 +29,31 @@ export interface Application {
   createdAt: number;
   updatedAt: number;
   member: {
-    status: MEMBER_STATUS;
+    role: MemberRole;
   };
+}
+
+export interface AddAccountToApplication {
+  role: MemberRole;
+  applicationId: number;
+  accountId: string;
 }
 
 export interface ApplicationMember {
   id: string;
-  status: MEMBER_STATUS;
+  status: MemberRole;
   account: Account;
   lastUpdate: number;
 }
 
 export interface ApplicationMemberUpdateProps {
   id: string;
-  status: MEMBER_STATUS;
+  status: MemberRole;
 }
 
-export interface AccountApplication {
+export interface ApplicationMember {
   id: string;
-  status: MEMBER_STATUS;
+  role: MemberRole;
   favorite: boolean;
   application: Application;
 }
@@ -89,4 +80,5 @@ export interface SearchApplicationQueryParams {
   sortBy?: string;
   search?: string;
   favorite?: boolean;
+  accountId?: string;
 }

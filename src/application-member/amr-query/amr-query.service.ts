@@ -43,7 +43,7 @@ export class AmrQueryService {
         }
 
         queryBuilder
-            .addSelect(["account.name", "account.email", "account.id", "account.logo"])
+            .addSelect(["account.name", "account.email", "account.id"])
             .orderBy("accountApplicationRelationship.createdAt", order)
             .skip((page - 1) * take)
             .take(take);
@@ -91,14 +91,14 @@ export class AmrQueryService {
         }
     }
 
-    public async awrExists({ accountId, appId }: { accountId: string, appId: number }, manager: EntityManager = this.entityManager): Promise<boolean> {
+    public async awrExists({ accountId, applicationId }: { accountId: string, applicationId: number }, manager: EntityManager = this.entityManager): Promise<boolean> {
         const count = await manager.getRepository(AccountMemberRelationship)
             .createQueryBuilder("accountApplicationRelationship")
             .where(
-                'accountApplicationRelationship.account = :accountId AND accountApplicationRelationship.application = :appId',
+                'accountApplicationRelationship.account = :accountId AND accountApplicationRelationship.application = :applicationId',
                 {
                     accountId,
-                    appId,
+                    applicationId,
                 },
             ).getCount();
         return count > 0;

@@ -36,14 +36,14 @@ export class Application extends GenericEntity {
   @Column({ nullable: true, length: 256, type: 'varchar' })
   aboutDescription?: string;
 
-  @Column({ nullable: true, type: 'varchar' })
-  technology?: string;
+  // @Column({ nullable: true, type: 'varchar' })
+  // technology?: string;
 
-  @Column({ nullable: true, type: 'varchar' })
-  framework?: string;
+  // @Column({ nullable: true, type: 'varchar' })
+  // framework?: string;
 
-  @Column({ nullable: true })
-  logo?: string;
+  // @Column({ nullable: true })
+  // logo?: string;
 
   @Column({ nullable: true })
   lastIncidentAt?: number;

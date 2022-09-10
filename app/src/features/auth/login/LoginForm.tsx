@@ -5,20 +5,22 @@ export const LoginForm = ({ form, loading, onFinish }) => {
   return (
     <Form form={form} onFinish={onFinish} name="login" className="pt-5" layout="vertical">
       <Form.Item
-        name="email"
+        name="usernameOrEmail"
+        label="Username or email"
         rules={[
           {
             required: true,
             warningOnly: true,
-            message: "Please input your Email!"
+            message: "Please input username or email!"
           }
         ]}
       >
-        <Input placeholder="Email" className="auth-input" />
+        <Input className="auth-input" />
       </Form.Item>
 
       <Form.Item
         name="password"
+        label="Password"
         className="mt-8"
         rules={[
           {
@@ -28,12 +30,8 @@ export const LoginForm = ({ form, loading, onFinish }) => {
           }
         ]}
       >
-        <Input placeholder="Password" className="auth-input" type="password" />
+        <Input className="auth-input" type="password" />
       </Form.Item>
-
-      <Row style={{ alignItems: "baseline", justifyContent: "end" }}>
-        <Typography className="text-xs">Forgot password?</Typography>
-      </Row>
 
       <Space direction="vertical" className="mt-12 w-full">
         <Button
@@ -44,9 +42,6 @@ export const LoginForm = ({ form, loading, onFinish }) => {
         >
           Log In
         </Button>
-        <Typography className="text-xs text-center mt-1">
-          Don&apos;t have an account? <Link href={"/signup"}>Register now!</Link>
-        </Typography>
       </Space>
     </Form>
   );

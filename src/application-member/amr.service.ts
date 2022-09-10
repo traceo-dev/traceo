@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Account } from 'src/db/entities/account.entity';
-import { MEMBER_STATUS, AccountMemberRelationship } from 'src/db/entities/account-member-relationship.entity';
+import { MemberRole, AccountMemberRelationship } from 'src/db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
 import { AmrQueryService } from './amr-query/amr-query.service';
 import { AccountAlreadyInApplicationError } from 'src/helpers/errors';
 import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
 import { MailingService } from 'src/mailing/mailing.service';
-import { AwrModel } from './amr.model';
+import { AddAccountToApplicationModel, UpdateAmrModel } from './amr.model';
 import dateUtils from 'src/helpers/dateUtils';
 import { Application } from 'src/db/entities/application.entity';
 import { Incident } from 'src/db/entities/incident.entity';
@@ -22,76 +22,43 @@ export class AmrService {
         private readonly entityManager: EntityManager,
         private readonly awrQueryService: AmrQueryService,
         private readonly accountQueryService: AccountQueryService,
-        private readonly applicationQueryService: ApplicationQueryService,
-        private readonly mailingService: MailingService
+        private readonly applicationQueryService: ApplicationQueryService
     ) { }
 
-    public async createAwr(account: Account, application: Application, memberStatus: MEMBER_STATUS = MEMBER_STATUS.DEVELOPER, manager: EntityManager = this.entityManager): Promise<void> {
+    public async createAwr(account: Account, application: Application, role: MemberRole = MemberRole.VIEWER, manager: EntityManager = this.entityManager): Promise<void> {
         const awr: Partial<AccountMemberRelationship> = {
             account,
             application,
-            status: memberStatus,
+            role,
             createdAt: dateUtils.toUnix(),
             updatedAt: dateUtils.toUnix()
         }
         await manager.getRepository(AccountMemberRelationship).save(awr);
     }
 
-    public async addAccountToApplication(email: string, appId: number): Promise<void> {
+    public async addAccountToApplication(body: AddAccountToApplicationModel): Promise<void> {
+        const { applicationId, accountId, role } = body;
         await this.entityManager.transaction(async (manager) => {
-            /**
-             * Send Email when account not exists
-             */
-            const account = await this.accountQueryService.getAccountByEmail(email);
-            if (!account) {
-                const url = `${process.env.APP_ORIGIN}/signUp?w=${appId}`;
-                await this.mailingService.sendInviteToMemberWithoutAccount({
-                    email,
-                    url,
-                    appId
-                });
-
-                return;
-            }
-
-            const exists = await this.awrQueryService.awrExists({ accountId: account?.id, appId }, manager);
-            if (exists) {
-                throw new AccountAlreadyInApplicationError();
-            }
-
-            const url = `${process.env.APP_ORIGIN}/invite?w=${appId}&ac=${account.id}`;
-            await this.mailingService.sendInviteToMember({
-                email,
-                url,
-                accountName: account.name,
-                appId
-            });
-
-            return;
-        });
-    }
-
-    public async assignAccountToApplication(accountId: string, appId: number): Promise<void> {
-        await this.entityManager.transaction(async (manager) => {
-            const exists = await this.awrQueryService.awrExists({ accountId, appId }, manager);
+            const exists = await this.awrQueryService.awrExists({ accountId, applicationId }, manager);
             if (exists) {
                 throw new AccountAlreadyInApplicationError();
             }
 
             const account = await this.accountQueryService.getDto(accountId);
-            const application = await this.applicationQueryService.getDto(appId);
+            const application = await this.applicationQueryService.getDto(applicationId);
 
             await this.createAwr(
                 account,
-                application
+                application,
+                role
             );
         });
     }
 
-    public async updateApplicationAccount(awrModel: AwrModel, manager: EntityManager = this.entityManager): Promise<void> {
-        const { id, ...rest } = awrModel;
+    public async updateApplicationAccount(awrModel: UpdateAmrModel, manager: EntityManager = this.entityManager): Promise<void> {
+        const { memberId, ...rest } = awrModel;
         await manager.transaction(async (manager) => {
-            manager.getRepository(AccountMemberRelationship).update({ id }, rest);
+            manager.getRepository(AccountMemberRelationship).update({ id: memberId }, rest);
         });
     }
 

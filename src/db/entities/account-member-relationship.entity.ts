@@ -9,10 +9,10 @@ import {
 import { Account } from "./account.entity";
 import { Application } from "./application.entity";
 
-export enum MEMBER_STATUS {
-  OWNER = "Owner",
+export enum MemberRole {
   ADMINISTRATOR = "Administrator",
-  DEVELOPER = "Developer",
+  MAINTAINER = "Maintainer",
+  VIEWER = "Viewer"
 }
 
 @Entity()
@@ -21,10 +21,10 @@ export class AccountMemberRelationship extends GenericEntity {
   id?: string;
   
   @Column("enum", {
-    enum: MEMBER_STATUS,
+    enum: MemberRole,
     nullable: false,
   })
-  status: MEMBER_STATUS;
+  role: MemberRole;
 
   @Column({
     default: false,

@@ -12,7 +12,7 @@ export const DrawerButtons = ({ onClose, onFinish, loading = false }) => {
         type="primary"
         className="w-1/2"
       >
-        Save
+        Confirm
       </Button>
     </>
   );

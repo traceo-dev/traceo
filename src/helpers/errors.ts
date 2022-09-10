@@ -76,7 +76,7 @@ export class ApplicationWithNameAlreadyExistsError extends KlepperError {
 
 export class AccountAlreadyInApplicationError extends KlepperError {
     constructor(message?) {
-        super(message || 'Account already exists in this app.');
+        super(message || 'This account is already added to this application.');
         this.name = 'AccountAlreadyInApplicationError';
         this.status = 455;
     }
@@ -87,6 +87,14 @@ export class ApplicationNotExistsError extends KlepperError {
         super(message || 'App not exists.');
         this.name = 'ApplicationNotExistsError';
         this.status = 456;
+    }
+}
+
+export class AccountSuspendedError extends KlepperError {
+    constructor(message?) {
+        super(message || 'Account suspended. Please contact with administrator.');
+        this.name = 'AccountSuspended';
+        this.status = 457;
     }
 }
 

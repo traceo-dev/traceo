@@ -4,12 +4,14 @@ import applicationReducer from "src/features/app/state/reducers";
 import incidentsReducer from "src/features/app/incidents/state/reducers";
 import membersReducer from "src/features/app/members/state/reducers";
 import accountReducer from "src/features/auth/state/reducers";
+import serverAccounts from "src/features/management/state/reducers";
 import dashboardReducer from "src/features/dashboard/state/reducers";
 
 import { cleanUpAction, CleanUp } from "../hooks/useCleanup";
 
 const rootReducers = {
   ...accountReducer,
+  ...serverAccounts,
   ...incidentsReducer,
   ...membersReducer,
   ...applicationReducer,

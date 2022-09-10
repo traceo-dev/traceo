@@ -16,11 +16,13 @@ import { EditChartsDrawer } from "src/core/components/Drawers/EditChartsDrawer";
 import { AppCard } from "./AppCard";
 import { StatusDropdown } from "src/core/components/StatusDropdown";
 import { loadApplications } from "../state/actions";
+import ServerPermissions from "src/core/components/ServerPermissions";
 
 export const AppsTable = () => {
   const { applications, hasFetched } = useSelector(
     (state: StoreState) => state.applications
   );
+  const { account } = useSelector((state: StoreState) => state.account);
 
   const [order, setOrder] = useState<SortOrder>("ASC");
   const [searchValue, setSearchValue] = useState<string>(null);
@@ -31,7 +33,8 @@ export const AppsTable = () => {
   const queryParams: SearchApplicationQueryParams = {
     order,
     sortBy,
-    search: searchValue
+    search: searchValue,
+    accountId: account?.id
   };
 
   useEffect(() => {
@@ -70,13 +73,15 @@ export const AppsTable = () => {
           className="action-icon"
         />
       </Space>
-      <Button
-        icon={<PlusOutlined />}
-        onClick={() => setOpenApplicationModal(true)}
-        type="primary"
-      >
-        Create new app
-      </Button>
+      <ServerPermissions>
+        <Button
+          icon={<PlusOutlined />}
+          onClick={() => setOpenApplicationModal(true)}
+          type="primary"
+        >
+          Create new app
+        </Button>
+      </ServerPermissions>
     </Space>
   );
 

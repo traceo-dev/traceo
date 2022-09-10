@@ -1,13 +1,25 @@
-import { MEMBER_STATUS } from "./application";
+export enum AccountStatus {
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+  DISABLED = "disabled"
+}
 
 export interface Account {
   id: string;
   name: string;
+  username: string;
   email: string;
-  role: string;
+  isAdmin: boolean;
+  status: AccountStatus;
   active: boolean;
-  logo: string;
   createdAt: number;
-  status?: MEMBER_STATUS;
-  about?: string;
+  about: string;
+  isPasswordUpdated: boolean;
+}
+
+export interface AddAccountProps {
+  email: string;
+  name: string;
+  username: string;
+  password: string;
 }

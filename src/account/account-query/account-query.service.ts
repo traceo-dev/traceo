@@ -12,6 +12,25 @@ export class AccountQueryService extends GenericQueryService<Account, BaseDtoQue
         super(entityManager, Account);
     }
 
+    public async getAccounts(pageOptionsDto: BaseDtoQuery): Promise<Account[]> {
+        const { order, take, search, page } = pageOptionsDto;
+        let queryBuilder = this.entityManager
+            .getRepository(Account)
+            .createQueryBuilder("account");
+
+        if (search) {
+            queryBuilder.where("LOWER(account.name) LIKE LOWER(:name)", { name: `%${search}%` })
+            queryBuilder.where("LOWER(account.username) LIKE LOWER(:username)", { username: `%${search}%` })
+        }
+
+        queryBuilder
+            .orderBy("account.updatedAt", order)
+            .skip((page - 1) * take)
+            .take(take);
+
+        return await queryBuilder.getMany();
+    }
+
     public async getAccountByEmail(email: string): Promise<Account | null> {
         return this.repository.findOneBy({ email })
     }
@@ -19,11 +38,11 @@ export class AccountQueryService extends GenericQueryService<Account, BaseDtoQue
     public getBuilderAlias(): string {
         return 'account';
     }
-    
+
     public extendQueryBuilder(builder: SelectQueryBuilder<Account>, query: BaseDtoQuery): SelectQueryBuilder<Account> {
         throw new Error('Method not implemented.');
     }
-    
+
     public selectedColumns(): string[] {
         throw new Error('Method not implemented.');
     }

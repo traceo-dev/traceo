@@ -13,11 +13,12 @@ import { LoginProps } from "src/types/auth";
 const Login = () => {
   const { isError, isSuccess } = useSelector((state: StoreState) => state.account);
   const [loading, setLoading] = useState<boolean>(false);
+  const [redirectToOverview, setRedirectToOverview] = useState<boolean>(true);
   const [form] = Form.useForm();
 
   useEffect(() => {
     if (isError) {
-      notify.error("Bad email or password");
+      notify.error("Bad login or password");
       dispatch(clearState());
     }
 
@@ -33,7 +34,7 @@ const Login = () => {
   }, []);
 
   const onFinish = (credentials: LoginProps) => {
-    if (!credentials.email || !credentials.password) {
+    if (!credentials.usernameOrEmail || !credentials.password) {
       return;
     }
 
@@ -45,7 +46,7 @@ const Login = () => {
   return (
     <>
       <div className="w-full">
-        <AuthLayout title="Log in to Traceo">
+        <AuthLayout title="Welcome to Traceo">
           <LoginForm form={form} loading={loading} onFinish={onFinish} />
         </AuthLayout>
       </div>

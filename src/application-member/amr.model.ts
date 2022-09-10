@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from "class-validator";
 import { BaseDtoQuery } from "src/core/generic.model";
-import { MEMBER_STATUS } from "src/db/entities/account-member-relationship.entity";
+import { MemberRole } from "src/db/entities/account-member-relationship.entity";
 
 export class ApplicationDtoQuery extends BaseDtoQuery {
     @IsOptional()
@@ -9,39 +9,32 @@ export class ApplicationDtoQuery extends BaseDtoQuery {
     favorite?: boolean;
 }
 export class AddAccountToApplicationModel {
-    @IsEmail()
-    @IsNotEmpty()
-    @ApiProperty()
-    email: string;
-
-    @IsNumber()
-    @IsNotEmpty()
-    @ApiProperty()
-    appId: number;
-}
-
-export class AssignAccountToApplicationModel {
     @IsString()
     @IsNotEmpty()
     @ApiProperty()
     accountId: string;
 
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
     @ApiProperty()
-    appId: number;
+    applicationId: number;
+
+    @IsEnum(MemberRole)
+    @IsNotEmpty()
+    @ApiProperty()
+    role: MemberRole;
 }
 
-export class AwrModel {
+export class UpdateAmrModel {
     @IsString()
     @IsNotEmpty()
     @ApiProperty()
-    id: string;
+    memberId: string;
     
-    @IsEnum(MEMBER_STATUS)
+    @IsEnum(MemberRole)
     @IsOptional()
     @ApiProperty()
-    status: MEMBER_STATUS;
+    role: MemberRole;
         
     @IsOptional()
     @ApiProperty()

@@ -53,7 +53,7 @@ export const CommentInput = () => {
     <Card className="w-full p-1 bg-primary mb-5">
       <Row gutter={24} className="w-full">
         <Col span={1}>
-          <Avatar name={account?.name} url={account?.logo} shape="circle" size="large" />
+          <Avatar name={account?.name} shape="circle" size="large" />
         </Col>
         <Col span={23}>
           <Tabs

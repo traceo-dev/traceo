@@ -12,7 +12,7 @@ import { handleStatus } from "src/core/utils/response";
 import { dispatch } from "src/store/store";
 import { ApiResponse } from "src/types/api";
 import { StoreState } from "src/types/store";
-import { MEMBER_STATUS } from "src/types/application";
+import { MemberRole } from "src/types/application";
 import { loadMembers } from "src/features/app/members/state/actions";
 import { useNavigate, useParams } from "react-router-dom";
 import PageHeader from "src/core/components/PageHeader";
@@ -33,7 +33,8 @@ export const AppMembersListPage = () => {
 
   const navigate = useNavigate();
 
-  const isLeaveButton = !account?.status || account?.status === MEMBER_STATUS.OWNER;
+  // const isLeaveButton = !account?.status || account?.status === MEMBER_STATUS.OWNER;
+  // const isLeaveButton = false;
 
   const queryParams: ApiQueryParams = {
     id,
@@ -74,7 +75,7 @@ export const AppMembersListPage = () => {
           icon={<TeamOutlined />}
           extra={
             <Permissions
-              statuses={[MEMBER_STATUS.DEVELOPER, MEMBER_STATUS.ADMINISTRATOR]}
+              statuses={[MemberRole.MAINTAINER, MemberRole.ADMINISTRATOR]}
             >
               <Confirm
                 onOk={() => handleLeave()}
@@ -97,7 +98,7 @@ export const AppMembersListPage = () => {
               setValue={setSearch}
               get={fetchMembers}
             />
-            <Permissions statuses={[MEMBER_STATUS.ADMINISTRATOR, MEMBER_STATUS.OWNER]}>
+            <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
               <Button
                 onClick={() => setOpenAddMemberDrawer(true)}
                 type="primary"

@@ -1,33 +1,13 @@
 import { lazy } from "react";
 import NotFound from "src/core/components/Layout/Pages/404";
-import ConfirmAccount from "src/features/auth/confirm";
-import Invite from "src/features/auth/invite";
 import Login from "src/features/auth/login";
-import SignUp from "src/features/auth/signup";
-import LandingPage from "src/features/landing/LandingPage";
 import { RouteDescriptor } from "src/types/navigation";
 
 const getPublicRoutes = (): RouteDescriptor[] => {
   return [
     {
-      path: "/",
-      component: LandingPage
-    },
-    {
       path: "/login",
       component: Login
-    },
-    {
-      path: "/signUp",
-      component: SignUp
-    },
-    {
-      path: "/confirm",
-      component: ConfirmAccount
-    },
-    {
-      path: "/invite",
-      component: Invite
     },
     {
       path: "/404",
@@ -45,6 +25,14 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
     {
       path: "/dashboard/overview",
       component: lazy(() => import("../features/dashboard/Dashboard"))
+    },
+    {
+      path: "/dashboard/management/users",
+      component: lazy(() => import("../features/management/ManagementUsersPage"))
+    },
+    {
+      path: "/dashboard/management/users/:id",
+      component: lazy(() => import("../features/management/ManagementUserPage"))
     },
     {
       path: "/dashboard/updates",

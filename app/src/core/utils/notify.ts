@@ -6,7 +6,7 @@ const success = (message: string, description = "") => {
     message,
     className: "bg-green-600",
     duration: 6,
-    placement: "bottomRight"
+    placement: "topRight"
   });
 };
 
@@ -16,7 +16,7 @@ const error = (message: string | unknown, description = "") => {
     message,
     className: "bg-red-600",
     duration: 6,
-    placement: "bottomRight"
+    placement: "topRight"
   });
 };
 
@@ -26,7 +26,7 @@ const warning = (message: string, description = "") => {
     message,
     className: "bg-blue-600",
     duration: 6,
-    placement: "bottomRight"
+    placement: "topRight"
   });
 };
 
@@ -36,7 +36,7 @@ const info = (message: string, description = "") => {
     message,
     className: "bg-orange-600",
     duration: 6,
-    placement: "bottomRight"
+    placement: "topRight"
   });
 };
 

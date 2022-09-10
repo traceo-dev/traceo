@@ -1,7 +1,7 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { Drawer, Select, Space, Typography } from "antd";
 import { FC } from "react";
-import { MEMBER_STATUS, ApplicationMember } from "src/types/application";
+import { MemberRole, ApplicationMember } from "src/types/application";
 import { updateMember } from "src/features/app/members/state/actions";
 import { dispatch } from "src/store/store";
 
@@ -11,7 +11,7 @@ interface Props {
   member: ApplicationMember;
 }
 export const EditMemberDrawer: FC<Props> = ({ isOpen, onCancel, member }) => {
-  const handleChangeStatus = (status: MEMBER_STATUS) => {
+  const handleChangeStatus = (status: MemberRole) => {
     dispatch(updateMember({ id: member.id, status }));
     onCancel();
     window.location.reload();
@@ -34,12 +34,12 @@ export const EditMemberDrawer: FC<Props> = ({ isOpen, onCancel, member }) => {
               value={member?.status}
               onChange={(value) => handleChangeStatus(value)}
             >
-              <Select.Option value={MEMBER_STATUS.ADMINISTRATOR}>
+              <Select.Option value={MemberRole.ADMINISTRATOR}>
                 Administrator
               </Select.Option>
-              <Select.Option value={MEMBER_STATUS.DEVELOPER}>Developer</Select.Option>
-              <Select.Option value={MEMBER_STATUS.OWNER} disabled>
-                Owner
+              <Select.Option value={MemberRole.MAINTAINER}>Maintainer</Select.Option>
+              <Select.Option value={MemberRole.VIEWER} disabled>
+                Viewer
               </Select.Option>
             </Select>
           </Space>

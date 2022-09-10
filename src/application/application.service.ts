@@ -3,7 +3,7 @@ import { RequestUser } from 'src/auth/auth.model';
 import { AmrService } from 'src/application-member/amr.service';
 import { Account } from 'src/db/entities/account.entity';
 import { Application } from 'src/db/entities/application.entity';
-import { MEMBER_STATUS } from 'src/db/entities/account-member-relationship.entity';
+import { MemberRole } from 'src/db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
 import * as crypto from "crypto";
 import { ApplicationWithNameAlreadyExistsError } from 'src/helpers/errors';
@@ -47,7 +47,7 @@ export class ApplicationService {
                 await this.awrService.createAwr(
                     account,
                     application,
-                    MEMBER_STATUS.OWNER,
+                    MemberRole.ADMINISTRATOR,
                     manager
                 );
 

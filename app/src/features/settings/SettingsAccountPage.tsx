@@ -2,7 +2,6 @@ import { Button, Form, Input, Space, Typography } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "src/core/components/ColumnSection";
-import { UploadFile, ATTACHMENT_TYPE } from "src/core/components/UploadFile";
 import { StoreState } from "src/types/store";
 import { dispatch } from "src/store/store";
 import {
@@ -18,11 +17,7 @@ const SettingsAccountPage = () => {
   const [loadingConfirmPassword, setLoadingConfirmPassword] = useState<boolean>(false);
   const [loadingUpdateAccount, setLoadingUpdateAccount] = useState<boolean>(false);
 
-  const onUploadAvatar = (logo: string) => {
-    dispatch(updateAccount({ logo }));
-  };
-
-  const onFinishUpdateAccount = (form: { name: string }) => {
+  const onFinishUpdateAccount = (form: { name: string, email: string }) => {
     setLoadingUpdateAccount(true);
     dispatch(updateAccount(form));
     setLoadingUpdateAccount(false);
@@ -41,20 +36,6 @@ const SettingsAccountPage = () => {
   return (
     <>
       <DashboardSettingsNavigation>
-        {/* <ColumnSection
-          marginTop={24}
-          firstColumnWidth={10}
-          secondColumnWidth={14}
-          title="Public avatar"
-          subtitle="Upload your avatar here."
-          divider={true}
-        >
-          <UploadFile
-            currentFileUrl={account?.logo}
-            onChange={onUploadAvatar}
-            type={ATTACHMENT_TYPE.ACCOUNT_AVATAR}
-          />
-        </ColumnSection> */}
         <ColumnSection
           firstColumnWidth={10}
           secondColumnWidth={14}
@@ -73,7 +54,7 @@ const SettingsAccountPage = () => {
             </Form.Item>
 
             <Form.Item name="email" label="Email" initialValue={account?.email}>
-              <Input disabled />
+              <Input />
             </Form.Item>
 
             <Button htmlType="submit" loading={loadingUpdateAccount} type="primary">

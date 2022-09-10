@@ -9,15 +9,15 @@ export interface RequestUser {
 }
 
 export class AccountCredentialsDto {
-  constructor(email: string, password: string) {
-    this.email = email;
+  constructor(usernameOrEmail: string, password: string) {
+    this.usernameOrEmail = usernameOrEmail;
     this.password = password;
   }
 
   @IsNotEmpty()
-  @IsEmail()
-  @ApiProperty({ type: String, description: 'email' })
-  readonly email: string;
+  @IsString()
+  @ApiProperty({ type: String, description: 'username or email' })
+  readonly usernameOrEmail: string;
 
   @IsNotEmpty()
   @ApiProperty({ type: String, description: 'password' })

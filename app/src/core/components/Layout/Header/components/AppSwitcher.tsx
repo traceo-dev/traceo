@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "src/core/components/Avatar";
 import { StoreState } from "src/types/store";
-import { AccountApplication } from "src/types/application";
+import { ApplicationMember } from "src/types/application";
 import { conditionClass, joinClasses } from "src/core/utils/classes";
 import { TraceoLogo } from "src/core/components/Icons/TraceoLogo";
 import { slugifyForUrl } from "src/core/utils/stringUtils";
@@ -25,7 +25,7 @@ export const AppSwitcher = () => {
     dispatch(loadApplications());
   }, []);
 
-  const selectApp = (app: AccountApplication) => {
+  const selectApp = (app: ApplicationMember) => {
     const { application } = app;
     localStorage.setItem("env", application.defaultEnv);
 
@@ -39,7 +39,7 @@ export const AppSwitcher = () => {
   const appSelector = !selectApp ? (
     <LoadingOutlined />
   ) : (
-    applications?.map((app: AccountApplication, index) => (
+    applications?.map((app: ApplicationMember, index) => (
       <Space key={index} className="py-2 w-full">
         <Typography.Text
           className={joinClasses(

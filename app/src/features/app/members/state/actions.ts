@@ -3,16 +3,14 @@ import { handleStatus } from "src/core/utils/response";
 import api, { ApiQueryParams } from "src/core/lib/api";
 import { ApiResponse } from "src/types/api";
 import { ThunkResult } from "src/types/store";
-import { ApplicationMember, ApplicationMemberUpdateProps } from "src/types/application";
+import { AddAccountToApplication, ApplicationMember, ApplicationMemberUpdateProps } from "src/types/application";
 import { membersLoaded } from "./reducers";
 
 export const loadMembers = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch, getStore) => {
     const application = getStore().application.application;
-    if (!query) {
-      query = {
-        id: application.id
-      };
+    if (!query?.id || !application) {
+      return;
     }
 
     const members = await api.get<ApplicationMember[]>("/api/amr/members", query);
@@ -20,16 +18,11 @@ export const loadMembers = (query?: ApiQueryParams): ThunkResult<void> => {
   };
 };
 
-export const addMember = ({ email }: { email: string }): ThunkResult<void> => {
-  return async (dispatch, getStore) => {
-    const application = getStore().application.application;
-    const response: ApiResponse<string> = await api.post("/api/amr/application/add", {
-      email,
-      appId: application.id
-    });
-
+export const addMember = (props: AddAccountToApplication): ThunkResult<void> => {
+  return async (dispatch) => {
+    const response: ApiResponse<string> = await api.post("/api/amr/application/add", props);
     if (handleStatus(response.status) === "success") {
-      notify.success("Invited to application.");
+      notify.success("Added to application.");
       dispatch(loadMembers());
     } else {
       notify.error(response.message);

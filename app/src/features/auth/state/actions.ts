@@ -6,7 +6,7 @@ import jwt from "jwt-decode";
 import { accountLoaded } from "./reducers";
 import { Account } from "src/types/accounts";
 import { ThunkResult } from "src/types/store";
-import { getState } from "src/store/store";
+import { dispatch, getState } from "src/store/store";
 import { SignupProps, LoginProps } from "src/types/auth";
 
 export const loadAccount = (): ThunkResult<void> => {
@@ -63,6 +63,7 @@ export const loginAccount = createAsyncThunk(
 
       if (token) {
         localStorage.setItem("session", token);
+        dispatch(loadAccount());
       } else {
         return thunkApi.rejectWithValue(response);
       }

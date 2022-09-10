@@ -1,39 +1,34 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { ApiOperation, ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { AccountRole, AccountStatus } from "src/db/entities/account.entity";
 
 export class CreateAccountDto {
+  @IsOptional()
+  @IsString()
+  @ApiPropertyOptional({ type: String, description: 'name' })
+  readonly name: string;
 
-    @IsNotEmpty()
-    @IsString()
-    @ApiProperty({ type: String, description: 'name' })
-    readonly name: string;
-  
-    @IsNotEmpty()
-    @IsString()
-    @MinLength(4)
-    @MaxLength(20)
-    @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-      message: 'password too weak',
-    })
-    @ApiProperty({ type: String, description: 'password' })
-    readonly password: string;
-  
-    @IsNotEmpty()
-    @IsEmail()
-    @ApiProperty({ type: String, description: 'email' })
-    readonly email: string;
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty({ type: String, description: 'password' })
+  readonly password: string;
 
-    @IsString()
-    @IsOptional()
-    @ApiProperty({ type: String, description: 'app identifier' })
-    public appId?: string;
+  @IsOptional()
+  @IsEmail()
+  @ApiPropertyOptional({ type: String, description: 'email' })
+  readonly email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ type: String, description: 'username' })
+  public username?: string;
 }
 
 export class AccountDto {
   @IsString()
   @IsOptional()
   @ApiProperty({ type: String, description: 'account id' })
-  id: string;
+  id?: string;
 
   @IsString()
   @IsOptional()
@@ -42,6 +37,21 @@ export class AccountDto {
 
   @IsString()
   @IsOptional()
-  @ApiProperty({ type: String, description: 'account url logo' })
-  logo?: string;
+  @ApiProperty({ type: String, description: 'username name' })
+  username?: string;
+
+  @IsEmail()
+  @IsOptional()
+  @ApiProperty({ type: String, description: 'account email' })
+  email?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  @ApiProperty({ description: 'account as admin' })
+  isAdmin?: boolean;
+
+  @IsEnum(AccountStatus)
+  @IsOptional()
+  @ApiProperty({ description: 'account status' })
+  status: AccountStatus;
 }

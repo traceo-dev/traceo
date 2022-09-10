@@ -46,7 +46,6 @@ export const AssignMemberPopover = ({ setVisible }) => {
         <Avatar
           shape="circle"
           size="small"
-          url={member?.account?.logo}
           name={member?.account?.name}
         />
         <Typography className="text-xs">{member?.account?.name}</Typography>

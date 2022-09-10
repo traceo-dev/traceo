@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
+import { BaseDtoQuery } from 'src/core/generic.model';
 import { Application } from 'src/db/entities/application.entity';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
@@ -24,6 +25,14 @@ export class ApplicationController {
         @AuthAccount() user: RequestUser
     ): Promise<ApplicationResponse | null> {
         return await this.applicationQueryService.getApplication(id, user);
+    }
+
+    @Get('/all')
+    @AuthRequired()
+    async getApplications(
+        @Query() query: BaseDtoQuery
+    ): Promise<Application[]> {
+        return await this.applicationQueryService.getApplications(query);
     }
 
     @Post()
