@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Account, AccountStatus } from 'src/db/entities/account.entity';
 import { MailingService } from 'src/mailing/mailing.service';
-import { AccountEmailAlreadyExistsError, AccountUsernameEmailAlreadyExistsError, InternalServerError } from 'src/helpers/errors';
+import { AccountEmailAlreadyExistsError, AccountUsernameEmailAlreadyExistsError, ForbiddenError, InternalServerError } from 'src/helpers/errors';
 import tokenService from 'src/helpers/tokens';
 import { EntityManager } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
@@ -13,7 +13,7 @@ import { AccountMemberRelationship, MemberRole } from 'src/db/entities/account-m
 import { HttpService } from "@nestjs/axios";
 import { RequestUser } from 'src/auth/auth.model';
 import dateUtils from 'src/helpers/dateUtils';
-import * as gravatar from "gravatar";
+import { gravatar } from 'src/libs/gravatar';
 
 @Injectable()
 export class AccountService {
@@ -27,13 +27,13 @@ export class AccountService {
     ) { }
 
     private async checkDuplicate(username: string, email: string) {
-        const account = await this.accountQueryService.getAccountByUsername(username.toLowerCase());
+        const account = await this.accountQueryService.getDtoBy({ username: username.toLowerCase() });
         if (account) {
             throw new AccountUsernameEmailAlreadyExistsError();
         }
 
         if (email) {
-            const account = await this.accountQueryService.getAccountByEmail(email);
+            const account = await this.accountQueryService.getDtoBy({ email });
             if (account) {
                 throw new AccountEmailAlreadyExistsError();
             }
@@ -46,7 +46,7 @@ export class AccountService {
         await this.checkDuplicate(username, email);
 
         try {
-            const url = this.getGravatarUrl(email, username);
+            const url = gravatar.url(username || email, "retro");
             const account: QueryDeepPartialEntity<Account> = {
                 email,
                 name,
@@ -67,10 +67,6 @@ export class AccountService {
         }
     }
 
-    private getGravatarUrl(email: string, username: string): string {
-        return gravatar.url(email || username, { s: '100', r: 'x', d: 'retro', f: "y" }, false);
-    }
-
     public async updateAccount(accountId: string, accountDto: AccountDto): Promise<void> {
         const { id, ...rest } = accountDto;
         try {
@@ -83,21 +79,11 @@ export class AccountService {
         }
     }
 
-    public async deleteAccount(user: RequestUser): Promise<any> {
-        const { id } = user;
-
+    public async deleteAccount(id: string, user: RequestUser): Promise<any> {
         await this.entityManager.transaction(async (manager) => {
-            const awrWithOwnerStatus = await manager.getRepository(AccountMemberRelationship).find({
-                where: {
-                    account: {
-                        id
-                    },
-                    role: MemberRole.ADMINISTRATOR
-                }
-            });
-
-            if (awrWithOwnerStatus.length > 0) {
-                throw new Error('You cannot delete your account for having owner status in one or more apps. Please delete the application or change the status.')
+            const account = await manager.getRepository(Account).findOneBy({ id: user.id });
+            if (!account.isAdmin) {
+                throw new ForbiddenError('Only users with admin role can remove account.');
             }
 
             await manager.getRepository(Account)

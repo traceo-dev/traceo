@@ -10,6 +10,7 @@ import { ApplicationWithNameAlreadyExistsError } from 'src/helpers/errors';
 import { CreateApplicationBody, ApplicationBody } from './application.model';
 import dateUtils from 'src/helpers/dateUtils';
 import { ApplicationQueryService } from './application-query/application-query.service';
+import { gravatar } from 'src/libs/gravatar';
 
 @Injectable()
 export class ApplicationService {
@@ -32,11 +33,12 @@ export class ApplicationService {
                 if (!account) {
                     throw new NotFoundException();
                 }
-
+                const url = gravatar.url(data.name, "identicon");
                 const applicationPayload: Application = {
                     ...data,
                     privateKey,
                     owner: account,
+                    gravatar: url,
                     createdAt: dateUtils.toUnix(),
                     updatedAt: dateUtils.toUnix()
                 }
@@ -89,7 +91,7 @@ export class ApplicationService {
     }
 
     private async validate(name: string, manager: EntityManager = this.entityManager): Promise<void> {
-        const application = await this.applicationQueryService.getApplicationByName(name);
+        const application = await this.applicationQueryService.getDtoBy({ name });
         if (application) {
             throw new ApplicationWithNameAlreadyExistsError();
         }

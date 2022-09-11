@@ -12,11 +12,11 @@ interface Props {
 }
 
 export const Avatar: FC<Props> = ({
-  shape = "square",
+  shape = "circle",
   name,
   url,
   gap,
-  size,
+  size = "small",
   className
 }) => {
   const initials = name?.substring(0, 1).toUpperCase();

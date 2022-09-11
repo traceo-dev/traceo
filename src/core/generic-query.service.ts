@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager, EntityTarget, Repository, SelectQueryBuilder } from 'typeorm';
+import { EntityManager, EntityTarget, FindOptionsWhere, Repository, SelectQueryBuilder } from 'typeorm';
 import { BaseDtoQuery } from './generic.model';
 import { GenericEntity } from './generic.entity';
 
@@ -19,6 +19,10 @@ export abstract class GenericQueryService<ENTITY extends GenericEntity, QUERY ex
     return await this.repository.findOneByOrFail({ id } as any);
   }
 
+  public async getDtoBy(where: FindOptionsWhere<ENTITY>) {
+    return await this.repository.findOneBy(where);
+  }
+
   private createQueryBuilder(query: QUERY): SelectQueryBuilder<ENTITY> {
     const qb = this.repository.createQueryBuilder(this.getBuilderAlias());
     return this.extendQueryBuilder(qb, query);
@@ -28,6 +32,9 @@ export abstract class GenericQueryService<ENTITY extends GenericEntity, QUERY ex
 
   public abstract getBuilderAlias(): string;
 
+  /**
+   * Leave empty array if builder have to select all columns from entity
+   */
   public abstract selectedColumns(): string[];
 
   public async listDto(query: QUERY): Promise<ENTITY[]> {
@@ -36,8 +43,11 @@ export abstract class GenericQueryService<ENTITY extends GenericEntity, QUERY ex
     const queryBuilder: SelectQueryBuilder<ENTITY> = this.createQueryBuilder(query);
     this.addSelectToQueryBuilder(queryBuilder, this.selectedColumns());
 
+    if (sortBy && order) {
+      queryBuilder.orderBy(`${this.getBuilderAlias()}.${sortBy}`, order || "DESC")
+    }
+
     queryBuilder
-      .orderBy(`${this.getBuilderAlias()}.${sortBy}`, order)
       .limit(take)
       .skip(page > 0 ? (page - 1) * take : 0);
 

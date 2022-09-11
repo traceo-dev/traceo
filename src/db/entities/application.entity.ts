@@ -42,8 +42,8 @@ export class Application extends GenericEntity {
   // @Column({ nullable: true, type: 'varchar' })
   // framework?: string;
 
-  // @Column({ nullable: true })
-  // logo?: string;
+  @Column({ nullable: true })
+  gravatar?: string;
 
   @Column({ nullable: true })
   lastIncidentAt?: number;
@@ -60,6 +60,7 @@ export class Application extends GenericEntity {
     }
   )
   members?: AccountMemberRelationship[];
+  membersCount?: number;
 
 
   @OneToMany(

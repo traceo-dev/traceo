@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { RequestUser } from 'src/auth/auth.model';
 import { BaseDtoQuery } from 'src/core/generic.model';
 import { AccountMemberRelationship } from 'src/db/entities/account-member-relationship.entity';
 import { Account } from 'src/db/entities/account.entity';
+import { ApplicationResponse } from 'src/types/application';
 import { EntityManager } from 'typeorm';
 import { ApplicationDtoQuery } from '../amr.model';
 @Injectable()
@@ -102,5 +104,33 @@ export class AmrQueryService {
                 },
             ).getCount();
         return count > 0;
+    }
+
+    public async getApplication(appId: number, user: RequestUser): Promise<ApplicationResponse | null> {
+        const { id } = user;
+
+        const applicationQuery = await this.entityManager.getRepository(AccountMemberRelationship)
+            .createQueryBuilder("accountApplicationRelationship")
+            .where('accountApplicationRelationship.application = :appId', { appId })
+            .innerJoin("accountApplicationRelationship.account", "account", "account.id = :id", { id })
+            .innerJoinAndSelect("accountApplicationRelationship.application", "application")
+            .innerJoinAndSelect("application.owner", "owner")
+            .getOne();
+        
+        if (!applicationQuery) {
+            return null;
+        }
+
+        const { role, application } = applicationQuery;
+
+        return {
+            ...application,
+            member: {
+                role
+            },
+            owner: {
+                name: application?.owner.name
+            }
+        }
     }
 }

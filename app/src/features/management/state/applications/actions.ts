@@ -5,6 +5,9 @@ import { Application } from "src/types/application";
 
 export const loadServerApplications = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {
+    if (!query?.sortBy) {
+      query.sortBy = "createdAt";
+    }
     const accounts = await api.get<Application[]>("/api/application/all", query);
     dispatch(serverApplicationsLoaded(accounts));
   };
@@ -12,8 +15,8 @@ export const loadServerApplications = (query?: ApiQueryParams): ThunkResult<void
 
 export const loadServerApplication = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
-    const account = await api.get<Application>("/api/application", { id });
-    dispatch(serverApplicationLoaded(account));
+    const application = await api.get<Application>("/api/application", { id });
+    dispatch(serverApplicationLoaded(application));
   }
 }
 

@@ -28,7 +28,7 @@ export const loadApplication = (applicationId?: any): ThunkResult<void> => {
       return;
     }
 
-    const application = await api.get<Application>("/api/application", {
+    const application = await api.get<Application>("/api/amr/application", {
       id: applicationId
     });
     dispatch(applicationLoaded(application));

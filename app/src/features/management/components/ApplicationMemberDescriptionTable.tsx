@@ -39,14 +39,16 @@ export const ApplicationMemberDescriptionTable = ({ children }) => {
 };
 
 interface DescriptionAppRadioRowProps {
-  member: ApplicationMember;
+  item: ApplicationMember;
   options: { label: string; value: string | number | boolean }[];
   postExecute?: () => void;
+  type: "member" | "application";
 }
 export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
   options = [],
-  member,
-  postExecute
+  item,
+  postExecute,
+  type
 }) => {
   const navigate = useNavigate();
   const [updateMode, setUpdateMode] = useState<boolean>(false);
@@ -59,7 +61,7 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
     setLoadingUpdate(true);
     try {
       await api.patch("/api/amr/application/member", {
-        memberId: member.id,
+        memberId: item.id,
         role: value
       });
       notify.success("Role updated");
@@ -75,7 +77,7 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
   const onRemoveFromApp = async () => {
     setLoadingDelete(true);
     try {
-      await api.delete("/api/amr/application/member", { id: member.id });
+      await api.delete("/api/amr/application/member", { id: item.id });
       notify.success("Removed from app.");
     } catch (error) {
       notify.error("Error. Please try again later.");
@@ -87,10 +89,10 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
   };
 
   const navigateTo = () => {
-    if (member.application?.name) {
-      navigate(`/dashboard/management/apps/${member.application.id}`);
+    if (item.application?.name) {
+      navigate(`/dashboard/management/apps/${item.application.id}`);
     } else {
-      navigate(`/dashboard/management/users/${member.account.id}`);
+      navigate(`/dashboard/management/accounts/${item.account.id}`);
     }
   };
 
@@ -102,18 +104,26 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
             onClick={() => navigateTo()}
             className="w-full items-center cursor-pointer"
           >
-            {member.account && (
+            {type === "member" ? (
               <Avatar
                 shape="circle"
                 size="small"
                 className="mr-3"
-                url={member.account?.gravatar}
-                name={member.account.name}
+                url={item.account?.gravatar}
+                name={item.account?.name}
+              />
+            ) : (
+              <Avatar
+                shape="circle"
+                size="small"
+                className="mr-3"
+                url={item.application?.gravatar}
+                name={item.application?.name}
               />
             )}
 
             <Typography className="text-sm font-normal hover:text-amber-600">
-              {member.application?.name || member.account.name}
+              {item.application?.name || item.account.name}
             </Typography>
           </Row>
         </td>
@@ -122,13 +132,13 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
             <Radio.Group
               options={options}
               onChange={(val) => setValue(val.target.value)}
-              defaultValue={member?.role}
+              defaultValue={item?.role}
               optionType="button"
               buttonStyle="solid"
             />
           ) : (
             <Typography.Text className="text-sm font-normal">
-              {member?.role}
+              {item?.role}
             </Typography.Text>
           )}
         </td>

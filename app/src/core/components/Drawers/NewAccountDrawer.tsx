@@ -1,5 +1,5 @@
 import { Input, Space, Typography, Form, Drawer } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { DrawerButtons } from "../DrawerButtons";
 import { dispatch } from "src/store/store";
@@ -65,7 +65,13 @@ export const NewAccountDrawer = ({ isOpen, onCancel }) => {
               label="Password *"
               className="text-xs mb-5 font-semibold"
               requiredMark={"optional"}
-              rules={[{ required: true, message: "This field is required", ...validators.password }]}
+              rules={[
+                {
+                  required: true,
+                  message: "This field is required",
+                  ...validators.password
+                }
+              ]}
             >
               <Input.Password type="Password" />
             </Form.Item>

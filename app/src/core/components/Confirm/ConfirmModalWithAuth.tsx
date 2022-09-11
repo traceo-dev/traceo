@@ -21,7 +21,7 @@ export const ConfirmModalWithAuth = ({
 
   const confirm = async ({ password }: { password: string }) => {
     const auth: CheckCredentialsResponse = await api.post("/api/auth/check", {
-      email: account.email,
+      usernameOrEmail: account.email || account.username,
       password
     });
 
@@ -53,14 +53,14 @@ export const ConfirmModalWithAuth = ({
       }
     >
       <Space className="w-full" direction="vertical">
-        <Space className="w-full font-semibold text-xl">{description}</Space>
+        <Space className="w-full text-lg">{description}</Space>
         <Space className="w-full pt-5" direction="vertical">
           <Typography.Text>
             To perform this operation, please enter the password below and confirm.
           </Typography.Text>
           <Form form={form} onFinish={confirm}>
-            <Form.Item name="password" rules={[{ required: true }]}>
-              <Input.Password />
+            <Form.Item className="pt-5" name="password" rules={[{ required: true }]}>
+              <Input.Password placeholder="Password" />
             </Form.Item>
           </Form>
         </Space>

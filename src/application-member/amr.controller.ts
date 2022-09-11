@@ -5,6 +5,8 @@ import { BaseDtoQuery } from 'src/core/generic.model';
 import { AccountMemberRelationship } from 'src/db/entities/account-member-relationship.entity';
 import { Account } from 'src/db/entities/account.entity';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
+import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
+import { ApplicationResponse } from 'src/types/application';
 import { AmrQueryService } from './amr-query/amr-query.service';
 import { AddAccountToApplicationModel, UpdateAmrModel, ApplicationDtoQuery } from './amr.model';
 import { AmrService } from './amr.service';
@@ -23,6 +25,15 @@ export class AmrController {
         @Query('id') id: string
     ): Promise<Account> {
         return await this.awrQueryService.getAccount(id);
+    }
+
+    @Get('/application')
+    @AuthRequired()
+    async getApplication(
+        @Query('id') id: number,
+        @AuthAccount() user: RequestUser
+    ): Promise<ApplicationResponse | null> {
+        return await this.awrQueryService.getApplication(id, user);
     }
 
     @Get('/members')
@@ -56,7 +67,6 @@ export class AmrController {
     public async updateApplicationAccount(
         @Body() body: UpdateAmrModel
     ): Promise<void> {
-        console.log("BODY: ", body);
         return await this.awrService.updateApplicationAccount(body);
     }
 

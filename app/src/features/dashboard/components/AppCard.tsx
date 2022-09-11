@@ -33,7 +33,7 @@ export const AppCard: FC<Props> = ({ app }) => {
     >
       <Space className="w-full" direction="vertical">
         <Space>
-          <Avatar shape="circle" name={app.application.name} url={app.application.logo} />
+          <Avatar shape="circle" name={app.application.name} url={app.application?.gravatar} />
           <Space className="w-full gap-0" direction="vertical">
             <Typography.Text className="text-sm">{app.application.name}</Typography.Text>
             <div className="text-2xs w-full font-normal">{lastIncident}</div>

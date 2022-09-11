@@ -59,7 +59,8 @@ export const AccountApplications = () => {
           <ApplicationMemberDescriptionTable>
             {applications?.map((member) => (
               <DescriptionAppRadioRow
-                member={member}
+                item={member}
+                type="application"
                 options={[
                   { label: "Administrator", value: MemberRole.ADMINISTRATOR },
                   { label: "Maintainer", value: MemberRole.MAINTAINER },

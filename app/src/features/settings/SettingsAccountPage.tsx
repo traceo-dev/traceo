@@ -29,9 +29,9 @@ const SettingsAccountPage = () => {
     setLoadingConfirmPassword(false);
   };
 
-  const handleDeleteAccount = () => {
-    dispatch(deleteAccount());
-  };
+  // const handleDeleteAccount = () => {
+  //   dispatch(deleteAccount());
+  // };
 
   return (
     <>
@@ -98,7 +98,7 @@ const SettingsAccountPage = () => {
             </Button>
           </Form>
         </ColumnSection>
-        <ColumnSection
+        {/* <ColumnSection
           firstColumnWidth={10}
           secondColumnWidth={14}
           title={
@@ -130,7 +130,7 @@ const SettingsAccountPage = () => {
               </Button>
             </Confirm>
           </Space>
-        </ColumnSection>
+        </ColumnSection> */}
       </DashboardSettingsNavigation>
     </>
   );

@@ -15,69 +15,26 @@ export class ApplicationQueryService extends GenericQueryService<Application, Ba
         super(entityManager, Application);
     }
 
-    public override async getDto(id: number): Promise<Application> {
-        return await this.entityManager.getRepository(Application).findOneBy({ id });
-    }
-
-    public async getApplications(pageOptionsDto: BaseDtoQuery): Promise<Application[]> {
-        const { order, take, search, page } = pageOptionsDto;
-        let queryBuilder = this.entityManager
-            .getRepository(Application)
-            .createQueryBuilder("application");
-
-        if (search) {
-            queryBuilder.where("LOWER(application.name) LIKE LOWER(:name)", { name: `%${search}%` })
-        }
-
-        queryBuilder
-            .orderBy("application.updatedAt", order)
-            .skip((page - 1) * take)
-            .take(take);
-
-        return await queryBuilder.getMany();
-    }
-
-    public async getApplication(appId: number, user: RequestUser): Promise<ApplicationResponse | null> {
-        const { id } = user;
-
-        const applicationQuery = await this.entityManager.getRepository(AccountMemberRelationship)
-            .createQueryBuilder("accountApplicationRelationship")
-            .where('accountApplicationRelationship.application = :appId', { appId })
-            .innerJoin("accountApplicationRelationship.account", "account", "account.id = :id", { id })
-            .innerJoinAndSelect("accountApplicationRelationship.application", "application")
-            .innerJoinAndSelect("application.owner", "owner")
-            .getOne();
-        
-        if (!applicationQuery) {
-            return null;
-        }
-
-        const { role, application } = applicationQuery;
-
-        return {
-            ...application,
-            member: {
-                role
-            },
-            owner: {
-                name: application?.owner.name
-            }
-        }
-    }
-
-    public async getApplicationByName(name: string): Promise<Application | null> {
-        return this.repository.findOneBy({ name });
-    }
-
     public getBuilderAlias(): string {
         return 'application';
     }
 
     public extendQueryBuilder(builder: SelectQueryBuilder<Application>, query: BaseDtoQuery): SelectQueryBuilder<Application> {
-        throw new Error('Method not implemented.');
+        const { search } = query;
+
+        if (search) {
+            builder.where("LOWER(application.name) LIKE LOWER(:name)", { name: `%${search}%` });
+        }
+
+        builder.leftJoinAndSelect('application.owner', 'owner')
+            .loadRelationCountAndMap('application.membersCount', 'application.members')
+            .loadRelationCountAndMap('application.incidentsCount', 'application.incidents')
+            .addSelect('owner.name', 'owner.email');
+
+        return builder;
     }
 
     public selectedColumns(): string[] {
-        throw new Error('Method not implemented.');
+        return ['id', 'name', 'gravatar', 'lastIncidentAt', 'defaultEnv']
     }
 }

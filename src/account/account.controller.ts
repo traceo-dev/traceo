@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { BaseDtoQuery } from 'src/core/generic.model';
@@ -30,7 +30,7 @@ export class AccountController {
     async getAccounts(
         @Query() query: BaseDtoQuery
     ): Promise<Account[]> {
-        return await this.accountQueryService.getAccounts(query);
+        return await this.accountQueryService.listDto(query);
     }
 
     @Post('/new')
@@ -44,15 +44,15 @@ export class AccountController {
         @Body() accountDto: AccountDto,
         @AuthAccount() account: RequestUser
     ): Promise<void> {
-        console.log({accountDto})
         return await this.accountService.updateAccount(account.id, accountDto);
     }
 
-    @Delete()
+    @Delete('/:id')
     @AuthRequired()
-    public async deleteApplication(
+    public async deleteAccount(
+        @Param("id") id: string,
         @AuthAccount() account: RequestUser
     ): Promise<void> {
-        return await this.accountService.deleteAccount(account);
+        return await this.accountService.deleteAccount(id, account);
     }
 }

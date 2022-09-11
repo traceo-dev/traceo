@@ -1,5 +1,7 @@
+import { BugOutlined, TeamOutlined } from "@ant-design/icons";
 import { Row, Typography } from "antd";
 import { FC } from "react";
+import { render } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "src/core/components/Avatar";
 import { PaginatedTable } from "src/core/components/PaginatedTable";
@@ -14,23 +16,22 @@ export const ApplicationsTable: FC<Props> = ({ applications, hasFetched }) => {
 
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id"
+      width: 50,
+      render: (app: Application) => <Avatar name={app.name} url={app?.gravatar} />
     },
     {
       title: "Name",
-      render: (application: Application) => renderProfile(application)
+      dataIndex: "name"
+    },
+    {
+      title: "Members",
+      render: (app: Application) => (
+        <Typography.Text>
+          <TeamOutlined /> {app.membersCount}
+        </Typography.Text>
+      )
     }
   ];
-
-  const renderProfile = (application: Application) => {
-    return (
-      <Row className="w-full items-center">
-        <Avatar shape="circle" size="small" name={application.name} />
-        <Typography className="pl-2 text-primary">{application.name}</Typography>
-      </Row>
-    );
-  };
 
   return (
     <>

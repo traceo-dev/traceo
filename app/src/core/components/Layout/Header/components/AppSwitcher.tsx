@@ -72,7 +72,7 @@ export const AppSwitcher = () => {
                 <LoadingOutlined />
               ) : (
                 <>
-                  <Avatar size="small" name={application.name} url={application.logo} />
+                  <Avatar size="small" name={application.name} url={application?.gravatar} />
                   <Typography.Text className="appName">
                     {application.name}
                   </Typography.Text>

@@ -29,9 +29,9 @@ export const ManagementNavigation = ({ children }) => {
 
   const menu: MenuRoute[] = [
     {
-      href: "/dashboard/management/users",
-      label: "Users",
-      key: "users",
+      href: "/dashboard/management/accounts",
+      label: "Accounts",
+      key: "accounts",
       icon: <TeamOutlined />
     },
     {

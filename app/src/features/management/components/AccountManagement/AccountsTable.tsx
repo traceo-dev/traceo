@@ -1,4 +1,4 @@
-import { CheckCircleFilled, SafetyCertificateFilled } from "@ant-design/icons";
+import { CheckCircleFilled, LockFilled, LockOutlined, SafetyCertificateFilled } from "@ant-design/icons";
 import { Row, Space, Tooltip, Typography } from "antd";
 import { FC } from "react";
 import { useSelector } from "react-redux";
@@ -20,7 +20,18 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
 
   const columns = [
     {
-      title: "Login",
+      width: 50,
+      render: (account: Account) => (
+        <Avatar
+          shape="circle"
+          size="small"
+          url={account?.gravatar}
+          name={account?.username}
+        />
+      )
+    },
+    {
+      title: "Username",
       render: (account: Account) => renderProfile(account)
     },
     {
@@ -40,31 +51,32 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
 
   const renderProfile = (currentAccount: Account) => {
     return (
-      <Row className="w-full items-center">
-        <Avatar shape="circle" size="small" url={currentAccount?.gravatar} name={currentAccount?.username} />
-        <Space>
-          <Typography className="pl-2 text-primary">
-            {currentAccount?.username}
-          </Typography>
-          {currentAccount.isAdmin && (
-            <Tooltip title="Server admin">
-              <SafetyCertificateFilled />
-            </Tooltip>
-          )}
-          {currentAccount?.id === account?.id && (
-            <Tooltip title="It's you!">
-              <CheckCircleFilled className="p-1 text-amber-500" />
-            </Tooltip>
-          )}
-        </Space>
-      </Row>
+      <Space>
+        <Typography className="text-primary">{currentAccount?.username}</Typography>
+        {currentAccount?.id === account?.id && (
+          <Tooltip title="It's you!">
+            <CheckCircleFilled className="p-1 text-amber-500" />
+          </Tooltip>
+        )}
+        {currentAccount.isAdmin && (
+          <Tooltip title="Server admin">
+            <SafetyCertificateFilled />
+          </Tooltip>
+        )}
+        {currentAccount?.status === AccountStatus.DISABLED && (
+          <Tooltip title="Account disabled">
+            <LockFilled />
+          </Tooltip>
+        )}
+
+      </Space>
     );
   };
 
   return (
     <>
       <PaginatedTable
-        onRowClick={(account) => navigate(`/dashboard/management/users/${account.id}`)}
+        onRowClick={(account) => navigate(`/dashboard/management/accounts/${account.id}`)}
         loading={!hasFetched}
         columns={columns}
         pageSize={15}

@@ -1,19 +1,24 @@
 import { Button, Space } from "antd";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Confirm } from "src/core/components/Confirm";
 import { DescriptionInputRow, Descriptions } from "src/core/components/Descriptions";
 import { DetailsSection } from "src/core/components/DetailsSection";
 import PageHeader from "src/core/components/PageHeader";
 import api from "src/core/lib/api";
 import { notify } from "src/core/utils/notify";
+import { handleStatus } from "src/core/utils/response";
 import { slugifyForUrl } from "src/core/utils/stringUtils";
 import { dispatch } from "src/store/store";
+import { ApiResponse } from "src/types/api";
 import { StoreState } from "src/types/store";
 import { loadServerApplication } from "../../state/applications/actions";
 
 export const ApplicationInformation = () => {
   const navigate = useNavigate();
   const { application } = useSelector((state: StoreState) => state.serverApplications);
+  const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
 
   const onUpdate = async (name: string) => {
     try {
@@ -28,6 +33,25 @@ export const ApplicationInformation = () => {
     }
   };
 
+  const onRemove = async () => {
+    setLoadingDelete(true);
+    try {
+      const response: ApiResponse<string> = await api.delete(
+        `/api/application/${application.id}`
+      );
+      if (handleStatus(response.status) === "success") {
+        notify.success("App successfully deleted");
+        navigate("/dashboard/management/apps");
+      } else {
+        notify.error("App not deleted. Please try again later.");
+      }
+    } catch (error) {
+      notify.error(error);
+    } finally {
+      setLoadingDelete(false);
+    }
+  };
+
   const OperationButtons = () => {
     return (
       <Space className="w-full justify-end">
@@ -39,9 +63,15 @@ export const ApplicationInformation = () => {
         >
           Visit
         </Button>
-        <Button type="primary" danger>
-          Remove app
-        </Button>
+        <Confirm
+          withAuth={true}
+          description="Are you sure that you want to remove this app?"
+          onOk={() => onRemove()}
+        >
+          <Button type="primary" loading={loadingDelete} danger>
+            Remove app
+          </Button>
+        </Confirm>
       </Space>
     );
   };

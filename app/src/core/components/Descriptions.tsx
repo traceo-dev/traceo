@@ -69,7 +69,7 @@ export const DescriptionInputRow: FC<DescriptionInputRowProps> = ({
     <>
       <tr>
         <td className="details-table-label">
-          <Typography.Text className="text-sm">{label}</Typography.Text>
+          <Typography.Text className="text-sm font-semibold">{label}</Typography.Text>
         </td>
         <td className="details-table-value" colSpan={2}>
           {updateMode ? (
@@ -114,7 +114,7 @@ export const DescriptionRadioRow: FC<DescriptionRadioRowProps> = ({
     <>
       <tr>
         <td className="details-table-label">
-          <Typography.Text className="text-sm">{label}</Typography.Text>
+          <Typography.Text className="text-sm font-semibold">{label}</Typography.Text>
         </td>
         <td className="details-table-value" colSpan={2}>
           {updateMode ? (

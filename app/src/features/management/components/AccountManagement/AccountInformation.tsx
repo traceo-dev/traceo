@@ -8,9 +8,16 @@ import { AccountStatus } from "src/types/accounts";
 import { StoreState } from "src/types/store";
 import { updateServerAccount } from "../../state/accounts/actions";
 import { DetailsSection } from "../../../../core/components/DetailsSection";
+import api from "src/core/lib/api";
+import { ApiResponse } from "src/types/api";
+import { notify } from "src/core/utils/notify";
+import { handleStatus } from "src/core/utils/response";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
+  const navigate = useNavigate();
 
   const onUpdateName = (newValue: string) =>
     dispatch(updateServerAccount({ id: account.id, name: newValue }));
@@ -19,12 +26,28 @@ export const AccountInformation = () => {
   const onUpdateUsername = (newValue: string) =>
     dispatch(updateServerAccount({ id: account.id, username: newValue }));
 
-  const onChangeUserStatus = () => {
+  const onChangeAccountStatus = () => {
     const status =
       account.status === AccountStatus.DISABLED
         ? AccountStatus.ACTIVE
         : AccountStatus.DISABLED;
     dispatch(updateServerAccount({ id: account.id, status }));
+  };
+
+  const onDeleteAccount = async () => {
+    try {
+      const response: ApiResponse<string> = await api.delete(
+        `/api/account/${account.id}`
+      );
+      if (handleStatus(response.status) === "success") {
+        notify.success("Account successfully removed");
+        navigate("/dashboard/management/accounts");
+      } else {
+        notify.error("Error. Please try again later.");
+      }
+    } catch (error) {
+      notify.error(error);
+    }
   };
 
   const OperationButtons = () => {
@@ -37,7 +60,7 @@ export const AccountInformation = () => {
       <Space className="w-full justify-end">
         {isDisableUserBtn && (
           <Confirm
-            onOk={() => onChangeUserStatus()}
+            onOk={() => onChangeAccountStatus()}
             description={
               <Typography.Text>
                 Are you sure that you want to suspend <b>{account.name}</b>? After this
@@ -53,7 +76,7 @@ export const AccountInformation = () => {
 
         {isEnableUserBtn && (
           <Confirm
-            onOk={() => onChangeUserStatus()}
+            onOk={() => onChangeAccountStatus()}
             description={
               <Typography.Text>
                 Are you sure that you want to activate <b>{account.name}</b> account?
@@ -66,9 +89,15 @@ export const AccountInformation = () => {
           </Confirm>
         )}
 
-        <Button type="primary" danger>
-          Delete user
-        </Button>
+        <Confirm
+          withAuth={true}
+          description={"Are you sure that you want to delete this account?"}
+          onOk={() => onDeleteAccount()}
+        >
+          <Button type="primary" danger>
+            Delete account
+          </Button>
+        </Confirm>
       </Space>
     );
   };

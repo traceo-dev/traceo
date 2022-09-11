@@ -10,8 +10,7 @@ export const PagePanel = ({ children, className = "" }) => {
       <style>{`
         .page-panel {
           background-color: var(--color-bg-primary);
-          // border: 2px solid rgba(204, 204, 220, 0.07);
-          border-radius: 4px;
+          border: 1px solid rgba(204, 204, 220, 0.07);
           box-shadow: rgb(24 26 27 / 75%) 0px 1px 2px;
           padding: 32px;
           margin-bottom: 8px;

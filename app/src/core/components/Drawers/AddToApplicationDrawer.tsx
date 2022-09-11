@@ -25,14 +25,16 @@ export const AddToApplicationDrawer: FC<Props> = ({ isOpen, onCancel, postExecut
   const [form] = Form.useForm();
 
   const { data: applications = [], isLoading } = useApi<Application[]>({
-    url: "/api/application/all"
+    url: "/api/application/all",
+    params: {
+      order: "DESC",
+      sortBy: "createdAt"
+    }
   });
 
   const submit = () => form.submit();
 
   const onFinish = async (props: AddAccountToApplication) => {
-    console.log(props);
-
     setLoading(true);
 
     await api.post("/api/amr/application/add", { accountId: account.id, ...props });

@@ -18,7 +18,7 @@ export const DashboardPage = ({ children }) => {
     },
     {
       key: "management",
-      href: "/dashboard/management/users",
+      href: "/dashboard/management/accounts",
       label: "Management"
     },
     {

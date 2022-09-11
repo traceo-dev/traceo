@@ -14,7 +14,8 @@ export enum ENVIRONMENT {
 }
 export interface OwnerAccount {
   name: string;
-  logo: string;
+  email: string;
+  username: string;
 }
 
 export interface Application {
@@ -22,9 +23,10 @@ export interface Application {
   name: string;
   dsn?: string;
   owner: OwnerAccount;
-  logo?: string;
+  gravatar?: string;
   lastIncidentAt?: number;
   incidentsCount: number;
+  membersCount: number;
   defaultEnv?: ENVIRONMENT;
   createdAt: number;
   updatedAt: number;

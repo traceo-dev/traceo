@@ -42,7 +42,6 @@ export class AuthService {
                 username
             };
             const { accessToken } = await this.createToken(payload);
-            console.log({ accessToken })
             return {
                 accessToken
             };

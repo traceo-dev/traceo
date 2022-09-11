@@ -27,7 +27,7 @@
   --color-text-link: #6e9fff;
   --color-text-contrast: #ffffff;
 
-  --color-bg-primary: #1E1F25;
+  --color-bg-primary: #181B1F;
   --color-bg-secondary: #22252b;
   --color-bg-canvas: #111217;
 
@@ -84,6 +84,7 @@ body {
   line-height: 1.5;
   font-weight: 400;
   letter-spacing: 0.01071em;
+  /* font-family: Roboto, Helvetica, Arial, sans-serif; */
 }
 
 .text-2xs {
