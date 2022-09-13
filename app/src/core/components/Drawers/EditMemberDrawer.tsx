@@ -1,9 +1,11 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
-import { Drawer, Select, Space, Typography } from "antd";
-import { FC } from "react";
-import { MemberRole, ApplicationMember } from "src/types/application";
-import { updateMember } from "src/features/app/members/state/actions";
-import { dispatch } from "src/store/store";
+import { Drawer, Form, Select, Space, Typography } from "antd";
+import { FC, useEffect, useState } from "react";
+import { MemberRole, ApplicationMember } from "../../../types/application";
+import { updateMember } from "../../../features/app/members/state/actions";
+import { dispatch } from "../../../store/store";
+import form from "antd/lib/form";
+import { DrawerButtons } from "../DrawerButtons";
 
 interface Props {
   isOpen: boolean;
@@ -11,10 +13,17 @@ interface Props {
   member: ApplicationMember;
 }
 export const EditMemberDrawer: FC<Props> = ({ isOpen, onCancel, member }) => {
-  const handleChangeStatus = (status: MemberRole) => {
-    dispatch(updateMember({ id: member.id, status }));
+  const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.setFieldValue("role", member?.role);
+  });
+
+  const submit = () => form.submit();
+
+  const onFinish = (form: { role: MemberRole }) => {
+    dispatch(updateMember({ memberId: member.id, role: form.role }));
     onCancel();
-    window.location.reload();
   };
 
   return (
@@ -24,31 +33,23 @@ export const EditMemberDrawer: FC<Props> = ({ isOpen, onCancel, member }) => {
         onClose={onCancel}
         visible={isOpen}
         closable={false}
-        footer={null}
+        footer={<DrawerButtons onClose={() => onCancel()} onFinish={submit} />}
       >
-        <Space direction="vertical" className="h-full justify-between">
-          <Space direction="vertical" className="w-full">
-            <Typography style={{ fontWeight: 600 }}>Member status</Typography>
-            <Select
-              className="w-full"
-              value={member?.status}
-              onChange={(value) => handleChangeStatus(value)}
-            >
-              <Select.Option value={MemberRole.ADMINISTRATOR}>
-                Administrator
-              </Select.Option>
-              <Select.Option value={MemberRole.MAINTAINER}>Maintainer</Select.Option>
-              <Select.Option value={MemberRole.VIEWER} disabled>
-                Viewer
-              </Select.Option>
-            </Select>
-          </Space>
-
-          <Typography className="text-2xs mt-3">
-            <InfoCircleOutlined style={{ color: "red" }} /> Remember to set administrator
-            rights only for a trusted persons. Administrators have rights that can hurt a
-            lot in the wrong hands.
-          </Typography>
+        <Space
+          direction="vertical"
+          className="pt-0 px-4 w-full h-full justify-between text-center"
+        >
+          <Form onFinish={onFinish} form={form} layout="vertical" className="pt-5">
+            <Form.Item name="role" label="Role" className="text-xs mb-0 font-semibold">
+              <Select className="w-full" value={member?.status}>
+                <Select.Option value={MemberRole.ADMINISTRATOR}>
+                  Administrator
+                </Select.Option>
+                <Select.Option value={MemberRole.MAINTAINER}>Maintainer</Select.Option>
+                <Select.Option value={MemberRole.VIEWER}>Viewer</Select.Option>
+              </Select>
+            </Form.Item>
+          </Form>
         </Space>
       </Drawer>
     </>

@@ -5,15 +5,17 @@ import { CreateAccountDto } from 'src/account/account.model';
 import { Account } from 'src/db/entities/account.entity';
 import { AuthRequired } from 'src/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'src/libs/decorators/auth-user.decorator';
-import { AccountCredentialsDto, RequestUser, UpdatePasswordDto } from './auth.model';
+import {
+  AccountCredentialsDto,
+  RequestUser,
+  UpdatePasswordDto
+} from './auth.model';
 import { AuthService } from './auth.service';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(
-    readonly authService: AuthService
-  ) { }
+  constructor(readonly authService: AuthService) {}
 
   @Get()
   @AuthRequired()
@@ -22,16 +24,14 @@ export class AuthController {
   }
 
   @Post('login')
-  async login(
-    @Body() user: AccountCredentialsDto,
-  ): Promise<any> {
+  async login(@Body() user: AccountCredentialsDto): Promise<any> {
     return await this.authService.login(user);
   }
 
   @Post('check')
   async check(
     @Body() user: AccountCredentialsDto,
-  ): Promise<{ isCorrect: boolean, account?: Account }> {
+  ): Promise<{ isCorrect: boolean; account?: Account }> {
     return this.authService.checkCredentials(user);
   }
 

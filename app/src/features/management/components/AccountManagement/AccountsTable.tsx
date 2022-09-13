@@ -1,14 +1,17 @@
-import { CheckCircleFilled, LockFilled, LockOutlined, SafetyCertificateFilled } from "@ant-design/icons";
-import { Row, Space, Tooltip, Typography } from "antd";
+import {
+  CheckCircleFilled,
+  LockFilled,
+  SafetyCertificateFilled
+} from "@ant-design/icons";
+import { Space, Tooltip, Typography } from "antd";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AccountStatusTag } from "src/core/components/AccountStatusTag";
-import { Avatar } from "src/core/components/Avatar";
-import { PaginatedTable } from "src/core/components/PaginatedTable";
-import dateUtils from "src/core/utils/date";
-import { Account, AccountStatus } from "src/types/accounts";
-import { StoreState } from "src/types/store";
+import { AccountStatusTag } from "../../../../core/components/AccountStatusTag";
+import { Avatar } from "../../../../core/components/Avatar";
+import { PaginatedTable } from "../../../../core/components/PaginatedTable";
+import { Account, AccountStatus } from "../../../../types/accounts";
+import { StoreState } from "../../../../types/store";
 
 interface Props {
   accounts: Account[];
@@ -68,7 +71,6 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
             <LockFilled />
           </Tooltip>
         )}
-
       </Space>
     );
   };

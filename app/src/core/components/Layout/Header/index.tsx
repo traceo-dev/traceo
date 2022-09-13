@@ -1,15 +1,15 @@
 import { Row, Space, Layout, Alert } from "antd";
 import { FC, useEffect } from "react";
-import { loadAccount } from "src/features/auth/state/actions";
-import { dispatch } from "src/store/store";
+import { loadAccount } from "../../../../features/auth/state/actions";
+import { dispatch } from "../../../../store/store";
 import { BellOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { Menu } from "../Menu";
-import { MenuRoute } from "src/types/navigation";
+import { MenuRoute } from "../../../../types/navigation";
 import { Profile } from "./components/Profile";
 import { AppSwitcher } from "./components/AppSwitcher";
 import { EnvironmentSwitcher } from "./components/EnvironmentSwitcher";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
+import { StoreState } from "../../../../types/store";
 
 const { Header: AntHeader } = Layout;
 
@@ -23,10 +23,12 @@ export const Header: FC<Props> = ({ routes }) => {
     dispatch(loadAccount());
   }, []);
 
+  const isPasswordUpdated = account && !account?.isPasswordUpdated;
+
   return (
     <>
       <Space direction="vertical" className="gap-0">
-        {!account?.isPasswordUpdated && (
+        {isPasswordUpdated && (
           <Alert
             message={
               <Space>

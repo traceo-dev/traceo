@@ -1,17 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager, EntityTarget, FindOptionsWhere, Repository, SelectQueryBuilder } from 'typeorm';
+import {
+  EntityManager,
+  EntityTarget,
+  FindOptionsWhere,
+  Repository,
+  SelectQueryBuilder
+} from 'typeorm';
 import { BaseDtoQuery } from './generic.model';
 import { GenericEntity } from './generic.entity';
 
 @Injectable()
-export abstract class GenericQueryService<ENTITY extends GenericEntity, QUERY extends BaseDtoQuery> {
-
+export abstract class GenericQueryService<
+  ENTITY extends GenericEntity,
+  QUERY extends BaseDtoQuery,
+> {
   public repository: Repository<ENTITY>;
 
-  constructor(
-    manager: EntityManager,
-    repository: EntityTarget<ENTITY>
-  ) {
+  constructor(manager: EntityManager, repository: EntityTarget<ENTITY>) {
     this.repository = manager.getRepository<ENTITY>(repository);
   }
 
@@ -28,7 +33,10 @@ export abstract class GenericQueryService<ENTITY extends GenericEntity, QUERY ex
     return this.extendQueryBuilder(qb, query);
   }
 
-  public abstract extendQueryBuilder(builder: SelectQueryBuilder<ENTITY>, query: QUERY): SelectQueryBuilder<ENTITY>;
+  public abstract extendQueryBuilder(
+    builder: SelectQueryBuilder<ENTITY>,
+    query: QUERY,
+  ): SelectQueryBuilder<ENTITY>;
 
   public abstract getBuilderAlias(): string;
 
@@ -40,16 +48,18 @@ export abstract class GenericQueryService<ENTITY extends GenericEntity, QUERY ex
   public async listDto(query: QUERY): Promise<ENTITY[]> {
     const { sortBy, order, take, page } = query;
 
-    const queryBuilder: SelectQueryBuilder<ENTITY> = this.createQueryBuilder(query);
+    const queryBuilder: SelectQueryBuilder<ENTITY> =
+      this.createQueryBuilder(query);
     this.addSelectToQueryBuilder(queryBuilder, this.selectedColumns());
 
     if (sortBy && order) {
-      queryBuilder.orderBy(`${this.getBuilderAlias()}.${sortBy}`, order || "DESC")
+      queryBuilder.orderBy(
+        `${this.getBuilderAlias()}.${sortBy}`,
+        order || "DESC",
+      );
     }
 
-    queryBuilder
-      .limit(take)
-      .skip(page > 0 ? (page - 1) * take : 0);
+    queryBuilder.limit(take).skip(page > 0 ? (page - 1) * take : 0);
 
     const { entities } = await queryBuilder.getRawAndEntities();
 
@@ -62,7 +72,10 @@ export abstract class GenericQueryService<ENTITY extends GenericEntity, QUERY ex
   ): SelectQueryBuilder<ENTITY> {
     if (columns.length > 0) {
       columns.forEach((column) => {
-        queryBuilder.addSelect(`${this.getBuilderAlias()}.${column}`, columns[column]);
+        queryBuilder.addSelect(
+          `${this.getBuilderAlias()}.${column}`,
+          columns[column],
+        );
       });
     }
 

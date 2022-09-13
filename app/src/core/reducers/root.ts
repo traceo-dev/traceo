@@ -1,12 +1,12 @@
 import { combineReducers, AnyAction } from "redux";
 
-import applicationReducer from "src/features/app/state/reducers";
-import incidentsReducer from "src/features/app/incidents/state/reducers";
-import membersReducer from "src/features/app/members/state/reducers";
-import accountReducer from "src/features/auth/state/reducers";
-import serverAccountsReducer from "src/features/management/state/accounts/reducers";
-import serverApplicationsReducer from "src/features/management/state/applications/reducers";
-import dashboardReducer from "src/features/dashboard/state/reducers";
+import applicationReducer from "../../features/app/state/reducers";
+import incidentsReducer from "../../features/app/incidents/state/reducers";
+import membersReducer from "../../features/app/members/state/reducers";
+import accountReducer from "../../features/auth/state/reducers";
+import serverAccountsReducer from "../../features/management/state/accounts/reducers";
+import serverApplicationsReducer from "../../features/management/state/applications/reducers";
+import dashboardReducer from "../../features/dashboard/state/reducers";
 
 import { cleanUpAction, CleanUp } from "../hooks/useCleanup";
 

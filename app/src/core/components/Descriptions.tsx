@@ -89,11 +89,11 @@ export const DescriptionInputRow: FC<DescriptionInputRowProps> = ({
 };
 
 interface DescriptionRadioRowProps {
-    label: string;
-    children: string | number | boolean | any;
-    onUpdate?: (value: string | number | boolean | any) => void;
-    options: {label: string, value: string | number | boolean}[]
-    defaultValue: string | number | boolean | any;
+  label: string;
+  children: string | number | boolean | any;
+  onUpdate?: (value: string | number | boolean | any) => void;
+  options: { label: string; value: string | number | boolean }[];
+  defaultValue: string | number | boolean | any;
 }
 export const DescriptionRadioRow: FC<DescriptionRadioRowProps> = ({
   label,

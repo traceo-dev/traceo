@@ -1,29 +1,30 @@
-import AuthLayout from "src/core/components/Layout/AuthLayout";
+import AuthLayout from "../../../core/components/Layout/AuthLayout";
 import { useEffect, useState } from "react";
 import { LoginForm } from "./LoginForm";
 import { Form } from "antd";
-import { notify } from "src/core/utils/notify";
+import { notify } from "../../../core/utils/notify";
 import { useSelector } from "react-redux";
-import { dispatch } from "src/store/store";
-import { StoreState } from "src/types/store";
+import { dispatch } from "../../../store/store";
+import { StoreState } from "../../../types/store";
 import { clearState } from "../state/reducers";
 import { loginAccount } from "../state/actions";
-import { LoginProps } from "src/types/auth";
+import { LoginProps } from "../../../types/auth";
 
 const Login = () => {
   const { isError, isSuccess } = useSelector((state: StoreState) => state.account);
   const [loading, setLoading] = useState<boolean>(false);
-  const [redirectToOverview, setRedirectToOverview] = useState<boolean>(true);
   const [form] = Form.useForm();
 
   useEffect(() => {
     if (isError) {
       notify.error("Bad login or password");
       dispatch(clearState());
+      setLoading(false);
     }
 
     if (isSuccess) {
       window.location.href = "/dashboard/overview";
+      setLoading(false);
     }
   }, [isError, isSuccess]);
 
@@ -40,7 +41,6 @@ const Login = () => {
 
     setLoading(true);
     dispatch(loginAccount(credentials));
-    setLoading(false);
   };
 
   return (

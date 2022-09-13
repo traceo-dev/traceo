@@ -1,13 +1,13 @@
 import { Card, Space, Typography } from "antd";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "src/core/components/Avatar";
-import { AppListPlot } from "src/core/components/Plots/components/AppListPlot";
-import dateUtils from "src/core/utils/date";
-import { slugifyForUrl } from "src/core/utils/stringUtils";
-import { loadApplication } from "src/features/app/state/actions";
-import { dispatch } from "src/store/store";
-import { ApplicationMember } from "src/types/application";
+import { Avatar } from "../../../core/components/Avatar";
+import { AppListPlot } from "../../../core/components/Plots/components/AppListPlot";
+import dateUtils from "../../../core/utils/date";
+import { slugifyForUrl } from "../../../core/utils/stringUtils";
+import { loadApplication } from "../../../features/app/state/actions";
+import { dispatch } from "../../../store/store";
+import { ApplicationMember } from "../../../types/application";
 
 interface Props {
   app: ApplicationMember;
@@ -33,7 +33,11 @@ export const AppCard: FC<Props> = ({ app }) => {
     >
       <Space className="w-full" direction="vertical">
         <Space>
-          <Avatar shape="circle" name={app.application.name} url={app.application?.gravatar} />
+          <Avatar
+            shape="circle"
+            name={app.application.name}
+            url={app.application?.gravatar}
+          />
           <Space className="w-full gap-0" direction="vertical">
             <Typography.Text className="text-sm">{app.application.name}</Typography.Text>
             <div className="text-2xs w-full font-normal">{lastIncident}</div>

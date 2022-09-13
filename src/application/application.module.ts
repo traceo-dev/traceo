@@ -9,9 +9,7 @@ import { AccountQueryService } from 'src/account/account-query/account-query.ser
 import { MailingService } from 'src/mailing/mailing.service';
 
 @Module({
-  imports: [
-    PassportModule.register({ defaultStrategy: 'jwt' })
-  ],
+  imports: [PassportModule.register({ defaultStrategy: "jwt" })],
   providers: [
     ApplicationService,
     AmrService,
@@ -22,4 +20,4 @@ import { MailingService } from 'src/mailing/mailing.service';
   ],
   controllers: [ApplicationController]
 })
-export class ApplicationModule { }
+export class ApplicationModule {}

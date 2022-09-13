@@ -14,7 +14,6 @@ import { Environment } from "src/core/generic.model";
 
 @Entity()
 export class Application extends GenericEntity {
-  
   @PrimaryGeneratedColumn()
   id?: number;
 
@@ -29,7 +28,7 @@ export class Application extends GenericEntity {
 
   @ManyToOne(() => Account)
   @JoinColumn({
-    name: 'ownerId'
+    name: 'ownerId',
   })
   owner: Account;
 
@@ -56,21 +55,16 @@ export class Application extends GenericEntity {
     (accountApp) => accountApp.application,
     {
       onUpdate: "CASCADE",
-      onDelete: "CASCADE"
-    }
+      onDelete: "CASCADE",
+    },
   )
   members?: AccountMemberRelationship[];
   membersCount?: number;
 
-
-  @OneToMany(
-    () => Incident,
-    (incident) => incident.application,
-    {
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE"
-    }
-  )
+  @OneToMany(() => Incident, (incident) => incident.application, {
+    onUpdate: "CASCADE",
+    onDelete: "CASCADE",
+  })
   incidents?: Incident[];
   incidentsCount?: number;
 }

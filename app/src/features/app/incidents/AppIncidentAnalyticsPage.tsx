@@ -1,12 +1,12 @@
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Space, Typography } from "antd";
 import { useSelector } from "react-redux";
-import { ConditionLayout } from "src/core/components/ConditionLayout";
-import { PagePanel } from "src/core/components/PagePanel";
-import { TodayIncidentAnalyticsPlot } from "src/core/components/Plots/components/TodayIncidentAnalyticsPlot";
-import { TotalIncidentAnalyticsPlot } from "src/core/components/Plots/components/TotalIncidentAnalyticsPlot";
-import dateUtils from "src/core/utils/date";
-import { StoreState } from "src/types/store";
+import { ConditionLayout } from "../../../core/components/ConditionLayout";
+import { PagePanel } from "../../../core/components/PagePanel";
+import { TodayIncidentAnalyticsPlot } from "../../../core/components/Plots/components/TodayIncidentAnalyticsPlot";
+import { TotalIncidentAnalyticsPlot } from "../../../core/components/Plots/components/TotalIncidentAnalyticsPlot";
+import dateUtils from "../../../core/utils/date";
+import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
 
 export const AppIncidentAnalyticsPage = () => {

@@ -1,6 +1,6 @@
 import { Collapse } from "antd";
 import { FC } from "react";
-import { joinClasses } from "src/core/utils/classes";
+import { joinClasses } from "../../core/utils/classes";
 
 const { Panel } = Collapse;
 interface Props {

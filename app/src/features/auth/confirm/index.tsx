@@ -1,12 +1,12 @@
 import { Button, Space, Typography } from "antd";
 import Link from "antd/lib/typography/Link";
 import { useLayoutEffect, useState } from "react";
-import api from "src/core/lib/api";
-import { ApiResponse } from "src/types/api";
-import { handleStatus } from "src/core/utils/response";
-import { notify } from "src/core/utils/notify";
+import api from "../../../core/lib/api";
+import { ApiResponse } from "../../../types/api";
+import { handleStatus } from "../../../core/utils/response";
+import { notify } from "../../../core/utils/notify";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "src/core/hooks/useQuery";
+import { useQuery } from "../../../core/hooks/useQuery";
 import { LoadingOutlined } from "@ant-design/icons";
 
 const ConfirmAccount = () => {

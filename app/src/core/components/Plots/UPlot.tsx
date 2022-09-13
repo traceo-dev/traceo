@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { UPlotConfig } from "src/types/plot";
+import { UPlotConfig } from "../../../types/plot";
 import uPlot from "uplot";
 import UplotReact from "uplot-react";
 import { tooltipsPlugin } from "./plugins/tooltipPlugin";

@@ -21,15 +21,15 @@ import { HttpModule } from "@nestjs/axios";
     HttpModule
   ],
   providers: [
-    AuthService, 
-    AccountService, 
-    MailingService, 
-    JwtStrategy, 
-    AccountQueryService, 
-    ApplicationQueryService, 
+    AuthService,
+    AccountService,
+    MailingService,
+    JwtStrategy,
+    AccountQueryService,
+    ApplicationQueryService,
     AmrService,
     AmrQueryService
   ],
   controllers: [AuthController]
 })
-export class AuthModule { }
+export class AuthModule {}

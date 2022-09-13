@@ -1,23 +1,21 @@
-import { Button, Form, Input, Space, Typography } from "antd";
+import { Button, Form, Input } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { ColumnSection } from "src/core/components/ColumnSection";
-import { StoreState } from "src/types/store";
-import { dispatch } from "src/store/store";
+import { ColumnSection } from "../../core/components/ColumnSection";
+import { StoreState } from "../../types/store";
+import { dispatch } from "../../store/store";
 import {
   updateAccount,
-  updateAccountPassword,
-  deleteAccount
-} from "src/features/app/settings/state/actions";
-import { DashboardSettingsNavigation } from "src/features/settings/components/DashboardSettingsNavigation";
-import { Confirm } from "src/core/components/Confirm";
+  updateAccountPassword
+} from "../../features/app/settings/state/actions";
+import { DashboardSettingsNavigation } from "../../features/settings/components/DashboardSettingsNavigation";
 
 const SettingsAccountPage = () => {
   const { account } = useSelector((state: StoreState) => state.account);
   const [loadingConfirmPassword, setLoadingConfirmPassword] = useState<boolean>(false);
   const [loadingUpdateAccount, setLoadingUpdateAccount] = useState<boolean>(false);
 
-  const onFinishUpdateAccount = (form: { name: string, email: string }) => {
+  const onFinishUpdateAccount = (form: { name: string; email: string }) => {
     setLoadingUpdateAccount(true);
     dispatch(updateAccount(form));
     setLoadingUpdateAccount(false);
@@ -67,7 +65,6 @@ const SettingsAccountPage = () => {
           secondColumnWidth={14}
           title="Update password"
           subtitle="After a successful password update, you will be redirected to the login page where you can log in with your new password."
-          divider={true}
         >
           <Form
             onFinish={onFinishUpdatePassword}

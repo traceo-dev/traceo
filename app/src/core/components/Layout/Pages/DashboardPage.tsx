@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { loadAccount } from "src/features/auth/state/actions";
-import { dispatch } from "src/store/store";
-import { MenuRoute } from "src/types/navigation";
+import { loadAccount } from "../../../../features/auth/state/actions";
+import { dispatch } from "../../../../store/store";
+import { MenuRoute } from "../../../../types/navigation";
 import { Page } from "../../Page";
 import Header from "../Header";
 

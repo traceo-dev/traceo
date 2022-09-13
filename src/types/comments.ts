@@ -12,7 +12,7 @@ export class CommentDto {
 }
 
 export class PatchCommentDto extends CommentDto {
-    @Type(() => String)
-    @IsString()
-    readonly message: string;
+  @Type(() => String)
+  @IsString()
+  readonly message: string;
 }

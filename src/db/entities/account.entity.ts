@@ -1,9 +1,12 @@
+import { IsBoolean, IsEmail, IsEnum } from "class-validator";
 import {
-  IsBoolean,
-  IsEmail,
-  IsEnum,
-} from "class-validator";
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn
+} from "typeorm";
 import { GenericEntity } from "src/core/generic.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
@@ -16,7 +19,7 @@ export enum AccountRole {
 export enum AccountStatus {
   ACTIVE = "active",
   INACTIVE = "inactive",
-  DISABLED = "disabled"
+  DISABLED = "disabled",
 }
 
 @Entity()
@@ -34,7 +37,6 @@ export class Account extends GenericEntity {
   @IsEmail()
   email: string;
 
-  
   @Column({ nullable: true, type: 'varchar' })
   @IsEmail()
   gravatar: string;
@@ -54,11 +56,11 @@ export class Account extends GenericEntity {
     (accountApp) => accountApp.account,
     {
       cascade: true,
-    }
+    },
   )
   applications: AccountMemberRelationship[];
 
-  @OneToMany(() => Incident, incident => incident.assigned)
+  @OneToMany(() => Incident, (incident) => incident.assigned)
   incidents: Incident[];
 
   @Column({ nullable: false, type: "boolean", default: false })

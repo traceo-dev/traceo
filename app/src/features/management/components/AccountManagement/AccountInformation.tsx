@@ -1,19 +1,21 @@
 import { Space, Button, Typography } from "antd";
 import { useSelector } from "react-redux";
-import { Confirm } from "src/core/components/Confirm";
-import { DescriptionInputRow, Descriptions } from "src/core/components/Descriptions";
-import PageHeader from "src/core/components/PageHeader";
-import { dispatch } from "src/store/store";
-import { AccountStatus } from "src/types/accounts";
-import { StoreState } from "src/types/store";
+import { Confirm } from "../../../../core/components/Confirm";
+import {
+  DescriptionInputRow,
+  Descriptions
+} from "../../../../core/components/Descriptions";
+import PageHeader from "../../../../core/components/PageHeader";
+import { dispatch } from "../../../../store/store";
+import { AccountStatus } from "../../../../types/accounts";
+import { StoreState } from "../../../../types/store";
 import { updateServerAccount } from "../../state/accounts/actions";
 import { DetailsSection } from "../../../../core/components/DetailsSection";
-import api from "src/core/lib/api";
-import { ApiResponse } from "src/types/api";
-import { notify } from "src/core/utils/notify";
-import { handleStatus } from "src/core/utils/response";
+import api from "../../../../core/lib/api";
+import { ApiResponse } from "../../../../types/api";
+import { notify } from "../../../../core/utils/notify";
+import { handleStatus } from "../../../../core/utils/response";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);

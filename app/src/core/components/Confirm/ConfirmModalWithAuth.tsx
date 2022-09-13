@@ -1,9 +1,9 @@
 import { Button, Form, Input, Space, Typography } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import { useSelector } from "react-redux";
-import api from "src/core/lib/api";
-import { StoreState } from "src/types/store";
-import { notify } from "src/core/utils/notify";
+import api from "../../../core/lib/api";
+import { StoreState } from "../../../types/store";
+import { notify } from "../../../core/utils/notify";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;

@@ -1,12 +1,10 @@
 import { Typography, Radio, Button, Row, Space } from "antd";
-import { application } from "express";
 import { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "src/core/components/Avatar";
-import api from "src/core/lib/api";
-import { notify } from "src/core/utils/notify";
-import { slugifyForUrl } from "src/core/utils/stringUtils";
-import { ApplicationMember, MemberRole } from "src/types/application";
+import { Avatar } from "../../../core/components/Avatar";
+import api from "../../../core/lib/api";
+import { notify } from "../../../core/utils/notify";
+import { ApplicationMember, MemberRole } from "../../../types/application";
 
 export const ApplicationMemberDescriptionTable = ({ children }) => {
   return (

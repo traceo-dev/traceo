@@ -1,16 +1,16 @@
-import { UserOutlined } from "@ant-design/icons";
+import { LoadingOutlined, UserOutlined } from "@ant-design/icons";
 import { Space, Tooltip } from "antd";
 import { ColumnsType, TableProps } from "antd/lib/table";
 import { FC } from "react";
 import { Table } from "antd";
-import { IncidentsListPlot } from "src/core/components/Plots/components/IncidentsListPlot";
-import { Incident } from "src/types/incidents";
+import { IncidentsListPlot } from "../../../../core/components/Plots/components/IncidentsListPlot";
+import { Incident } from "../../../../types/incidents";
 import { Avatar } from "../../../../core/components/Avatar";
 import { IncidentMainColumn } from "./IncidentMainColumn";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { StoreState } from "src/types/store";
-import { slugifyForUrl } from "src/core/utils/stringUtils";
+import { StoreState } from "../../../../types/store";
+import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 
 interface Props {
   incidents: Incident[];
@@ -82,7 +82,10 @@ export const IncidentTable: FC<Props> = ({
     id: "incidentsTable",
     className: "cursor-pointer",
     rowKey: "id",
-    loading: isLoading,
+    loading: {
+      spinning: isLoading,
+      indicator: <LoadingOutlined className="text-white" />
+    },
     onRow: (record) => {
       return {
         onClick: () => {

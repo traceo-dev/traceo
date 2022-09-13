@@ -1,11 +1,11 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Space } from "antd";
 import { FC, useEffect } from "react";
-import { UPlot } from "src/core/components/Plots/UPlot";
-import { DrawStyle, normalizePlotData } from "src/core/components/Plots/utils";
-import { useApi } from "src/core/lib/useApi";
-import { statistics } from "src/core/utils/statistics";
-import { UPlotConfig } from "src/types/plot";
+import { UPlot } from "../../../../core/components/Plots/UPlot";
+import { DrawStyle, normalizePlotData } from "../../../../core/components/Plots/utils";
+import { useApi } from "../../../../core/lib/useApi";
+import { statistics } from "../../../../core/utils/statistics";
+import { UPlotConfig } from "../../../../types/plot";
 
 interface Props {
   id: string;

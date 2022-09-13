@@ -1,8 +1,8 @@
 import { Space } from "antd";
 import dayjs from "dayjs";
 import { FC } from "react";
-import dateUtils from "src/core/utils/date";
-import { UPlotConfig } from "src/types/plot";
+import dateUtils from "../../../../core/utils/date";
+import { UPlotConfig } from "../../../../types/plot";
 import { annotationsPlugin } from "../plugins/annotationsPlugin";
 import { UPlot } from "../UPlot";
 import { DrawStyle, gradientFill, LineInterpolation, normalizePlotData } from "../utils";

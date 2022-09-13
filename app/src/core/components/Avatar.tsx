@@ -1,6 +1,6 @@
 import { Avatar as AntAvatar } from "antd";
 import { FC } from "react";
-import { joinClasses } from "src/core/utils/classes";
+import { joinClasses } from "../../core/utils/classes";
 
 interface Props {
   name: string;

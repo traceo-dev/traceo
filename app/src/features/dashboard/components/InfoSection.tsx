@@ -1,6 +1,6 @@
 import { Alert } from "antd";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
+import { StoreState } from "../../../types/store";
 
 export const InfoSection = () => {
   const { account } = useSelector((state: StoreState) => state.account);

@@ -1,6 +1,7 @@
 import { Card, Col, Layout, Row, Space, Typography } from "antd";
 import { FC } from "react";
 import { TraceoLogo } from "../Icons/TraceoLogo";
+import Footer from "./Footer";
 
 interface Props {
   children: JSX.Element;
@@ -12,7 +13,7 @@ export const AuthLayout: FC<Props> = ({ children, title, subtitle }) => {
   return (
     <>
       <div className="wrapper">
-        <Card className={"ant-card ant-card-bordered card bg-primary"}>
+        <Card className={"ant-card card"}>
           <Col span={24}>
             <Space
               direction="vertical"

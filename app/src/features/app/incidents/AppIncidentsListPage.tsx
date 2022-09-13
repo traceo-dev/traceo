@@ -1,31 +1,31 @@
 import { Button, Menu, Space, Typography } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { BatchUpdateDrawer } from "src/core/components/Drawers/BatchUpdateDrawer";
-import AppPage from "src/core/components/Layout/Pages/AppPage";
-import { SearchInput } from "src/core/components/SearchInput";
-import { SortIcons } from "src/core/components/SortIcons";
-import { IncidentTable } from "src/features/app/incidents/components/IncidentTable";
-import { useCleanup } from "src/core/hooks/useCleanup";
-import { ApiQueryParams } from "src/core/lib/api";
-import { dispatch } from "src/store/store";
+import { BatchUpdateDrawer } from "../../../core/components/Drawers/BatchUpdateDrawer";
+import AppPage from "../../../core/components/Layout/Pages/AppPage";
+import { SearchInput } from "../../../core/components/SearchInput";
+import { SortIcons } from "../../../core/components/SortIcons";
+import { IncidentTable } from "../../../features/app/incidents/components/IncidentTable";
+import { useCleanup } from "../../../core/hooks/useCleanup";
+import { ApiQueryParams } from "../../../core/lib/api";
+import { dispatch } from "../../../store/store";
 import {
   handleIncidentStatus,
   IncidentSortBy,
   IncidentStatusSearch
-} from "src/types/incidents";
-import { StoreState } from "src/types/store";
-import { loadIncidents } from "src/features/app/incidents/state/actions";
+} from "../../../types/incidents";
+import { StoreState } from "../../../types/store";
+import { loadIncidents } from "../../../features/app/incidents/state/actions";
 import { useParams } from "react-router-dom";
-import { SortOrder } from "src/types/api";
-import PageHeader from "src/core/components/PageHeader";
-import { PagePanel } from "src/core/components/PagePanel";
+import { SortOrder } from "../../../types/api";
+import PageHeader from "../../../core/components/PageHeader";
+import { PagePanel } from "../../../core/components/PagePanel";
 import { BugOutlined } from "@ant-design/icons";
 import { IncidentsSortDropdown } from "./components/IncidentsSortDropdown";
-import { ConditionLayout } from "src/core/components/ConditionLayout";
-import { EmptyIncidentList } from "src/core/components/EmptyViews/EmptyIncidentList";
-import { handleAppSort } from "src/core/utils/handlers";
-import { StatusDropdown } from "src/core/components/StatusDropdown";
+import { ConditionLayout } from "../../../core/components/ConditionLayout";
+import { EmptyIncidentList } from "../../../core/components/EmptyViews/EmptyIncidentList";
+import { handleAppSort } from "../../../core/utils/handlers";
+import { StatusDropdown } from "../../../core/components/StatusDropdown";
 
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
@@ -89,7 +89,7 @@ export const AppIncidentsListPage = () => {
               <SearchInput
                 placeholder="Search"
                 value={search}
-                loading={!hasFetched}
+                // loading={!hasFetched}
                 setValue={setSearch}
                 get={() => fetchIncidents()}
               />
@@ -113,7 +113,8 @@ export const AppIncidentsListPage = () => {
           </Space>
 
           <ConditionLayout
-            isEmpty={incidents?.length === 0 && hasFetched}
+            isEmpty={incidents?.length === 0}
+            isLoading={!hasFetched}
             emptyView={<EmptyIncidentList constraints={search} />}
           >
             <IncidentTable

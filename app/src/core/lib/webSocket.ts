@@ -1,9 +1,9 @@
-import { socket } from "src/core/hooks/SocketContextProvider";
+import { socket } from "../../core/hooks/SocketContextProvider";
 import {
   SendMessageSocketPayload,
   SendTypingSocketPayload,
   WEB_SOCKET
-} from "src/types/webSocket";
+} from "../../types/webSocket";
 
 const sendChatMessage = (socketPayload: SendMessageSocketPayload) => {
   socket.emit(WEB_SOCKET.SEND_CHAT_MESSAGE, socketPayload);

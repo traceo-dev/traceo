@@ -1,6 +1,6 @@
 import { Tag } from "antd";
-import { MemberRole } from "src/types/application";
-import { joinClasses } from "src/core/utils/classes";
+import { MemberRole } from "../../types/application";
+import { joinClasses } from "../../core/utils/classes";
 
 export const MemberStatusTag = ({ status, className = "" }) => {
   const memberStatusColor: Record<MemberRole, string> = {

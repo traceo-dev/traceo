@@ -1,12 +1,12 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Space, Button, Input } from "antd";
+import { Space, Button } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { NewAccountDrawer } from "src/core/components/Drawers/NewAccountDrawer";
-import { SearchInput } from "src/core/components/SearchInput";
-import { ApiQueryParams } from "src/core/lib/api";
-import { dispatch } from "src/store/store";
-import { StoreState } from "src/types/store";
+import { NewAccountDrawer } from "../../core/components/Drawers/NewAccountDrawer";
+import { SearchInput } from "../../core/components/SearchInput";
+import { ApiQueryParams } from "../../core/lib/api";
+import { dispatch } from "../../store/store";
+import { StoreState } from "../../types/store";
 import { AccountsTable } from "./components/AccountManagement/AccountsTable";
 import { ManagementNavigation } from "./components/ManagementNavigation";
 import { loadServerAccounts } from "./state/accounts/actions";

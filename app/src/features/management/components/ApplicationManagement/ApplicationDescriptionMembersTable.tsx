@@ -1,9 +1,9 @@
 import { Typography, Radio, Button, Row, Space } from "antd";
 import { FC, useState } from "react";
-import { Avatar } from "src/core/components/Avatar";
-import api from "src/core/lib/api";
-import { notify } from "src/core/utils/notify";
-import { ApplicationMember, MemberRole } from "src/types/application";
+import { Avatar } from "../../../../core/components/Avatar";
+import api from "../../../../core/lib/api";
+import { notify } from "../../../../core/utils/notify";
+import { ApplicationMember, MemberRole } from "../../../../types/application";
 
 export const ApplicationDescriptionMembersTable = ({ children }) => {
   return (
@@ -117,7 +117,12 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
             </Button>
           ) : (
             <Space>
-              <Button loading={loadingDelete} danger type="primary" onClick={() => onRemoveFromApp()}>
+              <Button
+                loading={loadingDelete}
+                danger
+                type="primary"
+                onClick={() => onRemoveFromApp()}
+              >
                 Confirm
               </Button>
               <Button type="primary" onClick={() => setDeleteMode(false)} ghost>
@@ -133,7 +138,11 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
             </Button>
           ) : (
             <Space>
-              <Button loading={loadingUpdate} type="primary" onClick={() => onUpdateRole()}>
+              <Button
+                loading={loadingUpdate}
+                type="primary"
+                onClick={() => onUpdateRole()}
+              >
                 Save
               </Button>
               <Button type="primary" onClick={() => setUpdateMode(false)} ghost>

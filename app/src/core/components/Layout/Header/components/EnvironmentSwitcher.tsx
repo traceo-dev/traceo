@@ -1,9 +1,9 @@
 import { Popover, Space, Tag, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { conditionClass, joinClasses } from "src/core/utils/classes";
-import { slugifyForUrl } from "src/core/utils/stringUtils";
-import { StoreState } from "src/types/store";
+import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
+import { slugifyForUrl } from "../../../../../core/utils/stringUtils";
+import { StoreState } from "../../../../../types/store";
 
 export const EnvironmentSwitcher = () => {
   const { application } = useSelector((state: StoreState) => state.application);

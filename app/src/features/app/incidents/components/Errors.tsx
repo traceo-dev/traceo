@@ -1,11 +1,11 @@
 import { Badge, Table, Typography } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useSelector } from "react-redux";
-import { CollapsedDetails } from "src/core/components/CollapsedDetails";
-import { PagePanel } from "src/core/components/PagePanel";
-import dateUtils from "src/core/utils/date";
-import { ErrorDetails } from "src/types/incidents";
-import { StoreState } from "src/types/store";
+import { CollapsedDetails } from "../../../../core/components/CollapsedDetails";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import dateUtils from "../../../../core/utils/date";
+import { ErrorDetails } from "../../../../types/incidents";
+import { StoreState } from "../../../../types/store";
 
 interface ErrorDetailsTable extends ErrorDetails {
   number?: string;

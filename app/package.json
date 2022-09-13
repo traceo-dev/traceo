@@ -6,7 +6,9 @@
     "webpack": "webpack --progress --color --config scripts/webpack/webpack.dev.js",
     "dev": "react-scripts --max-http-header-size 16000 start",
     "build": "react-scripts build",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "lint": "eslint . --ext .js,.ts,.tsx",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
@@ -23,6 +25,7 @@
     "babel-eslint": "^10.1.0",
     "copy-webpack-plugin": "^11.0.0",
     "dayjs": "^1.11.1",
+    "eslint-webpack-plugin": "^3.2.0",
     "fork-ts-checker-webpack-plugin": "^7.2.11",
     "history": "^5.3.0",
     "html-webpack-plugin": "^5.5.0",
@@ -60,11 +63,15 @@
     "@testing-library/user-event": "^12.8.3",
     "@types/babel-generator": "^6.25.5",
     "babel-preset-react": "^6.24.1",
+    "css-loader": "6.7.1",
+    "html-loader": "3.1.0",
     "lint-staged": "^12.1.7",
+    "ngtemplate-loader": "2.1.0",
+    "raw-loader": "4.0.2",
     "webpack": "^5.73.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.7.1",
+    "webpack-dev-server": "4.9.0",
     "webpack-merge": "^5.8.0"
   },
   "resolutions": {

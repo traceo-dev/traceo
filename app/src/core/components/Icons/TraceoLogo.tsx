@@ -1,6 +1,6 @@
 import { Space } from "antd";
 import { FC } from "react";
-import { conditionClass, joinClasses } from "src/core/utils/classes";
+import { conditionClass, joinClasses } from "../../../core/utils/classes";
 
 type Size = "small" | "medium";
 

@@ -4,10 +4,10 @@ import { useSelector } from "react-redux";
 import {
   DescriptionRadioRow,
   Descriptions
-} from "src/core/components/Descriptions";
-import PageHeader from "src/core/components/PageHeader";
-import { dispatch } from "src/store/store";
-import { StoreState } from "src/types/store";
+} from "../../../../core/components/Descriptions";
+import PageHeader from "../../../../core/components/PageHeader";
+import { dispatch } from "../../../../store/store";
+import { StoreState } from "../../../../types/store";
 import { updateServerAccount } from "../../state/accounts/actions";
 import { DetailsSection } from "../../../../core/components/DetailsSection";
 
@@ -16,8 +16,8 @@ export const AccountPermissions = () => {
 
   const onUpdateServerRole = (value: boolean) => {
     dispatch(updateServerAccount({ id: account.id, isAdmin: value }));
-  }
-    
+  };
+
   return (
     <DetailsSection>
       <PageHeader

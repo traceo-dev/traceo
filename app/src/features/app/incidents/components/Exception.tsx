@@ -1,8 +1,8 @@
 import { Space, Typography } from "antd";
 import { useSelector } from "react-redux";
-import { CollapsedDetails } from "src/core/components/CollapsedDetails";
-import { PagePanel } from "src/core/components/PagePanel";
-import { StoreState } from "src/types/store";
+import { CollapsedDetails } from "../../../../core/components/CollapsedDetails";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { StoreState } from "../../../../types/store";
 
 export const Exception = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);

@@ -1,16 +1,9 @@
 import AppPage from "../../../../core/components/Layout/Pages/AppPage";
 import PageHeader from "../../../../core/components/PageHeader";
-import {
-  ApiOutlined,
-  InfoCircleOutlined,
-  LockOutlined,
-  SettingOutlined
-} from "@ant-design/icons";
+import { InfoCircleOutlined, SettingOutlined } from "@ant-design/icons";
 import { PagePanel } from "../../../../core/components/PagePanel";
-import { MenuRoute } from "src/types/navigation";
-import { Menu } from "src/core/components/Layout/Menu";
-import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
+import { MenuRoute } from "../../../../types/navigation";
+import { Menu } from "../../../../core/components/Layout/Menu";
 
 export const AppSettingsNavigationPage = ({ children }) => {
   const menu: MenuRoute[] = [
@@ -19,7 +12,7 @@ export const AppSettingsNavigationPage = ({ children }) => {
       label: "Details",
       key: "details",
       icon: <InfoCircleOutlined />
-    },
+    }
     // {
     //   href: "/app/:id/:slug/settings/credentials",
     //   label: "Credentials",

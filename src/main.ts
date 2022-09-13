@@ -8,12 +8,12 @@ import { AllExceptionsFilter } from './all-exception.filter';
 import { Traceo } from "traceo";
 import { TraceoInterceptor } from './libs/traceo.interceptor';
 
-var cors = require('cors');
+const cors = require("cors");
 
 async function bootstrap() {
   Traceo.init({
     dsn: process.env.TRACEO_DSN,
-    environment: "test"
+    environment: "test",
   });
 
   const app = await NestFactory.create(AppModule);

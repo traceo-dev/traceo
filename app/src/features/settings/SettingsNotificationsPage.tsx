@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import { DashboardSettingsNavigation } from "src/features/settings/components/DashboardSettingsNavigation";
+import { DashboardSettingsNavigation } from "../../features/settings/components/DashboardSettingsNavigation";
 
 export const SettingsNotificationsPage = () => {
   return (

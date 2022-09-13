@@ -1,8 +1,8 @@
-import { notify } from "src/core/utils/notify";
-import api, { ApiQueryParams } from "src/core/lib/api";
-import { Comment } from "src/types/comments";
-import { Incident } from "src/types/incidents";
-import { ThunkResult } from "src/types/store";
+import { notify } from "../../../../core/utils/notify";
+import api, { ApiQueryParams } from "../../../../core/lib/api";
+import { Comment } from "../../../../types/comments";
+import { Incident } from "../../../../types/incidents";
+import { ThunkResult } from "../../../../types/store";
 import { incidentCommentsLoaded, incidentLoaded, incidentsLoaded } from "./reducers";
 
 export const loadIncidents = (query?: ApiQueryParams): ThunkResult<void> => {

@@ -6,20 +6,20 @@ import {
 } from "@ant-design/icons";
 import { Button, Popover, Space } from "antd";
 import { FC, useState } from "react";
-import api from "src/core/lib/api";
-import { ApiResponse } from "src/types/api";
-import { Incident, IncidentStatus } from "src/types/incidents";
-import { notify } from "src/core/utils/notify";
-import { handleStatus } from "src/core/utils/response";
+import api from "../../../../core/lib/api";
+import { ApiResponse } from "../../../../types/api";
+import { Incident, IncidentStatus } from "../../../../types/incidents";
+import { notify } from "../../../../core/utils/notify";
+import { handleStatus } from "../../../../core/utils/response";
 import { useNavigate } from "react-router-dom";
-import { AssignMemberPopover } from "src/core/components/AssignMemberPopover";
-import { Avatar } from "src/core/components/Avatar";
-import { dispatch } from "src/store/store";
+import { AssignMemberPopover } from "../../../../core/components/AssignMemberPopover";
+import { Avatar } from "../../../../core/components/Avatar";
+import { dispatch } from "../../../../store/store";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
+import { StoreState } from "../../../../types/store";
 import { updateIncident } from "../state/actions";
-import { Confirm } from "src/core/components/Confirm";
-import { slugifyForUrl } from "src/core/utils/stringUtils";
+import { Confirm } from "../../../../core/components/Confirm";
+import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 
 interface Props {
   incident: Incident;

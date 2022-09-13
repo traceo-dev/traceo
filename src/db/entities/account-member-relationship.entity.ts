@@ -12,14 +12,14 @@ import { Application } from "./application.entity";
 export enum MemberRole {
   ADMINISTRATOR = "Administrator",
   MAINTAINER = "Maintainer",
-  VIEWER = "Viewer"
+  VIEWER = "Viewer",
 }
 
 @Entity()
 export class AccountMemberRelationship extends GenericEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
-  
+
   @Column("enum", {
     enum: MemberRole,
     nullable: false,
@@ -28,13 +28,13 @@ export class AccountMemberRelationship extends GenericEntity {
 
   @Column({
     default: false,
-    type: "bool"
+    type: "bool",
   })
   favorite: boolean;
 
   @ManyToOne(() => Account, {
     onUpdate: "CASCADE",
-    onDelete: "CASCADE"
+    onDelete: "CASCADE",
   })
   @JoinColumn({
     name: "account",

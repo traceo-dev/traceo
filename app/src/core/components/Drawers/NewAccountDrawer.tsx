@@ -1,12 +1,10 @@
-import { Input, Space, Typography, Form, Drawer } from "antd";
-import { useEffect, useState } from "react";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { Input, Space, Form, Drawer } from "antd";
+import { useState } from "react";
 import { DrawerButtons } from "../DrawerButtons";
-import { dispatch } from "src/store/store";
-import { addMember } from "src/features/app/members/state/actions";
-import { addServerAccount } from "src/features/management/state/accounts/actions";
-import { AddAccountProps } from "src/types/accounts";
-import validators from "src/core/lib/validators";
+import { dispatch } from "../../../store/store";
+import { addServerAccount } from "../../../features/management/state/accounts/actions";
+import { AddAccountProps } from "../../../types/accounts";
+import validators from "../../../core/lib/validators";
 
 export const NewAccountDrawer = ({ isOpen, onCancel }) => {
   const [loading, setLoading] = useState<boolean>(false);

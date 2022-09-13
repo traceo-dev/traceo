@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Comment } from "src/types/comments";
-import { Incident } from "src/types/incidents";
+import { Comment } from "../../../../types/comments";
+import { Incident } from "../../../../types/incidents";
 
 export interface IncidentsState {
   incidents: Incident[];

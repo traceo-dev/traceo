@@ -1,5 +1,5 @@
 import { Button, Dropdown, Menu } from "antd";
-import { handleIncidentSort, IncidentSortBy } from "src/types/incidents";
+import { handleIncidentSort, IncidentSortBy } from "../../../../types/incidents";
 
 export const IncidentsSortDropdown = ({ sortBy, setSortBy }) => {
   const sortByContent = (

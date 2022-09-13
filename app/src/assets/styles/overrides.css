@@ -9,7 +9,7 @@
 
 .ant-modal-content {
   border-radius: 4px;
-  background-color: #181B1F;
+  background-color: #181b1f;
 }
 
 .ant-popover-inner-content {
@@ -40,7 +40,7 @@
 }
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #FFFFFF !important;
+  color: #ffffff !important;
   font-weight: 600 !important;
 }
 
@@ -267,7 +267,8 @@
   border-radius: 4px;
 }
 
-.ant-input, .ant-input-affix-wrapper {
+.ant-input,
+.ant-input-affix-wrapper {
   background: var(--color-bg-canvas);
 }
 
@@ -337,23 +338,28 @@
   border: 1px solid transparent;
 }
 .ant-btn.ant-btn-background-ghost:hover {
-  background-color: #3C3F45;
+  background-color: #3c3f45;
   color: rgb(204, 204, 220);
   border: 1px solid transparent;
 }
 
 .ant-select-single.ant-select-open .ant-select-selection-item {
-  color: #FFFFFF !important;
+  color: #ffffff !important;
 }
 
 .ant-select {
   background-color: var(--color-bg-canvas);
 }
 
-.ant-select-single.ant-select-show-arrow .ant-select-selection-item, .ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+.ant-select-single.ant-select-show-arrow .ant-select-selection-item,
+.ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
   text-align: start;
 }
 
 .ant-table-row.ant-table-row-level-0:hover {
   background-color: transparent !important;
+}
+
+.ant-table-placeholder {
+  display: none;
 }

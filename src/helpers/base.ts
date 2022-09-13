@@ -1,5 +1,5 @@
 export const isEmpty = (
-  obj: { [s: string]: unknown } | ArrayLike<unknown>
+  obj: { [s: string]: unknown } | ArrayLike<unknown>,
 ): boolean => {
   return Object.values(obj).every((e) => {
     return !e;

@@ -2,9 +2,9 @@ import { UserOutlined } from "@ant-design/icons";
 import { Popover, Space, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "src/core/components/Avatar";
-import { joinClasses } from "src/core/utils/classes";
-import { StoreState } from "src/types/store";
+import { Avatar } from "../../../../../core/components/Avatar";
+import { joinClasses } from "../../../../../core/utils/classes";
+import { StoreState } from "../../../../../types/store";
 
 interface ProfileRoute {
   href?: string;

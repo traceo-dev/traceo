@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { ErrorDetails } from "src/types/incidents";
+import { ErrorDetails } from "../../types/incidents";
 
 export const getIncidentsTablePlotData = (occurDates: ErrorDetails[]) => {
   const response: PlotData[] = []; //initial values

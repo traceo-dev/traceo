@@ -5,10 +5,8 @@ import { IncidentsController } from './incidents.controller';
 import { IncidentsService } from './incidents.service';
 
 @Module({
-    imports: [
-        PassportModule.register({ defaultStrategy: 'jwt' }),
-    ],
-    providers: [IncidentsQueryService, IncidentsService],
-    controllers: [IncidentsController]
+  imports: [PassportModule.register({ defaultStrategy: "jwt" })],
+  providers: [IncidentsQueryService, IncidentsService],
+  controllers: [IncidentsController]
 })
 export class IncidentsModule {}

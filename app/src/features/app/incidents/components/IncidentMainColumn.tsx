@@ -1,10 +1,10 @@
 import { BugOutlined, MessageOutlined } from "@ant-design/icons";
 import { Space, Typography } from "antd";
 import { FC } from "react";
-import { Incident } from "src/types/incidents";
-import { joinClasses } from "src/core/utils/classes";
-import dateUtils from "src/core/utils/date";
-import { wrapIncidentMessage } from "src/core/utils/stringUtils";
+import { Incident } from "../../../../types/incidents";
+import { joinClasses } from "../../../../core/utils/classes";
+import dateUtils from "../../../../core/utils/date";
+import { wrapIncidentMessage } from "../../../../core/utils/stringUtils";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 
 interface Props {

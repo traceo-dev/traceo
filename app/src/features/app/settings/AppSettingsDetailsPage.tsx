@@ -1,20 +1,23 @@
 import { Form, Space, Input, Button, Typography, Select } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { ColumnSection } from "src/core/components/ColumnSection";
-import AppSettingsNavigationPage from "src/features/app/settings/components/AppSettingsNavigation";
-import { UploadFile, ATTACHMENT_TYPE } from "src/core/components/UploadFile";
-import api from "src/core/lib/api";
-import { notify } from "src/core/utils/notify";
-import { handleStatus } from "src/core/utils/response";
-import { dispatch } from "src/store/store";
-import { ApiResponse } from "src/types/api";
-import { StoreState } from "src/types/store";
-import { ENVIRONMENT, MemberRole, UpdateApplicationProps } from "src/types/application";
+import { ColumnSection } from "../../../core/components/ColumnSection";
+import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
+import api from "../../../core/lib/api";
+import { notify } from "../../../core/utils/notify";
+import { handleStatus } from "../../../core/utils/response";
+import { dispatch } from "../../../store/store";
+import { ApiResponse } from "../../../types/api";
+import { StoreState } from "../../../types/store";
+import {
+  ENVIRONMENT,
+  MemberRole,
+  UpdateApplicationProps
+} from "../../../types/application";
 import { updateAplication } from "../state/actions";
 import { useNavigate } from "react-router-dom";
-import { Confirm } from "src/core/components/Confirm";
-import { Permissions } from "src/core/components/Permissions";
+import { Confirm } from "../../../core/components/Confirm";
+import { Permissions } from "../../../core/components/Permissions";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();

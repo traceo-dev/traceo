@@ -4,10 +4,8 @@ import { StatisticsQueryService } from './query/statistics-query.service';
 import { StatisticsController } from './statistics.controller';
 
 @Module({
-  imports: [
-    PassportModule.register({ defaultStrategy: 'jwt' })
-  ],
+  imports: [PassportModule.register({ defaultStrategy: "jwt" })],
   providers: [StatisticsQueryService],
   controllers: [StatisticsController]
 })
-export class StatisticsModule { }
+export class StatisticsModule {}

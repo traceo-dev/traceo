@@ -1,6 +1,6 @@
 import { Tag } from "antd";
-import { joinClasses } from "src/core/utils/classes";
-import { AccountStatus } from "src/types/accounts";
+import { joinClasses } from "../../core/utils/classes";
+import { AccountStatus } from "../../types/accounts";
 
 export const AccountStatusTag = ({ status, className = "" }) => {
   const accountStatusColor: Record<AccountStatus, string> = {

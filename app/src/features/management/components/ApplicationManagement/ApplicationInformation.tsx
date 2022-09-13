@@ -2,17 +2,20 @@ import { Button, Space } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Confirm } from "src/core/components/Confirm";
-import { DescriptionInputRow, Descriptions } from "src/core/components/Descriptions";
-import { DetailsSection } from "src/core/components/DetailsSection";
-import PageHeader from "src/core/components/PageHeader";
-import api from "src/core/lib/api";
-import { notify } from "src/core/utils/notify";
-import { handleStatus } from "src/core/utils/response";
-import { slugifyForUrl } from "src/core/utils/stringUtils";
-import { dispatch } from "src/store/store";
-import { ApiResponse } from "src/types/api";
-import { StoreState } from "src/types/store";
+import { Confirm } from "../../../../core/components/Confirm";
+import {
+  DescriptionInputRow,
+  Descriptions
+} from "../../../../core/components/Descriptions";
+import { DetailsSection } from "../../../../core/components/DetailsSection";
+import PageHeader from "../../../../core/components/PageHeader";
+import api from "../../../../core/lib/api";
+import { notify } from "../../../../core/utils/notify";
+import { handleStatus } from "../../../../core/utils/response";
+import { slugifyForUrl } from "../../../../core/utils/stringUtils";
+import { dispatch } from "../../../../store/store";
+import { ApiResponse } from "../../../../types/api";
+import { StoreState } from "../../../../types/store";
 import { loadServerApplication } from "../../state/applications/actions";
 
 export const ApplicationInformation = () => {

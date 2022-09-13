@@ -1,9 +1,9 @@
 import { Card, Row, Space, Timeline, Typography } from "antd";
 import { FC, useEffect, useState } from "react";
-import { CodePreview } from "src/core/components/CodePreview";
-import { Incident, Trace } from "src/types/incidents";
-import { conditionClass, joinClasses } from "src/core/utils/classes";
-import { ColumnDetail } from "src/core/components/ColumnDetail";
+import { CodePreview } from "../../../../core/components/CodePreview";
+import { Incident, Trace } from "../../../../types/incidents";
+import { conditionClass, joinClasses } from "../../../../core/utils/classes";
+import { ColumnDetail } from "../../../../core/components/ColumnDetail";
 
 interface Props {
   incident: Incident;

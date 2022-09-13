@@ -10,8 +10,8 @@
 @import url("uplot.css");
 
 :root {
-  --color-primary: #0991B3;
-  --color-secondary: #155D75;
+  --color-primary: #0991b3;
+  --color-secondary: #155d75;
   --color-danger: #b91c1c;
   --color-danger-secondary: #db2626;
   --color-dark-primary: #272a30;
@@ -27,7 +27,7 @@
   --color-text-link: #6e9fff;
   --color-text-contrast: #ffffff;
 
-  --color-bg-primary: #181B1F;
+  --color-bg-primary: #181b1f;
   --color-bg-secondary: #22252b;
   --color-bg-canvas: #111217;
 
@@ -38,7 +38,7 @@
 }
 
 .text-primary {
-  color: var(--color-text-primary) !important
+  color: var(--color-text-primary) !important;
 }
 
 .text-secondary {
@@ -228,7 +228,7 @@ body {
 
 .delete-icon:hover {
   transition: 0.2s;
-  opacity: .9;
+  opacity: 0.9;
 }
 
 .icon-small {
@@ -258,7 +258,8 @@ body {
   border-spacing: 0;
 }
 
-.details-table td, .details-table th {
+.details-table td,
+.details-table th {
   height: 30px;
   line-height: 30px;
   padding: 6px 8px;
@@ -271,9 +272,9 @@ body {
 
 .details-table-label {
   font-weight: 400 !important;
-  width: 256px!important;
+  width: 256px !important;
 }
 
 .details-table-value {
-  width: 400px!important;
+  width: 400px !important;
 }

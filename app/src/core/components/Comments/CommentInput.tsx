@@ -4,10 +4,10 @@ import { TextAreaRef } from "antd/lib/input/TextArea";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
-import api from "src/core/lib/api";
-import { loadIncidentComments } from "src/features/app/incidents/state/actions";
-import { dispatch } from "src/store/store";
-import { StoreState } from "src/types/store";
+import api from "../../../core/lib/api";
+import { loadIncidentComments } from "../../../features/app/incidents/state/actions";
+import { dispatch } from "../../../store/store";
+import { StoreState } from "../../../types/store";
 import { Avatar } from "../Avatar";
 import { MarkdownHeader } from "./MarkdownHeader";
 

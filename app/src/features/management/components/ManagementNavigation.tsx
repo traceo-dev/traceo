@@ -1,20 +1,16 @@
-import {
-  AppstoreFilled,
-  SettingOutlined,
-  TeamOutlined
-} from "@ant-design/icons";
+import { AppstoreFilled, SettingOutlined, TeamOutlined } from "@ant-design/icons";
 import PageHeader from "../../../core/components/PageHeader";
 import { PagePanel } from "../../../core/components/PagePanel";
-import { MenuRoute } from "src/types/navigation";
-import { Menu } from "src/core/components/Layout/Menu";
-import { DashboardPage } from "src/core/components/Layout/Pages/DashboardPage";
+import { MenuRoute } from "../../../types/navigation";
+import { Menu } from "../../../core/components/Layout/Menu";
+import { DashboardPage } from "../../../core/components/Layout/Pages/DashboardPage";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
+import { StoreState } from "../../../types/store";
 import { useEffect } from "react";
-import { dispatch } from "src/store/store";
-import { loadAccount } from "src/features/auth/state/actions";
-import { isEmptyObject } from "src/core/utils/object";
-import { TraceoLoading } from "src/core/components/TraceoLoading";
+import { dispatch } from "../../../store/store";
+import { loadAccount } from "../../../features/auth/state/actions";
+import { isEmptyObject } from "../../../core/utils/object";
+import { TraceoLoading } from "../../../core/components/TraceoLoading";
 
 export const ManagementNavigation = ({ children }) => {
   const { account } = useSelector((state: StoreState) => state.account);

@@ -1,11 +1,11 @@
 import { Drawer, Form, Select, Space } from "antd";
 import { FC, useState } from "react";
-import { IncidentStatus } from "src/types/incidents";
-import { isEmptyObject } from "src/core/utils/object";
-import { toTitleCase } from "src/core/utils/stringUtils";
+import { IncidentStatus } from "../../../types/incidents";
+import { isEmptyObject } from "../../../core/utils/object";
+import { toTitleCase } from "../../../core/utils/stringUtils";
 import { DrawerButtons } from "../DrawerButtons";
-import { dispatch } from "src/store/store";
-import { batchUpdate } from "src/features/app/incidents/state/actions";
+import { dispatch } from "../../../store/store";
+import { batchUpdate } from "../../../features/app/incidents/state/actions";
 
 interface Props {
   incidentsIds: string[];

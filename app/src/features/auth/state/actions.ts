@@ -1,13 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import api from "src/core/lib/api";
-import { ApiResponse } from "src/types/api";
-import { handleStatus } from "src/core/utils/response";
+import api from "../../../core/lib/api";
+import { ApiResponse } from "../../../types/api";
+import { handleStatus } from "../../../core/utils/response";
 import jwt from "jwt-decode";
 import { accountLoaded } from "./reducers";
-import { Account } from "src/types/accounts";
-import { ThunkResult } from "src/types/store";
-import { dispatch, getState } from "src/store/store";
-import { SignupProps, LoginProps } from "src/types/auth";
+import { Account } from "../../../types/accounts";
+import { ThunkResult } from "../../../types/store";
+import { dispatch, getState } from "../../../store/store";
+import { SignupProps, LoginProps } from "../../../types/auth";
 
 export const loadAccount = (): ThunkResult<void> => {
   return async (dispatch) => {

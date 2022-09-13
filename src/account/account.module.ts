@@ -17,11 +17,11 @@ import { HttpModule } from "@nestjs/axios";
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   providers: [
-    AccountService, 
-    MailingService, 
-    AccountQueryService, 
-    ApplicationQueryService, 
-    AmrService, 
+    AccountService,
+    MailingService,
+    AccountQueryService,
+    ApplicationQueryService,
+    AmrService,
     AmrQueryService
   ],
   controllers: [AccountController],

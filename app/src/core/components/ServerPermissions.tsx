@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
+import { StoreState } from "../../types/store";
 
 interface PermissionsProps {
   children: ReactNode;

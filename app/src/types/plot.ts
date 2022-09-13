@@ -1,4 +1,4 @@
-import { DrawStyle, LineInterpolation } from "src/core/components/Plots/utils";
+import { DrawStyle, LineInterpolation } from "../core/components/Plots/utils";
 
 export interface UPlotConfig {
   series: uPlot.Series[];

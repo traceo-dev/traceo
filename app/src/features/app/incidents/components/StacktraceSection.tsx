@@ -1,9 +1,9 @@
 import { Radio, Space, Typography } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { CollapsedDetails } from "src/core/components/CollapsedDetails";
-import { PagePanel } from "src/core/components/PagePanel";
-import { StoreState } from "src/types/store";
+import { CollapsedDetails } from "../../../../core/components/CollapsedDetails";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { StoreState } from "../../../../types/store";
 import { CodeTraces } from "./CodeTraces";
 
 export const StacktraceSection = () => {

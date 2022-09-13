@@ -1,7 +1,7 @@
 import { lazy } from "react";
-import NotFound from "src/core/components/Layout/Pages/404";
-import Login from "src/features/auth/login";
-import { RouteDescriptor } from "src/types/navigation";
+import NotFound from "../core/components/Layout/Pages/404";
+import Login from "../features/auth/login";
+import { RouteDescriptor } from "../types/navigation";
 
 const getPublicRoutes = (): RouteDescriptor[] => {
   return [
@@ -88,7 +88,7 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
     {
       path: "/app/:id/:slug/settings/details",
       component: lazy(() => import("../features/app/settings/AppSettingsDetailsPage"))
-    },
+    }
     // {
     //   path: "/app/:id/:slug/settings/credentials",
     //   component: lazy(() => import("../features/app/settings/AppSettingsCredentialsPage"))

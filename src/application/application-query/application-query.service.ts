@@ -8,33 +8,46 @@ import { AccountMemberRelationship } from 'src/db/entities/account-member-relati
 import { ApplicationResponse } from 'src/types/application';
 
 @Injectable()
-export class ApplicationQueryService extends GenericQueryService<Application, BaseDtoQuery> {
-    constructor(
-        readonly entityManager: EntityManager
-    ) {
-        super(entityManager, Application);
+export class ApplicationQueryService extends GenericQueryService<
+  Application,
+  BaseDtoQuery
+> {
+  constructor(readonly entityManager: EntityManager) {
+    super(entityManager, Application);
+  }
+
+  public getBuilderAlias(): string {
+    return 'application';
+  }
+
+  public extendQueryBuilder(
+    builder: SelectQueryBuilder<Application>,
+    query: BaseDtoQuery,
+  ): SelectQueryBuilder<Application> {
+    const { search } = query;
+
+    if (search) {
+      builder.where("LOWER(application.name) LIKE LOWER(:name)", {
+        name: `%${search}%`
+      });
     }
 
-    public getBuilderAlias(): string {
-        return 'application';
-    }
+    builder
+      .leftJoinAndSelect('application.owner', 'owner')
+      .loadRelationCountAndMap(
+        "application.membersCount",
+        "application.members",
+      )
+      .loadRelationCountAndMap(
+        "application.incidentsCount",
+        "application.incidents",
+      )
+      .addSelect('owner.name', 'owner.email');
 
-    public extendQueryBuilder(builder: SelectQueryBuilder<Application>, query: BaseDtoQuery): SelectQueryBuilder<Application> {
-        const { search } = query;
+    return builder;
+  }
 
-        if (search) {
-            builder.where("LOWER(application.name) LIKE LOWER(:name)", { name: `%${search}%` });
-        }
-
-        builder.leftJoinAndSelect('application.owner', 'owner')
-            .loadRelationCountAndMap('application.membersCount', 'application.members')
-            .loadRelationCountAndMap('application.incidentsCount', 'application.incidents')
-            .addSelect('owner.name', 'owner.email');
-
-        return builder;
-    }
-
-    public selectedColumns(): string[] {
-        return ['id', 'name', 'gravatar', 'lastIncidentAt', 'defaultEnv']
-    }
+  public selectedColumns(): string[] {
+    return ["id", "name", "gravatar", "lastIncidentAt", "defaultEnv"];
+  }
 }

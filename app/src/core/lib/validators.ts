@@ -6,11 +6,11 @@ const email = [
 ];
 
 const password = [
-    {
-        pattern: /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-        message: "This password is too weak."
-    }
-]
+  {
+    pattern: /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+    message: "This password is too weak."
+  }
+];
 
 const validators = {
   email,

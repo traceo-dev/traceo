@@ -1,5 +1,5 @@
-import AppPage from "src/core/components/Layout/Pages/AppPage";
-import { TodaySection } from "src/features/app/overview/components/TodaySection";
+import AppPage from "../../../core/components/Layout/Pages/AppPage";
+import { TodaySection } from "../../../features/app/overview/components/TodaySection";
 import { OverviewSection } from "./components/OverviewSection";
 import { RecentIncidentsSection } from "./components/RecentIncidentsSection";
 

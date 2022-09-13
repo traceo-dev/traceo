@@ -1,7 +1,7 @@
 import Axios, { AxiosRequestConfig } from "axios";
-import { notify } from "src/core/utils/notify";
+import { notify } from "../../../core/utils/notify";
 import { comment } from "./actions/comment";
-import { SortOrder } from "src/types/api";
+import { SortOrder } from "../../../types/api";
 
 export interface ApiQueryParams {
   id?: string;

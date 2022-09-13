@@ -49,8 +49,8 @@ export interface ApplicationMember {
 }
 
 export interface ApplicationMemberUpdateProps {
-  id: string;
-  status: MemberRole;
+  memberId: string;
+  role: MemberRole;
 }
 
 export interface ApplicationMember {

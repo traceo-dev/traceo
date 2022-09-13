@@ -7,7 +7,7 @@ import { config } from "dotenv";
 config();
 
 export const sendMail = async (
-  options: SendMailOptions
+  options: SendMailOptions,
 ): Promise<SentMessageInfo> => {
   const transporter = createTransport({
     host: process.env.MAIL_HOST || "smtp.gmail.com",
@@ -26,10 +26,10 @@ export const sendMail = async (
         extname: ".handlebars",
         layoutsDir: join(process.cwd(), "/templates/mails"),
         defaultLayout: "main",
-        partialsDir: join(process.cwd(), "/templates/mails"),
+        partialsDir: join(process.cwd(), "/templates/mails")
       },
-      viewPath: join(process.cwd(), "/templates/mails"),
-    })
+      viewPath: join(process.cwd(), "/templates/mails")
+    }),
   );
 
   return transporter.sendMail({

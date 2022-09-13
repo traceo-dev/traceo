@@ -2,10 +2,10 @@ import { IsNotEmpty, IsEmail, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export interface RequestUser {
-    id: string;
-    email: string;
-    name: string;
-    logo: string;
+  id: string;
+  email: string;
+  name: string;
+  logo: string;
 }
 
 export class AccountCredentialsDto {
@@ -25,13 +25,13 @@ export class AccountCredentialsDto {
 }
 
 export class UpdatePasswordDto {
-    @IsString()
-    @IsNotEmpty()
-    @ApiProperty({ type: String, description: 'password' })
-    readonly password: string;
-  
-    @IsString()
-    @IsNotEmpty()
-    @ApiProperty({ type: String, description: 'newPassword' })
-    readonly newPassword: string;
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ type: String, description: "password" })
+  readonly password: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({ type: String, description: "newPassword" })
+  readonly newPassword: string;
 }

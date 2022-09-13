@@ -1,6 +1,5 @@
 import { Button, Space, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
-import { Page } from "../../Page";
 import { PageCenter } from "../../PageCenter";
 
 const NotFound = () => {

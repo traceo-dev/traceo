@@ -1,10 +1,10 @@
-import api, { ApiQueryParams } from "src/core/lib/api";
-import { ThunkResult } from "src/types/store";
+import api, { ApiQueryParams } from "../../../../core/lib/api";
+import { ThunkResult } from "../../../../types/store";
 import { serverAccountLoaded, serverAccountsLoaded } from "./reducers";
-import { Account, AddAccountProps } from "src/types/accounts";
-import { notify } from "src/core/utils/notify";
-import { handleStatus } from "src/core/utils/response";
-import { ApiResponse } from "src/types/api";
+import { Account, AddAccountProps } from "../../../../types/accounts";
+import { notify } from "../../../../core/utils/notify";
+import { handleStatus } from "../../../../core/utils/response";
+import { ApiResponse } from "../../../../types/api";
 
 export const loadServerAccounts = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {
@@ -17,8 +17,8 @@ export const loadServerAccount = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
     const account = await api.get<Account>("/api/account", { id });
     dispatch(serverAccountLoaded(account));
-  }
-}
+  };
+};
 
 export const updateServerAccount = (update: Partial<Account>): ThunkResult<void> => {
   return async (dispatch) => {
@@ -35,7 +35,7 @@ export const updateServerAccount = (update: Partial<Account>): ThunkResult<void>
       notify.error("Account has not been updated. Please try again later.");
     }
   };
-}
+};
 
 export const addServerAccount = (props: AddAccountProps): ThunkResult<void> => {
   return async (dispatch) => {

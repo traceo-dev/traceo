@@ -1,12 +1,12 @@
 import { Space, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { ConditionLayout } from "src/core/components/ConditionLayout";
-import { DetailsSection } from "src/core/components/DetailsSection";
-import PageHeader from "src/core/components/PageHeader";
-import { useApi } from "src/core/lib/useApi";
-import { ApplicationMember, MemberRole } from "src/types/application";
-import { StoreState } from "src/types/store";
+import { ConditionLayout } from "../../../../core/components/ConditionLayout";
+import { DetailsSection } from "../../../../core/components/DetailsSection";
+import PageHeader from "../../../../core/components/PageHeader";
+import { useApi } from "../../../../core/lib/useApi";
+import { ApplicationMember, MemberRole } from "../../../../types/application";
+import { StoreState } from "../../../../types/store";
 import {
   ApplicationMemberDescriptionTable,
   DescriptionAppRadioRow
@@ -14,7 +14,6 @@ import {
 
 export const ApplicationMembers = () => {
   const { id } = useParams();
-  const { application } = useSelector((state: StoreState) => state.serverApplications);
 
   const {
     data: members = [],
@@ -42,8 +41,9 @@ export const ApplicationMembers = () => {
           isLoading={isLoading}
         >
           <ApplicationMemberDescriptionTable>
-            {members?.map((member) => (
+            {members?.map((member, index) => (
               <DescriptionAppRadioRow
+                key={index}
                 item={member}
                 type="member"
                 options={[

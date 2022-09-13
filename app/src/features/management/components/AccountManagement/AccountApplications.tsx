@@ -1,13 +1,12 @@
-import { LoadingOutlined } from "@ant-design/icons";
 import { Space, Typography, Button } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { ConditionLayout } from "src/core/components/ConditionLayout";
-import { AddToApplicationDrawer } from "src/core/components/Drawers/AddToApplicationDrawer";
-import PageHeader from "src/core/components/PageHeader";
-import { useApi } from "src/core/lib/useApi";
-import { ApplicationMember, MemberRole } from "src/types/application";
-import { StoreState } from "src/types/store";
+import { ConditionLayout } from "../../../../core/components/ConditionLayout";
+import { AddToApplicationDrawer } from "../../../../core/components/Drawers/AddToApplicationDrawer";
+import PageHeader from "../../../../core/components/PageHeader";
+import { useApi } from "../../../../core/lib/useApi";
+import { ApplicationMember, MemberRole } from "../../../../types/application";
+import { StoreState } from "../../../../types/store";
 
 import { DetailsSection } from "../../../../core/components/DetailsSection";
 import {
@@ -57,8 +56,9 @@ export const AccountApplications = () => {
           isLoading={isLoading}
         >
           <ApplicationMemberDescriptionTable>
-            {applications?.map((member) => (
+            {applications?.map((member, index) => (
               <DescriptionAppRadioRow
+                key={index}
                 item={member}
                 type="application"
                 options={[

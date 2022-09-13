@@ -1,11 +1,10 @@
-import { BugOutlined, TeamOutlined } from "@ant-design/icons";
-import { Row, Typography } from "antd";
+import { TeamOutlined } from "@ant-design/icons";
+import { Typography } from "antd";
 import { FC } from "react";
-import { render } from "react-dom";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "src/core/components/Avatar";
-import { PaginatedTable } from "src/core/components/PaginatedTable";
-import { Application } from "src/types/application";
+import { Avatar } from "../../../../core/components/Avatar";
+import { PaginatedTable } from "../../../../core/components/PaginatedTable";
+import { Application } from "../../../../types/application";
 
 interface Props {
   applications: Application[];

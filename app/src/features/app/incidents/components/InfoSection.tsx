@@ -1,10 +1,10 @@
 import { Space } from "antd";
-import { RowDetail } from "src/core/components/RowDetail";
-import dateUtils from "src/core/utils/date";
-import { CollapsedDetails } from "src/core/components/CollapsedDetails";
-import { PagePanel } from "src/core/components/PagePanel";
+import { RowDetail } from "../../../../core/components/RowDetail";
+import dateUtils from "../../../../core/utils/date";
+import { CollapsedDetails } from "../../../../core/components/CollapsedDetails";
+import { PagePanel } from "../../../../core/components/PagePanel";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
+import { StoreState } from "../../../../types/store";
 
 export const InfoSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);

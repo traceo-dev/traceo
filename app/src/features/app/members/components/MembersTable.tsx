@@ -1,18 +1,17 @@
-import { CheckCircleFilled, EditOutlined, CloseOutlined } from "@ant-design/icons";
-import { Typography, Row, Space, Popconfirm } from "antd";
+import { CheckCircleFilled } from "@ant-design/icons";
+import { Typography, Row, Space, Button } from "antd";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
-import {
-  ApplicationMember,
-  MemberRole
-} from "src/types/application";
-import { removeMember } from "src/features/app/members/state/actions";
+import { ApplicationMember, MemberRole } from "../../../../types/application";
+import { removeMember } from "../../../../features/app/members/state/actions";
 import { Avatar } from "../../../../core/components/Avatar";
 import { EditMemberDrawer } from "../../../../core/components/Drawers/EditMemberDrawer";
 import { MemberStatusTag } from "../../../../core/components/MemberStatusTag";
 import { PaginatedTable } from "../../../../core/components/PaginatedTable";
-import { dispatch } from "src/store/store";
-import { StoreState } from "src/types/store";
+import { dispatch } from "../../../../store/store";
+import { StoreState } from "../../../../types/store";
+import { Permissions } from "core/components/Permissions";
+import { Confirm } from "core/components/Confirm";
 
 interface Props {
   members: ApplicationMember[];
@@ -36,8 +35,8 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
       )
     },
     {
-      title: "Status",
-      dataIndex: "status",
+      title: "Role",
+      dataIndex: "role",
       render: (status: MemberRole) => <MemberStatusTag status={status} />
     },
     {
@@ -62,55 +61,50 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
   const renderActions = (member: ApplicationMember) => {
     return (
       <>
-        <Space>
+        <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
           {renderEdit(member)}
           {renderTrash(member)}
-        </Space>
+        </Permissions>
       </>
     );
   };
-
-  // const isEdit = (member: ApplicationMember) =>
-  //   member?.status !== MEMBER_STATUS.OWNER &&
-  //   (account?.status === MEMBER_STATUS.OWNER ||
-  //     account?.status === MEMBER_STATUS.ADMINISTRATOR);
 
   const isEdit = (_member: ApplicationMember) => true;
 
   const renderEdit = (member: ApplicationMember) => {
     if (isEdit(member)) {
       return (
-        <EditOutlined
-          className="action-icon text-blue-400"
+        <Button
           onClick={() => {
             setEditMember(true);
             setCurrentAccount(member);
           }}
-        />
+          type="primary"
+          className="mr-2"
+        >
+          Edit
+        </Button>
       );
     }
   };
-
-  // TODO: fix this
-  // const isTrash = (member: ApplicationMember) =>
-  //   member?.status !== MEMBER_STATUS.OWNER &&
-  //   (account?.status === MEMBER_STATUS.OWNER ||
-  //     account?.status === MEMBER_STATUS.DEVELOPER) &&
-  //   member?.account.id !== account?.id;
 
   const isTrash = (_member: ApplicationMember) => true;
 
   const renderTrash = (member: ApplicationMember) => {
     if (isTrash(member)) {
       return (
-        <Popconfirm
-          title="Are you sure?"
-          okText="Yes"
-          cancelText="No"
-          onConfirm={() => handleRemoveMember(member?.id)}
+        <Confirm
+          onOk={() => handleRemoveMember(member?.id)}
+          description={
+            <Typography.Text>
+              Are you sure that you want to remove {member.account.name} from this app?
+            </Typography.Text>
+          }
         >
-          <CloseOutlined className="action-icon text-red-500" />
-        </Popconfirm>
+          <Button type="primary" danger>
+            Remove
+          </Button>
+        </Confirm>
       );
     }
   };

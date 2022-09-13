@@ -1,5 +1,16 @@
-import { ApiOperation, ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import {
+  ApiOperation,
+  ApiProperty,
+  ApiPropertyOptional
+} from "@nestjs/swagger";
+import {
+  IsBoolean,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString
+} from "class-validator";
 import { AccountRole, AccountStatus } from "src/db/entities/account.entity";
 
 export class CreateAccountDto {

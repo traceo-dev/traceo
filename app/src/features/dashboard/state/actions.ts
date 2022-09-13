@@ -1,10 +1,10 @@
-import api from "src/core/lib/api";
-import { ThunkResult } from "src/types/store";
+import api from "../../../core/lib/api";
+import { ThunkResult } from "../../../types/store";
 import {
   ApplicationMember,
   SearchApplicationQueryParams,
   UpdateAccountApplicationProps
-} from "src/types/application";
+} from "../../../types/application";
 import { applicationsLoaded } from "./reducers";
 
 export const loadApplications = (
@@ -20,13 +20,10 @@ export const loadApplications = (
       };
     }
 
-    const application = await api.get<ApplicationMember[]>(
-      "/api/amr/applications",
-      {
-        accountId: query.accountId || account.id,
-        ...query
-      }
-    );
+    const application = await api.get<ApplicationMember[]>("/api/amr/applications", {
+      accountId: query.accountId || account.id,
+      ...query
+    });
     dispatch(applicationsLoaded(application));
   };
 };

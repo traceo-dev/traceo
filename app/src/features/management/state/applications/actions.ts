@@ -1,7 +1,7 @@
-import api, { ApiQueryParams } from "src/core/lib/api";
-import { ThunkResult } from "src/types/store";
+import api, { ApiQueryParams } from "../../../../core/lib/api";
+import { ThunkResult } from "../../../../types/store";
 import { serverApplicationLoaded, serverApplicationsLoaded } from "./reducers";
-import { Application } from "src/types/application";
+import { Application } from "../../../../types/application";
 
 export const loadServerApplications = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {
@@ -17,8 +17,8 @@ export const loadServerApplication = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
     const application = await api.get<Application>("/api/application", { id });
     dispatch(serverApplicationLoaded(application));
-  }
-}
+  };
+};
 
 // export const updateServerAccount = (update: Partial<Account>): ThunkResult<void> => {
 //   return async (dispatch) => {

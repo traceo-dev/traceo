@@ -2,8 +2,6 @@ import { Input, Space, Typography, Form, Drawer } from "antd";
 import { useState } from "react";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { DrawerButtons } from "../DrawerButtons";
-import { dispatch } from "src/store/store";
-import { addMember } from "src/features/app/members/state/actions";
 
 export const AddMemberDrawer = ({ isOpen, onCancel }) => {
   const [loading, setLoading] = useState<boolean>(false);

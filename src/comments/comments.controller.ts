@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Query
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'src/auth/auth.model';
 import { Comment } from 'src/db/entities/comment.entity';
@@ -14,8 +24,8 @@ import { PatchCommentDto } from 'src/types/comments';
 export class CommentsController {
   constructor(
     private commentsService: CommentsService,
-    private commentsQueryService: CommentsQueryService
-  ) { }
+    private commentsQueryService: CommentsQueryService,
+  ) {}
 
   @Post('/send')
   @AuthRequired()
@@ -50,6 +60,9 @@ export class CommentsController {
     @Query("id") id: string,
     @Query() query: BaseDtoQuery,
   ): Promise<Comment[]> {
-    return await this.commentsQueryService.listDto({ incidentId: id, ...query });
+    return await this.commentsQueryService.listDto({
+      incidentId: id,
+      ...query
+    });
   }
 }

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { DashboardPage } from "src/core/components/Layout/Pages/DashboardPage";
-import { PagePanel } from "src/core/components/PagePanel";
-import { useAppStoreClean } from "src/core/hooks/useCleanup";
+import { DashboardPage } from "../../core/components/Layout/Pages/DashboardPage";
+import { PagePanel } from "../../core/components/PagePanel";
+import { useAppStoreClean } from "../../core/hooks/useCleanup";
 import { AppsTable } from "./components/AppsTable";
 
 export const Dashboard = () => {

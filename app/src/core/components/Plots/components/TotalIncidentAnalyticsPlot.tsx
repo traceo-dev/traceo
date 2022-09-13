@@ -1,7 +1,7 @@
 import { Space, Typography, Skeleton } from "antd";
-import { useApi } from "src/core/lib/useApi";
-import dateUtils from "src/core/utils/date";
-import { UPlotConfig } from "src/types/plot";
+import { useApi } from "../../../../core/lib/useApi";
+import dateUtils from "../../../../core/utils/date";
+import { UPlotConfig } from "../../../../types/plot";
 import { UPlot } from "../UPlot";
 import { DrawStyle, gradientFill, LineInterpolation, normalizePlotData } from "../utils";
 

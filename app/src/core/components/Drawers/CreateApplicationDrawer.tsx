@@ -1,9 +1,9 @@
 import { Input, Space, Form, Drawer } from "antd";
 import { FC, useState } from "react";
-import { CreateApplicationProps } from "src/types/application";
+import { CreateApplicationProps } from "../../../types/application";
 import { DrawerButtons } from "../DrawerButtons";
-import { dispatch } from "src/store/store";
-import { createApplication } from "src/features/app/state/actions";
+import { dispatch } from "../../../store/store";
+import { createApplication } from "../../../features/app/state/actions";
 
 interface Props {
   isOpen: boolean;

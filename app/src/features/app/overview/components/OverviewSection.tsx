@@ -1,12 +1,12 @@
 import { Space } from "antd";
-import PageHeader from "src/core/components/PageHeader";
+import PageHeader from "../../../../core/components/PageHeader";
 import { StatCards } from "./StatCards";
-import { useApi } from "src/core/lib/useApi";
+import { useApi } from "../../../../core/lib/useApi";
 import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
-import { PagePanel } from "src/core/components/PagePanel";
-import { AppOverviewPlot } from "src/core/components/Plots/components/AppOverviewPlot";
-import { ApplicationStats } from "src/types/statistics";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { AppOverviewPlot } from "../../../../core/components/Plots/components/AppOverviewPlot";
+import { ApplicationStats } from "../../../../types/statistics";
 
 export const OverviewSection = () => {
   const { id } = useParams();

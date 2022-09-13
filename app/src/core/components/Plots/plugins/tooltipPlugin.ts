@@ -1,7 +1,7 @@
 /* eslint-disable */
 
-import dateUtils from "src/core/utils/date";
-import { TooltipConfig } from "src/types/plot";
+import dateUtils from "../../../../core/utils/date";
+import { TooltipConfig } from "../../../../types/plot";
 
 export const tooltipsPlugin = (config: TooltipConfig) => {
   const init = (u: any, opts: uPlot.Options) => {

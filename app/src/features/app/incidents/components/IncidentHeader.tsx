@@ -1,8 +1,8 @@
 import { BugOutlined, SyncOutlined } from "@ant-design/icons";
 import { Space, Typography, Tooltip } from "antd";
-import { IncidentStatusTag } from "src/core/components/IncidentStatusTag";
-import PageHeader from "src/core/components/PageHeader";
-import { notify } from "src/core/utils/notify";
+import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
+import PageHeader from "../../../../core/components/PageHeader";
+import { notify } from "../../../../core/utils/notify";
 import { ButtonsSection } from "./ButtonsSection";
 
 export const IncidentHeader = ({ incident, onExecute }) => {

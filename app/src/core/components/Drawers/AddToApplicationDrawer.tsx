@@ -1,18 +1,15 @@
 import { Space, Form, Drawer, Select } from "antd";
 import { FC, useState } from "react";
 import { DrawerButtons } from "../DrawerButtons";
-import { AddAccountProps } from "src/types/accounts";
-import { useApi } from "src/core/lib/useApi";
+import { useApi } from "../../../core/lib/useApi";
 import {
   AddAccountToApplication,
   Application,
   MemberRole
-} from "src/types/application";
-import { addMember } from "src/features/app/members/state/actions";
-import { dispatch } from "src/store/store";
+} from "../../../types/application";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
-import api from "src/core/lib/api";
+import { StoreState } from "../../../types/store";
+import api from "../../../core/lib/api";
 
 interface Props {
   isOpen: boolean;

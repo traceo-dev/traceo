@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { getIncidentsTablePlotData } from "src/core/utils/statistics";
-import { ErrorDetails } from "src/types/incidents";
-import { UPlotConfig } from "src/types/plot";
+import { getIncidentsTablePlotData } from "../../../../core/utils/statistics";
+import { ErrorDetails } from "../../../../types/incidents";
+import { UPlotConfig } from "../../../../types/plot";
 import { UPlot } from "../UPlot";
 import { DrawStyle, LineInterpolation, normalizePlotData } from "../utils";
 

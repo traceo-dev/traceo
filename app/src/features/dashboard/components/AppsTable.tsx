@@ -1,22 +1,24 @@
 import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
 import { Button, Col, Menu, Row, Space } from "antd";
 import { useEffect, useState } from "react";
-import { ConditionLayout } from "src/core/components/ConditionLayout";
-import { EmptyAppList } from "src/core/components/EmptyViews/EmptyAppList";
-import { SearchInput } from "src/core/components/SearchInput";
-import { SortIcons } from "src/core/components/SortIcons";
-import { SortOrder } from "src/types/api";
-import { SearchApplicationQueryParams } from "src/types/application";
-import { AppsSortBy, handleAppSort } from "src/core/utils/handlers";
-import { dispatch } from "src/store/store";
+import { ConditionLayout } from "../../../core/components/ConditionLayout";
+import { EmptyAppList } from "../../../core/components/EmptyViews/EmptyAppList";
+import { SearchInput } from "../../../core/components/SearchInput";
+import { SortIcons } from "../../../core/components/SortIcons";
+import { SortOrder } from "../../../types/api";
+import { SearchApplicationQueryParams } from "../../../types/application";
+import { AppsSortBy, handleAppSort } from "../../../core/utils/handlers";
+import { dispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
+import { StoreState } from "../../../types/store";
 import { CreateApplicationDrawer } from "../../../core/components/Drawers/CreateApplicationDrawer";
-import { EditChartsDrawer } from "src/core/components/Drawers/EditChartsDrawer";
+import { EditChartsDrawer } from "../../../core/components/Drawers/EditChartsDrawer";
 import { AppCard } from "./AppCard";
-import { StatusDropdown } from "src/core/components/StatusDropdown";
+import { StatusDropdown } from "../../../core/components/StatusDropdown";
 import { loadApplications } from "../state/actions";
-import ServerPermissions from "src/core/components/ServerPermissions";
+import ServerPermissions from "../../../core/components/ServerPermissions";
+import { TraceoLoading } from "core/components/TraceoLoading";
+import { isEmptyObject } from "core/utils/object";
 
 export const AppsTable = () => {
   const { applications, hasFetched } = useSelector(

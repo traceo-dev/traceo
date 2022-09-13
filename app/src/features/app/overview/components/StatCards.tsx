@@ -1,6 +1,6 @@
 import { Divider, Row, Statistic, Typography } from "antd";
-import { TextLabel } from "src/core/components/TextLabel";
-import { ApplicationStats } from "src/types/statistics";
+import { TextLabel } from "../../../../core/components/TextLabel";
+import { ApplicationStats } from "../../../../types/statistics";
 import { FC } from "react";
 
 interface Props {

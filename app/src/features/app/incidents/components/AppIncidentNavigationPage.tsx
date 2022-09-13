@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { loadIncident } from "src/features/app/incidents/state/actions";
+import { loadIncident } from "../../../../features/app/incidents/state/actions";
 import { useSelector } from "react-redux";
-import { dispatch } from "src/store/store";
-import { StoreState } from "src/types/store";
-import { IncidentHeader } from "src/features/app/incidents/components/IncidentHeader";
-import AppPage from "src/core/components/Layout/Pages/AppPage";
-import { ConditionLayout } from "src/core/components/ConditionLayout";
-import { MenuRoute } from "src/types/navigation";
-import { Menu } from "src/core/components/Layout/Menu";
+import { dispatch } from "../../../../store/store";
+import { StoreState } from "../../../../types/store";
+import { IncidentHeader } from "../../../../features/app/incidents/components/IncidentHeader";
+import AppPage from "../../../../core/components/Layout/Pages/AppPage";
+import { ConditionLayout } from "../../../../core/components/ConditionLayout";
+import { MenuRoute } from "../../../../types/navigation";
+import { Menu } from "../../../../core/components/Layout/Menu";
 import { CommentOutlined, InfoCircleOutlined, StockOutlined } from "@ant-design/icons";
 
 export const AppIncidentNavigationPage = ({ children }) => {
