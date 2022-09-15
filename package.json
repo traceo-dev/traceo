@@ -1,5 +1,5 @@
 {
-  "name": "traceo-api",
+  "name": "traceo",
   "private": true,
   "scripts": {
     "prebuild": "rimraf dist",
