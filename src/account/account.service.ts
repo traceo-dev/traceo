@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Account, AccountStatus } from 'src/db/entities/account.entity';
-import { MailingService } from 'src/mailing/mailing.service';
 import {
   AccountEmailAlreadyExistsError,
   AccountUsernameEmailAlreadyExistsError,
@@ -14,10 +13,6 @@ import { AccountDto, CreateAccountDto } from './account.model';
 import { AccountQueryService } from './account-query/account-query.service';
 import { AmrService } from 'src/application-member/amr.service';
 import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
-import {
-  AccountMemberRelationship,
-  MemberRole
-} from 'src/db/entities/account-member-relationship.entity';
 import { HttpService } from "@nestjs/axios";
 import { RequestUser } from 'src/auth/auth.model';
 import dateUtils from 'src/helpers/dateUtils';
@@ -26,7 +21,6 @@ import { gravatar } from 'src/libs/gravatar';
 @Injectable()
 export class AccountService {
   constructor(
-    readonly mailingService: MailingService,
     readonly entityManager: EntityManager,
     readonly accountQueryService: AccountQueryService,
     readonly applicationQueryService: ApplicationQueryService,

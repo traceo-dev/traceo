@@ -14,11 +14,9 @@ import { StoreState } from "../../../types/store";
 import { CreateApplicationDrawer } from "../../../core/components/Drawers/CreateApplicationDrawer";
 import { EditChartsDrawer } from "../../../core/components/Drawers/EditChartsDrawer";
 import { AppCard } from "./AppCard";
-import { StatusDropdown } from "../../../core/components/StatusDropdown";
+import { SortDropdown } from "../../../core/components/StatusDropdown";
 import { loadApplications } from "../state/actions";
 import ServerPermissions from "../../../core/components/ServerPermissions";
-import { TraceoLoading } from "core/components/TraceoLoading";
-import { isEmptyObject } from "core/utils/object";
 
 export const AppsTable = () => {
   const { applications, hasFetched } = useSelector(
@@ -59,7 +57,7 @@ export const AppsTable = () => {
     </Menu>
   );
 
-  const renderSearchHeader = () => (
+  const SearchHeader = () => (
     <Space className="w-full justify-between">
       <Space>
         <SearchInput
@@ -68,7 +66,11 @@ export const AppsTable = () => {
           setValue={setSearchValue}
           get={() => fetchApplications()}
         />
-        <StatusDropdown overlay={sortByContent} value={handleAppSort[sortBy]} />
+        <SortDropdown
+          label="Sort by:"
+          overlay={sortByContent}
+          value={handleAppSort[sortBy]}
+        />
         <SortIcons order={order} setOrder={setOrder} />
         <SettingOutlined
           onClick={() => setOpenEditChartsModal(true)}
@@ -89,7 +91,7 @@ export const AppsTable = () => {
 
   return (
     <>
-      {renderSearchHeader()}
+      <SearchHeader />
       <ConditionLayout
         isLoading={!hasFetched}
         isEmpty={applications?.length === 0}

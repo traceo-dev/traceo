@@ -6,7 +6,6 @@ import { PassportModule } from '@nestjs/passport';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { AmrQueryService } from 'src/application-member/amr-query/amr-query.service';
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
-import { MailingService } from 'src/mailing/mailing.service';
 
 @Module({
   imports: [PassportModule.register({ defaultStrategy: "jwt" })],
@@ -15,7 +14,6 @@ import { MailingService } from 'src/mailing/mailing.service';
     AmrService,
     AmrQueryService,
     AccountQueryService,
-    MailingService,
     ApplicationQueryService
   ],
   controllers: [ApplicationController]

@@ -4,7 +4,6 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AccountService } from 'src/account/account.service';
-import { MailingService } from 'src/mailing/mailing.service';
 import { JwtStrategy } from './jwt.strategy';
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
 import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
@@ -23,7 +22,6 @@ import { HttpModule } from "@nestjs/axios";
   providers: [
     AuthService,
     AccountService,
-    MailingService,
     JwtStrategy,
     AccountQueryService,
     ApplicationQueryService,

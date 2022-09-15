@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AccountService } from './account.service';
 import { AccountController } from './account.controller';
-import { MailingService } from 'src/mailing/mailing.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { PassportModule } from '@nestjs/passport';
 import { AccountQueryService } from './account-query/account-query.service';
@@ -18,7 +17,6 @@ import { HttpModule } from "@nestjs/axios";
   ],
   providers: [
     AccountService,
-    MailingService,
     AccountQueryService,
     ApplicationQueryService,
     AmrService,

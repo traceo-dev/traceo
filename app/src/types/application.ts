@@ -41,13 +41,6 @@ export interface AddAccountToApplication {
   accountId: string;
 }
 
-export interface ApplicationMember {
-  id: string;
-  status: MemberRole;
-  account: Account;
-  lastUpdate: number;
-}
-
 export interface ApplicationMemberUpdateProps {
   memberId: string;
   role: MemberRole;
@@ -58,6 +51,7 @@ export interface ApplicationMember {
   role: MemberRole;
   favorite: boolean;
   application: Application;
+  account: Account;
 }
 
 export interface CreateApplicationProps {

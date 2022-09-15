@@ -1,4 +1,4 @@
-import { Button, Menu, Space, Typography } from "antd";
+import { Button, Dropdown, Menu, Space, Typography } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BatchUpdateDrawer } from "../../../core/components/Drawers/BatchUpdateDrawer";
@@ -10,6 +10,7 @@ import { useCleanup } from "../../../core/hooks/useCleanup";
 import { ApiQueryParams } from "../../../core/lib/api";
 import { dispatch } from "../../../store/store";
 import {
+  handleIncidentSort,
   handleIncidentStatus,
   IncidentSortBy,
   IncidentStatusSearch
@@ -21,11 +22,9 @@ import { SortOrder } from "../../../types/api";
 import PageHeader from "../../../core/components/PageHeader";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { BugOutlined } from "@ant-design/icons";
-import { IncidentsSortDropdown } from "./components/IncidentsSortDropdown";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { EmptyIncidentList } from "../../../core/components/EmptyViews/EmptyIncidentList";
-import { handleAppSort } from "../../../core/utils/handlers";
-import { StatusDropdown } from "../../../core/components/StatusDropdown";
+import { SortDropdown } from "../../../core/components/StatusDropdown";
 
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
@@ -74,6 +73,29 @@ export const AppIncidentsListPage = () => {
     </Menu>
   );
 
+  const IncidentsSortDropdown = () => {
+    const sortByContent = (
+      <Menu
+        style={{ width: 200 }}
+        onClick={(val) => setSortBy(val.key as IncidentSortBy)}
+      >
+        <Menu.Item key={IncidentSortBy.LAST_SEEN}>Last seen</Menu.Item>
+        <Menu.Item key={IncidentSortBy.FIRST_SEEN}>First seen</Menu.Item>
+        <Menu.Item key={IncidentSortBy.STATUS}>Status</Menu.Item>
+        <Menu.Item key={IncidentSortBy.OCCUR_COUNT}>Occur count</Menu.Item>
+      </Menu>
+    );
+
+    return (
+      <Dropdown overlay={sortByContent} placement="bottom">
+        <Button>
+          <span>Sort by:</span>
+          <span className="font-bold">&nbsp;{handleIncidentSort[sortBy]}</span>
+        </Button>
+      </Dropdown>
+    );
+  };
+
   return (
     <>
       <AppPage>
@@ -89,16 +111,15 @@ export const AppIncidentsListPage = () => {
               <SearchInput
                 placeholder="Search"
                 value={search}
-                // loading={!hasFetched}
                 setValue={setSearch}
                 get={() => fetchIncidents()}
               />
-              <StatusDropdown
+              <SortDropdown
                 overlay={dropdownSearchStatuses}
                 value={handleIncidentStatus[status]}
               />
 
-              <IncidentsSortDropdown setSortBy={setSortBy} sortBy={sortBy} />
+              <IncidentsSortDropdown />
               <SortIcons order={order} setOrder={setOrder} />
             </Space>
 

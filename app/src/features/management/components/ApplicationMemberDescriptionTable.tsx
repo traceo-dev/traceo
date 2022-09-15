@@ -146,19 +146,11 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
               Remove from app
             </Button>
           ) : (
-            <Space>
-              <Button
-                loading={loadingDelete}
-                danger
-                type="primary"
-                onClick={() => onRemoveFromApp()}
-              >
-                Confirm
-              </Button>
-              <Button type="primary" onClick={() => setDeleteMode(false)} ghost>
-                Cancel
-              </Button>
-            </Space>
+            <ActionButtons
+              loading={loadingDelete}
+              onCancel={() => setDeleteMode(false)}
+              onSave={() => onRemoveFromApp()}
+            />
           )}
         </td>
         <td className="action-role" colSpan={1}>
@@ -167,21 +159,32 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
               Change role
             </Button>
           ) : (
-            <Space>
-              <Button
-                loading={loadingUpdate}
-                type="primary"
-                onClick={() => onUpdateRole()}
-              >
-                Save
-              </Button>
-              <Button type="primary" onClick={() => setUpdateMode(false)} ghost>
-                Cancel
-              </Button>
-            </Space>
+            <ActionButtons
+              loading={loadingUpdate}
+              onCancel={() => setUpdateMode(false)}
+              onSave={() => onUpdateRole()}
+            />
           )}
         </td>
       </tr>
     </>
+  );
+};
+
+interface ActionButtonsProps {
+  loading: boolean;
+  onSave: () => void;
+  onCancel: () => void;
+}
+const ActionButtons: FC<ActionButtonsProps> = ({ loading, onSave, onCancel }) => {
+  return (
+    <Space>
+      <Button loading={loading} type="primary" onClick={() => onSave()}>
+        Save
+      </Button>
+      <Button type="primary" onClick={() => onCancel()} ghost>
+        Cancel
+      </Button>
+    </Space>
   );
 };

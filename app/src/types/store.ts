@@ -14,9 +14,6 @@ export type StoreState = ReturnType<ReturnType<typeof createRootReducer>>;
 export type ThunkResult<R> = ThunkAction<R, StoreState, undefined, PayloadAction<any>>;
 export type AppDispatch = ReturnType<typeof configureStore>["dispatch"];
 
-// export const useDispatch = () => useDispatchUntyped<AppDispatch>();
-// export const useSelector: TypedUseSelectorHook<StoreState> = useSelectorUntyped;
-
 type DefaultThunkApiConfig = { dispatch: AppDispatch; state: StoreState };
 
 export const createAsyncThunk = <

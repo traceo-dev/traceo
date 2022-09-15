@@ -27,21 +27,6 @@ export const InfoSection = () => {
 
           <Space className="w-2/3">
             <RowDetail label={"Number of errors"} value={incident?.occuredCount} />
-            {/* <RowDetail
-              label={"Release"}
-              value={
-                <Typography.Link
-                  onClick={() =>
-                    navigate(
-                      `/app/${application.id}/releases/${incident?.release?.id}/details`
-                    )
-                  }
-                >
-                  {incident?.release?.name}
-                </Typography.Link>
-              }
-              className="pl-24"
-            /> */}
           </Space>
         </CollapsedDetails>
       </PagePanel>

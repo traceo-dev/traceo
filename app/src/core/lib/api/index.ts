@@ -30,8 +30,7 @@ export function configureApi() {
         error.response?.data?.data ||
         error.response?.statusText;
 
-      //remove this notification on production
-      if (errorMsg) {
+      if (process.env.NODE_ENV !== "production") {
         notify.error("Internal server error", errorMsg);
       }
       return error.response?.data;

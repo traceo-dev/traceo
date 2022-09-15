@@ -89,10 +89,6 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       path: "/app/:id/:slug/settings/details",
       component: lazy(() => import("../features/app/settings/AppSettingsDetailsPage"))
     }
-    // {
-    //   path: "/app/:id/:slug/settings/credentials",
-    //   component: lazy(() => import("../features/app/settings/AppSettingsCredentialsPage"))
-    // }
   ];
 };
 

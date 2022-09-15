@@ -4,12 +4,13 @@ import { FC } from "react";
 interface Props {
   overlay: JSX.Element;
   value: string;
+  label?: string;
 }
-export const StatusDropdown: FC<Props> = ({ overlay, value }) => {
+export const SortDropdown: FC<Props> = ({ overlay, value, label = "Status:" }) => {
   return (
     <Dropdown overlay={overlay} placement="bottom">
       <Button>
-        Status:&nbsp;
+        {label}&nbsp;
         <span className="font-bold">{value}</span>
       </Button>
     </Dropdown>

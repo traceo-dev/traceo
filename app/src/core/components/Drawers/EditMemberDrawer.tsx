@@ -41,7 +41,7 @@ export const EditMemberDrawer: FC<Props> = ({ isOpen, onCancel, member }) => {
         >
           <Form onFinish={onFinish} form={form} layout="vertical" className="pt-5">
             <Form.Item name="role" label="Role" className="text-xs mb-0 font-semibold">
-              <Select className="w-full" value={member?.status}>
+              <Select className="w-full" value={member?.role}>
                 <Select.Option value={MemberRole.ADMINISTRATOR}>
                   Administrator
                 </Select.Option>

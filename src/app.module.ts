@@ -4,7 +4,6 @@ import { ApplicationModule } from './application/application.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { AccountModule } from './account/account.module';
-import { MailingModule } from './mailing/mailing.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm.config.service';
@@ -26,7 +25,6 @@ import { WebsocketsModule } from './websockets/websockets.module';
     ScheduleModule.forRoot(),
     AccountModule,
     ApplicationModule,
-    MailingModule,
     AmrModule,
     IncidentsModule,
     StatisticsModule,

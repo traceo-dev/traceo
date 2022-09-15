@@ -34,25 +34,14 @@ export const handleIncidentSort: Record<IncidentSortBy, string> = {
 };
 
 export interface Incident {
+  id: string;
+  appId: string;
   status: IncidentStatus;
   type: string;
   message: string;
   createdAt: number;
   stack: string;
   traces?: Trace[];
-  appId: string;
-  requestData?: KlepperRequest;
-  catchType?: CatchType;
-  options?: {
-    priority?: ExceptionPriority;
-    tag?: string;
-  };
-  persist?: boolean;
-  id: string;
-  release: {
-    id: string;
-    name: string;
-  };
   env: ENVIRONMENT;
   occuredCount?: number;
   lastOccur?: number;
@@ -70,10 +59,6 @@ export interface Incident {
   };
   comments: Comment[];
   commentsCount?: number;
-  resolved: {
-    id: string;
-    version: string;
-  };
   application?: Application;
 }
 
@@ -83,35 +68,6 @@ export interface ErrorDetails {
     id: string;
     name: string;
   };
-}
-
-export class KlepperRequest {
-  payload?: { [key: string]: any };
-  headers?: { [key: string]: any };
-  query?: string;
-  url?: string;
-  method?: RequestMethodType;
-  ip?: string | string[] | undefined;
-}
-
-export type RequestMethodType = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-
-export enum CatchType {
-  /**
-   * Exception handled by middleware, eq. Middleware.errorMiddleware()
-   */
-  MIDDLEWARE = "middleware",
-
-  /**
-   * Exception handled by function catchException() in interceptors or try/catch clause
-   */
-  INTERNAL = "internal"
-}
-
-export enum ExceptionPriority {
-  MINOR = "minor",
-  IMPORTANT = "important",
-  CRITICAL = "critical"
 }
 
 export interface Trace {

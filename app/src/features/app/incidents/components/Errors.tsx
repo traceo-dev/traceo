@@ -24,19 +24,6 @@ export const Errors = () => {
       render: (record: ErrorDetails) =>
         dateUtils.formatDate(record?.date, "DD MMM YYYY HH:mm")
     }
-    // {
-    //   title: "Release",
-    //   render: (record: ErrorDetails) => (
-    //     <Typography.Link
-    //       className="font-semibold"
-    //       onClick={() =>
-    //         navigate(`/app/${application?.id}/releases/${incident?.release?.id}/details`)
-    //       }
-    //     >
-    //       {record?.version?.name}
-    //     </Typography.Link>
-    //   )
-    // }
   ];
 
   const data = () => {

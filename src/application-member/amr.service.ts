@@ -9,7 +9,6 @@ import { AmrQueryService } from './amr-query/amr-query.service';
 import { AccountAlreadyInApplicationError } from 'src/helpers/errors';
 import { ApplicationQueryService } from 'src/application/application-query/application-query.service';
 import { AccountQueryService } from 'src/account/account-query/account-query.service';
-import { MailingService } from 'src/mailing/mailing.service';
 import { AddAccountToApplicationModel, UpdateAmrModel } from './amr.model';
 import dateUtils from 'src/helpers/dateUtils';
 import { Application } from 'src/db/entities/application.entity';
