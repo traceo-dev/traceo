@@ -3,6 +3,7 @@ import { Account, AccountStatus } from 'lib/db/entities/account.entity';
 import {
   AccountEmailAlreadyExistsError,
   AccountUsernameEmailAlreadyExistsError,
+  AdminAccountEditError,
   ForbiddenError,
   InternalServerError
 } from 'lib/helpers/errors';
@@ -75,6 +76,9 @@ export class AccountService {
   ): Promise<void> {
     const { id, ...rest } = accountDto;
     try {
+      if (rest.email === "admin@localhost") {
+        throw new AdminAccountEditError();
+      }
       // first we update user based on id from DTO, if this id is null then we use current accountId from request,
       // maybe we should not do this in this way...
       await this.entityManager

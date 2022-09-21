@@ -6,35 +6,24 @@ import { AddMemberDrawer } from "../../../core/components/Drawers/AddMemberDrawe
 import AppPage from "../../../core/components/Layout/Pages/AppPage";
 import { SearchInput } from "../../../core/components/SearchInput";
 import { MembersTable } from "../../../features/app/members/components/MembersTable";
-import api, { ApiQueryParams } from "../../../core/lib/api";
-import { notify } from "../../../core/utils/notify";
-import { handleStatus } from "../../../core/utils/response";
+import { ApiQueryParams } from "../../../core/lib/api";
 import { dispatch } from "../../../store/store";
-import { ApiResponse } from "../../../types/api";
 import { StoreState } from "../../../types/store";
 import { MemberRole } from "../../../types/application";
 import { loadMembers } from "../../../features/app/members/state/actions";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import PageHeader from "../../../core/components/PageHeader";
 import { PagePanel } from "../../../core/components/PagePanel";
-import { Confirm } from "../../../core/components/Confirm";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { EmptyMembersList } from "../../../core/components/EmptyViews/EmptyMembersList";
 import { Permissions } from "../../../core/components/Permissions";
 
 export const AppMembersListPage = () => {
   const { id } = useParams();
-  const { account } = useSelector((state: StoreState) => state.account);
   const { members, hasFetched } = useSelector((state: StoreState) => state.members);
-  const { application } = useSelector((state: StoreState) => state.application);
 
   const [search, setSearch] = useState<string>(null);
   const [isOpenAddMemberDrawer, setOpenAddMemberDrawer] = useState<boolean>(false);
-
-  const navigate = useNavigate();
-
-  // const isLeaveButton = !account?.status || account?.status === MEMBER_STATUS.OWNER;
-  // const isLeaveButton = false;
 
   const queryParams: ApiQueryParams = {
     id,
@@ -117,7 +106,10 @@ export const AppMembersListPage = () => {
       </AppPage>
       <AddMemberDrawer
         isOpen={isOpenAddMemberDrawer}
-        onCancel={() => setOpenAddMemberDrawer(false)}
+        onCancel={() => {
+          setOpenAddMemberDrawer(false);
+          fetchMembers();
+        }}
       />
     </>
   );

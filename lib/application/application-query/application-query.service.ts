@@ -1,11 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { BaseDtoQuery } from 'lib/core/generic.model';
+import { BaseDtoQuery, Environment } from 'lib/core/generic.model';
 import { GenericQueryService } from 'lib/core/generic-query.service';
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
 import { Application } from 'lib/db/entities/application.entity';
-import { RequestUser } from 'lib/auth/auth.model';
-import { AccountMemberRelationship } from 'lib/db/entities/account-member-relationship.entity';
-import { ApplicationResponse } from 'lib/types/application';
+import { Runtime } from 'lib/db/entities/runtime.entity';
 
 @Injectable()
 export class ApplicationQueryService extends GenericQueryService<
@@ -49,5 +47,10 @@ export class ApplicationQueryService extends GenericQueryService<
 
   public selectedColumns(): string[] {
     return ["id", "name", "gravatar", "lastIncidentAt", "defaultEnv"];
+  }
+
+  public async getApplicationRuntime(appId: number, env: Environment) {
+    const config = await this.entityManager.getRepository(Runtime).findOneBy({ application: { id: appId }, env });
+    return config?.data || {};
   }
 }

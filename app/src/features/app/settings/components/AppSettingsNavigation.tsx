@@ -13,12 +13,6 @@ export const AppSettingsNavigationPage = ({ children }) => {
       key: "details",
       icon: <InfoCircleOutlined />
     }
-    // {
-    //   href: "/app/:id/:slug/settings/credentials",
-    //   label: "Credentials",
-    //   key: "credentials",
-    //   icon: <LockOutlined />
-    // }
   ];
 
   return (

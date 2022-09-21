@@ -5,7 +5,7 @@ import { join } from 'path';
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
-    if (process.env.NODE_ENV === "Local") {
+    if (process.env.NODE_ENV === "test") {
       return {
         type: "postgres",
         host: "localhost",
@@ -20,7 +20,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         synchronize: false,
         logging: false
       };
-    } else if (process.env.NODE_ENV === "Development") {
+    } else if (process.env.NODE_ENV === "development") {
       return {
         type: "postgres",
         host: process.env.AWS_S3_POSTGRES_HOST,
@@ -40,7 +40,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         //     rejectUnauthorized: false,
         // },
       };
-    } else if (process.env.NODE_ENV === "Production") {
+    } else if (process.env.NODE_ENV === "production") {
       return {};
     }
   }

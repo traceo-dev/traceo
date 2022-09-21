@@ -58,7 +58,7 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
         <Typography className="text-primary">{currentAccount?.username}</Typography>
         {currentAccount?.id === account?.id && (
           <Tooltip title="It's you!">
-            <CheckCircleFilled className="p-1 text-amber-500" />
+            <CheckCircleFilled className="p-1 text-amber-600" />
           </Tooltip>
         )}
         {currentAccount.isAdmin && (

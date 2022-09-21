@@ -10,6 +10,7 @@ import { AppSwitcher } from "./components/AppSwitcher";
 import { EnvironmentSwitcher } from "./components/EnvironmentSwitcher";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
+import { isEmptyObject } from "core/utils/object";
 
 const { Header: AntHeader } = Layout;
 
@@ -23,7 +24,7 @@ export const Header: FC<Props> = ({ routes }) => {
     dispatch(loadAccount());
   }, []);
 
-  const isPasswordUpdated = account && !account?.isPasswordUpdated;
+  const isPasswordUpdated = !isEmptyObject(account) && !account?.isPasswordUpdated;
 
   return (
     <>

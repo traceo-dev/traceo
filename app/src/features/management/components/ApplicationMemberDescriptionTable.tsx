@@ -41,12 +41,14 @@ interface DescriptionAppRadioRowProps {
   options: { label: string; value: string | number | boolean }[];
   postExecute?: () => void;
   type: "member" | "application";
+  editable?: boolean;
 }
 export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
   options = [],
   item,
   postExecute,
-  type
+  type,
+  editable = true
 }) => {
   const navigate = useNavigate();
   const [updateMode, setUpdateMode] = useState<boolean>(false);
@@ -142,7 +144,12 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
         </td>
         <td className="action-remove" colSpan={1}>
           {!deleteMode ? (
-            <Button danger type="primary" onClick={() => setDeleteMode(true)}>
+            <Button
+              hidden={!editable}
+              danger
+              type="primary"
+              onClick={() => setDeleteMode(true)}
+            >
               Remove from app
             </Button>
           ) : (
@@ -155,7 +162,7 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
         </td>
         <td className="action-role" colSpan={1}>
           {!updateMode ? (
-            <Button type="primary" onClick={() => setUpdateMode(true)}>
+            <Button hidden={!editable} type="primary" onClick={() => setUpdateMode(true)}>
               Change role
             </Button>
           ) : (

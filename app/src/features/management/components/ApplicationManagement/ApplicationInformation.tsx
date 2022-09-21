@@ -12,7 +12,6 @@ import PageHeader from "../../../../core/components/PageHeader";
 import api from "../../../../core/lib/api";
 import { notify } from "../../../../core/utils/notify";
 import { handleStatus } from "../../../../core/utils/response";
-import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
 import { StoreState } from "../../../../types/store";
@@ -58,14 +57,14 @@ export const ApplicationInformation = () => {
   const OperationButtons = () => {
     return (
       <Space className="w-full justify-end">
-        <Button
+        {/* <Button
           onClick={() =>
             navigate(`/app/${application.id}/${slugifyForUrl(application.name)}/overview`)
           }
           type="primary"
         >
           Visit
-        </Button>
+        </Button> */}
         <Confirm
           withAuth={true}
           description="Are you sure that you want to remove this app?"

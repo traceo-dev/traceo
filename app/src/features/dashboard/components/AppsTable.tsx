@@ -1,5 +1,5 @@
 import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
-import { Button, Col, Menu, Row, Space } from "antd";
+import { Button, Col, Input, Menu, Row, Space } from "antd";
 import { useEffect, useState } from "react";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { EmptyAppList } from "../../../core/components/EmptyViews/EmptyAppList";
@@ -61,10 +61,10 @@ export const AppsTable = () => {
     <Space className="w-full justify-between">
       <Space>
         <SearchInput
-          placeholder="Search"
+          placeholder="Search by name"
           value={searchValue}
           setValue={setSearchValue}
-          get={() => fetchApplications()}
+          get={fetchApplications}
         />
         <SortDropdown
           label="Sort by:"

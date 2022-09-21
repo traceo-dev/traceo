@@ -13,8 +13,10 @@ import { membersLoaded } from "./reducers";
 export const loadMembers = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch, getStore) => {
     const application = getStore().application.application;
-    if (!query?.id || !application) {
-      return;
+    if (!query?.id) {
+      query = {
+        id: application.id
+      };
     }
 
     const members = await api.get<ApplicationMember[]>("/api/amr/members", query);

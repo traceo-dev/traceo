@@ -11,6 +11,7 @@ import { AccountMemberRelationship } from "./account-member-relationship.entity"
 import { Incident } from "./incident.entity";
 import { GenericEntity } from "lib/core/generic.entity";
 import { Environment } from "lib/core/generic.model";
+import { Runtime } from "./runtime.entity";
 
 @Entity()
 export class Application extends GenericEntity {
@@ -34,12 +35,6 @@ export class Application extends GenericEntity {
 
   @Column({ nullable: true, length: 256, type: 'varchar' })
   aboutDescription?: string;
-
-  // @Column({ nullable: true, type: 'varchar' })
-  // technology?: string;
-
-  // @Column({ nullable: true, type: 'varchar' })
-  // framework?: string;
 
   @Column({ nullable: true })
   gravatar?: string;
@@ -67,4 +62,11 @@ export class Application extends GenericEntity {
   })
   incidents?: Incident[];
   incidentsCount?: number;
+
+  
+  @OneToMany(() => Runtime, (runtime) => runtime.application, {
+    onUpdate: "CASCADE",
+    onDelete: "CASCADE",
+  })
+  runtimeData?: Runtime[];
 }

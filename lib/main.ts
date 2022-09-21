@@ -14,6 +14,7 @@ async function bootstrap() {
   Traceo.init({
     dsn: process.env.TRACEO_DSN,
     environment: "test",
+    appId: 35
   });
 
   const app = await NestFactory.create(AppModule);

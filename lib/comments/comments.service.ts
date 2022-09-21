@@ -19,7 +19,7 @@ export class CommentsService {
       .createQueryBuilder('comment')
       .where('comment.incident = :incidentId', { incidentId })
       .leftJoin('comment.sender', 'sender')
-      .addSelect(["sender.name", "sender.email", "sender.id", "sender.logo"])
+      .addSelect(["sender.name", "sender.email", "sender.id", "sender.gravatar"])
       .getMany();
   }
 

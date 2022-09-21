@@ -14,6 +14,8 @@ import { DetailsSection } from "../../../../core/components/DetailsSection";
 export const AccountPermissions = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
 
+  const isAdmin = account.email === "admin@localhost";
+
   const onUpdateServerRole = (value: boolean) => {
     dispatch(updateServerAccount({ id: account.id, isAdmin: value }));
   };
@@ -35,6 +37,7 @@ export const AccountPermissions = () => {
             { label: "No", value: false }
           ]}
           defaultValue={account.isAdmin}
+          editable={!isAdmin}
         >
           {account.isAdmin ? (
             <Typography.Text>

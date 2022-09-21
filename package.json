@@ -39,6 +39,7 @@
     "class-validator": "^0.13.2",
     "crypto": "^1.0.1",
     "dayjs": "^1.11.0",
+    "dotenv": "^16.0.2",
     "eslint-plugin-unused-imports": "^2.0.0",
     "gravatar": "^1.8.2",
     "husky": "^7.0.4",
@@ -54,7 +55,7 @@
     "rxjs": "^7",
     "sharp": "^0.30.3",
     "swagger-ui-express": "^4.3.0",
-    "traceo": "file:traceo-sdk-0.0.86.tgz",
+    "traceo": "file:traceo-sdk-0.0.91-beta.tgz",
     "typeorm": "^0.3.5"
   },
   "devDependencies": {

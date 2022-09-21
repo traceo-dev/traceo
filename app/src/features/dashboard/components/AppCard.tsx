@@ -1,4 +1,5 @@
-import { Card, Space, Typography } from "antd";
+import { SafetyCertificateFilled } from "@ant-design/icons";
+import { Card, Space, Tooltip, Typography } from "antd";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "../../../core/components/Avatar";
@@ -7,7 +8,7 @@ import dateUtils from "../../../core/utils/date";
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { loadApplication } from "../../../features/app/state/actions";
 import { dispatch } from "../../../store/store";
-import { ApplicationMember } from "../../../types/application";
+import { ApplicationMember, MemberRole } from "../../../types/application";
 
 interface Props {
   app: ApplicationMember;
@@ -39,7 +40,16 @@ export const AppCard: FC<Props> = ({ app }) => {
             url={app.application?.gravatar}
           />
           <Space className="w-full gap-0" direction="vertical">
-            <Typography.Text className="text-sm">{app.application.name}</Typography.Text>
+            <div>
+              <Typography.Text className="text-sm">
+                {app.application.name}
+              </Typography.Text>
+              {app.role === MemberRole.ADMINISTRATOR && (
+                <Tooltip title="You're admin!">
+                  <SafetyCertificateFilled className="ml-2 text-amber-600" />
+                </Tooltip>
+              )}
+            </div>
             <div className="text-2xs w-full font-normal">{lastIncident}</div>
           </Space>
         </Space>

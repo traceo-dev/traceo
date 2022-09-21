@@ -18,6 +18,8 @@ export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
   const [isOpenAddAppDrawer, setOpenAddAppDrawer] = useState<boolean>(false);
 
+  const isAdmin = account.email === "admin@localhost";
+
   const {
     data: applications = [],
     execute: postExecute,
@@ -39,11 +41,14 @@ export const AccountApplications = () => {
           className="pb-5"
         />
 
-        <Space className="w-full justify-end">
-          <Button onClick={() => setOpenAddAppDrawer(true)} type="primary">
-            Add user to application
-          </Button>
-        </Space>
+        {!isAdmin && (
+          <Space className="w-full justify-end">
+            <Button onClick={() => setOpenAddAppDrawer(true)} type="primary">
+              Add user to application
+            </Button>
+          </Space>
+        )}
+
         <ConditionLayout
           emptyView={
             <Space className="w-full justify-center">
@@ -67,6 +72,7 @@ export const AccountApplications = () => {
                   { label: "Viewer", value: MemberRole.VIEWER }
                 ]}
                 postExecute={postExecute}
+                editable={!isAdmin}
               />
             ))}
           </ApplicationMemberDescriptionTable>

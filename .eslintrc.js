@@ -16,14 +16,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: [
-    '.eslintrc.js',
-    'tailwind.config.js',
-    'app/dist/**',
-    'webpack.dev.js',
-    'webpack.common.js',
-    'webpack.prod.js',
-  ],
+  ignorePatterns: ['.eslintrc.js', 'tailwind.config.js', 'app/dist/**'],
   rules: {
     indent: [0],
     eqeqeq: ['error', 'always'],

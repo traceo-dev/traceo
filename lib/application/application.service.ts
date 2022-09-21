@@ -11,6 +11,7 @@ import { CreateApplicationBody, ApplicationBody } from './application.model';
 import dateUtils from 'lib/helpers/dateUtils';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { gravatar } from 'lib/libs/gravatar';
+import { AccountQueryService } from 'lib/account/account-query/account-query.service';
 
 @Injectable()
 export class ApplicationService {
@@ -18,6 +19,7 @@ export class ApplicationService {
     private readonly entityManager: EntityManager,
     private readonly awrService: AmrService,
     private readonly applicationQueryService: ApplicationQueryService,
+    private readonly accountQueryService: AccountQueryService
   ) {}
 
   public async createApplication(
@@ -50,7 +52,16 @@ export class ApplicationService {
           .save(applicationPayload);
         await this.attachDsn(application, user, manager);
 
-        await this.awrService.createAwr(
+        // await this.attachAdminAccountMember(application);
+        const admin = await this.accountQueryService.getDtoBy({ email: "admin@localhost" });
+        await this.awrService.createAmr(
+          admin,
+          application,
+          MemberRole.ADMINISTRATOR,
+          manager,
+        ); 
+
+        await this.awrService.createAmr(
           account,
           application,
           MemberRole.ADMINISTRATOR,
@@ -63,6 +74,17 @@ export class ApplicationService {
       Logger.error(`[${this.createApplication.name}] Caused by: ${error}`);
       throw new Error(error);
     }
+  }
+
+  private async attachAdminAccountMember(application: Application, manager: EntityManager = this.entityManager) {
+    const admin = await this.accountQueryService.getDtoBy({ email: "admin@localhost" });
+    console.log({ admin })
+    await this.awrService.createAmr(
+      admin,
+      application,
+      MemberRole.ADMINISTRATOR,
+      manager,
+    ); 
   }
 
   private async attachDsn(

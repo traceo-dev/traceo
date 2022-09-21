@@ -5,13 +5,13 @@ import {
   HttpAdapterHost,
   HttpStatus
 } from "@nestjs/common";
-import { KlepperError } from './helpers/errors';
+import { TraceoError } from './helpers/errors';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
 
-  catch(exception: KlepperError, host: ArgumentsHost): void {
+  catch(exception: TraceoError, host: ArgumentsHost): void {
     const { httpAdapter } = this.httpAdapterHost;
 
     const ctx = host.switchToHttp();

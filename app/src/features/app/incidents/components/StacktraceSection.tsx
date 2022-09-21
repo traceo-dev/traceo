@@ -74,10 +74,10 @@ const CodeTraces: FC<CodeTracesProps> = ({ incident, isInternal }) => {
       {selectedTrace?.code?.length > 0 && <CodePreview trace={selectedTrace} />}
 
       <Space className="w-full p-5 bg-gray-800 rounded-md" direction="vertical">
-        <ColumnDetail label={"Filename"} value={selectedTrace?.filename} />
-        <ColumnDetail label={"Function"} value={selectedTrace?.function} />
-        <ColumnDetail label={"Line No."} value={selectedTrace?.lineNo} />
-        <ColumnDetail label={"Column No."} value={selectedTrace?.columnNo} />
+        <ColumnDetail label="Filename" value={selectedTrace?.filename} />
+        <ColumnDetail label="Function" value={selectedTrace?.function} />
+        <ColumnDetail label="Line No." value={selectedTrace?.lineNo} />
+        <ColumnDetail label="Column No." value={selectedTrace?.columnNo} />
         <Space direction="vertical" className="w-full py-1">
           <Typography className="text-primary info-label">{"Absolute path"}</Typography>
 
@@ -104,7 +104,7 @@ const CodeTraces: FC<CodeTracesProps> = ({ incident, isInternal }) => {
                 className={joinClasses(
                   "m-0 p-0 default-card",
                   conditionClass(trace === selectedTrace, "border-2 border-cyan-600", ""),
-                  conditionClass(trace?.code?.length === 0, "pointer-events-none")
+                  conditionClass(!trace.code, "pointer-events-none")
                 )}
               >
                 <Typography.Text className="text-xs">{trace.absPath}</Typography.Text>

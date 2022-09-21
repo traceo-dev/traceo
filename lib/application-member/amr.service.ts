@@ -27,7 +27,7 @@ export class AmrService {
     private readonly applicationQueryService: ApplicationQueryService,
   ) {}
 
-  public async createAwr(
+  public async createAmr(
     account: Account,
     application: Application,
     role: MemberRole = MemberRole.VIEWER,
@@ -61,7 +61,7 @@ export class AmrService {
         applicationId,
       );
 
-      await this.createAwr(account, application, role);
+      await this.createAmr(account, application, role);
     });
   }
 

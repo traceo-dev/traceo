@@ -109,12 +109,6 @@ export class AmrQueryService {
           .where("LOWER(application.name) LIKE LOWER(:name)", {
             name: `%${search}%`
           })
-          .orWhere("LOWER(application.technology) LIKE LOWER(:name)", {
-            name: `%${search}%`
-          })
-          .orWhere("LOWER(application.framework) LIKE LOWER(:name)", {
-            name: `%${search}%`
-          })
           .orWhere("LOWER(owner.name) LIKE LOWER(:name)", {
             name: `%${search}%`
           });

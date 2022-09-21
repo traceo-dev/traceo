@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'lib/auth/auth.model';
-import { BaseDtoQuery } from 'lib/core/generic.model';
+import { BaseDtoQuery, Environment } from 'lib/core/generic.model';
 import { Application } from 'lib/db/entities/application.entity';
 import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';
@@ -36,6 +36,14 @@ export class ApplicationController {
   @AuthRequired()
   async getApplications(@Query() query: BaseDtoQuery): Promise<Application[]> {
     return await this.applicationQueryService.listDto(query);
+  }
+
+  @Get('/runtime')
+  @AuthRequired()
+  async getApplicationRuntimeConfiguration(
+    @Query() query: { id: number, env: Environment },
+  ) {
+    return await this.applicationQueryService.getApplicationRuntime(query.id, query.env);
   }
 
   @Post()

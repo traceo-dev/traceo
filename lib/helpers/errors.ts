@@ -1,4 +1,4 @@
-export class KlepperError extends Error {
+export class TraceoError extends Error {
   public status: number;
 
   getStatus() {
@@ -7,7 +7,7 @@ export class KlepperError extends Error {
 }
 
 // "Something was wrong with the request you made."
-export class BadRequestError extends KlepperError {
+export class BadRequestError extends TraceoError {
   constructor(message?) {
     super(message || "Something was wrong...");
     this.name = "BadRequestError";
@@ -16,7 +16,7 @@ export class BadRequestError extends KlepperError {
 }
 
 // "I know who you are, but you did not have my permission to do this."
-export class ForbiddenError extends KlepperError {
+export class ForbiddenError extends TraceoError {
   constructor(message?) {
     super(message || "Access denied.");
     this.name = "ForbiddenError";
@@ -25,7 +25,7 @@ export class ForbiddenError extends KlepperError {
 }
 
 // "You asked for something that I could not find."
-export class NotFoundError extends KlepperError {
+export class NotFoundError extends TraceoError {
   constructor(message?) {
     super(message || "Not found.");
     this.name = "NotFoundError";
@@ -34,7 +34,7 @@ export class NotFoundError extends KlepperError {
 }
 
 // "I do not know who you are."
-export class UnauthorizedError extends KlepperError {
+export class UnauthorizedError extends TraceoError {
   constructor(message?) {
     super(message || "Unatuthorized.");
     this.name = "UnauthorizedError";
@@ -42,7 +42,7 @@ export class UnauthorizedError extends KlepperError {
   }
 }
 
-export class BadPasswordOrNotExists extends KlepperError {
+export class BadPasswordOrNotExists extends TraceoError {
   constructor(message?) {
     super(message || "Bad password or account does not exists.");
     this.name = "BadPasswordOrNotExists";
@@ -50,7 +50,7 @@ export class BadPasswordOrNotExists extends KlepperError {
   }
 }
 
-export class AccountNotExistsError extends KlepperError {
+export class AccountNotExistsError extends TraceoError {
   constructor(message?) {
     super(message || "Account not exists.");
     this.name = "AccountNotExistsError";
@@ -58,7 +58,7 @@ export class AccountNotExistsError extends KlepperError {
   }
 }
 
-export class AccountEmailAlreadyExistsError extends KlepperError {
+export class AccountEmailAlreadyExistsError extends TraceoError {
   constructor(message?) {
     super(message || "Account with this email already exists.");
     this.name = "AccountEmailAlreadyExistsError";
@@ -66,7 +66,7 @@ export class AccountEmailAlreadyExistsError extends KlepperError {
   }
 }
 
-export class AccountUsernameEmailAlreadyExistsError extends KlepperError {
+export class AccountUsernameEmailAlreadyExistsError extends TraceoError {
   constructor(message?) {
     super(message || "Account with this username already exists.");
     this.name = "AccountUsernameEmailAlreadyExistsError";
@@ -74,7 +74,7 @@ export class AccountUsernameEmailAlreadyExistsError extends KlepperError {
   }
 }
 
-export class ApplicationWithNameAlreadyExistsError extends KlepperError {
+export class ApplicationWithNameAlreadyExistsError extends TraceoError {
   constructor(message?) {
     super(message || "Application with this name already exists.");
     this.name = "ApplicationWithNameAlreadyExistsError";
@@ -82,7 +82,7 @@ export class ApplicationWithNameAlreadyExistsError extends KlepperError {
   }
 }
 
-export class AccountAlreadyInApplicationError extends KlepperError {
+export class AccountAlreadyInApplicationError extends TraceoError {
   constructor(message?) {
     super(message || "This account is already added to this application.");
     this.name = "AccountAlreadyInApplicationError";
@@ -90,7 +90,7 @@ export class AccountAlreadyInApplicationError extends KlepperError {
   }
 }
 
-export class ApplicationNotExistsError extends KlepperError {
+export class ApplicationNotExistsError extends TraceoError {
   constructor(message?) {
     super(message || "App not exists.");
     this.name = "ApplicationNotExistsError";
@@ -98,7 +98,7 @@ export class ApplicationNotExistsError extends KlepperError {
   }
 }
 
-export class AccountSuspendedError extends KlepperError {
+export class AccountSuspendedError extends TraceoError {
   constructor(message?) {
     super(message || "Account suspended. Please contact with administrator.");
     this.name = "AccountSuspended";
@@ -106,7 +106,15 @@ export class AccountSuspendedError extends KlepperError {
   }
 }
 
-export class InternalServerError extends KlepperError {
+export class AdminAccountEditError extends TraceoError {
+  constructor(message?) {
+    super(message || "The administrator account cannot be edited.");
+    this.name = "AdminAccountEditError";
+    this.status = 458;
+  }
+}
+
+export class InternalServerError extends TraceoError {
   constructor(message?) {
     super(message || "Internal server error.");
     this.name = "InternalServerError";

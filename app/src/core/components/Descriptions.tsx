@@ -1,4 +1,5 @@
-import { Typography, Input, Button, Space, Select, Radio } from "antd";
+import { Typography, Input, Button, Space, Radio } from "antd";
+import { joinClasses } from "core/utils/classes";
 import { FC, useState } from "react";
 
 export const Descriptions = ({ children }) => {
@@ -46,16 +47,44 @@ const UpdateButtons: FC<UpdateButtonsProps> = ({
   );
 };
 
+interface DescriptionRowProps {
+  label: string;
+  className?: string;
+}
+export const DescriptionRow: FC<DescriptionRowProps> = ({
+  label,
+  className,
+  children
+}) => {
+  return (
+    <>
+      <tr>
+        <td className="details-table-label">
+          <Typography.Text className={joinClasses("text-sm font-normal", className)}>
+            {label}
+          </Typography.Text>
+        </td>
+        <td className="w-32" />
+        <td className="details-table-value" colSpan={2}>
+          <Typography.Text className="text-sm font-normal">{children}</Typography.Text>
+        </td>
+      </tr>
+    </>
+  );
+};
+
 interface DescriptionInputRowProps {
   label: string;
   children: string | number;
   onUpdate?: (value: string) => void;
+  editable?: boolean;
 }
 
 export const DescriptionInputRow: FC<DescriptionInputRowProps> = ({
   label,
   children,
-  onUpdate
+  onUpdate,
+  editable = true
 }) => {
   const [updateMode, setUpdateMode] = useState<boolean>(false);
   const [value, setValue] = useState<string>();
@@ -78,11 +107,13 @@ export const DescriptionInputRow: FC<DescriptionInputRowProps> = ({
             <Typography.Text className="text-sm font-normal">{children}</Typography.Text>
           )}
         </td>
-        <UpdateButtons
-          onFinish={onFinish}
-          setUpdateMode={setUpdateMode}
-          updateMode={updateMode}
-        />
+        {editable && (
+          <UpdateButtons
+            onFinish={onFinish}
+            setUpdateMode={setUpdateMode}
+            updateMode={updateMode}
+          />
+        )}
       </tr>
     </>
   );
@@ -94,13 +125,15 @@ interface DescriptionRadioRowProps {
   onUpdate?: (value: string | number | boolean | any) => void;
   options: { label: string; value: string | number | boolean }[];
   defaultValue: string | number | boolean | any;
+  editable?: boolean;
 }
 export const DescriptionRadioRow: FC<DescriptionRadioRowProps> = ({
   label,
   children,
   onUpdate,
   options = [],
-  defaultValue
+  defaultValue,
+  editable = true
 }) => {
   const [updateMode, setUpdateMode] = useState<boolean>(false);
   const [value, setValue] = useState<string>();
@@ -129,11 +162,13 @@ export const DescriptionRadioRow: FC<DescriptionRadioRowProps> = ({
             <Typography.Text className="text-sm font-normal">{children}</Typography.Text>
           )}
         </td>
-        <UpdateButtons
-          onFinish={onFinish}
-          setUpdateMode={setUpdateMode}
-          updateMode={updateMode}
-        />
+        {editable && (
+          <UpdateButtons
+            onFinish={onFinish}
+            setUpdateMode={setUpdateMode}
+            updateMode={updateMode}
+          />
+        )}
       </tr>
     </>
   );

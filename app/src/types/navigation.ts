@@ -31,4 +31,5 @@ export interface MenuRoute {
   private?: boolean;
   disabled?: boolean;
   icon?: JSX.Element;
+  adminRoute?: boolean;
 }

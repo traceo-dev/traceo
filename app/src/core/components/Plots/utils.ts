@@ -64,21 +64,21 @@ export const paths = (u, seriesIdx, idx0, idx1) => {
       ? interp === LineInterpolation.LINEAR
         ? _linear
         : interp === LineInterpolation.STEP_AFTER
-        ? _stepAfter
-        : interp === LineInterpolation.STEP_BEFORE
-        ? _stepBefore
-        : interp === LineInterpolation.SPLINE
-        ? _spline
-        : null
+          ? _stepAfter
+          : interp === LineInterpolation.STEP_BEFORE
+            ? _stepBefore
+            : interp === LineInterpolation.SPLINE
+              ? _spline
+              : null
       : style === DrawStyle.BARS
-      ? _bars60_100
-      : style === DrawStyle.BARS_LEFT
-      ? _bars100Left
-      : style === DrawStyle.BARS_RIGHT
-      ? _bars100Right
-      : style === DrawStyle.POINTS
-      ? () => null
-      : () => null;
+        ? _bars60_100
+        : style === DrawStyle.BARS_LEFT
+          ? _bars100Left
+          : style === DrawStyle.BARS_RIGHT
+            ? _bars100Right
+            : style === DrawStyle.POINTS
+              ? () => null
+              : () => null;
 
   return renderer(u, seriesIdx, idx0, idx1);
 };

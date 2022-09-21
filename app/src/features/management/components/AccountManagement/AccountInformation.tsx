@@ -1,4 +1,4 @@
-import { Space, Button, Typography } from "antd";
+import { Space, Button, Typography, Alert } from "antd";
 import { useSelector } from "react-redux";
 import { Confirm } from "../../../../core/components/Confirm";
 import {
@@ -27,6 +27,8 @@ export const AccountInformation = () => {
     dispatch(updateServerAccount({ id: account.id, email: newValue }));
   const onUpdateUsername = (newValue: string) =>
     dispatch(updateServerAccount({ id: account.id, username: newValue }));
+
+  const isAdmin = account.email === "admin@localhost";
 
   const onChangeAccountStatus = () => {
     const status =
@@ -57,7 +59,6 @@ export const AccountInformation = () => {
       account.status
     );
     const isEnableUserBtn = AccountStatus.DISABLED === account.status;
-
     return (
       <Space className="w-full justify-end">
         {isDisableUserBtn && (
@@ -91,21 +92,32 @@ export const AccountInformation = () => {
           </Confirm>
         )}
 
-        <Confirm
-          withAuth={true}
-          description={"Are you sure that you want to delete this account?"}
-          onOk={() => onDeleteAccount()}
-        >
-          <Button type="primary" danger>
-            Delete account
-          </Button>
-        </Confirm>
+        {!isAdmin && (
+          <Confirm
+            withAuth={true}
+            description={"Are you sure that you want to delete this account?"}
+            onOk={() => onDeleteAccount()}
+          >
+            <Button type="primary" danger>
+              Delete account
+            </Button>
+          </Confirm>
+        )}
       </Space>
     );
   };
 
   return (
     <>
+      {isAdmin && (
+        <Alert
+          showIcon={true}
+          type="warning"
+          message="The administrator account is only in read-only mode."
+          className="mb-5"
+        />
+      )}
+
       <DetailsSection>
         <PageHeader
           fontSize={22}
@@ -116,13 +128,17 @@ export const AccountInformation = () => {
         />
 
         <Descriptions>
-          <DescriptionInputRow label="Name" onUpdate={onUpdateName}>
+          <DescriptionInputRow label="Name" onUpdate={onUpdateName} editable={!isAdmin}>
             {account.name}
           </DescriptionInputRow>
-          <DescriptionInputRow label="Username" onUpdate={onUpdateUsername}>
+          <DescriptionInputRow
+            label="Username"
+            onUpdate={onUpdateUsername}
+            editable={!isAdmin}
+          >
             {account.username}
           </DescriptionInputRow>
-          <DescriptionInputRow label="Email" onUpdate={onUpdateEmail}>
+          <DescriptionInputRow label="Email" onUpdate={onUpdateEmail} editable={!isAdmin}>
             {account.email}
           </DescriptionInputRow>
         </Descriptions>
