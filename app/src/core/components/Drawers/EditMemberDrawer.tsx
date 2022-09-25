@@ -1,10 +1,8 @@
-import { InfoCircleOutlined } from "@ant-design/icons";
-import { Drawer, Form, Select, Space, Typography } from "antd";
-import { FC, useEffect, useState } from "react";
+import { Drawer, Form, Select, Space } from "antd";
+import { FC, useEffect } from "react";
 import { MemberRole, ApplicationMember } from "../../../types/application";
 import { updateMember } from "../../../features/app/members/state/actions";
 import { dispatch } from "../../../store/store";
-import form from "antd/lib/form";
 import { DrawerButtons } from "../DrawerButtons";
 
 interface Props {

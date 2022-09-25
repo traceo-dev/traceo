@@ -1,7 +1,6 @@
-import { Card, Col, Layout, Row, Space, Typography } from "antd";
+import { Card, Col, Space, Typography } from "antd";
 import { FC } from "react";
 import { TraceoLogo } from "../Icons/TraceoLogo";
-import Footer from "./Footer";
 
 interface Props {
   children: JSX.Element;
