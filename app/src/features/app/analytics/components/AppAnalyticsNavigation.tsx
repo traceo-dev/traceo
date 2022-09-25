@@ -1,4 +1,8 @@
-import { DeploymentUnitOutlined, BarChartOutlined } from "@ant-design/icons";
+import {
+  DeploymentUnitOutlined,
+  BarChartOutlined,
+  AlignLeftOutlined
+} from "@ant-design/icons";
 import { Menu } from "core/components/Layout/Menu";
 import AppPage from "core/components/Layout/Pages/AppPage";
 import PageHeader from "core/components/PageHeader";
@@ -7,6 +11,12 @@ import { MenuRoute } from "types/navigation";
 
 export const AppAnalyticsNavigationPage = ({ children }) => {
   const menu: MenuRoute[] = [
+    {
+      href: "/app/:id/:slug/analytics/logs",
+      label: "Logs",
+      key: "logs",
+      icon: <AlignLeftOutlined />
+    },
     {
       href: "/app/:id/:slug/analytics/runtime",
       label: "Runtime configuration",

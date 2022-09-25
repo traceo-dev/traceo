@@ -53,6 +53,10 @@
   color: var(--color-text-disabled) !important;
 }
 
+.text-md {
+  font-size: 14px;
+}
+
 .color-primary {
   color: var(--color-primary) !important;
 }

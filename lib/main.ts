@@ -5,7 +5,7 @@ import * as bodyParser from 'body-parser';
 import { AppModule } from './app.module';
 import morgan from "morgan";
 import { AllExceptionsFilter } from './all-exception.filter';
-import { Traceo } from "traceo";
+import { logger, Traceo } from "traceo";
 import { TraceoInterceptor } from './libs/traceo.interceptor';
 
 const cors = require("cors");
@@ -34,6 +34,14 @@ async function bootstrap() {
   app.use(cors({ credentials: true, origin: true }));
   app.use(bodyParser.json({ limit: '10mb' }));
   app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+
+  // const stream = {
+  //   write: (message) => logger.log(message),
+  // };
+
+  // app.use(morgan("[:date[iso]] :status :method :url :response-time ms", {
+  //   stream
+  // }));
   app.use(morgan("[:date[iso]] :status :method :url :response-time ms"));
 
   app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));

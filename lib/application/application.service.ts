@@ -12,6 +12,10 @@ import dateUtils from 'lib/helpers/dateUtils';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { gravatar } from 'lib/libs/gravatar';
 import { AccountQueryService } from 'lib/account/account-query/account-query.service';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { logger } from 'traceo';
+import dayjs from 'dayjs';
+import { Log } from 'lib/db/entities/log.entity';
 
 @Injectable()
 export class ApplicationService {
@@ -20,7 +24,7 @@ export class ApplicationService {
     private readonly awrService: AmrService,
     private readonly applicationQueryService: ApplicationQueryService,
     private readonly accountQueryService: AccountQueryService
-  ) {}
+  ) { }
 
   public async createApplication(
     data: CreateApplicationBody,
@@ -31,7 +35,7 @@ export class ApplicationService {
     const privateKey = crypto.randomUUID();
     try {
       return await this.entityManager.transaction(async (manager) => {
-        await this.validate(data.name, manager);
+        await this.validate(data.name);
 
         const account = await manager.getRepository(Account).findOneBy({ id });
         if (!account) {
@@ -59,7 +63,7 @@ export class ApplicationService {
           application,
           MemberRole.ADMINISTRATOR,
           manager,
-        ); 
+        );
 
         await this.awrService.createAmr(
           account,
@@ -84,7 +88,7 @@ export class ApplicationService {
       application,
       MemberRole.ADMINISTRATOR,
       manager,
-    ); 
+    );
   }
 
   private async attachDsn(
@@ -128,8 +132,7 @@ export class ApplicationService {
   }
 
   private async validate(
-    name: string,
-    manager: EntityManager = this.entityManager,
+    name: string
   ): Promise<void> {
     const application = await this.applicationQueryService.getDtoBy({ name });
     if (application) {
@@ -149,5 +152,22 @@ export class ApplicationService {
       .where('application.id = :appId', { appId })
       .delete()
       .execute();
+  }
+
+  @Cron(CronExpression.EVERY_6_HOURS)
+  private async handleLogDelete() {
+    try {
+      const maxRetentionDate = dayjs().subtract(3, 'd').unix();
+      const logs = await this.entityManager.getRepository(Log)
+        .createQueryBuilder('log')
+        .where('log.receiveTimestamp > :maxRetentionDate', { maxRetentionDate })
+        .getMany();
+
+      await this.entityManager.getRepository(Log).remove(logs);
+
+      Logger.log(`[handleLogDelete] Delete logs: ${logs.length}`);
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }

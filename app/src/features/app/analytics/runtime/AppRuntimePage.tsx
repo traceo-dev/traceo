@@ -1,4 +1,4 @@
-import { Alert, Card, Row, Space, Timeline, Typography } from "antd";
+import { Card, Row, Space, Timeline, Typography } from "antd";
 import { ConditionLayout } from "core/components/ConditionLayout";
 import { DescriptionRow, Descriptions } from "core/components/Descriptions";
 import { TraceoLoading } from "core/components/TraceoLoading";
@@ -31,11 +31,10 @@ const AppRuntimePage = () => {
 
   return (
     <AppAnalyticsNavigationPage>
-      <Alert
-        showIcon={true}
-        type="warning"
-        message="Basic and constant information about the application runtime obtained during application startup."
-      />
+      <Typography.Text className="text-md">
+        Basic and constant information about the application runtime obtained during
+        application startup.
+      </Typography.Text>
       <ConditionLayout
         isLoading={!hasFetched}
         isEmpty={isEmptyObject(runtime)}

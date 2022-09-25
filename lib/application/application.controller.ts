@@ -14,8 +14,9 @@ import { BaseDtoQuery, Environment } from 'lib/core/generic.model';
 import { Application } from 'lib/db/entities/application.entity';
 import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';
+import { TraceoLog } from 'lib/types/logs';
 import { ApplicationQueryService } from './application-query/application-query.service';
-import { CreateApplicationBody, ApplicationBody } from './application.model';
+import { CreateApplicationBody, ApplicationBody, ApplicationLogsQuery } from './application.model';
 import { ApplicationService } from './application.service';
 
 @ApiTags('application')
@@ -24,7 +25,7 @@ export class ApplicationController {
   constructor(
     readonly applicationService: ApplicationService,
     readonly applicationQueryService: ApplicationQueryService,
-  ) {}
+  ) { }
 
   @Get()
   @AuthRequired()
@@ -44,6 +45,14 @@ export class ApplicationController {
     @Query() query: { id: number, env: Environment },
   ) {
     return await this.applicationQueryService.getApplicationRuntime(query.id, query.env);
+  }
+
+  @Get('/logs')
+  @AuthRequired()
+  async getApplicationLogs(
+    @Query() query: { id: number, env: Environment, startDate: number, endDate: number },
+  ): Promise<TraceoLog[]> {
+    return await this.applicationQueryService.getApplicationLogs({ ...query });
   }
 
   @Post()

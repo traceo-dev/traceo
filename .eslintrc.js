@@ -16,7 +16,7 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', 'tailwind.config.js', 'app/dist/**'],
+  ignorePatterns: ['.eslintrc.js', 'tailwind.config.js', 'app/dist/**', '*.ts'],
   rules: {
     indent: [0],
     eqeqeq: ['error', 'always'],
@@ -34,7 +34,7 @@ module.exports = {
         ignoreRegExpLiterals: true,
       },
     ],
-    'prettier/prettier': ['error', { endOfLine: 'lf' }],
+    // 'prettier/prettier': ['error', { endOfLine: 'auto' }],
     'require-jsdoc': 0,
     'comma-dangle': ['error', 'never'],
     'no-empty': 0,

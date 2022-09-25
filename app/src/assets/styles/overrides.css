@@ -363,3 +363,7 @@
 .ant-table-placeholder {
   display: none;
 }
+
+.ant-picker-range, .ant-picker-panel-container {
+  background-color: var(--color-bg-canvas);
+}

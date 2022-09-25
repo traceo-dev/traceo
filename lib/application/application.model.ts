@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { Type } from "class-transformer/types/decorators";
 import {
   IsNotEmpty,
   IsNumber,
@@ -46,4 +47,11 @@ export class ApplicationBody {
   @IsOptional()
   @ApiProperty({ description: "app default env" })
   public defaultEnv?: Environment;
+}
+
+export interface ApplicationLogsQuery {
+  readonly id: number;
+  readonly env: Environment;
+  readonly startDate: number;
+  readonly endDate: number;
 }
