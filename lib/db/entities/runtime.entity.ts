@@ -22,7 +22,8 @@ export class Runtime extends GenericEntity {
     env: Environment;
 
     @Column({
-        type: "json",
+        type: "simple-json",
+        nullable: true
     })
     data: object;
 

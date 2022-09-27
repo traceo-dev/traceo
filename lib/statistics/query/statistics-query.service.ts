@@ -12,49 +12,55 @@ import { RequestUser } from "lib/auth/auth.model";
 import { Application } from "lib/db/entities/application.entity";
 import { Environment } from "lib/core/generic.model";
 import { ErrorDetails } from "lib/types/incident";
+import { logger } from "traceo";
 
 @Injectable()
 export class StatisticsQueryService {
-  constructor(private entityManger: EntityManager) {}
+  constructor(private entityManger: EntityManager) { }
 
   async getApplicationStatistics(
     id: string,
     env: Environment,
   ): Promise<AppStats> {
-    const incidents = await this.entityManger
-      .getRepository(Incident)
-      .createQueryBuilder("incident")
-      .where("incident.applicationId = :id", { id })
-      .andWhere("incident.env = :env", { env })
-      .orderBy("incident.createdAt", "DESC")
-      .select(["incident.occurDates", "incident.occuredCount"])
-      .getMany();
+    try {
+      const incidents = await this.entityManger
+        .getRepository(Incident)
+        .createQueryBuilder("incident")
+        .where("incident.applicationId = :id", { id })
+        .andWhere("incident.env = :env", { env })
+        .orderBy("incident.createdAt", "DESC")
+        .select(["incident.occurDates", "incident.occuredCount"])
+        .getMany();
 
-    const incidentsCount = incidents?.length || 0;
-    const incidentsOccurCount = incidents?.reduce(
-      (acc, incident) => (acc += incident?.occuredCount),
-      0,
-    );
+      const incidentsCount = incidents?.length || 0;
+      const incidentsOccurCount = incidents?.reduce(
+        (acc, incident) => (acc += incident?.occuredCount),
+        0,
+      );
 
-    const occurDates: ErrorDetails[] = incidents.reduce(
-      (acc, curr) => acc.concat(curr.occurDates),
-      [],
-    );
+      const occurDates: ErrorDetails[] = incidents.reduce(
+        (acc, curr) => acc.concat(curr.occurDates),
+        [],
+      );
 
-    const minDateBefore = dayjs().subtract(7, "day").unix();
-    const lastWeekIncidentsCount =
-      occurDates?.filter((o) => dayjs(o.date).isAfter(minDateBefore))?.length ||
-      0;
+      const minDateBefore = dayjs().subtract(7, "day").unix();
+      const lastWeekIncidentsCount =
+        occurDates?.filter((o) => dayjs(o.date).isAfter(minDateBefore))?.length ||
+        0;
 
-    const total = {
-      incidentsCount,
-      incidentsOccurCount,
-      lastWeek: lastWeekIncidentsCount
-    };
+      const total = {
+        incidentsCount,
+        incidentsOccurCount,
+        lastWeek: lastWeekIncidentsCount
+      };
 
-    return {
-      total
-    };
+      return {
+        total
+      };
+    } catch (error) {
+      logger.error(error);
+      throw new Error(error);
+    }
   }
 
   public async getDailyOverview(

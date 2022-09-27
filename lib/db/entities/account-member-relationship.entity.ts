@@ -20,7 +20,7 @@ export class AccountMemberRelationship extends GenericEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @Column("enum", {
+  @Column("simple-enum", {
     enum: MemberRole,
     nullable: false,
   })
@@ -28,7 +28,7 @@ export class AccountMemberRelationship extends GenericEntity {
 
   @Column({
     default: false,
-    type: "bool",
+    type: "boolean",
   })
   favorite: boolean;
 

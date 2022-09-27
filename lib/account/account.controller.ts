@@ -33,7 +33,7 @@ export class AccountController {
   }
 
   @Get('/all')
-  @AuthRequired()
+  // @AuthRequired()
   async getAccounts(@Query() query: BaseDtoQuery): Promise<Account[]> {
     return await this.accountQueryService.listDto(query);
   }

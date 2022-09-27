@@ -80,18 +80,20 @@ export class Incident extends GenericEntity {
   commentsCount: number;
 
   @Column({
-    type: "json",
-    nullable: false
+    type: "simple-json",
+    nullable: true
   })
   platform: Platform;
 
   @Column({
-    type: "json",
+    type: "simple-json",
+    nullable: true
   })
   occurDates: Array<ErrorDetails>;
 
   @Column({
-    type: "json",
+    type: "simple-json",
+    nullable: true
   })
   traces: Array<Trace>;
 }

@@ -1,47 +1,55 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { join } from 'path';
+import { AccountMemberRelationship } from './entities/account-member-relationship.entity';
+import { Account } from './entities/account.entity';
+import { Application } from './entities/application.entity';
+import { Comment } from './entities/comment.entity';
+import { Incident } from './entities/incident.entity';
+import { Log } from './entities/log.entity';
+import { Runtime } from './entities/runtime.entity';
+import { InsertAdminUserOnStartup } from './migrations/InsertAdminUserOnStartup';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
-    if (process.env.NODE_ENV === "test") {
+
+    if (!process.env.PG_HOST) {
       return {
-        type: "postgres",
-        host: "localhost",
-        port: 5432,
-        username: "postgres",
-        database: "traceo_local",
-        password: "postgres",
-        entities: [join(__dirname, "entities/*.entity.{js,ts}")],
-        migrations: [join(__dirname, "migrations/*.{js,ts}")],
-        migrationsTransactionMode: "each",
-        migrationsRun: true,
-        synchronize: false,
-        logging: false
-      };
-    } else if (process.env.NODE_ENV === "development") {
-      return {
-        type: "postgres",
-        host: process.env.AWS_S3_POSTGRES_HOST,
-        port: +process.env.AWS_S3_POSTGRES_PORT,
-        username: process.env.AWS_S3_POSTGRES_USER,
-        database: process.env.AWS_S3_POSTGRES_DB_NAME,
-        password: process.env.AWS_S3_POSTGRES_PASS,
-        entities: [join(__dirname, "entities/*.entity.{js,ts}")],
-        migrations: [join(__dirname, "migrations/*.{js,ts}")],
-        migrationsTransactionMode: "each",
-        migrationsRun: true,
+        type: "sqlite",
+        database: "traceo_sqlite_db",
         synchronize: true,
-        logging: false
-        // keepConnectionAlive: true,
-        // ssl: {
-        //     require: true,
-        //     rejectUnauthorized: false,
-        // },
-      };
-    } else if (process.env.NODE_ENV === "production") {
-      return {};
+        entities: [
+          Account,
+          AccountMemberRelationship,
+          Application,
+          Comment,
+          Incident,
+          Log,
+          Runtime
+        ],
+        migrations: [InsertAdminUserOnStartup],
+        migrationsTransactionMode: "each",
+        migrationsRun: true,
+        logging: false,
+        autoLoadEntities: true
+      }
     }
+
+    return {
+      type: "postgres",
+      host: process.env.PG_HOST,
+      port: +process.env.PG_PORT,
+      username: process.env.PG_USER,
+      database: process.env.PG_DB_NAME,
+      password: process.env.PG_PASS,
+      entities: [join(__dirname, "entities/*.entity.{js,ts}")],
+      migrations: [InsertAdminUserOnStartup],
+      migrationsTransactionMode: "each",
+      migrationsRun: true,
+      // synchronize: true,
+      logging: false,
+      autoLoadEntities: true
+    };
   }
 }

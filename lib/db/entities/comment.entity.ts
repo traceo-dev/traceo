@@ -32,7 +32,7 @@ export class Comment extends GenericEntity {
   lastUpdateAt?: number;
 
   @Column({
-    type: "bool",
+    type: "boolean",
     nullable: true
   })
   removed: boolean;

@@ -13,7 +13,6 @@ import { ApplicationQueryService } from './application-query/application-query.s
 import { gravatar } from 'lib/libs/gravatar';
 import { AccountQueryService } from 'lib/account/account-query/account-query.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { logger } from 'traceo';
 import dayjs from 'dayjs';
 import { Log } from 'lib/db/entities/log.entity';
 
@@ -30,7 +29,7 @@ export class ApplicationService {
     data: CreateApplicationBody,
     user: RequestUser,
   ): Promise<Application> {
-    const { id } = user;
+    const { id, email } = user;
 
     const privateKey = crypto.randomUUID();
     try {
@@ -54,16 +53,17 @@ export class ApplicationService {
         const application = await manager
           .getRepository(Application)
           .save(applicationPayload);
-        await this.attachDsn(application, user, manager);
 
-        // await this.attachAdminAccountMember(application);
-        const admin = await this.accountQueryService.getDtoBy({ email: "admin@localhost" });
-        await this.awrService.createAmr(
-          admin,
-          application,
-          MemberRole.ADMINISTRATOR,
-          manager,
-        );
+        // Add admin account ot every new application
+        if (email !== "admin@localhost") {
+          const admin = await this.accountQueryService.getDtoBy({ email: "admin@localhost" });
+          await this.awrService.createAmr(
+            admin,
+            application,
+            MemberRole.ADMINISTRATOR,
+            manager,
+          );
+        }
 
         await this.awrService.createAmr(
           account,
@@ -78,31 +78,6 @@ export class ApplicationService {
       Logger.error(`[${this.createApplication.name}] Caused by: ${error}`);
       throw new Error(error);
     }
-  }
-
-  private async attachAdminAccountMember(application: Application, manager: EntityManager = this.entityManager) {
-    const admin = await this.accountQueryService.getDtoBy({ email: "admin@localhost" });
-    console.log({ admin })
-    await this.awrService.createAmr(
-      admin,
-      application,
-      MemberRole.ADMINISTRATOR,
-      manager,
-    );
-  }
-
-  private async attachDsn(
-    application: Application,
-    user: RequestUser,
-    manager: EntityManager = this.entityManager,
-  ): Promise<void> {
-    const { id, privateKey } = application;
-    const workerUrl = process.env.TRACEO_WORKER_HOST;
-
-    //TODO: support for https
-    const dsn = `http://${privateKey}:${workerUrl}/${id}`;
-
-    await this.updateApplication({ id, dsn }, user, manager);
   }
 
   public async updateApplication(

@@ -7,10 +7,13 @@ import morgan from "morgan";
 import { AllExceptionsFilter } from './all-exception.filter';
 import { logger, Traceo } from "traceo";
 import { TraceoInterceptor } from './libs/traceo.interceptor';
+import connectionSource from 'ormconfig';
 
 const cors = require("cors");
 
 async function bootstrap() {
+  // await connectionSource.initialize();
+
   Traceo.init({
     dsn: process.env.TRACEO_DSN,
     environment: "test",
@@ -35,14 +38,14 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '10mb' }));
   app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
-  // const stream = {
-  //   write: (message) => logger.log(message),
-  // };
+  const stream = {
+    write: (message) => logger.log(message),
+  };
 
-  // app.use(morgan("[:date[iso]] :status :method :url :response-time ms", {
-  //   stream
-  // }));
-  app.use(morgan("[:date[iso]] :status :method :url :response-time ms"));
+  app.use(morgan("[:date[iso]] :status :method :url :response-time ms", {
+    stream
+  }));
+  // app.use(morgan("[:date[iso]] :status :method :url :response-time ms"));
 
   app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
   app.useGlobalInterceptors(new TraceoInterceptor());

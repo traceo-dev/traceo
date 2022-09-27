@@ -55,15 +55,22 @@ export const LogRow: FC<LogProps> = ({ log }) => {
         <td className="log-expand">{expandIcon}</td>
         <td className="log-level">{handleLogLevel[log.level]}</td>
         <td className="log-timestamp">{log.timestamp}</td>
-        <td className="log-message">{log.message}</td>
+        <td className="log-message">{<span className="msg">{log.message}</span>}</td>
       </tr>
       {isSelected && (
-        <Space className="log-details bg-secondary" direction="vertical">
-          <pre>{JSON.stringify(log, null, 2)}</pre>
+        <Space className="log-details" direction="vertical">
+          <pre className="whitespace-pre-wrap">{JSON.stringify(log, null, 2)}</pre>
         </Space>
       )}
 
       <style>{`
+          .msg {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: inline-block;
+            width: 1000px; //TODO: this shouldn't be hardcoded
+          }
           .log-details {
               padding: 9px;
               font-size: 12px;

@@ -39,7 +39,7 @@ export class Log extends GenericEntity {
     receiveTimestamp: number;
 
     @Column({
-        type: "json",
+        type: "simple-json",
         nullable: true
     })
     resources: object;
