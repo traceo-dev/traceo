@@ -31,10 +31,7 @@ export const AppIncidentConversationPage = () => {
     socket.emit("join_room", incident?.id);
   }, []);
 
-  socket.off("new_comment").on("new_comment", (comment: Comment) => {
-    comments.splice(0, 0, comment);
-    rerender(!render);
-  });
+  socket.off("new_comment").on("new_comment", () => dispatch(loadIncidentComments()));
 
   socket.off("update_comment").on("update_comment", () => {
     fetchComments();

@@ -11,7 +11,7 @@ export class CommentsService {
   constructor(
     private commentsGateway: CommentsGateway,
     private entityManager: EntityManager,
-  ) {}
+  ) { }
 
   public async getComments(incidentId: string): Promise<Comment[]> {
     return await this.entityManager
@@ -43,9 +43,10 @@ export class CommentsService {
             id: incidentId
           }
         });
+
+        this.commentsGateway.onNewComment(incidentId);
       });
 
-      this.commentsGateway.onNewComment(incidentId, comment);
     } catch (error) {
       throw error;
     }
