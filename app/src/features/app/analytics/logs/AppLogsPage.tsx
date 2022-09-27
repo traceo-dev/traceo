@@ -57,8 +57,8 @@ const AppLogsPage = () => {
       <>
         <Typography.Text className="font-semibold text-lg">Logs list</Typography.Text>
         <Space className="w-full">
-          {logsDetails.map(({ label, value }) => (
-            <Typography.Text className="text-xs">
+          {logsDetails.map(({ label, value }, index) => (
+            <Typography.Text key={index} className="text-xs">
               {label} <Tag>{value}</Tag>
             </Typography.Text>
           ))}
@@ -78,8 +78,8 @@ const AppLogsPage = () => {
         isLoading={!hasFetched}
       >
         <LogContainer>
-          {logs?.map((log) => (
-            <LogRow log={log} />
+          {logs?.map((log, index) => (
+            <LogRow key={index} log={log} />
           ))}
         </LogContainer>
       </ConditionLayout>

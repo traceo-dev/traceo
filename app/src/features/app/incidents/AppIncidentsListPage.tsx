@@ -65,8 +65,8 @@ export const AppIncidentsListPage = () => {
       style={{ width: 200 }}
       onClick={(val) => setStatus(val.key as IncidentStatusSearch)}
     >
-      {Object.values(IncidentStatusSearch).map((status) => (
-        <Menu.Item key={status} className="capitalize">
+      {Object.values(IncidentStatusSearch).map((status, index) => (
+        <Menu.Item key={index} className="capitalize">
           {status}
         </Menu.Item>
       ))}

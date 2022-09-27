@@ -1,6 +1,6 @@
 import { AlertOutlined } from "@ant-design/icons";
 import { Card, Space, Typography } from "antd";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { CommentInput } from "../../../core/components/Comments/CommentInput";
 import { CommentsBox } from "../../../core/components/Comments/CommentsBox";
@@ -8,16 +8,12 @@ import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { SocketContext } from "../../../core/hooks/SocketContextProvider";
 import { dispatch } from "../../../store/store";
 import { StoreState } from "../../../types/store";
-import { Comment } from "../../../types/comments";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
 import { loadIncidentComments } from "./state/actions";
 
 export const AppIncidentConversationPage = () => {
   const { socket } = useContext(SocketContext);
-  const [render, rerender] = useState<boolean>(false);
-  const { incident, comments, hasFetched } = useSelector(
-    (state: StoreState) => state.incident
-  );
+  const { incident, hasFetched } = useSelector((state: StoreState) => state.incident);
 
   useEffect(() => {
     fetchComments();
@@ -31,11 +27,8 @@ export const AppIncidentConversationPage = () => {
     socket.emit("join_room", incident?.id);
   }, []);
 
-  socket.off("new_comment").on("new_comment", () => dispatch(loadIncidentComments()));
-
-  socket.off("update_comment").on("update_comment", () => {
-    fetchComments();
-  });
+  socket.off("new_comment").on("new_comment", () => fetchComments());
+  socket.off("update_comment").on("update_comment", () => fetchComments());
 
   return (
     <>

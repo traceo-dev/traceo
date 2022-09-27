@@ -12,7 +12,7 @@ export const CollapsedDetails: FC<Props> = ({ label, children, className }) => {
     <Collapse
       defaultActiveKey={["1"]}
       ghost
-      expandIconPosition="right"
+      expandIconPosition="end"
       className={joinClasses(
         "collapsed-details-header collapsed-details-body",
         className
