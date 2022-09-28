@@ -5,15 +5,12 @@ import * as bodyParser from 'body-parser';
 import { AppModule } from './app.module';
 import morgan from "morgan";
 import { AllExceptionsFilter } from './all-exception.filter';
-import { logger, Traceo } from "traceo";
+import { Traceo } from "traceo";
 import { TraceoInterceptor } from './libs/traceo.interceptor';
-import connectionSource from 'ormconfig';
 
 const cors = require("cors");
 
 async function bootstrap() {
-  // await connectionSource.initialize();
-
   Traceo.init({
     dsn: process.env.TRACEO_DSN,
     environment: "test",

@@ -42,9 +42,8 @@ export const IncidentTable: FC<Props> = ({
     );
   };
 
-  const handleRowSelect = (incidents: string[]) => {
-    setSelectedIncidents(incidents);
-  };
+  const handleRowSelect = (incidents: string[]) =>
+    setSelectedIncidents && setSelectedIncidents(incidents);
 
   const columns: ColumnsType<Incident> = [
     {
@@ -103,10 +102,9 @@ export const IncidentTable: FC<Props> = ({
     dataSource: incidents,
     columns,
     rowSelection: {
-      onChange: (selectedRowKeys: any[]) => {
-        handleRowSelect(selectedRowKeys);
-      },
-      selectedRowKeys: selectedIncidents
+      onChange: (selectedRowKeys: any[]) => handleRowSelect(selectedRowKeys),
+      selectedRowKeys: selectedIncidents,
+      hideSelectAll: true
     },
     pagination: {
       defaultPageSize: 15,

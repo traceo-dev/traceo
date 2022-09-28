@@ -364,6 +364,11 @@
   display: none;
 }
 
-.ant-picker-range, .ant-picker-panel-container {
+.ant-picker-range,
+.ant-picker-panel-container {
   background-color: var(--color-bg-canvas);
+}
+
+.ant-input-search-button {
+  display: none;
 }

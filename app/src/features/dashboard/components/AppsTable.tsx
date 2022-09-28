@@ -1,5 +1,5 @@
 import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
-import { Button, Col, Menu, Row, Space } from "antd";
+import { Button, Col, Dropdown, Input, Menu, Row, Space } from "antd";
 import { useEffect, useState } from "react";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { EmptyAppList } from "../../../core/components/EmptyViews/EmptyAppList";
@@ -14,7 +14,6 @@ import { StoreState } from "../../../types/store";
 import { CreateApplicationDrawer } from "../../../core/components/Drawers/CreateApplicationDrawer";
 import { EditChartsDrawer } from "../../../core/components/Drawers/EditChartsDrawer";
 import { AppCard } from "./AppCard";
-import { SortDropdown } from "../../../core/components/StatusDropdown";
 import { loadApplications } from "../state/actions";
 import ServerPermissions from "../../../core/components/ServerPermissions";
 
@@ -25,7 +24,7 @@ export const AppsTable = () => {
   const { account } = useSelector((state: StoreState) => state.account);
 
   const [order, setOrder] = useState<SortOrder>("ASC");
-  const [searchValue, setSearchValue] = useState<string>(null);
+  const [search, setSearch] = useState<string>(null);
   const [sortBy, setSortBy] = useState<AppsSortBy>(AppsSortBy.LAST_INCIDENT);
   const [openApplicationModal, setOpenApplicationModal] = useState<boolean>(false);
   const [openEditChartsModal, setOpenEditChartsModal] = useState<boolean>(false);
@@ -33,44 +32,40 @@ export const AppsTable = () => {
   const queryParams: SearchApplicationQueryParams = {
     order,
     sortBy,
-    search: searchValue,
+    search: search,
     accountId: account?.id
   };
 
-  useEffect(() => {
-    fetchApplications();
-  }, []);
+  useEffect(() => fetchApplications(), []);
+  useEffect(() => fetchApplications(), [order, sortBy, search]);
+  const fetchApplications = () => dispatch(loadApplications(queryParams));
 
-  useEffect(() => {
-    fetchApplications();
-  }, [order, sortBy, searchValue]);
+  const onSearch = (val: string) => setSearch(val);
 
-  const fetchApplications = () => {
-    dispatch(loadApplications(queryParams));
+  const AppsSortDropdown = () => {
+    const statusContent = (
+      <Menu style={{ width: 200 }} onClick={(val) => setSortBy(val.key as AppsSortBy)}>
+        <Menu.Item key={AppsSortBy.LAST_INCIDENT}>Last incident</Menu.Item>
+        <Menu.Item key={AppsSortBy.CREATED_AT}>Created at</Menu.Item>
+        <Menu.Item key={AppsSortBy.LAST_UPDATE}>Last update</Menu.Item>
+      </Menu>
+    );
+
+    return (
+      <Dropdown overlay={statusContent} placement="bottom">
+        <Button>
+          <span>Sort by:</span>
+          <span className="font-bold">&nbsp;{handleAppSort[sortBy]}</span>
+        </Button>
+      </Dropdown>
+    );
   };
-
-  const sortByContent = (
-    <Menu style={{ width: 200 }} onClick={(val) => setSortBy(val.key as AppsSortBy)}>
-      <Menu.Item key={AppsSortBy.LAST_INCIDENT}>Last incident</Menu.Item>
-      <Menu.Item key={AppsSortBy.CREATED_AT}>Created at</Menu.Item>
-      <Menu.Item key={AppsSortBy.LAST_UPDATE}>Last update</Menu.Item>
-    </Menu>
-  );
 
   const SearchHeader = () => (
     <Space className="w-full justify-between">
       <Space>
-        <SearchInput
-          placeholder="Search by name"
-          value={searchValue}
-          setValue={setSearchValue}
-          get={fetchApplications}
-        />
-        <SortDropdown
-          label="Sort by:"
-          overlay={sortByContent}
-          value={handleAppSort[sortBy]}
-        />
+        <SearchInput placeholder="Search by name" value={search} setValue={onSearch} />
+        <AppsSortDropdown />
         <SortIcons order={order} setOrder={setOrder} />
         <SettingOutlined
           onClick={() => setOpenEditChartsModal(true)}
@@ -95,7 +90,7 @@ export const AppsTable = () => {
       <ConditionLayout
         isLoading={!hasFetched}
         isEmpty={applications?.length === 0}
-        emptyView={<EmptyAppList constraints={searchValue} />}
+        emptyView={<EmptyAppList constraints={search} />}
       >
         <Row className="pt-5" gutter={[8, 24]}>
           {applications?.map((app, index) => (

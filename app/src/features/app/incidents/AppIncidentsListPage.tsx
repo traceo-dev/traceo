@@ -24,7 +24,6 @@ import { PagePanel } from "../../../core/components/PagePanel";
 import { BugOutlined } from "@ant-design/icons";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { EmptyIncidentList } from "../../../core/components/EmptyViews/EmptyIncidentList";
-import { SortDropdown } from "../../../core/components/StatusDropdown";
 
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
@@ -48,30 +47,37 @@ export const AppIncidentsListPage = () => {
     status
   };
 
-  useEffect(() => {
-    fetchIncidents();
-  }, []);
+  useEffect(() => fetchIncidents(), []);
 
   useEffect(() => {
     fetchIncidents();
-  }, [order, sortBy, status]);
+  }, [order, sortBy, status, search]);
 
-  const fetchIncidents = () => {
-    dispatch(loadIncidents(queryParams));
+  const fetchIncidents = () => dispatch(loadIncidents(queryParams));
+
+  const IncidentStatusDropdown = () => {
+    const statusContent = (
+      <Menu
+        style={{ width: 200 }}
+        onClick={(val) => setStatus(val.key as IncidentStatusSearch)}
+      >
+        {Object.values(IncidentStatusSearch).map((status) => (
+          <Menu.Item key={status} className="capitalize">
+            {status}
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+
+    return (
+      <Dropdown overlay={statusContent} placement="bottom">
+        <Button>
+          <span>Status:</span>
+          <span className="font-bold">&nbsp;{handleIncidentStatus[status]}</span>
+        </Button>
+      </Dropdown>
+    );
   };
-
-  const dropdownSearchStatuses = (
-    <Menu
-      style={{ width: 200 }}
-      onClick={(val) => setStatus(val.key as IncidentStatusSearch)}
-    >
-      {Object.values(IncidentStatusSearch).map((status, index) => (
-        <Menu.Item key={index} className="capitalize">
-          {status}
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
 
   const IncidentsSortDropdown = () => {
     const sortByContent = (
@@ -108,17 +114,8 @@ export const AppIncidentsListPage = () => {
         <PagePanel>
           <Space className="pb-2 w-full justify-between">
             <Space className="w-full">
-              <SearchInput
-                placeholder="Search"
-                value={search}
-                setValue={setSearch}
-                get={() => fetchIncidents()}
-              />
-              <SortDropdown
-                overlay={dropdownSearchStatuses}
-                value={handleIncidentStatus[status]}
-              />
-
+              <SearchInput value={search} setValue={setSearch} />
+              <IncidentStatusDropdown />
               <IncidentsSortDropdown />
               <SortIcons order={order} setOrder={setOrder} />
             </Space>
@@ -141,6 +138,7 @@ export const AppIncidentsListPage = () => {
             <IncidentTable
               isLoading={!hasFetched}
               incidents={incidents}
+              selectedIncidents={selectedIncidents}
               setSelectedIncidents={setSelectedIncidents}
             />
           </ConditionLayout>

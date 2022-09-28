@@ -128,7 +128,7 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
               >
                 <>
                   {incident?.assigned?.name}
-                  <DownOutlined className="text-xs" />
+                  <DownOutlined className="text-xs pl-2" />
                 </>
               </Button>
             ) : (

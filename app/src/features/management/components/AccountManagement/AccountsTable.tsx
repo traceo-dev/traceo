@@ -35,7 +35,7 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
     },
     {
       title: "Username",
-      render: (account: Account) => renderProfile(account)
+      render: (account: Account) => <RenderProfile {...account} />
     },
     {
       title: "Name",
@@ -52,7 +52,7 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
     }
   ];
 
-  const renderProfile = (currentAccount: Account) => {
+  const RenderProfile = (currentAccount: Account) => {
     return (
       <Space>
         <Typography className="text-primary">{currentAccount?.username}</Typography>

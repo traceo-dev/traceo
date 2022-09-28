@@ -49,7 +49,7 @@ export interface ApplicationMemberUpdateProps {
 export interface ApplicationMember {
   id: string;
   role: MemberRole;
-  favorite: boolean;
+  // favorite: boolean;
   application: Application;
   account: Account;
 }

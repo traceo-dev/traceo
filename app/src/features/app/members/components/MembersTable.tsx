@@ -26,7 +26,7 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
   const columns = [
     {
       title: "Name",
-      render: (member: ApplicationMember) => renderProfile(member)
+      render: (member: ApplicationMember) => <RenderProfile {...member} />
     },
     {
       title: "Email",
@@ -42,11 +42,11 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
     {
       align: "right" as const,
       width: "50",
-      render: (data: ApplicationMember) => renderActions(data)
+      render: (data: ApplicationMember) => <RenderActions {...data} />
     }
   ];
 
-  const renderProfile = (member: ApplicationMember) => {
+  const RenderProfile = (member: ApplicationMember) => {
     return (
       <Row className="w-full items-center">
         <Avatar
@@ -63,20 +63,20 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
     );
   };
 
-  const renderActions = (member: ApplicationMember) => {
+  const RenderActions = (member: ApplicationMember) => {
     return (
       <>
         {member.account.email !== "admin@localhost" && (
           <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-            {renderEdit(member)}
-            {renderTrash(member)}
+            <RenderEdit {...member} />
+            <RenderTrash {...member} />
           </Permissions>
         )}
       </>
     );
   };
 
-  const renderEdit = (member: ApplicationMember) => {
+  const RenderEdit = (member: ApplicationMember) => {
     return (
       <Button
         onClick={() => {
@@ -91,7 +91,7 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
     );
   };
 
-  const renderTrash = (member: ApplicationMember) => {
+  const RenderTrash = (member: ApplicationMember) => {
     return (
       <Confirm
         onOk={() => handleRemoveMember(member?.id)}

@@ -28,19 +28,12 @@ const ManagementUsersPage = () => {
     fetchAccounts();
   }, [search]);
 
-  const fetchAccounts = () => {
-    dispatch(loadServerAccounts(queryParams));
-  };
+  const fetchAccounts = () => dispatch(loadServerAccounts(queryParams));
 
   return (
     <ManagementNavigation>
       <Space className="w-full pb-2 justify-between">
-        <SearchInput
-          placeholder="Search"
-          value={search}
-          setValue={setSearch}
-          get={fetchAccounts}
-        />
+        <SearchInput value={search} setValue={setSearch} />
         <Button
           onClick={() => setOpenNewAccountDrawer(true)}
           type="primary"

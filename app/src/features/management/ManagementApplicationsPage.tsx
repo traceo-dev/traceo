@@ -35,12 +35,7 @@ export const ManagementApplicationsPage = () => {
   return (
     <ManagementNavigation>
       <Space className="w-full pb-2 justify-between">
-        <SearchInput
-          placeholder="Search"
-          value={search}
-          setValue={setSearch}
-          get={fetchApplications}
-        />
+        <SearchInput value={search} setValue={setSearch} />
         <Button
           onClick={() => setOpenNewAppDrawer(true)}
           type="primary"

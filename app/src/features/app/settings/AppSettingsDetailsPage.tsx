@@ -77,7 +77,7 @@ export const AppSettingsDetailsPage = () => {
               <Input disabled={application?.member?.role === MemberRole.VIEWER} />
             </Form.Item>
             <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-              <Button htmlType="submit" className="primary-btn mt-2">
+              <Button htmlType="submit" className="mt-2" type="primary">
                 Update
               </Button>
             </Permissions>

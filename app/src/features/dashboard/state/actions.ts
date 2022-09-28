@@ -15,16 +15,16 @@ export const loadApplications = (
     if (!query) {
       query = {
         order: "ASC",
-        sortBy: "application.lastIncidentAt",
-        accountId: account.id
+        sortBy: "application.lastIncidentAt"
       };
     }
 
-    const application = await api.get<ApplicationMember[]>("/api/amr/applications", {
-      accountId: query.accountId || account.id,
+    const applications = await api.get<ApplicationMember[]>("/api/amr/applications", {
+      accountId: query?.accountId || account?.id,
       ...query
     });
-    dispatch(applicationsLoaded(application));
+    console.log({ applications })
+    dispatch(applicationsLoaded(applications));
   };
 };
 

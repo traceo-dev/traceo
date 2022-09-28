@@ -12,10 +12,10 @@ export enum IncidentStatusSearch {
   ALL = "all"
 }
 
-export const handleIncidentStatus: Record<IncidentStatus | IncidentStatusSearch, string> =
+export const handleIncidentStatus: Record<IncidentStatusSearch, string> =
   {
-    [IncidentStatus.RESOLVED]: "Resolved",
-    [IncidentStatus.UNRESOLVED]: "Unresolved",
+    [IncidentStatusSearch.RESOLVED]: "Resolved",
+    [IncidentStatusSearch.UNRESOLVED]: "Unresolved",
     [IncidentStatusSearch.ALL]: "All"
   };
 

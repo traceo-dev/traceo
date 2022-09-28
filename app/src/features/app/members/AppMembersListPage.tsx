@@ -17,7 +17,6 @@ import { PagePanel } from "../../../core/components/PagePanel";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { EmptyMembersList } from "../../../core/components/EmptyViews/EmptyMembersList";
 import { Permissions } from "../../../core/components/Permissions";
-import { TraceoLoading } from "core/components/TraceoLoading";
 
 export const AppMembersListPage = () => {
   const { id } = useParams();
@@ -80,12 +79,7 @@ export const AppMembersListPage = () => {
         />
         <PagePanel>
           <Space className="w-full pb-2 justify-between">
-            <SearchInput
-              placeholder="Search"
-              value={search}
-              setValue={setSearch}
-              get={fetchMembers}
-            />
+            <SearchInput value={search} setValue={setSearch} />
             <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
               <Button
                 onClick={() => setOpenAddMemberDrawer(true)}

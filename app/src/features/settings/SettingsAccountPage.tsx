@@ -31,6 +31,8 @@ const SettingsAccountPage = () => {
   //   dispatch(deleteAccount());
   // };
 
+  const isAdmin = account.email === "admin@localhost";
+
   return (
     <>
       <DashboardSettingsNavigation>
@@ -46,6 +48,7 @@ const SettingsAccountPage = () => {
             name="personalInformation"
             layout="vertical"
             className="w-3/5"
+            disabled={isAdmin}
           >
             <Form.Item name="name" label="Name" initialValue={account?.name}>
               <Input />
@@ -55,9 +58,11 @@ const SettingsAccountPage = () => {
               <Input />
             </Form.Item>
 
-            <Button htmlType="submit" loading={loadingUpdateAccount} type="primary">
-              Update
-            </Button>
+            {!isAdmin && (
+              <Button htmlType="submit" loading={loadingUpdateAccount} type="primary">
+                Update
+              </Button>
+            )}
           </Form>
         </ColumnSection>
         <ColumnSection
