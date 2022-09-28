@@ -39,7 +39,7 @@ export class AmrQueryService {
       .getRepository(AccountMemberRelationship)
       .createQueryBuilder('accountApplicationRelationship')
       .innerJoin(
-        'accountApplicationRelationship.applicatio',
+        'accountApplicationRelationship.application',
         'app',
         'app.id = :appId',
         {
