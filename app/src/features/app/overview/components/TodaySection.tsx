@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { useApi } from "../../../../core/lib/useApi";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { TodayStats } from "./TodayStats";
-import { TodayIncidentsPlot } from "../../../../core/components/Plots/components/TodayIncidentsPlot";
+import { IncidentsTodayPlot } from "../../../../core/components/Plots/components/IncidentsTodayPlot";
 
 export const TodaySection = () => {
   const { id } = useParams();
@@ -44,10 +44,14 @@ export const TodaySection = () => {
             <LoadingOutlined />
           </Space>
         ) : (
-          <Space className="w-full justify-between gap-0">
-            <TodayIncidentsPlot stats={stats?.data} />
-            <TodayStats stats={stats} />
-          </Space>
+          <div style={{ width: "100%", overflow: "hidden" }}>
+            <div style={{ width: "75%", float: "left" }}>
+              <IncidentsTodayPlot stats={stats?.data} />
+            </div>
+            <div style={{ width: "20%", float: "right" }}>
+              <TodayStats stats={stats} />
+            </div>
+          </div>
         )}
       </PagePanel>
     </>

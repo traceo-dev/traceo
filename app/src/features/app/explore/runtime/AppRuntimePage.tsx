@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { dispatch } from "store/store";
 import { StoreState } from "types/store";
-import AppAnalyticsNavigationPage from "../components/AppAnalyticsNavigation";
+import AppExploreNavigationPage from "../components/AppExploreNavigation";
 import { loadApplicationRuntime } from "./state/actions";
 
 const AppRuntimePage = () => {
@@ -30,7 +30,7 @@ const AppRuntimePage = () => {
   }, [runtime]);
 
   return (
-    <AppAnalyticsNavigationPage>
+    <AppExploreNavigationPage>
       <Typography.Text className="text-md">
         Basic and constant information about the application runtime obtained during
         application startup.
@@ -80,7 +80,7 @@ const AppRuntimePage = () => {
           )}
         </Row>
       </ConditionLayout>
-    </AppAnalyticsNavigationPage>
+    </AppExploreNavigationPage>
   );
 };
 

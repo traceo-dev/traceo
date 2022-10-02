@@ -114,7 +114,16 @@ export const IncidentTable: FC<Props> = ({
     }
   };
 
-  return <Table {...tableConfig} />;
+  return (
+    <>
+      <Table {...tableConfig} />
+      <style>{`
+        .ant-table-tbody > tr.ant-table-row:hover > td {
+          background: none !important;
+        }
+    `}</style>
+    </>
+  );
 };
 
 interface MainColumnProps {

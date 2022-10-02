@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { dispatch } from "store/store";
 import { LogLevel } from "types/logs";
 import { StoreState } from "types/store";
-import AppAnalyticsNavigationPage from "../components/AppAnalyticsNavigation";
+import AppExploreNavigationPage from "../components/AppExploreNavigation";
 import { loadApplicationLogs } from "./state/actions";
 
 import { Divider, Space, Tag, Typography } from "antd";
@@ -12,7 +12,7 @@ import { ConditionLayout } from "core/components/ConditionLayout";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import dateUtils from "core/utils/date";
-import { LogsPlot } from "features/app/analytics/components/LogsPlot";
+import { LogsHistogram } from "features/app/explore/components/LogsHistogram";
 import { LogContainer, LogRow } from "../components/LogContainer";
 
 const AppLogsPage = () => {
@@ -68,8 +68,8 @@ const AppLogsPage = () => {
   };
 
   return (
-    <AppAnalyticsNavigationPage>
-      <LogsPlot />
+    <AppExploreNavigationPage>
+      <LogsHistogram />
       <LogDetails />
       <Divider className="my-0" />
       <ConditionLayout
@@ -83,7 +83,7 @@ const AppLogsPage = () => {
           ))}
         </LogContainer>
       </ConditionLayout>
-    </AppAnalyticsNavigationPage>
+    </AppExploreNavigationPage>
   );
 };
 

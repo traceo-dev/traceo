@@ -1,7 +1,11 @@
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
+import isTomorrow from "dayjs/plugin/isTomorrow";
+import isToday from "dayjs/plugin/isToday";
 
 dayjs.extend(isBetween);
+dayjs.extend(isTomorrow)
+dayjs.extend(isToday)
 
 const toUnix = (date: string | Date = new Date()) => dayjs(date).unix();
 const formatDate = (date: number, format = "DD-MM-YYYY") =>

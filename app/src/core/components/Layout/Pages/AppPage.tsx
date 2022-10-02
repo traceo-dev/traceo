@@ -43,9 +43,9 @@ export const AppPage = ({ children }) => {
       label: "Incidents"
     },
     {
-      key: "analytics",
-      href: "/app/:id/:slug/analytics/logs",
-      label: "Analytics"
+      key: "explore",
+      href: "/app/:id/:slug/explore/logs",
+      label: "Explore"
     },
     {
       key: "members",

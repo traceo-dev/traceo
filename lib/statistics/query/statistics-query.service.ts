@@ -84,14 +84,17 @@ export class StatisticsQueryService {
       (acc, curr) => acc.concat(curr.occurDates),
       [],
     );
-    const count = incidents?.reduce((acc, val) => (acc += val.occuredCount), 0);
 
+    const todayIncidents = cachedDates.filter((d) => dayjs.unix(d.date).isToday())
+
+    let totalTodayIncidentsCount = 0;
+    
     for (let i = 0; i <= 24; i++) {
-      const count = cachedDates.filter(
+      const count = todayIncidents.filter(
         (o) =>
-          dayjs.unix(o.date).get("hour") === i &&
-          dayjs.unix(o.date).isAfter(today),
+          dayjs.unix(o.date).get("hour") === i
       )?.length;
+      totalTodayIncidentsCount += count;
       response.push({
         date: dayjs().hour(i).startOf("h").unix(),
         count: count || 0
@@ -99,7 +102,7 @@ export class StatisticsQueryService {
     }
 
     return {
-      count,
+      count: totalTodayIncidentsCount,
       data: response
     };
   }
@@ -141,6 +144,10 @@ export class StatisticsQueryService {
   }
 
   protected parseOccurDatesToPlotData(occurDates: ErrorDetails[]): PlotData[] {
+    if (!occurDates || occurDates?.length === 0) {
+      return [];
+    }
+
     const sortedDates = occurDates?.sort((a, b) => a.date - b.date);
     const beginDate = occurDates[0];
 

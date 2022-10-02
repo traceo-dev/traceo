@@ -3,7 +3,7 @@ import { Card, Space, Tooltip, Typography } from "antd";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "../../../core/components/Avatar";
-import { AppListPlot } from "../../../core/components/Plots/components/AppListPlot";
+import { IncidentsAppListPlot } from "../../../core/components/Plots/components/IncidentsAppListPlot";
 import dateUtils from "../../../core/utils/date";
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { loadApplication } from "../../../features/app/state/actions";
@@ -55,7 +55,7 @@ export const AppCard: FC<Props> = ({ app }) => {
         </Space>
       </Space>
       <div className="pointer-events-none pt-8">
-        <AppListPlot id={app.application.id} />
+        <IncidentsAppListPlot id={app.application.id} />
       </div>
     </Card>
   );

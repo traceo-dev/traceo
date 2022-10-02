@@ -5,7 +5,7 @@ import { useApi } from "../../../../core/lib/useApi";
 import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import { PagePanel } from "../../../../core/components/PagePanel";
-import { AppOverviewPlot } from "../../../../core/components/Plots/components/AppOverviewPlot";
+import { IncidentsOverviewPlot } from "../../../../core/components/Plots/components/IncidentsOverviewPlot";
 import { ApplicationStats } from "../../../../types/statistics";
 
 export const OverviewSection = () => {
@@ -55,7 +55,7 @@ export const OverviewSection = () => {
         ) : (
           <>
             <StatCards stats={cardStats} isLoading={loadingCardStats} />
-            <AppOverviewPlot stats={stats} />
+            <IncidentsOverviewPlot stats={stats} />
           </>
         )}
       </PagePanel>

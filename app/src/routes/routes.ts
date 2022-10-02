@@ -82,12 +82,12 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       )
     },
     {
-      path: "/app/:id/:slug/analytics/runtime",
-      component: lazy(() => import("../features/app/analytics/runtime/AppRuntimePage"))
+      path: "/app/:id/:slug/explore/runtime",
+      component: lazy(() => import("../features/app/explore/runtime/AppRuntimePage"))
     },
     {
-      path: "/app/:id/:slug/analytics/logs",
-      component: lazy(() => import("../features/app/analytics/logs/AppLogsPage"))
+      path: "/app/:id/:slug/explore/logs",
+      component: lazy(() => import("../features/app/explore/logs/AppLogsPage"))
     },
     {
       path: "/app/:id/:slug/members",

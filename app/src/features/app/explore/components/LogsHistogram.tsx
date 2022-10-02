@@ -1,15 +1,16 @@
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, ArrowRightOutlined, SyncOutlined } from "@ant-design/icons";
 import { Space, Typography, Button, Tooltip } from "antd";
 import dayjs from "dayjs";
-import { LogExploreGraph } from "core/components/Plots/components/LogExploreGraph";
-import { loadApplicationLogs } from "features/app/analytics/logs/state/actions";
+import { LogsExplorePlot } from "core/components/Plots/components/LogsExplorePlot";
+import { loadApplicationLogs } from "features/app/explore/logs/state/actions";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { dispatch } from "store/store";
 import { StoreState } from "types/store";
+import { fetchedState } from "../logs/state/reducers";
 
-export const LogsPlot = () => {
+export const LogsHistogram = () => {
   const { id } = useParams();
   const { logs } = useSelector((state: StoreState) => state.logs);
 
@@ -33,6 +34,7 @@ export const LogsPlot = () => {
   const isActiveLeftButton = dayjs(startDate).isBefore(dayjs().subtract(3, "d").unix());
 
   useEffect(() => {
+    dispatch(fetchedState());
     dispatch(
       loadApplicationLogs(id, {
         startDate,
@@ -44,21 +46,32 @@ export const LogsPlot = () => {
   return (
     <Space className="w-full" direction="vertical">
       <Typography.Text className="font-semibold text-lg">Histogram</Typography.Text>
-      <Space className="w-full">
-        <Tooltip title="-0.5h">
-          <Button disabled={isActiveLeftButton} onClick={() => onClickLeft()}>
-            <ArrowLeftOutlined />
-          </Button>
-        </Tooltip>
-
-        <LogExploreGraph logs={logs} startDate={startDate} endDate={endDate} />
-
-        <Tooltip title="+0.5h">
-          <Button disabled={isActiveRightButton} onClick={() => onClickRight()}>
-            <ArrowRightOutlined />
-          </Button>
-        </Tooltip>
-      </Space>
+      <div
+        style={{
+          width: "100%",
+          overflow: "hidden",
+          display: "flex",
+          alignItems: "center"
+        }}
+      >
+        <div style={{ width: "5%", float: "left" }}>
+          <Tooltip title="-0.5h">
+            <Button disabled={isActiveLeftButton} onClick={() => onClickLeft()}>
+              <ArrowLeftOutlined />
+            </Button>
+          </Tooltip>
+        </div>
+        <div style={{ width: "90%", float: "left" }}>
+          <LogsExplorePlot logs={logs} startDate={startDate} endDate={endDate} />
+        </div>
+        <div style={{ width: "5%", float: "right" }}>
+          <Tooltip title="+0.5h">
+            <Button disabled={isActiveRightButton} onClick={() => onClickRight()}>
+              <ArrowRightOutlined />
+            </Button>
+          </Tooltip>
+        </div>
+      </div>
     </Space>
   );
 };

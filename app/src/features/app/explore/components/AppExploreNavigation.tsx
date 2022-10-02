@@ -1,7 +1,8 @@
 import {
   DeploymentUnitOutlined,
   BarChartOutlined,
-  AlignLeftOutlined
+  AlignLeftOutlined,
+  CompassOutlined
 } from "@ant-design/icons";
 import { Menu } from "core/components/Layout/Menu";
 import AppPage from "core/components/Layout/Pages/AppPage";
@@ -9,16 +10,16 @@ import PageHeader from "core/components/PageHeader";
 import { PagePanel } from "core/components/PagePanel";
 import { MenuRoute } from "types/navigation";
 
-export const AppAnalyticsNavigationPage = ({ children }) => {
+export const AppExploreNavigationPage = ({ children }) => {
   const menu: MenuRoute[] = [
     {
-      href: "/app/:id/:slug/analytics/logs",
+      href: "/app/:id/:slug/explore/logs",
       label: "Logs",
       key: "logs",
       icon: <AlignLeftOutlined />
     },
     {
-      href: "/app/:id/:slug/analytics/runtime",
+      href: "/app/:id/:slug/explore/runtime",
       label: "Runtime configuration",
       key: "runtime",
       icon: <DeploymentUnitOutlined />
@@ -29,9 +30,9 @@ export const AppAnalyticsNavigationPage = ({ children }) => {
     <>
       <AppPage>
         <PageHeader
-          icon={<BarChartOutlined />}
-          title={"Analytics"}
-          subTitle={"Information about the health of your application"}
+          icon={<CompassOutlined />}
+          title={"Explore"}
+          subTitle={"Explore informations about this app"}
         />
 
         <Menu className=" mt-5" routes={menu} />
@@ -41,4 +42,4 @@ export const AppAnalyticsNavigationPage = ({ children }) => {
   );
 };
 
-export default AppAnalyticsNavigationPage;
+export default AppExploreNavigationPage;
