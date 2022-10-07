@@ -2,16 +2,15 @@ import { DownOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Popover, Space, Tag, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "src/core/components/Avatar";
-import { StoreState } from "src/types/store";
-import { AccountApplication } from "src/types/application";
-import { conditionClass, joinClasses } from "src/core/utils/classes";
-import { TraceoLogo } from "src/core/components/Icons/TraceoLogo";
-import { slugifyForUrl } from "src/core/utils/stringUtils";
+import { Avatar } from "../../../../../core/components/Avatar";
+import { StoreState } from "../../../../../types/store";
+import { ApplicationMember } from "../../../../../types/application";
+import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
+import { TraceoLogo } from "../../../../../core/components/Icons/TraceoLogo";
+import { slugifyForUrl } from "../../../../../core/utils/stringUtils";
 import { useEffect } from "react";
-import { dispatch } from "src/store/store";
-import { loadApplications } from "src/features/dashboard/state/actions";
-import { loadApplication } from "src/features/app/state/actions";
+import { dispatch } from "../../../../../store/store";
+import { loadApplications } from "../../../../../features/dashboard/state/actions";
 
 export const AppSwitcher = () => {
   const navigate = useNavigate();
@@ -25,7 +24,7 @@ export const AppSwitcher = () => {
     dispatch(loadApplications());
   }, []);
 
-  const selectApp = (app: AccountApplication) => {
+  const selectApp = (app: ApplicationMember) => {
     const { application } = app;
     localStorage.setItem("env", application.defaultEnv);
 
@@ -39,7 +38,7 @@ export const AppSwitcher = () => {
   const appSelector = !selectApp ? (
     <LoadingOutlined />
   ) : (
-    applications?.map((app: AccountApplication, index) => (
+    applications?.map((app: ApplicationMember, index) => (
       <Space key={index} className="py-2 w-full">
         <Typography.Text
           className={joinClasses(
@@ -72,7 +71,12 @@ export const AppSwitcher = () => {
                 <LoadingOutlined />
               ) : (
                 <>
-                  <Avatar size="small" name={application.name} url={application.logo} />
+                  <Avatar
+                    size="small"
+                    shape="square"
+                    name={application.name}
+                    url={application?.gravatar}
+                  />
                   <Typography.Text className="appName">
                     {application.name}
                   </Typography.Text>

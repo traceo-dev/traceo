@@ -1,10 +1,10 @@
 import { Account } from "./accounts";
 import { SortOrder } from "./api";
 
-export enum MEMBER_STATUS {
-  OWNER = "Owner",
+export enum MemberRole {
   ADMINISTRATOR = "Administrator",
-  DEVELOPER = "Developer"
+  MAINTAINER = "Maintainer",
+  VIEWER = "Viewer"
 }
 
 export enum ENVIRONMENT {
@@ -12,22 +12,16 @@ export enum ENVIRONMENT {
   development = "development",
   test = "test"
 }
-
-export enum TECHNOLOGY {
-  NODEJS = "nodejs",
-  JAVASCRIPT = "js",
-  TYPESCRIPT = "ts"
-}
-
-export enum FRAMEWORK {
-  EXPRESS = "express",
-  NESTJS = "nestjs",
-  ELECTRON = "electron"
-}
-
 export interface OwnerAccount {
   name: string;
-  logo: string;
+  email: string;
+  username: string;
+}
+
+export enum TSDB {
+  INFLUX = "influx",
+  INFLUX2 = "influx2",
+  PROMETHEUS = "prometheus"
 }
 
 export interface Application {
@@ -35,36 +29,45 @@ export interface Application {
   name: string;
   dsn?: string;
   owner: OwnerAccount;
-  technology: TECHNOLOGY;
-  framework: FRAMEWORK;
-  logo?: string;
+  gravatar?: string;
   lastIncidentAt?: number;
   incidentsCount: number;
+  membersCount: number;
   defaultEnv?: ENVIRONMENT;
   createdAt: number;
   updatedAt: number;
   member: {
-    status: MEMBER_STATUS;
+    role: MemberRole;
   };
+  connectedTSDB?: TSDB;
+  influxDS: InfluxDS;
+}
+
+export interface InfluxDS {
+  url: string;
+  org: string;
+  bucket: string;
+  interval: number;
+  timeout: number;
+}
+
+export interface AddAccountToApplication {
+  role: MemberRole;
+  applicationId: number;
+  accountId: string;
+}
+
+export interface ApplicationMemberUpdateProps {
+  memberId: string;
+  role: MemberRole;
 }
 
 export interface ApplicationMember {
   id: string;
-  status: MEMBER_STATUS;
-  account: Account;
-  lastUpdate: number;
-}
-
-export interface ApplicationMemberUpdateProps {
-  id: string;
-  status: MEMBER_STATUS;
-}
-
-export interface AccountApplication {
-  id: string;
-  status: MEMBER_STATUS;
-  favorite: boolean;
+  role: MemberRole;
+  // favorite: boolean;
   application: Application;
+  account: Account;
 }
 
 export interface CreateApplicationProps {
@@ -89,4 +92,5 @@ export interface SearchApplicationQueryParams {
   sortBy?: string;
   search?: string;
   favorite?: boolean;
+  accountId?: string;
 }

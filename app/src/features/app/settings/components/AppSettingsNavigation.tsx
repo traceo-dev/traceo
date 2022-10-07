@@ -1,18 +1,16 @@
 import AppPage from "../../../../core/components/Layout/Pages/AppPage";
 import PageHeader from "../../../../core/components/PageHeader";
-import {
-  ApiOutlined,
-  InfoCircleOutlined,
-  LockOutlined,
-  SettingOutlined
-} from "@ant-design/icons";
+import { DatabaseOutlined, InfoCircleOutlined, SettingOutlined } from "@ant-design/icons";
 import { PagePanel } from "../../../../core/components/PagePanel";
-import { MenuRoute } from "src/types/navigation";
-import { Menu } from "src/core/components/Layout/Menu";
-import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
+import { MenuRoute } from "../../../../types/navigation";
+import { Menu } from "../../../../core/components/Layout/Menu";
+import { FC } from "react";
 
-export const AppSettingsNavigationPage = ({ children }) => {
+interface Props {
+  isPanel?: boolean;
+  children: any;
+}
+export const AppSettingsNavigationPage: FC<Props> = ({ isPanel = true, children }) => {
   const menu: MenuRoute[] = [
     {
       href: "/app/:id/:slug/settings/details",
@@ -21,10 +19,10 @@ export const AppSettingsNavigationPage = ({ children }) => {
       icon: <InfoCircleOutlined />
     },
     {
-      href: "/app/:id/:slug/settings/credentials",
-      label: "Credentials",
-      key: "credentials",
-      icon: <LockOutlined />
+      href: "/app/:id/:slug/settings/datasource",
+      label: "Data source",
+      key: "datasource",
+      icon: <DatabaseOutlined />
     }
   ];
 
@@ -36,9 +34,12 @@ export const AppSettingsNavigationPage = ({ children }) => {
           title={"Settings"}
           subTitle={"Management of the current application"}
         />
-
         <Menu className=" mt-5" routes={menu} />
-        <PagePanel className="mt-0 rounded-none rounded-b-md">{children}</PagePanel>
+        {isPanel ? (
+          <PagePanel className="mt-0 rounded-none rounded-b-md">{children}</PagePanel>
+        ) : (
+          children
+        )}
       </AppPage>
     </>
   );

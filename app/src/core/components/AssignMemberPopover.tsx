@@ -1,13 +1,13 @@
 import { DeleteOutlined, LoadingOutlined, SearchOutlined } from "@ant-design/icons";
 import { Divider, Input, Space, Typography } from "antd";
 import { useEffect, useState } from "react";
-import { useApi } from "src/core/lib/useApi";
+import { useApi } from "../../core/lib/useApi";
 import { Avatar } from "./Avatar";
-import { dispatch } from "src/store/store";
-import { updateIncident } from "src/features/app/incidents/state/actions";
+import { dispatch } from "../../store/store";
+import { updateIncident } from "../../features/app/incidents/state/actions";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
-import { ApplicationMember } from "src/types/application";
+import { StoreState } from "../../types/store";
+import { ApplicationMember } from "../../types/application";
 
 export const AssignMemberPopover = ({ setVisible }) => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -43,12 +43,7 @@ export const AssignMemberPopover = ({ setVisible }) => {
         key={index}
         className="w-full main-hover p-2 rounded-md cursor-pointer"
       >
-        <Avatar
-          shape="circle"
-          size="small"
-          url={member?.account?.logo}
-          name={member?.account?.name}
-        />
+        <Avatar shape="circle" size="small" name={member?.account?.name} />
         <Typography className="text-xs">{member?.account?.name}</Typography>
       </Space>
     ))

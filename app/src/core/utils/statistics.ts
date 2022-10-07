@@ -1,5 +1,7 @@
+import { normalizePlotData } from "core/components/Plots/utils";
 import dayjs from "dayjs";
-import { ErrorDetails } from "src/types/incidents";
+import { TraceoLog } from "types/logs";
+import { ErrorDetails } from "../../types/incidents";
 
 export const getIncidentsTablePlotData = (occurDates: ErrorDetails[]) => {
   const response: PlotData[] = []; //initial values
@@ -91,7 +93,31 @@ const mockData = () => {
   return data;
 };
 
+const getExploreLogsPlotData = (startDate: number, endDate: number, logs: TraceoLog[]) => {
+  const plotData: PlotData[] = [];
+
+  let currentDate = startDate;
+  const endPlotDate = endDate;
+
+  while (currentDate <= endPlotDate) {
+    const count = logs?.filter(
+      (a) =>
+        dayjs.unix(a.receiveTimestamp).format("HH:mm") ===
+        dayjs.unix(currentDate).format("HH:mm")
+    ).length;
+    plotData.push({
+      date: currentDate,
+      count
+    });
+    currentDate = dayjs.unix(currentDate).add(1, "minute").unix();
+  }
+
+  const data = normalizePlotData(plotData);
+  return data;
+};
+
 export const statistics = {
   mockData,
-  getIncidentsAnalyticsTodayPlotData
+  getIncidentsAnalyticsTodayPlotData,
+  getExploreLogsPlotData
 };

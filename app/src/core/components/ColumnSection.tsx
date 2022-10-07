@@ -14,8 +14,8 @@ interface Props {
 
 export const ColumnSection: FC<Props> = ({
   marginTop = 55,
-  firstColumnWidth = 12,
-  secondColumnWidth = 12,
+  firstColumnWidth = 10,
+  secondColumnWidth = 14,
   title,
   subtitle,
   children,
@@ -30,7 +30,7 @@ export const ColumnSection: FC<Props> = ({
           <Col span={24} md={firstColumnWidth}>
             <Typography className="text-xl font-normal">{title}</Typography>
             <Space style={{ maxWidth: "430px" }}>
-              <Typography style={{ fontSize: "13px" }}>{subtitle}</Typography>
+              <Typography className="text-sm">{subtitle}</Typography>
             </Space>
           </Col>
           <Col span={24} md={secondColumnWidth} className="self-end">

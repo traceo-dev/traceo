@@ -1,6 +1,6 @@
 import { Space, Typography, Tooltip, Divider } from "antd";
 import { FC } from "react";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../../core/utils/date";
 import { StatPercent } from "../../../../core/components/StatPercent";
 
 interface Props {

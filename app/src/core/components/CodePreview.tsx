@@ -1,6 +1,6 @@
 import { Space } from "antd";
 import { FC } from "react";
-import { Trace } from "src/types/incidents";
+import { Trace } from "../../types/incidents";
 
 interface Props {
   trace: Trace;

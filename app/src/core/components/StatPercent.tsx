@@ -1,6 +1,6 @@
 import { Typography } from "antd";
 import { FC } from "react";
-import { joinClasses } from "src/core/utils/classes";
+import { joinClasses } from "../../core/utils/classes";
 
 type StatType = "success" | "warning";
 interface Props {

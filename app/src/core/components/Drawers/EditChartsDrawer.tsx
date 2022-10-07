@@ -1,8 +1,8 @@
 import { Space, Typography, Select, Drawer } from "antd";
 import { useState } from "react";
 import { DrawerButtons } from "../DrawerButtons";
-import { dispatch } from "src/store/store";
-import { loadApplications } from "src/features/dashboard/state/actions";
+import { dispatch } from "../../../store/store";
+import { loadApplications } from "../../../features/dashboard/state/actions";
 
 export const EditChartsDrawer = ({ isOpen, onCancel }) => {
   const [loading, setLoading] = useState<boolean>(false);

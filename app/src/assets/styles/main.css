@@ -10,8 +10,8 @@
 @import url("uplot.css");
 
 :root {
-  --color-primary: #0991B3;
-  --color-secondary: #155D75;
+  --color-primary: #0991b3;
+  --color-secondary: #155d75;
   --color-danger: #b91c1c;
   --color-danger-secondary: #db2626;
   --color-dark-primary: #272a30;
@@ -27,7 +27,7 @@
   --color-text-link: #6e9fff;
   --color-text-contrast: #ffffff;
 
-  --color-bg-primary: #1E1F25;
+  --color-bg-primary: #181b1f;
   --color-bg-secondary: #22252b;
   --color-bg-canvas: #111217;
 
@@ -38,7 +38,7 @@
 }
 
 .text-primary {
-  color: var(--color-text-primary) !important
+  color: var(--color-text-primary) !important;
 }
 
 .text-secondary {
@@ -51,6 +51,10 @@
 
 .text-disabled {
   color: var(--color-text-disabled) !important;
+}
+
+.text-md {
+  font-size: 14px;
 }
 
 .color-primary {
@@ -84,6 +88,7 @@ body {
   line-height: 1.5;
   font-weight: 400;
   letter-spacing: 0.01071em;
+  /* font-family: Roboto, Helvetica, Arial, sans-serif; */
 }
 
 .text-2xs {
@@ -114,7 +119,7 @@ body {
 
 .auth-input {
   padding: 16px;
-  background-color: var(--color-bg-secondary) !important;
+  background-color: var(--color-bg-canvas) !important;
   font-size: 0.875rem !important;
   font-weight: 400;
   min-height: 55px;
@@ -214,6 +219,22 @@ body {
   padding: 16px;
 }
 
+.delete-icon {
+  padding: 4px;
+  background-color: #a61d24;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+  margin-right: 10px;
+  font-weight: 500;
+  text-align: end;
+}
+
+.delete-icon:hover {
+  transition: 0.2s;
+  opacity: 0.9;
+}
+
 .icon-small {
   padding: 8px;
   border-radius: 100%;
@@ -234,4 +255,30 @@ body {
   border: 1px solid rgba(204, 204, 220, 0.15);
   padding: 7px;
   border-radius: 6px;
+}
+
+.details-table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.details-table td,
+.details-table th {
+  height: 30px;
+  line-height: 30px;
+  padding: 6px 8px;
+  white-space: nowrap;
+}
+
+.details-table tbody tr:nth-child(odd) {
+  background: var(--color-bg-secondary);
+}
+
+.details-table-label {
+  font-weight: 400 !important;
+  width: 256px !important;
+}
+
+.details-table-value {
+  width: 400px !important;
 }

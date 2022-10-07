@@ -1,16 +1,23 @@
-import { UserOutlined } from "@ant-design/icons";
-import { Space, Tooltip } from "antd";
+import {
+  BugOutlined,
+  LoadingOutlined,
+  MessageOutlined,
+  UserOutlined
+} from "@ant-design/icons";
+import { Space, Tooltip, Typography } from "antd";
 import { ColumnsType, TableProps } from "antd/lib/table";
 import { FC } from "react";
 import { Table } from "antd";
-import { IncidentsListPlot } from "src/core/components/Plots/components/IncidentsListPlot";
-import { Incident } from "src/types/incidents";
+import { IncidentsListPlot } from "../../../../core/components/Plots/components/IncidentsListPlot";
+import { Incident } from "../../../../types/incidents";
 import { Avatar } from "../../../../core/components/Avatar";
-import { IncidentMainColumn } from "./IncidentMainColumn";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { StoreState } from "src/types/store";
-import { slugifyForUrl } from "src/core/utils/stringUtils";
+import { StoreState } from "../../../../types/store";
+import { slugifyForUrl, wrapIncidentMessage } from "../../../../core/utils/stringUtils";
+import { IncidentStatusTag } from "core/components/IncidentStatusTag";
+import { joinClasses } from "core/utils/classes";
+import dateUtils from "core/utils/date";
 
 interface Props {
   incidents: Incident[];
@@ -35,9 +42,8 @@ export const IncidentTable: FC<Props> = ({
     );
   };
 
-  const handleRowSelect = (incidents: string[]) => {
-    setSelectedIncidents(incidents);
-  };
+  const handleRowSelect = (incidents: string[]) =>
+    setSelectedIncidents && setSelectedIncidents(incidents);
 
   const columns: ColumnsType<Incident> = [
     {
@@ -82,7 +88,10 @@ export const IncidentTable: FC<Props> = ({
     id: "incidentsTable",
     className: "cursor-pointer",
     rowKey: "id",
-    loading: isLoading,
+    loading: {
+      spinning: isLoading,
+      indicator: <LoadingOutlined className="text-white" />
+    },
     onRow: (record) => {
       return {
         onClick: () => {
@@ -93,10 +102,9 @@ export const IncidentTable: FC<Props> = ({
     dataSource: incidents,
     columns,
     rowSelection: {
-      onChange: (selectedRowKeys: any[]) => {
-        handleRowSelect(selectedRowKeys);
-      },
-      selectedRowKeys: selectedIncidents
+      onChange: (selectedRowKeys: any[]) => handleRowSelect(selectedRowKeys),
+      selectedRowKeys: selectedIncidents,
+      hideSelectAll: true
     },
     pagination: {
       defaultPageSize: 15,
@@ -106,5 +114,48 @@ export const IncidentTable: FC<Props> = ({
     }
   };
 
-  return <Table {...tableConfig} />;
+  return (
+    <>
+      <Table {...tableConfig} />
+      <style>{`
+        .ant-table-tbody > tr.ant-table-row:hover > td {
+          background: none !important;
+        }
+    `}</style>
+    </>
+  );
+};
+
+interface MainColumnProps {
+  incident: Incident;
+}
+const IncidentMainColumn: FC<MainColumnProps> = ({ incident }) => {
+  return (
+    <Space direction="vertical" style={{ rowGap: 0 }}>
+      <Typography.Link
+        className={joinClasses("font-semibold", "text-lg", "text-primary")}
+      >
+        {incident?.type}
+      </Typography.Link>
+      <Typography className="text-xs">
+        {wrapIncidentMessage(incident?.message)}
+      </Typography>
+      <Space className="pt-2">
+        <IncidentStatusTag status={incident?.status} />|
+        <Typography className="text-xs font-semibold text-primary">
+          Last: {dateUtils.fromNow(incident?.lastOccur)}
+        </Typography>
+        |
+        <Typography className="text-xs font-semibold text-primary">
+          <BugOutlined className="pr-3" />
+          {incident?.occuredCount}
+        </Typography>
+        |
+        <Typography className="text-xs font-semibold text-primary">
+          <MessageOutlined className="pr-3" />
+          {incident?.commentsCount || 0}
+        </Typography>
+      </Space>
+    </Space>
+  );
 };

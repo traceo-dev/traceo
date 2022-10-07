@@ -1,12 +1,12 @@
 import { Tag } from "antd";
-import { MEMBER_STATUS } from "src/types/application";
-import { joinClasses } from "src/core/utils/classes";
+import { MemberRole } from "../../types/application";
+import { joinClasses } from "../../core/utils/classes";
 
 export const MemberStatusTag = ({ status, className = "" }) => {
-  const memberStatusColor: Record<MEMBER_STATUS, string> = {
-    [MEMBER_STATUS.OWNER]: "text-white bg-amber-700",
-    [MEMBER_STATUS.ADMINISTRATOR]: "text-white bg-blue-700",
-    [MEMBER_STATUS.DEVELOPER]: "text-white bg-green-700"
+  const memberStatusColor: Record<MemberRole, string> = {
+    [MemberRole.ADMINISTRATOR]: "text-white bg-amber-700",
+    [MemberRole.MAINTAINER]: "text-white bg-blue-700",
+    [MemberRole.VIEWER]: "text-white bg-green-700"
   };
 
   return (

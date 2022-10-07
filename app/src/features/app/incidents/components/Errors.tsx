@@ -1,11 +1,11 @@
 import { Badge, Table, Typography } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useSelector } from "react-redux";
-import { CollapsedDetails } from "src/core/components/CollapsedDetails";
-import { PagePanel } from "src/core/components/PagePanel";
-import dateUtils from "src/core/utils/date";
-import { ErrorDetails } from "src/types/incidents";
-import { StoreState } from "src/types/store";
+import { CollapsedDetails } from "../../../../core/components/CollapsedDetails";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import dateUtils from "../../../../core/utils/date";
+import { ErrorDetails } from "../../../../types/incidents";
+import { StoreState } from "../../../../types/store";
 
 interface ErrorDetailsTable extends ErrorDetails {
   number?: string;
@@ -16,35 +16,11 @@ export const Errors = () => {
 
   const columns: ColumnsType<ErrorDetailsTable> = [
     {
-      title: "Error number",
-      dataIndex: "number"
-    },
-    {
       title: "Time",
       render: (record: ErrorDetails) =>
         dateUtils.formatDate(record?.date, "DD MMM YYYY HH:mm")
     }
-    // {
-    //   title: "Release",
-    //   render: (record: ErrorDetails) => (
-    //     <Typography.Link
-    //       className="font-semibold"
-    //       onClick={() =>
-    //         navigate(`/app/${application?.id}/releases/${incident?.release?.id}/details`)
-    //       }
-    //     >
-    //       {record?.version?.name}
-    //     </Typography.Link>
-    //   )
-    // }
   ];
-
-  const data = () => {
-    const errors = [...incident?.occurDates];
-    return errors
-      .map<ErrorDetailsTable>((error, index) => ({ ...error, number: `#${index + 1}` }))
-      .sort((a, b) => b.date - a.date);
-  };
 
   return (
     <PagePanel>
@@ -55,7 +31,7 @@ export const Errors = () => {
           </Typography>
         }
       >
-        <Table dataSource={data()} columns={columns} />
+        <Table dataSource={incident?.occurDates} columns={columns} />
       </CollapsedDetails>
     </PagePanel>
   );

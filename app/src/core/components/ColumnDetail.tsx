@@ -1,5 +1,5 @@
 import { Space, Typography } from "antd";
-import { joinClasses } from "src/core/utils/classes";
+import { joinClasses } from "../../core/utils/classes";
 
 export const ColumnDetail = ({ label, value, className = "" }) => {
   return (

@@ -1,7 +1,7 @@
 import { Space, Tag } from "antd";
 import { FC } from "react";
-import { IncidentStatus } from "src/types/incidents";
-import { joinClasses } from "src/core/utils/classes";
+import { IncidentStatus } from "../../types/incidents";
+import { joinClasses } from "../../core/utils/classes";
 
 interface Props {
   status: IncidentStatus;

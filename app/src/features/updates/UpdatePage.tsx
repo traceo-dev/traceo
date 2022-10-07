@@ -1,8 +1,8 @@
 import { ExclamationCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { Space, Typography } from "antd";
-import { DashboardPage } from "src/core/components/Layout/Pages/DashboardPage";
-import PageHeader from "src/core/components/PageHeader";
-import { PagePanel } from "src/core/components/PagePanel";
+import { DashboardPage } from "../../core/components/Layout/Pages/DashboardPage";
+import PageHeader from "../../core/components/PageHeader";
+import { PagePanel } from "../../core/components/PagePanel";
 
 export const UpdatePage = () => {
   return (

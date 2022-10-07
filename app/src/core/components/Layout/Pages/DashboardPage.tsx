@@ -1,11 +1,15 @@
 import { useEffect } from "react";
-import { loadAccount } from "src/features/auth/state/actions";
-import { dispatch } from "src/store/store";
-import { MenuRoute } from "src/types/navigation";
+import { useSelector } from "react-redux";
+import { StoreState } from "types/store";
+import { loadAccount } from "../../../../features/auth/state/actions";
+import { dispatch } from "../../../../store/store";
+import { MenuRoute } from "../../../../types/navigation";
 import { Page } from "../../Page";
 import Header from "../Header";
 
 export const DashboardPage = ({ children }) => {
+  const { account } = useSelector((state: StoreState) => state.account);
+
   useEffect(() => {
     dispatch(loadAccount());
   }, []);
@@ -14,28 +18,35 @@ export const DashboardPage = ({ children }) => {
     {
       key: "overview",
       href: "/dashboard/overview",
-      label: "Overview"
+      label: "Overview",
+      adminRoute: false
     },
-    // {
-    //   key: "usage",
-    //   href: "/dashboard/usage",
-    //   label: "Usage"
-    // },
+    {
+      key: "management",
+      href: "/dashboard/management/accounts",
+      label: "Management",
+      adminRoute: true
+    },
     {
       key: "account",
       href: "/dashboard/account/settings",
-      label: "Settings"
+      label: "Account",
+      adminRoute: false
     },
     {
       key: "updates",
       href: "/dashboard/updates",
-      label: "Updates"
+      label: "Updates",
+      adminRoute: false
     }
   ];
 
+  const restrictedRoutes = () =>
+    !account.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
+
   return (
     <>
-      <Header routes={routes} />
+      <Header routes={restrictedRoutes()} />
       <Page className="px-12">{children}</Page>
     </>
   );

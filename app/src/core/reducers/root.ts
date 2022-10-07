@@ -1,19 +1,29 @@
 import { combineReducers, AnyAction } from "redux";
 
-import applicationReducer from "src/features/app/state/reducers";
-import incidentsReducer from "src/features/app/incidents/state/reducers";
-import membersReducer from "src/features/app/members/state/reducers";
-import accountReducer from "src/features/auth/state/reducers";
-import dashboardReducer from "src/features/dashboard/state/reducers";
+import applicationReducer from "../../features/app/state/reducers";
+import incidentsReducer from "../../features/app/incidents/state/reducers";
+import membersReducer from "../../features/app/members/state/reducers";
+import settingsReducer from "../../features/app/settings/state/reducers";
+import configReducer from "../../features/app/explore/runtime/state/reducers";
+import logsReducer from "../../features/app/explore/logs/state/reducers";
+import accountReducer from "../../features/auth/state/reducers";
+import serverAccountsReducer from "../../features/management/state/accounts/reducers";
+import serverApplicationsReducer from "../../features/management/state/applications/reducers";
+import dashboardReducer from "../../features/dashboard/state/reducers";
 
 import { cleanUpAction, CleanUp } from "../hooks/useCleanup";
 
 const rootReducers = {
   ...accountReducer,
+  ...serverAccountsReducer,
+  ...serverApplicationsReducer,
   ...incidentsReducer,
   ...membersReducer,
   ...applicationReducer,
-  ...dashboardReducer
+  ...dashboardReducer,
+  ...configReducer,
+  ...logsReducer,
+  ...settingsReducer
 };
 
 const addedReducers = {};

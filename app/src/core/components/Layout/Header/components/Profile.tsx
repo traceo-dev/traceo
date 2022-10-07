@@ -2,9 +2,9 @@ import { UserOutlined } from "@ant-design/icons";
 import { Popover, Space, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "src/core/components/Avatar";
-import { joinClasses } from "src/core/utils/classes";
-import { StoreState } from "src/types/store";
+import { Avatar } from "../../../../../core/components/Avatar";
+import { joinClasses } from "../../../../../core/utils/classes";
+import { StoreState } from "../../../../../types/store";
 
 interface ProfileRoute {
   href?: string;
@@ -19,7 +19,7 @@ export const Profile = () => {
   const logout = () => {
     localStorage.removeItem("session");
     sessionStorage.clear();
-    window.location.href = "/";
+    window.location.href = "/login";
   };
 
   const routes: ProfileRoute[] = [
@@ -57,8 +57,8 @@ export const Profile = () => {
       <Popover
         title={
           <Space className="px-1 py-2">
-            <Avatar size="small" shape="circle" name={account.name} url={account.logo} />
-            <Typography.Text>{account.name}</Typography.Text>
+            <Avatar size="small" shape="circle" name={account?.name} />
+            <Typography.Text>{account?.name}</Typography.Text>
           </Space>
         }
         placement="bottomLeft"

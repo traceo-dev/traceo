@@ -1,11 +1,12 @@
-import { logout } from "src/core/utils/logout";
-import { notify } from "src/core/utils/notify";
-import { handleStatus } from "src/core/utils/response";
-import api from "src/core/lib/api";
-import { Account } from "src/types/accounts";
-import { ApiResponse } from "src/types/api";
-import { ThunkResult } from "src/types/store";
-import { loadAccount } from "src/features/auth/state/actions";
+import { logout } from "../../../../core/utils/logout";
+import { notify } from "../../../../core/utils/notify";
+import { handleStatus } from "../../../../core/utils/response";
+import api from "../../../../core/lib/api";
+import { Account } from "../../../../types/accounts";
+import { ApiResponse } from "../../../../types/api";
+import { ThunkResult } from "../../../../types/store";
+import { loadAccount } from "../../../../features/auth/state/actions";
+import { loadedDataSource } from "./reducers";
 
 export const updateAccount = (update: Partial<Account>): ThunkResult<void> => {
   return async (dispatch) => {
@@ -55,3 +56,12 @@ export const deleteAccount = (): ThunkResult<void> => {
     isSuccess ? logout() : notify.error(response.message);
   };
 };
+
+export const loadDataSource = (id: string): ThunkResult<void> => {
+  return async (dispatch) => {
+    const response: ApiResponse<object> = await api.get("/api/datasource", {
+      id
+    });
+    dispatch(loadedDataSource(response));
+  }
+}

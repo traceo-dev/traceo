@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { joinClasses } from "src/core/utils/classes";
+import { joinClasses } from "../../core/utils/classes";
 import Footer from "./Layout/Footer";
 
 interface Props {

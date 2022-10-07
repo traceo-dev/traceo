@@ -2,9 +2,9 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Upload } from "antd";
 import { RcFile } from "antd/lib/upload";
 import { FC, useState } from "react";
-import api from "src/core/lib/api";
+import api from "../../core/lib/api";
 import ImgCrop from "antd-img-crop";
-import { notify } from "src/core/utils/notify";
+import { notify } from "../../core/utils/notify";
 
 export enum ATTACHMENT_TYPE {
   ACCOUNT_AVATAR = "ACCOUNT_AVATAR",

@@ -1,4 +1,4 @@
-import { Card, Col, Layout, Row, Space, Typography } from "antd";
+import { Card, Col, Space, Typography } from "antd";
 import { FC } from "react";
 import { TraceoLogo } from "../Icons/TraceoLogo";
 
@@ -8,21 +8,18 @@ interface Props {
   subtitle?: string;
 }
 
-const { Header: AntHeader } = Layout;
-
 export const AuthLayout: FC<Props> = ({ children, title, subtitle }) => {
   return (
     <>
-      {/* <Row className="w-full pt-8 pl-8 justify-between">
-        <TraceoLogo size="small" withName={true} />
-      </Row> */}
       <div className="wrapper">
-        <Card className={"ant-card ant-card-bordered card"}>
+        <Card className={"ant-card card"}>
           <Col span={24}>
             <Space
               direction="vertical"
               className="justify-center w-full items-center pb-4 mt-5"
             >
+              <TraceoLogo size="medium" withName={true} />
+
               {title && (
                 <Typography className="font-semibold pb-5 text-3xl">{title}</Typography>
               )}

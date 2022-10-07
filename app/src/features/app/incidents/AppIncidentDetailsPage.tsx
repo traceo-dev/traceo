@@ -1,4 +1,4 @@
-import AppIncidentNavigationPage from "src/features/app/incidents/components/AppIncidentNavigationPage";
+import AppIncidentNavigationPage from "../../../features/app/incidents/components/AppIncidentNavigationPage";
 import { InfoSection } from "./components/InfoSection";
 import { Errors } from "./components/Errors";
 import { StacktraceSection } from "./components/StacktraceSection";

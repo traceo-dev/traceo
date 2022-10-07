@@ -1,16 +1,17 @@
-import { Card, Space, Typography } from "antd";
+import { SafetyCertificateFilled } from "@ant-design/icons";
+import { Card, Space, Tooltip, Typography } from "antd";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "src/core/components/Avatar";
-import { AppListPlot } from "src/core/components/Plots/components/AppListPlot";
-import dateUtils from "src/core/utils/date";
-import { slugifyForUrl } from "src/core/utils/stringUtils";
-import { loadApplication } from "src/features/app/state/actions";
-import { dispatch } from "src/store/store";
-import { AccountApplication } from "src/types/application";
+import { Avatar } from "../../../core/components/Avatar";
+import { IncidentsAppListPlot } from "../../../core/components/Plots/components/IncidentsAppListPlot";
+import dateUtils from "../../../core/utils/date";
+import { slugifyForUrl } from "../../../core/utils/stringUtils";
+import { loadApplication } from "../../../features/app/state/actions";
+import { dispatch } from "../../../store/store";
+import { ApplicationMember, MemberRole } from "../../../types/application";
 
 interface Props {
-  app: AccountApplication;
+  app: ApplicationMember;
 }
 export const AppCard: FC<Props> = ({ app }) => {
   const navigate = useNavigate();
@@ -33,15 +34,28 @@ export const AppCard: FC<Props> = ({ app }) => {
     >
       <Space className="w-full" direction="vertical">
         <Space>
-          <Avatar shape="circle" name={app.application.name} url={app.application.logo} />
+          <Avatar
+            shape="circle"
+            name={app.application.name}
+            url={app.application?.gravatar}
+          />
           <Space className="w-full gap-0" direction="vertical">
-            <Typography.Text className="text-sm">{app.application.name}</Typography.Text>
+            <div>
+              <Typography.Text className="text-sm">
+                {app.application.name}
+              </Typography.Text>
+              {app.role === MemberRole.ADMINISTRATOR && (
+                <Tooltip title="You're admin!">
+                  <SafetyCertificateFilled className="ml-2 text-amber-600" />
+                </Tooltip>
+              )}
+            </div>
             <div className="text-2xs w-full font-normal">{lastIncident}</div>
           </Space>
         </Space>
       </Space>
       <div className="pointer-events-none pt-8">
-        <AppListPlot id={app.application.id} />
+        <IncidentsAppListPlot id={app.application.id} />
       </div>
     </Card>
   );

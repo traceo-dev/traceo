@@ -4,10 +4,10 @@ import { TextAreaRef } from "antd/lib/input/TextArea";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
-import api from "src/core/lib/api";
-import { loadIncidentComments } from "src/features/app/incidents/state/actions";
-import { dispatch } from "src/store/store";
-import { StoreState } from "src/types/store";
+import api from "../../../core/lib/api";
+import { loadIncidentComments } from "../../../features/app/incidents/state/actions";
+import { dispatch } from "../../../store/store";
+import { StoreState } from "../../../types/store";
 import { Avatar } from "../Avatar";
 import { MarkdownHeader } from "./MarkdownHeader";
 
@@ -53,7 +53,12 @@ export const CommentInput = () => {
     <Card className="w-full p-1 bg-primary mb-5">
       <Row gutter={24} className="w-full">
         <Col span={1}>
-          <Avatar name={account?.name} url={account?.logo} shape="circle" size="large" />
+          <Avatar
+            name={account?.name}
+            url={account?.gravatar}
+            shape="circle"
+            size="large"
+          />
         </Col>
         <Col span={23}>
           <Tabs

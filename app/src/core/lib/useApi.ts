@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import isAuthenticated from "src/core/utils/isAuthenticated";
+import isAuthenticated from "../../core/utils/isAuthenticated";
 import api from "./api";
 
 export const useApi = <T>({

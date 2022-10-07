@@ -7,15 +7,12 @@ import {
   createAsyncThunk as createAsyncThunkUntyped
 } from "@reduxjs/toolkit";
 import { ThunkAction } from "redux-thunk";
-import { createRootReducer } from "src/core/reducers/root";
+import { createRootReducer } from "../core/reducers/root";
 
 export type StoreState = ReturnType<ReturnType<typeof createRootReducer>>;
 
 export type ThunkResult<R> = ThunkAction<R, StoreState, undefined, PayloadAction<any>>;
 export type AppDispatch = ReturnType<typeof configureStore>["dispatch"];
-
-// export const useDispatch = () => useDispatchUntyped<AppDispatch>();
-// export const useSelector: TypedUseSelectorHook<StoreState> = useSelectorUntyped;
 
 type DefaultThunkApiConfig = { dispatch: AppDispatch; state: StoreState };
 

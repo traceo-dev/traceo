@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
 
 import { createAction } from "@reduxjs/toolkit";
-import { dispatch } from "src/store/store";
-import { StoreState } from "src/types/store";
+import { dispatch } from "../../store/store";
+import { StoreState } from "../../types/store";
 
 export type StateSelector<T> = (state: StoreState) => T;
 

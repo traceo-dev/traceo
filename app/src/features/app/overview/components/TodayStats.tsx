@@ -1,10 +1,10 @@
 import { Space, Statistic, Typography, Divider } from "antd";
 import { FC } from "react";
 import { useSelector } from "react-redux";
-import { TextLabel } from "src/core/components/TextLabel";
-import dateUtils from "src/core/utils/date";
-import { DailyStats } from "src/types/statistics";
-import { StoreState } from "src/types/store";
+import { TextLabel } from "../../../../core/components/TextLabel";
+import dateUtils from "../../../../core/utils/date";
+import { DailyStats } from "../../../../types/statistics";
+import { StoreState } from "../../../../types/store";
 
 interface Props {
   stats: DailyStats;

@@ -1,8 +1,8 @@
 import { configureStore as reduxConfigureStore, MiddlewareArray } from "@reduxjs/toolkit";
 import { AnyAction } from "redux";
 import { ThunkMiddleware } from "redux-thunk";
-import { createRootReducer } from "src/core/reducers/root";
-import { StoreState } from "src/types/store";
+import { createRootReducer } from "../core/reducers/root";
+import { StoreState } from "../types/store";
 import { setStore } from "./store";
 
 export function configureStore() {

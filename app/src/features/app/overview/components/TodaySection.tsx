@@ -1,13 +1,13 @@
 import { ClockCircleOutlined, LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { Space } from "antd";
-import PageHeader from "src/core/components/PageHeader";
-import { DailyStats } from "src/types/statistics";
-import dateUtils from "src/core/utils/date";
+import PageHeader from "../../../../core/components/PageHeader";
+import { DailyStats } from "../../../../types/statistics";
+import dateUtils from "../../../../core/utils/date";
 import { useParams } from "react-router-dom";
-import { useApi } from "src/core/lib/useApi";
-import { PagePanel } from "src/core/components/PagePanel";
+import { useApi } from "../../../../core/lib/useApi";
+import { PagePanel } from "../../../../core/components/PagePanel";
 import { TodayStats } from "./TodayStats";
-import { TodayIncidentsPlot } from "src/core/components/Plots/components/TodayIncidentsPlot";
+import { IncidentsTodayPlot } from "../../../../core/components/Plots/components/IncidentsTodayPlot";
 
 export const TodaySection = () => {
   const { id } = useParams();
@@ -44,10 +44,14 @@ export const TodaySection = () => {
             <LoadingOutlined />
           </Space>
         ) : (
-          <Space className="w-full justify-between gap-0">
-            <TodayIncidentsPlot stats={stats?.data} />
-            <TodayStats stats={stats} />
-          </Space>
+          <div style={{ width: "100%", overflow: "hidden" }}>
+            <div style={{ width: "75%", float: "left" }}>
+              <IncidentsTodayPlot stats={stats?.data} />
+            </div>
+            <div style={{ width: "20%", float: "right" }}>
+              <TodayStats stats={stats} />
+            </div>
+          </div>
         )}
       </PagePanel>
     </>

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AccountApplication } from "src/types/application";
+import { ApplicationMember } from "../../../types/application";
 
 export interface ApplicationsState {
-  applications: AccountApplication[];
-  starredApplications: AccountApplication[];
+  applications: ApplicationMember[];
+  starredApplications: ApplicationMember[];
   hasFetched: boolean;
   hasStarredFetched: boolean;
 }
@@ -21,7 +21,7 @@ const applicationsSlice = createSlice({
   reducers: {
     applicationsLoaded: (
       state,
-      action: PayloadAction<AccountApplication[]>
+      action: PayloadAction<ApplicationMember[]>
     ): ApplicationsState => {
       return { ...state, hasFetched: true, applications: action.payload };
     }

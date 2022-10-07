@@ -8,7 +8,8 @@
 }
 
 .ant-modal-content {
-  border-radius: 8px;
+  border-radius: 4px;
+  background-color: #181b1f;
 }
 
 .ant-popover-inner-content {
@@ -39,7 +40,7 @@
 }
 
 .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: #FFFFFF !important;
+  color: #ffffff !important;
   font-weight: 600 !important;
 }
 
@@ -190,7 +191,7 @@
 }
 
 .ant-table-thead > tr > th {
-  border-bottom: 1px solid var(--color-light-gray);
+  /* border-bottom: 1px solid var(--color-light-gray); */
   font-weight: 700 !important;
   font-size: 11px;
   text-transform: uppercase !important;
@@ -198,7 +199,7 @@
 }
 
 .ant-table-cell {
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .ant-notification-notice {
@@ -240,7 +241,7 @@
   height: 32px;
   padding: 4px 15px;
   font-weight: 600;
-  border-radius: 6px;
+  border-radius: 2px;
 }
 
 .ant-dropdown-trigger {
@@ -266,8 +267,9 @@
   border-radius: 4px;
 }
 
-.ant-input, .ant-input-affix-wrapper {
-  background: var(--color-bg-canvas);
+.ant-input,
+.ant-input-affix-wrapper {
+  background: var(--color-bg-canvas) !important;
 }
 
 .ant-input-affix-wrapper,
@@ -336,19 +338,41 @@
   border: 1px solid transparent;
 }
 .ant-btn.ant-btn-background-ghost:hover {
-  background-color: #3C3F45;
+  background-color: #3c3f45;
   color: rgb(204, 204, 220);
   border: 1px solid transparent;
 }
 
 .ant-select-single.ant-select-open .ant-select-selection-item {
-  color: #FFFFFF !important;
+  color: #ffffff !important;
 }
 
 .ant-select {
   background-color: var(--color-bg-canvas);
 }
 
-.ant-select:not(.ant-select-customize-input) .ant-select-selector {
-  border-radius: 6px;
+.ant-select-single.ant-select-show-arrow .ant-select-selection-item,
+.ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder {
+  text-align: start;
+}
+
+.ant-table-row.ant-table-row-level-0:hover {
+  background-color: transparent !important;
+}
+
+.ant-table-placeholder {
+  display: none;
+}
+
+.ant-picker-range,
+.ant-picker-panel-container {
+  background-color: var(--color-bg-canvas);
+}
+
+.ant-input-search-button {
+  display: none;
+}
+
+.ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover {
+  background-color: var(--color-bg-canvas);
 }

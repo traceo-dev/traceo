@@ -6,11 +6,6 @@ export interface ApplicationStats {
     percentage: string;
     isMore: boolean;
   };
-  release: {
-    version: string;
-    incidentsCount: number;
-    incidentsOccurCount: number;
-  };
 }
 
 export interface HourlyStats {

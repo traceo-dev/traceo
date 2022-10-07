@@ -1,11 +1,16 @@
 import { Input, Space, Form, Drawer } from "antd";
-import { useState } from "react";
-import { CreateApplicationProps } from "src/types/application";
+import { FC, useState } from "react";
+import { CreateApplicationProps } from "../../../types/application";
 import { DrawerButtons } from "../DrawerButtons";
-import { dispatch } from "src/store/store";
-import { createApplication } from "src/features/app/state/actions";
+import { dispatch } from "../../../store/store";
+import { createApplication } from "../../../features/app/state/actions";
 
-export const CreateApplicationDrawer = ({ isOpen, onCancel }) => {
+interface Props {
+  isOpen: boolean;
+  onCancel: () => void;
+  isAdmin?: boolean;
+}
+export const CreateApplicationDrawer: FC<Props> = ({ isOpen, onCancel, isAdmin }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [form] = Form.useForm();
 
@@ -13,7 +18,7 @@ export const CreateApplicationDrawer = ({ isOpen, onCancel }) => {
 
   const onFinish = (form: CreateApplicationProps) => {
     setLoading(true);
-    dispatch(createApplication(form));
+    dispatch(createApplication(form, isAdmin));
     setLoading(false);
     onClose();
   };

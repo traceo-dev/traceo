@@ -1,33 +1,13 @@
 import { lazy } from "react";
-import NotFound from "src/core/components/Layout/Pages/404";
-import ConfirmAccount from "src/features/auth/confirm";
-import Invite from "src/features/auth/invite";
-import Login from "src/features/auth/login";
-import SignUp from "src/features/auth/signup";
-import LandingPage from "src/features/landing/LandingPage";
-import { RouteDescriptor } from "src/types/navigation";
+import NotFound from "../core/components/Layout/Pages/404";
+import Login from "../features/auth/login";
+import { RouteDescriptor } from "../types/navigation";
 
 const getPublicRoutes = (): RouteDescriptor[] => {
   return [
     {
-      path: "/",
-      component: LandingPage
-    },
-    {
       path: "/login",
       component: Login
-    },
-    {
-      path: "/signUp",
-      component: SignUp
-    },
-    {
-      path: "/confirm",
-      component: ConfirmAccount
-    },
-    {
-      path: "/invite",
-      component: Invite
     },
     {
       path: "/404",
@@ -45,6 +25,22 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
     {
       path: "/dashboard/overview",
       component: lazy(() => import("../features/dashboard/Dashboard"))
+    },
+    {
+      path: "/dashboard/management/accounts",
+      component: lazy(() => import("../features/management/ManagementUsersPage"))
+    },
+    {
+      path: "/dashboard/management/accounts/:id",
+      component: lazy(() => import("../features/management/ManagementUserPage"))
+    },
+    {
+      path: "/dashboard/management/apps",
+      component: lazy(() => import("../features/management/ManagementApplicationsPage"))
+    },
+    {
+      path: "/dashboard/management/apps/:id",
+      component: lazy(() => import("../features/management/ManagementApplicationPage"))
     },
     {
       path: "/dashboard/updates",
@@ -86,6 +82,18 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       )
     },
     {
+      path: "/app/:id/:slug/explore/runtime",
+      component: lazy(() => import("../features/app/explore/runtime/AppRuntimePage"))
+    },
+    {
+      path: "/app/:id/:slug/explore/logs",
+      component: lazy(() => import("../features/app/explore/logs/AppLogsPage"))
+    },
+    {
+      path: "/app/:id/:slug/metrics",
+      component: lazy(() => import("../features/app/metrics/MetricsPage"))
+    },
+    {
       path: "/app/:id/:slug/members",
       component: lazy(() => import("../features/app/members/AppMembersListPage"))
     },
@@ -94,8 +102,8 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       component: lazy(() => import("../features/app/settings/AppSettingsDetailsPage"))
     },
     {
-      path: "/app/:id/:slug/settings/credentials",
-      component: lazy(() => import("../features/app/settings/AppSettingsCredentialsPage"))
+      path: "/app/:id/:slug/settings/datasource",
+      component: lazy(() => import("../features/app/settings/AppSettingsDataSourcePage"))
     }
   ];
 };

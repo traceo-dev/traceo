@@ -1,15 +1,19 @@
 import { LoadingOutlined, RightOutlined } from "@ant-design/icons";
 import { Card, List, Space, Typography } from "antd";
-import { IncidentStatusTag } from "src/core/components/IncidentStatusTag";
-import PageHeader from "src/core/components/PageHeader";
-import { useApi } from "src/core/lib/useApi";
-import { Incident, IncidentSortBy, IncidentStatusSearch } from "src/types/incidents";
-import dateUtils from "src/core/utils/date";
+import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
+import PageHeader from "../../../../core/components/PageHeader";
+import { useApi } from "../../../../core/lib/useApi";
+import {
+  Incident,
+  IncidentSortBy,
+  IncidentStatusSearch
+} from "../../../../types/incidents";
+import dateUtils from "../../../../core/utils/date";
 import { useNavigate } from "react-router-dom";
-import { PagePanel } from "src/core/components/PagePanel";
-import { slugifyForUrl } from "src/core/utils/stringUtils";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
+import { StoreState } from "../../../../types/store";
 
 export const RecentIncidentsSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);

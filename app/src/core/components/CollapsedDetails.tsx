@@ -1,6 +1,6 @@
 import { Collapse } from "antd";
 import { FC } from "react";
-import { joinClasses } from "src/core/utils/classes";
+import { joinClasses } from "../../core/utils/classes";
 
 const { Panel } = Collapse;
 interface Props {
@@ -12,7 +12,7 @@ export const CollapsedDetails: FC<Props> = ({ label, children, className }) => {
     <Collapse
       defaultActiveKey={["1"]}
       ghost
-      expandIconPosition="right"
+      expandIconPosition="end"
       className={joinClasses(
         "collapsed-details-header collapsed-details-body",
         className

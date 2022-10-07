@@ -1,16 +1,17 @@
-import api from "src/core/lib/api";
-import { ThunkResult } from "src/types/store";
+import api from "../../../core/lib/api";
+import { ThunkResult } from "../../../types/store";
 import {
-  AccountApplication,
+  ApplicationMember,
   SearchApplicationQueryParams,
   UpdateAccountApplicationProps
-} from "src/types/application";
+} from "../../../types/application";
 import { applicationsLoaded } from "./reducers";
 
 export const loadApplications = (
   query?: SearchApplicationQueryParams
 ): ThunkResult<void> => {
-  return async (dispatch) => {
+  return async (dispatch, getStore) => {
+    const account = getStore().account.account;
     if (!query) {
       query = {
         order: "ASC",
@@ -18,11 +19,11 @@ export const loadApplications = (
       };
     }
 
-    const application = await api.get<AccountApplication[]>(
-      "/api/amr/applications",
-      query
-    );
-    dispatch(applicationsLoaded(application));
+    const applications = await api.get<ApplicationMember[]>("/api/amr/applications", {
+      accountId: query?.accountId || account?.id,
+      ...query
+    });
+    dispatch(applicationsLoaded(applications));
   };
 };
 

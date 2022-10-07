@@ -1,3 +1,4 @@
+import { LoadingOutlined } from "@ant-design/icons";
 import { ConfigProvider, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { FC } from "react";
@@ -58,8 +59,12 @@ export const PaginatedTable: FC<Props> = ({
               }
             : false
         }
-        loading={loading}
+        loading={{
+          spinning: loading,
+          indicator: <LoadingOutlined className="text-white" />
+        }}
         columns={columns}
+        locale={{ emptyText: "" }}
         className={className}
       />
     </ConfigProvider>

@@ -1,31 +1,29 @@
-import { Button, Menu, Space, Typography } from "antd";
+import { Button, Dropdown, Menu, Space, Typography } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { BatchUpdateDrawer } from "src/core/components/Drawers/BatchUpdateDrawer";
-import AppPage from "src/core/components/Layout/Pages/AppPage";
-import { SearchInput } from "src/core/components/SearchInput";
-import { SortIcons } from "src/core/components/SortIcons";
-import { IncidentTable } from "src/features/app/incidents/components/IncidentTable";
-import { useCleanup } from "src/core/hooks/useCleanup";
-import { ApiQueryParams } from "src/core/lib/api";
-import { dispatch } from "src/store/store";
+import { BatchUpdateDrawer } from "../../../core/components/Drawers/BatchUpdateDrawer";
+import AppPage from "../../../core/components/Layout/Pages/AppPage";
+import { SearchInput } from "../../../core/components/SearchInput";
+import { SortIcons } from "../../../core/components/SortIcons";
+import { IncidentTable } from "../../../features/app/incidents/components/IncidentTable";
+import { useCleanup } from "../../../core/hooks/useCleanup";
+import { ApiQueryParams } from "../../../core/lib/api";
+import { dispatch } from "../../../store/store";
 import {
+  handleIncidentSort,
   handleIncidentStatus,
   IncidentSortBy,
   IncidentStatusSearch
-} from "src/types/incidents";
-import { StoreState } from "src/types/store";
-import { loadIncidents } from "src/features/app/incidents/state/actions";
+} from "../../../types/incidents";
+import { StoreState } from "../../../types/store";
+import { loadIncidents } from "../../../features/app/incidents/state/actions";
 import { useParams } from "react-router-dom";
-import { SortOrder } from "src/types/api";
-import PageHeader from "src/core/components/PageHeader";
-import { PagePanel } from "src/core/components/PagePanel";
+import { SortOrder } from "../../../types/api";
+import PageHeader from "../../../core/components/PageHeader";
+import { PagePanel } from "../../../core/components/PagePanel";
 import { BugOutlined } from "@ant-design/icons";
-import { IncidentsSortDropdown } from "./components/IncidentsSortDropdown";
-import { ConditionLayout } from "src/core/components/ConditionLayout";
-import { EmptyIncidentList } from "src/core/components/EmptyViews/EmptyIncidentList";
-import { handleAppSort } from "src/core/utils/handlers";
-import { StatusDropdown } from "src/core/components/StatusDropdown";
+import { ConditionLayout } from "../../../core/components/ConditionLayout";
+import { EmptyIncidentList } from "../../../core/components/EmptyViews/EmptyIncidentList";
 
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
@@ -49,30 +47,60 @@ export const AppIncidentsListPage = () => {
     status
   };
 
-  useEffect(() => {
-    fetchIncidents();
-  }, []);
+  useEffect(() => fetchIncidents(), []);
 
   useEffect(() => {
     fetchIncidents();
-  }, [order, sortBy, status]);
+  }, [order, sortBy, status, search]);
 
-  const fetchIncidents = () => {
-    dispatch(loadIncidents(queryParams));
+  const fetchIncidents = () => dispatch(loadIncidents(queryParams));
+
+  const IncidentStatusDropdown = () => {
+    const statusContent = (
+      <Menu
+        style={{ width: 200 }}
+        onClick={(val) => setStatus(val.key as IncidentStatusSearch)}
+      >
+        {Object.values(IncidentStatusSearch).map((status) => (
+          <Menu.Item key={status} className="capitalize">
+            {status}
+          </Menu.Item>
+        ))}
+      </Menu>
+    );
+
+    return (
+      <Dropdown overlay={statusContent} placement="bottom">
+        <Button>
+          <span>Status:</span>
+          <span className="font-bold">&nbsp;{handleIncidentStatus[status]}</span>
+        </Button>
+      </Dropdown>
+    );
   };
 
-  const dropdownSearchStatuses = (
-    <Menu
-      style={{ width: 200 }}
-      onClick={(val) => setStatus(val.key as IncidentStatusSearch)}
-    >
-      {Object.values(IncidentStatusSearch).map((status) => (
-        <Menu.Item key={status} className="capitalize">
-          {status}
-        </Menu.Item>
-      ))}
-    </Menu>
-  );
+  const IncidentsSortDropdown = () => {
+    const sortByContent = (
+      <Menu
+        style={{ width: 200 }}
+        onClick={(val) => setSortBy(val.key as IncidentSortBy)}
+      >
+        <Menu.Item key={IncidentSortBy.LAST_SEEN}>Last seen</Menu.Item>
+        <Menu.Item key={IncidentSortBy.FIRST_SEEN}>First seen</Menu.Item>
+        <Menu.Item key={IncidentSortBy.STATUS}>Status</Menu.Item>
+        <Menu.Item key={IncidentSortBy.OCCUR_COUNT}>Occur count</Menu.Item>
+      </Menu>
+    );
+
+    return (
+      <Dropdown overlay={sortByContent} placement="bottom">
+        <Button>
+          <span>Sort by:</span>
+          <span className="font-bold">&nbsp;{handleIncidentSort[sortBy]}</span>
+        </Button>
+      </Dropdown>
+    );
+  };
 
   return (
     <>
@@ -86,19 +114,9 @@ export const AppIncidentsListPage = () => {
         <PagePanel>
           <Space className="pb-2 w-full justify-between">
             <Space className="w-full">
-              <SearchInput
-                placeholder="Search"
-                value={search}
-                loading={!hasFetched}
-                setValue={setSearch}
-                get={() => fetchIncidents()}
-              />
-              <StatusDropdown
-                overlay={dropdownSearchStatuses}
-                value={handleIncidentStatus[status]}
-              />
-
-              <IncidentsSortDropdown setSortBy={setSortBy} sortBy={sortBy} />
+              <SearchInput value={search} setValue={setSearch} />
+              <IncidentStatusDropdown />
+              <IncidentsSortDropdown />
               <SortIcons order={order} setOrder={setOrder} />
             </Space>
 
@@ -113,12 +131,14 @@ export const AppIncidentsListPage = () => {
           </Space>
 
           <ConditionLayout
-            isEmpty={incidents?.length === 0 && hasFetched}
+            isEmpty={incidents?.length === 0}
+            isLoading={!hasFetched}
             emptyView={<EmptyIncidentList constraints={search} />}
           >
             <IncidentTable
               isLoading={!hasFetched}
               incidents={incidents}
+              selectedIncidents={selectedIncidents}
               setSelectedIncidents={setSelectedIncidents}
             />
           </ConditionLayout>

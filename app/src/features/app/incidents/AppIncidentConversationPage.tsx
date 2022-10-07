@@ -1,23 +1,19 @@
 import { AlertOutlined } from "@ant-design/icons";
 import { Card, Space, Typography } from "antd";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { CommentInput } from "src/core/components/Comments/CommentInput";
-import { CommentsBox } from "src/core/components/Comments/CommentsBox";
-import { ConditionLayout } from "src/core/components/ConditionLayout";
-import { SocketContext } from "src/core/hooks/SocketContextProvider";
-import { dispatch } from "src/store/store";
-import { StoreState } from "src/types/store";
-import { Comment } from "src/types/comments";
+import { CommentInput } from "../../../core/components/Comments/CommentInput";
+import { CommentsBox } from "../../../core/components/Comments/CommentsBox";
+import { ConditionLayout } from "../../../core/components/ConditionLayout";
+import { SocketContext } from "../../../core/hooks/SocketContextProvider";
+import { dispatch } from "../../../store/store";
+import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
 import { loadIncidentComments } from "./state/actions";
 
 export const AppIncidentConversationPage = () => {
   const { socket } = useContext(SocketContext);
-  const [render, rerender] = useState<boolean>(false);
-  const { incident, comments, hasFetched } = useSelector(
-    (state: StoreState) => state.incident
-  );
+  const { incident, hasFetched } = useSelector((state: StoreState) => state.incident);
 
   useEffect(() => {
     fetchComments();
@@ -31,14 +27,8 @@ export const AppIncidentConversationPage = () => {
     socket.emit("join_room", incident?.id);
   }, []);
 
-  socket.off("new_comment").on("new_comment", (comment: Comment) => {
-    comments.splice(0, 0, comment);
-    rerender(!render);
-  });
-
-  socket.off("update_comment").on("update_comment", () => {
-    fetchComments();
-  });
+  socket.off("new_comment").on("new_comment", () => fetchComments());
+  socket.off("update_comment").on("update_comment", () => fetchComments());
 
   return (
     <>

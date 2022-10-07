@@ -1,17 +1,17 @@
 import Header from "../Header";
 import { Page } from "../../Page";
 import { useEffect } from "react";
-import { loadApplication } from "src/features/app/state/actions";
+import { loadApplication } from "../../../../features/app/state/actions";
 import { useParams } from "react-router-dom";
-import { dispatch } from "src/store/store";
-import { MenuRoute } from "src/types/navigation";
+import { dispatch } from "../../../../store/store";
+import { MenuRoute } from "../../../../types/navigation";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/types/store";
-import { isEmptyObject } from "src/core/utils/object";
+import { StoreState } from "../../../../types/store";
+import { isEmptyObject } from "../../../../core/utils/object";
 import NotFound from "./404";
 import { PageCenter } from "../../PageCenter";
 import { TraceoLoading } from "../../TraceoLoading";
-import { isSlugCorrect } from "src/core/utils/url";
+import { isSlugCorrect } from "../../../../core/utils/url";
 
 export const AppPage = ({ children }) => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -23,7 +23,7 @@ export const AppPage = ({ children }) => {
 
   if (isEmptyObject(application)) {
     return <TraceoLoading />;
-  } else if (!application?.member?.status || !isSlugCorrect(application.name)) {
+  } else if (!application?.member?.role || !isSlugCorrect(application.name)) {
     return (
       <PageCenter>
         <NotFound />
@@ -41,6 +41,16 @@ export const AppPage = ({ children }) => {
       key: "incidents",
       href: "/app/:id/:slug/incidents",
       label: "Incidents"
+    },
+    {
+      key: "explore",
+      href: "/app/:id/:slug/explore/logs",
+      label: "Explore"
+    },
+    {
+      key: "metrics",
+      href: "/app/:id/:slug/metrics",
+      label: "Metrics"
     },
     {
       key: "members",
