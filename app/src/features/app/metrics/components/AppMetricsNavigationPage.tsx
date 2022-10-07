@@ -1,5 +1,5 @@
 import { BarChartOutlined } from "@ant-design/icons";
-import AppPage from "core/components/Layout/Pages/AppPage";
+import AppPage from "features/app/components/AppPage";
 import PageHeader from "core/components/PageHeader";
 import { PagePanel } from "core/components/PagePanel";
 

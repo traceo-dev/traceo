@@ -2,7 +2,7 @@ import { Button, Dropdown, Menu, Space, Typography } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BatchUpdateDrawer } from "../../../core/components/Drawers/BatchUpdateDrawer";
-import AppPage from "../../../core/components/Layout/Pages/AppPage";
+import AppPage from "../components/AppPage";
 import { SearchInput } from "../../../core/components/SearchInput";
 import { SortIcons } from "../../../core/components/SortIcons";
 import { IncidentTable } from "../../../features/app/incidents/components/IncidentTable";

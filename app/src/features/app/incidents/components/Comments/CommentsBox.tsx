@@ -1,10 +1,10 @@
 import { Space, Timeline } from "antd";
-import { Avatar } from "../Avatar";
-import { ConditionLayout } from "../ConditionLayout";
-import { EmptyIncidentCommentsList } from "../EmptyViews/EmptyIncidentCommentsList";
+import { Avatar } from "../../../../../core/components/Avatar";
+import { ConditionLayout } from "../../../../../core/components/ConditionLayout";
+import { EmptyIncidentCommentsList } from "../../../../../core/components/EmptyViews/EmptyIncidentCommentsList";
 import { CommentItem } from "./CommentItem";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../types/store";
+import { StoreState } from "../../../../../types/store";
 
 export const CommentsBox = () => {
   const { incident, comments, hasCommentsFetched } = useSelector(

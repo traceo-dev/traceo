@@ -4,7 +4,7 @@ module.exports = {
     project: 'tsconfig.json',
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'unused-imports'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'prettier/@typescript-eslint',
@@ -23,7 +23,7 @@ module.exports = {
     quotes: ['error', 'double'],
     semi: ['error', 'always'],
     camelcase: 0,
-    // 'unused-imports/no-unused-imports-ts': 2,
+    'unused-imports/no-unused-imports-ts': 1,
     'object-curly-spacing': ['error', 'always'],
     'max-len': [
       'error',

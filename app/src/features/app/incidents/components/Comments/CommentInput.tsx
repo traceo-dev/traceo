@@ -4,11 +4,11 @@ import { TextAreaRef } from "antd/lib/input/TextArea";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
-import api from "../../../core/lib/api";
-import { loadIncidentComments } from "../../../features/app/incidents/state/actions";
-import { dispatch } from "../../../store/store";
-import { StoreState } from "../../../types/store";
-import { Avatar } from "../Avatar";
+import api from "../../../../../core/lib/api";
+import { loadIncidentComments } from "../../state/actions";
+import { dispatch } from "../../../../../store/store";
+import { StoreState } from "../../../../../types/store";
+import { Avatar } from "../../../../../core/components/Avatar";
 import { MarkdownHeader } from "./MarkdownHeader";
 
 const { TabPane } = Tabs;

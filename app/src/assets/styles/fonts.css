@@ -1,35 +1,17 @@
 @font-face {
     font-family: 'JetBrainsMono';
-    src: url('../../core/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+    src: url('../../assets/fonts/JetBrainsMono-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'JetBrainsMono';
-    src: url('../../core/fonts/JetBrainsMono-Bold.woff2') format('woff2');
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Rubik';
-    src: url('../../core/fonts/Rubik-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Rubik';
-    src: url('../../core/fonts/Rubik-Bold.ttf') format('truetype');
+    src: url('../../assets/fonts/JetBrainsMono-Bold.woff2') format('woff2');
     font-weight: bold;
     font-style: normal;
 }
 
 .JetBrainsFont {
     font-family: 'JetBrainsMono';
-}
-
-.RubikFont {
-    font-family: 'Rubik';
 }

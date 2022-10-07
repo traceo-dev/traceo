@@ -1,5 +1,5 @@
 import { ClockCircleOutlined } from "@ant-design/icons";
-import { Skeleton, Space, Typography } from "antd";
+import { Space, Typography } from "antd";
 import { IncidentsOverviewPlot } from "core/components/Plots/components/IncidentsOverviewPlot";
 import { IncidentsTodayPlot } from "core/components/Plots/components/IncidentsTodayPlot";
 import { TraceoLoading } from "core/components/TraceoLoading";

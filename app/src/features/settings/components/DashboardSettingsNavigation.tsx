@@ -3,7 +3,7 @@ import PageHeader from "../../../core/components/PageHeader";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { MenuRoute } from "../../../types/navigation";
 import { Menu } from "../../../core/components/Layout/Menu";
-import { DashboardPage } from "../../../core/components/Layout/Pages/DashboardPage";
+import { DashboardPage } from "../../dashboard/components/DashboardPage";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import { useEffect } from "react";

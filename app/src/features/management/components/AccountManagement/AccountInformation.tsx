@@ -5,7 +5,6 @@ import {
   DescriptionInputRow,
   Descriptions
 } from "../../../../core/components/Descriptions";
-import PageHeader from "../../../../core/components/PageHeader";
 import { dispatch } from "../../../../store/store";
 import { AccountStatus } from "../../../../types/accounts";
 import { StoreState } from "../../../../types/store";
@@ -16,6 +15,7 @@ import { ApiResponse } from "../../../../types/api";
 import { notify } from "../../../../core/utils/notify";
 import { handleStatus } from "../../../../core/utils/response";
 import { useNavigate } from "react-router-dom";
+import { ColumnSection } from "core/components/ColumnSection";
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -119,29 +119,30 @@ export const AccountInformation = () => {
       )}
 
       <DetailsSection>
-        <PageHeader
-          fontSize={22}
+        <ColumnSection
           title="Personal information"
-          subTitle="Basic informations about this user"
-          className="pb-5"
-          extra={<OperationButtons />}
-        />
-
-        <Descriptions>
-          <DescriptionInputRow label="Name" onUpdate={onUpdateName} editable={!isAdmin}>
-            {account.name}
-          </DescriptionInputRow>
-          <DescriptionInputRow
-            label="Username"
-            onUpdate={onUpdateUsername}
-            editable={!isAdmin}
-          >
-            {account.username}
-          </DescriptionInputRow>
-          <DescriptionInputRow label="Email" onUpdate={onUpdateEmail} editable={!isAdmin}>
-            {account.email}
-          </DescriptionInputRow>
-        </Descriptions>
+          subtitle="Basic informations about this user"
+        >
+          <Descriptions>
+            <DescriptionInputRow label="Name" onUpdate={onUpdateName} editable={!isAdmin}>
+              {account.name}
+            </DescriptionInputRow>
+            <DescriptionInputRow
+              label="Username"
+              onUpdate={onUpdateUsername}
+              editable={!isAdmin}
+            >
+              {account.username}
+            </DescriptionInputRow>
+            <DescriptionInputRow
+              label="Email"
+              onUpdate={onUpdateEmail}
+              editable={!isAdmin}
+            >
+              {account.email}
+            </DescriptionInputRow>
+          </Descriptions>
+        </ColumnSection>
       </DetailsSection>
     </>
   );

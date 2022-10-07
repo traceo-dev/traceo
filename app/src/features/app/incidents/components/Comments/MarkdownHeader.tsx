@@ -8,7 +8,7 @@ import {
   UnorderedListOutlined
 } from "@ant-design/icons";
 import { Space } from "antd";
-import { joinClasses } from "../../../core/utils/classes";
+import { joinClasses } from "../../../../../core/utils/classes";
 
 export const MarkdownHeader = ({ form, className = "" }) => {
   const pasteMarkdownTag = (tag: string) => {

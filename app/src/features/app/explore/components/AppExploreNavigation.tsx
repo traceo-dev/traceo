@@ -4,7 +4,7 @@ import {
   CompassOutlined
 } from "@ant-design/icons";
 import { Menu } from "core/components/Layout/Menu";
-import AppPage from "core/components/Layout/Pages/AppPage";
+import AppPage from "features/app/components/AppPage";
 import PageHeader from "core/components/PageHeader";
 import { PagePanel } from "core/components/PagePanel";
 import { MenuRoute } from "types/navigation";

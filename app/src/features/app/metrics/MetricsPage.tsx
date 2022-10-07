@@ -1,5 +1,4 @@
 import { Typography } from "antd";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "types/store";
 import AppMetricsNavigationPage from "./components/AppMetricsNavigationPage";

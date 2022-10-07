@@ -1,15 +1,15 @@
 import { Space, Typography, Card, Form, Input, Popover, List, Tag, Button } from "antd";
 import { FC, useRef, useState } from "react";
-import { Comment } from "../../../types/comments";
-import dateUtils from "../../../core/utils/date";
+import { Comment } from "../../../../../types/comments";
+import dateUtils from "../../../../../core/utils/date";
 import ReactMarkdown from "react-markdown";
 import { EllipsisOutlined } from "@ant-design/icons";
-import { conditionClass, joinClasses } from "../../../core/utils/classes";
+import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
 import { TextAreaRef } from "antd/lib/input/TextArea";
 import { MarkdownHeader } from "./MarkdownHeader";
-import api from "../../../core/lib/api";
+import api from "../../../../../core/lib/api";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../types/store";
+import { StoreState } from "../../../../../types/store";
 
 interface Props {
   comment: Comment;

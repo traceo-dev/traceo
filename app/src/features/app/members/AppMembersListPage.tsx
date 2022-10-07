@@ -3,7 +3,7 @@ import { Button, Space } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { AddMemberDrawer } from "../../../core/components/Drawers/AddMemberDrawer";
-import AppPage from "../../../core/components/Layout/Pages/AppPage";
+import AppPage from "../components/AppPage";
 import { SearchInput } from "../../../core/components/SearchInput";
 import { MembersTable } from "../../../features/app/members/components/MembersTable";
 import { ApiQueryParams } from "../../../core/lib/api";

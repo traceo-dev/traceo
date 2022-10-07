@@ -36,7 +36,7 @@ export const IncidentsOverviewPlot = ({ stats }) => {
       boundaryGap: false,
       offset: 12,
       axisLabel: {
-        formatter: (v) => dateUtils.formatDate(Number(v), "MMM D"),
+        formatter: (v) => dateUtils.formatDate(Number(v), "DD-MM"),
         color: "white",
         fontSize: 11
       },

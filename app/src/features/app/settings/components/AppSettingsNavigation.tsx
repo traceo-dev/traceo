@@ -1,4 +1,4 @@
-import AppPage from "../../../../core/components/Layout/Pages/AppPage";
+import AppPage from "../../components/AppPage";
 import PageHeader from "../../../../core/components/PageHeader";
 import { DatabaseOutlined, InfoCircleOutlined, SettingOutlined } from "@ant-design/icons";
 import { PagePanel } from "../../../../core/components/PagePanel";

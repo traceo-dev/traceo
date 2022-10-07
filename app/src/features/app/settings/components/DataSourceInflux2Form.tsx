@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 import { dispatch } from "store/store";
 import { InfluxDS } from "types/application";
 import { StoreState } from "types/store";
-import { loadDataSource } from "../state/actions";
 
 interface Props {
   dataSource: object;

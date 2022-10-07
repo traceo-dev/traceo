@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { dispatch } from "../../../../store/store";
 import { StoreState } from "../../../../types/store";
 import { IncidentHeader } from "../../../../features/app/incidents/components/IncidentHeader";
-import AppPage from "../../../../core/components/Layout/Pages/AppPage";
+import AppPage from "../../components/AppPage";
 import { ConditionLayout } from "../../../../core/components/ConditionLayout";
 import { MenuRoute } from "../../../../types/navigation";
 import { Menu } from "../../../../core/components/Layout/Menu";

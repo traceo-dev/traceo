@@ -1,4 +1,4 @@
-import { ArrowLeftOutlined, ArrowRightOutlined, SyncOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { Space, Typography, Button, Tooltip } from "antd";
 import dayjs from "dayjs";
 import { LogsExplorePlot } from "core/components/Plots/components/LogsExplorePlot";

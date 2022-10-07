@@ -1,5 +1,5 @@
 import { Space, Typography } from "antd";
-import { FC, useState } from "react";
+import { FC } from "react";
 
 interface Props {
   title: string;

@@ -5,11 +5,11 @@ import {
   DescriptionRadioRow,
   Descriptions
 } from "../../../../core/components/Descriptions";
-import PageHeader from "../../../../core/components/PageHeader";
 import { dispatch } from "../../../../store/store";
 import { StoreState } from "../../../../types/store";
 import { updateServerAccount } from "../../state/accounts/actions";
 import { DetailsSection } from "../../../../core/components/DetailsSection";
+import { ColumnSection } from "core/components/ColumnSection";
 
 export const AccountPermissions = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -22,34 +22,30 @@ export const AccountPermissions = () => {
 
   return (
     <DetailsSection>
-      <PageHeader
-        fontSize={22}
-        title="Permissions"
-        subTitle="Current permissions for this account"
-        className="pb-5"
-      />
-      <Descriptions>
-        <DescriptionRadioRow
-          label="Server Admin"
-          onUpdate={onUpdateServerRole}
-          options={[
-            { label: "Yes", value: true },
-            { label: "No", value: false }
-          ]}
-          defaultValue={account.isAdmin}
-          editable={!isAdmin}
-        >
-          {account.isAdmin ? (
-            <Typography.Text>
-              Admin <SafetyCertificateOutlined />
-            </Typography.Text>
-          ) : (
-            <Typography.Text>
-              No <CloseOutlined />
-            </Typography.Text>
-          )}
-        </DescriptionRadioRow>
-      </Descriptions>
+      <ColumnSection title="Permissions" subtitle="Current permissions for this account">
+        <Descriptions>
+          <DescriptionRadioRow
+            label="Server Admin"
+            onUpdate={onUpdateServerRole}
+            options={[
+              { label: "Yes", value: true },
+              { label: "No", value: false }
+            ]}
+            defaultValue={account.isAdmin}
+            editable={!isAdmin}
+          >
+            {account.isAdmin ? (
+              <Typography.Text>
+                Admin <SafetyCertificateOutlined />
+              </Typography.Text>
+            ) : (
+              <Typography.Text>
+                No <CloseOutlined />
+              </Typography.Text>
+            )}
+          </DescriptionRadioRow>
+        </Descriptions>
+      </ColumnSection>
     </DetailsSection>
   );
 };

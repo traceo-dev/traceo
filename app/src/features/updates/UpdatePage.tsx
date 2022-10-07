@@ -1,6 +1,6 @@
 import { ExclamationCircleOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { Space, Typography } from "antd";
-import { DashboardPage } from "../../core/components/Layout/Pages/DashboardPage";
+import { DashboardPage } from "../dashboard/components/DashboardPage";
 import PageHeader from "../../core/components/PageHeader";
 import { PagePanel } from "../../core/components/PagePanel";
 
