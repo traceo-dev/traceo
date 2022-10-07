@@ -1,6 +1,5 @@
 import {
   DeploymentUnitOutlined,
-  BarChartOutlined,
   AlignLeftOutlined,
   CompassOutlined
 } from "@ant-design/icons";

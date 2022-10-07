@@ -12,6 +12,7 @@ import { IncidentsModule } from './incidents/incidents.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { CommentsModule } from './comments/comments.module';
 import { WebsocketsModule } from './websockets/websockets.module';
+import { DataSourceModule } from './dataSource/dataSource.module';
 
 @Module({
   imports: [
@@ -29,9 +30,10 @@ import { WebsocketsModule } from './websockets/websockets.module';
     IncidentsModule,
     StatisticsModule,
     CommentsModule,
-    WebsocketsModule
+    WebsocketsModule,
+    DataSourceModule
   ],
   controllers: [AppController],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

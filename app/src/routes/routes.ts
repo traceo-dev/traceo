@@ -90,12 +90,20 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       component: lazy(() => import("../features/app/explore/logs/AppLogsPage"))
     },
     {
+      path: "/app/:id/:slug/metrics",
+      component: lazy(() => import("../features/app/metrics/MetricsPage"))
+    },
+    {
       path: "/app/:id/:slug/members",
       component: lazy(() => import("../features/app/members/AppMembersListPage"))
     },
     {
       path: "/app/:id/:slug/settings/details",
       component: lazy(() => import("../features/app/settings/AppSettingsDetailsPage"))
+    },
+    {
+      path: "/app/:id/:slug/settings/datasource",
+      component: lazy(() => import("../features/app/settings/AppSettingsDataSourcePage"))
     }
   ];
 };

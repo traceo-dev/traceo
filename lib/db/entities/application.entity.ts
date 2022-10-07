@@ -4,6 +4,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Account } from "./account.entity";
@@ -12,6 +13,8 @@ import { Incident } from "./incident.entity";
 import { GenericEntity } from "lib/core/generic.entity";
 import { Environment } from "lib/core/generic.model";
 import { Runtime } from "./runtime.entity";
+import { InfluxDS } from "./influxds.entity";
+import { TSDB } from "lib/types/tsdb";
 
 @Entity()
 export class Application extends GenericEntity {
@@ -63,10 +66,18 @@ export class Application extends GenericEntity {
   incidents?: Incident[];
   incidentsCount?: number;
 
-  
   @OneToMany(() => Runtime, (runtime) => runtime.application, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE",
   })
   runtimeData?: Runtime[];
+
+  @ManyToOne(() => InfluxDS)
+  influxDS?: InfluxDS;
+
+  @Column({
+    type: "varchar",
+    nullable: true
+  })
+  connectedTSDB?: TSDB;
 }

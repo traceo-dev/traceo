@@ -18,6 +18,12 @@ export interface OwnerAccount {
   username: string;
 }
 
+export enum TSDB {
+  INFLUX = "influx",
+  INFLUX2 = "influx2",
+  PROMETHEUS = "prometheus"
+}
+
 export interface Application {
   id?: string;
   name: string;
@@ -33,6 +39,16 @@ export interface Application {
   member: {
     role: MemberRole;
   };
+  connectedTSDB?: TSDB;
+  influxDS: InfluxDS;
+}
+
+export interface InfluxDS {
+  url: string;
+  org: string;
+  bucket: string;
+  interval: number;
+  timeout: number;
 }
 
 export interface AddAccountToApplication {

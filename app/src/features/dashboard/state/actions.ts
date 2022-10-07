@@ -23,7 +23,6 @@ export const loadApplications = (
       accountId: query?.accountId || account?.id,
       ...query
     });
-    console.log({ applications })
     dispatch(applicationsLoaded(applications));
   };
 };

@@ -48,6 +48,11 @@ export const AppPage = ({ children }) => {
       label: "Explore"
     },
     {
+      key: "metrics",
+      href: "/app/:id/:slug/metrics",
+      label: "Metrics"
+    },
+    {
       key: "members",
       href: "/app/:id/:slug/members",
       label: "Members"

@@ -16,22 +16,11 @@ export const Errors = () => {
 
   const columns: ColumnsType<ErrorDetailsTable> = [
     {
-      title: "Error number",
-      dataIndex: "number"
-    },
-    {
       title: "Time",
       render: (record: ErrorDetails) =>
         dateUtils.formatDate(record?.date, "DD MMM YYYY HH:mm")
     }
   ];
-
-  const data = () => {
-    const errors = [...incident?.occurDates];
-    return errors
-      .map<ErrorDetailsTable>((error, index) => ({ ...error, number: `#${index + 1}` }))
-      .sort((a, b) => b.date - a.date);
-  };
 
   return (
     <PagePanel>
@@ -42,7 +31,7 @@ export const Errors = () => {
           </Typography>
         }
       >
-        <Table dataSource={data()} columns={columns} />
+        <Table dataSource={incident?.occurDates} columns={columns} />
       </CollapsedDetails>
     </PagePanel>
   );

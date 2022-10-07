@@ -9,8 +9,8 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Environment } from 'aws-sdk/clients/iot';
 import { RequestUser } from 'lib/auth/auth.model';
+import { Environment } from 'lib/core/generic.model';
 import { Incident } from 'lib/db/entities/incident.entity';
 import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';

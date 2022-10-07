@@ -1,6 +1,11 @@
 import { Button } from "antd";
 
-export const DrawerButtons = ({ onClose, onFinish, loading = false }) => {
+export const DrawerButtons = ({
+  onClose,
+  onFinish,
+  loading = false,
+  okLabel = "Confirm"
+}) => {
   return (
     <>
       <Button onClick={() => onClose()} ghost className="w-1/2">
@@ -12,7 +17,7 @@ export const DrawerButtons = ({ onClose, onFinish, loading = false }) => {
         type="primary"
         className="w-1/2"
       >
-        Confirm
+        {okLabel}
       </Button>
     </>
   );

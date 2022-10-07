@@ -269,7 +269,7 @@
 
 .ant-input,
 .ant-input-affix-wrapper {
-  background: var(--color-bg-canvas);
+  background: var(--color-bg-canvas) !important;
 }
 
 .ant-input-affix-wrapper,
@@ -371,4 +371,8 @@
 
 .ant-input-search-button {
   display: none;
+}
+
+.ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover {
+  background-color: var(--color-bg-canvas);
 }

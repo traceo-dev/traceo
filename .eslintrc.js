@@ -18,7 +18,7 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js', 'tailwind.config.js', 'app/dist/**', '*.ts'],
   rules: {
-    indent: [0],
+    // indent: [0],
     eqeqeq: ['error', 'always'],
     quotes: ['error', 'double'],
     semi: ['error', 'always'],

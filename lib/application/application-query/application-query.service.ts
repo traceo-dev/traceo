@@ -48,7 +48,7 @@ export class ApplicationQueryService extends GenericQueryService<
   }
 
   public selectedColumns(): string[] {
-    return ["id", "name", "gravatar", "lastIncidentAt", "defaultEnv"];
+    return ["id", "name", "gravatar", "lastIncidentAt", "defaultEnv", "connectedTSDB"];
   }
 
   public async getApplicationRuntime(appId: number, env: Environment) {

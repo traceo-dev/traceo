@@ -6,6 +6,7 @@ import { Account } from "../../../../types/accounts";
 import { ApiResponse } from "../../../../types/api";
 import { ThunkResult } from "../../../../types/store";
 import { loadAccount } from "../../../../features/auth/state/actions";
+import { loadedDataSource } from "./reducers";
 
 export const updateAccount = (update: Partial<Account>): ThunkResult<void> => {
   return async (dispatch) => {
@@ -55,3 +56,12 @@ export const deleteAccount = (): ThunkResult<void> => {
     isSuccess ? logout() : notify.error(response.message);
   };
 };
+
+export const loadDataSource = (id: string): ThunkResult<void> => {
+  return async (dispatch) => {
+    const response: ApiResponse<object> = await api.get("/api/datasource", {
+      id
+    });
+    dispatch(loadedDataSource(response));
+  }
+}
