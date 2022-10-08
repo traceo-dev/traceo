@@ -1,4 +1,4 @@
-import { PlusOutlined, SettingOutlined } from "@ant-design/icons";
+import { PlusOutlined } from "@ant-design/icons";
 import { Button, Col, Dropdown, Menu, Row, Space } from "antd";
 import { useEffect, useState } from "react";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
@@ -12,7 +12,6 @@ import { dispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import { CreateApplicationDrawer } from "../../../core/components/Drawers/CreateApplicationDrawer";
-import { EditChartsDrawer } from "../../../core/components/Drawers/EditChartsDrawer";
 import { AppCard } from "./AppCard";
 import { loadApplications } from "../state/actions";
 import ServerPermissions from "../../../core/components/ServerPermissions";
@@ -27,7 +26,7 @@ export const AppsTable = () => {
   const [search, setSearch] = useState<string>(null);
   const [sortBy, setSortBy] = useState<AppsSortBy>(AppsSortBy.LAST_INCIDENT);
   const [openApplicationModal, setOpenApplicationModal] = useState<boolean>(false);
-  const [openEditChartsModal, setOpenEditChartsModal] = useState<boolean>(false);
+  // const [openEditChartsModal, setOpenEditChartsModal] = useState<boolean>(false);
 
   const queryParams: SearchApplicationQueryParams = {
     order,
@@ -67,10 +66,10 @@ export const AppsTable = () => {
         <SearchInput placeholder="Search by name" value={search} setValue={onSearch} />
         <AppsSortDropdown />
         <SortIcons order={order} setOrder={setOrder} />
-        <SettingOutlined
+        {/* <SettingOutlined
           onClick={() => setOpenEditChartsModal(true)}
           className="action-icon"
-        />
+        /> */}
       </Space>
       <ServerPermissions>
         <Button
@@ -104,10 +103,10 @@ export const AppsTable = () => {
         isOpen={openApplicationModal}
         onCancel={() => setOpenApplicationModal(false)}
       />
-      <EditChartsDrawer
+      {/* <EditChartsDrawer
         isOpen={openEditChartsModal}
         onCancel={() => setOpenEditChartsModal(false)}
-      />
+      /> */}
     </>
   );
 };

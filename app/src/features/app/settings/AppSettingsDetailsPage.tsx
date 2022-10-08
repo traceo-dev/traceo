@@ -84,7 +84,7 @@ export const AppSettingsDetailsPage = () => {
           </Space>
         </Form>
       </ColumnSection>
-      <ColumnSection
+      {/* <ColumnSection
         firstColumnWidth={12}
         secondColumnWidth={12}
         divider={true}
@@ -104,7 +104,7 @@ export const AppSettingsDetailsPage = () => {
             <Select.Option value={ENVIRONMENT.test}>Test</Select.Option>
           </Select>
         </Space>
-      </ColumnSection>
+      </ColumnSection> */}
       <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
         <ColumnSection
           firstColumnWidth={12}

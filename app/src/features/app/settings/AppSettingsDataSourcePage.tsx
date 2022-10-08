@@ -1,5 +1,7 @@
+import { LoadingOutlined } from "@ant-design/icons";
 import { Space, Typography, Select } from "antd";
 import { ColumnSection } from "core/components/ColumnSection";
+import { ConditionLayout } from "core/components/ConditionLayout";
 import { PagePanel } from "core/components/PagePanel";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -19,7 +21,7 @@ interface DataSourceSelectOption {
 export const AppSettingsDataSourcePage = () => {
   const { id } = useParams();
   const { application } = useSelector((state: StoreState) => state.application);
-  const { dataSource } = useSelector((state: StoreState) => state.settings);
+  const { dataSource, hasFetched } = useSelector((state: StoreState) => state.settings);
 
   const [selectedDS, setSelectedDS] = useState<TSDB>(application?.connectedTSDB || null);
 
@@ -73,9 +75,14 @@ export const AppSettingsDataSourcePage = () => {
               </Select>
             </Space>
 
-            {selectedDS === TSDB.INFLUX2 && (
-              <DataSourceInflux2Form dataSource={dataSource} />
-            )}
+            {selectedDS === TSDB.INFLUX2 &&
+              (hasFetched ? (
+                <DataSourceInflux2Form dataSource={dataSource} />
+              ) : (
+                <Space className="w-full justify-center">
+                  <LoadingOutlined />
+                </Space>
+              ))}
           </Space>
         </ColumnSection>
       </PagePanel>

@@ -46,9 +46,9 @@ export const Header: FC<Props> = ({ routes }) => {
           <Row className="w-full justify-between">
             <AppSwitcher />
             <Space>
-              <EnvironmentSwitcher />
-              <QuestionCircleOutlined className="icon-small" />
-              <BellOutlined className="icon-small" />
+              {/* <EnvironmentSwitcher /> */}
+              {/* <QuestionCircleOutlined className="icon-small" /> */}
+              {/* <BellOutlined className="icon-small" /> */}
               <Profile />
             </Space>
           </Row>

@@ -119,6 +119,7 @@ export const AccountInformation = () => {
       )}
 
       <DetailsSection>
+        <OperationButtons />
         <ColumnSection
           title="Personal information"
           subtitle="Basic informations about this user"
