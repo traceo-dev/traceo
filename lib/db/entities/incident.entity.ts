@@ -10,7 +10,6 @@ import { Account } from "./account.entity";
 import { Comment } from "./comment.entity";
 import { Application } from "./application.entity";
 import { GenericEntity } from "lib/core/generic.entity";
-import { Environment } from "lib/core/generic.model";
 import { ErrorDetails, Platform, Trace } from "lib/types/incident";
 
 export enum IncidentStatus {
@@ -28,12 +27,6 @@ export class Incident extends GenericEntity {
     nullable: false
   })
   status: IncidentStatus;
-
-  @Column({
-    type: "varchar",
-    nullable: true
-  })
-  env: Environment;
 
   @Column({
     type: "varchar",

@@ -13,6 +13,8 @@ import { StatisticsModule } from './statistics/statistics.module';
 import { CommentsModule } from './comments/comments.module';
 import { WebsocketsModule } from './websockets/websockets.module';
 import { DataSourceModule } from './dataSource/dataSource.module';
+import { WorkerModule } from './worker/worker.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -31,7 +33,9 @@ import { DataSourceModule } from './dataSource/dataSource.module';
     StatisticsModule,
     CommentsModule,
     WebsocketsModule,
-    DataSourceModule
+    DataSourceModule,
+    WorkerModule,
+    HttpModule
   ],
   controllers: [AppController],
   providers: [],

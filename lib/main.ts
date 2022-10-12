@@ -12,9 +12,15 @@ const cors = require("cors");
 
 async function bootstrap() {
   Traceo.init({
-    dsn: process.env.TRACEO_DSN,
-    environment: "test",
-    appId: 35
+    appId: 35,
+    connection: {
+      host: process.env.TRACEO_HOST,
+      port: +process.env.TRACEO_PORT,
+    },
+    metrics: {
+      collect: true,
+      interval: 60
+    }
   });
 
   const app = await NestFactory.create(AppModule);
@@ -35,16 +41,9 @@ async function bootstrap() {
   app.use(bodyParser.json({ limit: '10mb' }));
   app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
-  // const stream = {
-  //   write: (message) => logger.log(message),
-  // };
-
-  // app.use(morgan("[:date[iso]] :status :method :url :response-time ms", {
-  //   stream
-  // }));
   app.use(morgan("[:date[iso]] :status :method :url :response-time ms"));
 
-  app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
+  // app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
   app.useGlobalInterceptors(new TraceoInterceptor());
 
   const PORT = process.env.PORT || 3000;

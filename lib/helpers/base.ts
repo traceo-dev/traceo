@@ -1,9 +1,7 @@
-export const isEmpty = (
-  obj: { [s: string]: unknown } | ArrayLike<unknown>,
-): boolean => {
-  return Object.values(obj).every((e) => {
-    return !e;
-  });
+export const isEmpty = (obj: object): boolean => {
+  return Object.values(obj).every(
+    (x) => x === null || x === "" || x === undefined || x === "undefined"
+  );
 };
 
 export const getKeyFromBucketUrl = (url: string) => url.split("/")[4];

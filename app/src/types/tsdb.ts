@@ -1,7 +1,10 @@
-export enum TSDB {
-    INFLUX = "influx",
-    INFLUX2 = "influx2",
-    PROMETHEUS = "prometheus"
+export interface InfluxDS {
+    url: string;
+    org: string;
+    bucket: string;
+    token: string;
+    connStatus: CONNECTION_STATUS;
+    connError: string;
 }
 
 export enum CONNECTION_STATUS {
@@ -17,9 +20,5 @@ export interface DataSourceConnStatus {
 export interface MetricsResponse {
     cpuUsage: number;
     time: string;
-}
-
-export interface MetricsQueryDto {
-    id: number;
-    hrCount: number;
+    id?: string;
 }

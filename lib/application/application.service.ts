@@ -54,7 +54,6 @@ export class ApplicationService {
           .getRepository(Application)
           .save(applicationPayload);
 
-        // Add admin account ot every new application
         if (email !== "admin@localhost") {
           const admin = await this.accountQueryService.getDtoBy({ email: "admin@localhost" });
           await this.awrService.createAmr(

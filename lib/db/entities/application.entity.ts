@@ -11,7 +11,6 @@ import { Account } from "./account.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
 import { GenericEntity } from "lib/core/generic.entity";
-import { Environment } from "lib/core/generic.model";
 import { Runtime } from "./runtime.entity";
 import { InfluxDS } from "./influxds.entity";
 import { TSDB } from "lib/types/tsdb";
@@ -45,9 +44,6 @@ export class Application extends GenericEntity {
   @Column({ nullable: true })
   lastIncidentAt?: number;
 
-  @Column({ nullable: false, default: 'development' })
-  defaultEnv?: Environment = "development";
-
   @OneToMany(
     () => AccountMemberRelationship,
     (accountApp) => accountApp.application,
@@ -73,6 +69,9 @@ export class Application extends GenericEntity {
   runtimeData?: Runtime[];
 
   @ManyToOne(() => InfluxDS)
+  @JoinColumn({
+    name: 'influxId',
+  })
   influxDS?: InfluxDS;
 
   @Column({

@@ -1,5 +1,4 @@
 import { GenericEntity } from "lib/core/generic.entity";
-import { Environment } from "lib/core/generic.model";
 import {
     Column,
     Entity,
@@ -14,12 +13,6 @@ import { Application } from "./application.entity";
 export class Runtime extends GenericEntity {
     @PrimaryGeneratedColumn("uuid")
     id?: string;
-
-    @Column({
-        type: "varchar",
-        nullable: true
-    })
-    env: Environment;
 
     @Column({
         type: "simple-json",

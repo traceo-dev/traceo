@@ -34,6 +34,7 @@
     "@nestjs/typeorm": "^8.0.3",
     "@nestjs/websockets": "^8.4.4",
     "@types/gravatar": "^1.8.3",
+    "@types/js-yaml": "^4.0.5",
     "axios": "^0.27.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
@@ -44,6 +45,7 @@
     "gravatar": "^1.8.2",
     "husky": "^7.0.4",
     "influx": "^5.9.3",
+    "js-yaml": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "passport": "^0.5.2",
@@ -54,7 +56,7 @@
     "sharp": "^0.30.3",
     "sqlite3": "^5.1.1",
     "swagger-ui-express": "^4.3.0",
-    "traceo": "file:traceo-sdk-0.0.98-beta.tgz",
+    "traceo": "file:traceo-sdk-0.0.115-beta.tgz",
     "typeorm": "^0.3.5"
   },
   "devDependencies": {

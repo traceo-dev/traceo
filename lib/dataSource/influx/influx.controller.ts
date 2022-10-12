@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { InfluxDS } from 'lib/db/entities/influxds.entity';
 import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
+import { DataSourceConnStatus } from 'lib/types/tsdb';
 import { InfluxConfigurationBody } from './influx.model';
 import { InfluxService } from './influx.service';
 
@@ -16,7 +16,7 @@ export class InfluxController {
     @AuthRequired()
     async saveInfluxDataSource(
         @Body() body: InfluxConfigurationBody
-    ): Promise<void> {
+    ): Promise<DataSourceConnStatus> {
         return await this.influxService.saveInfluxDataSource(body);
     }
 }

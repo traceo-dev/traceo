@@ -1,23 +1,7 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
-import { BaseDtoQuery, Environment } from "lib/core/generic.model";
-
-export interface KlepperIncidentModel {
-  type: string;
-  message: string;
-  date: number;
-  stack: string;
-  stackFrames?: StackFrame[];
-  appId: string;
-  requestData?: KlepperRequest;
-  catchType?: CatchType;
-  options?: {
-    priority?: ExceptionPriority;
-    tag?: string;
-  };
-  persist?: boolean;
-}
+import { BaseDtoQuery } from "lib/core/generic.model";
 
 export class KlepperRequest {
   payload?: Object;
@@ -78,7 +62,6 @@ export interface Incident {
     tag?: string;
   };
 
-  env?: Environment;
   version?: string;
   platform: Platform;
 

@@ -1,5 +1,6 @@
 import { Account } from "./accounts";
 import { SortOrder } from "./api";
+import { InfluxDS } from "./tsdb";
 
 export enum MemberRole {
   ADMINISTRATOR = "Administrator",
@@ -41,14 +42,6 @@ export interface Application {
   };
   connectedTSDB?: TSDB;
   influxDS: InfluxDS;
-}
-
-export interface InfluxDS {
-  url: string;
-  org: string;
-  bucket: string;
-  interval: number;
-  timeout: number;
 }
 
 export interface AddAccountToApplication {

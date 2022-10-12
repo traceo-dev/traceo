@@ -10,11 +10,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'lib/auth/auth.model';
-import { Environment } from 'lib/core/generic.model';
 import { Incident } from 'lib/db/entities/incident.entity';
 import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';
-import { Env } from 'lib/libs/decorators/env.decorator';
 import {
   IncidentQueryDto,
   IncidentUpdateDto,
@@ -41,12 +39,10 @@ export class IncidentsController {
   @AuthRequired()
   public async getIncidents(
     @Query("id") id: number,
-    @Query() query: IncidentQueryDto,
-    @Env() env: Environment,
+    @Query() query: IncidentQueryDto
   ): Promise<Incident[]> {
     return await this.incidentsQueryService.listDto({
       appId: id,
-      env,
       ...query
     });
   }

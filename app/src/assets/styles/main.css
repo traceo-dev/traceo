@@ -267,7 +267,6 @@ body {
   height: 30px;
   line-height: 30px;
   padding: 6px 8px;
-  white-space: nowrap;
 }
 
 .details-table tbody tr:nth-child(odd) {

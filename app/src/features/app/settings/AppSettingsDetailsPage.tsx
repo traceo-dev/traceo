@@ -1,4 +1,4 @@
-import { Form, Space, Input, Button, Typography, Select } from "antd";
+import { Form, Space, Input, Button, Typography } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
@@ -9,11 +9,7 @@ import { handleStatus } from "../../../core/utils/response";
 import { dispatch } from "../../../store/store";
 import { ApiResponse } from "../../../types/api";
 import { StoreState } from "../../../types/store";
-import {
-  ENVIRONMENT,
-  MemberRole,
-  UpdateApplicationProps
-} from "../../../types/application";
+import { MemberRole, UpdateApplicationProps } from "../../../types/application";
 import { updateAplication } from "../state/actions";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";

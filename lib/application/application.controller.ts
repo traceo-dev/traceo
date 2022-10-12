@@ -10,13 +10,13 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from 'lib/auth/auth.model';
-import { BaseDtoQuery, Environment } from 'lib/core/generic.model';
+import { BaseDtoQuery } from 'lib/core/generic.model';
 import { Application } from 'lib/db/entities/application.entity';
+import { Log } from 'lib/db/entities/log.entity';
 import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
 import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';
-import { TraceoLog } from 'lib/types/logs';
 import { ApplicationQueryService } from './application-query/application-query.service';
-import { CreateApplicationBody, ApplicationBody, ApplicationLogsQuery } from './application.model';
+import { CreateApplicationBody, ApplicationBody } from './application.model';
 import { ApplicationService } from './application.service';
 
 @ApiTags('application')
@@ -42,16 +42,16 @@ export class ApplicationController {
   @Get('/runtime')
   @AuthRequired()
   async getApplicationRuntimeConfiguration(
-    @Query() query: { id: number, env: Environment },
+    @Query() query: { id: number },
   ) {
-    return await this.applicationQueryService.getApplicationRuntime(query.id, query.env);
+    return await this.applicationQueryService.getApplicationRuntime(query.id);
   }
 
   @Get('/logs')
   @AuthRequired()
   async getApplicationLogs(
-    @Query() query: { id: number, env: Environment, startDate: number, endDate: number },
-  ): Promise<TraceoLog[]> {
+    @Query() query: { id: number, startDate: number, endDate: number },
+  ): Promise<Log[]> {
     return await this.applicationQueryService.getApplicationLogs({ ...query });
   }
 

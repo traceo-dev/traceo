@@ -1,11 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { CONNECTION_STATUS } from "lib/types/tsdb";
 
 export class InfluxConfigurationBody {
     @IsNumber()
     @IsNotEmpty()
     @ApiProperty({ description: "appId" })
-    public appId: number;
+    public appId?: number;
 
     @IsString()
     @IsNotEmpty()
@@ -26,16 +27,6 @@ export class InfluxConfigurationBody {
     @IsNotEmpty()
     @ApiProperty({ description: "bucket" })
     public bucket: string;
-
-    @IsOptional()
-    // @IsNumber()
-    @ApiProperty({ description: "timeout" })
-    public timeout: number;
-
-    @IsOptional()
-    // @IsNumber()
-    @ApiProperty({ description: "interval" })
-    public interval: number;
 }
 
 export interface InfluxConfiguration {
@@ -43,4 +34,6 @@ export interface InfluxConfiguration {
     token: string;
     org: string;
     bucket: string;
+    appId: number;
+    connStatus: CONNECTION_STATUS;
 }

@@ -1,12 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Environment } from 'app/src/types/releases';
 import { EntityManager } from 'typeorm';
-import { InfluxDB } from '@influxdata/influxdb-client'
-import { InfluxConfigurationBody } from './influx.model';
+import { InfluxConfiguration, InfluxConfigurationBody } from './influx.model';
 import { InfluxDS } from 'lib/db/entities/influxds.entity';
 import { Application } from 'lib/db/entities/application.entity';
-import tokenService from 'lib/helpers/tokens';
-import { TSDB } from 'lib/types/tsdb';
+import { CONNECTION_STATUS, DataSourceConnStatus, MetricsQueryDto, MetricsResponse, TSDB } from 'lib/types/tsdb';
+import { InfluxDB, Point } from '@influxdata/influxdb-client'
+import { Metrics } from 'lib/types/worker';
+
 
 @Injectable()
 export class InfluxService {
@@ -14,11 +14,12 @@ export class InfluxService {
         private readonly entityManager: EntityManager
     ) { }
 
-    async saveInfluxDataSource(config: InfluxConfigurationBody): Promise<void> {
-        const { appId, ...rest } = config;
+    async saveInfluxDataSource(config: InfluxConfigurationBody): Promise<DataSourceConnStatus> {
+        const { appId, token, ...rest } = config;
 
-        await this.entityManager.transaction(async (manager) => {
-            const ds = await manager.getRepository(InfluxDS).findOneBy({
+        return await this.entityManager.transaction(async (manager) => {
+            const influxRef = manager.getRepository(InfluxDS);
+            const ds = await influxRef.findOneBy({
                 application: {
                     id: appId
                 }
@@ -29,45 +30,128 @@ export class InfluxService {
                 application: {
                     id: appId
                 },
-                interval: rest?.interval > 30 ? rest.interval : 30,
-                token: tokenService.generate(rest.token)
+                token
             }
 
+            const { status, error } = await this.influxConnectionTest({ ...dataSource });
+            const dsPayload = {
+                ...dataSource,
+                connError: error,
+                connStatus: status
+            }
             if (!ds) {
-                await manager.getRepository(InfluxDS).save(dataSource);
-                await manager.getRepository(Application).update({ id: appId }, { connectedTSDB: TSDB.INFLUX2 })
+                const influx = await influxRef.save(dsPayload);
+                await manager.getRepository(Application).update({ id: appId }, {
+                    connectedTSDB: TSDB.INFLUX2,
+                    influxDS: influx
+                })
 
                 Logger.log(`InfluxDB data source attached to app: ${appId}`);
-                return;
+                return {
+                    status, error
+                };
             }
 
-            await manager.getRepository(InfluxDS).update({ id: ds.id }, dataSource);
+            await influxRef.update({ id: ds.id }, dsPayload);
             Logger.log(`InfluxDB data source updated in app: ${appId}`);
+
+            return {
+                status, error
+            };
         });
     }
 
-    async client(id: number): Promise<{ client: InfluxDB, bucket: string, org: string }> {
-        const ds = await this.entityManager.getRepository(InfluxDS).findOneBy({
-            application: {
-                id
-            }
-        });
+    async writeData(config: Partial<InfluxConfiguration>, data: Metrics): Promise<void> {
+        const { url, token, bucket, org, connStatus, appId } = config;
+        const { cpuUsage } = data;
 
-        if (!ds) {
-            throw new Error('InfluxDS data source not found!');
-        }
+        const influxDb = new InfluxDB({ url, token });
 
-        const { url, token, bucket, org } = ds;
-        const client = new InfluxDB({ url, token });
+        const write = influxDb.getWriteApi(org, bucket);
+        const point = new Point(`metrics_${appId}`)
+            .floatField('cpuUsage', cpuUsage);
 
-        return {
-            client, bucket, org
-        }
+        const influxRef = this.entityManager.getRepository(InfluxDS);
+
+        write.writePoint(point);
+        write
+            .close()
+            .then(async () => {
+                if (connStatus === CONNECTION_STATUS.FAILED) {
+                    await influxRef.update({ application: { id: appId } }, {
+                        connStatus: CONNECTION_STATUS.CONNECTED,
+                        connError: null
+                    });
+                }
+            })
+            .catch(async (error) => {
+                if (connStatus === CONNECTION_STATUS.CONNECTED) {
+                    await influxRef.update({ application: { id: appId } }, {
+                        connStatus: CONNECTION_STATUS.FAILED,
+                        connError: error
+                    });
+                }
+            });
     }
 
-    async writeData(): Promise<void> {
+    async influxConnectionTest(config: Partial<InfluxConfigurationBody>): Promise<{ status: CONNECTION_STATUS; error?: string; }> {
+        const { url, token, org, bucket } = config;
+        const influxDb = new InfluxDB({ url, token });
 
+        const write = influxDb.getWriteApi(org, bucket);
+        const point = new Point('traceo_conn_test').floatField('test', 0);
+        write.writePoint(point)
+        return write
+            .close()
+            .then(async () => {
+                return {
+                    status: CONNECTION_STATUS.CONNECTED
+                }
+            })
+            .catch(async (error) => {
+                return {
+                    status: CONNECTION_STATUS.FAILED,
+                    error: `${error["errno"]} : ${error["code"]}`
+                }
+            });
     }
 
-    async queryData(): Promise<void> { }
+    async queryData(config: InfluxConfigurationBody, dtoQuery: MetricsQueryDto): Promise<MetricsResponse[]> {
+        const { url, token, org, bucket } = config;
+        const { hrCount, id } = dtoQuery;
+
+        console.log({ dtoQuery })
+
+        const influxDb = new InfluxDB({ url, token });
+
+        const queryApi = influxDb.getQueryApi(org)
+
+        /**
+         * To return value in this same table add in filter something like "or r._field == "otherMetric""
+         */
+
+        const query = `
+            from(bucket: "${bucket}") 
+                |> range(start: -${hrCount}h)
+                |> filter(fn: (r) => r._measurement == "metrics_${id}")
+                |> filter(fn: (r) => r._field == "cpuUsage")
+                |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
+                |> keep(columns: ["_time", "cpuUsage"])
+        `;
+
+        const metrics: MetricsResponse[] = [];
+
+        return await new Promise<any>((resolve, reject) => {
+            queryApi.queryRows(query, {
+                next(row, tableMeta) {
+                    const o = tableMeta.toObject(row);
+                    metrics.push({ time: o._time, cpuUsage: o.cpuUsage })
+                },
+                error() {},
+                complete() {
+                    resolve(metrics)
+                }
+            })
+        })
+    }
 }

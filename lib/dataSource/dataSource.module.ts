@@ -3,6 +3,7 @@ import { PassportModule } from '@nestjs/passport';
 import { DataSourceController } from './dataSource.controller';
 import { DataSourceService } from './dataSource.service';
 import { InfluxModule } from './influx/influx.module';
+import { InfluxService } from './influx/influx.service';
 
 @Module({
     imports: [
@@ -10,7 +11,7 @@ import { InfluxModule } from './influx/influx.module';
         PassportModule.register({ defaultStrategy: 'jwt' })
     ],
     providers: [
-        DataSourceService
+        DataSourceService, InfluxService
     ],
     controllers: [
         DataSourceController

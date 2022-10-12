@@ -1,6 +1,5 @@
 import { GenericEntity } from "lib/core/generic.entity";
-import { Environment } from "lib/core/generic.model";
-import { LogLevel } from "lib/types/logs";
+import { LogLevel } from "lib/types/worker";
 import {
     Column,
     Entity,
@@ -15,11 +14,6 @@ import { Application } from "./application.entity";
 export class Log extends GenericEntity {
     @PrimaryGeneratedColumn("uuid")
     id?: string;
-
-    @Column({
-        type: "varchar"
-    })
-    env: Environment;
 
     @Column({
         type: "varchar"

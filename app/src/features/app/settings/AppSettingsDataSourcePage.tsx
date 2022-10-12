@@ -1,7 +1,6 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Space, Typography, Select } from "antd";
 import { ColumnSection } from "core/components/ColumnSection";
-import { ConditionLayout } from "core/components/ConditionLayout";
 import { PagePanel } from "core/components/PagePanel";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";

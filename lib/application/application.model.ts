@@ -1,5 +1,4 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { Type } from "class-transformer/types/decorators";
 import {
   IsNotEmpty,
   IsNumber,
@@ -7,7 +6,6 @@ import {
   IsString,
   MaxLength
 } from "class-validator";
-import { Environment } from "lib/core/generic.model";
 
 export class CreateApplicationBody {
   @IsString()
@@ -42,16 +40,10 @@ export class ApplicationBody {
   @MaxLength(256)
   @ApiProperty({ description: "app about description" })
   public aboutDescription?: string;
-
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ description: "app default env" })
-  public defaultEnv?: Environment;
 }
 
 export interface ApplicationLogsQuery {
   readonly id: number;
-  readonly env: Environment;
   readonly startDate: number;
   readonly endDate: number;
 }

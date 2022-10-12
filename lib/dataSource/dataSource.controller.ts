@@ -2,6 +2,7 @@ import { Controller, Delete, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { InfluxDS } from 'lib/db/entities/influxds.entity';
 import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
+import { MetricsQueryDto, MetricsResponse } from 'lib/types/tsdb';
 import { DataSourceService } from './dataSource.service';
 
 @ApiTags('datasource')
@@ -14,7 +15,13 @@ export class DataSourceController {
     @Get()
     @AuthRequired()
     public async getDataSource(@Query("id") id: number): Promise<InfluxDS> {
-        return await this.dsService.getDataSource(id);
+        return await this.dsService.getConnectedDataSource(id);
+    }
+
+    @Get("/metrics")
+    @AuthRequired()
+    public async getMetrics(@Query() query: MetricsQueryDto): Promise<MetricsResponse[]> {
+        return await this.dsService.getMetrics(query);
     }
 
     @Delete()

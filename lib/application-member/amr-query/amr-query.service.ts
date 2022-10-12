@@ -8,7 +8,7 @@ import { EntityManager } from 'typeorm';
 import { ApplicationDtoQuery } from '../amr.model';
 @Injectable()
 export class AmrQueryService {
-  constructor(private readonly entityManager: EntityManager) {}
+  constructor(private readonly entityManager: EntityManager) { }
 
   /**
    * Return single object with account data and status field from AccountApplicationRelationship
@@ -35,7 +35,7 @@ export class AmrQueryService {
     pageOptionsDto: BaseDtoQuery,
   ): Promise<AccountMemberRelationship[]> {
     const { order, take, search, page } = pageOptionsDto;
-    const queryBuilder = await this.entityManager
+    const queryBuilder = this.entityManager
       .getRepository(AccountMemberRelationship)
       .createQueryBuilder('accountApplicationRelationship')
       .innerJoin(
@@ -163,6 +163,7 @@ export class AmrQueryService {
         "application",
       )
       .innerJoinAndSelect("application.owner", "owner")
+      .innerJoinAndSelect("application.influxDS", "influxDS")
       .getOne();
 
     if (!applicationQuery) {

@@ -2,25 +2,55 @@ import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { InfluxDS } from 'lib/db/entities/influxds.entity';
 import { Application } from 'lib/db/entities/application.entity';
-import { TSDB } from 'lib/types/tsdb';
+import { MetricsQueryDto, MetricsResponse, TSDB } from 'lib/types/tsdb';
+import { InfluxService } from './influx/influx.service';
 
 @Injectable()
 export class DataSourceService {
     constructor(
-        private readonly entityManager: EntityManager
+        private readonly entityManager: EntityManager,
+        private readonly influxService: InfluxService
     ) { }
 
-    async getDataSource(id: number): Promise<InfluxDS> {
-        const app = await this.entityManager.getRepository(Application).findOneBy({ id });
+    private async getDataSourceOrThrowError(id: number) {
+        const app = await this.entityManager
+            .getRepository(Application)
+            .createQueryBuilder('application')
+            .where('application.id = :id', { id })
+            .leftJoinAndSelect('application.influxDS', 'influxDS')
+            .getOne();
 
         if (!app) {
             throw new Error('App not found!');
         }
 
-        if (!app?.connectedTSDB) {
+        if (!app?.connectedTSDB || !app.influxDS) {
             return null;
         }
 
+        return app;
+    }
+
+    async getMetrics(query: MetricsQueryDto): Promise<MetricsResponse[]> {
+        const app = await this.getDataSourceOrThrowError(query.id);
+        if (!app) {
+            return;
+        }
+
+        switch (app.connectedTSDB) {
+            case TSDB.INFLUX2: {
+                return await this.influxService.queryData({ ...app.influxDS }, query)
+            }
+            default:
+                return;
+        }
+    }
+
+    async getConnectedDataSource(id: number): Promise<InfluxDS> {
+        const app = await this.getDataSourceOrThrowError(id);
+        if (!app) {
+            return;
+        }
         switch (app.connectedTSDB) {
             case TSDB.INFLUX2: {
                 return await this.entityManager.getRepository(InfluxDS).findOneBy({
@@ -36,20 +66,17 @@ export class DataSourceService {
 
     async removeDataSource(id: number): Promise<void> {
         await this.entityManager.transaction(async (manager) => {
-            const app = await manager.getRepository(Application).findOneBy({ id });
+            const app = await this.getDataSourceOrThrowError(id);
             if (!app) {
-                throw new Error('App not found!');
-            }
-
-            if (!app.connectedTSDB) {
-                throw new Error('This app is not connected to any data source!');
+                return;
             }
 
             await manager.getRepository(Application).update({ id }, { connectedTSDB: null });
 
             switch (app.connectedTSDB) {
                 case TSDB.INFLUX2: {
-                    return await manager.getRepository(InfluxDS).delete({
+                    await manager.getRepository(Application).update({ id }, { influxDS: null })
+                    await manager.getRepository(InfluxDS).delete({
                         application: {
                             id
                         }

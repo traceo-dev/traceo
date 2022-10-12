@@ -1,4 +1,5 @@
 import { GenericEntity } from "lib/core/generic.entity";
+import { CONNECTION_STATUS } from "lib/types/tsdb";
 import {
     Column,
     Entity,
@@ -21,8 +22,7 @@ export class InfluxDS extends GenericEntity {
 
     @Column({
         type: "varchar",
-        nullable: true,
-        select: false
+        nullable: true
     })
     token: string;
 
@@ -37,18 +37,18 @@ export class InfluxDS extends GenericEntity {
         nullable: true
     })
     bucket: string;
-
+    
     @Column({
-        type: "bigint",
+        type: "varchar",
         nullable: true
     })
-    timeout: number;
+    connStatus: CONNECTION_STATUS;
 
     @Column({
-        type: "bigint",
+        type: "varchar",
         nullable: true
     })
-    interval: number;
+    connError: string;
 
     @ManyToOne(() => Application, {
         onUpdate: "CASCADE",

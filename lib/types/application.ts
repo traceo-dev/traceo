@@ -1,5 +1,5 @@
-import { Environment } from "lib/core/generic.model";
 import { MemberRole } from "lib/db/entities/account-member-relationship.entity";
+import { CONNECTION_STATUS } from "./tsdb";
 
 export interface OwnerAccount {
   name: string;
@@ -14,11 +14,14 @@ export interface Application {
   framework?: string;
   logo?: string;
   lastIncidentAt?: number;
-  defaultEnv?: Environment;
 }
 
 export interface ApplicationResponse extends Application {
   member: {
     role: MemberRole;
-  };
+  },
+  influxDS?: {
+    connStatus: CONNECTION_STATUS;
+    connError?: string;
+  }
 }
