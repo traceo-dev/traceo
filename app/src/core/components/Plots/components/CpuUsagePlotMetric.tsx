@@ -10,8 +10,9 @@ import { LoadingOutlined } from "@ant-design/icons";
 interface Props {
   metrics: MetricsResponse[];
   isLoading: boolean;
+  options?: EChartsOption;
 }
-export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, isLoading }) => {
+export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, isLoading, options }) => {
   if (!metrics || isLoading) {
     return (
       <Space direction="vertical" className="w-full justify-center text-xs pb-5">
@@ -21,78 +22,80 @@ export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, isLoading }) => {
     );
   }
 
-  const options: EChartsOption = {
-    dataset: {
-      source: metrics
-    },
-    legend: {
-      bottom: 10,
-      left: "center",
-      icon: "rect",
-      textStyle: {
-        color: "white"
-      }
-    },
-    animation: false,
-    tooltip: {
-      ...tooltipOptions,
-      valueFormatter: (v) => `${v}%`
-    },
-    grid: {
-      left: "24px",
-      right: "24px",
-      top: "32px",
-      containLabel: true
-    },
-    xAxis: {
-      type: "category",
-      offset: 12,
-      axisLabel: {
-        formatter: (v) => dayjs(v).format("HH:mm"),
-        color: "white",
-        fontSize: 11,
-        interval: 15,
-        showMaxLabel: true,
-        showMinLabel: true
+  const chartOptions: EChartsOption = Object.assign(
+    {
+      dataset: {
+        source: metrics
       },
-      axisPointer: {
-        label: {
-          formatter: (v) => dayjs(v.value).format("HH:mm, DD MMM")
+      legend: {
+        bottom: 10,
+        left: "center",
+        icon: "rect",
+        textStyle: {
+          color: "white"
         }
       },
-      splitLine: {
-        show: false
-      }
-    },
-    yAxis: {
-      type: "value",
-      axisLabel: {
-        color: "white",
-        fontSize: 11,
-        formatter: (v) => `${v}%`
+      animation: false,
+      tooltip: {
+        ...tooltipOptions,
+        valueFormatter: (v) => `${v}%`
       },
-      splitLine
-    },
-    series: [
-      {
-        type: "line",
-        smooth: true,
-        name: "cpu",
-        showSymbol: false,
-        color: "#0991b3",
-        lineStyle: {
-          color: "#0991b3"
+      grid: {
+        left: "24px",
+        right: "24px",
+        top: "32px",
+        containLabel: true
+      },
+      xAxis: {
+        type: "category",
+        offset: 12,
+        axisLabel: {
+          formatter: (v) => dayjs(v).format("HH:mm"),
+          color: "white",
+          fontSize: 11,
+          interval: 15,
+          showMaxLabel: true,
+          showMinLabel: true
         },
-        areaStyle: {
+        axisPointer: {
+          label: {
+            formatter: (v) => dayjs(v.value).format("HH:mm, DD MMM")
+          }
+        },
+        splitLine
+      },
+      yAxis: {
+        type: "value",
+        axisLabel: {
+          color: "white",
+          fontSize: 11,
+          formatter: (v) => `${v}%`
+        },
+        splitLine
+      },
+      series: [
+        {
+          type: "line",
+          smooth: true,
+          name: "cpu",
+          showSymbol: false,
           color: "#0991b3",
-          opacity: 0.4
+          lineStyle: {
+            color: "#0991b3",
+            width: 1
+          },
+          areaStyle: {
+            color: "#0991b3",
+            opacity: 0.4
+          }
         }
-      }
-    ]
-  };
+      ]
+    },
+    options
+  );
   return (
     <>
-      <ReactECharts option={options} />
+      <ReactECharts option={chartOptions} />
     </>
   );
 };

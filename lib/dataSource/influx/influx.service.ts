@@ -6,6 +6,7 @@ import { Application } from 'lib/db/entities/application.entity';
 import { CONNECTION_STATUS, DataSourceConnStatus, MetricsQueryDto, MetricsResponse, TSDB } from 'lib/types/tsdb';
 import { InfluxDB, Point } from '@influxdata/influxdb-client'
 import { Metrics } from 'lib/types/worker';
+import { logger } from 'traceo';
 
 
 @Injectable()
@@ -120,8 +121,6 @@ export class InfluxService {
         const { url, token, org, bucket } = config;
         const { hrCount, id } = dtoQuery;
 
-        console.log({ dtoQuery })
-
         const influxDb = new InfluxDB({ url, token });
 
         const queryApi = influxDb.getQueryApi(org)
@@ -147,7 +146,7 @@ export class InfluxService {
                     const o = tableMeta.toObject(row);
                     metrics.push({ time: o._time, cpuUsage: o.cpuUsage })
                 },
-                error() {},
+                error() { },
                 complete() {
                     resolve(metrics)
                 }
