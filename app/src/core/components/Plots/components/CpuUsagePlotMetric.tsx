@@ -12,10 +12,10 @@ interface Props {
   isLoading: boolean;
   options?: EChartsOption;
 }
-export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, isLoading, options }) => {
-  if (!metrics || isLoading) {
+export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
+  if (!metrics) {
     return (
-      <Space direction="vertical" className="w-full justify-center text-xs pb-5">
+      <Space direction="vertical" className="w-full items-center text-xs pb-5">
         <Typography.Text>Please wait. It can take a while...</Typography.Text>
         <LoadingOutlined />
       </Space>
@@ -28,12 +28,7 @@ export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, isLoading, options }) 
         source: metrics
       },
       legend: {
-        bottom: 10,
-        left: "center",
-        icon: "rect",
-        textStyle: {
-          color: "white"
-        }
+        show: false
       },
       animation: false,
       tooltip: {
@@ -41,9 +36,10 @@ export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, isLoading, options }) 
         valueFormatter: (v) => `${v}%`
       },
       grid: {
-        left: "24px",
-        right: "24px",
-        top: "32px",
+        left: 10,
+        top: 10,
+        right: 10,
+        bottom: 15,
         containLabel: true
       },
       xAxis: {
@@ -54,15 +50,16 @@ export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, isLoading, options }) 
           color: "white",
           fontSize: 11,
           interval: 15,
-          showMaxLabel: true,
-          showMinLabel: true
+          showMaxLabel: true
         },
         axisPointer: {
           label: {
             formatter: (v) => dayjs(v.value).format("HH:mm, DD MMM")
           }
         },
-        splitLine
+        splitLine: {
+          show: false
+        }
       },
       yAxis: {
         type: "value",
@@ -76,7 +73,7 @@ export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, isLoading, options }) 
       series: [
         {
           type: "line",
-          smooth: true,
+          // smooth: true,
           name: "cpu",
           showSymbol: false,
           color: "#0991b3",

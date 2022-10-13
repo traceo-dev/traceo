@@ -1,5 +1,5 @@
-import { CheckCircleFilled, ExclamationCircleFilled } from "@ant-design/icons";
-import { Segmented, Space, Typography } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Segmented, Space } from "antd";
 import { PagePanel } from "core/components/PagePanel";
 import { FC } from "react";
 import { useSelector } from "react-redux";
@@ -7,10 +7,11 @@ import { StoreState } from "types/store";
 import { CONNECTION_STATUS } from "types/tsdb";
 
 interface Props {
+  loading: boolean;
   hrCount: number;
   setHrCount: (val: number) => void;
 }
-export const MetricsHeader: FC<Props> = ({ hrCount, setHrCount }) => {
+export const MetricsHeader: FC<Props> = ({ hrCount, setHrCount, loading }) => {
   const { application } = useSelector((state: StoreState) => state.application);
   const isConnected = application?.influxDS?.connStatus === CONNECTION_STATUS.CONNECTED;
   return (
@@ -18,6 +19,7 @@ export const MetricsHeader: FC<Props> = ({ hrCount, setHrCount }) => {
       <Space className="w-full justify-end">
         {isConnected && (
           <Space>
+            {loading && <LoadingOutlined className="mr-5" />}
             <Segmented
               defaultValue={hrCount}
               options={[

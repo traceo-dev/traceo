@@ -19,7 +19,7 @@ async function bootstrap() {
     },
     metrics: {
       collect: true,
-      interval: 60
+      interval: 90
     }
   });
 

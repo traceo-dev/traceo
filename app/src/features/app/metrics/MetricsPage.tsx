@@ -1,5 +1,5 @@
-import { EllipsisOutlined, EyeOutlined, QuestionCircleFilled } from "@ant-design/icons";
-import { Card, Col, Row, Space, Tooltip, Typography } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
+import { Card, Col, Row } from "antd";
 import { PagePanel } from "core/components/PagePanel";
 import { useApi } from "core/lib/useApi";
 import { FC, useEffect, useState } from "react";
@@ -53,8 +53,12 @@ const MetricsPage = () => {
           <>
             {application.influxDS.connStatus === CONNECTION_STATUS.CONNECTED ? (
               <>
-                <MetricsHeader hrCount={hrCount} setHrCount={setHrCount} />
-                <Row className="pt-5" gutter={[12, 24]}>
+                <MetricsHeader
+                  loading={isLoading}
+                  hrCount={hrCount}
+                  setHrCount={setHrCount}
+                />
+                <Row className="pt-3" gutter={[12, 24]}>
                   <Col span={12}>
                     <MetricCard
                       title="CPU Usage"
