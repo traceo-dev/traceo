@@ -56,7 +56,7 @@
     "sharp": "^0.30.3",
     "sqlite3": "^5.1.1",
     "swagger-ui-express": "^4.3.0",
-    "traceo": "file:traceo-sdk-0.0.116-beta.tgz",
+    "traceo": "file:traceo-sdk-0.0.117-beta.tgz",
     "typeorm": "^0.3.5"
   },
   "devDependencies": {

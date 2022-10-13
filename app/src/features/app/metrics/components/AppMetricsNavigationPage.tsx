@@ -12,7 +12,6 @@ export const AppMetricsNavigationPage = ({ children }) => {
           subTitle={"Explore informations about this app"}
         />
         {children}
-        {/* <PagePanel className="mt-0 rounded-none rounded-b-md">{children}</PagePanel> */}
       </AppPage>
     </>
   );

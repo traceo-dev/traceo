@@ -12,7 +12,7 @@ interface Props {
   isLoading: boolean;
   options?: EChartsOption;
 }
-export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
+export const MemoryUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
   if (!metrics) {
     return (
       <Space direction="vertical" className="w-full items-center text-xs pb-5">
@@ -25,7 +25,10 @@ export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
   const chartOptions: EChartsOption = Object.assign(
     {
       dataset: {
-        source: metrics
+        source: {
+          time: metrics.map((t) => t.time),
+          memory: metrics.map((m) => m.memoryUsage)
+        }
       },
       legend: {
         show: false
@@ -57,6 +60,7 @@ export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
             formatter: (v) => dayjs(v.value).format("HH:mm, DD MMM")
           }
         },
+
         splitLine: {
           show: false
         }
@@ -66,23 +70,22 @@ export const CpuUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
         axisLabel: {
           color: "white",
           fontSize: 11,
-          formatter: (v) => `${v}%`
+          formatter: "{value}%"
         },
         splitLine
       },
       series: [
         {
           type: "line",
-          // smooth: true,
-          name: "cpu",
+          name: "ram",
           showSymbol: false,
-          color: "#0991b3",
+          color: "#DE4457",
           lineStyle: {
-            color: "#0991b3",
+            color: "#DE4457",
             width: 1
           },
           areaStyle: {
-            color: "#0991b3",
+            color: "#DE4457",
             opacity: 0.4
           }
         }

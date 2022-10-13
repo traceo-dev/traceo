@@ -1,5 +1,5 @@
 import { EyeOutlined } from "@ant-design/icons";
-import { Card, Col, Row } from "antd";
+import { Card, Col, Divider, Row, Space, Typography } from "antd";
 import { PagePanel } from "core/components/PagePanel";
 import { useApi } from "core/lib/useApi";
 import { FC, useEffect, useState } from "react";
@@ -9,11 +9,12 @@ import { StoreState } from "types/store";
 import { CONNECTION_STATUS, MetricsResponse } from "types/tsdb";
 import AppMetricsNavigationPage from "./components/AppMetricsNavigationPage";
 import { ConnectionError } from "./components/ConnectionError";
-import { CpuUsagePlotMetrics } from "../../../core/components/Plots/components/CpuUsagePlotMetric";
+import { CpuUsagePlotMetrics } from "../../../core/components/Plots/components/metrics/CpuUsagePlotMetric";
 import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
 import { MetricsHeader } from "./components/MetricsHeader";
 import { METRIC_TYPE } from "types/metrics";
 import { slugifyForUrl } from "core/utils/stringUtils";
+import { MemoryUsagePlotMetrics } from "core/components/Plots/components/metrics/MemoryUsagePlotMetric";
 
 const MetricsPage = () => {
   const { id } = useParams();
@@ -22,7 +23,10 @@ const MetricsPage = () => {
 
   const [hrCount, setHrCount] = useState<number>(1);
 
-  const isConnectedTSDB = !!application.connectedTSDB;
+  const isConnectedTSDB = !!application?.connectedTSDB;
+
+  const isConnectedSuccessfully =
+    application?.influxDS?.connStatus === CONNECTION_STATUS.CONNECTED;
 
   const {
     data: metrics = [],
@@ -51,7 +55,7 @@ const MetricsPage = () => {
           <NotConnectedTSDB />
         ) : (
           <>
-            {application.influxDS.connStatus === CONNECTION_STATUS.CONNECTED ? (
+            {isConnectedSuccessfully ? (
               <>
                 <MetricsHeader
                   loading={isLoading}
@@ -65,6 +69,14 @@ const MetricsPage = () => {
                       onExplore={() => showMetricPreview(METRIC_TYPE.CPU)}
                     >
                       <CpuUsagePlotMetrics metrics={metrics} isLoading={isLoading} />
+                    </MetricCard>
+                  </Col>
+                  <Col span={12}>
+                    <MetricCard
+                      title="Memory Usage"
+                      onExplore={() => showMetricPreview(METRIC_TYPE.MEMORY)}
+                    >
+                      <MemoryUsagePlotMetrics metrics={metrics} isLoading={isLoading} />
                     </MetricCard>
                   </Col>
                 </Row>
@@ -89,11 +101,7 @@ interface MetricCardProps {
 const MetricCard: FC<MetricCardProps> = ({ title, children, onExplore }) => {
   return (
     <>
-      <Card
-        extra={<EyeOutlined onClick={onExplore} />}
-        title={title}
-        className="metric-panel"
-      >
+      <Card onClick={onExplore} title={title} className="metric-panel">
         {children}
       </Card>
       <style>{`

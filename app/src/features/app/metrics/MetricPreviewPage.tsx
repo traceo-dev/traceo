@@ -1,4 +1,4 @@
-import { CpuUsagePlotMetrics } from "core/components/Plots/components/CpuUsagePlotMetric";
+import { CpuUsagePlotMetrics } from "core/components/Plots/components/metrics/CpuUsagePlotMetric";
 import { useApi } from "core/lib/useApi";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -9,6 +9,7 @@ import { toolboxOptions } from "core/components/Plots/utils";
 import { MetricPlotWrapper } from "./components/MetricPlotWrapper";
 import { CHART_TYPE, METRIC_TYPE } from "types/metrics";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
+import { MemoryUsagePlotMetrics } from "core/components/Plots/components/metrics/MemoryUsagePlotMetric";
 
 export const MetricPreviewPage = () => {
   const { id } = useParams();
@@ -32,6 +33,11 @@ export const MetricPreviewPage = () => {
     execute();
   }, [hrCount]);
 
+  const handleMetricColor: Record<METRIC_TYPE, string> = {
+    [METRIC_TYPE.CPU]: "#0991b3",
+    [METRIC_TYPE.MEMORY]: "#DE4457"
+  };
+
   const chartOptions: EChartsOption = {
     toolbox: toolboxOptions,
     grid: {
@@ -45,7 +51,7 @@ export const MetricPreviewPage = () => {
         type: chartType,
         smooth: false,
         name: "cpu",
-        color: "#0991b3",
+        color: handleMetricColor[type],
         showSymbol: chartType !== "line",
         symbol: "circle",
         symbolSize: 5,
@@ -53,7 +59,7 @@ export const MetricPreviewPage = () => {
           width: 1
         },
         areaStyle: {
-          color: "#0991b3",
+          color: handleMetricColor[type],
           opacity: 0.4
         }
       }
@@ -71,6 +77,15 @@ export const MetricPreviewPage = () => {
           />
         );
       }
+      case METRIC_TYPE.MEMORY: {
+        return (
+          <MemoryUsagePlotMetrics
+            metrics={metrics}
+            isLoading={isLoading}
+            options={chartOptions}
+          />
+        );
+      }
     }
   };
 
@@ -82,6 +97,15 @@ export const MetricPreviewPage = () => {
             title: "Cpu",
             dataIndex: "cpuUsage",
             render: (cpu: number) => `${cpu}%`
+          }
+        ];
+      }
+      case METRIC_TYPE.MEMORY: {
+        return [
+          {
+            title: "Memory",
+            dataIndex: "memoryUsage",
+            render: (mem: number) => `${mem}%`
           }
         ];
       }

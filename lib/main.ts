@@ -1,10 +1,9 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import * as bodyParser from 'body-parser';
 import { AppModule } from './app.module';
 import morgan from "morgan";
-import { AllExceptionsFilter } from './all-exception.filter';
 import { Traceo } from "traceo";
 import { TraceoInterceptor } from './libs/traceo.interceptor';
 

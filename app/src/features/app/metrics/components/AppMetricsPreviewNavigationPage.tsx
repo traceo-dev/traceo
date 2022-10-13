@@ -12,6 +12,10 @@ export const AppMetricsPreviewNavigationPage = ({ children }) => {
       title: "CPU Usage",
       subTitle:
         "CPU usage is the percentage of time that the CPU is being used to complete its tasks."
+    },
+    [METRIC_TYPE.MEMORY]: {
+      title: "Memory Usage",
+      subTitle: "The amount of RAM memory being used."
     }
   };
 

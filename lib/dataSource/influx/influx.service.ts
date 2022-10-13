@@ -64,13 +64,14 @@ export class InfluxService {
 
     async writeData(config: Partial<InfluxConfiguration>, data: Metrics): Promise<void> {
         const { url, token, bucket, org, connStatus, appId } = config;
-        const { cpuUsage } = data;
+        const { cpuUsage, memory } = data;
 
         const influxDb = new InfluxDB({ url, token });
 
         const write = influxDb.getWriteApi(org, bucket);
         const point = new Point(`metrics_${appId}`)
-            .floatField('cpuUsage', cpuUsage);
+            .floatField('cpuUsage', cpuUsage)
+            .floatField('memoryUsage', memory.percentage);
 
         const influxRef = this.entityManager.getRepository(InfluxDS);
 
@@ -133,18 +134,18 @@ export class InfluxService {
             from(bucket: "${bucket}") 
                 |> range(start: -${hrCount}h)
                 |> filter(fn: (r) => r._measurement == "metrics_${id}")
-                |> filter(fn: (r) => r._field == "cpuUsage")
+                |> filter(fn: (r) => r._field == "cpuUsage" or r._field == "memoryUsage")
                 |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
-                |> keep(columns: ["_time", "cpuUsage"])
+                |> keep(columns: ["_time", "cpuUsage", "memoryUsage"])
         `;
 
         const metrics: MetricsResponse[] = [];
 
-        return await new Promise<any>((resolve, reject) => {
+        return await new Promise<any>((resolve, _) => {
             queryApi.queryRows(query, {
                 next(row, tableMeta) {
                     const o = tableMeta.toObject(row);
-                    metrics.push({ time: o._time, cpuUsage: o.cpuUsage })
+                    metrics.push({ time: o._time, cpuUsage: o.cpuUsage, memoryUsage: o.memoryUsage })
                 },
                 error() { },
                 complete() {

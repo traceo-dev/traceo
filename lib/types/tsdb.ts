@@ -16,6 +16,7 @@ export interface DataSourceConnStatus {
 
 export interface MetricsResponse {
     cpuUsage: number;
+    memoryUsage: number;
     time: string;
 }
 
