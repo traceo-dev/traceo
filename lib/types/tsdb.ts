@@ -17,7 +17,8 @@ export interface DataSourceConnStatus {
 export interface MetricsResponse {
     cpuUsage: number;
     memoryUsage: number;
-    time: string;
+    loadAvg: number;
+    _time: string;
 }
 
 export interface MetricsQueryDto {

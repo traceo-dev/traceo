@@ -1,5 +1,4 @@
-import { EyeOutlined } from "@ant-design/icons";
-import { Card, Col, Divider, Row, Space, Typography } from "antd";
+import { Card, Col, Row } from "antd";
 import { PagePanel } from "core/components/PagePanel";
 import { useApi } from "core/lib/useApi";
 import { FC, useEffect, useState } from "react";
@@ -9,17 +8,19 @@ import { StoreState } from "types/store";
 import { CONNECTION_STATUS, MetricsResponse } from "types/tsdb";
 import AppMetricsNavigationPage from "./components/AppMetricsNavigationPage";
 import { ConnectionError } from "./components/ConnectionError";
-import { CpuUsagePlotMetrics } from "../../../core/components/Plots/components/metrics/CpuUsagePlotMetric";
 import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
 import { MetricsHeader } from "./components/MetricsHeader";
 import { METRIC_TYPE } from "types/metrics";
 import { slugifyForUrl } from "core/utils/stringUtils";
-import { MemoryUsagePlotMetrics } from "core/components/Plots/components/metrics/MemoryUsagePlotMetric";
+import { EChartsOption } from "echarts";
+import { MetricPlot } from "core/components/Plots/components/metrics/MetricPlot";
+import { metricConfig } from "core/components/Plots/components/metrics/utils";
 
 const MetricsPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { application } = useSelector((state: StoreState) => state.application);
+
+  const navigate = useNavigate();
 
   const [hrCount, setHrCount] = useState<number>(1);
 
@@ -48,74 +49,95 @@ const MetricsPage = () => {
       )}/metrics/preview?type=${type}`
     );
 
+  const options: EChartsOption = {
+    grid: {
+      containLabel: true,
+      right: 5,
+      left: 5,
+      bottom: 10,
+      top: 10,
+      height: 150
+    }
+  };
+
+  const avg = (field: string) =>
+    (metrics && metrics.reduce((acc, val) => (acc += val[field]), 0) / metrics?.length) ||
+    0;
+
+  if (!isConnectedTSDB) {
+    return (
+      <AppMetricsNavigationPage>
+        <NotConnectedTSDB />
+      </AppMetricsNavigationPage>
+    );
+  }
+
+  if (!isConnectedSuccessfully) {
+    return (
+      <AppMetricsNavigationPage>
+        <PagePanel>
+          <ConnectionError />
+        </PagePanel>
+      </AppMetricsNavigationPage>
+    );
+  }
+
   return (
     <>
       <AppMetricsNavigationPage>
-        {!isConnectedTSDB ? (
-          <NotConnectedTSDB />
-        ) : (
-          <>
-            {isConnectedSuccessfully ? (
-              <>
-                <MetricsHeader
-                  loading={isLoading}
-                  hrCount={hrCount}
-                  setHrCount={setHrCount}
-                />
-                <Row className="pt-3" gutter={[12, 24]}>
-                  <Col span={12}>
-                    <MetricCard
-                      title="CPU Usage"
-                      onExplore={() => showMetricPreview(METRIC_TYPE.CPU)}
-                    >
-                      <CpuUsagePlotMetrics metrics={metrics} isLoading={isLoading} />
-                    </MetricCard>
-                  </Col>
-                  <Col span={12}>
-                    <MetricCard
-                      title="Memory Usage"
-                      onExplore={() => showMetricPreview(METRIC_TYPE.MEMORY)}
-                    >
-                      <MemoryUsagePlotMetrics metrics={metrics} isLoading={isLoading} />
-                    </MetricCard>
-                  </Col>
-                </Row>
-              </>
-            ) : (
-              <PagePanel>
-                <ConnectionError />
-              </PagePanel>
-            )}
-          </>
-        )}
+        <MetricsHeader loading={isLoading} hrCount={hrCount} setHrCount={setHrCount} />
+        <Row className="pt-3" gutter={[12, 24]}>
+          {Object.values(METRIC_TYPE).map((type) => (
+            <Col span={12}>
+              <MetricCard
+                type={type}
+                avg={avg(metricConfig[type].field)}
+                onExplore={() => showMetricPreview(type)}
+              >
+                <MetricPlot type={type} metrics={metrics} options={options} />
+              </MetricCard>
+            </Col>
+          ))}
+        </Row>
       </AppMetricsNavigationPage>
     </>
   );
 };
 
 interface MetricCardProps {
-  title: string;
+  type: METRIC_TYPE;
   children: any;
   onExplore?: () => void;
+  avg?: number;
 }
-const MetricCard: FC<MetricCardProps> = ({ title, children, onExplore }) => {
+const MetricCard: FC<MetricCardProps> = ({ children, onExplore, avg, type }) => {
+  const { unit, title } = metricConfig[type];
   return (
     <>
-      <Card onClick={onExplore} title={title} className="metric-panel">
+      <Card
+        extra={
+          <span className="text-amber-500 font-semibold">
+            {avg.toFixed(2)}
+            {unit}
+          </span>
+        }
+        onClick={onExplore}
+        title={title}
+        className="metric-panel"
+      >
         {children}
       </Card>
       <style>{`
         .metric-panel {
+          cursor: pointer;
           background-color: var(--color-bg-primary);
           border: 1px solid rgba(204, 204, 220, 0.07);
-          border-radius: 8px;
           box-shadow: rgb(24 26 27 / 75%) 0px 1px 2px;
-          padding-bottom: 0px;
           min-width: 100%;
         }
 
-        .metric-panel > .ant-card-head {
-          text-align: center;
+        .echarts-for-react {
+          height: 170px !important;
         }
       `}</style>
     </>

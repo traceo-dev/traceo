@@ -1,4 +1,3 @@
-import { CpuUsagePlotMetrics } from "core/components/Plots/components/metrics/CpuUsagePlotMetric";
 import { useApi } from "core/lib/useApi";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -9,7 +8,8 @@ import { toolboxOptions } from "core/components/Plots/utils";
 import { MetricPlotWrapper } from "./components/MetricPlotWrapper";
 import { CHART_TYPE, METRIC_TYPE } from "types/metrics";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
-import { MemoryUsagePlotMetrics } from "core/components/Plots/components/metrics/MemoryUsagePlotMetric";
+import { metricConfig } from "core/components/Plots/components/metrics/utils";
+import { MetricPlot } from "core/components/Plots/components/metrics/MetricPlot";
 
 export const MetricPreviewPage = () => {
   const { id } = useParams();
@@ -33,10 +33,7 @@ export const MetricPreviewPage = () => {
     execute();
   }, [hrCount]);
 
-  const handleMetricColor: Record<METRIC_TYPE, string> = {
-    [METRIC_TYPE.CPU]: "#0991b3",
-    [METRIC_TYPE.MEMORY]: "#DE4457"
-  };
+  const config = metricConfig[type];
 
   const chartOptions: EChartsOption = {
     toolbox: toolboxOptions,
@@ -50,8 +47,8 @@ export const MetricPreviewPage = () => {
       {
         type: chartType,
         smooth: false,
-        name: "cpu",
-        color: handleMetricColor[type],
+        name: config.type,
+        color: config.color,
         showSymbol: chartType !== "line",
         symbol: "circle",
         symbolSize: 5,
@@ -59,57 +56,11 @@ export const MetricPreviewPage = () => {
           width: 1
         },
         areaStyle: {
-          color: handleMetricColor[type],
+          color: config.color,
           opacity: 0.4
         }
       }
     ]
-  };
-
-  const MetricPlot = () => {
-    switch (type) {
-      case METRIC_TYPE.CPU: {
-        return (
-          <CpuUsagePlotMetrics
-            metrics={metrics}
-            isLoading={isLoading}
-            options={chartOptions}
-          />
-        );
-      }
-      case METRIC_TYPE.MEMORY: {
-        return (
-          <MemoryUsagePlotMetrics
-            metrics={metrics}
-            isLoading={isLoading}
-            options={chartOptions}
-          />
-        );
-      }
-    }
-  };
-
-  const metricTableColumnsValue = () => {
-    switch (type) {
-      case METRIC_TYPE.CPU: {
-        return [
-          {
-            title: "Cpu",
-            dataIndex: "cpuUsage",
-            render: (cpu: number) => `${cpu}%`
-          }
-        ];
-      }
-      case METRIC_TYPE.MEMORY: {
-        return [
-          {
-            title: "Memory",
-            dataIndex: "memoryUsage",
-            render: (mem: number) => `${mem}%`
-          }
-        ];
-      }
-    }
   };
 
   return (
@@ -122,9 +73,9 @@ export const MetricPreviewPage = () => {
         isLoading={isLoading}
         metrics={metrics}
       >
-        <MetricPlot />
+        <MetricPlot metrics={metrics} options={chartOptions} {...config} />
       </MetricPlotWrapper>
-      <MetricTableWrapper metrics={metrics} columns={metricTableColumnsValue()} />
+      <MetricTableWrapper type={type as METRIC_TYPE} metrics={metrics} />
     </AppMetricsPreviewNavigationPage>
   );
 };

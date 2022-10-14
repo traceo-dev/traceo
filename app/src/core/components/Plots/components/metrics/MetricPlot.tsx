@@ -1,18 +1,22 @@
-import { Space, Typography } from "antd";
-import { FC } from "react";
-import ReactECharts from "echarts-for-react";
-import { EChartsOption } from "echarts";
-import { splitLine, tooltipOptions } from "core/components/Plots/utils";
-import { MetricsResponse } from "types/tsdb";
-import dayjs from "dayjs";
 import { LoadingOutlined } from "@ant-design/icons";
+import { Space, Typography } from "antd";
+import dayjs from "dayjs";
+import { EChartsOption } from "echarts";
+import { FC } from "react";
+import { MetricsResponse, METRIC_UNIT } from "types/tsdb";
+import { tooltipOptions, splitLine } from "../../utils";
+import ReactECharts from "echarts-for-react";
+import { METRIC_TYPE } from "types/metrics";
+import { metricConfig } from "./utils";
 
 interface Props {
   metrics: MetricsResponse[];
-  isLoading: boolean;
   options?: EChartsOption;
+  type: METRIC_TYPE;
 }
-export const MemoryUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
+export const MetricPlot: FC<Props> = ({ metrics, options, type }) => {
+  const { color, unit, field } = metricConfig[type];
+
   if (!metrics) {
     return (
       <Space direction="vertical" className="w-full items-center text-xs pb-5">
@@ -26,8 +30,8 @@ export const MemoryUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
     {
       dataset: {
         source: {
-          time: metrics.map((t) => t.time),
-          memory: metrics.map((m) => m.memoryUsage)
+          time: metrics.map((t) => t._time),
+          value: metrics.map((m) => m[field])
         }
       },
       legend: {
@@ -36,7 +40,7 @@ export const MemoryUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
       animation: false,
       tooltip: {
         ...tooltipOptions,
-        valueFormatter: (v) => `${v}%`
+        valueFormatter: (v: string) => `${v}${unit}`
       },
       grid: {
         left: 10,
@@ -49,7 +53,7 @@ export const MemoryUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
         type: "category",
         offset: 12,
         axisLabel: {
-          formatter: (v) => dayjs(v).format("HH:mm"),
+          formatter: (v: string) => dayjs(v).format("HH:mm"),
           color: "white",
           fontSize: 11,
           interval: 15,
@@ -57,35 +61,32 @@ export const MemoryUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
         },
         axisPointer: {
           label: {
-            formatter: (v) => dayjs(v.value).format("HH:mm, DD MMM")
+            formatter: (v: { value: string }) => dayjs(v.value).format("HH:mm, DD MMM")
           }
         },
-
-        splitLine: {
-          show: false
-        }
+        splitLine
       },
       yAxis: {
         type: "value",
         axisLabel: {
           color: "white",
           fontSize: 11,
-          formatter: "{value}%"
+          formatter: `{value}${unit}`
         },
         splitLine
       },
       series: [
         {
           type: "line",
-          name: "ram",
+          name: type,
           showSymbol: false,
-          color: "#DE4457",
+          color,
           lineStyle: {
-            color: "#DE4457",
+            color,
             width: 1
           },
           areaStyle: {
-            color: "#DE4457",
+            color,
             opacity: 0.4
           }
         }
@@ -93,9 +94,6 @@ export const MemoryUsagePlotMetrics: FC<Props> = ({ metrics, options }) => {
     },
     options
   );
-  return (
-    <>
-      <ReactECharts option={chartOptions} />
-    </>
-  );
+
+  return <ReactECharts option={chartOptions} />;
 };

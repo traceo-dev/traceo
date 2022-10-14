@@ -64,14 +64,15 @@ export class InfluxService {
 
     async writeData(config: Partial<InfluxConfiguration>, data: Metrics): Promise<void> {
         const { url, token, bucket, org, connStatus, appId } = config;
-        const { cpuUsage, memory } = data;
+        const { cpuUsage, memory, loadAvg } = data;
 
         const influxDb = new InfluxDB({ url, token });
 
         const write = influxDb.getWriteApi(org, bucket);
         const point = new Point(`metrics_${appId}`)
             .floatField('cpuUsage', cpuUsage)
-            .floatField('memoryUsage', memory.percentage);
+            .floatField('memoryUsage', memory.percentage)
+            .intField('loadAvg', loadAvg);
 
         const influxRef = this.entityManager.getRepository(InfluxDS);
 
@@ -134,24 +135,15 @@ export class InfluxService {
             from(bucket: "${bucket}") 
                 |> range(start: -${hrCount}h)
                 |> filter(fn: (r) => r._measurement == "metrics_${id}")
-                |> filter(fn: (r) => r._field == "cpuUsage" or r._field == "memoryUsage")
+                |> filter(fn: (r) => 
+                    r._field == "cpuUsage" or 
+                    r._field == "memoryUsage" or
+                    r._field == "loadAvg")
                 |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
-                |> keep(columns: ["_time", "cpuUsage", "memoryUsage"])
+                |> keep(columns: ["_time", "cpuUsage", "memoryUsage", "loadAvg"])
         `;
-
-        const metrics: MetricsResponse[] = [];
-
-        return await new Promise<any>((resolve, _) => {
-            queryApi.queryRows(query, {
-                next(row, tableMeta) {
-                    const o = tableMeta.toObject(row);
-                    metrics.push({ time: o._time, cpuUsage: o.cpuUsage, memoryUsage: o.memoryUsage })
-                },
-                error() { },
-                complete() {
-                    resolve(metrics)
-                }
-            })
-        })
+        try {
+            return await queryApi.collectRows(query);
+        } catch (error) { }
     }
 }

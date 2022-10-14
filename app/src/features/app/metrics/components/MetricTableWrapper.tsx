@@ -1,22 +1,32 @@
 import { Space, Typography, Switch, Table } from "antd";
 import { PagePanel } from "core/components/PagePanel";
+import { metricConfig } from "core/components/Plots/components/metrics/utils";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
+import { METRIC_TYPE } from "types/metrics";
 import { MetricsResponse } from "types/tsdb";
 
 interface Props {
+  type: METRIC_TYPE;
   metrics: MetricsResponse[];
-  columns: any[];
+  columns?: any[];
 }
-export const MetricTableWrapper: FC<Props> = ({ columns, metrics }) => {
+export const MetricTableWrapper: FC<Props> = ({ type, columns = [], metrics }) => {
   const [isFormattedTime, setFormattedTime] = useState<boolean>(true);
+
+  const { field, title, unit } = metricConfig[type];
 
   const cols = [
     {
       title: "Time",
-      dataIndex: "time",
+      dataIndex: "_time",
       render: (time: string) =>
         isFormattedTime ? dayjs(time).format("YYYY-MM-DD HH:mm:ss") : time
+    },
+    {
+      title,
+      dataIndex: field,
+      render: (v: any) => (v ? `${v}${unit}` : "-")
     }
   ];
 

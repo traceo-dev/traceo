@@ -25,7 +25,7 @@ export const MetricPlotWrapper: FC<Props> = ({
 }) => {
   return (
     <PagePanel className="py-3 px-5">
-      <Space className="w-full justify-between mb-12">
+      <Space className="w-full justify-between mb-5">
         <Typography.Text className="font-semibold">Graph</Typography.Text>
         <Space>
           {metrics && isLoading && <LoadingOutlined className="mr-5" />}

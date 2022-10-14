@@ -39,8 +39,8 @@ export interface TraceoLog {
 export interface Metrics {
     cpuUsage: number;
     memory: {
-      mb: number;
-      percentage: number;
+        mb: number;
+        percentage: number;
     };
     loadAvg?: number;
 }

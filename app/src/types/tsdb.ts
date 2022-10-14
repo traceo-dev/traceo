@@ -1,3 +1,5 @@
+export type METRIC_UNIT = "%" | "MB" | "kb" | "s" | "";
+
 export interface InfluxDS {
     url: string;
     org: string;
@@ -20,6 +22,6 @@ export interface DataSourceConnStatus {
 export interface MetricsResponse {
     cpuUsage: number;
     memoryUsage: number;
-    time: string;
+    _time: string;
     id?: string;
 }
