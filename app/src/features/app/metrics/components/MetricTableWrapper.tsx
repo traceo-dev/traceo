@@ -9,26 +9,30 @@ import { MetricsResponse } from "types/tsdb";
 interface Props {
   type: METRIC_TYPE;
   metrics: MetricsResponse[];
-  columns?: any[];
 }
-export const MetricTableWrapper: FC<Props> = ({ type, columns = [], metrics }) => {
+export const MetricTableWrapper: FC<Props> = ({ metrics, type }) => {
   const [isFormattedTime, setFormattedTime] = useState<boolean>(true);
 
-  const { field, title, unit } = metricConfig[type];
+  const { series, unit } = metricConfig[type];
 
-  const cols = [
-    {
-      title: "Time",
-      dataIndex: "_time",
-      render: (time: string) =>
-        isFormattedTime ? dayjs(time).format("YYYY-MM-DD HH:mm:ss") : time
-    },
-    {
-      title,
+  const buildColumns = () => {
+    const commonColumns = [
+      {
+        title: "Time",
+        dataIndex: "_time",
+        render: (time: string) =>
+          isFormattedTime ? dayjs(time).format("YYYY-MM-DD HH:mm:ss") : time
+      }
+    ];
+
+    const seriesColumns = series.map(({ field, name }) => ({
+      title: name,
       dataIndex: field,
       render: (v: any) => (v ? `${v}${unit}` : "-")
-    }
-  ];
+    }));
+
+    return [...commonColumns, ...seriesColumns];
+  };
 
   return (
     <PagePanel className="py-3 px-5">
@@ -45,7 +49,7 @@ export const MetricTableWrapper: FC<Props> = ({ type, columns = [], metrics }) =
         </Space>
         <Table
           dataSource={metrics}
-          columns={[...cols, ...columns]}
+          columns={buildColumns()}
           pagination={{ pageSize: 150 }}
           scroll={{ y: 440 }}
         />

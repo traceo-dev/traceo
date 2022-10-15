@@ -1,4 +1,4 @@
-import { BarChartOutlined } from "@ant-design/icons";
+import { AreaChartOutlined } from "@ant-design/icons";
 import PageHeader from "core/components/PageHeader";
 import AppPage from "features/app/components/AppPage";
 import { handleHeaderInfo } from "types/metrics";
@@ -12,7 +12,7 @@ export const AppMetricsPreviewNavigationPage = ({ children }) => {
   return (
     <>
       <AppPage>
-        <PageHeader icon={<BarChartOutlined />} {...info} />
+        <PageHeader icon={<AreaChartOutlined />} {...info} />
         {children}
       </AppPage>
     </>

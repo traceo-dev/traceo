@@ -64,7 +64,7 @@ export class InfluxService {
 
     async writeData(config: Partial<InfluxConfiguration>, data: Metrics): Promise<void> {
         const { url, token, bucket, org, connStatus, appId } = config;
-        const { cpuUsage, memory, loadAvg } = data;
+        const { cpuUsage, memory, loadAvg, heap } = data;
 
         const influxDb = new InfluxDB({ url, token });
 
@@ -72,7 +72,12 @@ export class InfluxService {
         const point = new Point(`metrics_${appId}`)
             .floatField('cpuUsage', cpuUsage)
             .floatField('memoryUsage', memory.percentage)
-            .intField('loadAvg', loadAvg);
+            .floatField('rss', heap.rss)
+            .floatField('heapUsed', heap.used)
+            .floatField('heapTotal', heap.total)
+            .intField('loadAvg', loadAvg)
+            .intField('heapNativeContexts', heap.nativeContexts)
+            .intField('heapDetachedContexts', heap.detachedContexts);
 
         const influxRef = this.entityManager.getRepository(InfluxDS);
 
@@ -138,9 +143,24 @@ export class InfluxService {
                 |> filter(fn: (r) => 
                     r._field == "cpuUsage" or 
                     r._field == "memoryUsage" or
-                    r._field == "loadAvg")
+                    r._field == "loadAvg" or
+                    r._field == "heapUsed" or
+                    r._field == "heapTotal" or
+                    r._field == "rss" or
+                    r._field == "heapNativeContexts" or
+                    r._field == "heapDetachedContexts")
                 |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
-                |> keep(columns: ["_time", "cpuUsage", "memoryUsage", "loadAvg"])
+                |> keep(columns: [
+                        "_time", 
+                        "cpuUsage", 
+                        "memoryUsage", 
+                        "loadAvg", 
+                        "heapUsed", 
+                        "heapTotal", 
+                        "rss", 
+                        "heapNativeContexts", 
+                        "heapDetachedContexts"
+                    ])
         `;
         try {
             return await queryApi.collectRows(query);

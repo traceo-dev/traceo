@@ -50,7 +50,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
     setLoading(true);
 
     try {
-      const resp: DataSourceConnStatus = await api.post("/api/influx/config", {
+      await api.post("/api/influx/config", {
         appId: application.id,
         ...form
       });

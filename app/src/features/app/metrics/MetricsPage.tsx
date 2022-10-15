@@ -14,7 +14,10 @@ import { METRIC_TYPE } from "types/metrics";
 import { slugifyForUrl } from "core/utils/stringUtils";
 import { EChartsOption } from "echarts";
 import { MetricPlot } from "core/components/Plots/components/metrics/MetricPlot";
-import { metricConfig } from "core/components/Plots/components/metrics/utils";
+import {
+  metricConfig,
+  MetricSeriesOption
+} from "core/components/Plots/components/metrics/utils";
 
 const MetricsPage = () => {
   const { id } = useParams();
@@ -60,9 +63,21 @@ const MetricsPage = () => {
     }
   };
 
-  const avg = (field: string) =>
-    (metrics && metrics.reduce((acc, val) => (acc += val[field]), 0) / metrics?.length) ||
-    0;
+  const avg = (options: MetricSeriesOption[]) => {
+    //average value calculated only for single series charts
+    if (!options || options.length > 1) {
+      return null;
+    }
+
+    const field = options[0].field;
+
+    return (
+      (field &&
+        metrics &&
+        metrics.reduce((acc, val) => (acc += val[field]), 0) / metrics?.length) ||
+      null
+    );
+  };
 
   if (!isConnectedTSDB) {
     return (
@@ -91,10 +106,15 @@ const MetricsPage = () => {
             <Col span={12}>
               <MetricCard
                 type={type}
-                avg={avg(metricConfig[type].field)}
+                avg={avg(metricConfig[type].series)}
                 onExplore={() => showMetricPreview(type)}
               >
-                <MetricPlot type={type} metrics={metrics} options={options} />
+                <MetricPlot
+                  type={type}
+                  metrics={metrics}
+                  options={options}
+                  plotType="line"
+                />
               </MetricCard>
             </Col>
           ))}
@@ -106,7 +126,7 @@ const MetricsPage = () => {
 
 interface MetricCardProps {
   type: METRIC_TYPE;
-  children: any;
+  children: JSX.Element;
   onExplore?: () => void;
   avg?: number;
 }
@@ -116,10 +136,12 @@ const MetricCard: FC<MetricCardProps> = ({ children, onExplore, avg, type }) => 
     <>
       <Card
         extra={
-          <span className="text-amber-500 font-semibold">
-            {avg.toFixed(2)}
-            {unit}
-          </span>
+          avg && (
+            <span className="text-amber-500 font-semibold">
+              {avg.toFixed(2)}
+              {unit}
+            </span>
+          )
         }
         onClick={onExplore}
         title={title}

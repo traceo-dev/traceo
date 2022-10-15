@@ -24,4 +24,9 @@ export interface MetricsResponse {
     memoryUsage: number;
     _time: string;
     id?: string;
+    heapUsed: number;
+    heapTotal: number;
+    heapNativeContexts: number;
+    heapDetachedContexts: number;
+    rss: number;
 }

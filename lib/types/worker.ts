@@ -43,4 +43,11 @@ export interface Metrics {
         percentage: number;
     };
     loadAvg?: number;
+    heap: {
+        used: number;
+        total: number;
+        rss: number;
+        nativeContexts: number;
+        detachedContexts: number;
+    };
 }
