@@ -1,4 +1,4 @@
-import { Card, Col, Row } from "antd";
+import { Card, Col, Row, Typography } from "antd";
 import { PagePanel } from "core/components/PagePanel";
 import { useApi } from "core/lib/useApi";
 import { FC, useEffect, useState } from "react";
@@ -64,7 +64,6 @@ const MetricsPage = () => {
   };
 
   const avg = (options: MetricSeriesOption[]) => {
-    console.log("METRICS: ", metrics);
     if (!metrics) return;
 
     //average value calculated only for single series charts
@@ -144,7 +143,7 @@ const MetricCard: FC<MetricCardProps> = ({ children, onExplore, avg, type }) => 
           )
         }
         onClick={onExplore}
-        title={title}
+        title={<Typography.Text className="font-normal text-md">{title}</Typography.Text>}
         className="metric-panel"
       >
         {children}

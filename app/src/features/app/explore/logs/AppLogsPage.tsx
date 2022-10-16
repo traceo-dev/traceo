@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import dateUtils from "core/utils/date";
 import { LogsHistogram } from "features/app/explore/components/LogsHistogram";
 import { LogContainer, LogRow } from "../components/LogContainer";
+import { DataNotFound } from "core/components/DataNotFound";
 
 const AppLogsPage = () => {
   const { id } = useParams();
@@ -73,7 +74,7 @@ const AppLogsPage = () => {
       <LogDetails />
       <Divider className="my-0" />
       <ConditionLayout
-        emptyView={<Typography.Text>No logs</Typography.Text>}
+        emptyView={<DataNotFound label="Logs not found" />}
         isEmpty={logs?.length === 0}
         isLoading={!hasFetched}
       >

@@ -5,6 +5,7 @@ import ReactECharts from "echarts-for-react";
 import { CHART_TYPE, METRIC_TYPE } from "types/metrics";
 import { commonOptions, metricConfig } from "./utils";
 import { MetricLoading } from "core/components/MetricLoading";
+import { DataNotFound } from "core/components/DataNotFound";
 
 interface Props {
   metrics: MetricsResponse[];
@@ -17,6 +18,10 @@ export const MetricPlot: FC<Props> = ({ metrics, options, type, plotType }) => {
 
   if (!metrics) {
     return <MetricLoading />;
+  }
+
+  if (metrics.length === 0) {
+    return <DataNotFound />;
   }
 
   const buildSeries = () =>

@@ -163,6 +163,8 @@ export class InfluxService {
         `;
         try {
             return await queryApi.collectRows(query);
-        } catch (error) { }
+        } catch (error) {
+            return [];
+        }
     }
 }

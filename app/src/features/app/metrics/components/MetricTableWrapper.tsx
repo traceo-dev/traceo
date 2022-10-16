@@ -1,4 +1,5 @@
 import { Space, Typography, Switch, Table } from "antd";
+import { DataNotFound } from "core/components/DataNotFound";
 import { PagePanel } from "core/components/PagePanel";
 import { metricConfig } from "core/components/Plots/components/metrics/utils";
 import dayjs from "dayjs";
@@ -47,12 +48,16 @@ export const MetricTableWrapper: FC<Props> = ({ metrics, type }) => {
             />
           </Space>
         </Space>
-        <Table
-          dataSource={metrics}
-          columns={buildColumns()}
-          pagination={{ pageSize: 150 }}
-          scroll={{ y: 440 }}
-        />
+        {metrics?.length > 0 ? (
+          <Table
+            dataSource={metrics}
+            columns={buildColumns()}
+            pagination={{ pageSize: 150 }}
+            scroll={{ y: 440 }}
+          />
+        ) : (
+          <DataNotFound />
+        )}
       </Space>
     </PagePanel>
   );
