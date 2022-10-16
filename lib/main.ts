@@ -4,20 +4,17 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import * as bodyParser from 'body-parser';
 import { AppModule } from './app.module';
 import morgan from "morgan";
-import { Traceo } from "traceo";
+import { TraceoClient } from "traceo";
 import { TraceoInterceptor } from './libs/traceo.interceptor';
 
 const cors = require("cors");
 
 async function bootstrap() {
-  Traceo.init({
+  new TraceoClient({
     appId: 35,
-    connection: {
-      host: process.env.TRACEO_HOST,
-      port: +process.env.TRACEO_PORT,
-    },
+    url: process.env.TRACEO_HOST,
     metrics: {
-      collect: true,
+      collect: false,
       interval: 90
     }
   });

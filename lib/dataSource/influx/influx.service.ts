@@ -6,7 +6,6 @@ import { Application } from 'lib/db/entities/application.entity';
 import { CONNECTION_STATUS, DataSourceConnStatus, MetricsQueryDto, MetricsResponse, TSDB } from 'lib/types/tsdb';
 import { InfluxDB, Point } from '@influxdata/influxdb-client'
 import { Metrics } from 'lib/types/worker';
-import { logger } from 'traceo';
 
 
 @Injectable()

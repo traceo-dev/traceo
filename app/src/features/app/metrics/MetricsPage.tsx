@@ -64,6 +64,9 @@ const MetricsPage = () => {
   };
 
   const avg = (options: MetricSeriesOption[]) => {
+    console.log("METRICS: ", metrics);
+    if (!metrics) return;
+
     //average value calculated only for single series charts
     if (!options || options.length > 1) {
       return null;
@@ -72,10 +75,7 @@ const MetricsPage = () => {
     const field = options[0].field;
 
     return (
-      (field &&
-        metrics &&
-        metrics.reduce((acc, val) => (acc += val[field]), 0) / metrics?.length) ||
-      null
+      metrics?.reduce((acc, val) => (acc += val[field]), 0) / metrics?.length || null
     );
   };
 
