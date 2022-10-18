@@ -1,8 +1,9 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Space, Button } from "antd";
+import { PagePanel } from "core/components/PagePanel";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { CreateApplicationDrawer } from "../../core/components/Drawers/CreateApplicationDrawer";
+import { CreateApplicationModal } from "../../core/components/Modals/CreateApplicationModal";
 import { SearchInput } from "../../core/components/SearchInput";
 import { ApiQueryParams } from "../../core/lib/api";
 import { dispatch } from "../../store/store";
@@ -34,18 +35,25 @@ export const ManagementApplicationsPage = () => {
 
   return (
     <ManagementNavigation>
-      <Space className="w-full pb-2 justify-between">
-        <SearchInput value={search} setValue={setSearch} />
-        <Button
-          onClick={() => setOpenNewAppDrawer(true)}
-          type="primary"
-          icon={<PlusOutlined />}
-        >
-          New aplication
-        </Button>
-      </Space>
-      <ApplicationsTable applications={applications} hasFetched={hasFetched} />
-      <CreateApplicationDrawer
+      <PagePanel
+        title="Applications list"
+        extra={
+          <Button
+            onClick={() => setOpenNewAppDrawer(true)}
+            type="primary"
+            icon={<PlusOutlined />}
+          >
+            New aplication
+          </Button>
+        }
+      >
+        <Space className="w-full pb-2 justify-between">
+          <SearchInput value={search} setValue={setSearch} />
+        </Space>
+        <ApplicationsTable applications={applications} hasFetched={hasFetched} />
+      </PagePanel>
+
+      <CreateApplicationModal
         isOpen={openNewAppDrawer}
         onCancel={() => setOpenNewAppDrawer(false)}
         isAdmin={true}

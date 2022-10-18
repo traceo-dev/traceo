@@ -1,6 +1,5 @@
-import { Space, Typography, Form, Drawer, Select } from "antd";
+import { Space, Typography, Form, Select, Modal } from "antd";
 import { useEffect, useState } from "react";
-import { DrawerButtons } from "../DrawerButtons";
 import { dispatch } from "store/store";
 import { loadServerAccounts } from "features/management/state/accounts/actions";
 import { useSelector } from "react-redux";
@@ -9,8 +8,9 @@ import { Avatar } from "../Avatar";
 import { ApplicationMember, MemberRole } from "types/application";
 import api from "core/lib/api";
 import { Account } from "types/accounts";
+import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
 
-export const AddMemberDrawer = ({ isOpen, onCancel }) => {
+export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { accounts, hasFetched } = useSelector(
     (state: StoreState) => state.serverAccounts
   );
@@ -52,24 +52,25 @@ export const AddMemberDrawer = ({ isOpen, onCancel }) => {
 
   return (
     <>
-      <Drawer
+      <Modal
         title="New member"
-        onClose={onCancel}
+        onCancel={onClose}
         visible={isOpen}
         closable={false}
-        footer={<DrawerButtons onClose={onClose} onFinish={submit} loading={loading} />}
+        confirmLoading={loading}
+        onOk={submit}
       >
         <Space
           direction="vertical"
           className="pt-0 px-4 w-full h-full justify-between text-center"
         >
-          <Form onFinish={onFinish} form={form} layout="vertical" className="pt-5">
+          <Form onFinish={onFinish} form={form} layout="vertical">
             <Form.Item
               name="accountId"
               label="Server accounts"
               className="text-xs mb-0 font-semibold"
               requiredMark={"optional"}
-              rules={[{ required: true, message: "This field is required" }]}
+              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
             >
               <Select loading={!hasFetched}>
                 {filterAccounts()?.map((val, index) => (
@@ -82,7 +83,7 @@ export const AddMemberDrawer = ({ isOpen, onCancel }) => {
             </Form.Item>
             <Form.Item
               requiredMark={"optional"}
-              rules={[{ required: true, message: "Role is required" }]}
+              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
               name="role"
               label="Role"
               className="mt-5"
@@ -97,7 +98,7 @@ export const AddMemberDrawer = ({ isOpen, onCancel }) => {
             </Form.Item>
           </Form>
         </Space>
-      </Drawer>
+      </Modal>
     </>
   );
 };

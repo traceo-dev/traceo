@@ -41,18 +41,21 @@ export const AppIncidentAnalyticsPage = () => {
   return (
     <AppIncidentNavigationPage>
       <ConditionLayout isLoading={!incident}>
-        <PagePanel>
-          <Space direction="vertical" className="gap-0">
-            <Typography.Title className="text-3xl">Today</Typography.Title>
-            <Typography className="text-xs pt-3">
-              <ClockCircleOutlined /> {dateUtils.getNow("HH:mm")}
-            </Typography>
-          </Space>
-          <div style={{ width: "100%", overflow: "hidden" }}>
-            <div style={{ width: "80%", float: "left" }}>
+        <PagePanel
+          title={
+            <Space>
+              <Typography.Text>Today Incident overview</Typography.Text>
+              <Typography.Text className="text-xs pl-5">
+                <ClockCircleOutlined className="mr-1" /> {dateUtils.getNow("HH:mm")}
+              </Typography.Text>
+            </Space>
+          }
+        >
+          <div className="w-full overflow-hidden">
+            <div className="w-3/4 float-left">
               <IncidentsTodayPlot stats={todayStats?.data} />
             </div>
-            <div style={{ width: "20%", float: "right" }}>
+            <div className="w-1/4 float-right">
               <TodayIncidentsStats
                 count={todayStats?.count}
                 last={todayStats?.last}
@@ -62,8 +65,7 @@ export const AppIncidentAnalyticsPage = () => {
             </div>
           </div>
         </PagePanel>
-        <PagePanel>
-          <Typography.Title className="text-3xl">Total overview</Typography.Title>
+        <PagePanel title="Total Incident overview">
           <Space className="w-full justify-between p-5">
             <Space className="w-full gap-0" direction="vertical">
               <Typography className="text-md font-semibold primary">

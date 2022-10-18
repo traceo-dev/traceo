@@ -15,6 +15,7 @@ import dateUtils from "core/utils/date";
 import { LogsHistogram } from "features/app/explore/components/LogsHistogram";
 import { LogContainer, LogRow } from "../components/LogContainer";
 import { DataNotFound } from "core/components/DataNotFound";
+import { PagePanel } from "core/components/PagePanel";
 
 const AppLogsPage = () => {
   const { id } = useParams();
@@ -55,35 +56,36 @@ const AppLogsPage = () => {
       }
     ];
     return (
-      <>
-        <Typography.Text className="font-semibold text-lg">Logs list</Typography.Text>
-        <Space className="w-full">
-          {logsDetails.map(({ label, value }, index) => (
-            <Typography.Text key={index} className="text-xs">
-              {label} <Tag>{value}</Tag>
-            </Typography.Text>
-          ))}
-        </Space>
-      </>
+      <Space className="w-full">
+        {logsDetails.map(({ label, value }, index) => (
+          <Typography.Text key={index} className="text-xs">
+            {label} <Tag>{value}</Tag>
+          </Typography.Text>
+        ))}
+      </Space>
     );
   };
 
   return (
     <AppExploreNavigationPage>
-      <LogsHistogram />
-      <LogDetails />
-      <Divider className="my-0" />
-      <ConditionLayout
-        emptyView={<DataNotFound label="Logs not found" />}
-        isEmpty={logs?.length === 0}
-        isLoading={!hasFetched}
-      >
-        <LogContainer>
-          {logs?.map((log, index) => (
-            <LogRow key={index} log={log} />
-          ))}
-        </LogContainer>
-      </ConditionLayout>
+      <PagePanel title="Histogram">
+        <LogsHistogram />
+      </PagePanel>
+      <PagePanel title="Logs list">
+        <LogDetails />
+        <Divider className="my-2" />
+        <ConditionLayout
+          emptyView={<DataNotFound label="Logs not found" />}
+          isEmpty={logs?.length === 0}
+          isLoading={!hasFetched}
+        >
+          <LogContainer>
+            {logs?.map((log, index) => (
+              <LogRow key={index} log={log} />
+            ))}
+          </LogContainer>
+        </ConditionLayout>
+      </PagePanel>
     </AppExploreNavigationPage>
   );
 };

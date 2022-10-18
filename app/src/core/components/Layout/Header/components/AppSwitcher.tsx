@@ -77,7 +77,7 @@ export const AppSwitcher = () => {
                     name={application.name}
                     url={application?.gravatar}
                   />
-                  <Typography.Text className="appName">
+                  <Typography.Text className="app-name">
                     {application.name}
                   </Typography.Text>
                   <DownOutlined className="text-xs" />
@@ -100,7 +100,7 @@ export const AppSwitcher = () => {
       </Space>
 
       <style>{`
-        .appName {
+        .app-name {
             font-feature-settings: "pnum";
             font-variant: proportional-nums;
             line-height: 16px;

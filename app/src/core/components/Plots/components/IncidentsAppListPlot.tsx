@@ -3,9 +3,9 @@ import { Space } from "antd";
 import { FC, useEffect } from "react";
 import { splitLine } from "../utils";
 import { useApi } from "../../../lib/useApi";
-import { statistics } from "../../../utils/statistics";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
+import { DataNotFound } from "core/components/DataNotFound";
 
 interface Props {
   id: string;
@@ -41,18 +41,13 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
     );
   }
 
-  const data = () => {
-    if (stats.length > 0) {
-      return stats;
-    }
-
-    const data = statistics.mockData();
-    return data;
-  };
+  if (stats.length === 0) {
+    return <DataNotFound label="Metrics not found" />;
+  }
 
   const options: EChartsOption = {
     dataset: {
-      source: data()
+      source: stats
     },
     animation: false,
     tooltip: {

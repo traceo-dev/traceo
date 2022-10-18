@@ -5,6 +5,7 @@ import { Account, AddAccountProps } from "../../../../types/accounts";
 import { notify } from "../../../../core/utils/notify";
 import { handleStatus } from "../../../../core/utils/response";
 import { ApiResponse } from "../../../../types/api";
+import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
 
 export const loadServerAccounts = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {
@@ -32,7 +33,7 @@ export const updateServerAccount = (update: Partial<Account>): ThunkResult<void>
 
       notify.success("Account has been updated");
     } catch (error) {
-      notify.error("Account has not been updated. Please try again later.");
+      notify.error(TRY_AGAIN_LATER_ERROR);
     }
   };
 };

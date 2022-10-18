@@ -1,4 +1,5 @@
 import { Button, Form, Input, Space } from "antd";
+import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
 
 export const LoginForm = ({ form, loading, onFinish }) => {
   return (
@@ -10,7 +11,7 @@ export const LoginForm = ({ form, loading, onFinish }) => {
           {
             required: true,
             warningOnly: true,
-            message: "Please input username or email!"
+            message: REQUIRED_FIELD_ERROR
           }
         ]}
       >
@@ -25,7 +26,7 @@ export const LoginForm = ({ form, loading, onFinish }) => {
           {
             required: true,
             warningOnly: true,
-            message: "Please input your Password!"
+            message: REQUIRED_FIELD_ERROR
           }
         ]}
       >

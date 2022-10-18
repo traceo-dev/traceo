@@ -1,8 +1,9 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Space, Button } from "antd";
+import { PagePanel } from "core/components/PagePanel";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { NewAccountDrawer } from "../../core/components/Drawers/NewAccountDrawer";
+import { NewAccountModal } from "../../core/components/Modals/NewAccountModal";
 import { SearchInput } from "../../core/components/SearchInput";
 import { ApiQueryParams } from "../../core/lib/api";
 import { dispatch } from "../../store/store";
@@ -32,18 +33,24 @@ const ManagementUsersPage = () => {
 
   return (
     <ManagementNavigation>
-      <Space className="w-full pb-2 justify-between">
-        <SearchInput value={search} setValue={setSearch} />
-        <Button
-          onClick={() => setOpenNewAccountDrawer(true)}
-          type="primary"
-          icon={<PlusOutlined />}
-        >
-          New account
-        </Button>
-      </Space>
-      <AccountsTable accounts={accounts} hasFetched={hasFetched} />
-      <NewAccountDrawer
+      <PagePanel
+        title="Accounts list"
+        extra={
+          <Button
+            onClick={() => setOpenNewAccountDrawer(true)}
+            type="primary"
+            icon={<PlusOutlined />}
+          >
+            New account
+          </Button>
+        }
+      >
+        <Space className="w-full pb-2 justify-between">
+          <SearchInput value={search} setValue={setSearch} />
+        </Space>
+        <AccountsTable accounts={accounts} hasFetched={hasFetched} />
+      </PagePanel>
+      <NewAccountModal
         isOpen={isOpenNewAccountDrawer}
         onCancel={() => setOpenNewAccountDrawer(false)}
       />

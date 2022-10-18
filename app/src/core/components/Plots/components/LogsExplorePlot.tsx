@@ -4,6 +4,7 @@ import { FC } from "react";
 import { TraceoLog } from "types/logs";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
+import { tooltipOptions } from "../utils";
 
 interface Props {
   logs: TraceoLog[];
@@ -18,6 +19,12 @@ export const LogsExplorePlot: FC<Props> = ({ logs, startDate, endDate }) => {
       source: data
     },
     animation: false,
+    tooltip: {
+      ...tooltipOptions,
+      axisPointer: {
+        type: "shadow"
+      }
+    },
     grid: {
       left: "24px",
       right: "24px",
@@ -32,6 +39,11 @@ export const LogsExplorePlot: FC<Props> = ({ logs, startDate, endDate }) => {
         fontSize: 11,
         padding: 0,
         interval: 5
+      },
+      axisPointer: {
+        label: {
+          formatter: (v) => dateUtils.formatDate(v.value as number, "MMM D, HH:mm")
+        }
       },
       splitLine: {
         show: true,
@@ -61,16 +73,15 @@ export const LogsExplorePlot: FC<Props> = ({ logs, startDate, endDate }) => {
       {
         type: "bar",
         color: "#0991b3",
-        barWidth: 15
+        barWidth: 15,
+        name: "Logs"
       }
     ]
   };
 
   return (
     <>
-      <div className="pointer-events-none">
-        <ReactECharts option={options} />
-      </div>
+      <ReactECharts option={options} />
       <style>{`
           .echarts-for-react {
             height: 280px !important;

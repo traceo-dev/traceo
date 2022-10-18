@@ -13,10 +13,6 @@ export const getIncidentsTablePlotData = (occurDates: ErrorDetails[]) => {
   let currentDate = dayjs.unix(beginDate?.date).subtract(3, "day").endOf("day").unix();
   const endDate = dayjs().endOf("day").unix();
 
-  // if (currentDate === endDate) {
-  //   return response;
-  // }
-
   /**
    * iterate over the two dates, first and last date of incidents
    * and push to array new object with count of incidents by day,
@@ -35,15 +31,7 @@ export const getIncidentsTablePlotData = (occurDates: ErrorDetails[]) => {
     currentDate = dayjs.unix(currentDate).add(1, "day").endOf("day").unix();
   }
 
-  const mocked: PlotData[] = [];
-  // for (let i=0; i < 9; i++) {
-  //   mocked.push({
-  //     count: 0,
-  //     date: dayjs.unix(beginDate?.date).subtract(i, 'day').unix()
-  //   })
-  // }
-
-  return [...mocked, ...response];
+  return response;
 };
 
 export interface PlotData {
@@ -82,17 +70,6 @@ const getIncidentsAnalyticsTodayPlotData = (occurDates: ErrorDetails[]) => {
   };
 };
 
-const mockData = () => {
-  const data = [];
-  for (let i = 0; i < 3; i++) {
-    data.push({
-      date: dayjs().add(i, "day").unix(),
-      count: 0
-    });
-  }
-  return data;
-};
-
 const getExploreLogsPlotData = (startDate: number, endDate: number, logs: TraceoLog[]) => {
   const plotData: PlotData[] = [];
 
@@ -117,7 +94,6 @@ const getExploreLogsPlotData = (startDate: number, endDate: number, logs: Traceo
 };
 
 export const statistics = {
-  mockData,
   getIncidentsAnalyticsTodayPlotData,
   getExploreLogsPlotData
 };

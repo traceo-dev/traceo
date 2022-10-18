@@ -1,5 +1,5 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import { Space, Typography, Button, Tooltip } from "antd";
+import { Space, Button, Tooltip } from "antd";
 import dayjs from "dayjs";
 import { LogsExplorePlot } from "core/components/Plots/components/LogsExplorePlot";
 import { loadApplicationLogs } from "features/app/explore/logs/state/actions";
@@ -45,26 +45,18 @@ export const LogsHistogram = () => {
 
   return (
     <Space className="w-full" direction="vertical">
-      <Typography.Text className="font-semibold text-lg">Histogram</Typography.Text>
-      <div
-        style={{
-          width: "100%",
-          overflow: "hidden",
-          display: "flex",
-          alignItems: "center"
-        }}
-      >
-        <div style={{ width: "5%", float: "left" }}>
+      <div className="w-full overflow-hidden flex items-center">
+        <div className="float-left w-12">
           <Tooltip title="-0.5h">
             <Button disabled={isActiveLeftButton} onClick={() => onClickLeft()}>
               <ArrowLeftOutlined />
             </Button>
           </Tooltip>
         </div>
-        <div style={{ width: "90%", float: "left" }}>
+        <div className="w-11/12 float-left">
           <LogsExplorePlot logs={logs} startDate={startDate} endDate={endDate} />
         </div>
-        <div style={{ width: "5%", float: "right" }}>
+        <div className="float-right w-12">
           <Tooltip title="+0.5h">
             <Button disabled={isActiveRightButton} onClick={() => onClickRight()}>
               <ArrowRightOutlined />

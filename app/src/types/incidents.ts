@@ -3,21 +3,24 @@ import { Comment } from "./comments";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",
-  UNRESOLVED = "unresolved"
+  UNRESOLVED = "unresolved",
+  IN_PROGRESS = "in_progress"
 }
 
 export enum IncidentStatusSearch {
   RESOLVED = "resolved",
   UNRESOLVED = "unresolved",
+  IN_PROGRESS = "in_progress",
   ALL = "all"
 }
 
 export const handleIncidentStatus: Record<IncidentStatusSearch, string> =
-  {
-    [IncidentStatusSearch.RESOLVED]: "Resolved",
-    [IncidentStatusSearch.UNRESOLVED]: "Unresolved",
-    [IncidentStatusSearch.ALL]: "All"
-  };
+{
+  [IncidentStatusSearch.RESOLVED]: "Resolved",
+  [IncidentStatusSearch.UNRESOLVED]: "Unresolved",
+  [IncidentStatusSearch.IN_PROGRESS]: "In Progress",
+  [IncidentStatusSearch.ALL]: "All"
+};
 
 export enum IncidentSortBy {
   LAST_SEEN = "lastOccur",

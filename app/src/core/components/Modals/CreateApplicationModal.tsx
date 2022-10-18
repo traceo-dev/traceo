@@ -1,16 +1,16 @@
-import { Input, Space, Form, Drawer } from "antd";
+import { Input, Space, Form, Modal } from "antd";
 import { FC, useState } from "react";
 import { CreateApplicationProps } from "../../../types/application";
-import { DrawerButtons } from "../DrawerButtons";
 import { dispatch } from "../../../store/store";
 import { createApplication } from "../../../features/app/state/actions";
+import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
 
 interface Props {
   isOpen: boolean;
   onCancel: () => void;
   isAdmin?: boolean;
 }
-export const CreateApplicationDrawer: FC<Props> = ({ isOpen, onCancel, isAdmin }) => {
+export const CreateApplicationModal: FC<Props> = ({ isOpen, onCancel, isAdmin }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [form] = Form.useForm();
 
@@ -30,27 +30,26 @@ export const CreateApplicationDrawer: FC<Props> = ({ isOpen, onCancel, isAdmin }
 
   return (
     <>
-      <Drawer
-        title="New app"
-        onClose={onCancel}
+      <Modal
+        title="New application"
         visible={isOpen}
-        size="default"
+        onCancel={onClose}
+        onOk={submit}
         closable={false}
-        footer={<DrawerButtons onClose={onClose} onFinish={submit} loading={loading} />}
+        confirmLoading={loading}
       >
         <Space direction="vertical" className="pt-0 px-4 w-full text-center">
           <Form form={form} layout="vertical" onFinish={onFinish} requiredMark={false}>
             <Form.Item
-              tooltip="Unique name for your app. This field is required."
               name="name"
-              label="App name"
-              rules={[{ required: true }]}
+              label="Application name"
+              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
             >
               <Input />
             </Form.Item>
           </Form>
         </Space>
-      </Drawer>
+      </Modal>
     </>
   );
 };

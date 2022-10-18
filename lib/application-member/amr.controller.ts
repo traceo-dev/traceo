@@ -28,14 +28,14 @@ import { AmrService } from './amr.service';
 @Controller('amr')
 export class AmrController {
   constructor(
-    private readonly awrService: AmrService,
-    private readonly awrQueryService: AmrQueryService,
+    private readonly amrService: AmrService,
+    private readonly amrQueryService: AmrQueryService,
   ) {}
 
   @Get('/account')
   @AuthRequired()
   async getAccountById(@Query("id") id: string): Promise<Account> {
-    return await this.awrQueryService.getAccount(id);
+    return await this.amrQueryService.getAccount(id);
   }
 
   @Get('/application')
@@ -44,7 +44,7 @@ export class AmrController {
     @Query('id') id: number,
     @AuthAccount() user: RequestUser,
   ): Promise<ApplicationResponse | null> {
-    return await this.awrQueryService.getApplication(id, user);
+    return await this.amrQueryService.getApplication(id, user);
   }
 
   @Get('/members')
@@ -53,7 +53,7 @@ export class AmrController {
     @Query("id") id: number,
     @Query() query: BaseDtoQuery,
   ): Promise<AccountMemberRelationship[]> {
-    return await this.awrQueryService.getApplicationMembers(id, query);
+    return await this.amrQueryService.getApplicationMembers(id, query);
   }
 
   @Get('/applications')
@@ -63,7 +63,7 @@ export class AmrController {
     @Query("accountId") accountId: string,
     @AuthAccount() user: RequestUser,
   ): Promise<AccountMemberRelationship[]> {
-    return await this.awrQueryService.getApplicationsForAccount(
+    return await this.amrQueryService.getApplicationsForAccount(
       accountId || user.id,
       pageOptionsDto
     );
@@ -74,7 +74,7 @@ export class AmrController {
   public async addAccountToApplication(
     @Body() body: AddAccountToApplicationModel,
   ): Promise<void> {
-    return await this.awrService.addAccountToApplication(body);
+    return await this.amrService.addAccountToApplication(body);
   }
 
   @Patch('/application/member')
@@ -82,7 +82,7 @@ export class AmrController {
   public async updateApplicationAccount(
     @Body() body: UpdateAmrModel,
   ): Promise<void> {
-    return await this.awrService.updateApplicationAccount(body);
+    return await this.amrService.updateApplicationAccount(body);
   }
 
   @Delete('/application/member')
@@ -90,7 +90,7 @@ export class AmrController {
   public async removeAccountFromApplication(
     @Query("id", new ParseUUIDPipe()) id: string,
   ): Promise<void> {
-    return await this.awrService.removeAccountFromApplication(id);
+    return await this.amrService.removeAccountFromApplication(id);
   }
 
   @Delete('/application/leave')
@@ -99,6 +99,6 @@ export class AmrController {
     @Query("aid", new ParseUUIDPipe()) aid: string,
     @Query("appId") appId: number,
   ): Promise<void> {
-    return await this.awrService.leaveApplication(aid, appId);
+    return await this.amrService.leaveApplication(aid, appId);
   }
 }

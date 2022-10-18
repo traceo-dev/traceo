@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { getIncidentsTablePlotData } from "../../../../core/utils/statistics";
+import { getIncidentsTablePlotData } from "../../../utils/statistics";
 import { ErrorDetails } from "../../../../types/incidents";
 import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
 import ReactECharts from "echarts-for-react";

@@ -1,7 +1,6 @@
 import { Button, Dropdown, Menu, Space, Typography } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { BatchUpdateDrawer } from "../../../core/components/Drawers/BatchUpdateDrawer";
 import AppPage from "../components/AppPage";
 import { SearchInput } from "../../../core/components/SearchInput";
 import { SortIcons } from "../../../core/components/SortIcons";
@@ -19,11 +18,10 @@ import { StoreState } from "../../../types/store";
 import { loadIncidents } from "../../../features/app/incidents/state/actions";
 import { useParams } from "react-router-dom";
 import { SortOrder } from "../../../types/api";
-import PageHeader from "../../../core/components/PageHeader";
 import { PagePanel } from "../../../core/components/PagePanel";
-import { BugOutlined } from "@ant-design/icons";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
-import { EmptyIncidentList } from "../../../core/components/EmptyViews/EmptyIncidentList";
+import { BatchUpdateModal } from "core/components/Modals/BatchUpdateModal";
+import { DataNotFound } from "core/components/DataNotFound";
 
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
@@ -58,13 +56,11 @@ export const AppIncidentsListPage = () => {
   const IncidentStatusDropdown = () => {
     const statusContent = (
       <Menu
-        style={{ width: 200 }}
+        className="w-52"
         onClick={(val) => setStatus(val.key as IncidentStatusSearch)}
       >
         {Object.values(IncidentStatusSearch).map((status) => (
-          <Menu.Item key={status} className="capitalize">
-            {status}
-          </Menu.Item>
+          <Menu.Item key={status}>{handleIncidentStatus[status]}</Menu.Item>
         ))}
       </Menu>
     );
@@ -81,10 +77,7 @@ export const AppIncidentsListPage = () => {
 
   const IncidentsSortDropdown = () => {
     const sortByContent = (
-      <Menu
-        style={{ width: 200 }}
-        onClick={(val) => setSortBy(val.key as IncidentSortBy)}
-      >
+      <Menu className="w-52" onClick={(val) => setSortBy(val.key as IncidentSortBy)}>
         <Menu.Item key={IncidentSortBy.LAST_SEEN}>Last seen</Menu.Item>
         <Menu.Item key={IncidentSortBy.FIRST_SEEN}>First seen</Menu.Item>
         <Menu.Item key={IncidentSortBy.STATUS}>Status</Menu.Item>
@@ -105,13 +98,7 @@ export const AppIncidentsListPage = () => {
   return (
     <>
       <AppPage>
-        <PageHeader
-          icon={<BugOutlined />}
-          title="Incidents"
-          className="pt-0"
-          subTitle="All incidents picked up by the SDK pinned into the application."
-        />
-        <PagePanel>
+        <PagePanel title="Incidents">
           <Space className="pb-2 w-full justify-between">
             <Space className="w-full">
               <SearchInput value={search} setValue={setSearch} />
@@ -133,7 +120,13 @@ export const AppIncidentsListPage = () => {
           <ConditionLayout
             isEmpty={incidents?.length === 0}
             isLoading={!hasFetched}
-            emptyView={<EmptyIncidentList constraints={search} />}
+            emptyView={
+              <DataNotFound
+                className="text-2xl mt-12"
+                label="Incidents not found"
+                explanation="Great! You have nothing to worry about at this point!"
+              />
+            }
           >
             <IncidentTable
               isLoading={!hasFetched}
@@ -145,7 +138,7 @@ export const AppIncidentsListPage = () => {
         </PagePanel>
       </AppPage>
 
-      <BatchUpdateDrawer
+      <BatchUpdateModal
         incidentsIds={selectedIncidents}
         isOpen={isBatchVisible}
         onClose={() => {

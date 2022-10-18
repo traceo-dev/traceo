@@ -7,8 +7,9 @@ import { loadApplication } from "features/app/state/actions";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { dispatch } from "store/store";
-import { CONNECTION_STATUS, DataSourceConnStatus, InfluxDS } from "types/tsdb";
+import { CONNECTION_STATUS, InfluxDS } from "types/tsdb";
 import { StoreState } from "types/store";
+import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
 
 interface Props {
   dataSource: object;
@@ -84,7 +85,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
           label="URL"
           name="url"
           requiredMark={"optional"}
-          rules={[{ required: true, message: "Missing Influx instance URL" }]}
+          rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
         >
           <Input placeholder="http://localhost:8086/" />
         </Form.Item>
@@ -92,7 +93,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
           label="Token"
           name="token"
           requiredMark={"optional"}
-          rules={[{ required: true, message: "Missing Influx auth Token" }]}
+          rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
         >
           <Input type="password" />
         </Form.Item>
@@ -101,7 +102,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
             label="Organization"
             name="org"
             requiredMark={"optional"}
-            rules={[{ required: true, message: "Missing Influx organization" }]}
+            rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
           >
             <Input />
           </Form.Item>
@@ -109,7 +110,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
             label="Bucket name"
             name="bucket"
             requiredMark={"optional"}
-            rules={[{ required: true, message: "Missing Influx bucket" }]}
+            rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
           >
             <Input />
           </Form.Item>
@@ -144,7 +145,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
           </Confirm>
         )}
       </Space>
-      {application.influxDS.connStatus === CONNECTION_STATUS.FAILED && (
+      {application.influxDS?.connStatus === CONNECTION_STATUS.FAILED && (
         <Alert
           className="mt-5"
           showIcon={true}

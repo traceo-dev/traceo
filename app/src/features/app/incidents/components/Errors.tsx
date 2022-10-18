@@ -1,7 +1,6 @@
 import { Badge, Table, Typography } from "antd";
 import { ColumnsType } from "antd/lib/table";
 import { useSelector } from "react-redux";
-import { CollapsedDetails } from "../../../../core/components/CollapsedDetails";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import dateUtils from "../../../../core/utils/date";
 import { ErrorDetails } from "../../../../types/incidents";
@@ -23,16 +22,19 @@ export const Errors = () => {
   ];
 
   return (
-    <PagePanel>
-      <CollapsedDetails
-        label={
-          <Typography>
-            Errors <Badge count={incident?.occurDates.length} />
-          </Typography>
-        }
-      >
-        <Table dataSource={incident?.occurDates} columns={columns} />
-      </CollapsedDetails>
+    <PagePanel
+      title={
+        <Typography>
+          Errors <Badge count={incident?.occurDates.length} />
+        </Typography>
+      }
+    >
+      <Table
+        pagination={{ pageSize: 150 }}
+        scroll={{ y: 440 }}
+        dataSource={incident?.occurDates}
+        columns={columns}
+      />
     </PagePanel>
   );
 };

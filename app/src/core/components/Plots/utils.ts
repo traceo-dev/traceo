@@ -43,16 +43,8 @@ export const splitLine = {
 };
 
 export const normalizePlotData = (plotData: { date: number; count: number }[]) => {
-  const x: number[] = [];
-  const y: number[] = [];
-
-  plotData?.map((d) => {
-    x.push(d.date);
-    y.push(d.count);
-  });
-
   return {
-    x,
-    y
+    x: plotData?.map((plot) => plot.date) || [],
+    y: plotData?.map((plot) => plot.count) || []
   };
 };

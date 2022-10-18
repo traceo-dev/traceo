@@ -1,7 +1,6 @@
-import { Space, Form, Drawer, Select } from "antd";
+import { Space, Form, Select, Modal } from "antd";
 import { FC, useState } from "react";
-import { DrawerButtons } from "../DrawerButtons";
-import { useApi } from "../../../core/lib/useApi";
+import { useApi } from "../../lib/useApi";
 import {
   AddAccountToApplication,
   Application,
@@ -9,14 +8,15 @@ import {
 } from "../../../types/application";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
-import api from "../../../core/lib/api";
+import api from "../../lib/api";
+import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
 
 interface Props {
   isOpen: boolean;
   onCancel: () => void;
   postExecute: () => void;
 }
-export const AddToApplicationDrawer: FC<Props> = ({ isOpen, onCancel, postExecute }) => {
+export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute }) => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
   const [loading, setLoading] = useState<boolean>(false);
   const [form] = Form.useForm();
@@ -48,12 +48,13 @@ export const AddToApplicationDrawer: FC<Props> = ({ isOpen, onCancel, postExecut
 
   return (
     <>
-      <Drawer
-        title="Add to an application"
-        onClose={onCancel}
+      <Modal
+        title="Add to application"
         visible={isOpen}
         closable={false}
-        footer={<DrawerButtons onClose={onClose} onFinish={submit} loading={loading} />}
+        onCancel={onCancel}
+        onOk={submit}
+        confirmLoading={loading}
       >
         <Space
           direction="vertical"
@@ -62,9 +63,9 @@ export const AddToApplicationDrawer: FC<Props> = ({ isOpen, onCancel, postExecut
           <Form onFinish={onFinish} form={form} layout="vertical" className="pt-5">
             <Form.Item
               requiredMark={"optional"}
-              rules={[{ required: true, message: "Select an application" }]}
+              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
               name="applicationId"
-              label="Application *"
+              label="Application"
             >
               <Select loading={isLoading} placeholder="Select application">
                 {applications?.map((val, index) => (
@@ -76,9 +77,9 @@ export const AddToApplicationDrawer: FC<Props> = ({ isOpen, onCancel, postExecut
             </Form.Item>
             <Form.Item
               requiredMark={"optional"}
-              rules={[{ required: true, message: "Role is required" }]}
+              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
               name="role"
-              label="Role *"
+              label="Role"
             >
               <Select placeholder="Select role">
                 {Object.values(MemberRole).map((val, index) => (
@@ -90,7 +91,7 @@ export const AddToApplicationDrawer: FC<Props> = ({ isOpen, onCancel, postExecut
             </Form.Item>
           </Form>
         </Space>
-      </Drawer>
+      </Modal>
     </>
   );
 };

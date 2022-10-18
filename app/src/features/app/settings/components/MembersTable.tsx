@@ -3,15 +3,16 @@ import { Typography, Row, Space, Button } from "antd";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { ApplicationMember, MemberRole } from "../../../../types/application";
-import { removeMember } from "../../../../features/app/members/state/actions";
+import { removeMember } from "../state/members/actions";
 import { Avatar } from "../../../../core/components/Avatar";
-import { EditMemberDrawer } from "../../../../core/components/Drawers/EditMemberDrawer";
 import { MemberStatusTag } from "../../../../core/components/MemberStatusTag";
 import { PaginatedTable } from "../../../../core/components/PaginatedTable";
 import { dispatch } from "../../../../store/store";
 import { StoreState } from "../../../../types/store";
 import { Permissions } from "core/components/Permissions";
 import { Confirm } from "core/components/Confirm";
+import { EditMemberModal } from "core/components/Modals/EditMemberModal";
+import { ADMIN_EMAIL } from "core/utils/constants";
 
 interface Props {
   members: ApplicationMember[];
@@ -66,7 +67,7 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
   const RenderActions = (member: ApplicationMember) => {
     return (
       <>
-        {member.account.email !== "admin@localhost" && (
+        {member.account.email !== ADMIN_EMAIL && (
           <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
             <RenderEdit {...member} />
             <RenderTrash {...member} />
@@ -121,7 +122,7 @@ export const MembersTable: FC<Props> = ({ members, hasFetched }) => {
         pageSize={15}
       />
 
-      <EditMemberDrawer
+      <EditMemberModal
         isOpen={openEditMember}
         onCancel={() => {
           setEditMember(false);

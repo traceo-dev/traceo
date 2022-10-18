@@ -81,7 +81,9 @@ const MetricsPage = () => {
   if (!isConnectedTSDB) {
     return (
       <AppMetricsNavigationPage>
-        <NotConnectedTSDB />
+        <PagePanel>
+          <NotConnectedTSDB />
+        </PagePanel>
       </AppMetricsNavigationPage>
     );
   }

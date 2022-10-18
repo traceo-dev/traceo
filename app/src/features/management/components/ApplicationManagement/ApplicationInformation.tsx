@@ -1,4 +1,6 @@
 import { Button, Space } from "antd";
+import { PagePanel } from "core/components/PagePanel";
+import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,8 +9,6 @@ import {
   DescriptionInputRow,
   Descriptions
 } from "../../../../core/components/Descriptions";
-import { DetailsSection } from "../../../../core/components/DetailsSection";
-import PageHeader from "../../../../core/components/PageHeader";
 import api from "../../../../core/lib/api";
 import { notify } from "../../../../core/utils/notify";
 import { handleStatus } from "../../../../core/utils/response";
@@ -31,7 +31,7 @@ export const ApplicationInformation = () => {
       dispatch(loadServerApplication(application.id));
       notify.success("Application updated.");
     } catch (error) {
-      notify.error("Error. Please try again later.");
+      notify.error(TRY_AGAIN_LATER_ERROR);
     }
   };
 
@@ -45,7 +45,7 @@ export const ApplicationInformation = () => {
         notify.success("App successfully deleted");
         navigate("/dashboard/management/apps");
       } else {
-        notify.error("App not deleted. Please try again later.");
+        notify.error(TRY_AGAIN_LATER_ERROR);
       }
     } catch (error) {
       notify.error(error);
@@ -80,19 +80,13 @@ export const ApplicationInformation = () => {
 
   return (
     <>
-      <DetailsSection>
-        <PageHeader
-          fontSize={22}
-          title="Edit application"
-          className="pb-5"
-          extra={<OperationButtons />}
-        />
+      <PagePanel title="Basic Information" extra={<OperationButtons />}>
         <Descriptions>
           <DescriptionInputRow label="Name" onUpdate={onUpdate}>
             {application.name}
           </DescriptionInputRow>
         </Descriptions>
-      </DetailsSection>
+      </PagePanel>
     </>
   );
 };

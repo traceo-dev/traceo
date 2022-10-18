@@ -4,9 +4,10 @@ import dateUtils from "../../../utils/date";
 import { normalizePlotData, tooltipOptions } from "../utils";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption, graphic } from "echarts";
+import { PlotData } from "core/utils/statistics";
 
 interface Props {
-  stats: any;
+  stats: PlotData[];
 }
 export const IncidentsTodayPlot: FC<Props> = ({ stats }) => {
   const plotData = normalizePlotData(stats);

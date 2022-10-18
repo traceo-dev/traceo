@@ -28,35 +28,42 @@ export const AppCard: FC<Props> = ({ app }) => {
     : "-- : --";
 
   return (
-    <Card
-      onClick={() => go()}
-      className="default-card default-card-body rounded-lg flex flex-col"
-    >
-      <Space className="w-full" direction="vertical">
-        <Space>
-          <Avatar
-            shape="circle"
-            name={app.application.name}
-            url={app.application?.gravatar}
-          />
-          <Space className="w-full gap-0" direction="vertical">
-            <div>
-              <Typography.Text className="text-sm">
-                {app.application.name}
-              </Typography.Text>
-              {app.role === MemberRole.ADMINISTRATOR && (
-                <Tooltip title="You're admin!">
-                  <SafetyCertificateFilled className="ml-2 text-amber-600" />
-                </Tooltip>
-              )}
-            </div>
-            <div className="text-2xs w-full font-normal">{lastIncident}</div>
+    <>
+      <Card
+        onClick={() => go()}
+        className="app-card default-card default-card-body rounded-lg flex flex-col"
+      >
+        <Space className="w-full" direction="vertical">
+          <Space>
+            <Avatar
+              shape="circle"
+              name={app.application.name}
+              url={app.application?.gravatar}
+            />
+            <Space className="w-full gap-0" direction="vertical">
+              <div>
+                <Typography.Text className="text-sm">
+                  {app.application.name}
+                </Typography.Text>
+                {app.role === MemberRole.ADMINISTRATOR && (
+                  <Tooltip title="You're admin!">
+                    <SafetyCertificateFilled className="ml-2 text-amber-600" />
+                  </Tooltip>
+                )}
+              </div>
+              <div className="text-2xs w-full font-normal">{lastIncident}</div>
+            </Space>
           </Space>
         </Space>
-      </Space>
-      <div className="pointer-events-none pt-8">
-        <IncidentsAppListPlot id={app.application.id} />
-      </div>
-    </Card>
+        <div className="pointer-events-none pt-8">
+          <IncidentsAppListPlot id={app.application.id} />
+        </div>
+      </Card>
+      <style>{`
+      .app-card {
+        min-height: 221px !important;
+      }
+    `}</style>
+    </>
   );
 };

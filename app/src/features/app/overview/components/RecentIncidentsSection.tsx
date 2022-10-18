@@ -1,7 +1,6 @@
 import { LoadingOutlined, RightOutlined } from "@ant-design/icons";
 import { Card, List, Space, Typography } from "antd";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
-import PageHeader from "../../../../core/components/PageHeader";
 import { useApi } from "../../../../core/lib/useApi";
 import {
   Incident,
@@ -14,6 +13,7 @@ import { PagePanel } from "../../../../core/components/PagePanel";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
+import { DataNotFound } from "core/components/DataNotFound";
 
 export const RecentIncidentsSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -34,24 +34,21 @@ export const RecentIncidentsSection = () => {
 
   return (
     <>
-      <PagePanel>
-        <PageHeader
-          className="w-full"
-          suffix={
-            <Typography.Link
-              onClick={() =>
-                navigate(
-                  `/app/${application.id}/${slugifyForUrl(application.name)}/incidents`
-                )
-              }
-              className="text-xs font-semibold color-primary"
-            >
-              View
-            </Typography.Link>
-          }
-          title="Recent Incidents"
-          subTitle="Last incidents captured by Traceo SDK connected to your app"
-        />
+      <PagePanel
+        title="Recent Incidents"
+        extra={
+          <Typography.Link
+            onClick={() =>
+              navigate(
+                `/app/${application.id}/${slugifyForUrl(application.name)}/incidents`
+              )
+            }
+            className="text-xs font-semibold color-primary"
+          >
+            View
+          </Typography.Link>
+        }
+      >
         {isLoading ? (
           <Space className="w-full my-8 justify-center">
             <LoadingOutlined />
@@ -60,7 +57,7 @@ export const RecentIncidentsSection = () => {
           <List
             loading={isLoading}
             dataSource={incidents || []}
-            className="pt-8"
+            className="pt-2"
             renderItem={(item: Incident) => (
               <Card
                 onClick={() =>
@@ -93,7 +90,7 @@ export const RecentIncidentsSection = () => {
             )}
           />
         ) : (
-          <Space className="w-full justify-center my-12">No data</Space>
+          <DataNotFound label="Incidents not found" />
         )}
       </PagePanel>
     </>

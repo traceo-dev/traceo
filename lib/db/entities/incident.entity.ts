@@ -15,6 +15,7 @@ import { ErrorDetails, Platform, Trace } from "lib/types/incident";
 export enum IncidentStatus {
   RESOLVED = "resolved",
   UNRESOLVED = "unresolved",
+  IN_PROGRESS = "in_progress"
 }
 
 @Entity()

@@ -1,16 +1,17 @@
 import {
   BugOutlined,
-  CheckOutlined,
   DownOutlined,
   ScissorOutlined,
   SyncOutlined,
   UserAddOutlined
 } from "@ant-design/icons";
-import { Space, Typography, Tooltip, Button, Popover } from "antd";
+import { Space, Typography, Tooltip, Button, Popover, Dropdown, Menu } from "antd";
 import { AssignMemberPopover } from "core/components/AssignMemberPopover";
 import { Avatar } from "core/components/Avatar";
 import { Confirm } from "core/components/Confirm";
 import api from "core/lib/api";
+import { joinClasses } from "core/utils/classes";
+import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
 import { handleStatus } from "core/utils/response";
 import { slugifyForUrl } from "core/utils/stringUtils";
 import { FC, useState } from "react";
@@ -18,9 +19,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { dispatch } from "store/store";
 import { ApiResponse } from "types/api";
-import { Incident, IncidentStatus } from "types/incidents";
+import { handleIncidentStatus, Incident, IncidentStatus } from "types/incidents";
 import { StoreState } from "types/store";
-import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
+import { handleIncidentColor } from "../../../../core/components/IncidentStatusTag";
 import PageHeader from "../../../../core/components/PageHeader";
 import { notify } from "../../../../core/utils/notify";
 import { updateIncident } from "../state/actions";
@@ -39,10 +40,7 @@ export const IncidentHeader = ({ incident, onExecute }) => {
             <BugOutlined />
             <Typography.Text>INCIDENT</Typography.Text>
           </Space>
-          <Space>
-            <Typography.Text className="text-3xl">{incident?.type}</Typography.Text>
-            <IncidentStatusTag status={incident?.status} />
-          </Space>
+          <Typography.Text className="text-3xl">{incident?.type}</Typography.Text>
         </Space>
       }
       subTitle={<ButtonsSection incident={incident} />}
@@ -72,16 +70,7 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
     dispatch(updateIncident(update));
   };
 
-  const changeStatus = () => {
-    const status =
-      incident?.status === IncidentStatus.UNRESOLVED
-        ? IncidentStatus.RESOLVED
-        : incident?.status === IncidentStatus.RESOLVED
-        ? IncidentStatus.UNRESOLVED
-        : IncidentStatus.RESOLVED;
-
-    update({ status });
-  };
+  const changeStatus = (status: IncidentStatus) => update({ status });
 
   const remove = async () => {
     const response: ApiResponse<string> = await api.delete(
@@ -91,20 +80,28 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
       notify.success("Incident removed");
       navigate(`/app/${application.id}/${slugifyForUrl(application.name)}/incidents`);
     } else {
-      notify.success("Cannot remove incident. Please try again later.");
+      notify.error(TRY_AGAIN_LATER_ERROR);
     }
   };
+
+  const overlay = (
+    <Menu onClick={(v) => changeStatus(v.key as IncidentStatus)}>
+      {Object.values(IncidentStatus).map((status) => (
+        <Menu.Item key={status}>{handleIncidentStatus[status]}</Menu.Item>
+      ))}
+    </Menu>
+  );
 
   return (
     <Space className="w-full mt-2 justify-between">
       <Space>
-        <Button onClick={() => changeStatus()} type="primary">
-          {incident?.status === IncidentStatus.RESOLVED ? (
-            <CheckOutlined />
-          ) : (
-            <>Resolve</>
-          )}
-        </Button>
+        <Dropdown overlay={overlay} placement="bottom">
+          <Button
+            className={joinClasses(handleIncidentColor[incident.status], "text-xs")}
+          >
+            {handleIncidentStatus[incident.status]}
+          </Button>
+        </Dropdown>
         <Popover
           visible={isVisible}
           placement="bottom"
@@ -142,7 +139,7 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
           onOk={remove}
           description="Are you sure you want to delete this incident?"
         >
-          <Button type="primary" icon={<ScissorOutlined />} danger>
+          <Button type="primary" icon={<ScissorOutlined />} danger className="text-xs">
             Delete
           </Button>
         </Confirm>

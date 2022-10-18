@@ -46,8 +46,8 @@ export function configureApi() {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${localStorage.getItem("session")}`,
-        env: localStorage.getItem("env") || ""
+        Authorization: `Bearer ${localStorage.getItem("session")}`
+        // env: localStorage.getItem("env") || ""
       }
     };
   });

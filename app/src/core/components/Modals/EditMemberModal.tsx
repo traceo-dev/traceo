@@ -1,16 +1,15 @@
-import { Drawer, Form, Select, Space } from "antd";
+import { Form, Modal, Select, Space } from "antd";
 import { FC, useEffect } from "react";
 import { MemberRole, ApplicationMember } from "../../../types/application";
-import { updateMember } from "../../../features/app/members/state/actions";
+import { updateMember } from "../../../features/app/settings/state/members/actions";
 import { dispatch } from "../../../store/store";
-import { DrawerButtons } from "../DrawerButtons";
 
 interface Props {
   isOpen: boolean;
   onCancel: () => void;
   member: ApplicationMember;
 }
-export const EditMemberDrawer: FC<Props> = ({ isOpen, onCancel, member }) => {
+export const EditMemberModal: FC<Props> = ({ isOpen, onCancel, member }) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -26,18 +25,18 @@ export const EditMemberDrawer: FC<Props> = ({ isOpen, onCancel, member }) => {
 
   return (
     <>
-      <Drawer
+      <Modal
         title="Update member"
-        onClose={onCancel}
+        onCancel={onCancel}
         visible={isOpen}
+        onOk={submit}
         closable={false}
-        footer={<DrawerButtons onClose={() => onCancel()} onFinish={submit} />}
       >
         <Space
           direction="vertical"
           className="pt-0 px-4 w-full h-full justify-between text-center"
         >
-          <Form onFinish={onFinish} form={form} layout="vertical" className="pt-5">
+          <Form onFinish={onFinish} form={form} layout="vertical">
             <Form.Item name="role" label="Role" className="text-xs mb-0 font-semibold">
               <Select className="w-full" value={member?.role}>
                 <Select.Option value={MemberRole.ADMINISTRATOR}>
@@ -49,7 +48,7 @@ export const EditMemberDrawer: FC<Props> = ({ isOpen, onCancel, member }) => {
             </Form.Item>
           </Form>
         </Space>
-      </Drawer>
+      </Modal>
     </>
   );
 };

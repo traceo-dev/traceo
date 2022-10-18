@@ -19,6 +19,8 @@
 
 .ant-modal-header {
   border-radius: 15px 15px 0px 0px;
+  background-color: var(--color-bg-primary);
+  /* text-align: center; */
 }
 
 .ant-drawer-right.ant-drawer-open .ant-drawer-content-wrapper {
@@ -187,7 +189,7 @@
 }
 
 .ant-table-thead > tr > .ant-table-cell {
-  background-color: transparent !important;
+  background-color: var(--color-bg-secondary) !important;
 }
 
 .ant-table-thead > tr > th {
@@ -373,6 +375,15 @@
   display: none;
 }
 
-.ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input, .ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover {
+.ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input,
+.ant-input-status-error:not(.ant-input-disabled):not(.ant-input-borderless).ant-input:hover {
   background-color: var(--color-bg-canvas);
+}
+
+.rc-virtual-list-holder {
+  background-color: var(--color-bg-canvas);
+}
+
+.ant-select-dropdown {
+  padding: 0px !important;
 }

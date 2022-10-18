@@ -12,28 +12,13 @@ export const UpdatePage = () => {
         title={"Updates"}
         subTitle={"Recent informations about updates in Traceo app"}
       />
-
       <PagePanel className="mt-3">
         <Space direction="vertical">
-          <Typography.Title style={{ fontSize: 24 }} className="font-normal">
-            Free Basic Plan
-          </Typography.Title>
-          <Typography.Paragraph style={{ fontSize: 14 }}>
-            A free basic plan is available to all new Traceo users. This plan provides for
-            the possibility of creating up to 3 applications, inviting up to 5 members to
-            each application, and storing incident data for up to two weeks (excluding
-            statistics). You will be notified at least two weeks in advance of any plan
-            changes and new paid plans to choose a plan that fits your needs.
-          </Typography.Paragraph>
-        </Space>
-      </PagePanel>
-      <PagePanel className="mt-3">
-        <Space direction="vertical">
-          <Typography.Title style={{ fontSize: 24 }} className="font-normal">
+          <Typography.Title className="font-normal text-xl">
             <ExclamationCircleOutlined className="pr-3 text-orange-500" />
             Traceo is now in preview mode
           </Typography.Title>
-          <Typography.Paragraph style={{ fontSize: 14 }}>
+          <Typography.Paragraph>
             Traceo is currently in preview mode. For this reason, there may be
             unpredictable interruptions in access to the service, the inability to log in
             to the website and the possibility of losing collected data. We sincerely
@@ -43,10 +28,10 @@ export const UpdatePage = () => {
       </PagePanel>
       <PagePanel className="mt-3">
         <Space direction="vertical">
-          <Typography.Title style={{ fontSize: 24 }} className="font-normal">
+          <Typography.Title className="font-normal text-xl">
             Welcome in Traceo!
           </Typography.Title>
-          <Typography.Paragraph style={{ fontSize: 14 }}>
+          <Typography.Paragraph>
             Thanks to us, you will be informed in real time about problems with your
             software by collecting information about exceptions occurring in your
             application! Right now, integration with Traceo is only possible for NodeJS

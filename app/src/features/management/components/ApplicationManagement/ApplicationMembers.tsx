@@ -1,8 +1,8 @@
 import { Space, Typography } from "antd";
+import { PagePanel } from "core/components/PagePanel";
+import { ADMIN_EMAIL } from "core/utils/constants";
 import { useParams } from "react-router-dom";
 import { ConditionLayout } from "../../../../core/components/ConditionLayout";
-import { DetailsSection } from "../../../../core/components/DetailsSection";
-import PageHeader from "../../../../core/components/PageHeader";
 import { useApi } from "../../../../core/lib/useApi";
 import { ApplicationMember, MemberRole } from "../../../../types/application";
 import {
@@ -25,12 +25,7 @@ export const ApplicationMembers = () => {
   });
   return (
     <>
-      <DetailsSection>
-        <PageHeader
-          title="Application members"
-          fontSize={22}
-          subTitle="List of application members"
-        />
+      <PagePanel title="Application members">
         <ConditionLayout
           isEmpty={members?.length === 0}
           emptyView={
@@ -48,7 +43,7 @@ export const ApplicationMembers = () => {
                 key={index}
                 item={member}
                 type="member"
-                editable={member.account.email !== "admin@localhost"}
+                editable={member.account.email !== ADMIN_EMAIL}
                 options={[
                   { label: "Administrator", value: MemberRole.ADMINISTRATOR },
                   { label: "Maintainer", value: MemberRole.MAINTAINER },
@@ -59,7 +54,7 @@ export const ApplicationMembers = () => {
             ))}
           </ApplicationMemberDescriptionTable>
         </ConditionLayout>
-      </DetailsSection>
+      </PagePanel>
     </>
   );
 };

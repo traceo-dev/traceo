@@ -10,7 +10,7 @@ import { TSDB } from "types/application";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
 import { StoreState } from "../../../types/store";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
-import { loadDataSource } from "./state/actions";
+import { loadDataSource } from "./state/settings/actions";
 
 interface DataSourceSelectOption {
   label: string;
@@ -42,13 +42,11 @@ export const AppSettingsDataSourcePage = () => {
   ];
 
   return (
-    <AppSettingsNavigationPage isPanel={false}>
-      <PagePanel className="mt-0 rounded-none rounded-b-md">
+    <AppSettingsNavigationPage>
+      <PagePanel title="Metrics Data Source">
         <ColumnSection
-          marginTop={0}
           firstColumnWidth={12}
           secondColumnWidth={12}
-          title="Metrics Data Source"
           subtitle="Configure a connection to the time series database to enable metrics
           collection in this app."
         >
@@ -57,6 +55,7 @@ export const AppSettingsDataSourcePage = () => {
               <Typography.Text>Data Source</Typography.Text>
               <Select
                 className="w-full"
+                placeholder="Select data source provider"
                 value={selectedDS}
                 onSelect={(a) => setSelectedDS(a)}
                 disabled={!!application.connectedTSDB}

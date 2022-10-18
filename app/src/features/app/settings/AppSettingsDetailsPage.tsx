@@ -1,4 +1,4 @@
-import { Form, Space, Input, Button, Typography } from "antd";
+import { Space, Button, Typography } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
@@ -9,11 +9,14 @@ import { handleStatus } from "../../../core/utils/response";
 import { dispatch } from "../../../store/store";
 import { ApiResponse } from "../../../types/api";
 import { StoreState } from "../../../types/store";
-import { MemberRole, UpdateApplicationProps } from "../../../types/application";
+import { MemberRole } from "../../../types/application";
 import { updateAplication } from "../state/actions";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";
 import { Permissions } from "../../../core/components/Permissions";
+import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
+import { PagePanel } from "core/components/PagePanel";
+import { DescriptionInputRow, Descriptions } from "core/components/Descriptions";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
@@ -24,9 +27,7 @@ export const AppSettingsDetailsPage = () => {
     return null;
   }
 
-  const update = (update: UpdateApplicationProps) => {
-    dispatch(updateAplication(update));
-  };
+  const onUpdateName = (name: string) => dispatch(updateAplication({ name }));
 
   const remove = async () => {
     setLoadingDelete(true);
@@ -38,7 +39,7 @@ export const AppSettingsDetailsPage = () => {
         notify.success("App successfully deleted");
         navigate("/dashboard/overview");
       } else {
-        notify.error("App not deleted. Please try again later.");
+        notify.error(TRY_AGAIN_LATER_ERROR);
       }
     } catch (error) {
       notify.error(error);
@@ -49,77 +50,38 @@ export const AppSettingsDetailsPage = () => {
 
   return (
     <AppSettingsNavigationPage>
-      <ColumnSection
-        firstColumnWidth={12}
-        secondColumnWidth={12}
-        divider={true}
-        title="Application name"
-        subtitle="Name of your application."
-      >
-        <Form
-          onFinish={update}
-          name="personalInformation"
-          layout="vertical"
-          className="w-3/5"
-        >
-          <Space>
-            <Form.Item
-              name="name"
-              label="Name"
-              style={{ width: 300 }}
-              className="font-semibold"
-              initialValue={application?.name}
-            >
-              <Input disabled={application?.member?.role === MemberRole.VIEWER} />
-            </Form.Item>
-            <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-              <Button htmlType="submit" className="mt-2" type="primary">
-                Update
-              </Button>
-            </Permissions>
-          </Space>
-        </Form>
-      </ColumnSection>
-      {/* <ColumnSection
-        firstColumnWidth={12}
-        secondColumnWidth={12}
-        divider={true}
-        title="Default environment"
-        subtitle="Set your default environment that you want to see right after open this application."
-      >
-        <Space direction="vertical" className="w-full">
-          <Typography>Environment</Typography>
-          <Select
-            onChange={(defaultEnv: ENVIRONMENT) => update({ defaultEnv })}
-            defaultValue={application?.defaultEnv}
-            style={{ minWidth: "408px" }}
-            disabled={application?.member?.role === MemberRole.VIEWER}
+      <PagePanel title="Basic Informations">
+        <Descriptions>
+          <DescriptionInputRow
+            label="Name"
+            onUpdate={onUpdateName}
+            editable={application?.member?.role !== MemberRole.VIEWER}
           >
-            <Select.Option value={ENVIRONMENT.development}>Development</Select.Option>
-            <Select.Option value={ENVIRONMENT.production}>Production</Select.Option>
-            <Select.Option value={ENVIRONMENT.test}>Test</Select.Option>
-          </Select>
-        </Space>
-      </ColumnSection> */}
+            {application?.name}
+          </DescriptionInputRow>
+        </Descriptions>
+      </PagePanel>
       <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
-        <ColumnSection
-          firstColumnWidth={12}
-          secondColumnWidth={12}
-          title={<Typography.Text className="text-red-700">Delete app</Typography.Text>}
-          subtitle="Note that the removal of the application is immediate and irreversible. Only members with `Administrator` role can perform this operation."
-        >
-          <Space className="w-full mb-5">
-            <Confirm
-              withAuth={true}
-              description="Are you sure that you want to remove this app?"
-              onOk={() => remove()}
-            >
-              <Button type="primary" loading={loadingDelete} danger>
-                Delete
-              </Button>
-            </Confirm>
-          </Space>
-        </ColumnSection>
+        <PagePanel title="Danger zone">
+          <ColumnSection
+            firstColumnWidth={12}
+            secondColumnWidth={12}
+            title={<Typography.Text className="text-red-700">Delete app</Typography.Text>}
+            subtitle="Note that the removal of the application is immediate and irreversible. Only members with `Administrator` role can perform this operation."
+          >
+            <Space className="w-full mb-5">
+              <Confirm
+                withAuth={true}
+                description="Are you sure that you want to remove this app?"
+                onOk={() => remove()}
+              >
+                <Button type="primary" loading={loadingDelete} danger>
+                  Delete
+                </Button>
+              </Confirm>
+            </Space>
+          </ColumnSection>
+        </PagePanel>
       </Permissions>
     </AppSettingsNavigationPage>
   );

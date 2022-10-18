@@ -1,12 +1,12 @@
-import { Input, Space, Form, Drawer } from "antd";
+import { Input, Space, Form, Modal } from "antd";
 import { useState } from "react";
-import { DrawerButtons } from "../DrawerButtons";
 import { dispatch } from "../../../store/store";
 import { addServerAccount } from "../../../features/management/state/accounts/actions";
 import { AddAccountProps } from "../../../types/accounts";
-import validators from "../../../core/lib/validators";
+import validators from "../../lib/validators";
+import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
 
-export const NewAccountDrawer = ({ isOpen, onCancel }) => {
+export const NewAccountModal = ({ isOpen, onCancel }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [form] = Form.useForm();
 
@@ -26,24 +26,25 @@ export const NewAccountDrawer = ({ isOpen, onCancel }) => {
 
   return (
     <>
-      <Drawer
+      <Modal
         title="New account"
-        onClose={onCancel}
         visible={isOpen}
         closable={false}
-        footer={<DrawerButtons onClose={onClose} onFinish={submit} loading={loading} />}
+        onOk={submit}
+        onCancel={onClose}
+        confirmLoading={loading}
       >
         <Space
           direction="vertical"
           className="pt-0 px-4 w-full h-full justify-between text-center"
         >
-          <Form onFinish={onFinish} form={form} layout="vertical" className="pt-5">
+          <Form onFinish={onFinish} form={form} layout="vertical">
             <Form.Item
               name="username"
               label="Username *"
               className="text-xs mb-5 font-semibold"
               requiredMark={"optional"}
-              rules={[{ required: true, message: "This field is required" }]}
+              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
             >
               <Input />
             </Form.Item>
@@ -66,7 +67,7 @@ export const NewAccountDrawer = ({ isOpen, onCancel }) => {
               rules={[
                 {
                   required: true,
-                  message: "This field is required",
+                  message: REQUIRED_FIELD_ERROR,
                   ...validators.password
                 }
               ]}
@@ -75,7 +76,7 @@ export const NewAccountDrawer = ({ isOpen, onCancel }) => {
             </Form.Item>
           </Form>
         </Space>
-      </Drawer>
+      </Modal>
     </>
   );
 };

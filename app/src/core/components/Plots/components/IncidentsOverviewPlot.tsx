@@ -1,20 +1,12 @@
 import { Space } from "antd";
 import dateUtils from "../../../utils/date";
-import { statistics } from "../../../utils/statistics";
+import { PlotData } from "../../../utils/statistics";
 import { normalizePlotData, toolboxOptions, tooltipOptions } from "../utils";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption, graphic } from "echarts";
 
-export const IncidentsOverviewPlot = ({ stats }) => {
-  const data = () => {
-    if (stats?.length > 0) {
-      return normalizePlotData(stats);
-    }
-
-    const data = statistics.mockData();
-    return normalizePlotData(data);
-  };
-
+export const IncidentsOverviewPlot = ({ stats }: { stats: PlotData[] }) => {
+  const data = () => normalizePlotData(stats);
   const option: EChartsOption = {
     dataset: {
       source: data()

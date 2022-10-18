@@ -36,29 +36,28 @@ export const MetricTableWrapper: FC<Props> = ({ metrics, type }) => {
   };
 
   return (
-    <PagePanel className="py-3 px-5">
-      <Space className="w-full justify-between" direction="vertical">
-        <Space className="w-full justify-between mb-12">
-          <Typography.Text className="font-semibold">Raw data</Typography.Text>
-          <Space>
-            <Typography.Text className="text-md">Formatted time</Typography.Text>
-            <Switch
-              defaultChecked={isFormattedTime}
-              onClick={() => setFormattedTime(!isFormattedTime)}
-            />
-          </Space>
-        </Space>
-        {metrics?.length > 0 ? (
-          <Table
-            dataSource={metrics}
-            columns={buildColumns()}
-            pagination={{ pageSize: 150 }}
-            scroll={{ y: 440 }}
+    <PagePanel
+      title="Raw data"
+      extra={
+        <Space className="w-full justify-end">
+          <Typography.Text className="text-md">Formatted time</Typography.Text>
+          <Switch
+            defaultChecked={isFormattedTime}
+            onClick={() => setFormattedTime(!isFormattedTime)}
           />
-        ) : (
-          <DataNotFound />
-        )}
-      </Space>
+        </Space>
+      }
+    >
+      {metrics?.length > 0 ? (
+        <Table
+          dataSource={metrics}
+          columns={buildColumns()}
+          pagination={{ pageSize: 150 }}
+          scroll={{ y: 440 }}
+        />
+      ) : (
+        <DataNotFound />
+      )}
     </PagePanel>
   );
 };

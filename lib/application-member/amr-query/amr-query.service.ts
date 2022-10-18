@@ -120,7 +120,7 @@ export class AmrQueryService {
         .take(take)
         .getMany();
     } catch (error) {
-      throw error;
+      throw new Error(error);
     }
   }
 
@@ -163,7 +163,7 @@ export class AmrQueryService {
         "application",
       )
       .innerJoinAndSelect("application.owner", "owner")
-      .innerJoinAndSelect("application.influxDS", "influxDS")
+      .leftJoinAndSelect("application.influxDS", "influxDS")
       .getOne();
 
     if (!applicationQuery) {

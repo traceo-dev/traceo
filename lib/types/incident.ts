@@ -45,6 +45,7 @@ export interface StackFrame {
 export enum IncidentStatus {
   RESOLVED = "resolved",
   UNRESOLVED = "unresolved",
+  IN_PROGRESS = "in_progress"
 }
 
 export interface Incident {

@@ -1,9 +1,7 @@
-import { Drawer, Form, Select, Space } from "antd";
+import { Form, Modal, Select, Space } from "antd";
 import { FC, useState } from "react";
-import { IncidentStatus } from "../../../types/incidents";
-import { isEmptyObject } from "../../../core/utils/object";
-import { toTitleCase } from "../../../core/utils/stringUtils";
-import { DrawerButtons } from "../DrawerButtons";
+import { handleIncidentStatus, IncidentStatus } from "../../../types/incidents";
+import { isEmptyObject } from "../../utils/object";
 import { dispatch } from "../../../store/store";
 import { batchUpdate } from "../../../features/app/incidents/state/actions";
 
@@ -13,11 +11,11 @@ interface Props {
   onClose: () => void;
 }
 
-export const BatchUpdateDrawer: FC<Props> = ({ incidentsIds, isOpen, onClose }) => {
+export const BatchUpdateModal: FC<Props> = ({ incidentsIds, isOpen, onClose }) => {
   const [isLoading, setLoading] = useState<boolean>(false);
   const [form] = Form.useForm();
 
-  const update = () => {
+  const submit = () => {
     setLoading(true);
 
     const update = form.getFieldsValue();
@@ -32,12 +30,13 @@ export const BatchUpdateDrawer: FC<Props> = ({ incidentsIds, isOpen, onClose }) 
   };
 
   return (
-    <Drawer
+    <Modal
       title="Batch update"
-      onClose={onClose}
+      onCancel={onClose}
+      onOk={submit}
+      confirmLoading={isLoading}
       visible={isOpen}
       closable={false}
-      footer={<DrawerButtons onClose={onClose} onFinish={update} loading={isLoading} />}
     >
       <Space direction="vertical" className="w-full">
         <Form form={form} layout="vertical">
@@ -45,13 +44,13 @@ export const BatchUpdateDrawer: FC<Props> = ({ incidentsIds, isOpen, onClose }) 
             <Select showArrow className="capitalize">
               {Object.values(IncidentStatus).map((status, index) => (
                 <Select.Option key={index} value={status}>
-                  {toTitleCase(status)}
+                  {handleIncidentStatus[status]}
                 </Select.Option>
               ))}
             </Select>
           </Form.Item>
         </Form>
       </Space>
-    </Drawer>
+    </Modal>
   );
 };

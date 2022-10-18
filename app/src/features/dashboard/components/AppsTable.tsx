@@ -1,20 +1,28 @@
-import { PlusOutlined } from "@ant-design/icons";
 import { Button, Col, Dropdown, Menu, Row, Space } from "antd";
 import { useEffect, useState } from "react";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
-import { EmptyAppList } from "../../../core/components/EmptyViews/EmptyAppList";
+import { EmptyAppList } from "./EmptyAppList";
 import { SearchInput } from "../../../core/components/SearchInput";
 import { SortIcons } from "../../../core/components/SortIcons";
 import { SortOrder } from "../../../types/api";
 import { SearchApplicationQueryParams } from "../../../types/application";
-import { AppsSortBy, handleAppSort } from "../../../core/utils/handlers";
 import { dispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
-import { CreateApplicationDrawer } from "../../../core/components/Drawers/CreateApplicationDrawer";
 import { AppCard } from "./AppCard";
 import { loadApplications } from "../state/actions";
-import ServerPermissions from "../../../core/components/ServerPermissions";
+
+export enum AppsSortBy {
+  LAST_UPDATE = "application.updatedAt",
+  CREATED_AT = "application.createdAt",
+  LAST_INCIDENT = "application.lastIncidentAt"
+}
+
+export const handleAppSort: Record<AppsSortBy, string> = {
+  [AppsSortBy.CREATED_AT]: "Created at",
+  [AppsSortBy.LAST_UPDATE]: "Last update",
+  [AppsSortBy.LAST_INCIDENT]: "Last incident"
+};
 
 export const AppsTable = () => {
   const { applications, hasFetched } = useSelector(
@@ -25,8 +33,6 @@ export const AppsTable = () => {
   const [order, setOrder] = useState<SortOrder>("ASC");
   const [search, setSearch] = useState<string>(null);
   const [sortBy, setSortBy] = useState<AppsSortBy>(AppsSortBy.LAST_INCIDENT);
-  const [openApplicationModal, setOpenApplicationModal] = useState<boolean>(false);
-  // const [openEditChartsModal, setOpenEditChartsModal] = useState<boolean>(false);
 
   const queryParams: SearchApplicationQueryParams = {
     order,
@@ -43,7 +49,7 @@ export const AppsTable = () => {
 
   const AppsSortDropdown = () => {
     const statusContent = (
-      <Menu style={{ width: 200 }} onClick={(val) => setSortBy(val.key as AppsSortBy)}>
+      <Menu className="w-52" onClick={(val) => setSortBy(val.key as AppsSortBy)}>
         <Menu.Item key={AppsSortBy.LAST_INCIDENT}>Last incident</Menu.Item>
         <Menu.Item key={AppsSortBy.CREATED_AT}>Created at</Menu.Item>
         <Menu.Item key={AppsSortBy.LAST_UPDATE}>Last update</Menu.Item>
@@ -61,25 +67,10 @@ export const AppsTable = () => {
   };
 
   const SearchHeader = () => (
-    <Space className="w-full justify-between">
-      <Space>
-        <SearchInput placeholder="Search by name" value={search} setValue={onSearch} />
-        <AppsSortDropdown />
-        <SortIcons order={order} setOrder={setOrder} />
-        {/* <SettingOutlined
-          onClick={() => setOpenEditChartsModal(true)}
-          className="action-icon"
-        /> */}
-      </Space>
-      <ServerPermissions>
-        <Button
-          icon={<PlusOutlined />}
-          onClick={() => setOpenApplicationModal(true)}
-          type="primary"
-        >
-          Create new app
-        </Button>
-      </ServerPermissions>
+    <Space className="w-full">
+      <SearchInput placeholder="Search by name" value={search} setValue={onSearch} />
+      <AppsSortDropdown />
+      <SortIcons order={order} setOrder={setOrder} />
     </Space>
   );
 
@@ -99,14 +90,6 @@ export const AppsTable = () => {
           ))}
         </Row>
       </ConditionLayout>
-      <CreateApplicationDrawer
-        isOpen={openApplicationModal}
-        onCancel={() => setOpenApplicationModal(false)}
-      />
-      {/* <EditChartsDrawer
-        isOpen={openEditChartsModal}
-        onCancel={() => setOpenEditChartsModal(false)}
-      /> */}
     </>
   );
 };

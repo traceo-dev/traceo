@@ -1,13 +1,13 @@
-import { notify } from "../../../../core/utils/notify";
-import { handleStatus } from "../../../../core/utils/response";
-import api, { ApiQueryParams } from "../../../../core/lib/api";
-import { ApiResponse } from "../../../../types/api";
-import { ThunkResult } from "../../../../types/store";
+import { notify } from "../../../../../core/utils/notify";
+import { handleStatus } from "../../../../../core/utils/response";
+import api, { ApiQueryParams } from "../../../../../core/lib/api";
+import { ApiResponse } from "../../../../../types/api";
+import { ThunkResult } from "../../../../../types/store";
 import {
   AddAccountToApplication,
   ApplicationMember,
   ApplicationMemberUpdateProps
-} from "../../../../types/application";
+} from "../../../../../types/application";
 import { membersLoaded } from "./reducers";
 
 export const loadMembers = (query?: ApiQueryParams): ThunkResult<void> => {

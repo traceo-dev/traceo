@@ -1,6 +1,5 @@
 import { ClockCircleOutlined, LoadingOutlined, SyncOutlined } from "@ant-design/icons";
-import { Space } from "antd";
-import PageHeader from "../../../../core/components/PageHeader";
+import { Space, Typography } from "antd";
 import { DailyStats } from "../../../../types/statistics";
 import dateUtils from "../../../../core/utils/date";
 import { useParams } from "react-router-dom";
@@ -29,26 +28,27 @@ export const TodaySection = () => {
 
   return (
     <>
-      <PagePanel>
-        <PageHeader
-          title="Today"
-          subTitle={
-            <Space className="gap-0 text-xs">
+      <PagePanel
+        title={
+          <Space>
+            <Typography.Text>Today Incidents</Typography.Text>
+            <Typography.Text className="text-xs pl-5">
               <ClockCircleOutlined className="mr-1" /> {dateUtils.getNow("HH:mm")}
-            </Space>
-          }
-          suffix={<SyncOutlined className="text-xs" onClick={() => reloadDailyStats()} />}
-        />
+            </Typography.Text>
+          </Space>
+        }
+        extra={<SyncOutlined className="text-xs" onClick={() => reloadDailyStats()} />}
+      >
         {isLoading ? (
           <Space className="w-full justify-center">
             <LoadingOutlined />
           </Space>
         ) : (
-          <div style={{ width: "100%", overflow: "hidden" }}>
-            <div style={{ width: "75%", float: "left" }}>
+          <div className="w-full overflow-hidden">
+            <div className="w-3/4 float-left">
               <IncidentsTodayPlot stats={stats?.data} />
             </div>
-            <div style={{ width: "20%", float: "right" }}>
+            <div className="w-1/4 float-right pl-12">
               <TodayStats stats={stats} />
             </div>
           </div>

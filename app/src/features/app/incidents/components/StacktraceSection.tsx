@@ -1,11 +1,10 @@
-import { Card, Radio, Row, Space, Timeline, Typography } from "antd";
+import { Card, Row, Space, Timeline, Typography } from "antd";
 import { CodePreview } from "core/components/CodePreview";
 import { ColumnDetail } from "core/components/ColumnDetail";
 import { joinClasses, conditionClass } from "core/utils/classes";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Incident, Trace } from "types/incidents";
-import { CollapsedDetails } from "../../../../core/components/CollapsedDetails";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { StoreState } from "../../../../types/store";
 
@@ -18,32 +17,16 @@ export const StacktraceSection = () => {
   return (
     <>
       {isTraces && (
-        <PagePanel>
-          <CollapsedDetails label="Stacktrace">
-            <Space className="w-full pt-8 gap-0" direction="vertical">
-              <Typography.Text className="text-xl font-semibold">
-                {incident?.type}
-              </Typography.Text>
-              <Typography.Text className="text-md">{incident?.message}</Typography.Text>
-            </Space>
-            <Space className="float-right pt-3">
-              <Radio.Group
-                className="float-right"
-                value={isInternal}
-                onChange={(val) => {
-                  setInternal(val.target.value);
-                }}
-                optionType="button"
-                buttonStyle="solid"
-              >
-                <Radio.Button value={false}>All</Radio.Button>
-                <Radio.Button value={true}>Internal</Radio.Button>
-              </Radio.Group>
-            </Space>
-            <Space direction="vertical" className="pt-5">
-              <CodeTraces incident={incident} isInternal={isInternal} />
-            </Space>
-          </CollapsedDetails>
+        <PagePanel title="Stacktrace">
+          <Space className="w-full pt-8 gap-0" direction="vertical">
+            <Typography.Text className="text-xl font-semibold">
+              {incident?.type}
+            </Typography.Text>
+            <Typography.Text className="text-md">{incident?.message}</Typography.Text>
+          </Space>
+          <Space direction="vertical" className="pt-5">
+            <CodeTraces incident={incident} />
+          </Space>
         </PagePanel>
       )}
     </>
@@ -52,9 +35,8 @@ export const StacktraceSection = () => {
 
 interface CodeTracesProps {
   incident: Incident;
-  isInternal: boolean;
 }
-const CodeTraces: FC<CodeTracesProps> = ({ incident, isInternal }) => {
+const CodeTraces: FC<CodeTracesProps> = ({ incident }) => {
   const [selectedTrace, setSelectedTrace] = useState<Trace>();
 
   useEffect(() => {
@@ -62,12 +44,6 @@ const CodeTraces: FC<CodeTracesProps> = ({ incident, isInternal }) => {
       setSelectedTrace(incident?.traces?.[0]);
     }
   });
-
-  const wrapTraces = () => {
-    return isInternal
-      ? incident?.traces?.filter((frame) => frame?.internal)
-      : incident?.traces;
-  };
 
   const Details = () => (
     <Space direction="vertical" className="w-2/3 px-5">
@@ -93,7 +69,7 @@ const CodeTraces: FC<CodeTracesProps> = ({ incident, isInternal }) => {
     <>
       <Row className="w-full pt-8">
         <Timeline className="w-1/3">
-          {wrapTraces()?.map((trace, index) => (
+          {incident?.traces?.map((trace, index) => (
             <Timeline.Item
               color={trace.internal ? "#D67709" : "#1F2937"}
               key={index}

@@ -1,6 +1,6 @@
 import { Space, Typography } from "antd";
 import { FC, useState } from "react";
-import { CreateApplicationDrawer } from "../Drawers/CreateApplicationDrawer";
+import { CreateApplicationModal } from "../../../core/components/Modals/CreateApplicationModal";
 
 interface Props {
   constraints?: string;
@@ -24,7 +24,7 @@ export const EmptyAppList: FC<Props> = ({ constraints }) => {
           </Typography.Text>
         )}
       </Space>
-      <CreateApplicationDrawer
+      <CreateApplicationModal
         isOpen={openApplicationModal}
         onCancel={() => setOpenApplicationModal(false)}
       />

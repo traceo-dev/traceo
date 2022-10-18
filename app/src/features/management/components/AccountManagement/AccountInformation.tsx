@@ -9,13 +9,13 @@ import { dispatch } from "../../../../store/store";
 import { AccountStatus } from "../../../../types/accounts";
 import { StoreState } from "../../../../types/store";
 import { updateServerAccount } from "../../state/accounts/actions";
-import { DetailsSection } from "../../../../core/components/DetailsSection";
 import api from "../../../../core/lib/api";
 import { ApiResponse } from "../../../../types/api";
 import { notify } from "../../../../core/utils/notify";
 import { handleStatus } from "../../../../core/utils/response";
 import { useNavigate } from "react-router-dom";
-import { ColumnSection } from "core/components/ColumnSection";
+import { PagePanel } from "core/components/PagePanel";
+import { ADMIN_EMAIL } from "core/utils/constants";
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -28,7 +28,7 @@ export const AccountInformation = () => {
   const onUpdateUsername = (newValue: string) =>
     dispatch(updateServerAccount({ id: account.id, username: newValue }));
 
-  const isAdmin = account.email === "admin@localhost";
+  const isAdmin = account.email === ADMIN_EMAIL;
 
   const onChangeAccountStatus = () => {
     const status =
@@ -118,33 +118,23 @@ export const AccountInformation = () => {
         />
       )}
 
-      <DetailsSection>
-        <OperationButtons />
-        <ColumnSection
-          title="Personal information"
-          subtitle="Basic informations about this user"
-        >
-          <Descriptions>
-            <DescriptionInputRow label="Name" onUpdate={onUpdateName} editable={!isAdmin}>
-              {account.name}
-            </DescriptionInputRow>
-            <DescriptionInputRow
-              label="Username"
-              onUpdate={onUpdateUsername}
-              editable={!isAdmin}
-            >
-              {account.username}
-            </DescriptionInputRow>
-            <DescriptionInputRow
-              label="Email"
-              onUpdate={onUpdateEmail}
-              editable={!isAdmin}
-            >
-              {account.email}
-            </DescriptionInputRow>
-          </Descriptions>
-        </ColumnSection>
-      </DetailsSection>
+      <PagePanel title="Personal Information" extra={<OperationButtons />}>
+        <Descriptions>
+          <DescriptionInputRow label="Name" onUpdate={onUpdateName} editable={!isAdmin}>
+            {account.name}
+          </DescriptionInputRow>
+          <DescriptionInputRow
+            label="Username"
+            onUpdate={onUpdateUsername}
+            editable={!isAdmin}
+          >
+            {account.username}
+          </DescriptionInputRow>
+          <DescriptionInputRow label="Email" onUpdate={onUpdateEmail} editable={!isAdmin}>
+            {account.email}
+          </DescriptionInputRow>
+        </Descriptions>
+      </PagePanel>
     </>
   );
 };

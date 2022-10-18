@@ -1,4 +1,5 @@
 import { Typography, Radio, Button, Row, Space } from "antd";
+import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
 import { FC, useState } from "react";
 import { Avatar } from "../../../../core/components/Avatar";
 import api from "../../../../core/lib/api";
@@ -74,7 +75,7 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
       await api.delete("/api/amr/application/member", { id: member.id });
       notify.success("Removed from app.");
     } catch (error) {
-      notify.error("Error. Please try again later.");
+      notify.error(TRY_AGAIN_LATER_ERROR);
     } finally {
       setDeleteMode(false);
       setLoadingDelete(false);

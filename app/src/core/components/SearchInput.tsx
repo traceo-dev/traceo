@@ -20,7 +20,7 @@ export const SearchInput: FC<Props> = ({
       suffix={loading && <LoadingOutlined />}
       defaultValue={value}
       onSearch={setValue}
-      style={{ width: 400 }}
+      className="w-96"
       prefix={<SearchOutlined />}
       allowClear
     />

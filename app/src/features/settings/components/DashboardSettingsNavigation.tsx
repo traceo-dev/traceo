@@ -1,6 +1,5 @@
 import { SettingOutlined, UserOutlined } from "@ant-design/icons";
 import PageHeader from "../../../core/components/PageHeader";
-import { PagePanel } from "../../../core/components/PagePanel";
 import { MenuRoute } from "../../../types/navigation";
 import { Menu } from "../../../core/components/Layout/Menu";
 import { DashboardPage } from "../../dashboard/components/DashboardPage";
@@ -40,7 +39,7 @@ export const DashboardSettingsNavigation = ({ children }) => {
         subTitle={"Your account settings"}
       />
       <Menu className="mt-5" routes={menu} />
-      <PagePanel className="mt-0 rounded-none rounded-b-md">{children}</PagePanel>
+      {children}
     </DashboardPage>
   );
 };

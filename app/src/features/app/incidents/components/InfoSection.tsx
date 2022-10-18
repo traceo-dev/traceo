@@ -1,7 +1,6 @@
 import { Space } from "antd";
 import { RowDetail } from "../../../../core/components/RowDetail";
 import dateUtils from "../../../../core/utils/date";
-import { CollapsedDetails } from "../../../../core/components/CollapsedDetails";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
@@ -11,24 +10,22 @@ export const InfoSection = () => {
 
   return (
     <>
-      <PagePanel>
-        <CollapsedDetails label="Info">
-          <Space className="w-2/3">
-            <RowDetail
-              label={"Catched at"}
-              value={dateUtils.formatDateTime(incident?.createdAt)}
-            />
-            <RowDetail
-              label={"Last error"}
-              value={dateUtils.formatDateTime(incident?.lastOccur)}
-              className="pl-24"
-            />
-          </Space>
+      <PagePanel title="Info">
+        <Space className="w-2/3">
+          <RowDetail
+            label={"Catched at"}
+            value={dateUtils.formatDateTime(incident?.createdAt)}
+          />
+          <RowDetail
+            label={"Last error"}
+            value={dateUtils.formatDateTime(incident?.lastOccur)}
+            className="pl-24"
+          />
+        </Space>
 
-          <Space className="w-2/3">
-            <RowDetail label={"Number of errors"} value={incident?.occuredCount} />
-          </Space>
-        </CollapsedDetails>
+        <Space className="w-2/3">
+          <RowDetail label={"Number of errors"} value={incident?.occuredCount} />
+        </Space>
       </PagePanel>
     </>
   );

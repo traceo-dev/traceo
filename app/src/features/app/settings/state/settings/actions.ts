@@ -1,11 +1,12 @@
-import { logout } from "../../../../core/utils/logout";
-import { notify } from "../../../../core/utils/notify";
-import { handleStatus } from "../../../../core/utils/response";
-import api from "../../../../core/lib/api";
-import { Account } from "../../../../types/accounts";
-import { ApiResponse } from "../../../../types/api";
-import { ThunkResult } from "../../../../types/store";
-import { loadAccount } from "../../../../features/auth/state/actions";
+import api from "core/lib/api";
+import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
+import { logout } from "core/utils/logout";
+import { notify } from "core/utils/notify";
+import { handleStatus } from "core/utils/response";
+import { loadAccount } from "features/auth/state/actions";
+import { Account } from "types/accounts";
+import { ApiResponse } from "types/api";
+import { ThunkResult } from "types/store";
 import { loadedDataSource } from "./reducers";
 
 export const updateAccount = (update: Partial<Account>): ThunkResult<void> => {
@@ -20,7 +21,7 @@ export const updateAccount = (update: Partial<Account>): ThunkResult<void> => {
 
       notify.success("Account has been updated");
     } catch (error) {
-      notify.error("Account has not been updated. Please try again later.");
+      notify.error(TRY_AGAIN_LATER_ERROR);
     }
   };
 };

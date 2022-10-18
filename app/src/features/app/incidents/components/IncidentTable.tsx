@@ -131,7 +131,7 @@ interface MainColumnProps {
 }
 const IncidentMainColumn: FC<MainColumnProps> = ({ incident }) => {
   return (
-    <Space direction="vertical" style={{ rowGap: 0 }}>
+    <Space direction="vertical" className="gap-0">
       <Typography.Link
         className={joinClasses("font-semibold", "text-lg", "text-primary")}
       >

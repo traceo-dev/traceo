@@ -1,6 +1,6 @@
 import { Space, Tag } from "antd";
 import { FC } from "react";
-import { IncidentStatus } from "../../types/incidents";
+import { handleIncidentStatus, IncidentStatus } from "../../types/incidents";
 import { joinClasses } from "../../core/utils/classes";
 
 interface Props {
@@ -10,7 +10,8 @@ interface Props {
 
 export const handleIncidentColor: Record<IncidentStatus, string> = {
   [IncidentStatus.RESOLVED]: "text-white bg-green-700",
-  [IncidentStatus.UNRESOLVED]: "text-white bg-red-700"
+  [IncidentStatus.UNRESOLVED]: "text-white bg-red-700",
+  [IncidentStatus.IN_PROGRESS]: "text-white bg-purple-700"
 };
 
 export const IncidentStatusTag: FC<Props> = ({ status, className }) => {
@@ -24,7 +25,7 @@ export const IncidentStatusTag: FC<Props> = ({ status, className }) => {
               "font-semibold rounded-sm border-0 capitalize"
             )}
           >
-            {status}
+            {handleIncidentStatus[status]}
           </Tag>
         </Space>
       )}

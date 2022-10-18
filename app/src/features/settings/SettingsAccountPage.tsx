@@ -4,11 +4,13 @@ import { useSelector } from "react-redux";
 import { ColumnSection } from "../../core/components/ColumnSection";
 import { StoreState } from "../../types/store";
 import { dispatch } from "../../store/store";
+import { DashboardSettingsNavigation } from "../../features/settings/components/DashboardSettingsNavigation";
 import {
   updateAccount,
   updateAccountPassword
-} from "../../features/app/settings/state/actions";
-import { DashboardSettingsNavigation } from "../../features/settings/components/DashboardSettingsNavigation";
+} from "features/app/settings/state/settings/actions";
+import { ADMIN_EMAIL, REQUIRED_FIELD_ERROR } from "core/utils/constants";
+import { PagePanel } from "core/components/PagePanel";
 
 const SettingsAccountPage = () => {
   const { account } = useSelector((state: StoreState) => state.account);
@@ -27,79 +29,79 @@ const SettingsAccountPage = () => {
     setLoadingConfirmPassword(false);
   };
 
-  // const handleDeleteAccount = () => {
-  //   dispatch(deleteAccount());
-  // };
-
-  const isAdmin = account.email === "admin@localhost";
+  const isAdmin = account.email === ADMIN_EMAIL;
 
   return (
     <>
       <DashboardSettingsNavigation>
-        <ColumnSection
-          firstColumnWidth={10}
-          secondColumnWidth={14}
-          title="Personal information"
-          subtitle="This information will appear on your profile."
-          divider={true}
-        >
-          <Form
-            onFinish={onFinishUpdateAccount}
-            name="personalInformation"
-            layout="vertical"
-            className="w-3/5"
-            disabled={isAdmin}
+        <PagePanel title="Basic Information">
+          <ColumnSection
+            firstColumnWidth={10}
+            secondColumnWidth={14}
+            title="Personal information"
+            subtitle="This information will appear on your profile."
           >
-            <Form.Item name="name" label="Name" initialValue={account?.name}>
-              <Input />
-            </Form.Item>
+            <Form
+              onFinish={onFinishUpdateAccount}
+              name="personalInformation"
+              layout="vertical"
+              className="w-3/5"
+              disabled={isAdmin}
+            >
+              <Form.Item name="name" label="Name" initialValue={account?.name}>
+                <Input />
+              </Form.Item>
 
-            <Form.Item name="email" label="Email" initialValue={account?.email}>
-              <Input />
-            </Form.Item>
+              <Form.Item name="email" label="Email" initialValue={account?.email}>
+                <Input />
+              </Form.Item>
 
-            {!isAdmin && (
-              <Button htmlType="submit" loading={loadingUpdateAccount} type="primary">
-                Update
+              {!isAdmin && (
+                <Button htmlType="submit" loading={loadingUpdateAccount} type="primary">
+                  Update
+                </Button>
+              )}
+            </Form>
+          </ColumnSection>
+        </PagePanel>
+
+        <PagePanel title="Security">
+          <ColumnSection
+            firstColumnWidth={10}
+            secondColumnWidth={14}
+            title="Update password"
+            subtitle="After a successful password update, you will be redirected to the login page where you can log in with your new password."
+          >
+            <Form
+              onFinish={onFinishUpdatePassword}
+              name="updatePassword"
+              layout="vertical"
+              className="w-3/5"
+            >
+              <Form.Item
+                name="password"
+                label="Current password"
+                requiredMark={"optional"}
+                rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+              <Form.Item
+                name="newPassword"
+                label="New password"
+                requiredMark={"optional"}
+                rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
+              >
+                <Input.Password />
+              </Form.Item>
+
+              <Button htmlType="submit" loading={loadingConfirmPassword} type="primary">
+                Confirm
               </Button>
-            )}
-          </Form>
-        </ColumnSection>
-        <ColumnSection
-          firstColumnWidth={10}
-          secondColumnWidth={14}
-          title="Update password"
-          subtitle="After a successful password update, you will be redirected to the login page where you can log in with your new password."
-        >
-          <Form
-            onFinish={onFinishUpdatePassword}
-            name="updatePassword"
-            layout="vertical"
-            className="w-3/5"
-          >
-            <Form.Item
-              name="password"
-              label="Current password"
-              requiredMark={"optional"}
-              rules={[{ required: true, message: "This field is required" }]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Form.Item
-              name="newPassword"
-              label="New password"
-              requiredMark={"optional"}
-              rules={[{ required: true, message: "This field is required" }]}
-            >
-              <Input.Password />
-            </Form.Item>
-
-            <Button htmlType="submit" loading={loadingConfirmPassword} type="primary">
-              Confirm
-            </Button>
-          </Form>
-        </ColumnSection>
+            </Form>
+          </ColumnSection>
+        </PagePanel>
         {/* <ColumnSection
           firstColumnWidth={10}
           secondColumnWidth={14}
