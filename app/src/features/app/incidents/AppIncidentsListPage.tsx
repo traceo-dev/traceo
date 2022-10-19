@@ -22,6 +22,7 @@ import { PagePanel } from "../../../core/components/PagePanel";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { BatchUpdateModal } from "core/components/Modals/BatchUpdateModal";
 import { DataNotFound } from "core/components/DataNotFound";
+import { SearchWrapper } from "core/components/SearchWrapper";
 
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
@@ -99,13 +100,15 @@ export const AppIncidentsListPage = () => {
     <>
       <AppPage>
         <PagePanel title="Incidents">
-          <Space className="pb-2 w-full justify-between">
-            <Space className="w-full">
-              <SearchInput value={search} setValue={setSearch} />
-              <IncidentStatusDropdown />
-              <IncidentsSortDropdown />
-              <SortIcons order={order} setOrder={setOrder} />
-            </Space>
+          <SearchWrapper>
+            <SearchInput
+              placeholder="Search incidents by type, message, status or assigned user"
+              value={search}
+              setValue={setSearch}
+            />
+            <IncidentStatusDropdown />
+            <IncidentsSortDropdown />
+            <SortIcons order={order} setOrder={setOrder} />
 
             {selectedIncidents?.length > 0 && (
               <Button type="primary" onClick={() => setBatchVisible(true)}>
@@ -115,7 +118,7 @@ export const AppIncidentsListPage = () => {
                 </Typography.Text>
               </Button>
             )}
-          </Space>
+          </SearchWrapper>
 
           <ConditionLayout
             isEmpty={incidents?.length === 0}

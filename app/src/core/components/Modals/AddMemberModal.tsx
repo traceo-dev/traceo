@@ -53,7 +53,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   return (
     <>
       <Modal
-        title="New member"
+        title="Add member"
         onCancel={onClose}
         visible={isOpen}
         closable={false}
@@ -67,7 +67,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
           <Form onFinish={onFinish} form={form} layout="vertical">
             <Form.Item
               name="accountId"
-              label="Server accounts"
+              label="Server account"
               className="text-xs mb-0 font-semibold"
               requiredMark={"optional"}
               rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}

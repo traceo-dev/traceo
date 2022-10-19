@@ -3,7 +3,6 @@ import { Button, Space } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { SearchInput } from "../../../core/components/SearchInput";
-import { MembersTable } from "./components/MembersTable";
 import { ApiQueryParams } from "../../../core/lib/api";
 import { dispatch } from "../../../store/store";
 import { StoreState } from "../../../types/store";
@@ -16,6 +15,8 @@ import AppSettingsNavigationPage from "./components/AppSettingsNavigation";
 import { AddMemberModal } from "core/components/Modals/AddMemberModal";
 import { DataNotFound } from "core/components/DataNotFound";
 import { PagePanel } from "core/components/PagePanel";
+import { SearchWrapper } from "core/components/SearchWrapper";
+import { ApplicationMembersTable } from "core/components/Table/ApplicationMembersTable";
 
 export const AppMembersListPage = () => {
   const { id } = useParams();
@@ -72,15 +73,19 @@ export const AppMembersListPage = () => {
             </Permissions>
           }
         >
-          <Space className="w-full pb-2 justify-between">
-            <SearchInput value={search} setValue={setSearch} />
-          </Space>
+          <SearchWrapper className="pb-9">
+            <SearchInput
+              placeholder="Search by name or email"
+              value={search}
+              setValue={setSearch}
+            />
+          </SearchWrapper>
           <ConditionLayout
             isEmpty={members?.length === 0}
             isLoading={!hasFetched}
             emptyView={<DataNotFound label="Members not found" />}
           >
-            <MembersTable members={members} hasFetched={hasFetched} />
+            <ApplicationMembersTable members={members} execute={fetchMembers} />
           </ConditionLayout>
         </PagePanel>
       </AppSettingsNavigationPage>

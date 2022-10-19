@@ -42,7 +42,7 @@ export const CreateApplicationModal: FC<Props> = ({ isOpen, onCancel, isAdmin })
           <Form form={form} layout="vertical" onFinish={onFinish} requiredMark={false}>
             <Form.Item
               name="name"
-              label="Application name"
+              label="Name"
               rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
             >
               <Input />

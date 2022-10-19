@@ -1,14 +1,10 @@
 import { Space, Typography } from "antd";
 import { PagePanel } from "core/components/PagePanel";
-import { ADMIN_EMAIL } from "core/utils/constants";
+import { ApplicationMembersTable } from "core/components/Table/ApplicationMembersTable";
 import { useParams } from "react-router-dom";
 import { ConditionLayout } from "../../../../core/components/ConditionLayout";
 import { useApi } from "../../../../core/lib/useApi";
-import { ApplicationMember, MemberRole } from "../../../../types/application";
-import {
-  ApplicationMemberDescriptionTable,
-  DescriptionAppRadioRow
-} from "../ApplicationMemberDescriptionTable";
+import { ApplicationMember } from "../../../../types/application";
 
 export const ApplicationMembers = () => {
   const { id } = useParams();
@@ -37,22 +33,7 @@ export const ApplicationMembers = () => {
           }
           isLoading={isLoading}
         >
-          <ApplicationMemberDescriptionTable>
-            {members?.map((member, index) => (
-              <DescriptionAppRadioRow
-                key={index}
-                item={member}
-                type="member"
-                editable={member.account.email !== ADMIN_EMAIL}
-                options={[
-                  { label: "Administrator", value: MemberRole.ADMINISTRATOR },
-                  { label: "Maintainer", value: MemberRole.MAINTAINER },
-                  { label: "Viewer", value: MemberRole.VIEWER }
-                ]}
-                postExecute={postExecute}
-              />
-            ))}
-          </ApplicationMemberDescriptionTable>
+          <ApplicationMembersTable members={members} execute={postExecute} />
         </ConditionLayout>
       </PagePanel>
     </>

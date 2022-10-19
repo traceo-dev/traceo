@@ -46,7 +46,9 @@ export const MetricPlotWrapper: FC<Props> = ({
                 { value: 3, label: "3h" },
                 { value: 6, label: "6h" },
                 { value: 12, label: "12h" },
-                { value: 24, label: "24h" }
+                { value: 24, label: "24h" },
+                { value: 48, label: "2d" },
+                { value: 72, label: "3d" }
               ]}
               onChange={(v) => setHrCount(v as number)}
             />

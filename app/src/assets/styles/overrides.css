@@ -189,7 +189,8 @@
 }
 
 .ant-table-thead > tr > .ant-table-cell {
-  background-color: var(--color-bg-secondary) !important;
+  /* background-color: var(--color-bg-secondary) !important; */
+  background-color: transparent !important;
 }
 
 .ant-table-thead > tr > th {

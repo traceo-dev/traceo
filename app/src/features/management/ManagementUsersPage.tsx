@@ -1,6 +1,8 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Space, Button } from "antd";
+import { Space, Button, Input } from "antd";
 import { PagePanel } from "core/components/PagePanel";
+import { SearchWrapper } from "core/components/SearchWrapper";
+import { TraceoInput } from "core/components/TraceoInput";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NewAccountModal } from "../../core/components/Modals/NewAccountModal";
@@ -45,9 +47,13 @@ const ManagementUsersPage = () => {
           </Button>
         }
       >
-        <Space className="w-full pb-2 justify-between">
-          <SearchInput value={search} setValue={setSearch} />
-        </Space>
+        <SearchWrapper className="pb-5">
+          <SearchInput
+            placeholder="Search user by username, name or email"
+            value={search}
+            setValue={setSearch}
+          />
+        </SearchWrapper>
         <AccountsTable accounts={accounts} hasFetched={hasFetched} />
       </PagePanel>
       <NewAccountModal

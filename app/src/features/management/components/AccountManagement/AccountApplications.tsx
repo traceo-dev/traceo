@@ -6,14 +6,12 @@ import { useApi } from "../../../../core/lib/useApi";
 import { ApplicationMember, MemberRole } from "../../../../types/application";
 import { StoreState } from "../../../../types/store";
 
-import {
-  ApplicationMemberDescriptionTable,
-  DescriptionAppRadioRow
-} from "../ApplicationMemberDescriptionTable";
 import { AddToApplicationModal } from "core/components/Modals/AddToApplicationModal";
 import { DataNotFound } from "core/components/DataNotFound";
 import { PagePanel } from "core/components/PagePanel";
 import { ADMIN_EMAIL } from "core/utils/constants";
+import { TraceoTable } from "core/components/Table/TraceoTable";
+import { MemberTableRow } from "core/components/Table/rows/MemberTableRow";
 
 export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -51,22 +49,17 @@ export const AccountApplications = () => {
           isEmpty={applications?.length === 0}
           isLoading={isLoading}
         >
-          <ApplicationMemberDescriptionTable>
+          <TraceoTable columns={["Name", "Role"]}>
             {applications?.map((member, index) => (
-              <DescriptionAppRadioRow
+              <MemberTableRow
                 key={index}
                 item={member}
-                type="application"
-                options={[
-                  { label: "Administrator", value: MemberRole.ADMINISTRATOR },
-                  { label: "Maintainer", value: MemberRole.MAINTAINER },
-                  { label: "Viewer", value: MemberRole.VIEWER }
-                ]}
                 postExecute={postExecute}
                 editable={!isAdmin}
+                type="application"
               />
             ))}
-          </ApplicationMemberDescriptionTable>
+          </TraceoTable>
         </ConditionLayout>
 
         <AddToApplicationModal

@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import { AppCard } from "./AppCard";
 import { loadApplications } from "../state/actions";
+import { SearchWrapper } from "core/components/SearchWrapper";
 
 export enum AppsSortBy {
   LAST_UPDATE = "application.updatedAt",
@@ -67,11 +68,11 @@ export const AppsTable = () => {
   };
 
   const SearchHeader = () => (
-    <Space className="w-full">
+    <SearchWrapper>
       <SearchInput placeholder="Search by name" value={search} setValue={onSearch} />
       <AppsSortDropdown />
       <SortIcons order={order} setOrder={setOrder} />
-    </Space>
+    </SearchWrapper>
   );
 
   return (

@@ -1,6 +1,7 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Space, Button } from "antd";
 import { PagePanel } from "core/components/PagePanel";
+import { SearchWrapper } from "core/components/SearchWrapper";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { CreateApplicationModal } from "../../core/components/Modals/CreateApplicationModal";
@@ -47,9 +48,13 @@ export const ManagementApplicationsPage = () => {
           </Button>
         }
       >
-        <Space className="w-full pb-2 justify-between">
-          <SearchInput value={search} setValue={setSearch} />
-        </Space>
+        <SearchWrapper className="pb-5">
+          <SearchInput
+            placeholder="Seach application by name"
+            value={search}
+            setValue={setSearch}
+          />
+        </SearchWrapper>
         <ApplicationsTable applications={applications} hasFetched={hasFetched} />
       </PagePanel>
 

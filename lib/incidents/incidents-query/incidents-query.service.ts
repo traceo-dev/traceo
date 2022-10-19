@@ -32,13 +32,11 @@ export class IncidentsQueryService extends GenericQueryService<
 
     builder
       .where("incident.applicationId = :appId", { appId })
-
-    this.commonQuery(builder, query);
-
-    builder
       .leftJoin("incident.assigned", "assigned")
       .loadRelationCountAndMap("incident.commentsCount", "incident.comments")
       .addSelect(["assigned.name", "assigned.email", "assigned.id"]);
+
+    this.commonQuery(builder, query);
 
     return builder;
   }
@@ -102,7 +100,10 @@ export class IncidentsQueryService extends GenericQueryService<
             })
             .orWhere("LOWER(incident.status) LIKE LOWER(:search)", {
               search: `%${search}%`
-            });
+            })
+            .orWhere("LOWER(assigned.name) LIKE LOWER(:search)", {
+              search: `%${search}%`
+            })
         }),
       );
     }
