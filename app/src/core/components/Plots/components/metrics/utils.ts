@@ -34,6 +34,37 @@ export const metricConfig: Record<METRIC_TYPE, Metric> = {
             }
         ]
     },
+    [METRIC_TYPE.EVENT_LOOP_DELAY]: {
+        title: "Event Loop Delay",
+        type: METRIC_TYPE.EVENT_LOOP_DELAY,
+        unit: "ms",
+        series: [
+            {
+                color: "#16A34A",
+                field: "loopMin",
+                name: "Min",
+                area: {
+                    color: "transparent"
+                }
+            },
+            {
+                color: "#E54A4D",
+                field: "loopMax",
+                name: "Max",
+                area: {
+                    color: "transparent"
+                }
+            },
+            {
+                color: "#F5CB19",
+                field: "loopMean",
+                name: "Mean",
+                area: {
+                    color: "transparent"
+                }
+            }
+        ]
+    },
     [METRIC_TYPE.MEMORY_USAGE]: {
         title: "Memory Usage",
         type: METRIC_TYPE.MEMORY_USAGE,
@@ -44,7 +75,7 @@ export const metricConfig: Record<METRIC_TYPE, Metric> = {
                 name: "Heap Used",
                 color: "#70DBED",
                 area: {
-                    opacity: 0.5
+                    color: "transparent"
                 }
             },
             {
@@ -52,7 +83,7 @@ export const metricConfig: Record<METRIC_TYPE, Metric> = {
                 name: "Heap Total",
                 color: "#5195CE",
                 area: {
-                    opacity: 0.4
+                    color: "transparent"
                 }
             },
             {
@@ -60,7 +91,7 @@ export const metricConfig: Record<METRIC_TYPE, Metric> = {
                 name: "RSS",
                 color: "#0A50A1",
                 area: {
-                    opacity: 0.3
+                    color: "transparent"
                 }
             }
         ]

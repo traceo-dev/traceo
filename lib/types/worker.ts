@@ -50,4 +50,13 @@ export interface Metrics {
         nativeContexts: number;
         detachedContexts: number;
     };
+    eventLoopLag: {
+        min: number;
+        max: number;
+        mean: number;
+        stddev: number;
+        p50: number;
+        p90: number;
+        p99: number;
+    };
 }

@@ -32,7 +32,7 @@ export const MetricPlot: FC<Props> = ({ metrics, options, type, plotType }) => {
       color,
       lineStyle: {
         color,
-        width: 2
+        width: 1
       },
       areaStyle: {
         color: area?.color || color,

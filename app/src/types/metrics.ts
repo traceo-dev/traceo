@@ -1,8 +1,9 @@
 export enum METRIC_TYPE {
     CPU = "cpu",
     RAM = "ram",
-    LOAD_AVG = "loadAvg",
     MEMORY_USAGE = "memory_usage",
+    EVENT_LOOP_DELAY = "eventLoopDelay",
+    LOAD_AVG = "loadAvg",
     HEAP_CONTEXTS = "heap_contexts"
 }
 
@@ -30,5 +31,9 @@ export const handleHeaderInfo: Record<METRIC_TYPE, { title: string; subTitle: st
     [METRIC_TYPE.HEAP_CONTEXTS]: {
         title: "Heap Contexts",
         subTitle: "Values that indicate the existence of memory leaks."
+    },
+    [METRIC_TYPE.EVENT_LOOP_DELAY]: {
+        title: "Event Loop Delay",
+        subTitle: "Minimum, maximum and mean delay of the NodeJS event loop."
     }
 };

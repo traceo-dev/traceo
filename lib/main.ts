@@ -14,8 +14,8 @@ async function bootstrap() {
     appId: 35,
     url: process.env.TRACEO_HOST,
     metrics: {
-      collect: true,
-      interval: 120
+      collect: false,
+      interval: 60
     }
   });
 

@@ -1,4 +1,4 @@
-export type METRIC_UNIT = "%" | "MB" | "kb" | "s" | "";
+export type METRIC_UNIT = "%" | "MB" | "kb" | "s" | "ms" | "";
 
 export interface InfluxDS {
     url: string;
@@ -28,5 +28,8 @@ export interface MetricsResponse {
     heapTotal: number;
     heapNativeContexts: number;
     heapDetachedContexts: number;
+    loopMin: number;
+    loopMax: number;
+    loopMean: number;
     rss: number;
 }

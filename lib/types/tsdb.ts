@@ -24,6 +24,9 @@ export interface MetricsResponse {
     rss: number;
     nativeContexts: number;
     detachedContexts: number;
+    loopMin: number;
+    loopMax: number;
+    loopMean: number;
     _time: string;
 }
 

@@ -63,7 +63,7 @@ export class InfluxService {
 
     async writeData(config: Partial<InfluxConfiguration>, data: Metrics): Promise<void> {
         const { url, token, bucket, org, connStatus, appId } = config;
-        const { cpuUsage, memory, loadAvg, heap } = data;
+        const { cpuUsage, memory, loadAvg, heap, eventLoopLag } = data;
 
         const influxDb = new InfluxDB({ url, token });
 
@@ -76,7 +76,10 @@ export class InfluxService {
             .floatField('heapTotal', heap.total)
             .intField('loadAvg', loadAvg)
             .intField('heapNativeContexts', heap.nativeContexts)
-            .intField('heapDetachedContexts', heap.detachedContexts);
+            .intField('heapDetachedContexts', heap.detachedContexts)
+            .intField('loopMin', eventLoopLag.min)
+            .intField('loopMax', eventLoopLag.max)
+            .intField('loopMean', eventLoopLag.mean);
 
         const influxRef = this.entityManager.getRepository(InfluxDS);
 
@@ -147,7 +150,10 @@ export class InfluxService {
                     r._field == "heapTotal" or
                     r._field == "rss" or
                     r._field == "heapNativeContexts" or
-                    r._field == "heapDetachedContexts")
+                    r._field == "heapDetachedContexts" or
+                    r._field == "loopMin" or
+                    r._field == "loopMax" or
+                    r._field == "loopMean")
                 |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
                 |> keep(columns: [
                         "_time", 
@@ -158,7 +164,10 @@ export class InfluxService {
                         "heapTotal", 
                         "rss", 
                         "heapNativeContexts", 
-                        "heapDetachedContexts"
+                        "heapDetachedContexts",
+                        "loopMin",
+                        "loopMax",
+                        "loopMean"
                     ])
         `;
         try {
