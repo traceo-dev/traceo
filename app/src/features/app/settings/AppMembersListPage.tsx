@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Space } from "antd";
+import { Button } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { SearchInput } from "../../../core/components/SearchInput";

@@ -1,5 +1,5 @@
-import { LoadingOutlined } from "@ant-design/icons";
-import { Segmented, Space } from "antd";
+import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
+import { Button, Segmented, Space } from "antd";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "types/store";
@@ -9,8 +9,9 @@ interface Props {
   loading: boolean;
   hrCount: number;
   setHrCount: (val: number) => void;
+  execute: () => void;
 }
-export const MetricsHeader: FC<Props> = ({ hrCount, setHrCount, loading }) => {
+export const MetricsHeader: FC<Props> = ({ hrCount, setHrCount, loading, execute }) => {
   const { application } = useSelector((state: StoreState) => state.application);
   const isConnected = application?.influxDS?.connStatus === CONNECTION_STATUS.CONNECTED;
   return (
@@ -32,6 +33,9 @@ export const MetricsHeader: FC<Props> = ({ hrCount, setHrCount, loading }) => {
             ]}
             onChange={(v) => setHrCount(v as number)}
           />
+          <Button type="primary" onClick={() => execute()}>
+            Refresh <SyncOutlined />
+          </Button>
         </Space>
       )}
     </Space>

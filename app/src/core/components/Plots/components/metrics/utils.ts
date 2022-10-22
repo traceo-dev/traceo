@@ -4,6 +4,8 @@ import { METRIC_TYPE } from "types/metrics";
 import { METRIC_UNIT } from "types/tsdb";
 import { tooltipOptions, splitLine } from "../../utils";
 
+export type SerieType = "bar" | "line" | "scatter";
+
 export interface Metric {
     title: string;
     type: METRIC_TYPE;
@@ -15,6 +17,8 @@ export interface MetricSeriesOption {
     field: string;
     name: string;
     color: string;
+    type?: SerieType;
+    seriesLineWidth?: number;
     area?: {
         opacity?: number;
         color?: string;
@@ -65,9 +69,34 @@ export const metricConfig: Record<METRIC_TYPE, Metric> = {
             }
         ]
     },
-    [METRIC_TYPE.MEMORY_USAGE]: {
-        title: "Memory Usage",
-        type: METRIC_TYPE.MEMORY_USAGE,
+    [METRIC_TYPE.GC_TIME]: {
+        title: "Garbage Collection Time",
+        type: METRIC_TYPE.GC_TIME,
+        unit: "ms",
+        series: [
+            {
+                field: "gcTotalTime",
+                name: "Total Time",
+                color: "#705DA0",
+                type: "bar",
+                area: {
+                    color: "#705DA0"
+                }
+            },
+            {
+                field: "gcAvgTime",
+                name: "Average Time",
+                color: "#31A82D",
+                seriesLineWidth: 2,
+                area: {
+                    color: "transparent"
+                }
+            }
+        ]
+    },
+    [METRIC_TYPE.HEAP]: {
+        title: "Heap",
+        type: METRIC_TYPE.HEAP,
         unit: "MB",
         series: [
             {
@@ -85,25 +114,32 @@ export const metricConfig: Record<METRIC_TYPE, Metric> = {
                 area: {
                     color: "transparent"
                 }
-            },
+            }
+        ]
+    },
+    [METRIC_TYPE.RSS]: {
+        title: "RSS",
+        type: METRIC_TYPE.RSS,
+        unit: "MB",
+        series: [
             {
                 field: "rss",
                 name: "RSS",
-                color: "#0A50A1",
+                color: "#FFB357",
                 area: {
-                    color: "transparent"
+                    color: "#FFB357"
                 }
             }
         ]
     },
-    [METRIC_TYPE.RAM]: {
-        title: "RAM Usage",
-        type: METRIC_TYPE.RAM,
+    [METRIC_TYPE.MEMORY]: {
+        title: "Memory Usage",
+        type: METRIC_TYPE.MEMORY,
         unit: "%",
         series: [
             {
                 field: "memoryUsage",
-                name: "RAM Usage",
+                name: "Memory Usage",
                 color: "#DE4457"
             }
         ]
@@ -153,7 +189,7 @@ export const commonOptions = ({ unit }: { unit: METRIC_UNIT }) => {
         animation: false,
         tooltip: {
             ...tooltipOptions,
-            valueFormatter: (v: string) => `${v}${unit}`
+            valueFormatter: (v: string) => v ? `${v}${unit}` : "-"
         },
         grid: {
             left: 10,

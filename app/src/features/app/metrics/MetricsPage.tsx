@@ -55,8 +55,8 @@ const MetricsPage = () => {
   const options: EChartsOption = {
     grid: {
       containLabel: true,
-      right: 5,
-      left: 5,
+      right: 10,
+      left: 10,
       bottom: 10,
       top: 10,
       height: 150
@@ -101,7 +101,12 @@ const MetricsPage = () => {
   return (
     <>
       <AppMetricsNavigationPage>
-        <MetricsHeader loading={isLoading} hrCount={hrCount} setHrCount={setHrCount} />
+        <MetricsHeader
+          loading={isLoading}
+          hrCount={hrCount}
+          setHrCount={setHrCount}
+          execute={execute}
+        />
         <Row className="pt-3" gutter={[12, 24]}>
           {Object.values(METRIC_TYPE).map((type) => (
             <Col span={12}>

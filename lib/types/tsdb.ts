@@ -27,6 +27,8 @@ export interface MetricsResponse {
     loopMin: number;
     loopMax: number;
     loopMean: number;
+    gcTotalTime: number;
+    gcAvgTime: number;
     _time: string;
 }
 

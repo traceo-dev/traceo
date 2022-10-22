@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ConditionLayout } from "../../../../core/components/ConditionLayout";
 import { useApi } from "../../../../core/lib/useApi";
-import { ApplicationMember, MemberRole } from "../../../../types/application";
+import { ApplicationMember } from "../../../../types/application";
 import { StoreState } from "../../../../types/store";
 
 import { AddToApplicationModal } from "core/components/Modals/AddToApplicationModal";
@@ -45,7 +45,7 @@ export const AccountApplications = () => {
         }
       >
         <ConditionLayout
-          emptyView={<DataNotFound label="No application found" />}
+          emptyView={<DataNotFound label="No applications found" />}
           isEmpty={applications?.length === 0}
           isLoading={isLoading}
         >

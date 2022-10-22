@@ -25,18 +25,18 @@ export const MetricPlot: FC<Props> = ({ metrics, options, type, plotType }) => {
   }
 
   const buildSeries = () =>
-    series.map(({ area, color, name }) => ({
-      type: plotType,
+    series.map(({ area, color, name, type, seriesLineWidth }) => ({
+      type: type || plotType,
       name,
       showSymbol: false,
       color,
       lineStyle: {
         color,
-        width: 1
+        width: seriesLineWidth || 1
       },
       areaStyle: {
         color: area?.color || color,
-        opacity: area?.opacity || 0.6
+        opacity: area?.opacity || 0.4
       }
     }));
 

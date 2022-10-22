@@ -63,11 +63,12 @@ export class InfluxService {
 
     async writeData(config: Partial<InfluxConfiguration>, data: Metrics): Promise<void> {
         const { url, token, bucket, org, connStatus, appId } = config;
-        const { cpuUsage, memory, loadAvg, heap, eventLoopLag } = data;
+        const { cpuUsage, memory, loadAvg, heap, eventLoopLag, gc } = data;
 
         const influxDb = new InfluxDB({ url, token });
 
         const write = influxDb.getWriteApi(org, bucket);
+        // TODO: probably there is a better way to store multiple values allocated to single time...
         const point = new Point(`metrics_${appId}`)
             .floatField('cpuUsage', cpuUsage)
             .floatField('memoryUsage', memory.percentage)
@@ -79,7 +80,9 @@ export class InfluxService {
             .intField('heapDetachedContexts', heap.detachedContexts)
             .intField('loopMin', eventLoopLag.min)
             .intField('loopMax', eventLoopLag.max)
-            .intField('loopMean', eventLoopLag.mean);
+            .intField('loopMean', eventLoopLag.mean)
+            .floatField('gcTotalTime', gc.duration?.total || 0)
+            .floatField('gcAvgTime', gc.duration?.average || 0);
 
         const influxRef = this.entityManager.getRepository(InfluxDS);
 
@@ -153,7 +156,9 @@ export class InfluxService {
                     r._field == "heapDetachedContexts" or
                     r._field == "loopMin" or
                     r._field == "loopMax" or
-                    r._field == "loopMean")
+                    r._field == "loopMean" or
+                    r._field == "gcTotalTime" or
+                    r._field == "gcAvgTime")
                 |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
                 |> keep(columns: [
                         "_time", 
@@ -167,7 +172,9 @@ export class InfluxService {
                         "heapDetachedContexts",
                         "loopMin",
                         "loopMax",
-                        "loopMean"
+                        "loopMean",
+                        "gcTotalTime",
+                        "gcAvgTime"
                     ])
         `;
         try {
