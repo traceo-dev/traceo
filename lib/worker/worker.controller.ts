@@ -2,7 +2,7 @@ import { Body, Controller, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Incident } from 'lib/types/incident';
 import { Metrics } from 'lib/types/worker';
-import { Logger } from 'traceo';
+// import { Logger } from 'traceo';
 import { LogsService } from './services/logs.service';
 import { MetricsService } from './services/metrics.service';
 import { ProcessIncidentsService } from './services/process-incidents.service';
@@ -11,14 +11,14 @@ import { RuntimeService } from './services/runtime.service';
 @ApiTags('worker')
 @Controller('worker')
 export class WorkerController {
-    logger: Logger;
+    // logger: Logger;
     constructor(
         private readonly processIncidentsService: ProcessIncidentsService,
         private readonly logsService: LogsService,
         private readonly metricsService: MetricsService,
         private readonly runtimeService: RuntimeService
     ) {
-        this.logger = new Logger();
+        // this.logger = new Logger();
      }
 
     @Post('/incident/:id')
@@ -26,7 +26,7 @@ export class WorkerController {
         @Param("id") id: number,
         @Body() data: Incident,
     ): Promise<void> {
-        this.logger.error(data.type, data.message)
+        // this.logger.error(data.type, data.message)
         await this.processIncidentsService.processIncident(id, data);
     }
 

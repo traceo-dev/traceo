@@ -1,0 +1,12 @@
+.git
+**/.git/
+.github
+.husky
+Dockerfile
+.dockerignore
+.vscode
+build
+dist
+node_modules
+**/node_modules
+*.yml

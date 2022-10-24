@@ -4,20 +4,20 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import * as bodyParser from 'body-parser';
 import { AppModule } from './app.module';
 import morgan from "morgan";
-import { TraceoClient } from "traceo";
-import { TraceoInterceptor } from './libs/traceo.interceptor';
+// import { TraceoClient } from "traceo";
+// import { TraceoInterceptor } from './libs/traceo.interceptor';
 
 const cors = require("cors");
 
 async function bootstrap() {
-  new TraceoClient({
-    appId: 35,
-    url: process.env.TRACEO_HOST,
-    metrics: {
-      collect: false,
-      interval: 60
-    }
-  });
+  // new TraceoClient({
+  //   appId: 35,
+  //   url: process.env.TRACEO_HOST,
+  //   metrics: {
+  //     collect: false,
+  //     interval: 60
+  //   }
+  // });
 
   const app = await NestFactory.create(AppModule);
 
@@ -40,7 +40,7 @@ async function bootstrap() {
   app.use(morgan("[:date[iso]] :status :method :url :response-time ms"));
 
   // app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
-  app.useGlobalInterceptors(new TraceoInterceptor());
+  // app.useGlobalInterceptors(new TraceoInterceptor());
 
   const PORT = process.env.PORT || 3000;
   await app.listen(PORT, () => {
