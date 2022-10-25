@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import { AppCard } from "./AppCard";
 import { loadApplications } from "../state/actions";
-import { SearchWrapper } from "core/components/SearchWrapper";
+import { SearchWrapper } from "../../../core/components/SearchWrapper";
 
 export enum AppsSortBy {
   LAST_UPDATE = "application.updatedAt",

@@ -5,7 +5,7 @@ import { splitLine } from "../utils";
 import { useApi } from "../../../lib/useApi";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
-import { DataNotFound } from "core/components/DataNotFound";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
 
 interface Props {
   id: string;

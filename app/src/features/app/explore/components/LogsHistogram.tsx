@@ -1,13 +1,13 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
 import { Space, Button, Tooltip } from "antd";
 import dayjs from "dayjs";
-import { LogsExplorePlot } from "core/components/Plots/components/LogsExplorePlot";
-import { loadApplicationLogs } from "features/app/explore/logs/state/actions";
+import { LogsExplorePlot } from "../../../../core/components/Plots/components/LogsExplorePlot";
+import { loadApplicationLogs } from "../../../../features/app/explore/logs/state/actions";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { dispatch } from "store/store";
-import { StoreState } from "types/store";
+import { dispatch } from "../../../../store/store";
+import { StoreState } from "../../../../types/store";
 import { fetchedState } from "../logs/state/reducers";
 
 export const LogsHistogram = () => {

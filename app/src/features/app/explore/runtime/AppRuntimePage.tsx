@@ -1,15 +1,15 @@
 import { Card, Row, Space, Timeline, Typography } from "antd";
-import { ConditionLayout } from "core/components/ConditionLayout";
-import { DataNotFound } from "core/components/DataNotFound";
-import { DescriptionRow, Descriptions } from "core/components/Descriptions";
-import { PagePanel } from "core/components/PagePanel";
-import { TraceoLoading } from "core/components/TraceoLoading";
-import { conditionClass, joinClasses } from "core/utils/classes";
-import { isEmptyObject } from "core/utils/object";
+import { ConditionLayout } from "../../../../core/components/ConditionLayout";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { DescriptionRow, Descriptions } from "../../../../core/components/Descriptions";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { TraceoLoading } from "../../../../core/components/TraceoLoading";
+import { conditionClass, joinClasses } from "../../../../core/utils/classes";
+import { isEmptyObject } from "../../../../core/utils/object";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { dispatch } from "store/store";
-import { StoreState } from "types/store";
+import { dispatch } from "../../../../store/store";
+import { StoreState } from "../../../../types/store";
 import AppExploreNavigationPage from "../components/AppExploreNavigation";
 import { loadApplicationRuntime } from "./state/actions";
 

@@ -4,7 +4,7 @@ import { ConditionLayout } from "../../../../../core/components/ConditionLayout"
 import { CommentItem } from "./CommentItem";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../../types/store";
-import { DataNotFound } from "core/components/DataNotFound";
+import { DataNotFound } from "../../../../../core/components/DataNotFound";
 
 export const CommentsBox = () => {
   const { incident, comments, hasCommentsFetched } = useSelector(

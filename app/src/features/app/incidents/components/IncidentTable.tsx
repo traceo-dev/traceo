@@ -15,9 +15,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StoreState } from "../../../../types/store";
 import { slugifyForUrl, wrapIncidentMessage } from "../../../../core/utils/stringUtils";
-import { IncidentStatusTag } from "core/components/IncidentStatusTag";
-import { joinClasses } from "core/utils/classes";
-import dateUtils from "core/utils/date";
+import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
+import { joinClasses } from "../../../../core/utils/classes";
+import dateUtils from "../../../../core/utils/date";
 
 interface Props {
   incidents: Incident[];

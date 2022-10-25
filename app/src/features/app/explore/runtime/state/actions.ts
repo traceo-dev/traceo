@@ -1,5 +1,5 @@
-import api from "core/lib/api";
-import { ThunkResult } from "types/store";
+import api from "../../../../../core/lib/api";
+import { ThunkResult } from "../../../../../types/store";
 import { runtimeLoaded } from "./reducers";
 
 export const loadApplicationRuntime = (): ThunkResult<void> => {

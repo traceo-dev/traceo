@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { EChartsOption } from "echarts";
-import { METRIC_TYPE } from "types/metrics";
-import { METRIC_UNIT } from "types/tsdb";
+import { METRIC_TYPE } from "../../../../../types/metrics";
+import { METRIC_UNIT } from "../../../../../types/tsdb";
 import { tooltipOptions, splitLine } from "../../utils";
 
 export type SerieType = "bar" | "line" | "scatter";

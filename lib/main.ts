@@ -6,6 +6,7 @@ import { AppModule } from './app.module';
 import morgan from "morgan";
 import { TraceoClient } from "traceo";
 import { TraceoInterceptor } from './libs/traceo.interceptor';
+import compression from 'compression';
 
 const cors = require("cors");
 
@@ -38,6 +39,11 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
   app.use(morgan("[:date[iso]] :status :method :url :response-time ms"));
+
+  app.use(compression({
+    filter: () => { return true },
+    threshold: 0
+  }));
 
   // app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
   app.useGlobalInterceptors(new TraceoInterceptor());

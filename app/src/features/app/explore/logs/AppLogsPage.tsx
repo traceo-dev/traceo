@@ -1,21 +1,21 @@
-import { TraceoLoading } from "core/components/TraceoLoading";
+import { TraceoLoading } from "../../../../core/components/TraceoLoading";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { dispatch } from "store/store";
-import { LogLevel } from "types/logs";
-import { StoreState } from "types/store";
+import { dispatch } from "../../../../store/store";
+import { LogLevel } from "../../../../types/logs";
+import { StoreState } from "../../../../types/store";
 import AppExploreNavigationPage from "../components/AppExploreNavigation";
 import { loadApplicationLogs } from "./state/actions";
 
 import { Divider, Space, Tag, Typography } from "antd";
-import { ConditionLayout } from "core/components/ConditionLayout";
+import { ConditionLayout } from "../../../../core/components/ConditionLayout";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
-import dateUtils from "core/utils/date";
-import { LogsHistogram } from "features/app/explore/components/LogsHistogram";
+import dateUtils from "../../../../core/utils/date";
+import { LogsHistogram } from "../../../../features/app/explore/components/LogsHistogram";
 import { LogContainer, LogRow } from "../components/LogContainer";
-import { DataNotFound } from "core/components/DataNotFound";
-import { PagePanel } from "core/components/PagePanel";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { PagePanel } from "../../../../core/components/PagePanel";
 
 const AppLogsPage = () => {
   const { id } = useParams();

@@ -6,8 +6,8 @@ import { useParams } from "react-router-dom";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { IncidentsOverviewPlot } from "../../../../core/components/Plots/components/IncidentsOverviewPlot";
 import { ApplicationStats } from "../../../../types/statistics";
-import { PlotData } from "core/utils/statistics";
-import { DataNotFound } from "core/components/DataNotFound";
+import { PlotData } from "../../../../core/utils/statistics";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
 
 export const OverviewSection = () => {
   const { id } = useParams();

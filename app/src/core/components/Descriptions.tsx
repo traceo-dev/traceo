@@ -1,5 +1,5 @@
 import { Typography, Input, Button, Space, Radio } from "antd";
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../core/utils/classes";
 import { FC, useState } from "react";
 
 export const Descriptions = ({ children }) => {

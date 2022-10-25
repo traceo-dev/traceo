@@ -1,5 +1,5 @@
 import { Button, Form, Input, Space } from "antd";
-import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
+import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 
 export const LoginForm = ({ form, loading, onFinish }) => {
   return (

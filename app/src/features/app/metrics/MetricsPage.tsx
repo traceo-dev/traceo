@@ -1,23 +1,23 @@
 import { Card, Col, Row, Typography } from "antd";
-import { PagePanel } from "core/components/PagePanel";
-import { useApi } from "core/lib/useApi";
+import { PagePanel } from "../../../core/components/PagePanel";
+import { useApi } from "../../../core/lib/useApi";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { StoreState } from "types/store";
-import { CONNECTION_STATUS, MetricsResponse } from "types/tsdb";
+import { StoreState } from "../../../types/store";
+import { CONNECTION_STATUS, MetricsResponse } from "../../../types/tsdb";
 import AppMetricsNavigationPage from "./components/AppMetricsNavigationPage";
 import { ConnectionError } from "./components/ConnectionError";
 import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
 import { MetricsHeader } from "./components/MetricsHeader";
-import { METRIC_TYPE } from "types/metrics";
-import { slugifyForUrl } from "core/utils/stringUtils";
+import { METRIC_TYPE } from "../../../types/metrics";
+import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { EChartsOption } from "echarts";
-import { MetricPlot } from "core/components/Plots/components/metrics/MetricPlot";
+import { MetricPlot } from "../../../core/components/Plots/components/metrics/MetricPlot";
 import {
   metricConfig,
   MetricSeriesOption
-} from "core/components/Plots/components/metrics/utils";
+} from "../../../core/components/Plots/components/metrics/utils";
 
 const MetricsPage = () => {
   const { id } = useParams();

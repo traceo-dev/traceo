@@ -5,7 +5,7 @@ import { Account, AddAccountProps } from "../../../../types/accounts";
 import { notify } from "../../../../core/utils/notify";
 import { handleStatus } from "../../../../core/utils/response";
 import { ApiResponse } from "../../../../types/api";
-import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
+import { TRY_AGAIN_LATER_ERROR } from "../../../../core/utils/constants";
 
 export const loadServerAccounts = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {

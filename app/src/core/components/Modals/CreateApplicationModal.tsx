@@ -3,7 +3,7 @@ import { FC, useState } from "react";
 import { CreateApplicationProps } from "../../../types/application";
 import { dispatch } from "../../../store/store";
 import { createApplication } from "../../../features/app/state/actions";
-import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
+import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 
 interface Props {
   isOpen: boolean;

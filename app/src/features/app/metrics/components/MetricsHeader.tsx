@@ -2,8 +2,8 @@ import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { Button, Segmented, Space } from "antd";
 import { FC } from "react";
 import { useSelector } from "react-redux";
-import { StoreState } from "types/store";
-import { CONNECTION_STATUS } from "types/tsdb";
+import { StoreState } from "../../../../types/store";
+import { CONNECTION_STATUS } from "../../../../types/tsdb";
 
 interface Props {
   loading: boolean;

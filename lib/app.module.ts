@@ -15,6 +15,8 @@ import { WebsocketsModule } from './websockets/websockets.module';
 import { DataSourceModule } from './dataSource/dataSource.module';
 import { WorkerModule } from './worker/worker.module';
 import { HttpModule } from '@nestjs/axios';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -35,7 +37,13 @@ import { HttpModule } from '@nestjs/axios';
     WebsocketsModule,
     DataSourceModule,
     WorkerModule,
-    HttpModule
+    HttpModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', "..", 'app', 'build'),
+      serveStaticOptions: {
+        cacheControl: true
+      }
+    }),
   ],
   controllers: [AppController],
   providers: [],

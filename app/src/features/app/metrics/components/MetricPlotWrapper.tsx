@@ -1,9 +1,9 @@
 import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { Space, Segmented, Button } from "antd";
-import { PagePanel } from "core/components/PagePanel";
+import { PagePanel } from "../../../../core/components/PagePanel";
 import { FC } from "react";
-import { CHART_TYPE } from "types/metrics";
-import { MetricsResponse } from "types/tsdb";
+import { CHART_TYPE } from "../../../../types/metrics";
+import { MetricsResponse } from "../../../../types/tsdb";
 
 interface Props {
   children: JSX.Element;

@@ -1,10 +1,10 @@
 import { Card, Row, Space, Timeline, Typography } from "antd";
-import { CodePreview } from "core/components/CodePreview";
-import { ColumnDetail } from "core/components/ColumnDetail";
-import { joinClasses, conditionClass } from "core/utils/classes";
+import { CodePreview } from "../../../../core/components/CodePreview";
+import { ColumnDetail } from "../../../../core/components/ColumnDetail";
+import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Incident, Trace } from "types/incidents";
+import { Incident, Trace } from "../../../../types/incidents";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { StoreState } from "../../../../types/store";
 

@@ -1,12 +1,12 @@
-import { useApi } from "core/lib/useApi";
+import { useApi } from "../../../core/lib/useApi";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { MetricsResponse } from "types/tsdb";
+import { MetricsResponse } from "../../../types/tsdb";
 import { AppMetricsPreviewNavigationPage } from "./components/AppMetricsPreviewNavigationPage";
 import { MetricPlotWrapper } from "./components/MetricPlotWrapper";
-import { CHART_TYPE, METRIC_TYPE } from "types/metrics";
+import { CHART_TYPE, METRIC_TYPE } from "../../../types/metrics";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
-import { MetricPlot } from "core/components/Plots/components/metrics/MetricPlot";
+import { MetricPlot } from "../../../core/components/Plots/components/metrics/MetricPlot";
 
 export const MetricPreviewPage = () => {
   const { id } = useParams();

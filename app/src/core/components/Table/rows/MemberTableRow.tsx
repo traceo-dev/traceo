@@ -1,10 +1,10 @@
 import { Row, Radio, Button } from "antd";
-import { Avatar } from "core/components/Avatar";
-import api from "core/lib/api";
-import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
-import { notify } from "core/utils/notify";
+import { Avatar } from "../../../../core/components/Avatar";
+import api from "../../../../core/lib/api";
+import { TRY_AGAIN_LATER_ERROR } from "../../../../core/utils/constants";
+import { notify } from "../../../../core/utils/notify";
 import { FC, useState } from "react";
-import { ApplicationMember, MemberRole } from "types/application";
+import { ApplicationMember, MemberRole } from "../../../../types/application";
 import { ActionButtons } from "../RowActionButtons";
 
 interface MemberRowProps {

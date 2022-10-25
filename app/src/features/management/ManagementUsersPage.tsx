@@ -1,7 +1,7 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import { PagePanel } from "core/components/PagePanel";
-import { SearchWrapper } from "core/components/SearchWrapper";
+import { PagePanel } from "../../core/components/PagePanel";
+import { SearchWrapper } from "../../core/components/SearchWrapper";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NewAccountModal } from "../../core/components/Modals/NewAccountModal";

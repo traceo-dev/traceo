@@ -12,11 +12,11 @@ import { useParams } from "react-router-dom";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { Permissions } from "../../../core/components/Permissions";
 import AppSettingsNavigationPage from "./components/AppSettingsNavigation";
-import { AddMemberModal } from "core/components/Modals/AddMemberModal";
-import { DataNotFound } from "core/components/DataNotFound";
-import { PagePanel } from "core/components/PagePanel";
-import { SearchWrapper } from "core/components/SearchWrapper";
-import { ApplicationMembersTable } from "core/components/Table/ApplicationMembersTable";
+import { AddMemberModal } from "../../../core/components/Modals/AddMemberModal";
+import { DataNotFound } from "../../../core/components/DataNotFound";
+import { PagePanel } from "../../../core/components/PagePanel";
+import { SearchWrapper } from "../../../core/components/SearchWrapper";
+import { ApplicationMembersTable } from "../../../core/components/Table/ApplicationMembersTable";
 
 export const AppMembersListPage = () => {
   const { id } = useParams();

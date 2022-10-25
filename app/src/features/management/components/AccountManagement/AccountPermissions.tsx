@@ -8,8 +8,8 @@ import {
 import { dispatch } from "../../../../store/store";
 import { StoreState } from "../../../../types/store";
 import { updateServerAccount } from "../../state/accounts/actions";
-import { PagePanel } from "core/components/PagePanel";
-import { ADMIN_EMAIL } from "core/utils/constants";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 
 export const AccountPermissions = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);

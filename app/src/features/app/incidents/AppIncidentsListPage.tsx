@@ -20,9 +20,9 @@ import { useParams } from "react-router-dom";
 import { SortOrder } from "../../../types/api";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
-import { BatchUpdateModal } from "core/components/Modals/BatchUpdateModal";
-import { DataNotFound } from "core/components/DataNotFound";
-import { SearchWrapper } from "core/components/SearchWrapper";
+import { BatchUpdateModal } from "../../../core/components/Modals/BatchUpdateModal";
+import { DataNotFound } from "../../../core/components/DataNotFound";
+import { SearchWrapper } from "../../../core/components/SearchWrapper";
 
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
