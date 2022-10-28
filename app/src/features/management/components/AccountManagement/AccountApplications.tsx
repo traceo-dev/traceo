@@ -6,12 +6,12 @@ import { useApi } from "../../../../core/lib/useApi";
 import { ApplicationMember } from "../../../../types/application";
 import { StoreState } from "../../../../types/store";
 
-import { AddToApplicationModal } from "core/components/Modals/AddToApplicationModal";
-import { DataNotFound } from "core/components/DataNotFound";
-import { PagePanel } from "core/components/PagePanel";
-import { ADMIN_EMAIL } from "core/utils/constants";
-import { TraceoTable } from "core/components/Table/TraceoTable";
-import { MemberTableRow } from "core/components/Table/rows/MemberTableRow";
+import { AddToApplicationModal } from "../../../../core/components/Modals/AddToApplicationModal";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { ADMIN_EMAIL } from "../../../../core/utils/constants";
+import { TraceoTable } from "../../../../core/components/Table/TraceoTable";
+import { MemberTableRow } from "../../../../core/components/Table/rows/MemberTableRow";
 
 export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);

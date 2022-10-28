@@ -15,3 +15,25 @@ Traceo is a simple but powerfull developer tool to catch every bugs and exceptio
 # Traceo SDK
 
 - [NodeJS](https://github.com/traceo-io/traceo-node)
+
+# Installation
+
+Build docker image (from project root):
+```
+sh scripts/build.sh
+```
+
+Default tag is set to `latest`, to use custom tag:
+```
+sh scripts/build.sh <tag>
+```
+
+Run docker image:
+```
+docker run -d --name=traceo -p 8080:8080 traceo/traceo
+```
+
+Run docker image on custom port:
+```
+docker run -d --name -traceo -p <PORT>:8080 traceo/traceo
+```

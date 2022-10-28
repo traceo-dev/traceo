@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
-import { DataSourceConnStatus } from 'lib/types/tsdb';
+import { AuthRequired } from '../../libs/decorators/auth-required.decorator';
+import { DataSourceConnStatus } from '../../types/tsdb';
 import { InfluxConfigurationBody } from './influx.model';
 import { InfluxService } from './influx.service';
 

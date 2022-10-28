@@ -1,6 +1,6 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { Space, Typography } from "antd";
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../core/utils/classes";
 import { FC } from "react";
 
 interface Props {

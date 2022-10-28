@@ -1,12 +1,12 @@
-import api from "core/lib/api";
-import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
-import { logout } from "core/utils/logout";
-import { notify } from "core/utils/notify";
-import { handleStatus } from "core/utils/response";
-import { loadAccount } from "features/auth/state/actions";
-import { Account } from "types/accounts";
-import { ApiResponse } from "types/api";
-import { ThunkResult } from "types/store";
+import api from "../../../../../core/lib/api";
+import { TRY_AGAIN_LATER_ERROR } from "../../../../../core/utils/constants";
+import { logout } from "../../../../../core/utils/logout";
+import { notify } from "../../../../../core/utils/notify";
+import { handleStatus } from "../../../../../core/utils/response";
+import { loadAccount } from "../../../../../features/auth/state/actions";
+import { Account } from "../../../../../types/accounts";
+import { ApiResponse } from "../../../../../types/api";
+import { ThunkResult } from "../../../../../types/store";
 import { loadedDataSource } from "./reducers";
 
 export const updateAccount = (update: Partial<Account>): ThunkResult<void> => {

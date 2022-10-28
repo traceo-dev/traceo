@@ -3,8 +3,8 @@ import { AmrService } from './amr.service';
 import { AmrController } from './amr.controller';
 import { AmrQueryService } from './amr-query/amr-query.service';
 import { PassportModule } from '@nestjs/passport';
-import { ApplicationQueryService } from 'lib/application/application-query/application-query.service';
-import { AccountQueryService } from 'lib/account/account-query/account-query.service';
+import { ApplicationQueryService } from '../application/application-query/application-query.service';
+import { AccountQueryService } from '../account/account-query/account-query.service';
 
 @Module({
   imports: [PassportModule.register({ defaultStrategy: "jwt" })],

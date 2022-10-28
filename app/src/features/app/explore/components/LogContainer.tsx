@@ -7,9 +7,9 @@ import {
   RightOutlined
 } from "@ant-design/icons";
 import { Space } from "antd";
-import { joinClasses, conditionClass } from "core/utils/classes";
+import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { FC, useState } from "react";
-import { TraceoLog, LogLevel } from "types/logs";
+import { TraceoLog, LogLevel } from "../../../../types/logs";
 
 export const LogContainer = ({ children }) => {
   return (

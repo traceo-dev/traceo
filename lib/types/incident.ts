@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
-import { BaseDtoQuery } from "lib/core/generic.model";
+import { BaseDtoQuery } from "../core/generic.model";
 
 export class KlepperRequest {
   payload?: Object;

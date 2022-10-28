@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { InfluxDS } from 'lib/db/entities/influxds.entity';
-import { Application } from 'lib/db/entities/application.entity';
-import { MetricsQueryDto, MetricsResponse, TSDB } from 'lib/types/tsdb';
+import { InfluxDS } from '../db/entities/influxds.entity';
+import { Application } from '../db/entities/application.entity';
+import { MetricsQueryDto, MetricsResponse, TSDB } from '../types/tsdb';
 import { InfluxService } from './influx/influx.service';
 
 @Injectable()

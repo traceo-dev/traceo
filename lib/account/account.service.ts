@@ -1,23 +1,23 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Account, AccountStatus } from 'lib/db/entities/account.entity';
+import { Account, AccountStatus } from '../db/entities/account.entity';
 import {
   AccountEmailAlreadyExistsError,
   AccountUsernameEmailAlreadyExistsError,
   AdminAccountEditError,
   ForbiddenError,
   InternalServerError
-} from 'lib/helpers/errors';
-import tokenService from 'lib/helpers/tokens';
+} from '../helpers/errors';
+import tokenService from '../helpers/tokens';
 import { EntityManager } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { AccountDto, CreateAccountDto } from './account.model';
 import { AccountQueryService } from './account-query/account-query.service';
-import { AmrService } from 'lib/application-member/amr.service';
-import { ApplicationQueryService } from 'lib/application/application-query/application-query.service';
+import { AmrService } from '../application-member/amr.service';
+import { ApplicationQueryService } from '../application/application-query/application-query.service';
 import { HttpService } from "@nestjs/axios";
-import { RequestUser } from 'lib/auth/auth.model';
-import dateUtils from 'lib/helpers/dateUtils';
-import { gravatar } from 'lib/libs/gravatar';
+import { RequestUser } from '../auth/auth.model';
+import dateUtils from '../helpers/dateUtils';
+import { gravatar } from '../libs/gravatar';
 
 @Injectable()
 export class AccountService {

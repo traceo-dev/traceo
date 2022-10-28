@@ -14,8 +14,8 @@ import { ApiResponse } from "../../../../types/api";
 import { notify } from "../../../../core/utils/notify";
 import { handleStatus } from "../../../../core/utils/response";
 import { useNavigate } from "react-router-dom";
-import { PagePanel } from "core/components/PagePanel";
-import { ADMIN_EMAIL } from "core/utils/constants";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);

@@ -1,6 +1,6 @@
-import { normalizePlotData } from "core/components/Plots/utils";
+import { normalizePlotData } from "../../core/components/Plots/utils";
 import dayjs from "dayjs";
-import { TraceoLog } from "types/logs";
+import { TraceoLog } from "../../types/logs";
 import { ErrorDetails } from "../../types/incidents";
 
 export const getIncidentsTablePlotData = (occurDates: ErrorDetails[]) => {

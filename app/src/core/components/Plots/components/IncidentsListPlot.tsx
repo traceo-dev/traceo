@@ -4,7 +4,7 @@ import { ErrorDetails } from "../../../../types/incidents";
 import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
-import dateUtils from "core/utils/date";
+import dateUtils from "../../../../core/utils/date";
 
 interface Props {
   errors: ErrorDetails[];

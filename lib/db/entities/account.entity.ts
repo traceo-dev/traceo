@@ -1,13 +1,11 @@
-import { IsBoolean, IsEmail, IsEnum } from "class-validator";
+import { IsBoolean, IsEmail } from "class-validator";
 import {
   Column,
   Entity,
-  JoinColumn,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn
 } from "typeorm";
-import { GenericEntity } from "lib/core/generic.entity";
+import { GenericEntity } from "../../core/generic.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
 

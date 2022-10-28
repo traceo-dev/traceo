@@ -1,8 +1,8 @@
 import { Controller, Delete, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { InfluxDS } from 'lib/db/entities/influxds.entity';
-import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
-import { MetricsQueryDto, MetricsResponse } from 'lib/types/tsdb';
+import { InfluxDS } from '../db/entities/influxds.entity';
+import { AuthRequired } from '../libs/decorators/auth-required.decorator';
+import { MetricsQueryDto, MetricsResponse } from '../types/tsdb';
 import { DataSourceService } from './dataSource.service';
 
 @ApiTags('datasource')

@@ -9,11 +9,11 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RequestUser } from 'lib/auth/auth.model';
-import { BaseDtoQuery } from 'lib/core/generic.model';
-import { Account } from 'lib/db/entities/account.entity';
-import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
-import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';
+import { RequestUser } from '../auth/auth.model';
+import { BaseDtoQuery } from '../core/generic.model';
+import { Account } from '../db/entities/account.entity';
+import { AuthRequired } from '../libs/decorators/auth-required.decorator';
+import { AuthAccount } from '../libs/decorators/auth-user.decorator';
 import { AccountQueryService } from './account-query/account-query.service';
 import { AccountDto, CreateAccountDto } from './account.model';
 import { AccountService } from './account.service';

@@ -5,8 +5,8 @@ import { useAppStoreClean } from "../../core/hooks/useCleanup";
 import { AppsTable } from "./components/AppsTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { Button } from "antd";
-import ServerPermissions from "core/components/ServerPermissions";
-import { CreateApplicationModal } from "core/components/Modals/CreateApplicationModal";
+import ServerPermissions from "../../core/components/ServerPermissions";
+import { CreateApplicationModal } from "../../core/components/Modals/CreateApplicationModal";
 
 export const Dashboard = () => {
   useAppStoreClean();

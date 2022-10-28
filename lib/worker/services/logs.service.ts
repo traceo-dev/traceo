@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { Log } from "lib/db/entities/log.entity";
-import { TraceoLog } from "lib/types/worker";
+import { Log } from "../../db/entities/log.entity";
+import { TraceoLog } from "../../types/worker";
 import { EntityManager } from "typeorm";
 
 @Injectable()

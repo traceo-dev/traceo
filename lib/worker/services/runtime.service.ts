@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { Runtime } from "lib/db/entities/runtime.entity";
+import { Runtime } from "../../db/entities/runtime.entity";
 import { EntityManager } from "typeorm";
 
 @Injectable()

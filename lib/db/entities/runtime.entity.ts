@@ -1,4 +1,4 @@
-import { GenericEntity } from "lib/core/generic.entity";
+import { GenericEntity } from "../../core/generic.entity";
 import {
     Column,
     Entity,

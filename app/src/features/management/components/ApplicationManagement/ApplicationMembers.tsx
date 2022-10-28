@@ -1,6 +1,6 @@
 import { Space, Typography } from "antd";
-import { PagePanel } from "core/components/PagePanel";
-import { ApplicationMembersTable } from "core/components/Table/ApplicationMembersTable";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { ApplicationMembersTable } from "../../../../core/components/Table/ApplicationMembersTable";
 import { useParams } from "react-router-dom";
 import { ConditionLayout } from "../../../../core/components/ConditionLayout";
 import { useApi } from "../../../../core/lib/useApi";

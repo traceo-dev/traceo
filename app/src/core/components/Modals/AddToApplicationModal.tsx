@@ -9,7 +9,7 @@ import {
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import api from "../../lib/api";
-import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
+import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 
 interface Props {
   isOpen: boolean;

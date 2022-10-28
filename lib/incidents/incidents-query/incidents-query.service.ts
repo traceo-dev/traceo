@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { RequestUser } from "lib/auth/auth.model";
-import { GenericQueryService } from "lib/core/generic-query.service";
-import { Incident } from "lib/db/entities/incident.entity";
-import { IncidentQueryDto, IncidentStatusSearch } from "lib/types/incident";
+import { RequestUser } from "../../auth/auth.model";
+import { GenericQueryService } from "../../core/generic-query.service";
+import { Incident } from "../../db/entities/incident.entity";
+import { IncidentQueryDto, IncidentStatusSearch } from "../../types/incident";
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 
 @Injectable()

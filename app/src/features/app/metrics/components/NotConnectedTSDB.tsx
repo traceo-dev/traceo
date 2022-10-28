@@ -1,9 +1,9 @@
 import { DatabaseOutlined } from "@ant-design/icons";
 import { Space, Typography, Button } from "antd";
-import { slugifyForUrl } from "core/utils/stringUtils";
+import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { StoreState } from "types/store";
+import { StoreState } from "../../../../types/store";
 
 export const NotConnectedTSDB = () => {
   const { application } = useSelector((state: StoreState) => state.application);

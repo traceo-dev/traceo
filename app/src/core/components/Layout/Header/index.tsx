@@ -8,7 +8,7 @@ import { Profile } from "./components/Profile";
 import { AppSwitcher } from "./components/AppSwitcher";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
-import { isEmptyObject } from "core/utils/object";
+import { isEmptyObject } from "../../../../core/utils/object";
 
 const { Header: AntHeader } = Layout;
 

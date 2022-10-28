@@ -1,6 +1,6 @@
-import api from "core/lib/api";
-import { TraceoLog } from "types/logs";
-import { ThunkResult } from "types/store";
+import api from "../../../../../core/lib/api";
+import { TraceoLog } from "../../../../../types/logs";
+import { ThunkResult } from "../../../../../types/store";
 import { logsLoaded } from "./reducers";
 
 interface DateProps {

@@ -14,9 +14,9 @@ import { updateAplication } from "../state/actions";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";
 import { Permissions } from "../../../core/components/Permissions";
-import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
-import { PagePanel } from "core/components/PagePanel";
-import { DescriptionInputRow, Descriptions } from "core/components/Descriptions";
+import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
+import { PagePanel } from "../../../core/components/PagePanel";
+import { DescriptionInputRow, Descriptions } from "../../../core/components/Descriptions";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();

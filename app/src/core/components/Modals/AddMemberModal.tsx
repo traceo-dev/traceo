@@ -1,14 +1,14 @@
 import { Space, Typography, Form, Select, Modal } from "antd";
 import { useEffect, useState } from "react";
-import { dispatch } from "store/store";
-import { loadServerAccounts } from "features/management/state/accounts/actions";
+import { dispatch } from "../../../store/store";
+import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
 import { useSelector } from "react-redux";
-import { StoreState } from "types/store";
+import { StoreState } from "../../../types/store";
 import { Avatar } from "../Avatar";
-import { ApplicationMember, MemberRole } from "types/application";
-import api from "core/lib/api";
-import { Account } from "types/accounts";
-import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
+import { ApplicationMember, MemberRole } from "../../../types/application";
+import api from "../../../core/lib/api";
+import { Account } from "../../../types/accounts";
+import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { accounts, hasFetched } = useSelector(

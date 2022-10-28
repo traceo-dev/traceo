@@ -1,5 +1,5 @@
-import { GenericEntity } from "lib/core/generic.entity";
-import { CONNECTION_STATUS } from "lib/types/tsdb";
+import { GenericEntity } from "../../core/generic.entity";
+import { CONNECTION_STATUS } from "../../types/tsdb";
 import {
     Column,
     Entity,

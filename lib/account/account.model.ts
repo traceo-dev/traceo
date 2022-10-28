@@ -11,7 +11,7 @@ import {
   IsOptional,
   IsString
 } from "class-validator";
-import { AccountRole, AccountStatus } from "lib/db/entities/account.entity";
+import { AccountRole, AccountStatus } from "../db/entities/account.entity";
 
 export class CreateAccountDto {
   @IsOptional()

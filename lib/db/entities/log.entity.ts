@@ -1,5 +1,5 @@
-import { GenericEntity } from "lib/core/generic.entity";
-import { LogLevel } from "lib/types/worker";
+import { GenericEntity } from "../../core/generic.entity";
+import { LogLevel } from "../../types/worker";
 import {
     Column,
     Entity,

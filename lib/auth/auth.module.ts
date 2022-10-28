@@ -3,12 +3,12 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { AccountService } from 'lib/account/account.service';
+import { AccountService } from '../account/account.service';
 import { JwtStrategy } from './jwt.strategy';
-import { AccountQueryService } from 'lib/account/account-query/account-query.service';
-import { ApplicationQueryService } from 'lib/application/application-query/application-query.service';
-import { AmrService } from 'lib/application-member/amr.service';
-import { AmrQueryService } from 'lib/application-member/amr-query/amr-query.service';
+import { AccountQueryService } from '../account/account-query/account-query.service';
+import { ApplicationQueryService } from '../application/application-query/application-query.service';
+import { AmrService } from '../application-member/amr.service';
+import { AmrQueryService } from '../application-member/amr-query/amr-query.service';
 import { HttpModule } from "@nestjs/axios";
 
 @Module({

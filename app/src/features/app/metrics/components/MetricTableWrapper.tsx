@@ -1,11 +1,11 @@
 import { Space, Typography, Switch, Table } from "antd";
-import { DataNotFound } from "core/components/DataNotFound";
-import { PagePanel } from "core/components/PagePanel";
-import { metricConfig } from "core/components/Plots/components/metrics/utils";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { metricConfig } from "../../../../core/components/Plots/components/metrics/utils";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
-import { METRIC_TYPE } from "types/metrics";
-import { MetricsResponse } from "types/tsdb";
+import { METRIC_TYPE } from "../../../../types/metrics";
+import { MetricsResponse } from "../../../../types/tsdb";
 
 interface Props {
   type: METRIC_TYPE;

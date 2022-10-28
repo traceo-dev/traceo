@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn
 } from "typeorm";
-import { GenericEntity } from "lib/core/generic.entity";
+import { GenericEntity } from "../../core/generic.entity";
 import { Account } from "./account.entity";
 import { Incident } from "./incident.entity";
 

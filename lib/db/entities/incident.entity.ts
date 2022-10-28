@@ -9,8 +9,8 @@ import {
 import { Account } from "./account.entity";
 import { Comment } from "./comment.entity";
 import { Application } from "./application.entity";
-import { GenericEntity } from "lib/core/generic.entity";
-import { ErrorDetails, Platform, Trace } from "lib/types/incident";
+import { GenericEntity } from "../../core/generic.entity";
+import { ErrorDetails, Platform, Trace } from "../../types/incident";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",

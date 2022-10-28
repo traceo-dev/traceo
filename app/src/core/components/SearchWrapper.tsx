@@ -1,4 +1,4 @@
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../core/utils/classes";
 
 export const SearchWrapper = ({ children, className = "" }) => {
   return (

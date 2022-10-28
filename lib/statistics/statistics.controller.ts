@@ -1,9 +1,9 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RequestUser } from 'lib/auth/auth.model';
-import { HourlyStats, PlotData, AppStats } from 'lib/types/statistics';
-import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
-import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';
+import { RequestUser } from '../auth/auth.model';
+import { HourlyStats, PlotData, AppStats } from '../types/statistics';
+import { AuthRequired } from '../libs/decorators/auth-required.decorator';
+import { AuthAccount } from '../libs/decorators/auth-user.decorator';
 import { StatisticsQueryService } from './query/statistics-query.service';
 
 @ApiTags('statistics')

@@ -10,10 +10,10 @@ import {
 import { Account } from "./account.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
-import { GenericEntity } from "lib/core/generic.entity";
+import { GenericEntity } from "../../core/generic.entity";
 import { Runtime } from "./runtime.entity";
 import { InfluxDS } from "./influxds.entity";
-import { TSDB } from "lib/types/tsdb";
+import { TSDB } from "../../types/tsdb";
 
 @Entity()
 export class Application extends GenericEntity {

@@ -1,10 +1,10 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { Application } from "lib/db/entities/application.entity";
-import { Incident } from "lib/db/entities/incident.entity";
-import { isEmpty } from "lib/helpers/base";
-import dateUtils from "lib/helpers/dateUtils";
-import { IncidentStatus } from "lib/types/incident";
-import { IncidentExistsPayload, TraceoIncidentModel } from "lib/types/worker";
+import { Application } from "../../db/entities/application.entity";
+import { Incident } from "../../db/entities/incident.entity";
+import { isEmpty } from "../../helpers/base";
+import dateUtils from "../../helpers/dateUtils";
+import { IncidentStatus } from "../../types/incident";
+import { IncidentExistsPayload, TraceoIncidentModel } from "../../types/worker";
 import { EntityManager } from "typeorm";
 
 @Injectable()

@@ -9,15 +9,15 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RequestUser } from 'lib/auth/auth.model';
-import { Incident } from 'lib/db/entities/incident.entity';
-import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
-import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';
+import { RequestUser } from '../auth/auth.model';
+import { Incident } from '../db/entities/incident.entity';
+import { AuthRequired } from '../libs/decorators/auth-required.decorator';
+import { AuthAccount } from '../libs/decorators/auth-user.decorator';
 import {
   IncidentQueryDto,
   IncidentUpdateDto,
   IncidentBatchUpdateDto
-} from 'lib/types/incident';
+} from '../types/incident';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsService } from './incidents.service';
 

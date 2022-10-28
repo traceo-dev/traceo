@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { CreateAccountDto } from 'lib/account/account.model';
-import { Account } from 'lib/db/entities/account.entity';
-import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
-import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';
+import { CreateAccountDto } from '../account/account.model';
+import { Account } from '../db/entities/account.entity';
+import { AuthRequired } from '../libs/decorators/auth-required.decorator';
+import { AuthAccount } from '../libs/decorators/auth-user.decorator';
 import {
   AccountCredentialsDto,
   RequestUser,

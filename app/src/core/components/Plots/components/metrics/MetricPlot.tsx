@@ -1,11 +1,11 @@
 import { EChartsOption } from "echarts";
 import { FC } from "react";
-import { MetricsResponse } from "types/tsdb";
+import { MetricsResponse } from "../../../../../types/tsdb";
 import ReactECharts from "echarts-for-react";
-import { CHART_TYPE, METRIC_TYPE } from "types/metrics";
+import { CHART_TYPE, METRIC_TYPE } from "../../../../../types/metrics";
 import { commonOptions, metricConfig } from "./utils";
-import { MetricLoading } from "core/components/MetricLoading";
-import { DataNotFound } from "core/components/DataNotFound";
+import { MetricLoading } from "../../../../../core/components/MetricLoading";
+import { DataNotFound } from "../../../../../core/components/DataNotFound";
 
 interface Props {
   metrics: MetricsResponse[];

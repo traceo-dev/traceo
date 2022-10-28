@@ -1,15 +1,15 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Form, Input, Space, Alert, Button, Typography } from "antd";
-import { Confirm } from "core/components/Confirm";
-import api from "core/lib/api";
-import { notify } from "core/utils/notify";
-import { loadApplication } from "features/app/state/actions";
+import { Confirm } from "../../../../core/components/Confirm";
+import api from "../../../../core/lib/api";
+import { notify } from "../../../../core/utils/notify";
+import { loadApplication } from "../../../../features/app/state/actions";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { dispatch } from "store/store";
-import { CONNECTION_STATUS, InfluxDS } from "types/tsdb";
-import { StoreState } from "types/store";
-import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
+import { dispatch } from "../../../../store/store";
+import { CONNECTION_STATUS, InfluxDS } from "../../../../types/tsdb";
+import { StoreState } from "../../../../types/store";
+import { REQUIRED_FIELD_ERROR } from "../../../../core/utils/constants";
 
 interface Props {
   dataSource: object;

@@ -9,8 +9,8 @@ import {
   IsString,
   IsUUID
 } from "class-validator";
-import { BaseDtoQuery } from "lib/core/generic.model";
-import { MemberRole } from "lib/db/entities/account-member-relationship.entity";
+import { BaseDtoQuery } from "../core/generic.model";
+import { MemberRole } from "../db/entities/account-member-relationship.entity";
 
 export class ApplicationDtoQuery extends BaseDtoQuery {
   @IsOptional()

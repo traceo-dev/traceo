@@ -1,20 +1,20 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { RequestUser } from 'lib/auth/auth.model';
-import { AmrService } from 'lib/application-member/amr.service';
-import { Account } from 'lib/db/entities/account.entity';
-import { Application } from 'lib/db/entities/application.entity';
-import { MemberRole } from 'lib/db/entities/account-member-relationship.entity';
+import { RequestUser } from '../auth/auth.model';
+import { AmrService } from '../application-member/amr.service';
+import { Account } from '../db/entities/account.entity';
+import { Application } from '../db/entities/application.entity';
+import { MemberRole } from '../db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
 import * as crypto from "crypto";
-import { ApplicationWithNameAlreadyExistsError } from 'lib/helpers/errors';
+import { ApplicationWithNameAlreadyExistsError } from '../helpers/errors';
 import { CreateApplicationBody, ApplicationBody } from './application.model';
-import dateUtils from 'lib/helpers/dateUtils';
+import dateUtils from '../helpers/dateUtils';
 import { ApplicationQueryService } from './application-query/application-query.service';
-import { gravatar } from 'lib/libs/gravatar';
-import { AccountQueryService } from 'lib/account/account-query/account-query.service';
+import { gravatar } from '../libs/gravatar';
+import { AccountQueryService } from '../account/account-query/account-query.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import dayjs from 'dayjs';
-import { Log } from 'lib/db/entities/log.entity';
+import { Log } from '../db/entities/log.entity';
 
 @Injectable()
 export class ApplicationService {

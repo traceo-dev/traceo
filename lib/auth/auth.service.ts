@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { createHmac } from 'crypto';
-import { AccountService } from 'lib/account/account.service';
-import { Account, AccountStatus } from 'lib/db/entities/account.entity';
+import { AccountService } from '../account/account.service';
+import { Account, AccountStatus } from '../db/entities/account.entity';
 import {
   AccountCredentialsDto,
   RequestUser,
@@ -14,7 +14,7 @@ import {
   AccountNotExistsError,
   AccountSuspendedError,
   BadPasswordOrNotExists
-} from 'lib/helpers/errors';
+} from '../helpers/errors';
 
 @Injectable()
 export class AuthService {

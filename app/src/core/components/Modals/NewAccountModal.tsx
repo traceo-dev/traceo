@@ -4,7 +4,7 @@ import { dispatch } from "../../../store/store";
 import { addServerAccount } from "../../../features/management/state/accounts/actions";
 import { AddAccountProps } from "../../../types/accounts";
 import validators from "../../lib/validators";
-import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
+import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 
 export const NewAccountModal = ({ isOpen, onCancel }) => {
   const [loading, setLoading] = useState<boolean>(false);

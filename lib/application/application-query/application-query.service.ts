@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { BaseDtoQuery } from 'lib/core/generic.model';
-import { GenericQueryService } from 'lib/core/generic-query.service';
+import { BaseDtoQuery } from '../../core/generic.model';
+import { GenericQueryService } from '../../core/generic-query.service';
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
-import { Application } from 'lib/db/entities/application.entity';
-import { Runtime } from 'lib/db/entities/runtime.entity';
-import { Log } from 'lib/db/entities/log.entity';
+import { Application } from '../../db/entities/application.entity';
+import { Runtime } from '../../db/entities/runtime.entity';
+import { Log } from '../../db/entities/log.entity';
 import { ApplicationLogsQuery } from '../application.model';
 
 @Injectable()

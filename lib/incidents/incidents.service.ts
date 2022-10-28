@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
-import { Account } from "lib/db/entities/account.entity";
-import { Incident } from "lib/db/entities/incident.entity";
-import { IncidentBatchUpdateDto, IncidentUpdateDto } from "lib/types/incident";
+import { Account } from "../db/entities/account.entity";
+import { Incident } from "../db/entities/incident.entity";
+import { IncidentBatchUpdateDto, IncidentUpdateDto } from "../types/incident";
 import { EntityManager } from "typeorm";
 
 @Injectable()

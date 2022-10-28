@@ -8,9 +8,9 @@ import { DashboardSettingsNavigation } from "../../features/settings/components/
 import {
   updateAccount,
   updateAccountPassword
-} from "features/app/settings/state/settings/actions";
-import { ADMIN_EMAIL, REQUIRED_FIELD_ERROR } from "core/utils/constants";
-import { PagePanel } from "core/components/PagePanel";
+} from "../../features/app/settings/state/settings/actions";
+import { ADMIN_EMAIL, REQUIRED_FIELD_ERROR } from "../../core/utils/constants";
+import { PagePanel } from "../../core/components/PagePanel";
 
 const SettingsAccountPage = () => {
   const { account } = useSelector((state: StoreState) => state.account);

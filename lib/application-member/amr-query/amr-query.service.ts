@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { RequestUser } from 'lib/auth/auth.model';
-import { BaseDtoQuery } from 'lib/core/generic.model';
-import { AccountMemberRelationship } from 'lib/db/entities/account-member-relationship.entity';
-import { Account } from 'lib/db/entities/account.entity';
-import { ApplicationResponse } from 'lib/types/application';
+import { RequestUser } from '../../auth/auth.model';
+import { BaseDtoQuery } from '../../core/generic.model';
+import { AccountMemberRelationship } from '../../db/entities/account-member-relationship.entity';
+import { Account } from '../../db/entities/account.entity';
+import { ApplicationResponse } from '../../types/application';
 import { EntityManager } from 'typeorm';
 import { ApplicationDtoQuery } from '../amr.model';
 @Injectable()

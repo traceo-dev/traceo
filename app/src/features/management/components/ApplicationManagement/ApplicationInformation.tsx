@@ -1,6 +1,6 @@
 import { Button, Space } from "antd";
-import { PagePanel } from "core/components/PagePanel";
-import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { TRY_AGAIN_LATER_ERROR } from "../../../../core/utils/constants";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

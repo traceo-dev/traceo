@@ -4,13 +4,13 @@ import {
   HourlyStats,
   PlotData,
   AppStats
-} from "lib/types/statistics";
+} from "../../types/statistics";
 import { EntityManager } from "typeorm";
 import dayjs from "dayjs";
-import { Incident } from "lib/db/entities/incident.entity";
-import { RequestUser } from "lib/auth/auth.model";
-import { Application } from "lib/db/entities/application.entity";
-import { ErrorDetails } from "lib/types/incident";
+import { Incident } from "../../db/entities/incident.entity";
+import { RequestUser } from "../../auth/auth.model";
+import { Application } from "../../db/entities/application.entity";
+import { ErrorDetails } from "../../types/incident";
 
 @Injectable()
 export class StatisticsQueryService {

@@ -9,13 +9,13 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RequestUser } from 'lib/auth/auth.model';
-import { BaseDtoQuery } from 'lib/core/generic.model';
-import { AccountMemberRelationship } from 'lib/db/entities/account-member-relationship.entity';
-import { Account } from 'lib/db/entities/account.entity';
-import { AuthRequired } from 'lib/libs/decorators/auth-required.decorator';
-import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';
-import { ApplicationResponse } from 'lib/types/application';
+import { RequestUser } from '../auth/auth.model';
+import { BaseDtoQuery } from '../core/generic.model';
+import { AccountMemberRelationship } from '../db/entities/account-member-relationship.entity';
+import { Account } from '../db/entities/account.entity';
+import { AuthRequired } from '../libs/decorators/auth-required.decorator';
+import { AuthAccount } from '../libs/decorators/auth-user.decorator';
+import { ApplicationResponse } from '../types/application';
 import { AmrQueryService } from './amr-query/amr-query.service';
 import {
   AddAccountToApplicationModel,

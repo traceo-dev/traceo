@@ -13,7 +13,7 @@ import { PagePanel } from "../../../../core/components/PagePanel";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
-import { DataNotFound } from "core/components/DataNotFound";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
 
 export const RecentIncidentsSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);

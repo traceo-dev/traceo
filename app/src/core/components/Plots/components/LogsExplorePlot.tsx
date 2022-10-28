@@ -1,7 +1,7 @@
-import dateUtils from "core/utils/date";
-import { statistics } from "core/utils/statistics";
+import dateUtils from "../../../../core/utils/date";
+import { statistics } from "../../../../core/utils/statistics";
 import { FC } from "react";
-import { TraceoLog } from "types/logs";
+import { TraceoLog } from "../../../../types/logs";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 import { tooltipOptions } from "../utils";

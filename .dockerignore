@@ -10,3 +10,5 @@ dist
 node_modules
 **/node_modules
 *.yml
+*.md
+LICENSE

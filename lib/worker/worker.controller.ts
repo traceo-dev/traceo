@@ -1,7 +1,7 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Incident } from 'lib/types/incident';
-import { Metrics } from 'lib/types/worker';
+import { Incident } from '../types/incident';
+import { Metrics } from '../types/worker';
 // import { Logger } from 'traceo';
 import { LogsService } from './services/logs.service';
 import { MetricsService } from './services/metrics.service';

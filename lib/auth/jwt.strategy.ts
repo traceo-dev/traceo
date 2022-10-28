@@ -2,7 +2,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtPayload } from './jwt.payload.interface';
-import { AccountQueryService } from 'lib/account/account-query/account-query.service';
+import { AccountQueryService } from '../account/account-query/account-query.service';
 import { config } from "dotenv";
 
 config();

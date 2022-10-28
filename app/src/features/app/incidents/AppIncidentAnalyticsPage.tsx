@@ -1,10 +1,10 @@
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Space, Typography } from "antd";
-import { IncidentsOverviewPlot } from "core/components/Plots/components/IncidentsOverviewPlot";
-import { IncidentsTodayPlot } from "core/components/Plots/components/IncidentsTodayPlot";
-import { TraceoLoading } from "core/components/TraceoLoading";
-import { useApi } from "core/lib/useApi";
-import { statistics } from "core/utils/statistics";
+import { IncidentsOverviewPlot } from "../../../core/components/Plots/components/IncidentsOverviewPlot";
+import { IncidentsTodayPlot } from "../../../core/components/Plots/components/IncidentsTodayPlot";
+import { TraceoLoading } from "../../../core/components/TraceoLoading";
+import { useApi } from "../../../core/lib/useApi";
+import { statistics } from "../../../core/utils/statistics";
 import { useSelector } from "react-redux";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { PagePanel } from "../../../core/components/PagePanel";

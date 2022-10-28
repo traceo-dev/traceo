@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
-import { CONNECTION_STATUS } from "lib/types/tsdb";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { CONNECTION_STATUS } from "../../types/tsdb";
 
 export class InfluxConfigurationBody {
     @IsNumber()

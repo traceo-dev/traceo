@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { Account } from 'lib/db/entities/account.entity';
+import { Account } from '../db/entities/account.entity';
 import {
   MemberRole,
   AccountMemberRelationship
-} from 'lib/db/entities/account-member-relationship.entity';
+} from '../db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
 import { AmrQueryService } from './amr-query/amr-query.service';
-import { AccountAlreadyInApplicationError } from 'lib/helpers/errors';
-import { ApplicationQueryService } from 'lib/application/application-query/application-query.service';
-import { AccountQueryService } from 'lib/account/account-query/account-query.service';
+import { AccountAlreadyInApplicationError } from '../helpers/errors';
+import { ApplicationQueryService } from '../application/application-query/application-query.service';
+import { AccountQueryService } from '../account/account-query/account-query.service';
 import { AddAccountToApplicationModel, UpdateAmrModel } from './amr.model';
-import dateUtils from 'lib/helpers/dateUtils';
-import { Application } from 'lib/db/entities/application.entity';
-import { Incident } from 'lib/db/entities/incident.entity';
+import dateUtils from '../helpers/dateUtils';
+import { Application } from '../db/entities/application.entity';
+import { Incident } from '../db/entities/incident.entity';
 
 /**
  * AMR - Application-Member-Relationship

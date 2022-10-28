@@ -1,5 +1,5 @@
-import dateUtils from "lib/helpers/dateUtils";
-import tokenService from "lib/helpers/tokens";
+import dateUtils from "../../helpers/dateUtils";
+import tokenService from "../../helpers/tokens";
 import { MigrationInterface, QueryRunner, Table } from "typeorm";
 import { Account, AccountStatus } from "../entities/account.entity";
 

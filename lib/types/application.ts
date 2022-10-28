@@ -1,4 +1,4 @@
-import { MemberRole } from "lib/db/entities/account-member-relationship.entity";
+import { MemberRole } from "../db/entities/account-member-relationship.entity";
 import { CONNECTION_STATUS } from "./tsdb";
 
 export interface OwnerAccount {

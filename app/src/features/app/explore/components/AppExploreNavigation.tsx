@@ -3,10 +3,10 @@ import {
   AlignLeftOutlined,
   CompassOutlined
 } from "@ant-design/icons";
-import { Menu } from "core/components/Layout/Menu";
-import AppPage from "features/app/components/AppPage";
-import PageHeader from "core/components/PageHeader";
-import { MenuRoute } from "types/navigation";
+import { Menu } from "../../../../core/components/Layout/Menu";
+import AppPage from "../../../../features/app/components/AppPage";
+import PageHeader from "../../../../core/components/PageHeader";
+import { MenuRoute } from "../../../../types/navigation";
 
 export const AppExploreNavigationPage = ({ children }) => {
   const menu: MenuRoute[] = [

@@ -1,6 +1,6 @@
-import { ADMIN_EMAIL } from "core/utils/constants";
+import { ADMIN_EMAIL } from "../../../core/utils/constants";
 import { FC } from "react";
-import { ApplicationMember } from "types/application";
+import { ApplicationMember } from "../../../types/application";
 import { MemberTableRow } from "./rows/MemberTableRow";
 import { TraceoTable } from "./TraceoTable";
 

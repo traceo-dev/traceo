@@ -1,12 +1,12 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Space, Typography, Select } from "antd";
-import { ColumnSection } from "core/components/ColumnSection";
-import { PagePanel } from "core/components/PagePanel";
+import { ColumnSection } from "../../../core/components/ColumnSection";
+import { PagePanel } from "../../../core/components/PagePanel";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { dispatch } from "store/store";
-import { TSDB } from "types/application";
+import { dispatch } from "../../../store/store";
+import { TSDB } from "../../../types/application";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
 import { StoreState } from "../../../types/store";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
