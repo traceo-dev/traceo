@@ -15,7 +15,7 @@ export const loadApplications = (
     if (!query) {
       query = {
         order: "ASC",
-        sortBy: "application.lastIncidentAt"
+        sortBy: "lastIncidentAt"
       };
     }
 

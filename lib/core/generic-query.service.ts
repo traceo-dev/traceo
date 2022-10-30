@@ -29,7 +29,7 @@ export abstract class GenericQueryService<
   }
 
   private createQueryBuilder(query: QUERY): SelectQueryBuilder<ENTITY> {
-    const qb = this.repository.createQueryBuilder(this.getBuilderAlias());
+    const qb = this.repository.createQueryBuilder(this.builderAlias);
     return this.extendQueryBuilder(qb, query);
   }
 
@@ -38,7 +38,7 @@ export abstract class GenericQueryService<
     query: QUERY,
   ): SelectQueryBuilder<ENTITY>;
 
-  public abstract getBuilderAlias(): string;
+  public abstract get builderAlias(): string;
 
   /**
    * Leave empty array if builder have to select all columns from entity
@@ -54,7 +54,7 @@ export abstract class GenericQueryService<
 
     if (sortBy && order) {
       queryBuilder.orderBy(
-        `${this.getBuilderAlias()}.${sortBy}`,
+        `${this.builderAlias}.${sortBy}`,
         order || "DESC",
       );
     }
@@ -73,7 +73,7 @@ export abstract class GenericQueryService<
     if (columns.length > 0) {
       columns.forEach((column) => {
         queryBuilder.addSelect(
-          `${this.getBuilderAlias()}.${column}`,
+          `${this.builderAlias}.${column}`,
           columns[column],
         );
       });

@@ -6,6 +6,7 @@ import { Account } from '../../db/entities/account.entity';
 import { ApplicationResponse } from '../../types/application';
 import { EntityManager } from 'typeorm';
 import { ApplicationDtoQuery } from '../amr.model';
+
 @Injectable()
 export class AmrQueryService {
   constructor(private readonly entityManager: EntityManager) { }
@@ -101,8 +102,7 @@ export class AmrQueryService {
           "application.incidentsCount",
           "application.incidents",
         )
-        .leftJoin("application.owner", "owner")
-        .orderBy(sortBy, order);
+        .leftJoin("application.owner", "owner");
 
       if (search) {
         queryBuilder
@@ -114,10 +114,13 @@ export class AmrQueryService {
           });
       }
 
+      console.log({ sortBy, order })
+
       return await queryBuilder
-        .addSelect(["owner.name", "owner.email", "owner.id"])
+        .addSelect(["owner.name", "owner.email", "owner.id", "owner.gravatar"])
         .skip((page - 1) * take)
         .take(take)
+        .orderBy(`application.${sortBy}`, order)
         .getMany();
     } catch (error) {
       throw new Error(error);

@@ -6,7 +6,7 @@ import { RouteDescriptor } from "../types/navigation";
 const getPublicRoutes = (): RouteDescriptor[] => {
   return [
     {
-      path: "/login",
+      path: "/",
       component: Login
     },
     {

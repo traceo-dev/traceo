@@ -253,7 +253,7 @@ body {
   color: rgb(204, 204, 220);
   border: 1px solid rgba(204, 204, 220, 0.15);
   padding: 7px;
-  border-radius: 6px;
+  border-radius: 3px;
 }
 
 .details-table {

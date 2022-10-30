@@ -67,7 +67,7 @@ export const IncidentTable: FC<Props> = ({
                 <Avatar
                   shape="circle"
                   size="large"
-                  url={record?.assigned?.logo}
+                  url={record?.assigned?.gravatar}
                   name={record?.assigned?.name}
                 />
               </Space>

@@ -1,7 +1,7 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Space } from "antd";
 import { FC, useEffect } from "react";
-import { splitLine } from "../utils";
+import { splitLine, tooltipOptions } from "../utils";
 import { useApi } from "../../../lib/useApi";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
@@ -50,9 +50,7 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
       source: stats
     },
     animation: false,
-    tooltip: {
-      show: false
-    },
+    tooltip: tooltipOptions,
     grid: {
       left: "5px",
       right: "5px",

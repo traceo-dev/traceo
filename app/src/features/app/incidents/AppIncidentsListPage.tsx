@@ -24,6 +24,13 @@ import { BatchUpdateModal } from "../../../core/components/Modals/BatchUpdateMod
 import { DataNotFound } from "../../../core/components/DataNotFound";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 
+const handlIncidentSortName: Record<IncidentSortBy, string> = {
+  [IncidentSortBy.FIRST_SEEN]: "First seen",
+  [IncidentSortBy.LAST_SEEN]: "Last seen",
+  [IncidentSortBy.OCCUR_COUNT]: "Errors count",
+  [IncidentSortBy.STATUS]: "Status"
+};
+
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
 
@@ -68,7 +75,7 @@ export const AppIncidentsListPage = () => {
 
     return (
       <Dropdown overlay={statusContent} placement="bottom">
-        <Button>
+        <Button className="hover:bg-black hover:text-white focus:bg-black">
           <span>Status:</span>
           <span className="font-bold">&nbsp;{handleIncidentStatus[status]}</span>
         </Button>
@@ -79,16 +86,15 @@ export const AppIncidentsListPage = () => {
   const IncidentsSortDropdown = () => {
     const sortByContent = (
       <Menu className="w-52" onClick={(val) => setSortBy(val.key as IncidentSortBy)}>
-        <Menu.Item key={IncidentSortBy.LAST_SEEN}>Last seen</Menu.Item>
-        <Menu.Item key={IncidentSortBy.FIRST_SEEN}>First seen</Menu.Item>
-        <Menu.Item key={IncidentSortBy.STATUS}>Status</Menu.Item>
-        <Menu.Item key={IncidentSortBy.OCCUR_COUNT}>Occur count</Menu.Item>
+        {Object.values(IncidentSortBy).map((sort) => (
+          <Menu.Item key={sort}>{handlIncidentSortName[sort]}</Menu.Item>
+        ))}
       </Menu>
     );
 
     return (
       <Dropdown overlay={sortByContent} placement="bottom">
-        <Button>
+        <Button className="hover:bg-black hover:text-white focus:bg-black">
           <span>Sort by:</span>
           <span className="font-bold">&nbsp;{handleIncidentSort[sortBy]}</span>
         </Button>
@@ -100,7 +106,7 @@ export const AppIncidentsListPage = () => {
     <>
       <AppPage>
         <PagePanel title="Incidents">
-          <SearchWrapper>
+          <SearchWrapper className="pb-5">
             <SearchInput
               placeholder="Search incidents by type, message, status or assigned user"
               value={search}

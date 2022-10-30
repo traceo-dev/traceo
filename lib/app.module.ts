@@ -25,7 +25,8 @@ import { join } from 'path';
       useClass: TypeOrmConfigService
     }),
     ConfigModule.forRoot({
-      envFilePath: process.env.NODE_ENV === "development" ? '.env.development' : ""
+      ignoreEnvFile: process.env.NODE_ENV === "production",
+      envFilePath: '.env'
     }),
     ScheduleModule.forRoot(),
     AccountModule,

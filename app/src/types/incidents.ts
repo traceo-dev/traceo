@@ -58,7 +58,7 @@ export interface Incident {
   assigned: {
     id: string;
     name: string;
-    logo: string;
+    gravatar: string;
   };
   comments: Comment[];
   commentsCount?: number;

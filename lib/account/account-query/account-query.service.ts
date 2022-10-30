@@ -13,7 +13,7 @@ export class AccountQueryService extends GenericQueryService<
     super(entityManager, Account);
   }
 
-  public getBuilderAlias(): string {
+  public get builderAlias(): string {
     return 'account';
   }
 

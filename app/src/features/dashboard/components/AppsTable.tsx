@@ -14,9 +14,9 @@ import { loadApplications } from "../state/actions";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 
 export enum AppsSortBy {
-  LAST_UPDATE = "application.updatedAt",
-  CREATED_AT = "application.createdAt",
-  LAST_INCIDENT = "application.lastIncidentAt"
+  LAST_UPDATE = "updatedAt",
+  CREATED_AT = "createdAt",
+  LAST_INCIDENT = "lastIncidentAt"
 }
 
 export const handleAppSort: Record<AppsSortBy, string> = {
@@ -51,15 +51,15 @@ export const AppsTable = () => {
   const AppsSortDropdown = () => {
     const statusContent = (
       <Menu className="w-52" onClick={(val) => setSortBy(val.key as AppsSortBy)}>
-        <Menu.Item key={AppsSortBy.LAST_INCIDENT}>Last incident</Menu.Item>
-        <Menu.Item key={AppsSortBy.CREATED_AT}>Created at</Menu.Item>
-        <Menu.Item key={AppsSortBy.LAST_UPDATE}>Last update</Menu.Item>
+        {Object.values(AppsSortBy).map((sort) => (
+          <Menu.Item key={sort}>{handleAppSort[sort]}</Menu.Item>
+        ))}
       </Menu>
     );
 
     return (
       <Dropdown overlay={statusContent} placement="bottom">
-        <Button>
+        <Button className="hover:bg-black hover:text-white focus:bg-black">
           <span>Sort by:</span>
           <span className="font-bold">&nbsp;{handleAppSort[sortBy]}</span>
         </Button>

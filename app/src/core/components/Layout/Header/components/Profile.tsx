@@ -43,7 +43,7 @@ export const Profile = () => {
       <Typography.Text
         className={joinClasses(
           route.className,
-          "hover:text-cyan-500 cursor-pointer font-semibold"
+          "hover:text-gray-300 cursor-pointer font-semibold"
         )}
         onClick={() => (route.href ? navigate(route.href) : route.onClick())}
       >

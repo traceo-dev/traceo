@@ -43,7 +43,12 @@ export const AssignMemberPopover = ({ setVisible }) => {
         key={index}
         className="w-full main-hover p-2 rounded-md cursor-pointer"
       >
-        <Avatar shape="circle" size="small" name={member?.account?.name} />
+        <Avatar
+          shape="circle"
+          size="small"
+          url={member?.account?.gravatar}
+          name={member?.account?.name}
+        />
         <Typography className="text-xs">{member?.account?.name}</Typography>
       </Space>
     ))

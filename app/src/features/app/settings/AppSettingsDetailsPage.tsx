@@ -17,6 +17,7 @@ import { Permissions } from "../../../core/components/Permissions";
 import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { DescriptionInputRow, Descriptions } from "../../../core/components/Descriptions";
+import { slugifyForUrl } from "core/utils/stringUtils";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
@@ -27,7 +28,13 @@ export const AppSettingsDetailsPage = () => {
     return null;
   }
 
-  const onUpdateName = (name: string) => dispatch(updateAplication({ name }));
+  const onUpdateName = (name: string) => {
+    dispatch(updateAplication({ name }));
+
+    window.location.href = `/app/${application.id}/${slugifyForUrl(
+      name
+    )}/settings/details`;
+  };
 
   const remove = async () => {
     setLoadingDelete(true);

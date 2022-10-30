@@ -19,7 +19,11 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
-import { handleIncidentStatus, Incident, IncidentStatus } from "../../../../types/incidents";
+import {
+  handleIncidentStatus,
+  Incident,
+  IncidentStatus
+} from "../../../../types/incidents";
 import { StoreState } from "../../../../types/store";
 import { handleIncidentColor } from "../../../../core/components/IncidentStatusTag";
 import PageHeader from "../../../../core/components/PageHeader";
@@ -117,7 +121,7 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
                   <Avatar
                     shape="circle"
                     size="small"
-                    url={incident?.assigned?.logo}
+                    url={incident?.assigned?.gravatar}
                     name={incident?.assigned?.name}
                   />
                 }

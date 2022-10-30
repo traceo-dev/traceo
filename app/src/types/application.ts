@@ -58,7 +58,6 @@ export interface ApplicationMemberUpdateProps {
 export interface ApplicationMember {
   id: string;
   role: MemberRole;
-  // favorite: boolean;
   application: Application;
   account: Account;
 }
@@ -69,9 +68,8 @@ export interface CreateApplicationProps {
   technology: string;
 }
 
-export interface UpdateAccountApplicationProps {
+export type UpdateAccountApplicationProps = {
   id?: string;
-  favorite?: boolean;
 }
 
 export interface UpdateApplicationProps {
@@ -84,6 +82,5 @@ export interface SearchApplicationQueryParams {
   order?: SortOrder;
   sortBy?: string;
   search?: string;
-  favorite?: boolean;
   accountId?: string;
 }

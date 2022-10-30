@@ -18,6 +18,7 @@ import { HttpService } from "@nestjs/axios";
 import { RequestUser } from '../auth/auth.model';
 import dateUtils from '../helpers/dateUtils';
 import { gravatar } from '../libs/gravatar';
+import { ADMIN_EMAIL } from 'lib/helpers/constants';
 
 @Injectable()
 export class AccountService {
@@ -76,7 +77,7 @@ export class AccountService {
   ): Promise<void> {
     const { id, ...rest } = accountDto;
     try {
-      if (rest.email === "admin@localhost") {
+      if (rest.email === ADMIN_EMAIL) {
         throw new AdminAccountEditError();
       }
       // first we update user based on id from DTO, if this id is null then we use current accountId from request,

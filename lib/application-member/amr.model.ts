@@ -12,11 +12,7 @@ import {
 import { BaseDtoQuery } from "../core/generic.model";
 import { MemberRole } from "../db/entities/account-member-relationship.entity";
 
-export class ApplicationDtoQuery extends BaseDtoQuery {
-  @IsOptional()
-  @ApiPropertyOptional()
-  favorite?: boolean;
-}
+export class ApplicationDtoQuery extends BaseDtoQuery { }
 export class AddAccountToApplicationModel {
   @IsString()
   @IsNotEmpty()
@@ -44,8 +40,4 @@ export class UpdateAmrModel {
   @IsOptional()
   @ApiProperty()
   role: MemberRole;
-
-  @IsOptional()
-  @ApiProperty()
-  favorite: boolean;
 }

@@ -15,6 +15,9 @@ import { AccountQueryService } from '../account/account-query/account-query.serv
 import { Cron, CronExpression } from '@nestjs/schedule';
 import dayjs from 'dayjs';
 import { Log } from '../db/entities/log.entity';
+import { ADMIN_EMAIL } from 'lib/helpers/constants';
+
+const MAX_RETENTION_LOGS = 3;
 
 @Injectable()
 export class ApplicationService {
@@ -54,8 +57,8 @@ export class ApplicationService {
           .getRepository(Application)
           .save(applicationPayload);
 
-        if (email !== "admin@localhost") {
-          const admin = await this.accountQueryService.getDtoBy({ email: "admin@localhost" });
+        if (email !== ADMIN_EMAIL) {
+          const admin = await this.accountQueryService.getDtoBy({ email: ADMIN_EMAIL });
           await this.awrService.createAmr(
             admin,
             application,
@@ -85,13 +88,8 @@ export class ApplicationService {
     manager: EntityManager = this.entityManager,
   ): Promise<any> {
     const { id, ...rest } = appBody;
-    const { name } = rest;
 
     try {
-      if (name) {
-        await this.validate(name);
-      }
-
       await manager.getRepository(Application).update(
         { id },
         {
@@ -118,7 +116,7 @@ export class ApplicationService {
     appId: string,
     user: RequestUser,
   ): Promise<void> {
-    //check here permission, create util for this
+    //TODO: check here also permission
 
     await this.entityManager
       .getRepository(Application)
@@ -131,7 +129,7 @@ export class ApplicationService {
   @Cron(CronExpression.EVERY_6_HOURS)
   private async handleLogDelete() {
     try {
-      const maxRetentionDate = dayjs().subtract(3, 'd').unix();
+      const maxRetentionDate = dayjs().subtract(MAX_RETENTION_LOGS, 'd').unix();
       const logs = await this.entityManager.getRepository(Log)
         .createQueryBuilder('log')
         .where('log.receiveTimestamp > :maxRetentionDate', { maxRetentionDate })
@@ -139,7 +137,7 @@ export class ApplicationService {
 
       await this.entityManager.getRepository(Log).remove(logs);
 
-      Logger.log(`[handleLogDelete] Delete logs: ${logs.length}`);
+      Logger.log(`[handleLogDelete] Deleted logs: ${logs.length}`);
     } catch (error) {
       throw new Error(error);
     }

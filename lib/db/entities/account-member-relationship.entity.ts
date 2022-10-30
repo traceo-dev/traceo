@@ -26,12 +26,6 @@ export class AccountMemberRelationship extends GenericEntity {
   })
   role: MemberRole;
 
-  @Column({
-    default: false,
-    type: "boolean",
-  })
-  favorite: boolean;
-
   @ManyToOne(() => Account, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE",

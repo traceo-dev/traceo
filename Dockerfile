@@ -52,7 +52,7 @@ COPY --from=app-builder /traceo/build ./app
 COPY --from=server-builder /traceo/dist ./dist
 COPY --from=server-builder /traceo/node_modules ./node_modules
 
-EXPOSE 8080
+EXPOSE 3000
 
 COPY ./scripts/run.sh /run.sh
 

@@ -16,7 +16,7 @@ export class ApplicationQueryService extends GenericQueryService<
     super(entityManager, Application);
   }
 
-  public getBuilderAlias(): string {
+  public get builderAlias(): string {
     return 'application';
   }
 

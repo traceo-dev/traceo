@@ -20,7 +20,7 @@ export class IncidentsQueryService extends GenericQueryService<
       .where("incident.id = :id", { id })
       .leftJoin("incident.assigned", "assigned")
       .loadRelationCountAndMap("incident.commentsCount", "incident.comments")
-      .addSelect(["assigned.name", "assigned.email", "assigned.id"])
+      .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.gravatar"])
       .getOne();
   }
 
@@ -34,14 +34,14 @@ export class IncidentsQueryService extends GenericQueryService<
       .where("incident.applicationId = :appId", { appId })
       .leftJoin("incident.assigned", "assigned")
       .loadRelationCountAndMap("incident.commentsCount", "incident.comments")
-      .addSelect(["assigned.name", "assigned.email", "assigned.id"]);
+      .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.gravatar"]);
 
     this.commonQuery(builder, query);
 
     return builder;
   }
 
-  public getBuilderAlias(): string {
+  public get builderAlias(): string {
     return "incident";
   }
 
