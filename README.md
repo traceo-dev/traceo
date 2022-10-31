@@ -9,6 +9,7 @@ Traceo is a toolkit to monitor application.
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-3.PNG" width="270">
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-4.PNG" width="270">
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-5.PNG" width="270">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-6.PNG" width="270">
 </p>
 
 # SDK
