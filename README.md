@@ -1,6 +1,5 @@
 # Traceo
-
-Traceo is a simple but powerfull developer tool to catch every bugs and exceptions in your software. Integrated with our package in 15 minutes and and keep all problems under control.
+Traceo is a toolkit to monitor application.
 
 # Screenshots
 
@@ -12,30 +11,18 @@ Traceo is a simple but powerfull developer tool to catch every bugs and exceptio
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-5.PNG" width="270">
 </p>
 
-# Traceo SDK
-
-- [NodeJS](https://github.com/traceo-io/traceo-node)
+# SDK
+To start using the Traceo platform, you need to integrate with the [Traceo SDK](https://github.com/traceo-io/traceo-node), which will start monitoring the status of your application.
 
 # Installation
+At this point, the installation of the Traceo platform is done using the docker image only.
 
-Run docker image:
+To pull or run already existing docker image:
 ```
 docker run -d --name=traceo -p 8080:8080 traceo/traceo
 ```
-
-Run docker image on custom port:
+If you want to use custom `port` then you shuld use:
 ```
-docker run -d --name -traceo -p <PORT>:8080 traceo/traceo
+docker run -d --name=traceo -p <port>:8080 traceo/traceo
 ```
-
-<!-- # Development
-
-Build docker image (from project root):
-```
-sh scripts/build.sh
-```
-
-Default tag is set to `latest`, to use custom tag:
-```
-sh scripts/build.sh <tag>
-``` -->
+Default user is `admin/admin`. We strongly recommend to change the administrator account password immediately after first login.
