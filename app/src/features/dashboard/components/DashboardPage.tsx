@@ -32,13 +32,13 @@ export const DashboardPage = ({ children }) => {
       href: "/dashboard/account/settings",
       label: "Account",
       adminRoute: false
-    },
-    {
-      key: "updates",
-      href: "/dashboard/updates",
-      label: "Updates",
-      adminRoute: false
     }
+    // {
+    //   key: "updates",
+    //   href: "/dashboard/updates",
+    //   label: "Updates",
+    //   adminRoute: false
+    // }
   ];
 
   const restrictedRoutes = () =>

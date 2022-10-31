@@ -21,7 +21,7 @@ export function configureApi() {
         localStorage.clear();
         sessionStorage.clear();
         notify.error("Your session timed out. Please log in again");
-        window.location.href = "/login";
+        window.location.href = "/";
         return error.response?.data;
       }
 

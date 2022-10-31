@@ -10,6 +10,9 @@ import { dispatch } from "../../../../store/store";
 import { CONNECTION_STATUS, InfluxDS } from "../../../../types/tsdb";
 import { StoreState } from "../../../../types/store";
 import { REQUIRED_FIELD_ERROR } from "../../../../core/utils/constants";
+import validators from "core/lib/validators";
+import { loadDataSource } from "../state/settings/actions";
+import { useParams } from "react-router-dom";
 
 interface Props {
   dataSource: object;
@@ -24,11 +27,16 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
   }
 
   const { application } = useSelector((state: StoreState) => state.application);
+  // const { dataSource } = useSelector((state: StoreState) => state.settings);
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const isDeleteDSBtn = !!application.connectedTSDB;
 
   const [form] = Form.useForm();
+
+  // useEffect(() => {
+  //   dispatch(loadDataSource(id));
+  // }, []);
 
   useEffect(() => {
     const { bucket, org, url, token } = dataSource as InfluxDS;
@@ -85,7 +93,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
           label="URL"
           name="url"
           requiredMark={"optional"}
-          rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
+          rules={[{ required: true, message: REQUIRED_FIELD_ERROR }, ...validators.url]}
         >
           <Input placeholder="http://localhost:8086/" />
         </Form.Item>

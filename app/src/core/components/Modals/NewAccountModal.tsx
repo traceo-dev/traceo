@@ -55,7 +55,7 @@ export const NewAccountModal = ({ isOpen, onCancel }) => {
               name="email"
               label="Email address"
               className="text-xs mb-5 font-semibold"
-              rules={[{ required: false, ...validators.email }]}
+              rules={[{ required: false }, ...validators.email]}
             >
               <Input />
             </Form.Item>
@@ -67,9 +67,9 @@ export const NewAccountModal = ({ isOpen, onCancel }) => {
               rules={[
                 {
                   required: true,
-                  message: REQUIRED_FIELD_ERROR,
-                  ...validators.password
-                }
+                  message: REQUIRED_FIELD_ERROR
+                },
+                ...validators.password
               ]}
             >
               <Input.Password type="Password" />

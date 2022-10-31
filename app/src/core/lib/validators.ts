@@ -12,9 +12,17 @@ const password = [
   }
 ];
 
+const url = [
+  {
+    pattern: /^((https|http):\/\/.*):?(\d*)\/?(.*)/,
+    message: "This url is invalid."
+  }
+]
+
 const validators = {
   email,
-  password
+  password,
+  url
 };
 
 export default validators;

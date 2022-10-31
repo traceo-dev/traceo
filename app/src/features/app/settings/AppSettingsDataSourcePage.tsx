@@ -1,4 +1,3 @@
-import { LoadingOutlined } from "@ant-design/icons";
 import { Space, Typography, Select } from "antd";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { PagePanel } from "../../../core/components/PagePanel";
@@ -11,6 +10,7 @@ import AppSettingsNavigationPage from "../../../features/app/settings/components
 import { StoreState } from "../../../types/store";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
 import { loadDataSource } from "./state/settings/actions";
+import { loadApplication } from "../state/actions";
 
 interface DataSourceSelectOption {
   label: string;
@@ -22,11 +22,16 @@ export const AppSettingsDataSourcePage = () => {
   const { application } = useSelector((state: StoreState) => state.application);
   const { dataSource, hasFetched } = useSelector((state: StoreState) => state.settings);
 
-  const [selectedDS, setSelectedDS] = useState<TSDB>(application?.connectedTSDB || null);
+  const [selectedDS, setSelectedDS] = useState<TSDB>(null);
 
   useEffect(() => {
+    dispatch(loadApplication(id));
     dispatch(loadDataSource(id));
   }, []);
+
+  useEffect(() => {
+    setSelectedDS(application?.connectedTSDB);
+  }, [application]);
 
   const dataSources: DataSourceSelectOption[] = [
     {
@@ -58,9 +63,9 @@ export const AppSettingsDataSourcePage = () => {
                 placeholder="Select data source provider"
                 value={selectedDS}
                 onSelect={(a) => setSelectedDS(a)}
-                disabled={!!application.connectedTSDB}
+                disabled={application && !!application.connectedTSDB}
               >
-                {dataSources.map(({ description, key, label }) => (
+                {dataSources?.map(({ description, key, label }) => (
                   <Select.Option key={key}>
                     <Space direction="vertical" className="w-full gap-0">
                       <Typography.Text>{label}</Typography.Text>
@@ -72,15 +77,9 @@ export const AppSettingsDataSourcePage = () => {
                 ))}
               </Select>
             </Space>
-
-            {selectedDS === TSDB.INFLUX2 &&
-              (hasFetched ? (
-                <DataSourceInflux2Form dataSource={dataSource} />
-              ) : (
-                <Space className="w-full justify-center">
-                  <LoadingOutlined />
-                </Space>
-              ))}
+            {hasFetched && selectedDS === TSDB.INFLUX2 && (
+              <DataSourceInflux2Form dataSource={dataSource} />
+            )}
           </Space>
         </ColumnSection>
       </PagePanel>

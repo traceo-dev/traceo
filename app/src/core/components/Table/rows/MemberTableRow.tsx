@@ -74,7 +74,6 @@ export const MemberTableRow: FC<MemberRowProps> = ({
               url={item[type]?.gravatar}
               name={item[type]?.name}
             />
-
             {item[type].name}
           </Row>
         </td>
