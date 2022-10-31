@@ -27,23 +27,23 @@ const UpdateButtons: FC<UpdateButtonsProps> = ({
   setUpdateMode,
   updateMode
 }) => {
+  if (!updateMode) {
+    return (
+      <Button onClick={() => setUpdateMode(true)} htmlType="submit" type="primary">
+        Update
+      </Button>
+    );
+  }
+
   return (
-    <td className="action">
-      {!updateMode ? (
-        <Button onClick={() => setUpdateMode(true)} htmlType="submit" type="primary">
-          Update
-        </Button>
-      ) : (
-        <Space>
-          <Button type="primary" onClick={() => onFinish()}>
-            Save
-          </Button>
-          <Button type="primary" ghost onClick={() => setUpdateMode(false)}>
-            Cancel
-          </Button>
-        </Space>
-      )}
-    </td>
+    <Space>
+      <Button type="primary" onClick={() => onFinish()}>
+        Save
+      </Button>
+      <Button type="primary" ghost onClick={() => setUpdateMode(false)}>
+        Cancel
+      </Button>
+    </Space>
   );
 };
 
@@ -75,7 +75,7 @@ export const DescriptionRow: FC<DescriptionRowProps> = ({
 
 interface DescriptionInputRowProps {
   label: string;
-  children: string | number;
+  children: any | JSX.Element;
   onUpdate?: (value: string) => void;
   editable?: boolean;
 }
@@ -107,13 +107,15 @@ export const DescriptionInputRow: FC<DescriptionInputRowProps> = ({
             <Typography.Text className="text-sm font-normal">{children}</Typography.Text>
           )}
         </td>
-        {editable && (
-          <UpdateButtons
-            onFinish={onFinish}
-            setUpdateMode={setUpdateMode}
-            updateMode={updateMode}
-          />
-        )}
+        <td className="action">
+          {editable && (
+            <UpdateButtons
+              onFinish={onFinish}
+              setUpdateMode={setUpdateMode}
+              updateMode={updateMode}
+            />
+          )}
+        </td>
       </tr>
     </>
   );
@@ -162,13 +164,15 @@ export const DescriptionRadioRow: FC<DescriptionRadioRowProps> = ({
             <Typography.Text className="text-sm font-normal">{children}</Typography.Text>
           )}
         </td>
-        {editable && (
-          <UpdateButtons
-            onFinish={onFinish}
-            setUpdateMode={setUpdateMode}
-            updateMode={updateMode}
-          />
-        )}
+        <td className="action">
+          {editable && (
+            <UpdateButtons
+              onFinish={onFinish}
+              setUpdateMode={setUpdateMode}
+              updateMode={updateMode}
+            />
+          )}
+        </td>
       </tr>
     </>
   );

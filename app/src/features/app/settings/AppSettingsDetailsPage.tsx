@@ -59,12 +59,21 @@ export const AppSettingsDetailsPage = () => {
     <AppSettingsNavigationPage>
       <PagePanel title="Basic Informations">
         <Descriptions>
+          <DescriptionInputRow label="ID" editable={false}>
+            {application?.id}
+          </DescriptionInputRow>
           <DescriptionInputRow
             label="Name"
             onUpdate={onUpdateName}
             editable={application?.member?.role !== MemberRole.VIEWER}
           >
             {application?.name}
+          </DescriptionInputRow>
+          <DescriptionInputRow label="Created by" editable={false}>
+            <span>
+              {application?.owner?.name}
+              {application?.owner?.email && application?.owner?.email}
+            </span>
           </DescriptionInputRow>
         </Descriptions>
       </PagePanel>

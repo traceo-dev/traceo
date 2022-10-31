@@ -15,7 +15,6 @@ export const MetricsHeader: FC<Props> = ({ hrCount, setHrCount, loading, execute
   const { application } = useSelector((state: StoreState) => state.application);
   const isConnected = application?.influxDS?.connStatus === CONNECTION_STATUS.CONNECTED;
   return (
-    // <PagePanel title="Criteria">
     <Space className="w-full justify-end">
       {isConnected && (
         <Space>
@@ -39,6 +38,5 @@ export const MetricsHeader: FC<Props> = ({ hrCount, setHrCount, loading, execute
         </Space>
       )}
     </Space>
-    // </PagePanel>
   );
 };
