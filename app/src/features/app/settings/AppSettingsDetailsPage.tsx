@@ -17,7 +17,7 @@ import { Permissions } from "../../../core/components/Permissions";
 import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { DescriptionInputRow, Descriptions } from "../../../core/components/Descriptions";
-import { slugifyForUrl } from "core/utils/stringUtils";
+import { slugifyForUrl } from "../../../core/utils/stringUtils";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();

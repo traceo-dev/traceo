@@ -114,8 +114,6 @@ export class AmrQueryService {
           });
       }
 
-      console.log({ sortBy, order })
-
       return await queryBuilder
         .addSelect(["owner.name", "owner.email", "owner.id", "owner.gravatar"])
         .skip((page - 1) * take)

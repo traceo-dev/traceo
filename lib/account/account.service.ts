@@ -18,7 +18,7 @@ import { HttpService } from "@nestjs/axios";
 import { RequestUser } from '../auth/auth.model';
 import dateUtils from '../helpers/dateUtils';
 import { gravatar } from '../libs/gravatar';
-import { ADMIN_EMAIL } from 'lib/helpers/constants';
+import { ADMIN_EMAIL } from '../helpers/constants';
 
 @Injectable()
 export class AccountService {

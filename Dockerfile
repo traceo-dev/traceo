@@ -54,6 +54,6 @@ COPY --from=server-builder /traceo/node_modules ./node_modules
 
 EXPOSE 3000
 
-COPY ./scripts/run.sh /run.sh
+COPY ./scripts/docker/run.sh /run.sh
 
 ENTRYPOINT [ "/run.sh" ]

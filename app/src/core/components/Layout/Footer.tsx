@@ -1,9 +1,10 @@
 import { Layout, Row, Typography } from "antd";
+import { CONTACT_EMAIL, VERSION } from "../../../core/utils/constants";
 
 export const Footer = () => {
   const { Footer: AntFooter } = Layout;
 
-  const onOpen = () => window.open("mailto:piotr.szewczyk.software@gmail.com");
+  const onOpen = () => window.open(`mailto:${CONTACT_EMAIL}`);
 
   return (
     <>
@@ -12,13 +13,10 @@ export const Footer = () => {
           <Typography.Text className="text-primary pipe">
             © {new Date().getFullYear()} Traceo Cloud
           </Typography.Text>
-          {/* <Typography.Text className="text-primary pipe">Feedback</Typography.Text> */}
           <Typography.Text onClick={onOpen} className="text-primary pipe cursor-pointer">
             Contact
           </Typography.Text>
-          <Typography.Text className="text-primary">
-            v.{process.env.REACT_APP_VERSION}
-          </Typography.Text>
+          <Typography.Text className="text-primary">v.{VERSION}</Typography.Text>
         </Row>
       </AntFooter>
       <style>{`

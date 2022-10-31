@@ -15,7 +15,7 @@ import { AccountQueryService } from '../account/account-query/account-query.serv
 import { Cron, CronExpression } from '@nestjs/schedule';
 import dayjs from 'dayjs';
 import { Log } from '../db/entities/log.entity';
-import { ADMIN_EMAIL } from 'lib/helpers/constants';
+import { ADMIN_EMAIL } from '../helpers/constants';
 
 const MAX_RETENTION_LOGS = 3;
 

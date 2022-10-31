@@ -4,7 +4,7 @@ import { InfluxDS } from '../db/entities/influxds.entity';
 import { Application } from '../db/entities/application.entity';
 import { MetricsQueryDto, MetricsResponse, TSDB } from '../types/tsdb';
 import { InfluxService } from './influx/influx.service';
-import { ApplicationNotExistsError } from 'lib/helpers/errors';
+import { ApplicationNotExistsError } from '../helpers/errors';
 
 @Injectable()
 export class DataSourceService {
