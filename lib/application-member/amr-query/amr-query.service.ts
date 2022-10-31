@@ -116,9 +116,9 @@ export class AmrQueryService {
 
       return await queryBuilder
         .addSelect(["owner.name", "owner.email", "owner.id", "owner.gravatar"])
+        .orderBy(`application.${sortBy || "lastIncidentAt"}`, order)
         .skip((page - 1) * take)
-        .take(take)
-        .orderBy(`application.${sortBy}`, order)
+        .limit(take)
         .getMany();
     } catch (error) {
       throw new Error(error);

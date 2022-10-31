@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ApplicationModule } from './application/application.module';
 import { AuthModule } from './auth/auth.module';
-import { ConfigModule } from '@nestjs/config';
 import { AccountModule } from './account/account.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -23,10 +22,6 @@ import { join } from 'path';
     AuthModule,
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService
-    }),
-    ConfigModule.forRoot({
-      ignoreEnvFile: process.env.NODE_ENV === "production",
-      envFilePath: '.env'
     }),
     ScheduleModule.forRoot(),
     AccountModule,

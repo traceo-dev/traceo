@@ -15,11 +15,18 @@ import { InsertAdminUserOnStartup } from './migrations/InsertAdminUserOnStartup'
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
 
+    const commonOptions: TypeOrmModuleOptions = {
+      migrations: [InsertAdminUserOnStartup],
+      migrationsTransactionMode: "each",
+      migrationsRun: true,
+      logging: false,
+      autoLoadEntities: true
+    };
+
     if (!process.env.PG_HOST) {
-      return {
+      return Object.assign(commonOptions, {
         type: "sqlite",
         database: "traceo_sqlite_db",
-        synchronize: true,
         entities: [
           Account,
           AccountMemberRelationship,
@@ -29,29 +36,18 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           Log,
           Runtime,
           InfluxDS
-        ],
-        migrations: [InsertAdminUserOnStartup],
-        migrationsTransactionMode: "each",
-        migrationsRun: true,
-        logging: false,
-        autoLoadEntities: true
-      }
+        ]
+      })
     }
 
-    return {
+    return Object.assign(commonOptions, {
       type: "postgres",
       host: process.env.PG_HOST,
       port: +process.env.PG_PORT,
       username: process.env.PG_USER,
       database: process.env.PG_DB_NAME,
       password: process.env.PG_PASS,
-      entities: [join(__dirname, "entities/*.entity.{js,ts}")],
-      migrations: [InsertAdminUserOnStartup],
-      migrationsTransactionMode: "each",
-      migrationsRun: true,
-      // synchronize: true,
-      logging: false,
-      autoLoadEntities: true
-    };
+      entities: [join(__dirname, "entities/*.entity.{js,ts}")]
+    });
   }
 }

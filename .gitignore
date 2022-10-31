@@ -43,3 +43,5 @@ lerna-debug.log*
 *.lock
 
 *.tgz
+
+traceo_sqlite_db
