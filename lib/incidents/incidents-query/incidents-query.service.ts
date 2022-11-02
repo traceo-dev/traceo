@@ -72,7 +72,7 @@ export class IncidentsQueryService extends GenericQueryService<
     this.commonQuery(queryBuilder, query);
 
     queryBuilder
-      .orderBy(`incident.${sortBy}`, order)
+      .orderBy(`incident.${sortBy}`, order, "NULLS LAST")
       .limit(size)
       .skip(page > 0 ? (page - 1) * take : 0);
 

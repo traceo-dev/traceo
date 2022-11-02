@@ -92,9 +92,9 @@ export const AppSwitcher = () => {
               size="small"
               withName={true}
             />
-            <Tag className="border-orange-500 rounded-full bg-transparent text-orange-500 font-medium">
+            {/* <Tag className="border-orange-500 rounded-full bg-transparent text-orange-500 font-medium">
               Preview
-            </Tag>
+            </Tag> */}
           </Space>
         )}
       </Space>

@@ -18,7 +18,7 @@ export const AuthLayout: FC<Props> = ({ children, title, subtitle }) => {
               direction="vertical"
               className="justify-center w-full items-center pb-4 mt-5"
             >
-              <TraceoLogo size="medium" withName={true} />
+              <TraceoLogo size="medium" />
 
               {title && (
                 <Typography className="font-semibold pb-5 text-3xl">{title}</Typography>

@@ -55,7 +55,7 @@ export abstract class GenericQueryService<
     if (sortBy && order) {
       queryBuilder.orderBy(
         `${this.builderAlias}.${sortBy}`,
-        order || "DESC",
+        order || "DESC", "NULLS LAST"
       );
     }
 

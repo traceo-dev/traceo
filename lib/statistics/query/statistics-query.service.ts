@@ -24,7 +24,7 @@ export class StatisticsQueryService {
         .getRepository(Incident)
         .createQueryBuilder("incident")
         .where("incident.applicationId = :id", { id })
-        .orderBy("incident.createdAt", "DESC")
+        .orderBy("incident.createdAt", "DESC", "NULLS LAST")
         .select(["incident.occurDates", "incident.occuredCount"])
         .getMany();
 
@@ -82,7 +82,7 @@ export class StatisticsQueryService {
     const todayIncidents = cachedDates.filter((d) => dayjs.unix(d.date).isToday())
 
     let totalTodayIncidentsCount = 0;
-    
+
     for (let i = 0; i <= 24; i++) {
       const count = todayIncidents.filter(
         (o) =>

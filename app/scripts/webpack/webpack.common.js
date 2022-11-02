@@ -82,9 +82,18 @@ module.exports = {
         use: "raw-loader"
       },
       {
-        test: /\.(svg|ico|jpg|jpeg|png|PNG|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/,
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: { name: "assets/fonts/[name].[ext]" }
+          }
+        ]
+      },
+      {
+        test: /\.(svg|ico|jpg|jpeg|png|PNG|gif|eot|otf|webp|ttf|cur|ani|pdf)(\?.*)?$/,
         loader: "file-loader",
-        options: { name: "static/img/[name].[contenthash:8].[ext]" }
+        options: { name: "assets/[name].[ext]" }
       }
     ]
   },
@@ -94,6 +103,7 @@ module.exports = {
       chunks: "all",
       minChunks: 1,
       cacheGroups: {
+        // TODO: to think about some libs from node_modules, maybe antd?
         defaultVendors: {
           test: /[\\/]node_modules[\\/].*[jt]sx?$/,
           chunks: "initial",

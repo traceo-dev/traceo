@@ -5,12 +5,13 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { dispatch } from "../../../store/store";
-import { TSDB } from "../../../types/application";
+import { MemberRole, TSDB } from "../../../types/application";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
 import { StoreState } from "../../../types/store";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
 import { loadDataSource } from "./state/settings/actions";
 import { loadApplication } from "../state/actions";
+import { useMemberRole } from "../../../core/hooks/useMemberRole";
 
 interface DataSourceSelectOption {
   label: string;
@@ -21,6 +22,7 @@ export const AppSettingsDataSourcePage = () => {
   const { id } = useParams();
   const { application } = useSelector((state: StoreState) => state.application);
   const { dataSource, hasFetched } = useSelector((state: StoreState) => state.settings);
+  const { isViewer } = useMemberRole();
 
   const [selectedDS, setSelectedDS] = useState<TSDB>(null);
 
@@ -39,12 +41,10 @@ export const AppSettingsDataSourcePage = () => {
       description: "High-speed read and write database. Supported in version +1.8.",
       key: TSDB.INFLUX2
     }
-    // {
-    //   label: "Prometheus",
-    //   description: "Open source time series database.",
-    //   key: TSDB.PROMETHEUS
-    // }
   ];
+
+  const isDisabled = () =>
+    isViewer || (application && !!application.connectedTSDB) ? true : false;
 
   return (
     <AppSettingsNavigationPage>
@@ -56,27 +56,25 @@ export const AppSettingsDataSourcePage = () => {
           collection in this app."
         >
           <Space className="w-2/3" direction="vertical">
-            <Space className="w-full" direction="vertical">
-              <Typography.Text>Data Source</Typography.Text>
-              <Select
-                className="w-full"
-                placeholder="Select data source provider"
-                value={selectedDS}
-                onSelect={(a) => setSelectedDS(a)}
-                disabled={application && !!application.connectedTSDB}
-              >
-                {dataSources?.map(({ description, key, label }) => (
-                  <Select.Option key={key}>
-                    <Space direction="vertical" className="w-full gap-0">
-                      <Typography.Text>{label}</Typography.Text>
-                      <Typography.Text className="text-xs text-gray-400 font-normal">
-                        {description}
-                      </Typography.Text>
-                    </Space>
-                  </Select.Option>
-                ))}
-              </Select>
-            </Space>
+            <Typography.Text>Data Source</Typography.Text>
+            <Select
+              className="w-full"
+              placeholder="Select data source provider"
+              value={selectedDS}
+              onSelect={(a) => setSelectedDS(a)}
+              disabled={isDisabled()}
+            >
+              {dataSources?.map(({ description, key, label }) => (
+                <Select.Option key={key}>
+                  <Space direction="vertical" className="w-full gap-0">
+                    <Typography.Text>{label}</Typography.Text>
+                    <Typography.Text className="text-xs text-gray-400 font-normal">
+                      {description}
+                    </Typography.Text>
+                  </Space>
+                </Select.Option>
+              ))}
+            </Select>
             {hasFetched && selectedDS === TSDB.INFLUX2 && (
               <DataSourceInflux2Form dataSource={dataSource} />
             )}

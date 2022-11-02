@@ -38,16 +38,9 @@ export class AmrQueryService {
     const { order, take, search, page } = pageOptionsDto;
     const queryBuilder = this.entityManager
       .getRepository(AccountMemberRelationship)
-      .createQueryBuilder('accountApplicationRelationship')
-      .innerJoin(
-        'accountApplicationRelationship.application',
-        'app',
-        'app.id = :appId',
-        {
-          appId,
-        },
-      )
-      .leftJoin('accountApplicationRelationship.account', 'account');
+      .createQueryBuilder('amr')
+      .innerJoin('amr.application', 'app', 'app.id = :appId', { appId })
+      .leftJoin('amr.account', 'account');
 
     if (search) {
       queryBuilder.where("LOWER(account.name) LIKE LOWER(:name)", {
@@ -62,7 +55,7 @@ export class AmrQueryService {
         "account.id",
         "account.gravatar",
       ])
-      .orderBy("accountApplicationRelationship.createdAt", order)
+      .orderBy("amr.createdAt", order, "NULLS LAST")
       .skip((page - 1) * take)
       .take(take);
 
@@ -82,47 +75,30 @@ export class AmrQueryService {
     pageOptionsDto: ApplicationDtoQuery
   ): Promise<AccountMemberRelationship[]> {
     const { page, take, order, search, sortBy } = pageOptionsDto;
-    try {
-      const queryBuilder = this.entityManager
-        .getRepository(AccountMemberRelationship)
-        .createQueryBuilder("accountApplicationRelationship")
-        .innerJoin(
-          "accountApplicationRelationship.account",
-          "account",
-          "account.id = :accountId",
-          {
-            accountId,
-          },
-        )
-        .leftJoinAndSelect(
-          "accountApplicationRelationship.application",
-          "application",
-        )
-        .loadRelationCountAndMap(
-          "application.incidentsCount",
-          "application.incidents",
-        )
-        .leftJoin("application.owner", "owner");
+    const queryBuilder = this.entityManager
+      .getRepository(AccountMemberRelationship)
+      .createQueryBuilder("amr")
+      .innerJoin("amr.account", "account", "account.id = :accountId", { accountId })
+      .leftJoinAndSelect("amr.application", "application")
+      .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
+      .leftJoin("application.owner", "owner");
 
-      if (search) {
-        queryBuilder
-          .where("LOWER(application.name) LIKE LOWER(:name)", {
-            name: `%${search}%`
-          })
-          .orWhere("LOWER(owner.name) LIKE LOWER(:name)", {
-            name: `%${search}%`
-          });
-      }
-
-      return await queryBuilder
-        .addSelect(["owner.name", "owner.email", "owner.id", "owner.gravatar"])
-        .orderBy(`application.${sortBy || "lastIncidentAt"}`, order)
-        .skip((page - 1) * take)
-        .limit(take)
-        .getMany();
-    } catch (error) {
-      throw new Error(error);
+    if (search) {
+      queryBuilder
+        .where("LOWER(application.name) LIKE LOWER(:name)", {
+          name: `%${search}%`
+        })
+        .orWhere("LOWER(owner.name) LIKE LOWER(:name)", {
+          name: `%${search}%`
+        });
     }
+
+    return await queryBuilder
+      .addSelect(["owner.name", "owner.email", "owner.id", "owner.gravatar"])
+      .orderBy(`application.${sortBy || "lastIncidentAt"}`, order, "NULLS LAST")
+      .skip((page - 1) * take)
+      .limit(take)
+      .getMany();
   }
 
   public async awrExists(
@@ -131,14 +107,8 @@ export class AmrQueryService {
   ): Promise<boolean> {
     const count = await manager
       .getRepository(AccountMemberRelationship)
-      .createQueryBuilder("accountApplicationRelationship")
-      .where(
-        'accountApplicationRelationship.account = :accountId AND accountApplicationRelationship.application = :applicationId',
-        {
-          accountId,
-          applicationId,
-        },
-      )
+      .createQueryBuilder("amr")
+      .where('amr.account = :accountId AND amr.application = :applicationId', { accountId, applicationId })
       .getCount();
     return count > 0;
   }
@@ -151,18 +121,10 @@ export class AmrQueryService {
 
     const applicationQuery = await this.entityManager
       .getRepository(AccountMemberRelationship)
-      .createQueryBuilder("accountApplicationRelationship")
-      .where('accountApplicationRelationship.application = :appId', { appId })
-      .innerJoin(
-        "accountApplicationRelationship.account",
-        "account",
-        "account.id = :id",
-        { id },
-      )
-      .innerJoinAndSelect(
-        "accountApplicationRelationship.application",
-        "application",
-      )
+      .createQueryBuilder("amr")
+      .where('amr.application = :appId', { appId })
+      .innerJoin("amr.account", "account", "account.id = :id", { id })
+      .innerJoinAndSelect("amr.application", "application")
       .innerJoinAndSelect("application.owner", "owner")
       .leftJoinAndSelect("application.influxDS", "influxDS")
       .getOne();

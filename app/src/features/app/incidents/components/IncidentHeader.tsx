@@ -29,6 +29,8 @@ import { handleIncidentColor } from "../../../../core/components/IncidentStatusT
 import PageHeader from "../../../../core/components/PageHeader";
 import { notify } from "../../../../core/utils/notify";
 import { updateIncident } from "../state/actions";
+import { Permissions } from "../../../../core/components/Permissions";
+import { MemberRole } from "../../../../types/application";
 
 export const IncidentHeader = ({ incident, onExecute }) => {
   const refresh = () => {
@@ -139,14 +141,16 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
             )}
           </Space>
         </Popover>
-        <Confirm
-          onOk={remove}
-          description="Are you sure you want to delete this incident?"
-        >
-          <Button type="primary" icon={<ScissorOutlined />} danger className="text-xs">
-            Delete
-          </Button>
-        </Confirm>
+        <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+          <Confirm
+            onOk={remove}
+            description="Are you sure you want to delete this incident?"
+          >
+            <Button type="primary" icon={<ScissorOutlined />} danger className="text-xs">
+              Delete
+            </Button>
+          </Confirm>
+        </Permissions>
       </Space>
     </Space>
   );

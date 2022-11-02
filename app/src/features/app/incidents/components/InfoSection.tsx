@@ -1,9 +1,8 @@
-import { Space } from "antd";
-import { RowDetail } from "../../../../core/components/RowDetail";
 import dateUtils from "../../../../core/utils/date";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
+import { DescriptionInputRow, Descriptions } from "../../../../core/components/Descriptions";
 
 export const InfoSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
@@ -11,21 +10,17 @@ export const InfoSection = () => {
   return (
     <>
       <PagePanel title="Info">
-        <Space className="w-2/3">
-          <RowDetail
-            label={"Catched at"}
-            value={dateUtils.formatDateTime(incident?.createdAt)}
-          />
-          <RowDetail
-            label={"Last error"}
-            value={dateUtils.formatDateTime(incident?.lastOccur)}
-            className="pl-24"
-          />
-        </Space>
-
-        <Space className="w-2/3">
-          <RowDetail label={"Number of errors"} value={incident?.occuredCount} />
-        </Space>
+        <Descriptions>
+          <DescriptionInputRow label="Catched at" editable={false}>
+            {dateUtils.formatDateTime(incident?.createdAt)}
+          </DescriptionInputRow>
+          <DescriptionInputRow label="Last error" editable={false}>
+            {dateUtils.formatDateTime(incident?.lastOccur)}
+          </DescriptionInputRow>
+          <DescriptionInputRow label="Number of errors" editable={false}>
+            {incident?.occuredCount}
+          </DescriptionInputRow>
+        </Descriptions>
       </PagePanel>
     </>
   );

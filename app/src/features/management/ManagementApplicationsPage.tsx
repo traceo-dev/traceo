@@ -12,8 +12,8 @@ import { StoreState } from "../../types/store";
 import { ApplicationsTable } from "./components/ApplicationManagement/ApplicationsTable";
 import { ManagementNavigation } from "./components/ManagementNavigation";
 import { loadServerApplications } from "./state/applications/actions";
-import { ConditionLayout } from "core/components/ConditionLayout";
-import { DataNotFound } from "core/components/DataNotFound";
+import { ConditionLayout } from "../../core/components/ConditionLayout";
+import { DataNotFound } from "../../core/components/DataNotFound";
 
 export const ManagementApplicationsPage = () => {
   const { applications, hasFetched } = useSelector(

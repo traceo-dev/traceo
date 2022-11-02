@@ -11,6 +11,14 @@ import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { FC, useState } from "react";
 import { TraceoLog, LogLevel } from "../../../../types/logs";
 
+const handleLogLevel: Record<LogLevel, JSX.Element> = {
+  [LogLevel.Info]: <InfoCircleOutlined className="text-blue-500" />,
+  [LogLevel.Debug]: <BugOutlined className="text-amber-500" />,
+  [LogLevel.Error]: <ExclamationCircleOutlined className="text-red-500" />,
+  [LogLevel.Warn]: <WarningOutlined classID="text-orange-500" />,
+  [LogLevel.Log]: <InfoCircleOutlined className="text-blue-500" />
+};
+
 export const LogContainer = ({ children }) => {
   return (
     <>
@@ -20,6 +28,7 @@ export const LogContainer = ({ children }) => {
       <style>{`
           table {
               margin-top: 15px;
+              width: 100%;
           }
           .logs-tbody {
               height: 450px;
@@ -36,13 +45,6 @@ interface LogProps {
 }
 export const LogRow: FC<LogProps> = ({ log }) => {
   const [isSelected, setSelected] = useState<boolean>(false);
-  const handleLogLevel: Record<LogLevel, JSX.Element> = {
-    [LogLevel.Info]: <InfoCircleOutlined className="text-blue-500" />,
-    [LogLevel.Debug]: <BugOutlined className="text-amber-500" />,
-    [LogLevel.Error]: <ExclamationCircleOutlined className="text-red-500" />,
-    [LogLevel.Warn]: <WarningOutlined classID="text-orange-500" />,
-    [LogLevel.Log]: <InfoCircleOutlined className="text-blue-500" />
-  };
 
   const expandIcon = isSelected ? <DownOutlined /> : <RightOutlined />;
 
@@ -78,9 +80,10 @@ export const LogRow: FC<LogProps> = ({ log }) => {
           }
           .log-tr {
               cursor: pointer;  
-              padding: 5px !important;   
+              // padding: 5px !important;   
               font-family: "JetBrainsMono";
-              font-size: 12px;       
+              font-size: 12px;
+              display: block;
           }
   
           .log-tr:hover {

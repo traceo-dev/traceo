@@ -10,9 +10,8 @@ import { dispatch } from "../../../../store/store";
 import { CONNECTION_STATUS, InfluxDS } from "../../../../types/tsdb";
 import { StoreState } from "../../../../types/store";
 import { REQUIRED_FIELD_ERROR } from "../../../../core/utils/constants";
-import validators from "core/lib/validators";
-import { loadDataSource } from "../state/settings/actions";
-import { useParams } from "react-router-dom";
+import validators from "../../../../core/lib/validators";
+import { useMemberRole } from "../../../../core/hooks/useMemberRole";
 
 interface Props {
   dataSource: object;
@@ -27,16 +26,12 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
   }
 
   const { application } = useSelector((state: StoreState) => state.application);
-  // const { dataSource } = useSelector((state: StoreState) => state.settings);
   const [isLoading, setLoading] = useState<boolean>(false);
+  const { isViewer } = useMemberRole();
 
   const isDeleteDSBtn = !!application.connectedTSDB;
 
   const [form] = Form.useForm();
-
-  // useEffect(() => {
-  //   dispatch(loadDataSource(id));
-  // }, []);
 
   useEffect(() => {
     const { bucket, org, url, token } = dataSource as InfluxDS;
@@ -88,7 +83,13 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
 
   return (
     <>
-      <Form onFinish={update} form={form} layout="vertical" className="pt-5">
+      <Form
+        disabled={isViewer}
+        onFinish={update}
+        form={form}
+        layout="vertical"
+        className="pt-5"
+      >
         <Form.Item
           label="URL"
           name="url"
@@ -138,7 +139,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
           }
         />
       </Space>
-      <Space className="w-full pt-5">
+      <Space hidden={isViewer} className="w-full pt-5">
         <Button loading={isLoading} type="primary" onClick={submit}>
           Save & Test
         </Button>

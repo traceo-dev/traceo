@@ -52,13 +52,28 @@ export const Profile = () => {
     </Space>
   ));
 
+  const name = () => {
+    if (!account?.name) {
+      return account?.username;
+    }
+    return (
+      <span>
+        {account.name} ({account.username})
+      </span>
+    );
+  };
   return (
     <>
       <Popover
         title={
           <Space className="px-1 py-2">
-            <Avatar size="small" shape="circle" name={account?.name} />
-            <Typography.Text>{account?.name}</Typography.Text>
+            <Avatar
+              size="small"
+              shape="circle"
+              url={account?.gravatar}
+              name={account?.name}
+            />
+            <Typography.Text>{name()}</Typography.Text>
           </Space>
         }
         placement="bottomLeft"

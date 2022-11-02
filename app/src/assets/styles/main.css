@@ -116,17 +116,6 @@ body {
   background-color: var(--color-secondary);
 }
 
-.auth-input {
-  padding: 16px;
-  background-color: var(--color-bg-canvas) !important;
-  font-size: 0.875rem !important;
-  font-weight: 400;
-  min-height: 55px;
-  padding: 1rem !important;
-  border-radius: 5px !important;
-  line-height: inherit !important;
-}
-
 .center-div {
   position: absolute;
   top: 50%;

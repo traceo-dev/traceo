@@ -1,5 +1,5 @@
 "use strict";
-0
+0;
 const ESLintPlugin = require("eslint-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -46,7 +46,8 @@ module.exports = (env = {}) =>
         filename: "traceo.[name].[contenthash].css"
       }),
       new HtmlWebpackPlugin({
-        template: "./public/index.html"
+        template: "./public/index.html",
+        favicon: "./public/traceo-fav.PNG"
       })
     ]
   });

@@ -9,6 +9,8 @@ import { AppSwitcher } from "./components/AppSwitcher";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { isEmptyObject } from "../../../../core/utils/object";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import { GH_REPO_LINK } from "../../../../core/utils/constants";
 
 const { Header: AntHeader } = Layout;
 
@@ -24,6 +26,8 @@ export const Header: FC<Props> = ({ routes }) => {
 
   const isPasswordUpdated = !isEmptyObject(account) && !account?.isPasswordUpdated;
 
+  const openQuestionCircle = () => window.open(GH_REPO_LINK, "_blank");
+
   return (
     <>
       <Space direction="vertical" className="gap-0">
@@ -31,8 +35,8 @@ export const Header: FC<Props> = ({ routes }) => {
           <Alert
             message={
               <Space>
-                Your password has not been changed since of creating your account. Please
-                change your password now.
+                Your password has not changed since you created your account. Change your
+                password now.
               </Space>
             }
             type="warning"
@@ -45,7 +49,10 @@ export const Header: FC<Props> = ({ routes }) => {
             <AppSwitcher />
             <Space>
               {/* <EnvironmentSwitcher /> */}
-              {/* <QuestionCircleOutlined className="icon-small" /> */}
+              <QuestionCircleOutlined
+                onClick={openQuestionCircle}
+                className="icon-small"
+              />
               {/* <BellOutlined className="icon-small" /> */}
               <Profile />
             </Space>

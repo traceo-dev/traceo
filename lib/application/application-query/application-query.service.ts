@@ -67,7 +67,7 @@ export class ApplicationQueryService extends GenericQueryService<
       .where('log.applicationId = :id', { id })
       .andWhere('log.receiveTimestamp > :startDate', { startDate })
       .andWhere('log.receiveTimestamp < :endDate', { endDate })
-      .orderBy('log.receiveTimestamp', 'DESC')
+      .orderBy('log.receiveTimestamp', 'DESC', "NULLS LAST")
       .select(['log.timestamp', 'log.message', 'log.level', 'log.resources', 'log.receiveTimestamp'])
       .take(1000)
       .getMany();

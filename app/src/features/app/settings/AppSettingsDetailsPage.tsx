@@ -18,9 +18,11 @@ import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { DescriptionInputRow, Descriptions } from "../../../core/components/Descriptions";
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
+import { useMemberRole } from "../../../core/hooks/useMemberRole";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
+  const { isViewer } = useMemberRole();
   const { application } = useSelector((state: StoreState) => state.application);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
 
@@ -62,11 +64,7 @@ export const AppSettingsDetailsPage = () => {
           <DescriptionInputRow label="ID" editable={false}>
             {application?.id}
           </DescriptionInputRow>
-          <DescriptionInputRow
-            label="Name"
-            onUpdate={onUpdateName}
-            editable={application?.member?.role !== MemberRole.VIEWER}
-          >
+          <DescriptionInputRow label="Name" onUpdate={onUpdateName} editable={!isViewer}>
             {application?.name}
           </DescriptionInputRow>
           <DescriptionInputRow label="Created by" editable={false}>
