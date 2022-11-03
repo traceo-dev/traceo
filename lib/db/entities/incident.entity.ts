@@ -46,13 +46,14 @@ export class Incident extends GenericEntity {
 
   @Column({
     type: "bigint",
+    nullable: true
   })
-  lastOccur: number;
+  lastError: number;
 
   @Column({
     type: "int",
   })
-  occuredCount: number;
+  errorsCount: number;
 
   @ManyToOne(() => Application, {
     onUpdate: "CASCADE",
@@ -83,7 +84,7 @@ export class Incident extends GenericEntity {
     type: "simple-json",
     nullable: true
   })
-  occurDates: Array<ErrorDetails>;
+  errorsDetails: Array<ErrorDetails>;
 
   @Column({
     type: "simple-json",

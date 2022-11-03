@@ -31,10 +31,10 @@ export const AppIncidentAnalyticsPage = () => {
   });
 
   const todayStats = statistics.getIncidentsAnalyticsTodayPlotData(
-    incident?.occurDates || []
+    incident?.errorsDetails || []
   );
 
-  if (!incident?.occurDates || !stats) {
+  if (!incident?.errorsDetails || !stats) {
     return <TraceoLoading />;
   }
 
@@ -71,7 +71,7 @@ export const AppIncidentAnalyticsPage = () => {
               <Typography className="text-md font-semibold primary">
                 Total count
               </Typography>
-              <Typography className="text-3xl">{incident?.occuredCount}</Typography>
+              <Typography className="text-3xl">{incident?.errorsCount}</Typography>
               <Typography className="text-xs">
                 The total count of this exception occurred
               </Typography>

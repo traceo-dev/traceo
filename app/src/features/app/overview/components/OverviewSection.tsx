@@ -46,7 +46,7 @@ export const OverviewSection = () => {
         {stats?.length > 0 ? (
           <IncidentsOverviewPlot stats={stats} />
         ) : (
-          <DataNotFound label="Incidents metric not found" />
+          <DataNotFound label="Incidents metrics not found" />
         )}
       </>
     );

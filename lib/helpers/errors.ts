@@ -114,6 +114,14 @@ export class AdminAccountEditError extends TraceoError {
   }
 }
 
+export class ProcessIncidentError extends TraceoError {
+  constructor(message?) {
+    super(message || "Process incident error.");
+    this.name = "ProcessIncidentError";
+    this.status = 459;
+  }
+}
+
 export class InternalServerError extends TraceoError {
   constructor(message?) {
     super(message || "Internal server error.");

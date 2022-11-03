@@ -9,7 +9,7 @@ interface Props {
 export const CodePreview: FC<Props> = ({ trace }) => {
   return (
     <>
-      <Space className="code-container p-3 bg-gray-800 text-white rounded-md">
+      <Space className="code-container p-3 mb-5 bg-gray-800 text-white rounded-md">
         <ol start={trace?.lineNo - 5} className="ml-2">
           {trace.preCode?.map((code, index) => (
             <li className="code-line" key={index}>
@@ -28,7 +28,7 @@ export const CodePreview: FC<Props> = ({ trace }) => {
       </Space>
       <style>{`
         .code-line {
-          font-family: "JetBrainsMono";
+          font-family: monospace;
           font-size: 12px;
           line-height: 24px;
           min-height: 24px;

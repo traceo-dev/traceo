@@ -25,28 +25,28 @@ export class StatisticsQueryService {
         .createQueryBuilder("incident")
         .where("incident.applicationId = :id", { id })
         .orderBy("incident.createdAt", "DESC", "NULLS LAST")
-        .select(["incident.occurDates", "incident.occuredCount"])
+        .select(["incident.errorsDetails", "incident.errorsCount"])
         .getMany();
 
       const incidentsCount = incidents?.length || 0;
-      const incidentsOccurCount = incidents?.reduce(
-        (acc, incident) => (acc += incident?.occuredCount),
+      const errorsCount = incidents?.reduce(
+        (acc, incident) => (acc += incident?.errorsCount),
         0,
       );
 
-      const occurDates: ErrorDetails[] = incidents.reduce(
-        (acc, curr) => acc.concat(curr.occurDates),
+      const errorsDetails: ErrorDetails[] = incidents.reduce(
+        (acc, curr) => acc.concat(curr.errorsDetails),
         [],
       );
 
       const minDateBefore = dayjs().subtract(7, "day").unix();
       const lastWeekIncidentsCount =
-        occurDates?.filter((o) => dayjs(o.date).isAfter(minDateBefore))?.length ||
+        errorsDetails?.filter((o) => dayjs(o?.date).isAfter(minDateBefore))?.length ||
         0;
 
       const total = {
         incidentsCount,
-        incidentsOccurCount,
+        errorsCount,
         lastWeek: lastWeekIncidentsCount
       };
 
@@ -70,12 +70,12 @@ export class StatisticsQueryService {
       .getRepository(Incident)
       .createQueryBuilder("incident")
       .where("incident.applicationId = :applicationId", { applicationId })
-      .andWhere("incident.lastOccur > :today", { today })
-      .select(["incident.occurDates", "incident.occuredCount"])
+      .andWhere("incident.lastError > :today", { today })
+      .select(["incident.errorsDetails", "incident.errorsCount"])
       .getMany();
 
     const cachedDates: ErrorDetails[] = incidents.reduce(
-      (acc, curr) => acc.concat(curr.occurDates),
+      (acc, curr) => acc.concat(curr.errorsDetails),
       [],
     );
 
@@ -108,14 +108,14 @@ export class StatisticsQueryService {
       .getRepository(Incident)
       .createQueryBuilder("incident")
       .where("incident.applicationId = :appId", { appId })
-      .select("incident.occurDates")
+      .select("incident.errorsDetails")
       .getMany();
 
-    const occurDates: ErrorDetails[] = incidents.reduce(
-      (acc, curr) => acc.concat(curr.occurDates),
+    const errorsDetails: ErrorDetails[] = incidents.reduce(
+      (acc, curr) => acc.concat(curr.errorsDetails),
       [],
     );
-    return this.parseOccurDatesToPlotData(occurDates);
+    return this.parseErrorDetails(errorsDetails);
   }
 
   public async getTotalOverviewForIncident(
@@ -125,21 +125,21 @@ export class StatisticsQueryService {
       .getRepository(Incident)
       .createQueryBuilder("incident")
       .where("incident.id = :incidentId", { incidentId })
-      .select("incident.occurDates")
+      .select("incident.errorsDetails")
       .getOne();
 
-    const occurDates = incident?.occurDates;
+    const errorsDetails = incident?.errorsDetails;
 
-    return this.parseOccurDatesToPlotData(occurDates);
+    return this.parseErrorDetails(errorsDetails);
   }
 
-  protected parseOccurDatesToPlotData(occurDates: ErrorDetails[]): PlotData[] {
-    if (!occurDates || occurDates?.length === 0) {
+  protected parseErrorDetails(errorsDetails: ErrorDetails[]): PlotData[] {
+    if (!errorsDetails || errorsDetails?.length === 0) {
       return [];
     }
 
-    const sortedDates = occurDates?.sort((a, b) => a.date - b.date);
-    const beginDate = occurDates[0];
+    const sortedDates = errorsDetails?.sort((a, b) => a.date - b.date);
+    const beginDate = errorsDetails[0];
 
     const response: PlotData[] = [];
 

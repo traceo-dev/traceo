@@ -80,8 +80,7 @@ export const LogRow: FC<LogProps> = ({ log }) => {
           }
           .log-tr {
               cursor: pointer;  
-              // padding: 5px !important;   
-              font-family: "JetBrainsMono";
+              font-family: monospace;
               font-size: 12px;
               display: block;
           }
@@ -99,7 +98,7 @@ export const LogRow: FC<LogProps> = ({ log }) => {
   
           .log-timestamp {
               width: 200px;
-              font-family: "JetBrainsMono";
+              font-family: monospace;
               font-size: 12px;
           }
         `}</style>

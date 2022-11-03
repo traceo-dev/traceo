@@ -47,7 +47,7 @@ export const DashboardPage = ({ children }) => {
   return (
     <>
       <Header routes={restrictedRoutes()} />
-      <Page className="px-12">{children}</Page>
+      <Page>{children}</Page>
     </>
   );
 };

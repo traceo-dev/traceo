@@ -63,11 +63,11 @@ export const IncidentsOverviewPlot = ({ stats }: { stats: PlotData[] }) => {
     series: [
       {
         type: "line",
-        smooth: true,
+        // smooth: true,
         name: "Incidents",
         showSymbol: false,
         color: "#E24D42",
-        symbolSize: 0,
+        // symbolSize: 0,
         areaStyle: {
           color: new graphic.LinearGradient(0, 0, 0, 1, [
             {

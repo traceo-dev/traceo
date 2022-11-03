@@ -20,7 +20,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       migrationsTransactionMode: "each",
       migrationsRun: true,
       logging: false,
-      autoLoadEntities: true
+      autoLoadEntities: true,
+      synchronize: false,
     };
 
     if (!process.env.PG_HOST) {

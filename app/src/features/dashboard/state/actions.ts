@@ -14,7 +14,7 @@ export const loadApplications = (
     const account = getStore().account.account;
     if (!query) {
       query = {
-        order: "ASC",
+        order: "DESC",
         sortBy: "lastIncidentAt"
       };
     }

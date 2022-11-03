@@ -66,9 +66,9 @@ export interface Incident {
   version?: string;
   platform: Platform;
 
-  occuredCount?: number;
-  lastOccur?: number;
-  occurDates?: ErrorDetails[];
+  errorsCount?: number;
+  lastError?: number;
+  errorsDetails?: ErrorDetails[];
 
   assigned: {
     id: string;

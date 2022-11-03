@@ -1,4 +1,4 @@
-import { SafetyCertificateFilled } from "@ant-design/icons";
+import { MoreOutlined, SafetyCertificateFilled, StarOutlined } from "@ant-design/icons";
 import { Card, Space, Tooltip, Typography } from "antd";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ export const AppCard: FC<Props> = ({ app }) => {
         onClick={() => go()}
         className="app-card default-card default-card-body rounded-lg flex flex-col"
       >
-        <Space className="w-full" direction="vertical">
+        <Space className="w-full justify-between">
           <Space>
             <Avatar
               shape="circle"
@@ -54,16 +54,9 @@ export const AppCard: FC<Props> = ({ app }) => {
               <div className="text-2xs w-full font-normal">{lastIncident}</div>
             </Space>
           </Space>
-        </Space>
-        <div className="pointer-events-none pt-8">
           <IncidentsAppListPlot id={app.application.id} />
-        </div>
+        </Space>
       </Card>
-      <style>{`
-      .app-card {
-        min-height: 221px !important;
-      }
-    `}</style>
     </>
   );
 };

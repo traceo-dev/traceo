@@ -1,7 +1,7 @@
 export interface AppStats {
   total: {
     incidentsCount: number;
-    incidentsOccurCount: number;
+    errorsCount: number;
     lastWeek: number;
   };
 }

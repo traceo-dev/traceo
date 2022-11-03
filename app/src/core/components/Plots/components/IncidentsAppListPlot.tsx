@@ -4,15 +4,13 @@ import { FC, useEffect } from "react";
 import { splitLine, tooltipOptions } from "../utils";
 import { useApi } from "../../../lib/useApi";
 import ReactECharts from "echarts-for-react";
-import { EChartsOption } from "echarts";
-import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { EChartsOption, graphic } from "echarts";
+import dateUtils from "../../../../core/utils/date";
 
 interface Props {
   id: string;
 }
 export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
-  const chartsEnv = localStorage.getItem("chartsEnv");
-
   const {
     data: stats = [],
     isLoading,
@@ -31,7 +29,7 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
 
   useEffect(() => {
     execute();
-  }, [id, chartsEnv]);
+  }, [id]);
 
   if (!stats || isLoading) {
     return (
@@ -42,7 +40,7 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
   }
 
   if (stats.length === 0) {
-    return <DataNotFound label="Metrics not found" />;
+    return null;
   }
 
   const options: EChartsOption = {
@@ -54,14 +52,24 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
     grid: {
       left: "5px",
       right: "5px",
-      top: "10px",
+      top: "5px",
       bottom: "5px",
-      containLabel: true
+      containLabel: false
     },
     xAxis: {
       show: false,
       splitLine,
-      type: "category"
+      type: "category",
+      axisLabel: {
+        formatter: (v) => dateUtils.formatDate(Number(v), "DD-MM"),
+        color: "white",
+        fontSize: 11
+      },
+      axisPointer: {
+        label: {
+          formatter: (v) => dateUtils.formatDate(v.value as number, "MMM D, YYYY")
+        }
+      }
     },
     yAxis: {
       splitLine,
@@ -72,12 +80,26 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
       interval: 99999
     },
     series: {
-      type: "bar",
-      color: "#23C46A",
+      type: "line",
+      name: "Incidents",
+      color: "#E24D42",
+      showSymbol: false,
       itemStyle: {
-        borderColor: "#23C46A",
+        borderColor: "#E24D42",
         opacity: 0.6,
         borderWidth: 2
+      },
+      areaStyle: {
+        color: new graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: "#641D2C"
+          },
+          {
+            offset: 1,
+            color: "#6B403A"
+          }
+        ])
       }
     }
   };
@@ -86,7 +108,8 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
       <ReactECharts option={options} />
       <style>{`
       .echarts-for-react {
-        height: 120px !important;
+        height: 40px !important;
+        width: 320px !important;
       }
     `}</style>
     </>

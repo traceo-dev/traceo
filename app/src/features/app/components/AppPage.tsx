@@ -62,7 +62,7 @@ export const AppPage = ({ children }) => {
   return (
     <>
       <Header routes={routes} />
-      <Page className="px-12">{children}</Page>
+      <Page>{children}</Page>
     </>
   );
 };

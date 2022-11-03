@@ -51,9 +51,9 @@ export class IncidentsQueryService extends GenericQueryService<
       "status",
       "type",
       "message",
-      "lastOccur",
-      "occuredCount",
-      "occurDates",
+      "lastError",
+      "errorsCount",
+      "errorsDetails",
     ];
   }
 

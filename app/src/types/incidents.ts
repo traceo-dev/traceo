@@ -23,17 +23,17 @@ export const handleIncidentStatus: Record<IncidentStatusSearch, string> =
 };
 
 export enum IncidentSortBy {
-  LAST_SEEN = "lastOccur",
+  LAST_SEEN = "lastError",
   FIRST_SEEN = "createdAt",
   STATUS = "status",
-  OCCUR_COUNT = "occuredCount"
+  ERRORS_COUNT = "errorsCount"
 }
 
 export const handleIncidentSort: Record<IncidentSortBy, string> = {
   [IncidentSortBy.LAST_SEEN]: "Last seen",
   [IncidentSortBy.FIRST_SEEN]: "First seen",
   [IncidentSortBy.STATUS]: "Status",
-  [IncidentSortBy.OCCUR_COUNT]: "Occur count"
+  [IncidentSortBy.ERRORS_COUNT]: "Errors count"
 };
 
 export interface Incident {
@@ -46,9 +46,9 @@ export interface Incident {
   stack: string;
   traces?: Trace[];
   env: ENVIRONMENT;
-  occuredCount?: number;
-  lastOccur?: number;
-  occurDates?: ErrorDetails[];
+  errorsCount?: number;
+  lastError?: number;
+  errorsDetails?: ErrorDetails[];
   platform: {
     arch: string;
     platform: string;

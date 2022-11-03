@@ -108,8 +108,8 @@ const MetricsPage = () => {
           execute={execute}
         />
         <Row className="pt-3" gutter={[12, 24]}>
-          {Object.values(METRIC_TYPE).map((type) => (
-            <Col span={12}>
+          {Object.values(METRIC_TYPE).map((type, index) => (
+            <Col span={12} key={index}>
               <MetricCard
                 type={type}
                 avg={avg(metricConfig[type].series)}

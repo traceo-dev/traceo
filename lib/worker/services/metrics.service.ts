@@ -19,7 +19,11 @@ export class MetricsService {
             .leftJoinAndSelect('application.influxDS', 'influxDS')
             .getOne();
 
-        if (!app.connectedTSDB) {
+        if (!app) {
+            throw new Error(`[${this.processMetrics.name}] Application with ID: ${id} does not exists!`);
+        }
+
+        if (!app?.connectedTSDB) {
             return;
         }
 

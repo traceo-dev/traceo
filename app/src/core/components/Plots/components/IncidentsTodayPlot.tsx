@@ -4,7 +4,7 @@ import dateUtils from "../../../utils/date";
 import { normalizePlotData, tooltipOptions } from "../utils";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption, graphic } from "echarts";
-import { PlotData } from "core/utils/statistics";
+import { PlotData } from "../../../../core/utils/statistics";
 
 interface Props {
   stats: PlotData[];
@@ -83,7 +83,6 @@ export const IncidentsTodayPlot: FC<Props> = ({ stats }) => {
     series: [
       {
         type: "line",
-        smooth: true,
         name: "Incidents",
         showSymbol: false,
         color: "#E24D42",

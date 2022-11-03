@@ -4,13 +4,16 @@ import { Incident } from "../../db/entities/incident.entity";
 import { isEmpty } from "../../helpers/base";
 import dateUtils from "../../helpers/dateUtils";
 import { IncidentStatus } from "../../types/incident";
-import { IncidentExistsPayload, TraceoIncidentModel } from "../../types/worker";
+import { TraceoIncidentModel } from "../../types/worker";
 import { EntityManager } from "typeorm";
+import { ApplicationQueryService } from "../../../lib/application/application-query/application-query.service";
+import { ProcessIncidentError } from "../../../lib/helpers/errors";
 
 @Injectable()
 export class ProcessIncidentsService {
     constructor(
-        private readonly entityManager: EntityManager
+        private readonly entityManager: EntityManager,
+        private readonly appService: ApplicationQueryService
     ) { }
 
     async processIncident(id: number, incident: TraceoIncidentModel): Promise<void> {
@@ -19,40 +22,54 @@ export class ProcessIncidentsService {
             return;
         }
 
-        if (!incident || isEmpty(incident)){
+        if (!incident || isEmpty(incident)) {
             Logger.error(`[${this.processIncident.name}] SDK Incident cannot be processed without incident body!`)
             return;
         }
 
+        await this.appService.checkAppExists(id);
+
         await this.entityManager.transaction(async (manager) => {
             try {
-                const incidentExistsPayload: IncidentExistsPayload = { appId: id, incident }
-                const incidentExists = await this.handleGroupIncident(incidentExistsPayload, manager);
-                if (incidentExists) {
+                const { type, message } = incident;
+
+                const inc = await manager.getRepository(Incident)
+                    .createQueryBuilder('incident')
+                    .innerJoin('incident.application', 'application', 'application.id = :id', { id })
+                    .where('incident.type = :type', { type })
+                    .andWhere('incident.message = :message', { message })
+                    .getOne();
+
+                if (inc) {
+                    await this.saveError(inc, manager);
+
+                    Logger.log(
+                        `[processSDKIncident] Incident successfully processed. Incident has been grouped to main incident: ${inc.id}`,
+                    );
+
                     return;
                 }
 
-                await this.saveIncident(id, incident, manager);
+                await this.createNewIncident(id, incident, manager);
+                await this.updateApplication(id, manager);
 
                 Logger.log(
                     `[${this.processIncident.name}] Incident successfully processed for application: ${id}.`,
                 );
             } catch (error) {
-                Logger.error(
-                    `[${this.processIncident.name}] Error during processing incident. Caused by: ${error}`,
-                );
+                throw new ProcessIncidentError(error);
             }
         });
     }
 
-    private async saveIncident(appId: number, incident: TraceoIncidentModel, manager: EntityManager = this.entityManager): Promise<void> {
+    private async createNewIncident(appId: number, incident: TraceoIncidentModel, manager: EntityManager = this.entityManager): Promise<void> {
         const application = await this.updateApplication(appId, manager);
         const incidentPayload: Partial<Incident> = {
             status: IncidentStatus.UNRESOLVED,
             createdAt: dateUtils.toUnix(),
-            occuredCount: 1,
-            lastOccur: dateUtils.toUnix(),
-            occurDates: [{ date: dateUtils.toUnix() }],
+            errorsCount: 1,
+            lastError: dateUtils.toUnix(),
+            errorsDetails: [{ date: dateUtils.toUnix() }],
             application,
             ...incident
         }
@@ -65,48 +82,20 @@ export class ProcessIncidentsService {
             .execute();
     }
 
-    private async handleGroupIncident(
-        payload: IncidentExistsPayload,
-        manager: EntityManager = this.entityManager,
-    ): Promise<boolean> {
-        const { appId, incident } = payload;
-        const { type, message } = incident;
-
-        const existedIncident = await manager.getRepository(Incident)
-            .createQueryBuilder('incident')
-            .innerJoin('incident.application', 'application', 'application.id = :id', { id: appId })
-            .where('incident.type = :type', { type })
-            .andWhere('incident.message = :message', { message })
-            .getOne();
-
-        if (existedIncident) {
-            await this.saveIncidentOccur(existedIncident, manager);
-            await this.updateApplication(appId, manager);
-
-            Logger.log(
-                `[processSDKIncident] Incident successfully processed. Incident has been grouped to main incident: ${existedIncident.id}`,
-            );
-
-            return true;
-        }
-
-        return false;
-    }
-
     private async updateApplication(appId: number, manager: EntityManager = this.entityManager): Promise<Application> {
         return await manager.getRepository(Application).save(
             { id: appId, lastIncidentAt: dateUtils.toUnix() },
         );
     }
 
-    private async saveIncidentOccur(incident: Incident, manager: EntityManager = this.entityManager) {
-        incident?.occurDates.push({ date: dateUtils.toUnix() });
+    private async saveError(incident: Incident, manager: EntityManager = this.entityManager) {
+        incident?.errorsDetails.push({ date: dateUtils.toUnix() });
         await manager.getRepository(Incident).update(
             { id: incident?.id },
             {
-                occuredCount: (incident.occuredCount += 1),
-                occurDates: incident?.occurDates,
-                lastOccur: dateUtils.toUnix()
+                errorsCount: (incident.errorsCount += 1),
+                errorsDetails: incident?.errorsDetails,
+                lastError: dateUtils.toUnix()
             },
         );
     }

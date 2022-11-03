@@ -25,14 +25,14 @@ export const Errors = () => {
     <PagePanel
       title={
         <Typography>
-          Errors <Badge count={incident?.occurDates.length} />
+          Errors <Badge count={incident?.errorsDetails?.length} />
         </Typography>
       }
     >
       <Table
         pagination={{ pageSize: 150 }}
         scroll={{ y: 440 }}
-        dataSource={incident?.occurDates}
+        dataSource={incident?.errorsDetails}
         columns={columns}
       />
     </PagePanel>

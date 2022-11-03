@@ -3,12 +3,16 @@ import dayjs from "dayjs";
 import { TraceoLog } from "../../types/logs";
 import { ErrorDetails } from "../../types/incidents";
 
-export const getIncidentsTablePlotData = (occurDates: ErrorDetails[]) => {
+export const getIncidentsTablePlotData = (errorsDetails: ErrorDetails[]) => {
   const response: PlotData[] = []; //initial values
 
-  const occurs = [...occurDates];
-  const sortedDates = occurs?.sort((a, b) => a?.date - b?.date);
-  const beginDate = occurDates?.at(0);
+  if (!errorsDetails) {
+    return;
+  }
+
+  const errors = [...errorsDetails];
+  const sortedDates = errors?.sort((a, b) => a?.date - b?.date);
+  const beginDate = errorsDetails?.at(0);
 
   let currentDate = dayjs.unix(beginDate?.date).subtract(3, "day").endOf("day").unix();
   const endDate = dayjs().endOf("day").unix();
@@ -38,8 +42,8 @@ export interface PlotData {
   date: number;
   count: number;
 }
-const getIncidentsAnalyticsTodayPlotData = (occurDates: ErrorDetails[]) => {
-  const todayIncidents = occurDates?.filter((o) => dayjs.unix(o.date).isToday());
+const getIncidentsAnalyticsTodayPlotData = (errorsDetails: ErrorDetails[]) => {
+  const todayIncidents = errorsDetails?.filter((o) => dayjs.unix(o.date).isToday());
 
   todayIncidents?.map((today) => {
     dayjs.unix(today.date).hour();
@@ -55,7 +59,7 @@ const getIncidentsAnalyticsTodayPlotData = (occurDates: ErrorDetails[]) => {
     });
   }
 
-  const yesterdayIncidents = occurDates?.filter((o) =>
+  const yesterdayIncidents = errorsDetails?.filter((o) =>
     dayjs.unix(o.date).isYesterday()
   )?.length;
 

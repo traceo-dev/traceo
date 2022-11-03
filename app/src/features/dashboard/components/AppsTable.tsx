@@ -1,11 +1,14 @@
-import { Button, Col, Dropdown, Menu, Row } from "antd";
+import { Button, Dropdown, List, Menu } from "antd";
 import { useEffect, useState } from "react";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { EmptyAppList } from "./EmptyAppList";
 import { SearchInput } from "../../../core/components/SearchInput";
 import { SortIcons } from "../../../core/components/SortIcons";
 import { SortOrder } from "../../../types/api";
-import { SearchApplicationQueryParams } from "../../../types/application";
+import {
+  ApplicationMember,
+  SearchApplicationQueryParams
+} from "../../../types/application";
 import { dispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
@@ -31,7 +34,7 @@ export const AppsTable = () => {
   );
   const { account } = useSelector((state: StoreState) => state.account);
 
-  const [order, setOrder] = useState<SortOrder>("ASC");
+  const [order, setOrder] = useState<SortOrder>("DESC");
   const [search, setSearch] = useState<string>(null);
   const [sortBy, setSortBy] = useState<AppsSortBy>(AppsSortBy.LAST_INCIDENT);
 
@@ -83,13 +86,14 @@ export const AppsTable = () => {
         isEmpty={applications?.length === 0}
         emptyView={<EmptyAppList constraints={search} />}
       >
-        <Row className="pt-5" gutter={[8, 24]}>
-          {applications?.map((app, index) => (
-            <Col key={index} span={8}>
-              <AppCard app={app} />
-            </Col>
-          ))}
-        </Row>
+        <List
+          dataSource={applications}
+          renderItem={(application: ApplicationMember) => (
+            <List.Item>
+              <AppCard app={application} />
+            </List.Item>
+          )}
+        />
       </ConditionLayout>
     </>
   );

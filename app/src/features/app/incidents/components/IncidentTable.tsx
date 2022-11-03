@@ -54,7 +54,7 @@ export const IncidentTable: FC<Props> = ({
     {
       width: 150,
       title: "Graph",
-      render: (record: Incident) => <IncidentsListPlot errors={record?.occurDates} />
+      render: (record: Incident) => <IncidentsListPlot errors={record?.errorsDetails} />
     },
     {
       width: 100,
@@ -143,12 +143,12 @@ const IncidentMainColumn: FC<MainColumnProps> = ({ incident }) => {
       <Space className="pt-2">
         <IncidentStatusTag status={incident?.status} />|
         <Typography className="text-xs font-semibold text-primary">
-          Last: {dateUtils.fromNow(incident?.lastOccur)}
+          Last: {dateUtils.fromNow(incident?.lastError)}
         </Typography>
         |
         <Typography className="text-xs font-semibold text-primary">
           <BugOutlined className="pr-3" />
-          {incident?.occuredCount}
+          {incident?.errorsCount}
         </Typography>
         |
         <Typography className="text-xs font-semibold text-primary">

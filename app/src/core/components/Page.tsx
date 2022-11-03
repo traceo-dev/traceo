@@ -23,10 +23,26 @@ export const Page: FC<Props> = ({ children, className = "", isFooter = true }) =
         flex-direction: column;
         width: 100%;
         height: 100%;
-        padding: 35px;
-        padding-top: 20px;
       }
-      
+
+      @media only screen and (min-width: 1430px) {
+        .page-scrollbar-content {
+          padding: 35px;
+          padding-top: 20px;
+          padding-left: 48px;
+          padding-right: 48px;
+        }
+      }
+
+      @media screen and (min-width: 1605px) {
+        .page-scrollbar-content {
+          padding-top: 20px;
+          max-width: 1450px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+
       .scrollbar-view {
         position: relative;
         overflow: scroll;

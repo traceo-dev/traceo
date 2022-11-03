@@ -12,7 +12,7 @@ export const loadIncidents = (query?: ApiQueryParams): ThunkResult<void> => {
       query = {
         id: application.id,
         order: "DESC",
-        sortBy: "lastOccur"
+        sortBy: "lastError"
       };
     }
 

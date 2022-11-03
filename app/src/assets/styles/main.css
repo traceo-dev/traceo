@@ -6,7 +6,6 @@
 
 @import url("overrides.css");
 @import url("scrollbar.css");
-@import url("fonts.css");
 
 :root {
   --color-primary: #0991b3;

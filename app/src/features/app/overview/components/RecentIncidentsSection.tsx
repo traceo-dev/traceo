@@ -81,7 +81,7 @@ export const RecentIncidentsSection = () => {
                   </Space>
                   <Space>
                     <Typography.Text className="text-xs">
-                      {dateUtils.fromNow(item.lastOccur)}
+                      {dateUtils.fromNow(item.lastError)}
                     </Typography.Text>
                     <RightOutlined className="cursor-pointer text-gray-800" />
                   </Space>

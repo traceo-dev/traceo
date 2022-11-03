@@ -39,7 +39,7 @@ export const StatCards: FC<Props> = ({ stats, isLoading }) => {
           value={stats?.total?.incidentsCount}
           suffix={
             <Typography className="text-xs">
-              | {stats?.total?.incidentsOccurCount || 0}
+              | {stats?.total?.errorsCount || 0}
             </Typography>
           }
         />

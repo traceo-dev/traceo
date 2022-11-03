@@ -20,6 +20,14 @@ export class ApplicationQueryService extends GenericQueryService<
     return 'application';
   }
 
+  public async checkAppExists(id: string | number) {
+    const app = await this.getDto(id);
+    if (!app) {
+      throw new Error(`Application with ID: ${id} does not exists!`);
+    }
+    return app;
+  }
+
   public extendQueryBuilder(
     builder: SelectQueryBuilder<Application>,
     query: BaseDtoQuery,
@@ -52,7 +60,7 @@ export class ApplicationQueryService extends GenericQueryService<
   }
 
   public async getApplicationRuntime(appId: number) {
-    const config = await this.entityManager.getRepository(Runtime).findOneBy({ application: { id: appId }});
+    const config = await this.entityManager.getRepository(Runtime).findOneBy({ application: { id: appId } });
     return config?.data || {};
   }
 

@@ -21,7 +21,8 @@ export abstract class GenericQueryService<
   }
 
   public async getDto(id: number | string): Promise<ENTITY> {
-    return await this.repository.findOneByOrFail({ id } as any);
+    const where: FindOptionsWhere<ENTITY> = { id } as any;
+    return await this.repository.findOneBy(where)
   }
 
   public async getDtoBy(where: FindOptionsWhere<ENTITY>) {
@@ -41,7 +42,7 @@ export abstract class GenericQueryService<
   public abstract get builderAlias(): string;
 
   /**
-   * Leave empty array if builder have to select all columns from entity
+   * Leave empty array if builder should select all columns from entity
    */
   public abstract selectedColumns(): string[];
 

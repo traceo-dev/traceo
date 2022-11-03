@@ -1,6 +1,5 @@
 {
   "name": "traceo-application",
-  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "react-scripts --max-http-header-size 16000 start",

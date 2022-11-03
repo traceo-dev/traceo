@@ -1,6 +1,8 @@
 # APP
 FROM node:16-alpine3.15 as app-builder
 
+ENV NODE_OPTIONS=--max_old_space_size=8000
+
 WORKDIR /traceo
 
 COPY ./app/package.json .
@@ -19,6 +21,8 @@ RUN yarn build:prod
 
 # SERVER
 FROM node:16-alpine3.15 as server-builder
+
+ENV NODE_OPTIONS=--max_old_space_size=8000
 
 RUN apk add curl
 # RUN curl -sf https://gobinaries.com/tj/node-prune | sh
@@ -47,6 +51,8 @@ WORKDIR /traceo
 # RUN apk add --no-cache openssl ncurses-libs ncurses-terminfo-base --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
 
 RUN apk --no-cache add nodejs --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
+
+ENV NODE_OPTIONS=--max_old_space_size=8000
 
 COPY --from=app-builder /traceo/build ./app
 COPY --from=server-builder /traceo/dist ./dist
