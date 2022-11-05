@@ -40,7 +40,7 @@ export const AppCard: FC<Props> = ({ app }) => {
               name={app.application.name}
               url={app.application?.gravatar}
             />
-            <Space className="w-full gap-0" direction="vertical">
+            <Space className="w-full pl-3 gap-0" direction="vertical">
               <div>
                 <Typography.Text className="text-sm">
                   {app.application.name}

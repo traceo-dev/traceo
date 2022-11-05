@@ -11,7 +11,7 @@ export const Footer = () => {
       <AntFooter className="p-4 bg-transparent mt-12 relative bottom-0 w-full">
         <Row className="text-xs w-full justify-center">
           <Typography.Text className="text-primary pipe">
-            © {new Date().getFullYear()} Traceo Cloud
+            © {new Date().getFullYear()} Traceo Platform
           </Typography.Text>
           <Typography.Text onClick={onOpen} className="text-primary pipe cursor-pointer">
             Contact
