@@ -80,8 +80,7 @@ export class AccountService {
       if (rest.email === ADMIN_EMAIL) {
         throw new AdminAccountEditError();
       }
-      // first we update user based on id from DTO, if this id is null then we use current accountId from request,
-      // maybe we should not do this in this way...
+      // TODO: wtf?
       await this.entityManager
         .getRepository(Account)
         .update({ id: id || accountId }, rest);
