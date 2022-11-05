@@ -34,7 +34,7 @@ Default user is `admin/admin`.
 
 ### ***Database***
 
-By default, Traceo Platform uses the SQLite database, so for testing and development purposes, this may be enough. If you want to use Traceo with production data, we recommend that you use a PostgreSQL database. To do this, when starting the docker image, set the environment variables as below:
+By default, Traceo Platform uses the SQLite database, so for testing and development purposes, this may be enough. If you want to use Traceo with production data, we recommend to use a PostgreSQL database. To do this, set the environment variables as below:
 
 ```
 docker run \
@@ -70,21 +70,19 @@ An incident is an error or exception caught by the SDK which extracts all the mo
 
 To see all incidents captured by the SDK, visit the Incidents subpage in the dashboard of a specific application. There is an list with each record containing information about the incident status, number of errors and comments, a graph showing the occurrence of the error, and assigned user.
 
-<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-3.PNG" width="270">
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-3.PNG">
 
 An incident can have one of three statuses: `Resolved`, `Unresolved`, and `In Progress`. This status should be updated as work progresses to resolve the issue. After going to the details of the incident, we can edit its status, assigned person and even delete it.
 
-Incident details contain the most important information about the given error. As the SDK parses the incident, its embedded parser breaks down each stack trace into individual traces, from which it extracts information about the location of the error. Thanks to this, it is able to retrieve the code where the exception occurred. This code is shown in the incident details in the Stacktrace section.
+Incident details contain the most important information about the given error. As the SDK parses the incident, parser breaks down each stack trace into individual traces, from which it extracts information about the location of the error. Thanks to this, it is able to retrieve the code where the exception occurred. This code is shown in the incident details in the `Stacktrace` section.
 
-<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-4.PNG" width="270">
-
-The `Analytics` tab graphically shows when the error occurred today and since it first occurred. The `Conversation` tab allows you to talk to team members about the problem you are solving.
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-4.PNG">
 
 ### ***Logs***
 
 Another important feature of Traceo is logger feature which allows you to record the necessary information from the operation of the application. Each log is displayed in the application console (`stdout`) and sent to the Traceo platform, which can be viewed in the `Explore tab`. At the moment, logs are stored for up to three days, and the limit of logs downloaded for a given time interval (30 minutes) is 1000. In the future, a wider possibility of searching logs will be introduced, both by text fragments and according to specific time intervals.
 
-<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-5.PNG" width="270">
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-5.PNG">
 
 ### ***Runtime configuration***
 
@@ -96,7 +94,7 @@ Metrics are a set of data taken from a given source, correlated with the time of
 
 After entering the appropriate data, confirm it by clicking `Save & Test`. If the Traceo platform has a issue with connecting to your InfluxDB instance, you will be informed about it with an appropriate message. Remebers also to configure options in your `TraceoClient` configuration in your app. More informations about it is [here](https://github.com/traceo-io/traceo-node).
 
-<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-6.PNG" width="270">
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-6.PNG">
 
 # Support
 
