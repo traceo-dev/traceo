@@ -1,5 +1,5 @@
 import { Typography } from "antd";
-import { DataNotFound } from "core/components/DataNotFound";
+import { DataNotFound } from "../../../core/components/DataNotFound";
 import { FC } from "react";
 
 interface Props {

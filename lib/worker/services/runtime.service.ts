@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { Runtime } from "../../db/entities/runtime.entity";
 import { EntityManager } from "typeorm";
-import { BaseWorkerService } from "lib/core/worker/base-worker.service";
-import { Application } from "lib/db/entities/application.entity";
+import { BaseWorkerService } from "../../../lib/core/worker/base-worker.service";
+import { Application } from "../../../lib/db/entities/application.entity";
 
 @Injectable()
 export class RuntimeService extends BaseWorkerService<object> {

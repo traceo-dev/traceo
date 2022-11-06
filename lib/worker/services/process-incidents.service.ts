@@ -5,7 +5,7 @@ import dateUtils from "../../helpers/dateUtils";
 import { IncidentStatus } from "../../types/incident";
 import { TraceoIncidentModel } from "../../types/worker";
 import { EntityManager, UpdateResult } from "typeorm";
-import { BaseWorkerService } from "lib/core/worker/base-worker.service";
+import { BaseWorkerService } from "../../../lib/core/worker/base-worker.service";
 
 @Injectable()
 export class ProcessIncidentsService extends BaseWorkerService<TraceoIncidentModel> {

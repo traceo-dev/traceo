@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { Log } from "../../db/entities/log.entity";
 import { TraceoLog } from "../../types/worker";
 import { EntityManager } from "typeorm";
-import { BaseWorkerService } from "lib/core/worker/base-worker.service";
-import { Application } from "lib/db/entities/application.entity";
+import { BaseWorkerService } from "../../../lib/core/worker/base-worker.service";
+import { Application } from "../../../lib/db/entities/application.entity";
 
 @Injectable()
 export class LogsService extends BaseWorkerService<TraceoLog> {

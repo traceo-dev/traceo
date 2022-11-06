@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { Application } from "lib/db/entities/application.entity";
-import { isEmpty } from "lib/helpers/base";
+import { Application } from "../../../lib/db/entities/application.entity";
+import { isEmpty } from "../../../lib/helpers/base";
 import { EntityManager } from "typeorm";
 import Queue from "promise-queue";
 

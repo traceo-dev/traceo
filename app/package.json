@@ -5,7 +5,7 @@
     "dev": "react-scripts --max-http-header-size 16000 start",
     "build": "react-scripts build",
     "build:dev": "webpack --progress --color --config scripts/webpack/webpack.dev.js",
-    "build:prod": "NODE_ENV=production webpack --progress --color --config scripts/webpack/webpack.prod.js",
+    "build:prod": "webpack --progress --color --config scripts/webpack/webpack.prod.js",
     "test": "react-scripts test",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "lint:fix": "eslint . --fix"

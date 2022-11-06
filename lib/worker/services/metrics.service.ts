@@ -4,7 +4,7 @@ import { Application } from "../../db/entities/application.entity";
 import { TSDB } from "../../types/tsdb";
 import { Metrics } from "../../types/worker";
 import { EntityManager } from "typeorm";
-import { BaseWorkerService } from "lib/core/worker/base-worker.service";
+import { BaseWorkerService } from "../../../lib/core/worker/base-worker.service";
 
 @Injectable()
 export class MetricsService extends BaseWorkerService<Metrics> {

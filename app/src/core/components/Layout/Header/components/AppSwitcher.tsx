@@ -11,7 +11,7 @@ import { slugifyForUrl } from "../../../../../core/utils/stringUtils";
 import { useEffect } from "react";
 import { dispatch } from "../../../../../store/store";
 import { loadApplications } from "../../../../../features/dashboard/state/actions";
-import { ConditionLayout } from "core/components/ConditionLayout";
+import { ConditionLayout } from "../../../../../core/components/ConditionLayout";
 
 export const AppSwitcher = () => {
   const navigate = useNavigate();
