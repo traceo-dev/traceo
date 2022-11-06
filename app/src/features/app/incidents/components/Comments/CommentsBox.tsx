@@ -29,7 +29,7 @@ export const CommentsBox = () => {
                     size="default"
                     shape="circle"
                     name={comment.sender.name}
-                    url={comment.sender?.logo}
+                    url={comment.sender?.gravatar}
                   />
                 }
               >

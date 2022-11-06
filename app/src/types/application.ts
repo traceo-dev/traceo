@@ -8,11 +8,6 @@ export enum MemberRole {
   VIEWER = "Viewer"
 }
 
-export enum ENVIRONMENT {
-  production = "production",
-  development = "development",
-  test = "test"
-}
 export interface OwnerAccount {
   name: string;
   email: string;
@@ -35,7 +30,6 @@ export interface Application {
   incidentsCount: number;
   errorsCount: number;
   membersCount: number;
-  defaultEnv?: ENVIRONMENT;
   createdAt: number;
   updatedAt: number;
   member: {
@@ -63,21 +57,8 @@ export interface ApplicationMember {
   account: Account;
 }
 
-export interface CreateApplicationProps {
-  name: string;
-  framework: string;
-  technology: string;
-}
-
-export type UpdateAccountApplicationProps = {
-  id?: string;
-}
-
-export interface UpdateApplicationProps {
-  name?: string;
-  logo?: string;
-  defaultEnv?: ENVIRONMENT;
-}
+export type CreateApplicationProps = Pick<Application, "name">;
+export type UpdateApplicationProps = Pick<Application, "name">;
 
 export interface SearchApplicationQueryParams {
   order?: SortOrder;

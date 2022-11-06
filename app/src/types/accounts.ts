@@ -18,9 +18,4 @@ export interface Account {
   gravatar: string;
 }
 
-export interface AddAccountProps {
-  email: string;
-  name: string;
-  username: string;
-  password: string;
-}
+export type AddAccountProps = Pick<Account, "email" | "name" | "username"> & { password: string; }

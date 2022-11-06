@@ -1,5 +1,3 @@
-import { RouteProps } from "react-router-dom";
-
 export type UrlQueryValue =
   | string
   | number

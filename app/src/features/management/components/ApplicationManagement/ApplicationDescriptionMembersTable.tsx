@@ -37,7 +37,7 @@ export const ApplicationDescriptionMembersTable = ({ children }) => {
 };
 
 interface DescriptionAppRadioRowProps {
-  member: ApplicationMember;
+  member: ApplicationMember["account"] & Pick<ApplicationMember, "role">;
   options: { label: string; value: string | number | boolean }[];
   postExecute?: () => void;
 }
@@ -88,11 +88,9 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
       <tr>
         <td className="details-table-label">
           <Row className="w-full items-center">
-            <Avatar shape="circle" size="small" name={member.application.name} />
+            <Avatar shape="circle" size="small" name={member.name} />
             <Space>
-              <Typography className="pl-2 text-sm font-normal">
-                {member.application.name}
-              </Typography>
+              <Typography className="pl-2 text-sm font-normal">{member.name}</Typography>
             </Space>
           </Row>
         </td>

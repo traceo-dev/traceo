@@ -19,7 +19,6 @@ export const AppCard: FC<Props> = ({ app }) => {
   const go = () => {
     navigate(`/app/${app.id}/${slugifyForUrl(app.name)}/overview`);
     dispatch(loadApplication(app.id));
-    localStorage.setItem("env", app.defaultEnv);
   };
 
   const lastIncident = app?.lastIncidentAt

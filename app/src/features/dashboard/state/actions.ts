@@ -2,8 +2,7 @@ import api from "../../../core/lib/api";
 import { ThunkResult } from "../../../types/store";
 import {
   ApplicationMember,
-  SearchApplicationQueryParams,
-  UpdateAccountApplicationProps
+  SearchApplicationQueryParams
 } from "../../../types/application";
 import { applicationsLoaded } from "./reducers";
 
@@ -24,16 +23,5 @@ export const loadApplications = (
       ...query
     });
     dispatch(applicationsLoaded(applications));
-  };
-};
-
-export const updateAccountApplication = (
-  body: UpdateAccountApplicationProps
-): ThunkResult<void> => {
-  return async (dispatch) => {
-    await api.patch("/api/amr/application/member", {
-      ...body
-    });
-    dispatch(loadApplications());
   };
 };

@@ -4,6 +4,7 @@ import { ApplicationMember } from "../../../types/application";
 import { MemberTableRow } from "./rows/MemberTableRow";
 import { TraceoTable } from "./TraceoTable";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
+import { Account } from "types/accounts";
 
 interface Props {
   members: ApplicationMember[];
@@ -12,11 +13,10 @@ interface Props {
 export const ApplicationMembersTable: FC<Props> = ({ members, execute }) => {
   const { isViewer } = useMemberRole();
 
-  const isServerAdmin = (member: ApplicationMember) =>
-    member.account.email === ADMIN_EMAIL;
+  const isServerAdmin = (account: Account) => account.email === ADMIN_EMAIL;
 
-  const isEditable = (member: ApplicationMember) =>
-    isServerAdmin(member) || isViewer ? false : true;
+  const isEditable = (account: Account) =>
+    isServerAdmin(account) || isViewer ? false : true;
 
   return (
     <TraceoTable columns={["Name", "Email", "Role"]}>
@@ -25,7 +25,7 @@ export const ApplicationMembersTable: FC<Props> = ({ members, execute }) => {
           key={index}
           type="account"
           item={member}
-          editable={isEditable(member)}
+          editable={isEditable(member["account"])}
           postExecute={execute}
         />
       ))}

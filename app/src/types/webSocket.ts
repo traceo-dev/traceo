@@ -23,6 +23,6 @@ export interface SendTypingSocketPayload {
   accountId: string;
 }
 
-interface Participant {
+type Participant = {
   id: string;
 }

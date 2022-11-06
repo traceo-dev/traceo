@@ -1,4 +1,4 @@
-import { ENVIRONMENT, Application } from "./application";
+import { Application } from "./application";
 import { Comment } from "./comments";
 
 export enum IncidentStatus {
@@ -45,7 +45,6 @@ export interface Incident {
   createdAt: number;
   stack: string;
   traces?: Trace[];
-  env: ENVIRONMENT;
   errorsCount?: number;
   lastError?: number;
   errorsDetails?: ErrorDetails[];
