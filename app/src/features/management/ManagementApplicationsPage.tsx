@@ -59,6 +59,7 @@ export const ManagementApplicationsPage = () => {
         </SearchWrapper>
         <ConditionLayout
           isEmpty={applications?.length === 0}
+          isLoading={!hasFetched}
           emptyView={<DataNotFound label="Applications not found. Create first one!" />}
         >
           <ApplicationsTable applications={applications} hasFetched={hasFetched} />

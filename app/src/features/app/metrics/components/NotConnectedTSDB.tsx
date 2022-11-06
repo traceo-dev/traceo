@@ -13,7 +13,7 @@ export const NotConnectedTSDB = () => {
     <Space className="w-full justify-center text-center" direction="vertical">
       <DatabaseOutlined className="text-5xl" />
       <Typography.Text className="text-3xl font-bold">
-        TSDB is not connected
+        Metrics are not available
       </Typography.Text>
       <Typography.Text>
         Configure a connection to the time series database to enable metrics collection.

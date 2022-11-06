@@ -1,4 +1,4 @@
-import { MoreOutlined, SafetyCertificateFilled, StarOutlined } from "@ant-design/icons";
+import { BugOutlined, SafetyCertificateFilled } from "@ant-design/icons";
 import { Card, Space, Tooltip, Typography } from "antd";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,20 +11,19 @@ import { dispatch } from "../../../store/store";
 import { ApplicationMember, MemberRole } from "../../../types/application";
 
 interface Props {
-  app: ApplicationMember;
+  app: ApplicationMember["application"] & Pick<ApplicationMember, "role">;
 }
 export const AppCard: FC<Props> = ({ app }) => {
   const navigate = useNavigate();
 
   const go = () => {
-    const { application } = app;
-    navigate(`/app/${application.id}/${slugifyForUrl(application.name)}/overview`);
-    dispatch(loadApplication(application.id));
-    localStorage.setItem("env", application.defaultEnv);
+    navigate(`/app/${app.id}/${slugifyForUrl(app.name)}/overview`);
+    dispatch(loadApplication(app.id));
+    localStorage.setItem("env", app.defaultEnv);
   };
 
-  const lastIncident = app.application?.lastIncidentAt
-    ? "Last incident " + dateUtils.fromNow(app.application?.lastIncidentAt)
+  const lastIncident = app?.lastIncidentAt
+    ? "Last incident " + dateUtils.fromNow(app?.lastIncidentAt)
     : "-- : --";
 
   return (
@@ -35,26 +34,24 @@ export const AppCard: FC<Props> = ({ app }) => {
       >
         <Space className="w-full justify-between">
           <Space>
-            <Avatar
-              shape="circle"
-              name={app.application.name}
-              url={app.application?.gravatar}
-            />
+            <Avatar shape="circle" name={app.name} url={app?.gravatar} />
             <Space className="w-full pl-3 gap-0" direction="vertical">
               <div>
-                <Typography.Text className="text-sm">
-                  {app.application.name}
-                </Typography.Text>
+                <Typography.Text className="text-sm">{app.name}</Typography.Text>
                 {app.role === MemberRole.ADMINISTRATOR && (
                   <Tooltip title="You're admin!">
                     <SafetyCertificateFilled className="ml-2 text-amber-600" />
                   </Tooltip>
                 )}
               </div>
-              <div className="text-2xs w-full font-normal">{lastIncident}</div>
+              <Space>
+                <div className="text-2xs w-full font-normal">{lastIncident}</div>|
+                <BugOutlined />
+                <div className="text-2xs w-full font-normal">{app.errorsCount}</div>
+              </Space>
             </Space>
           </Space>
-          <IncidentsAppListPlot id={app.application.id} />
+          <IncidentsAppListPlot id={app.id} />
         </Space>
       </Card>
     </>

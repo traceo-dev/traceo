@@ -21,8 +21,8 @@ import { SortOrder } from "../../../types/api";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { BatchUpdateModal } from "../../../core/components/Modals/BatchUpdateModal";
-import { DataNotFound } from "../../../core/components/DataNotFound";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
+import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
 
 const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.FIRST_SEEN]: "First seen",
@@ -129,13 +129,7 @@ export const AppIncidentsListPage = () => {
           <ConditionLayout
             isEmpty={incidents?.length === 0}
             isLoading={!hasFetched}
-            emptyView={
-              <DataNotFound
-                className="text-2xl mt-12"
-                label="Incidents not found"
-                explanation="Great! You have nothing to worry about at this point!"
-              />
-            }
+            emptyView={<EmptyIncidentsList constraints={search} />}
           >
             <IncidentTable
               isLoading={!hasFetched}

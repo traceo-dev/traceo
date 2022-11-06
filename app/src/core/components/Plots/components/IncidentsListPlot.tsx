@@ -58,9 +58,9 @@ export const IncidentsListPlot: FC<Props> = ({ errors }) => {
     series: {
       name: "Incidents",
       type: "bar",
-      color: "#434573",
+      color: "#04785A",
       itemStyle: {
-        borderColor: "#434573",
+        borderColor: "#04785A",
         borderWidth: 2
       },
       barWidth: 10,

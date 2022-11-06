@@ -1,4 +1,4 @@
-import { Space, Typography, Form, Select, Modal, ConfigProvider } from "antd";
+import { Space, Typography, Form, Select, Modal } from "antd";
 import { useEffect, useState } from "react";
 import { dispatch } from "../../../store/store";
 import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
@@ -9,7 +9,6 @@ import { ApplicationMember, MemberRole } from "../../../types/application";
 import api from "../../../core/lib/api";
 import { Account } from "../../../types/accounts";
 import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
-import { DataNotFound } from "../DataNotFound";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { accounts, hasFetched } = useSelector(

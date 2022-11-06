@@ -1,16 +1,16 @@
 import { Typography } from "antd";
-import { DataNotFound } from "core/components/DataNotFound";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { FC } from "react";
 
 interface Props {
   constraints?: string;
 }
-export const EmptyAppList: FC<Props> = ({ constraints }) => {
+export const EmptyIncidentsList: FC<Props> = ({ constraints }) => {
   return (
     <>
       <DataNotFound
         className="text-2xl mt-12"
-        label="Applications not found"
+        label="Incidents not found"
         explanation={
           constraints ? (
             <Typography.Text>
@@ -18,7 +18,7 @@ export const EmptyAppList: FC<Props> = ({ constraints }) => {
             </Typography.Text>
           ) : (
             <Typography.Text>
-              Contact the administrator and start monitoring the applications.
+              Great! You have nothing to worry about for now!
             </Typography.Text>
           )
         }

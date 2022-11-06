@@ -1,14 +1,18 @@
 import { Divider, Row, Statistic, Typography } from "antd";
 import { TextLabel } from "../../../../core/components/TextLabel";
-import { ApplicationStats } from "../../../../types/statistics";
+import { AppIncidentsStats } from "../../../../types/statistics";
 import { FC } from "react";
+import { useSelector } from "react-redux";
+import { StoreState } from "../../../../types/store";
 
 interface Props {
-  stats: ApplicationStats;
+  stats: AppIncidentsStats;
   isLoading: boolean;
 }
 
 export const StatCards: FC<Props> = ({ stats, isLoading }) => {
+  const { application } = useSelector((state: StoreState) => state.application);
+
   return (
     <>
       <Row className="pt-3 w-full justify-flex-start pb-5 px-12">
@@ -21,7 +25,8 @@ export const StatCards: FC<Props> = ({ stats, isLoading }) => {
             />
           }
           className="font-semibold"
-          value={stats?.total?.lastWeek}
+          loading={isLoading}
+          value={stats?.lastWeekCount}
         />
 
         <Divider type="vertical" className="bg-gray-200 mx-12" />
@@ -36,11 +41,9 @@ export const StatCards: FC<Props> = ({ stats, isLoading }) => {
               hint="Number of incidents captured by Traceo SDK in this app. Big number is a count of main incidents while small number is a number of occurrences of main incidents"
             />
           }
-          value={stats?.total?.incidentsCount}
+          value={application?.incidentsCount}
           suffix={
-            <Typography className="text-xs">
-              | {stats?.total?.errorsCount || 0}
-            </Typography>
+            <Typography className="text-xs">| {application?.errorsCount || 0}</Typography>
           }
         />
       </Row>

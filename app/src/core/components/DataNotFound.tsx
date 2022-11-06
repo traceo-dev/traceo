@@ -5,7 +5,7 @@ import { FC } from "react";
 
 interface Props {
   label?: string;
-  explanation?: string;
+  explanation?: string | JSX.Element;
   className?: string;
   showIcon?: boolean;
 }

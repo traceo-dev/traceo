@@ -1,11 +1,5 @@
-export interface ApplicationStats {
-  total: {
-    incidentsCount: number;
-    errorsCount: number;
-    lastWeek: number;
-    percentage: string;
-    isMore: boolean;
-  };
+export interface AppIncidentsStats {
+  lastWeekCount: number;
 }
 
 export interface HourlyStats {

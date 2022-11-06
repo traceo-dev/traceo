@@ -4,7 +4,7 @@ import { FC, useEffect } from "react";
 import { splitLine, tooltipOptions } from "../utils";
 import { useApi } from "../../../lib/useApi";
 import ReactECharts from "echarts-for-react";
-import { EChartsOption, graphic } from "echarts";
+import { EChartsOption } from "echarts";
 import dateUtils from "../../../../core/utils/date";
 
 interface Props {
@@ -48,23 +48,22 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
       source: stats
     },
     animation: false,
-    tooltip: tooltipOptions,
+    tooltip: {
+      ...tooltipOptions,
+      axisPointer: {
+        type: "shadow"
+      }
+    },
     grid: {
-      left: "5px",
+      left: "40px",
       right: "5px",
-      top: "5px",
-      bottom: "5px",
-      containLabel: false
+      top: "10px",
+      bottom: "5px"
     },
     xAxis: {
       show: false,
       splitLine,
       type: "category",
-      axisLabel: {
-        formatter: (v) => dateUtils.formatDate(Number(v), "DD-MM"),
-        color: "white",
-        fontSize: 11
-      },
       axisPointer: {
         label: {
           formatter: (v) => dateUtils.formatDate(v.value as number, "MMM D, YYYY")
@@ -73,6 +72,11 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
     },
     yAxis: {
       splitLine,
+      axisLabel: {
+        showMinLabel: false,
+        hideOverlap: true
+      },
+      alignTicks: true,
       min: 0,
       max: (e) => {
         return e.max;
@@ -80,27 +84,15 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
       interval: 99999
     },
     series: {
-      type: "line",
       name: "Incidents",
-      color: "#E24D42",
-      showSymbol: false,
+      type: "bar",
+      color: "#04785A",
       itemStyle: {
-        borderColor: "#E24D42",
-        opacity: 0.6,
+        borderColor: "#04785A",
         borderWidth: 2
       },
-      areaStyle: {
-        color: new graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: "#641D2C"
-          },
-          {
-            offset: 1,
-            color: "#6B403A"
-          }
-        ])
-      }
+      barWidth: 10,
+      barGap: "5%"
     }
   };
   return (

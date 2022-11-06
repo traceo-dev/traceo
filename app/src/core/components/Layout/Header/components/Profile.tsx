@@ -56,12 +56,9 @@ export const Profile = () => {
     if (!account?.name) {
       return account?.username;
     }
-    return (
-      <span>
-        {account.name} ({account.username})
-      </span>
-    );
+    return account.name;
   };
+
   return (
     <>
       <Popover

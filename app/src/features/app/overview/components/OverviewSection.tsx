@@ -1,13 +1,15 @@
-import { Space } from "antd";
 import { StatCards } from "./StatCards";
 import { useApi } from "../../../../core/lib/useApi";
-import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
+import { SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { IncidentsOverviewPlot } from "../../../../core/components/Plots/components/IncidentsOverviewPlot";
-import { ApplicationStats } from "../../../../types/statistics";
+import { AppIncidentsStats } from "../../../../types/statistics";
 import { PlotData } from "../../../../core/utils/statistics";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { dispatch } from "../../../../store/store";
+import { loadApplication } from "../../../../features/app/state/actions";
+import { ConditionLayout } from "../../../../core/components/ConditionLayout";
 
 export const OverviewSection = () => {
   const { id } = useParams();
@@ -27,7 +29,7 @@ export const OverviewSection = () => {
     data: cardStats,
     isLoading: loadingCardStats,
     execute: getCardStats
-  } = useApi<ApplicationStats>({
+  } = useApi<AppIncidentsStats>({
     url: "/api/statistics",
     params: {
       id
@@ -37,19 +39,7 @@ export const OverviewSection = () => {
   const refresh = () => {
     get();
     getCardStats();
-  };
-
-  const renderContent = () => {
-    return (
-      <>
-        <StatCards stats={cardStats} isLoading={loadingCardStats} />
-        {stats?.length > 0 ? (
-          <IncidentsOverviewPlot stats={stats} />
-        ) : (
-          <DataNotFound label="Incidents metrics not found" />
-        )}
-      </>
-    );
+    dispatch(loadApplication());
   };
 
   return (
@@ -58,13 +48,14 @@ export const OverviewSection = () => {
         title="Total Incidents overview"
         extra={<SyncOutlined className="text-xs" onClick={() => refresh()} />}
       >
-        {isLoading && loadingCardStats ? (
-          <Space className="w-full justify-center">
-            <LoadingOutlined />
-          </Space>
-        ) : (
-          renderContent()
-        )}
+        <StatCards stats={cardStats} isLoading={loadingCardStats} />
+        <ConditionLayout
+          isLoading={isLoading && loadingCardStats}
+          isEmpty={stats?.length === 0}
+          emptyView={<DataNotFound label="Incidents metrics not found" />}
+        >
+          <IncidentsOverviewPlot stats={stats} />
+        </ConditionLayout>
       </PagePanel>
     </>
   );

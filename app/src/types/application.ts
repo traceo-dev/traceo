@@ -33,6 +33,7 @@ export interface Application {
   gravatar?: string;
   lastIncidentAt?: number;
   incidentsCount: number;
+  errorsCount: number;
   membersCount: number;
   defaultEnv?: ENVIRONMENT;
   createdAt: number;

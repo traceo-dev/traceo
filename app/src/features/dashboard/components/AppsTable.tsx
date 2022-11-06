@@ -88,9 +88,9 @@ export const AppsTable = () => {
       >
         <List
           dataSource={applications}
-          renderItem={(application: ApplicationMember) => (
+          renderItem={({ application, role }: ApplicationMember) => (
             <List.Item>
-              <AppCard app={application} />
+              <AppCard app={{ ...application, role }} />
             </List.Item>
           )}
         />
