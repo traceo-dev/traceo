@@ -30,9 +30,9 @@ export class AuthController {
 
   @Post('check')
   async check(
-    @Body() user: AccountCredentialsDto,
+    @Body() creds: AccountCredentialsDto,
   ): Promise<{ isCorrect: boolean; account?: Account }> {
-    return this.authService.checkCredentials(user);
+    return this.authService.checkCredentials(creds);
   }
 
   @Post('update-password')

@@ -9,7 +9,7 @@ import {
   IsString,
   IsUUID
 } from "class-validator";
-import { BaseDtoQuery } from "../core/generic.model";
+import { BaseDtoQuery } from "../core/query/generic.model";
 import { MemberRole } from "../db/entities/account-member-relationship.entity";
 
 export class ApplicationDtoQuery extends BaseDtoQuery { }

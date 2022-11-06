@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from '../auth/auth.model';
-import { BaseDtoQuery } from '../core/generic.model';
+import { BaseDtoQuery } from '../core/query/generic.model';
 import { AccountMemberRelationship } from '../db/entities/account-member-relationship.entity';
 import { Account } from '../db/entities/account.entity';
 import { AuthRequired } from '../libs/decorators/auth-required.decorator';

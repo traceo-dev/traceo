@@ -1,15 +1,11 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import {
-  DashboardStats,
-  HourlyStats,
   PlotData,
-  AppStats
+  AppIncidentsStats
 } from "../../types/statistics";
 import { EntityManager } from "typeorm";
 import dayjs from "dayjs";
 import { Incident } from "../../db/entities/incident.entity";
-import { RequestUser } from "../../auth/auth.model";
-import { Application } from "../../db/entities/application.entity";
 import { ErrorDetails } from "../../types/incident";
 
 @Injectable()
@@ -18,53 +14,42 @@ export class StatisticsQueryService {
 
   async getApplicationStatistics(
     id: string
-  ): Promise<AppStats> {
+  ): Promise<AppIncidentsStats> {
     try {
+      const minDateBefore = dayjs().subtract(7, "day").unix();
+
       const incidents = await this.entityManger
         .getRepository(Incident)
         .createQueryBuilder("incident")
         .where("incident.applicationId = :id", { id })
+        .where("incident.lastError > :date", { date: minDateBefore })
         .orderBy("incident.createdAt", "DESC", "NULLS LAST")
         .select(["incident.errorsDetails", "incident.errorsCount"])
         .getMany();
-
-      const incidentsCount = incidents?.length || 0;
-      const errorsCount = incidents?.reduce(
-        (acc, incident) => (acc += incident?.errorsCount),
-        0,
-      );
 
       const errorsDetails: ErrorDetails[] = incidents.reduce(
         (acc, curr) => acc.concat(curr.errorsDetails),
         [],
       );
 
-      const minDateBefore = dayjs().subtract(7, "day").unix();
-      const lastWeekIncidentsCount =
+      const lastWeekCount =
         errorsDetails?.filter((o) => dayjs(o?.date).isAfter(minDateBefore))?.length ||
         0;
 
-      const total = {
-        incidentsCount,
-        errorsCount,
-        lastWeek: lastWeekIncidentsCount
-      };
-
       return {
-        total
+        lastWeekCount
       };
     } catch (error) {
-      Logger.error(error);
       throw new Error(error);
     }
   }
 
   public async getDailyOverview(
     applicationId: string
-  ): Promise<{ count: number; data: HourlyStats[] }> {
+  ): Promise<{ count: number; data: PlotData[] }> {
     const today = dayjs().startOf("day").unix();
 
-    const response: HourlyStats[] = [];
+    const response: PlotData[] = [];
 
     const incidents = await this.entityManger
       .getRepository(Incident)
@@ -167,35 +152,5 @@ export class StatisticsQueryService {
     }
 
     return response;
-  }
-
-  public async getDashboardOverviewStatistics(
-    account: RequestUser,
-  ): Promise<DashboardStats> {
-    const { id } = account;
-
-    return this.entityManger.transaction(async (manager) => {
-      const ownerAppsCount = await manager
-        .getRepository(Application)
-        .createQueryBuilder("application")
-        .innerJoin("application.owner", "owner", "owner.id = :id", { id })
-        .getCount();
-
-      const monthStart = dayjs().subtract(1, "month").startOf("day").unix();
-      const incidents = await manager
-        .getRepository(Incident)
-        .createQueryBuilder("incident")
-        .leftJoin("incident.application", "application")
-        .innerJoin("application.owner", "owner", "owner.id = :id", { id })
-        .andWhere("incident.createdAt > :than", { than: monthStart })
-        .getCount();
-
-      return {
-        incidents,
-        apps: {
-          owner: ownerAppsCount
-        }
-      };
-    });
   }
 }

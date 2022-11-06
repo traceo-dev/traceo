@@ -50,7 +50,9 @@ export class ApplicationService {
           owner: account,
           gravatar: url,
           createdAt: dateUtils.toUnix(),
-          updatedAt: dateUtils.toUnix()
+          updatedAt: dateUtils.toUnix(),
+          incidentsCount: 0,
+          errorsCount: 0
         };
 
         const application = await manager

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { BaseDtoQuery } from '../../core/generic.model';
-import { GenericQueryService } from '../../core/generic-query.service';
+import { BaseDtoQuery } from '../../core/query/generic.model';
+import { GenericQueryService } from '../../core/query/generic-query.service';
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
 import { Application } from '../../db/entities/application.entity';
 import { Runtime } from '../../db/entities/runtime.entity';
@@ -46,17 +46,13 @@ export class ApplicationQueryService extends GenericQueryService<
         "application.membersCount",
         "application.members",
       )
-      .loadRelationCountAndMap(
-        "application.incidentsCount",
-        "application.incidents",
-      )
       .addSelect('owner.name', 'owner.email');
 
     return builder;
   }
 
   public selectedColumns(): string[] {
-    return ["id", "name", "gravatar", "lastIncidentAt", "connectedTSDB"];
+    return ["id", "name", "gravatar", "lastIncidentAt", "incidentsCount", "connectedTSDB"];
   }
 
   public async getApplicationRuntime(appId: number) {

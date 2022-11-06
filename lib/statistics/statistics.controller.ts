@@ -1,9 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RequestUser } from '../auth/auth.model';
-import { HourlyStats, PlotData, AppStats } from '../types/statistics';
+import { PlotData, AppIncidentsStats, DailyOverview } from '../types/statistics';
 import { AuthRequired } from '../libs/decorators/auth-required.decorator';
-import { AuthAccount } from '../libs/decorators/auth-user.decorator';
 import { StatisticsQueryService } from './query/statistics-query.service';
 
 @ApiTags('statistics')
@@ -17,7 +15,7 @@ export class StatisticsController {
   @AuthRequired()
   async getApplicationStatistics(
     @Query('id') id: string
-  ): Promise<AppStats> {
+  ): Promise<AppIncidentsStats> {
     return await this.statisticsQueryService.getApplicationStatistics(id);
   }
 
@@ -35,7 +33,7 @@ export class StatisticsController {
   @AuthRequired()
   async getDailyOverview(
     @Query('id') id: string
-  ): Promise<{ count: number; data: HourlyStats[] }> {
+  ): Promise<DailyOverview> {
     return await this.statisticsQueryService.getDailyOverview(id);
   }
 
@@ -45,15 +43,5 @@ export class StatisticsController {
     @Query('id') id: string
   ): Promise<PlotData[]> {
     return await this.statisticsQueryService.getTotalOverview(id);
-  }
-
-  @Get('/dashboard')
-  @AuthRequired()
-  async getDashboardOverviewStatistics(
-    @AuthAccount() account: RequestUser,
-  ): Promise<any> {
-    return await this.statisticsQueryService.getDashboardOverviewStatistics(
-      account,
-    );
   }
 }

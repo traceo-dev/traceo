@@ -4,24 +4,25 @@ import { Application } from "../../db/entities/application.entity";
 import { TSDB } from "../../types/tsdb";
 import { Metrics } from "../../types/worker";
 import { EntityManager } from "typeorm";
+import { BaseWorkerService } from "lib/core/worker/base-worker.service";
 
 @Injectable()
-export class MetricsService {
+export class MetricsService extends BaseWorkerService<Metrics> {
     constructor(
         private entityManager: EntityManager,
         private influxService: InfluxService
-    ) { }
+    ) {
+        super(entityManager);
+    }
 
-    async processMetrics(id: number, data: Metrics) {
+    public async handle(application: Application, data: Metrics): Promise<void> {
+        const { id } = application;
+
         const app = await this.entityManager.getRepository(Application)
             .createQueryBuilder('application')
             .where('application.id = :id', { id })
             .leftJoinAndSelect('application.influxDS', 'influxDS')
             .getOne();
-
-        if (!app) {
-            throw new Error(`[${this.processMetrics.name}] Application with ID: ${id} does not exists!`);
-        }
 
         if (!app?.connectedTSDB) {
             return;
@@ -35,6 +36,7 @@ export class MetricsService {
                 }
 
                 const config = { ...influxDS, appId: id };
+                this.logger.log(`New metrics write to InfluxDB for appId: ${id}`);
                 await this.influxService.writeData(config, data);
             }
             default:

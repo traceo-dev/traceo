@@ -1,76 +1,53 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Application } from "../../db/entities/application.entity";
 import { Incident } from "../../db/entities/incident.entity";
-import { isEmpty } from "../../helpers/base";
 import dateUtils from "../../helpers/dateUtils";
 import { IncidentStatus } from "../../types/incident";
 import { TraceoIncidentModel } from "../../types/worker";
-import { EntityManager } from "typeorm";
-import { ApplicationQueryService } from "../../../lib/application/application-query/application-query.service";
-import { ProcessIncidentError } from "../../../lib/helpers/errors";
+import { EntityManager, UpdateResult } from "typeorm";
+import { BaseWorkerService } from "lib/core/worker/base-worker.service";
 
 @Injectable()
-export class ProcessIncidentsService {
+export class ProcessIncidentsService extends BaseWorkerService<TraceoIncidentModel> {
     constructor(
         private readonly entityManager: EntityManager,
-        private readonly appService: ApplicationQueryService
-    ) { }
+    ) {
+        super(entityManager);
+    }
 
-    async processIncident(id: number, incident: TraceoIncidentModel): Promise<void> {
-        if (!id) {
-            Logger.error(`[${this.processIncident.name}] SDK Incident cannot be processed without appID!`)
-            return;
-        }
-
-        if (!incident || isEmpty(incident)) {
-            Logger.error(`[${this.processIncident.name}] SDK Incident cannot be processed without incident body!`)
-            return;
-        }
-
-        await this.appService.checkAppExists(id);
+    public async handle(application: Application, data: TraceoIncidentModel): Promise<void> {
+        const { type, message } = data;
 
         await this.entityManager.transaction(async (manager) => {
-            try {
-                const { type, message } = incident;
+            const incident = await manager.getRepository(Incident)
+                .createQueryBuilder('incident')
+                .innerJoin('incident.application', 'application', 'application.id = :id', { id: application.id })
+                .where('incident.type = :type', { type })
+                .where('incident.message = :message', { message })
+                .getOne();
 
-                const inc = await manager.getRepository(Incident)
-                    .createQueryBuilder('incident')
-                    .innerJoin('incident.application', 'application', 'application.id = :id', { id })
-                    .where('incident.type = :type', { type })
-                    .andWhere('incident.message = :message', { message })
-                    .getOne();
+            if (incident) {
+                this.saveError(incident, manager);
+                this.updateApplication(application, false, manager);
 
-                if (inc) {
-                    await this.saveError(inc, manager);
-
-                    Logger.log(
-                        `[processSDKIncident] Incident successfully processed. Incident has been grouped to main incident: ${inc.id}`,
-                    );
-
-                    return;
-                }
-
-                await this.createNewIncident(id, incident, manager);
-                await this.updateApplication(id, manager);
-
-                Logger.log(
-                    `[${this.processIncident.name}] Incident successfully processed for application: ${id}.`,
-                );
-            } catch (error) {
-                throw new ProcessIncidentError(error);
+                this.logger.log(`Incident successfully processed. Incident has been grouped to main incident: ${incident.id}`);
+                return;
             }
+
+            this.createNewIncident(application, data, manager);
+            this.updateApplication(application, true, manager);
+            this.logger.log(`Incident successfully processed for application: ${application.id}.`);
         });
     }
 
-    private async createNewIncident(appId: number, incident: TraceoIncidentModel, manager: EntityManager = this.entityManager): Promise<void> {
-        const application = await this.updateApplication(appId, manager);
+    private async createNewIncident(app: Application, incident: TraceoIncidentModel, manager: EntityManager = this.entityManager): Promise<void> {
         const incidentPayload: Partial<Incident> = {
             status: IncidentStatus.UNRESOLVED,
             createdAt: dateUtils.toUnix(),
             errorsCount: 1,
             lastError: dateUtils.toUnix(),
             errorsDetails: [{ date: dateUtils.toUnix() }],
-            application,
+            application: app,
             ...incident
         }
 
@@ -82,13 +59,21 @@ export class ProcessIncidentsService {
             .execute();
     }
 
-    private async updateApplication(appId: number, manager: EntityManager = this.entityManager): Promise<Application> {
-        return await manager.getRepository(Application).save(
-            { id: appId, lastIncidentAt: dateUtils.toUnix() },
-        );
+    private async updateApplication(app: Application, incrementIncidentCount: boolean, manager: EntityManager = this.entityManager): Promise<UpdateResult> {
+        return await manager
+            .createQueryBuilder()
+            .update(Application)
+            .whereInIds(app.id)
+            .set({
+                lastIncidentAt: dateUtils.toUnix(),
+                errorsCount: () => "errorsCount + 1",
+                incidentsCount: () => `incidentsCount + ${incrementIncidentCount ? 1 : 0}`
+            })
+            .execute();
     }
 
     private async saveError(incident: Incident, manager: EntityManager = this.entityManager) {
+        // TODO: to refactoring
         incident?.errorsDetails.push({ date: dateUtils.toUnix() });
         await manager.getRepository(Incident).update(
             { id: incident?.id },

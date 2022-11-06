@@ -22,7 +22,7 @@ export class AuthService {
     private readonly accountService: AccountService,
     private readonly jwtService: JwtService,
     private readonly entityManager: EntityManager,
-  ) {}
+  ) { }
 
   public async login(
     accountCredentials: AccountCredentialsDto,
@@ -71,7 +71,7 @@ export class AuthService {
       .createQueryBuilder('account')
       .where('account.email = :email', { email: usernameOrEmail })
       .orWhere('account.username = :username', { username: usernameOrEmail })
-      .andWhere("account.password = :password", {
+      .where("account.password = :password", {
         password: createHmac("sha256", password).digest("hex")
       })
       .getOne();
@@ -109,8 +109,8 @@ export class AuthService {
         password,
       );
 
-      const correctPassword = await this.checkCredentials(credentials, manager);
-      if (!correctPassword.isCorrect) {
+      const { isCorrect } = await this.checkCredentials(credentials, manager);
+      if (!isCorrect) {
         throw new BadPasswordOrNotExists();
       }
 

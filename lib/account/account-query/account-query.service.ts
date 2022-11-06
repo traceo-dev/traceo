@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { BaseDtoQuery } from '../../core/generic.model';
-import { GenericQueryService } from '../../core/generic-query.service';
+import { BaseDtoQuery } from '../../core/query/generic.model';
+import { GenericQueryService } from '../../core/query/generic-query.service';
 import { Account } from '../../db/entities/account.entity';
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
 

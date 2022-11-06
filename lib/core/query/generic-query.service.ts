@@ -7,7 +7,7 @@ import {
   SelectQueryBuilder
 } from 'typeorm';
 import { BaseDtoQuery } from './generic.model';
-import { GenericEntity } from './generic.entity';
+import { GenericEntity } from '../generic.entity';
 
 @Injectable()
 export abstract class GenericQueryService<

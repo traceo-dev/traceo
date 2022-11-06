@@ -4,7 +4,6 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Account } from "./account.entity";
@@ -60,7 +59,23 @@ export class Application extends GenericEntity {
     onDelete: "CASCADE",
   })
   incidents?: Incident[];
-  incidentsCount?: number;
+
+
+  @Column({
+    type: "bigint",
+    nullable: false,
+    name: "incidentscount",
+    default: 0
+  })
+  incidentsCount?: number = 0;
+
+  @Column({
+    type: "bigint",
+    nullable: false,
+    name: "errorscount",
+    default: 0
+  })
+  errorsCount?: number = 0;
 
   @OneToMany(() => Runtime, (runtime) => runtime.application, {
     onUpdate: "CASCADE",

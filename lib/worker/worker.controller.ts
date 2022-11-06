@@ -15,14 +15,14 @@ export class WorkerController {
         private readonly logsService: LogsService,
         private readonly metricsService: MetricsService,
         private readonly runtimeService: RuntimeService
-    ) {}
+    ) { }
 
     @Post('/incident/:id')
     async handleSDKIncidents(
         @Param("id") id: number,
         @Body() data: Incident,
     ): Promise<void> {
-        await this.processIncidentsService.processIncident(id, data);
+        await this.processIncidentsService.processWorkerData(id, data);
     }
 
     @Post("/runtime/:id")
@@ -30,7 +30,7 @@ export class WorkerController {
         @Param("id") id: number,
         @Body() data: any
     ): Promise<void> {
-        await this.runtimeService.processRuntimeMetrics(id, data);
+        await this.runtimeService.processWorkerData(id, data);
     }
 
     @Post("/log/:id")
@@ -38,7 +38,7 @@ export class WorkerController {
         @Param("id") id: number,
         @Body() data: any
     ): Promise<void> {
-        await this.logsService.processLog(id, data);
+        await this.logsService.processWorkerData(id, data);
     }
 
     @Post("/metrics/:id")
@@ -46,6 +46,6 @@ export class WorkerController {
         @Param("id") id: number,
         @Body() data: Metrics
     ): Promise<void> {
-        await this.metricsService.processMetrics(id, data);
+        await this.metricsService.processWorkerData(id, data);
     }
 }

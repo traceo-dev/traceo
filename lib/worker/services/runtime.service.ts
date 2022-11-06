@@ -1,44 +1,33 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Runtime } from "../../db/entities/runtime.entity";
 import { EntityManager } from "typeorm";
+import { BaseWorkerService } from "lib/core/worker/base-worker.service";
+import { Application } from "lib/db/entities/application.entity";
 
 @Injectable()
-export class RuntimeService {
+export class RuntimeService extends BaseWorkerService<object> {
     constructor(
         private readonly entityManager: EntityManager
-    ) { }
+    ) {
+        super(entityManager)
+    }
 
-    public async processRuntimeMetrics(appId: number, data: object) {
-        if (!appId) {
-            throw new Error('appId is requried!');
+    public async handle(application: Application, data: object): Promise<void> {
+        const { id } = application;
+
+        const runtime = await this.entityManager.getRepository(Runtime).findOne({ where: { application: { id } } });
+        if (!runtime) {
+            await this.entityManager.getRepository(Runtime).save(
+                {
+                    application: { id },
+                    data
+                }
+            );
+            this.logger.log(`Runtime metrics successfully saved for appId: ${id}.`);
+            return;
         }
 
-        try {
-            const runtime = await this.entityManager.getRepository(Runtime).findOne({ where: { application: { id: appId } } });
-            if (!runtime) {
-                await this.entityManager.getRepository(Runtime).save(
-                    {
-                        application: {
-                            id: appId
-                        },
-                        data
-                    }
-                );
-                Logger.log(
-                    `[saveRuntimeMetrics] Runtime metrics successfully saved for appId: ${appId}.`
-                );
-                return;
-            }
-
-            await this.entityManager.getRepository(Runtime).update({ id: runtime.id }, { data });
-            Logger.log(
-                `[saveRuntimeMetrics] Runtime metrics successfully updated for appId: ${appId}.`
-            );
-        } catch (error) {
-            Logger.log(
-                `[saveRuntimeMetrics] Error during update runtime metrics. Caused by: ${error}`
-            );
-            throw new Error(error);
-        }
+        await this.entityManager.getRepository(Runtime).update({ id: runtime.id }, { data });
+        this.logger.log(`Runtime metrics successfully updated for appId: ${id}.`);
     }
 }

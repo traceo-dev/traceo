@@ -15,7 +15,7 @@ import { AuthRequired } from '../libs/decorators/auth-required.decorator';
 import { AuthAccount } from '../libs/decorators/auth-user.decorator';
 import { CommentsService } from './comments.service';
 import { CommentsQueryService } from './query/comments-query.service';
-import { BaseDtoQuery } from '../core/generic.model';
+import { BaseDtoQuery } from '../core/query/generic.model';
 import { PatchCommentDto } from '../types/comments';
 
 @ApiTags('comments')

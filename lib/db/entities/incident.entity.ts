@@ -64,7 +64,9 @@ export class Incident extends GenericEntity {
   })
   application: Application;
 
-  @ManyToOne(() => Account, (account) => account.incidents)
+  @ManyToOne(() => Account, (account) => account.incidents, {
+    onDelete: "SET NULL"
+  })
   @JoinColumn({
     name: "assignedId",
   })
