@@ -55,7 +55,7 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
       }
     },
     grid: {
-      left: "40px",
+      left: "45px",
       right: "5px",
       top: "10px",
       bottom: "5px"

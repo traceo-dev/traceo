@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { dispatch } from "../../../store/store";
-import { MemberRole, TSDB } from "../../../types/application";
+import { TSDB } from "../../../types/application";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
 import { StoreState } from "../../../types/store";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";

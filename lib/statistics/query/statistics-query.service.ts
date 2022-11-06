@@ -22,7 +22,7 @@ export class StatisticsQueryService {
         .getRepository(Incident)
         .createQueryBuilder("incident")
         .where("incident.applicationId = :id", { id })
-        .where("incident.lastError > :date", { date: minDateBefore })
+        .andWhere("incident.lastError > :date", { date: minDateBefore })
         .orderBy("incident.createdAt", "DESC", "NULLS LAST")
         .select(["incident.errorsDetails", "incident.errorsCount"])
         .getMany();

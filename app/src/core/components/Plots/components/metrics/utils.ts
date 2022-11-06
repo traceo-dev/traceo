@@ -69,31 +69,31 @@ export const metricConfig: Record<METRIC_TYPE, Metric> = {
             }
         ]
     },
-    [METRIC_TYPE.GC_TIME]: {
-        title: "Garbage Collection Time",
-        type: METRIC_TYPE.GC_TIME,
-        unit: "ms",
-        series: [
-            {
-                field: "gcTotalTime",
-                name: "Total Time",
-                color: "#705DA0",
-                type: "bar",
-                area: {
-                    color: "#705DA0"
-                }
-            },
-            {
-                field: "gcAvgTime",
-                name: "Average Time",
-                color: "#31A82D",
-                seriesLineWidth: 2,
-                area: {
-                    color: "transparent"
-                }
-            }
-        ]
-    },
+    // [METRIC_TYPE.GC_TIME]: {
+    //     title: "Garbage Collection Time",
+    //     type: METRIC_TYPE.GC_TIME,
+    //     unit: "ms",
+    //     series: [
+    //         {
+    //             field: "gcTotalTime",
+    //             name: "Total Time",
+    //             color: "#705DA0",
+    //             type: "bar",
+    //             area: {
+    //                 color: "#705DA0"
+    //             }
+    //         },
+    //         {
+    //             field: "gcAvgTime",
+    //             name: "Average Time",
+    //             color: "#31A82D",
+    //             seriesLineWidth: 2,
+    //             area: {
+    //                 color: "transparent"
+    //             }
+    //         }
+    //     ]
+    // },
     [METRIC_TYPE.HEAP]: {
         title: "Heap",
         type: METRIC_TYPE.HEAP,
