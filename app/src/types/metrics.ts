@@ -4,7 +4,7 @@ export enum METRIC_TYPE {
     RSS = "rss",
     HEAP = "heap",
     EVENT_LOOP_DELAY = "event_loop_delay",
-    GC_TIME = "gc_time",
+    // GC_TIME = "gc_time",
     HEAP_CONTEXTS = "heap_contexts",
     LOAD_AVG = "load_avg",
 }
@@ -30,10 +30,10 @@ export const handleHeaderInfo: Record<METRIC_TYPE, { title: string; subTitle: st
         title: "Heap",
         subTitle: "Total amount of memory being used by JS objects."
     },
-    [METRIC_TYPE.GC_TIME]: {
-        title: "Garbage Collection Time",
-        subTitle: "Garbage collection average and total duration counted from the last measurement."
-    },
+    // [METRIC_TYPE.GC_TIME]: {
+    //     title: "Garbage Collection Time",
+    //     subTitle: "Garbage collection average and total duration counted from the last measurement."
+    // },
     [METRIC_TYPE.RSS]: {
         title: "RSS",
         subTitle: "Resident set size (RSS) is the portion of memory occupied by a process that is held in main memory (RAM)."

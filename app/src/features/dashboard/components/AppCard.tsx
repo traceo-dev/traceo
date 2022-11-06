@@ -33,7 +33,7 @@ export const AppCard: FC<Props> = ({ app }) => {
       >
         <Space className="w-full justify-between">
           <Space>
-            <Avatar shape="circle" name={app.name} url={app?.gravatar} />
+            <Avatar shape="circle" size="large" name={app.name} url={app?.gravatar} />
             <Space className="w-full pl-3 gap-0" direction="vertical">
               <div>
                 <Typography.Text className="text-sm">{app.name}</Typography.Text>

@@ -1,4 +1,9 @@
-import { DownOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+  CheckCircleFilled,
+  CheckOutlined,
+  DownOutlined,
+  LoadingOutlined
+} from "@ant-design/icons";
 import { Popover, Space, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -35,18 +40,24 @@ export const AppSwitcher = () => {
     )}/overview`;
   };
 
-  const appSelector = (
+  const appSelector = () => (
     <ConditionLayout isLoading={!fetchedApps}>
-      {applications?.map((app: ApplicationMember["application"], index) => (
+      {applications?.map((app: ApplicationMember, index) => (
         <Space key={index} className="py-2 w-full">
           <Typography.Text
             className={joinClasses(
               "cursor-pointer",
-              conditionClass(app.id === application.id, "font-semibold text-cyan-600")
+              conditionClass(
+                app.application.id === application.id,
+                "font-semibold text-cyan-600"
+              )
             )}
-            onClick={() => selectApp(app)}
+            onClick={() => selectApp(app.application)}
           >
-            {app.name}
+            {app.application.name}
+            {app.application.id === application.id && (
+              <CheckCircleFilled className="pl-2" />
+            )}
           </Typography.Text>
         </Space>
       ))}

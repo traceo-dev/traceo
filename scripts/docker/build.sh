@@ -10,4 +10,4 @@ fi
 
 echo "Building image piotrszewczyk/traceo:$_traceo_tag"
 
-docker build --tag piotrszewczyk/traceo:$_traceo_tag .
+docker build -t piotrszewczyk/traceo:$_traceo_tag -t piotrszewczyk/traceo:latest .
