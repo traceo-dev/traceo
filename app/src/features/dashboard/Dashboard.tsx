@@ -30,7 +30,7 @@ export const Dashboard = () => {
                 onClick={() => setOpenApplicationModal(true)}
                 type="primary"
               >
-                Create new app
+                New application
               </Button>
             </ServerPermissions>
           }

@@ -66,17 +66,6 @@ export const AppIncidentAnalyticsPage = () => {
           </div>
         </PagePanel>
         <PagePanel title="Total Incident overview">
-          <Space className="w-full justify-between p-5">
-            <Space className="w-full gap-0" direction="vertical">
-              <Typography className="text-md font-semibold primary">
-                Total count
-              </Typography>
-              <Typography className="text-3xl">{incident?.errorsCount}</Typography>
-              <Typography className="text-xs">
-                The total count of this exception occurred
-              </Typography>
-            </Space>
-          </Space>
           <IncidentsOverviewPlot stats={stats} />
         </PagePanel>
       </ConditionLayout>

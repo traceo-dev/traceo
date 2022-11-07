@@ -1,8 +1,8 @@
 import {
-  BugOutlined,
   LoadingOutlined,
   MessageOutlined,
-  UserOutlined
+  UserOutlined,
+  WarningOutlined
 } from "@ant-design/icons";
 import { Space, Tooltip, Typography } from "antd";
 import { ColumnsType, TableProps } from "antd/lib/table";
@@ -142,19 +142,21 @@ const IncidentMainColumn: FC<MainColumnProps> = ({ incident }) => {
       </Typography>
       <Space className="pt-2">
         <IncidentStatusTag status={incident?.status} />|
-        <Typography className="text-xs font-semibold text-primary">
+        <Typography className="text-xs font-semibold text-primary pipe">
           Last: {dateUtils.fromNow(incident?.lastError)}
         </Typography>
-        |
-        <Typography className="text-xs font-semibold text-primary">
-          <BugOutlined className="pr-3" />
-          {incident?.errorsCount}
-        </Typography>
-        |
-        <Typography className="text-xs font-semibold text-primary">
-          <MessageOutlined className="pr-3" />
-          {incident?.commentsCount || 0}
-        </Typography>
+        <Tooltip title="Errors count">
+          <Typography className="text-xs font-semibold text-primary pipe">
+            <WarningOutlined className="pr-2" />
+            {incident?.errorsCount}
+          </Typography>
+        </Tooltip>
+        <Tooltip title="Comments count">
+          <Typography className="text-xs font-semibold text-primary">
+            <MessageOutlined className="pr-2" />
+            {incident?.commentsCount || 0}
+          </Typography>
+        </Tooltip>
       </Space>
     </Space>
   );

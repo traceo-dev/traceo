@@ -19,12 +19,6 @@ export const Footer = () => {
           <Typography.Text className="text-primary">v.{VERSION}</Typography.Text>
         </Row>
       </AntFooter>
-      <style>{`
-        .pipe:after {
-          content: " | ";
-          padding: 0 8px;
-        }
-      `}</style>
     </>
   );
 };

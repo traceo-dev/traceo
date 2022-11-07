@@ -16,6 +16,7 @@ import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
 import { StoreState } from "../../../../types/store";
 import { loadServerApplication } from "../../state/applications/actions";
+import dateUtils from "core/utils/date";
 
 export const ApplicationInformation = () => {
   const navigate = useNavigate();
@@ -57,14 +58,6 @@ export const ApplicationInformation = () => {
   const OperationButtons = () => {
     return (
       <Space className="w-full justify-end">
-        {/* <Button
-          onClick={() =>
-            navigate(`/app/${application.id}/${slugifyForUrl(application.name)}/overview`)
-          }
-          type="primary"
-        >
-          Visit
-        </Button> */}
         <Confirm
           withAuth={true}
           description="Are you sure that you want to remove this app?"
@@ -84,6 +77,15 @@ export const ApplicationInformation = () => {
         <Descriptions>
           <DescriptionInputRow label="Name" onUpdate={onUpdate}>
             {application.name}
+          </DescriptionInputRow>
+          <DescriptionInputRow label="Last error at">
+            {dateUtils.fromNow(application.lastIncidentAt)}
+          </DescriptionInputRow>
+          <DescriptionInputRow label="Incidents count">
+            {application.incidentsCount}
+          </DescriptionInputRow>
+          <DescriptionInputRow label="Errors count">
+            {application.errorsCount}
           </DescriptionInputRow>
         </Descriptions>
       </PagePanel>

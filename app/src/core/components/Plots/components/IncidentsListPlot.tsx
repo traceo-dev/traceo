@@ -29,7 +29,7 @@ export const IncidentsListPlot: FC<Props> = ({ errors }) => {
       left: "5px",
       right: "5px",
       top: "10px",
-      bottom: "5px",
+      bottom: "0px",
       containLabel: true
     },
     xAxis: {

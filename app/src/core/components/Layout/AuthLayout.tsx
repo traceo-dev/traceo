@@ -1,14 +1,14 @@
 import { Card, Col, Space, Typography } from "antd";
+import { VERSION } from "core/utils/constants";
 import { FC } from "react";
 import { TraceoLogo } from "../Icons/TraceoLogo";
 
 interface Props {
   children: JSX.Element;
   title?: string;
-  subtitle?: string;
 }
 
-export const AuthLayout: FC<Props> = ({ children, title, subtitle }) => {
+export const AuthLayout: FC<Props> = ({ children, title }) => {
   return (
     <>
       <div className="wrapper">
@@ -21,12 +21,10 @@ export const AuthLayout: FC<Props> = ({ children, title, subtitle }) => {
               <TraceoLogo size="medium" />
 
               {title && (
-                <Typography className="font-semibold pb-5 text-3xl">{title}</Typography>
+                <Typography className="font-semibold text-3xl">{title}</Typography>
               )}
 
-              {subtitle && (
-                <Typography className="text-center font-medium">{subtitle}</Typography>
-              )}
+              <Typography.Text className="w-full text-xs">v.{VERSION}</Typography.Text>
             </Space>
             <div className="cardBody">{children}</div>
           </Col>
