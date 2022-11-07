@@ -1,2 +1,2 @@
 export const ADMIN_EMAIL = "admin@localhost";
-export const VERSION = "1.2.3";
+export const VERSION = "0.2.3";
