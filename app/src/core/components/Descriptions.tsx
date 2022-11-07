@@ -84,7 +84,7 @@ export const DescriptionInputRow: FC<DescriptionInputRowProps> = ({
   label,
   children,
   onUpdate,
-  editable = true
+  editable = false
 }) => {
   const [updateMode, setUpdateMode] = useState<boolean>(false);
   const [value, setValue] = useState<string>();

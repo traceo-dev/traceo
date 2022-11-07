@@ -1,4 +1,4 @@
-import { BugOutlined, SafetyCertificateFilled } from "@ant-design/icons";
+import { BugOutlined, SafetyCertificateFilled, WarningOutlined } from "@ant-design/icons";
 import { Card, Space, Tooltip, Typography } from "antd";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,8 +21,8 @@ export const AppCard: FC<Props> = ({ app }) => {
     dispatch(loadApplication(app.id));
   };
 
-  const lastIncident = app?.lastIncidentAt
-    ? "Last incident " + dateUtils.fromNow(app?.lastIncidentAt)
+  const lastError = app?.lastIncidentAt
+    ? "Last error " + dateUtils.fromNow(app?.lastIncidentAt)
     : "-- : --";
 
   return (
@@ -34,7 +34,7 @@ export const AppCard: FC<Props> = ({ app }) => {
         <Space className="w-full justify-between">
           <Space>
             <Avatar shape="circle" size="large" name={app.name} url={app?.gravatar} />
-            <Space className="w-full pl-3 gap-0" direction="vertical">
+            <Space className="w-full pl-1 gap-0" direction="vertical">
               <div>
                 <Typography.Text className="text-sm">{app.name}</Typography.Text>
                 {app.role === MemberRole.ADMINISTRATOR && (
@@ -43,10 +43,18 @@ export const AppCard: FC<Props> = ({ app }) => {
                   </Tooltip>
                 )}
               </div>
-              <Space>
-                <div className="text-2xs w-full font-normal">{lastIncident}</div>|
-                <BugOutlined />
-                <div className="text-2xs w-full font-normal">{app.errorsCount}</div>
+              <Space className="text-xs">
+                <Typography.Text className="pipe">{lastError}</Typography.Text>
+                <Tooltip title="Incidents count">
+                  <Typography.Text className="pipe">
+                    <BugOutlined /> {app?.incidentsCount || 0}
+                  </Typography.Text>
+                </Tooltip>
+                <Tooltip title="Errors count">
+                  <Typography.Text>
+                    <WarningOutlined /> {app?.errorsCount || 0}
+                  </Typography.Text>
+                </Tooltip>
               </Space>
             </Space>
           </Space>

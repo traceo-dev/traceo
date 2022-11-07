@@ -268,3 +268,8 @@ body {
 .details-table-value {
   width: 400px !important;
 }
+
+.pipe:after {
+  content: " | ";
+  padding: 0 8px;
+}

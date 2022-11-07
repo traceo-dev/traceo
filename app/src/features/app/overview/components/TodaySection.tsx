@@ -31,7 +31,7 @@ export const TodaySection = () => {
       <PagePanel
         title={
           <Space>
-            <Typography.Text>Today Incidents</Typography.Text>
+            <Typography.Text>Today</Typography.Text>
             <Typography.Text className="text-xs pl-5">
               <ClockCircleOutlined className="mr-1" /> {dateUtils.getNow("HH:mm")}
             </Typography.Text>

@@ -21,7 +21,7 @@ export const StatCards: FC<Props> = ({ stats, isLoading }) => {
             <TextLabel
               className="font-medium"
               label="Last week"
-              hint="Number of incidents captured by Traceo SDK in the last week"
+              hint="Number of errors captured by Traceo SDK in the last week"
             />
           }
           className="font-semibold"
@@ -37,8 +37,8 @@ export const StatCards: FC<Props> = ({ stats, isLoading }) => {
           title={
             <TextLabel
               className="font-medium"
-              label="Total incidents"
-              hint="Number of incidents captured by Traceo SDK in this app. Big number is a count of main incidents while small number is a number of occurrences of main incidents"
+              label="All Incidents"
+              hint="Number of incidents captured by Traceo SDK in this app. Big number is a count of main incidents while small number is a total number of errors."
             />
           }
           value={application?.incidentsCount}

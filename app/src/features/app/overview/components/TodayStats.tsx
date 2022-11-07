@@ -17,12 +17,12 @@ export const TodayStats: FC<Props> = ({ stats }) => {
       <Space className="today-stats" direction="vertical">
         <Space className="w-full py-4 gap-0 pl-8" direction="vertical">
           <Statistic
-            title={<TextLabel className="font-medium" label="Incidents count" />}
+            title={<TextLabel className="font-medium" label="Errors count" />}
             className="font-semibold"
             value={stats?.count}
           />
           <Typography className="text-xs w-full pt-1">
-            Total count of today&apos;s incidents
+            The number of today&apos;s errors
           </Typography>
         </Space>
         <Divider className="p-0 m-0 bg-gray-200" />

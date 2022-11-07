@@ -19,13 +19,13 @@ import { SearchWrapper } from "../../../core/components/SearchWrapper";
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",
   CREATED_AT = "createdAt",
-  LAST_INCIDENT = "lastIncidentAt"
+  LAST_ERROR = "lastIncidentAt"
 }
 
 export const handleAppSort: Record<AppsSortBy, string> = {
   [AppsSortBy.CREATED_AT]: "Created at",
   [AppsSortBy.LAST_UPDATE]: "Last update",
-  [AppsSortBy.LAST_INCIDENT]: "Last incident"
+  [AppsSortBy.LAST_ERROR]: "Last error"
 };
 
 export const AppsTable = () => {
@@ -36,7 +36,7 @@ export const AppsTable = () => {
 
   const [order, setOrder] = useState<SortOrder>("DESC");
   const [search, setSearch] = useState<string>(null);
-  const [sortBy, setSortBy] = useState<AppsSortBy>(AppsSortBy.LAST_INCIDENT);
+  const [sortBy, setSortBy] = useState<AppsSortBy>(AppsSortBy.LAST_ERROR);
 
   const queryParams: SearchApplicationQueryParams = {
     order,

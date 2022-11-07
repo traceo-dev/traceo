@@ -45,7 +45,7 @@ export const OverviewSection = () => {
   return (
     <>
       <PagePanel
-        title="Total Incidents overview"
+        title="App overview"
         extra={<SyncOutlined className="text-xs" onClick={() => refresh()} />}
       >
         <StatCards stats={cardStats} isLoading={loadingCardStats} />

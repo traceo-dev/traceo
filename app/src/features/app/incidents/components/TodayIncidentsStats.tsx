@@ -18,7 +18,7 @@ export const TodayIncidentsStats: FC<Props> = ({ count, last, isMore, value }) =
     >
       <Space className="w-full py-4 gap-0 pl-8" direction="vertical">
         <Typography className="text-md text-primary font-semibold">
-          Incidents count
+          Errors count
         </Typography>
         <Space className="w-full">
           <Typography className="text-3xl">{count}</Typography>
@@ -32,7 +32,7 @@ export const TodayIncidentsStats: FC<Props> = ({ count, last, isMore, value }) =
           </Tooltip>
         </Space>
         <Typography className="text-xs w-full">
-          Total count of today&apos;s incidents
+          The number of today&apos;s errors
         </Typography>
       </Space>
       <Divider className="p-0 m-0 bg-gray-200" />

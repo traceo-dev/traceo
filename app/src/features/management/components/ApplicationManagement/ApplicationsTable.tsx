@@ -1,5 +1,5 @@
-import { TeamOutlined } from "@ant-design/icons";
-import { Typography } from "antd";
+import { BugOutlined, TeamOutlined, WarningOutlined } from "@ant-design/icons";
+import dateUtils from "../../../../core/utils/date";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "../../../../core/components/Avatar";
@@ -23,11 +23,38 @@ export const ApplicationsTable: FC<Props> = ({ applications, hasFetched }) => {
       dataIndex: "name"
     },
     {
+      title: "ID",
+      dataIndex: "id"
+    },
+    {
+      title: "Last error",
+      dataIndex: "lastIncidentAt",
+      render: (val: number) => dateUtils.fromNow(val)
+    },
+    {
+      title: "Incidents count",
+      dataIndex: "incidentsCount",
+      render: (val: number) => (
+        <>
+          <BugOutlined className="pr-2" /> {val}
+        </>
+      )
+    },
+    {
+      title: "Errors count",
+      dataIndex: "errorsCount",
+      render: (val: number) => (
+        <>
+          <WarningOutlined className="pr-2" /> {val}
+        </>
+      )
+    },
+    {
       title: "Members",
       render: (app: Application) => (
-        <Typography.Text>
-          <TeamOutlined /> {app.membersCount}
-        </Typography.Text>
+        <>
+          <TeamOutlined className="pr-2" /> {app.membersCount}
+        </>
       )
     }
   ];

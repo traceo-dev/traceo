@@ -1,9 +1,4 @@
-import {
-  CheckCircleFilled,
-  CheckOutlined,
-  DownOutlined,
-  LoadingOutlined
-} from "@ant-design/icons";
+import { CheckCircleFilled, DownOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Popover, Space, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
