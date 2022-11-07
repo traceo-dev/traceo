@@ -1,5 +1,5 @@
 import { Card, Col, Space, Typography } from "antd";
-import { VERSION } from "core/utils/constants";
+import { VERSION } from "../../../core/utils/constants";
 import { FC } from "react";
 import { TraceoLogo } from "../Icons/TraceoLogo";
 

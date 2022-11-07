@@ -16,7 +16,7 @@ import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
 import { StoreState } from "../../../../types/store";
 import { loadServerApplication } from "../../state/applications/actions";
-import dateUtils from "core/utils/date";
+import dateUtils from "../../../../core/utils/date";
 
 export const ApplicationInformation = () => {
   const navigate = useNavigate();

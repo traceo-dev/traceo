@@ -1,5 +1,5 @@
 import { BugOutlined, TeamOutlined, WarningOutlined } from "@ant-design/icons";
-import dateUtils from "core/utils/date";
+import dateUtils from "../../../../core/utils/date";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "../../../../core/components/Avatar";
