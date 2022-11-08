@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { AmrQueryService } from '../application-member/amr-query/amr-query.service';
 import { AccountQueryService } from '../account/account-query/account-query.service';
+import { AccountPermissionService } from 'lib/account/account-permission/account-permission.service';
 
 @Module({
   imports: [PassportModule.register({ defaultStrategy: "jwt" })],
@@ -14,8 +15,9 @@ import { AccountQueryService } from '../account/account-query/account-query.serv
     AmrService,
     AmrQueryService,
     AccountQueryService,
-    ApplicationQueryService
+    ApplicationQueryService,
+    AccountPermissionService
   ],
   controllers: [ApplicationController]
 })
-export class ApplicationModule {}
+export class ApplicationModule { }

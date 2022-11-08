@@ -1,5 +1,8 @@
 import { Controller, Delete, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AccountPermissionService } from 'lib/account/account-permission/account-permission.service';
+import { RequestUser } from 'lib/auth/auth.model';
+import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';
 import { InfluxDS } from '../db/entities/influxds.entity';
 import { AuthRequired } from '../libs/decorators/auth-required.decorator';
 import { MetricsQueryDto, MetricsResponse } from '../types/tsdb';
@@ -9,7 +12,8 @@ import { DataSourceService } from './dataSource.service';
 @Controller('datasource')
 export class DataSourceController {
     constructor(
-        private readonly dsService: DataSourceService
+        private readonly dsService: DataSourceService,
+        private readonly permission: AccountPermissionService
     ) { }
 
     @Get()
@@ -26,7 +30,12 @@ export class DataSourceController {
 
     @Delete()
     @AuthRequired()
-    public async removeDataSource(@Query("id") id: number): Promise<void> {
+    public async removeDataSource(
+        @Query("id") id: number,
+        @AuthAccount() account: RequestUser,
+    ): Promise<void> {
+        await this.permission.can('REMOVE_DATASOURCE', account);
+
         return await this.dsService.removeDataSource(id);
     }
 }

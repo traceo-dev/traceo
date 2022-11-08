@@ -57,28 +57,6 @@ export class IncidentsQueryService extends GenericQueryService<
     ];
   }
 
-  public async getAssignedIncidents(
-    query: IncidentQueryDto,
-    user: RequestUser,
-  ): Promise<Incident[]> {
-    const { take, sortBy, order, page, size } = query;
-    const queryBuilder = await this.entityManager
-      .getRepository(Incident)
-      .createQueryBuilder("incident")
-      .where("incident.assignedId = :id", { id: user.id })
-      .leftJoinAndSelect("incident.application", "application")
-      .leftJoinAndSelect("incident.assigned", "assigned");
-
-    this.commonQuery(queryBuilder, query);
-
-    queryBuilder
-      .orderBy(`incident.${sortBy}`, order, "NULLS LAST")
-      .limit(size)
-      .skip(page > 0 ? (page - 1) * take : 0);
-
-    return queryBuilder.getMany();
-  }
-
   public commonQuery(
     builder: SelectQueryBuilder<Incident>,
     query: IncidentQueryDto,

@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { Account, AccountStatus } from '../db/entities/account.entity';
 import {
   AccountEmailAlreadyExistsError,
-  AccountUsernameEmailAlreadyExistsError,
+  AccountWithUsernameAlreadyExistsError,
   AdminAccountEditError,
   ForbiddenError,
   InternalServerError
@@ -19,23 +19,29 @@ import { RequestUser } from '../auth/auth.model';
 import dateUtils from '../helpers/dateUtils';
 import { gravatar } from '../libs/gravatar';
 import { ADMIN_EMAIL } from '../helpers/constants';
+import { AccountPermissionService } from './account-permission/account-permission.service';
 
 @Injectable()
 export class AccountService {
+  private readonly logger: Logger;
+
   constructor(
     readonly entityManager: EntityManager,
     readonly accountQueryService: AccountQueryService,
     readonly applicationQueryService: ApplicationQueryService,
     readonly awrService: AmrService,
     readonly httpService: HttpService,
-  ) {}
+    readonly accountPermission: AccountPermissionService
+  ) {
+    this.logger = new Logger(AccountService.name);
+  }
 
   private async checkDuplicate(username: string, email: string) {
     const account = await this.accountQueryService.getDtoBy({
       username: username.toLowerCase()
     });
     if (account) {
-      throw new AccountUsernameEmailAlreadyExistsError();
+      throw new AccountWithUsernameAlreadyExistsError();
     }
 
     if (email) {
@@ -66,7 +72,7 @@ export class AccountService {
 
       await this.entityManager.getRepository(Account).insert({ ...account });
     } catch (error) {
-      Logger.error(`[${this.createAccount.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.createAccount.name}] Caused by: ${error}`);
       throw new InternalServerError();
     }
   }
@@ -85,7 +91,7 @@ export class AccountService {
         .getRepository(Account)
         .update({ id: id || accountId }, rest);
     } catch (error) {
-      Logger.error(`[${this.updateAccount.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.updateAccount.name}] Caused by: ${error}`);
       throw new InternalServerError();
     }
   }

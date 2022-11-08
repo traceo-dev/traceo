@@ -47,12 +47,12 @@ export const AppCard: FC<Props> = ({ app }) => {
                 <Typography.Text className="pipe">{lastError}</Typography.Text>
                 <Tooltip title="Incidents count">
                   <Typography.Text className="pipe">
-                    <BugOutlined /> {app?.incidentsCount || 0}
+                    <BugOutlined className="pr-1" /> {app?.incidentsCount || 0}
                   </Typography.Text>
                 </Tooltip>
                 <Tooltip title="Errors count">
                   <Typography.Text>
-                    <WarningOutlined /> {app?.errorsCount || 0}
+                    <WarningOutlined className="pr-1" /> {app?.errorsCount || 0}
                   </Typography.Text>
                 </Tooltip>
               </Space>

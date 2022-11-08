@@ -9,6 +9,7 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AccountPermissionService } from 'lib/account/account-permission/account-permission.service';
 import { RequestUser } from '../auth/auth.model';
 import { BaseDtoQuery } from '../core/query/generic.model';
 import { Application } from '../db/entities/application.entity';
@@ -25,6 +26,7 @@ export class ApplicationController {
   constructor(
     readonly applicationService: ApplicationService,
     readonly applicationQueryService: ApplicationQueryService,
+    readonly permission: AccountPermissionService
   ) { }
 
   @Get()
@@ -61,6 +63,8 @@ export class ApplicationController {
     @Body() body: CreateApplicationBody,
     @AuthAccount() account: RequestUser,
   ): Promise<Application> {
+    await this.permission.can('CREATE_APP', account);
+
     return await this.applicationService.createApplication(body, account);
   }
 
@@ -70,6 +74,8 @@ export class ApplicationController {
     @Body() body: ApplicationBody,
     @AuthAccount() account: RequestUser,
   ): Promise<void> {
+    await this.permission.can('UPDATE_APP', account);
+
     return await this.applicationService.updateApplication(body, account);
   }
 
@@ -79,6 +85,8 @@ export class ApplicationController {
     @Param("id") id: string,
     @AuthAccount() account: RequestUser,
   ): Promise<void> {
-    return await this.applicationService.deleteApplication(id, account);
+    await this.permission.can('DELETE_APP', account);
+
+    return await this.applicationService.deleteApplication(id);
   }
 }

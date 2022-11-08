@@ -21,12 +21,16 @@ const MAX_RETENTION_LOGS = 3;
 
 @Injectable()
 export class ApplicationService {
+  private readonly logger: Logger;
+
   constructor(
     private readonly entityManager: EntityManager,
     private readonly awrService: AmrService,
     private readonly applicationQueryService: ApplicationQueryService,
     private readonly accountQueryService: AccountQueryService
-  ) { }
+  ) {
+    this.logger = new Logger(ApplicationService.name)
+  }
 
   public async createApplication(
     data: CreateApplicationBody,
@@ -39,10 +43,11 @@ export class ApplicationService {
       return await this.entityManager.transaction(async (manager) => {
         await this.validate(data.name);
 
-        const account = await manager.getRepository(Account).findOneBy({ id });
+        const account = await this.accountQueryService.getDtoBy({ id });
         if (!account) {
           throw new NotFoundException();
         }
+
         const url = gravatar.url(data.name, "identicon");
         const applicationPayload: Application = {
           ...data,
@@ -79,7 +84,7 @@ export class ApplicationService {
         return application;
       });
     } catch (error) {
-      Logger.error(`[${this.createApplication.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.createApplication.name}] Caused by: ${error}`);
       throw new Error(error);
     }
   }
@@ -100,7 +105,7 @@ export class ApplicationService {
         },
       );
     } catch (error) {
-      Logger.error(`[${this.updateApplication.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.updateApplication.name}] Caused by: ${error}`);
       throw new Error(error);
     }
   }
@@ -115,11 +120,8 @@ export class ApplicationService {
   }
 
   public async deleteApplication(
-    appId: string,
-    user: RequestUser,
+    appId: string
   ): Promise<void> {
-    //TODO: check here also permission
-
     await this.entityManager
       .getRepository(Application)
       .createQueryBuilder('application')
@@ -139,7 +141,7 @@ export class ApplicationService {
 
       await this.entityManager.getRepository(Log).remove(logs);
 
-      Logger.log(`[handleLogDelete] Deleted logs: ${logs.length}`);
+      this.logger.log(`[handleLogDelete] Deleted logs: ${logs.length}`);
     } catch (error) {
       throw new Error(error);
     }

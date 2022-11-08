@@ -16,4 +16,4 @@ import { AccountQueryService } from '../account/account-query/account-query.serv
   ],
   controllers: [AmrController]
 })
-export class AmrModule {}
+export class AmrModule { }

@@ -25,7 +25,7 @@ export class AmrService {
     private readonly awrQueryService: AmrQueryService,
     private readonly accountQueryService: AccountQueryService,
     private readonly applicationQueryService: ApplicationQueryService,
-  ) {}
+  ) { }
 
   public async createAmr(
     account: Account,
@@ -57,9 +57,7 @@ export class AmrService {
       }
 
       const account = await this.accountQueryService.getDto(accountId);
-      const application = await this.applicationQueryService.getDto(
-        applicationId,
-      );
+      const application = await this.applicationQueryService.getDto(applicationId);
 
       await this.createAmr(account, application, role);
     });
@@ -70,11 +68,9 @@ export class AmrService {
     manager: EntityManager = this.entityManager,
   ): Promise<void> {
     const { memberId, ...rest } = awrModel;
-    await manager.transaction(async (manager) => {
-      manager
-        .getRepository(AccountMemberRelationship)
-        .update({ id: memberId }, rest);
-    });
+    await manager
+      .getRepository(AccountMemberRelationship)
+      .update({ id: memberId }, rest);
   }
 
   public async removeAccountFromApplication(awrId: string): Promise<void> {
@@ -85,18 +81,14 @@ export class AmrService {
     awrId: string,
     manager: EntityManager = this.entityManager,
   ): Promise<void> {
-    await manager.transaction(async (manager) => {
-      manager.getRepository(AccountMemberRelationship).delete({ id: awrId });
-    });
+    await manager.getRepository(AccountMemberRelationship).delete({ id: awrId });
   }
 
-  public async leaveApplication(aid: string, appId: number): Promise<void> {
+  public async leaveApplication(id: string, appId: number): Promise<void> {
     await this.entityManager.transaction(async (manager) => {
       const assignedIncidents = await manager.getRepository(Incident).find({
         where: {
-          assigned: {
-            id: aid
-          }
+          assigned: { id }
         }
       });
 
@@ -107,22 +99,20 @@ export class AmrService {
       });
       await Promise.all(promises);
 
-      const awr = await this.entityManager
+      const amr = await this.entityManager
         .getRepository(AccountMemberRelationship)
         .findOneBy({
-          account: {
-            id: aid
-          },
+          account: { id },
           application: {
             id: appId
           }
         });
 
-      if (!awr) {
+      if (!amr) {
         throw new Error("Relationship does not exists!");
       }
 
-      await this.removeAccountFromApplication(awr.id);
+      await this.removeAccountFromApplication(amr.id);
     });
   }
 }

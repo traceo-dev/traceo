@@ -12,7 +12,6 @@ import { ApiTags } from '@nestjs/swagger';
 import { RequestUser } from '../auth/auth.model';
 import { BaseDtoQuery } from '../core/query/generic.model';
 import { AccountMemberRelationship } from '../db/entities/account-member-relationship.entity';
-import { Account } from '../db/entities/account.entity';
 import { AuthRequired } from '../libs/decorators/auth-required.decorator';
 import { AuthAccount } from '../libs/decorators/auth-user.decorator';
 import { ApplicationResponse } from '../types/application';
@@ -31,12 +30,6 @@ export class AmrController {
     private readonly amrService: AmrService,
     private readonly amrQueryService: AmrQueryService,
   ) {}
-
-  @Get('/account')
-  @AuthRequired()
-  async getAccountById(@Query("id") id: string): Promise<Account> {
-    return await this.amrQueryService.getAccount(id);
-  }
 
   @Get('/application')
   @AuthRequired()

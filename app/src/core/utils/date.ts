@@ -16,7 +16,7 @@ const guessTimezone = dayjs.tz.guess();
 const toUnix = (date: string | Date = new Date()) => dayjs(date).unix();
 
 const formatDate = (date: number, format = "DD-MM-YYYY") =>
-  dayjs.unix(date).tz().format(format);
+  dayjs.unix(date).tz(guessTimezone).format(format);
 
 const mapMonthName: Record<number, string> = {
   1: "Jan",

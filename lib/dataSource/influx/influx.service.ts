@@ -10,9 +10,13 @@ import { Metrics } from '../../types/worker';
 
 @Injectable()
 export class InfluxService {
+    private logger: Logger;
+
     constructor(
         private readonly entityManager: EntityManager
-    ) { }
+    ) {
+        this.logger = new Logger(InfluxService.name);
+    }
 
     async saveInfluxDataSource(config: InfluxConfigurationBody): Promise<DataSourceConnStatus> {
         const { appId, token, ...rest } = config;
@@ -46,14 +50,14 @@ export class InfluxService {
                     influxDS: influx
                 })
 
-                Logger.log(`InfluxDB data source attached to app: ${appId}`);
+                this.logger.log(`InfluxDB data source attached to app: ${appId}`);
                 return {
                     status, error
                 };
             }
 
             await influxRef.update({ id: ds.id }, dsPayload);
-            Logger.log(`InfluxDB data source updated in app: ${appId}`);
+            this.logger.log(`InfluxDB data source updated in app: ${appId}`);
 
             return {
                 status, error
@@ -137,10 +141,6 @@ export class InfluxService {
 
         const queryApi = influxDb.getQueryApi(org)
 
-        /**
-         * To return value in this same table add in filter something like "or r._field == "otherMetric""
-         */
-
         const query = `
             from(bucket: "${bucket}") 
                 |> range(start: -${hrCount}h)
@@ -180,6 +180,7 @@ export class InfluxService {
         try {
             return await queryApi.collectRows(query);
         } catch (error) {
+            this.logger.error(error);
             return [];
         }
     }

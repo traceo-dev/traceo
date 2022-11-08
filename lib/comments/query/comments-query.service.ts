@@ -26,9 +26,11 @@ export class CommentsQueryService extends GenericQueryService<
 
     return builder;
   }
+
   public get builderAlias(): string {
     return "comment";
   }
+  
   public selectedColumns(): string[] {
     return [];
   }

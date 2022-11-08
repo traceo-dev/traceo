@@ -14,6 +14,7 @@ import { BaseDtoQuery } from '../core/query/generic.model';
 import { Account } from '../db/entities/account.entity';
 import { AuthRequired } from '../libs/decorators/auth-required.decorator';
 import { AuthAccount } from '../libs/decorators/auth-user.decorator';
+import { AccountPermissionService } from './account-permission/account-permission.service';
 import { AccountQueryService } from './account-query/account-query.service';
 import { AccountDto, CreateAccountDto } from './account.model';
 import { AccountService } from './account.service';
@@ -24,7 +25,8 @@ export class AccountController {
   constructor(
     readonly accountService: AccountService,
     readonly accountQueryService: AccountQueryService,
-  ) {}
+    readonly permission: AccountPermissionService
+  ) { }
 
   @Get()
   @AuthRequired()
@@ -33,13 +35,19 @@ export class AccountController {
   }
 
   @Get('/all')
-  // @AuthRequired()
+  @AuthRequired()
   async getAccounts(@Query() query: BaseDtoQuery): Promise<Account[]> {
     return await this.accountQueryService.listDto(query);
   }
 
   @Post('/new')
-  async createAccount(@Body() accountDto: CreateAccountDto): Promise<any> {
+  @AuthRequired()
+  async createAccount(
+    @Body() accountDto: CreateAccountDto,
+    @AuthAccount() account: RequestUser
+  ): Promise<void> {
+    await this.permission.can('CREATE_ACCOUNT', account);
+
     return this.accountService.createAccount(accountDto);
   }
 
@@ -58,6 +66,8 @@ export class AccountController {
     @Param("id") id: string,
     @AuthAccount() account: RequestUser,
   ): Promise<void> {
+    await this.permission.can('DELETE ACCOUNT', account);
+
     return await this.accountService.deleteAccount(id, account);
   }
 }

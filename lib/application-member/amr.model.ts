@@ -1,13 +1,10 @@
-import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
+import { ApiProperty } from "@nestjs/swagger";
 import {
-  IsBoolean,
-  IsEmail,
   IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
-  IsUUID
 } from "class-validator";
 import { BaseDtoQuery } from "../core/query/generic.model";
 import { MemberRole } from "../db/entities/account-member-relationship.entity";

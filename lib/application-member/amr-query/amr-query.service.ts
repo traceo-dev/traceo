@@ -12,19 +12,6 @@ export class AmrQueryService {
   constructor(private readonly entityManager: EntityManager) { }
 
   /**
-   * Return single object with account data and status field from AccountApplicationRelationship
-   *
-   * @param accountId
-   * @param appId
-   * @returns
-   */
-  public async getAccount(accountId: string): Promise<Account | null> {
-    return await this.entityManager
-      .getRepository(Account)
-      .findOne({ where: { id: accountId } });
-  }
-
-  /**
    * Return pageable list of the members assigned to app
    *
    * @param appId
@@ -133,16 +120,18 @@ export class AmrQueryService {
       return null;
     }
 
-    const { role, application } = applicationQuery;
+    return this.getApplicationResponse(applicationQuery);
+  }
 
+  private getApplicationResponse({ application, role }: AccountMemberRelationship): ApplicationResponse {
     return {
       ...application,
       member: {
         role
       },
       owner: {
-        name: application?.owner.name
+        name: application.owner.name
       }
-    };
+    }
   }
 }

@@ -30,26 +30,19 @@ export class CommentsService {
     const { message, incidentId } = comment;
     const { id } = account;
 
-    try {
-      await this.entityManager.transaction(async (manager) => {
-        await manager.getRepository(Comment).save({
-          message: message,
-          sender: {
-            id
-          },
-          removed: false,
-          createdAt: dateUtils.toUnix(),
-          incident: {
-            id: incidentId
-          }
-        });
+    await this.entityManager.getRepository(Comment).save({
+      message: message,
+      sender: {
+        id
+      },
+      removed: false,
+      createdAt: dateUtils.toUnix(),
+      incident: {
+        id: incidentId
+      }
+    });
 
-        this.commentsGateway.onNewComment(incidentId);
-      });
-
-    } catch (error) {
-      throw error;
-    }
+    this.commentsGateway.onNewComment(incidentId);
   }
 
   public async updateComment(

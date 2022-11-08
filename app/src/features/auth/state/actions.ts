@@ -17,13 +17,11 @@ export const loadAccount = (): ThunkResult<void> => {
       return; //TODO: logout, throw error or something like this
     }
 
-    const application = getState().application.application;
     const payload = {
-      id: decodedToken.id,
-      appId: application.id || null
+      id: decodedToken.id
     };
 
-    const account = await api.get<Account>("/api/amr/account", payload);
+    const account = await api.get<Account>("/api/account", payload);
     dispatch(accountLoaded(account));
   };
 };

@@ -3,10 +3,14 @@ import { Account } from "../db/entities/account.entity";
 import { Incident } from "../db/entities/incident.entity";
 import { IncidentBatchUpdateDto, IncidentUpdateDto } from "../types/incident";
 import { EntityManager } from "typeorm";
+import { AccountQueryService } from "lib/account/account-query/account-query.service";
 
 @Injectable()
 export class IncidentsService {
-  constructor(private entityManger: EntityManager) {}
+  constructor(
+    private entityManger: EntityManager,
+    private accountQueryService: AccountQueryService
+  ) { }
 
   async updateIncident(
     incidentId: string,
@@ -18,9 +22,7 @@ export class IncidentsService {
 
     await this.entityManger.transaction(async (manager) => {
       if (update.assignedId) {
-        const account = await manager
-          .getRepository(Account)
-          .findOneBy({ id: update.assignedId });
+        const account = await this.accountQueryService.getDto(update.assignedId);
         await manager
           .getRepository(Incident)
           .update({ id: incidentId }, { assigned: account });
@@ -40,7 +42,7 @@ export class IncidentsService {
 
     await this.entityManger
       .getRepository(Incident)
-      .createQueryBuilder("incident")
+      .createQueryBuilder()
       .whereInIds(incidentsIds)
       .update(rest)
       .execute();
@@ -51,17 +53,6 @@ export class IncidentsService {
       .getRepository(Incident)
       .createQueryBuilder("incident")
       .where("incident.id = :id", { id })
-      .delete()
-      .execute();
-  }
-
-  async removeBatchIncidents(update: IncidentBatchUpdateDto): Promise<void> {
-    const { incidentsIds } = update;
-
-    await this.entityManger
-      .getRepository(Incident)
-      .createQueryBuilder("incident")
-      .whereInIds(incidentsIds)
       .delete()
       .execute();
   }

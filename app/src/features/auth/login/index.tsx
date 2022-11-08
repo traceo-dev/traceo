@@ -35,7 +35,7 @@ const Login = () => {
   }, []);
 
   const onFinish = (credentials: LoginProps) => {
-    if (!credentials.usernameOrEmail || !credentials.password) {
+    if (!credentials.username || !credentials.password) {
       return;
     }
 

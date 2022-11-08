@@ -9,6 +9,7 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AccountPermissionService } from 'lib/account/account-permission/account-permission.service';
 import { RequestUser } from '../auth/auth.model';
 import { Incident } from '../db/entities/incident.entity';
 import { AuthRequired } from '../libs/decorators/auth-required.decorator';
@@ -27,7 +28,8 @@ export class IncidentsController {
   constructor(
     private readonly incidentsQueryService: IncidentsQueryService,
     private readonly incidentsService: IncidentsService,
-  ) {}
+    private readonly permission: AccountPermissionService
+  ) { }
 
   @Get('/:id')
   @AuthRequired()
@@ -47,18 +49,6 @@ export class IncidentsController {
     });
   }
 
-  @Get('/assigned/account')
-  @AuthRequired()
-  public async getAssignedIncidents(
-    @Query() query: IncidentQueryDto,
-    @AuthAccount() account: RequestUser,
-  ): Promise<Incident[]> {
-    return await this.incidentsQueryService.getAssignedIncidents(
-      query,
-      account,
-    );
-  }
-
   @Patch('/:id')
   @AuthRequired()
   public async updateIncident(
@@ -70,7 +60,12 @@ export class IncidentsController {
 
   @Delete('/:id')
   @AuthRequired()
-  public async deleteIncident(@Param("id") id: string): Promise<void> {
+  public async deleteIncident(
+    @Param("id") id: string,
+    @AuthAccount() account: RequestUser
+  ): Promise<void> {
+    await this.permission.can('DELETE_INCIDENT', account);
+
     return await this.incidentsService.removeIncident(id);
   }
 
@@ -80,13 +75,5 @@ export class IncidentsController {
     @Body() body: IncidentBatchUpdateDto,
   ): Promise<void> {
     return await this.incidentsService.updateBatchIncidents(body);
-  }
-
-  @Post('/remove/batch')
-  @AuthRequired()
-  public async removeBatchIncidents(
-    @Body() body: IncidentBatchUpdateDto,
-  ): Promise<void> {
-    return await this.incidentsService.removeBatchIncidents(body);
   }
 }
