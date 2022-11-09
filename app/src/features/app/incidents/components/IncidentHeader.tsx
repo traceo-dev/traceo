@@ -141,7 +141,7 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
             )}
           </Space>
         </Popover>
-        <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+        {/* <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
           <Confirm
             onOk={remove}
             description="Are you sure you want to delete this incident?"
@@ -150,7 +150,7 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
               Delete
             </Button>
           </Confirm>
-        </Permissions>
+        </Permissions> */}
       </Space>
     </Space>
   );

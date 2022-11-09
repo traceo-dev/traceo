@@ -29,7 +29,7 @@ export const ApplicationsTable: FC<Props> = ({ applications, hasFetched }) => {
     {
       title: "Last error",
       dataIndex: "lastIncidentAt",
-      render: (val: number) => dateUtils.fromNow(val)
+      render: (val: number) => (val ? dateUtils.fromNow(val) : "--:--")
     },
     {
       title: "Incidents count",
