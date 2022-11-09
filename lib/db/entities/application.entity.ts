@@ -12,10 +12,11 @@ import { Incident } from "./incident.entity";
 import { GenericEntity } from "../../core/generic.entity";
 import { Runtime } from "./runtime.entity";
 import { InfluxDS } from "./influxds.entity";
-import { TSDB } from "../../types/tsdb";
+import { IApplication } from "../../../lib/types/interfaces/application.interface";
+import { TSDB } from "../../../lib/types/enums/tsdb.enum";
 
 @Entity()
-export class Application extends GenericEntity {
+export class Application extends GenericEntity implements IApplication {
   @PrimaryGeneratedColumn()
   id?: number;
 

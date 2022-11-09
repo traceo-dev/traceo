@@ -1,12 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { createHmac } from 'crypto';
 import { AccountService } from '../account/account.service';
-import { Account, AccountStatus } from '../db/entities/account.entity';
-import {
-  AccountCredentialsDto,
-  RequestUser,
-  UpdatePasswordDto
-} from './auth.model';
+import { Account } from '../db/entities/account.entity';
 import { JwtService } from "@nestjs/jwt";
 import { EntityManager } from 'typeorm';
 import {
@@ -15,10 +10,13 @@ import {
   BadPasswordOrNotExists
 } from '../helpers/errors';
 import { JwtPayload } from './jwt/jwt.payload.interface';
-import { AccountQueryService } from 'lib/account/account-query/account-query.service';
+import { AccountQueryService } from '../../lib/account/account-query/account-query.service';
+import { AccountStatus } from '../../lib/types/enums/account.enum';
+import { AccountCredentialsDto, UpdatePasswordDto } from '../../lib/types/dto/account.dto';
+import { IAccount, RequestUser } from '../../lib/types/interfaces/account.interface';
 
-type LoginResponseType = { accessToken: string };
-type CheckCredentialsType = { isCorrect: boolean; account?: Account };
+export type LoginResponseType = { accessToken: string };
+export type CheckCredentialsType = { isCorrect: boolean; account?: IAccount };
 
 @Injectable()
 export class AuthService {

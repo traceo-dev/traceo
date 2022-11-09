@@ -1,12 +1,12 @@
 import { Controller, Delete, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AccountPermissionService } from 'lib/account/account-permission/account-permission.service';
-import { RequestUser } from 'lib/auth/auth.model';
-import { AuthAccount } from 'lib/libs/decorators/auth-user.decorator';
-import { InfluxDS } from '../db/entities/influxds.entity';
-import { AuthRequired } from '../libs/decorators/auth-required.decorator';
-import { MetricsQueryDto, MetricsResponse } from '../types/tsdb';
+import { RequestUser } from '../../lib/types/interfaces/account.interface';
+import { AccountPermissionService } from '../../lib/account/account-permission/account-permission.service';
+import { AuthAccount } from '../../lib/helpers/decorators/auth-user.decorator';
+import { MetricsQuery, MetricsResponse } from '../../lib/types/interfaces/metrics.interface';
+import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
 import { DataSourceService } from './dataSource.service';
+import { IInfluxDs } from '../../lib/types/interfaces/influxds.interface';
 
 @ApiTags('datasource')
 @Controller('datasource')
@@ -18,13 +18,13 @@ export class DataSourceController {
 
     @Get()
     @AuthRequired()
-    public async getDataSource(@Query("id") id: number): Promise<InfluxDS> {
+    public async getDataSource(@Query("id") id: number): Promise<IInfluxDs> {
         return await this.dsService.getConnectedDataSource(id);
     }
 
     @Get("/metrics")
     @AuthRequired()
-    public async getMetrics(@Query() query: MetricsQueryDto): Promise<MetricsResponse[]> {
+    public async getMetrics(@Query() query: MetricsQuery): Promise<MetricsResponse[]> {
         return await this.dsService.getMetrics(query);
     }
 

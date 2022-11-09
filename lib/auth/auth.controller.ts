@@ -1,16 +1,11 @@
-import { Body, Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
-import { CreateAccountDto } from '../account/account.model';
+import { IAccount, RequestUser } from '../../lib/types/interfaces/account.interface';
+import { AccountCredentialsDto, UpdatePasswordDto } from '../../lib/types/dto/account.dto';
 import { Account } from '../db/entities/account.entity';
-import { AuthRequired } from '../libs/decorators/auth-required.decorator';
-import { AuthAccount } from '../libs/decorators/auth-user.decorator';
-import {
-  AccountCredentialsDto,
-  RequestUser,
-  UpdatePasswordDto
-} from './auth.model';
-import { AuthService } from './auth.service';
+import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
+import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
+import { AuthService, CheckCredentialsType, LoginResponseType } from './auth.service';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -19,19 +14,19 @@ export class AuthController {
 
   @Get()
   @AuthRequired()
-  async getString(@AuthAccount() account: Account): Promise<Account> {
+  async getString(@AuthAccount() account: Account): Promise<IAccount> {
     return account;
   }
 
   @Post('login')
-  async login(@Body() user: AccountCredentialsDto): Promise<any> {
+  async login(@Body() user: AccountCredentialsDto): Promise<LoginResponseType> {
     return await this.authService.login(user);
   }
 
   @Post('check')
   async check(
     @Body() creds: AccountCredentialsDto,
-  ): Promise<{ isCorrect: boolean; account?: Account }> {
+  ): Promise<CheckCredentialsType> {
     return this.authService.checkCredentials(creds);
   }
 

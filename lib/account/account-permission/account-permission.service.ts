@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { MemberRole } from 'app/src/types/application';
-import { RequestUser } from 'lib/auth/auth.model';
-import { AccountMemberRelationship } from 'lib/db/entities/account-member-relationship.entity';
-import { Account } from 'lib/db/entities/account.entity';
-import { Application } from 'lib/db/entities/application.entity';
-import { UnauthorizedError } from 'lib/helpers/errors';
+import { AccountMemberRelationship } from '../../../lib/db/entities/account-member-relationship.entity';
+import { Account } from '../../../lib/db/entities/account.entity';
+import { Application } from '../../../lib/db/entities/application.entity';
+import { UnauthorizedError } from '../../../lib/helpers/errors';
+import { RequestUser } from '../../../lib/types/interfaces/account.interface';
 import { EntityManager } from 'typeorm';
+import { MemberRole } from 'lib/types/enums/amr.enum';
 
 type Action = "CREATE_APP" |
     "UPDATE_APP" |

@@ -9,18 +9,14 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AccountPermissionService } from 'lib/account/account-permission/account-permission.service';
-import { RequestUser } from '../auth/auth.model';
-import { Incident } from '../db/entities/incident.entity';
-import { AuthRequired } from '../libs/decorators/auth-required.decorator';
-import { AuthAccount } from '../libs/decorators/auth-user.decorator';
-import {
-  IncidentQueryDto,
-  IncidentUpdateDto,
-  IncidentBatchUpdateDto
-} from '../types/incident';
+import { AccountPermissionService } from '../../lib/account/account-permission/account-permission.service';
+import { RequestUser } from '../../lib/types/interfaces/account.interface';
+import { IncidentQueryDto, IncidentUpdateDto, IncidentBatchUpdateDto } from '../../lib/types/dto/incident.dto';
+import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
+import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsService } from './incidents.service';
+import { IIncident } from '../../lib/types/interfaces/incident.interface';
 
 @ApiTags('incidents')
 @Controller('incidents')
@@ -33,7 +29,7 @@ export class IncidentsController {
 
   @Get('/:id')
   @AuthRequired()
-  public async getIncident(@Param("id") id: string): Promise<Incident | null> {
+  public async getIncident(@Param("id") id: string): Promise<IIncident> {
     return await this.incidentsQueryService.getDto(id);
   }
 
@@ -42,7 +38,7 @@ export class IncidentsController {
   public async getIncidents(
     @Query("id") id: number,
     @Query() query: IncidentQueryDto
-  ): Promise<Incident[]> {
+  ): Promise<IIncident[]> {
     return await this.incidentsQueryService.listDto({
       appId: id,
       ...query

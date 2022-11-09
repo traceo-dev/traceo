@@ -9,14 +9,13 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RequestUser } from '../auth/auth.model';
+import { AccountDto, CreateAccountDto } from '../../lib/types/dto/account.dto';
+import { IAccount, RequestUser } from '../../lib/types/interfaces/account.interface';
 import { BaseDtoQuery } from '../core/query/generic.model';
-import { Account } from '../db/entities/account.entity';
-import { AuthRequired } from '../libs/decorators/auth-required.decorator';
-import { AuthAccount } from '../libs/decorators/auth-user.decorator';
+import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
+import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
 import { AccountPermissionService } from './account-permission/account-permission.service';
 import { AccountQueryService } from './account-query/account-query.service';
-import { AccountDto, CreateAccountDto } from './account.model';
 import { AccountService } from './account.service';
 
 @ApiTags('account')
@@ -30,13 +29,13 @@ export class AccountController {
 
   @Get()
   @AuthRequired()
-  async getApplication(@Query("id") id: string): Promise<Account> {
+  async getApplication(@Query("id") id: string): Promise<IAccount> {
     return await this.accountQueryService.getDto(id);
   }
 
   @Get('/all')
   @AuthRequired()
-  async getAccounts(@Query() query: BaseDtoQuery): Promise<Account[]> {
+  async getAccounts(@Query() query: BaseDtoQuery): Promise<IAccount[]> {
     return await this.accountQueryService.listDto(query);
   }
 

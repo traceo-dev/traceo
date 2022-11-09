@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Account, AccountStatus } from '../db/entities/account.entity';
+import { Account } from '../db/entities/account.entity';
 import {
   AccountEmailAlreadyExistsError,
   AccountWithUsernameAlreadyExistsError,
@@ -10,16 +10,17 @@ import {
 import tokenService from '../helpers/tokens';
 import { EntityManager } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
-import { AccountDto, CreateAccountDto } from './account.model';
 import { AccountQueryService } from './account-query/account-query.service';
 import { AmrService } from '../application-member/amr.service';
 import { ApplicationQueryService } from '../application/application-query/application-query.service';
 import { HttpService } from "@nestjs/axios";
-import { RequestUser } from '../auth/auth.model';
 import dateUtils from '../helpers/dateUtils';
-import { gravatar } from '../libs/gravatar';
 import { ADMIN_EMAIL } from '../helpers/constants';
 import { AccountPermissionService } from './account-permission/account-permission.service';
+import { gravatar } from '../../lib/helpers/gravatar';
+import { AccountStatus } from '../../lib/types/enums/account.enum';
+import { AccountDto, CreateAccountDto } from '../../lib/types/dto/account.dto';
+import { RequestUser } from '../../lib/types/interfaces/account.interface';
 
 @Injectable()
 export class AccountService {

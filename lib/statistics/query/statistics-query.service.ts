@@ -1,14 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import {
-  PlotData,
-  AppIncidentsStats,
-  DailyOverview
-} from "../../types/statistics";
+
 import { EntityManager } from "typeorm";
 import dayjs from "dayjs";
 import { Incident } from "../../db/entities/incident.entity";
-import { ErrorDetails } from "../../types/incident";
-import dateUtils from "lib/helpers/dateUtils";
+import dateUtils from "../../../lib/helpers/dateUtils";
+import { AppIncidentsStats, DailyOverview, PlotData } from "../../../lib/types/interfaces/statistics.interface";
+import { ErrorDetails } from "../../../lib/types/interfaces/incident.interface";
 
 @Injectable()
 export class StatisticsQueryService {

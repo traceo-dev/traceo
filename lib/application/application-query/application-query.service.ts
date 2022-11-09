@@ -5,7 +5,7 @@ import { EntityManager, SelectQueryBuilder } from 'typeorm';
 import { Application } from '../../db/entities/application.entity';
 import { Runtime } from '../../db/entities/runtime.entity';
 import { Log } from '../../db/entities/log.entity';
-import { ApplicationLogsQuery } from '../application.model';
+import { ApplicationLogsQuery } from '../../../lib/types/interfaces/log.interface';
 
 @Injectable()
 export class ApplicationQueryService extends GenericQueryService<

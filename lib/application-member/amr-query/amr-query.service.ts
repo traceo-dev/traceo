@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { RequestUser } from '../../auth/auth.model';
 import { BaseDtoQuery } from '../../core/query/generic.model';
 import { AccountMemberRelationship } from '../../db/entities/account-member-relationship.entity';
-import { Account } from '../../db/entities/account.entity';
-import { ApplicationResponse } from '../../types/application';
 import { EntityManager } from 'typeorm';
-import { ApplicationDtoQuery } from '../amr.model';
+import { ApplicationDtoQuery } from '../../../lib/types/dto/application.dto';
+import { IApplicationResponse } from '../../../lib/types/interfaces/application.interface';
+import { RequestUser } from '../../../lib/types/interfaces/account.interface';
 
 @Injectable()
 export class AmrQueryService {
@@ -103,7 +102,7 @@ export class AmrQueryService {
   public async getApplication(
     appId: number,
     user: RequestUser,
-  ): Promise<ApplicationResponse | null> {
+  ): Promise<IApplicationResponse> {
     const { id } = user;
 
     const applicationQuery = await this.entityManager
@@ -123,7 +122,7 @@ export class AmrQueryService {
     return this.getApplicationResponse(applicationQuery);
   }
 
-  private getApplicationResponse({ application, role }: AccountMemberRelationship): ApplicationResponse {
+  private getApplicationResponse({ application, role }: AccountMemberRelationship): IApplicationResponse {
     return {
       ...application,
       member: {

@@ -9,16 +9,17 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AccountPermissionService } from 'lib/account/account-permission/account-permission.service';
-import { RequestUser } from '../auth/auth.model';
+import { ApplicationDto, CreateApplicationDto } from '../../lib/types/dto/application.dto';
+import { AccountPermissionService } from '../../lib/account/account-permission/account-permission.service';
+import { RequestUser } from '../../lib/types/interfaces/account.interface';
 import { BaseDtoQuery } from '../core/query/generic.model';
 import { Application } from '../db/entities/application.entity';
-import { Log } from '../db/entities/log.entity';
-import { AuthRequired } from '../libs/decorators/auth-required.decorator';
-import { AuthAccount } from '../libs/decorators/auth-user.decorator';
+import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
+import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
 import { ApplicationQueryService } from './application-query/application-query.service';
-import { CreateApplicationBody, ApplicationBody } from './application.model';
 import { ApplicationService } from './application.service';
+import { ApplicationLogsQuery, ILog } from '../../lib/types/interfaces/log.interface';
+import { IApplication } from '../../lib/types/interfaces/application.interface';
 
 @ApiTags('application')
 @Controller('application')
@@ -31,13 +32,13 @@ export class ApplicationController {
 
   @Get()
   @AuthRequired()
-  async getApplication(@Query("id") id: number): Promise<Application> {
+  async getApplication(@Query("id") id: number): Promise<IApplication> {
     return await this.applicationQueryService.getDto(id);
   }
 
   @Get('/all')
   @AuthRequired()
-  async getApplications(@Query() query: BaseDtoQuery): Promise<Application[]> {
+  async getApplications(@Query() query: BaseDtoQuery): Promise<IApplication[]> {
     return await this.applicationQueryService.listDto(query);
   }
 
@@ -52,17 +53,17 @@ export class ApplicationController {
   @Get('/logs')
   @AuthRequired()
   async getApplicationLogs(
-    @Query() query: { id: number, startDate: number, endDate: number },
-  ): Promise<Log[]> {
+    @Query() query: ApplicationLogsQuery,
+  ): Promise<ILog[]> {
     return await this.applicationQueryService.getApplicationLogs({ ...query });
   }
 
   @Post()
   @AuthRequired()
   async createApplication(
-    @Body() body: CreateApplicationBody,
+    @Body() body: CreateApplicationDto,
     @AuthAccount() account: RequestUser,
-  ): Promise<Application> {
+  ): Promise<IApplication> {
     await this.permission.can('CREATE_APP', account);
 
     return await this.applicationService.createApplication(body, account);
@@ -71,7 +72,7 @@ export class ApplicationController {
   @Patch()
   @AuthRequired()
   async updateApplication(
-    @Body() body: ApplicationBody,
+    @Body() body: ApplicationDto,
     @AuthAccount() account: RequestUser,
   ): Promise<void> {
     await this.permission.can('UPDATE_APP', account);

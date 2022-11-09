@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Account } from '../db/entities/account.entity';
 import {
-  MemberRole,
   AccountMemberRelationship
 } from '../db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
@@ -9,10 +8,11 @@ import { AmrQueryService } from './amr-query/amr-query.service';
 import { AccountAlreadyInApplicationError } from '../helpers/errors';
 import { ApplicationQueryService } from '../application/application-query/application-query.service';
 import { AccountQueryService } from '../account/account-query/account-query.service';
-import { AddAccountToApplicationModel, UpdateAmrModel } from './amr.model';
 import dateUtils from '../helpers/dateUtils';
 import { Application } from '../db/entities/application.entity';
 import { Incident } from '../db/entities/incident.entity';
+import { MemberRole } from '../../lib/types/enums/amr.enum';
+import { AddAccountToApplicationDto, UpdateAmrDto } from '../../lib/types/dto/amr.dto';
 
 /**
  * AMR - Application-Member-Relationship
@@ -44,7 +44,7 @@ export class AmrService {
   }
 
   public async addAccountToApplication(
-    body: AddAccountToApplicationModel,
+    body: AddAccountToApplicationDto,
   ): Promise<void> {
     const { applicationId, accountId, role } = body;
     await this.entityManager.transaction(async (manager) => {
@@ -64,7 +64,7 @@ export class AmrService {
   }
 
   public async updateApplicationAccount(
-    awrModel: UpdateAmrModel,
+    awrModel: UpdateAmrDto,
     manager: EntityManager = this.entityManager,
   ): Promise<void> {
     const { memberId, ...rest } = awrModel;

@@ -9,19 +9,16 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RequestUser } from '../auth/auth.model';
+import { RequestUser } from '../../lib/types/interfaces/account.interface';
+import { AddAccountToApplicationDto, UpdateAmrDto } from '../../lib/types/dto/amr.dto';
+import { ApplicationDtoQuery } from '../../lib/types/dto/application.dto';
+import { IApplicationResponse } from '../../lib/types/interfaces/application.interface';
 import { BaseDtoQuery } from '../core/query/generic.model';
-import { AccountMemberRelationship } from '../db/entities/account-member-relationship.entity';
-import { AuthRequired } from '../libs/decorators/auth-required.decorator';
-import { AuthAccount } from '../libs/decorators/auth-user.decorator';
-import { ApplicationResponse } from '../types/application';
+import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
+import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
 import { AmrQueryService } from './amr-query/amr-query.service';
-import {
-  AddAccountToApplicationModel,
-  UpdateAmrModel,
-  ApplicationDtoQuery
-} from './amr.model';
 import { AmrService } from './amr.service';
+import { IAmr } from '../../lib/types/interfaces/amr.interface';
 
 @ApiTags('application-member-relationship')
 @Controller('amr')
@@ -36,7 +33,7 @@ export class AmrController {
   async getApplication(
     @Query('id') id: number,
     @AuthAccount() user: RequestUser,
-  ): Promise<ApplicationResponse | null> {
+  ): Promise<IApplicationResponse> {
     return await this.amrQueryService.getApplication(id, user);
   }
 
@@ -45,7 +42,7 @@ export class AmrController {
   public async getApplicationMembers(
     @Query("id") id: number,
     @Query() query: BaseDtoQuery,
-  ): Promise<AccountMemberRelationship[]> {
+  ): Promise<IAmr[]> {
     return await this.amrQueryService.getApplicationMembers(id, query);
   }
 
@@ -55,7 +52,7 @@ export class AmrController {
     @Query() pageOptionsDto: ApplicationDtoQuery,
     @Query("accountId") accountId: string,
     @AuthAccount() user: RequestUser,
-  ): Promise<AccountMemberRelationship[]> {
+  ): Promise<IAmr[]> {
     return await this.amrQueryService.getApplicationsForAccount(
       accountId || user.id,
       pageOptionsDto
@@ -65,7 +62,7 @@ export class AmrController {
   @Post('/application/add')
   @AuthRequired()
   public async addAccountToApplication(
-    @Body() body: AddAccountToApplicationModel,
+    @Body() body: AddAccountToApplicationDto,
   ): Promise<void> {
     return await this.amrService.addAccountToApplication(body);
   }
@@ -73,7 +70,7 @@ export class AmrController {
   @Patch('/application/member')
   @AuthRequired()
   public async updateApplicationAccount(
-    @Body() body: UpdateAmrModel,
+    @Body() body: UpdateAmrDto,
   ): Promise<void> {
     return await this.amrService.updateApplicationAccount(body);
   }

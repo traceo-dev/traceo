@@ -1,21 +1,20 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { RequestUser } from '../auth/auth.model';
 import { AmrService } from '../application-member/amr.service';
-import { Account } from '../db/entities/account.entity';
 import { Application } from '../db/entities/application.entity';
-import { MemberRole } from '../db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
 import * as crypto from "crypto";
 import { ApplicationWithNameAlreadyExistsError } from '../helpers/errors';
-import { CreateApplicationBody, ApplicationBody } from './application.model';
 import dateUtils from '../helpers/dateUtils';
 import { ApplicationQueryService } from './application-query/application-query.service';
-import { gravatar } from '../libs/gravatar';
 import { AccountQueryService } from '../account/account-query/account-query.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import dayjs from 'dayjs';
 import { Log } from '../db/entities/log.entity';
 import { ADMIN_EMAIL } from '../helpers/constants';
+import { MemberRole } from '../../lib/types/enums/amr.enum';
+import { gravatar } from '../../lib/helpers/gravatar';
+import { RequestUser } from '../../lib/types/interfaces/account.interface';
+import { ApplicationDto, CreateApplicationDto } from 'lib/types/dto/application.dto';
 
 const MAX_RETENTION_LOGS = 3;
 
@@ -33,7 +32,7 @@ export class ApplicationService {
   }
 
   public async createApplication(
-    data: CreateApplicationBody,
+    data: CreateApplicationDto,
     user: RequestUser,
   ): Promise<Application> {
     const { id, email } = user;
@@ -90,7 +89,7 @@ export class ApplicationService {
   }
 
   public async updateApplication(
-    appBody: ApplicationBody | Partial<Application>,
+    appBody: ApplicationDto | Partial<Application>,
     account: RequestUser,
     manager: EntityManager = this.entityManager,
   ): Promise<any> {

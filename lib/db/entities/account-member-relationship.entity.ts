@@ -8,15 +8,11 @@ import {
 } from "typeorm";
 import { Account } from "./account.entity";
 import { Application } from "./application.entity";
-
-export enum MemberRole {
-  ADMINISTRATOR = "Administrator",
-  MAINTAINER = "Maintainer",
-  VIEWER = "Viewer",
-}
+import { IAmr } from "../../../lib/types/interfaces/amr.interface";
+import { MemberRole } from "../../../lib/types/enums/amr.enum";
 
 @Entity()
-export class AccountMemberRelationship extends GenericEntity {
+export class AccountMemberRelationship extends GenericEntity implements IAmr {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
