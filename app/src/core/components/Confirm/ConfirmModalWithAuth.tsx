@@ -21,7 +21,7 @@ export const ConfirmModalWithAuth = ({
 
   const confirm = async ({ password }: { password: string }) => {
     const auth: CheckCredentialsResponse = await api.post("/api/auth/check", {
-      usernameOrEmail: account.email || account.username,
+      username: account.username,
       password
     });
 

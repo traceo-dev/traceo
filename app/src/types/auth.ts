@@ -5,6 +5,6 @@ export interface SignupProps {
 }
 
 export interface LoginProps {
-  usernameOrEmail: string;
+  username: string;
   password: string;
 }

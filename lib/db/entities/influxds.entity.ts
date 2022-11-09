@@ -1,5 +1,4 @@
 import { GenericEntity } from "../../core/generic.entity";
-import { CONNECTION_STATUS } from "../../types/tsdb";
 import {
     Column,
     Entity,
@@ -8,9 +7,11 @@ import {
     PrimaryGeneratedColumn
 } from "typeorm";
 import { Application } from "./application.entity";
+import { IInfluxDs } from "../../../lib/types/interfaces/influxds.interface";
+import { CONNECTION_STATUS } from "../../../lib/types/enums/tsdb.enum";
 
 @Entity()
-export class InfluxDS extends GenericEntity {
+export class InfluxDS extends GenericEntity implements IInfluxDs {
     @PrimaryGeneratedColumn("uuid")
     id?: string;
 
@@ -37,7 +38,7 @@ export class InfluxDS extends GenericEntity {
         nullable: true
     })
     bucket: string;
-    
+
     @Column({
         type: "varchar",
         nullable: true

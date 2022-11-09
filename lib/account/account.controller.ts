@@ -9,13 +9,13 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RequestUser } from '../auth/auth.model';
+import { AccountDto, CreateAccountDto } from '../../lib/types/dto/account.dto';
+import { IAccount, RequestUser } from '../../lib/types/interfaces/account.interface';
 import { BaseDtoQuery } from '../core/query/generic.model';
-import { Account } from '../db/entities/account.entity';
-import { AuthRequired } from '../libs/decorators/auth-required.decorator';
-import { AuthAccount } from '../libs/decorators/auth-user.decorator';
+import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
+import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
+import { AccountPermissionService } from './account-permission/account-permission.service';
 import { AccountQueryService } from './account-query/account-query.service';
-import { AccountDto, CreateAccountDto } from './account.model';
 import { AccountService } from './account.service';
 
 @ApiTags('account')
@@ -24,22 +24,29 @@ export class AccountController {
   constructor(
     readonly accountService: AccountService,
     readonly accountQueryService: AccountQueryService,
-  ) {}
+    readonly permission: AccountPermissionService
+  ) { }
 
   @Get()
   @AuthRequired()
-  async getApplication(@Query("id") id: string): Promise<Account> {
+  async getApplication(@Query("id") id: string): Promise<IAccount> {
     return await this.accountQueryService.getDto(id);
   }
 
   @Get('/all')
-  // @AuthRequired()
-  async getAccounts(@Query() query: BaseDtoQuery): Promise<Account[]> {
+  @AuthRequired()
+  async getAccounts(@Query() query: BaseDtoQuery): Promise<IAccount[]> {
     return await this.accountQueryService.listDto(query);
   }
 
   @Post('/new')
-  async createAccount(@Body() accountDto: CreateAccountDto): Promise<any> {
+  @AuthRequired()
+  async createAccount(
+    @Body() accountDto: CreateAccountDto,
+    @AuthAccount() account: RequestUser
+  ): Promise<void> {
+    await this.permission.can('CREATE_ACCOUNT', account);
+
     return this.accountService.createAccount(accountDto);
   }
 
@@ -58,6 +65,8 @@ export class AccountController {
     @Param("id") id: string,
     @AuthAccount() account: RequestUser,
   ): Promise<void> {
+    await this.permission.can('DELETE ACCOUNT', account);
+
     return await this.accountService.deleteAccount(id, account);
   }
 }

@@ -36,7 +36,7 @@ export class NotFoundError extends TraceoError {
 // "I do not know who you are."
 export class UnauthorizedError extends TraceoError {
   constructor(message?) {
-    super(message || "Unatuthorized.");
+    super(message || "Unauthorized.");
     this.name = "UnauthorizedError";
     this.status = 401;
   }
@@ -66,10 +66,10 @@ export class AccountEmailAlreadyExistsError extends TraceoError {
   }
 }
 
-export class AccountUsernameEmailAlreadyExistsError extends TraceoError {
+export class AccountWithUsernameAlreadyExistsError extends TraceoError {
   constructor(message?) {
     super(message || "Account with this username already exists.");
-    this.name = "AccountUsernameEmailAlreadyExistsError";
+    this.name = "AccountWithUsernameAlreadyExistsError";
     this.status = 458;
   }
 }

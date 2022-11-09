@@ -9,17 +9,14 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RequestUser } from '../auth/auth.model';
-import { Incident } from '../db/entities/incident.entity';
-import { AuthRequired } from '../libs/decorators/auth-required.decorator';
-import { AuthAccount } from '../libs/decorators/auth-user.decorator';
-import {
-  IncidentQueryDto,
-  IncidentUpdateDto,
-  IncidentBatchUpdateDto
-} from '../types/incident';
+import { AccountPermissionService } from '../../lib/account/account-permission/account-permission.service';
+import { RequestUser } from '../../lib/types/interfaces/account.interface';
+import { IncidentQueryDto, IncidentUpdateDto, IncidentBatchUpdateDto } from '../../lib/types/dto/incident.dto';
+import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
+import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsService } from './incidents.service';
+import { IIncident } from '../../lib/types/interfaces/incident.interface';
 
 @ApiTags('incidents')
 @Controller('incidents')
@@ -27,11 +24,12 @@ export class IncidentsController {
   constructor(
     private readonly incidentsQueryService: IncidentsQueryService,
     private readonly incidentsService: IncidentsService,
-  ) {}
+    private readonly permission: AccountPermissionService
+  ) { }
 
   @Get('/:id')
   @AuthRequired()
-  public async getIncident(@Param("id") id: string): Promise<Incident | null> {
+  public async getIncident(@Param("id") id: string): Promise<IIncident> {
     return await this.incidentsQueryService.getDto(id);
   }
 
@@ -40,23 +38,11 @@ export class IncidentsController {
   public async getIncidents(
     @Query("id") id: number,
     @Query() query: IncidentQueryDto
-  ): Promise<Incident[]> {
+  ): Promise<IIncident[]> {
     return await this.incidentsQueryService.listDto({
       appId: id,
       ...query
     });
-  }
-
-  @Get('/assigned/account')
-  @AuthRequired()
-  public async getAssignedIncidents(
-    @Query() query: IncidentQueryDto,
-    @AuthAccount() account: RequestUser,
-  ): Promise<Incident[]> {
-    return await this.incidentsQueryService.getAssignedIncidents(
-      query,
-      account,
-    );
   }
 
   @Patch('/:id')
@@ -70,7 +56,12 @@ export class IncidentsController {
 
   @Delete('/:id')
   @AuthRequired()
-  public async deleteIncident(@Param("id") id: string): Promise<void> {
+  public async deleteIncident(
+    @Param("id") id: string,
+    @AuthAccount() account: RequestUser
+  ): Promise<void> {
+    await this.permission.can('DELETE_INCIDENT', account);
+
     return await this.incidentsService.removeIncident(id);
   }
 
@@ -80,13 +71,5 @@ export class IncidentsController {
     @Body() body: IncidentBatchUpdateDto,
   ): Promise<void> {
     return await this.incidentsService.updateBatchIncidents(body);
-  }
-
-  @Post('/remove/batch')
-  @AuthRequired()
-  public async removeBatchIncidents(
-    @Body() body: IncidentBatchUpdateDto,
-  ): Promise<void> {
-    return await this.incidentsService.removeBatchIncidents(body);
   }
 }

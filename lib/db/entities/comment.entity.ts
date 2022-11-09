@@ -1,3 +1,4 @@
+import { IComment } from "lib/types/interfaces/comment.interface";
 import {
   Column,
   Entity,
@@ -10,7 +11,7 @@ import { Account } from "./account.entity";
 import { Incident } from "./incident.entity";
 
 @Entity()
-export class Comment extends GenericEntity {
+export class Comment extends GenericEntity implements IComment {
   @PrimaryGeneratedColumn("uuid")
   id?: string;
 

@@ -1,35 +1,38 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { RequestUser } from '../auth/auth.model';
 import { AmrService } from '../application-member/amr.service';
-import { Account } from '../db/entities/account.entity';
 import { Application } from '../db/entities/application.entity';
-import { MemberRole } from '../db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
 import * as crypto from "crypto";
 import { ApplicationWithNameAlreadyExistsError } from '../helpers/errors';
-import { CreateApplicationBody, ApplicationBody } from './application.model';
 import dateUtils from '../helpers/dateUtils';
 import { ApplicationQueryService } from './application-query/application-query.service';
-import { gravatar } from '../libs/gravatar';
 import { AccountQueryService } from '../account/account-query/account-query.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import dayjs from 'dayjs';
 import { Log } from '../db/entities/log.entity';
 import { ADMIN_EMAIL } from '../helpers/constants';
+import { MemberRole } from '../../lib/types/enums/amr.enum';
+import { gravatar } from '../../lib/helpers/gravatar';
+import { RequestUser } from '../../lib/types/interfaces/account.interface';
+import { ApplicationDto, CreateApplicationDto } from 'lib/types/dto/application.dto';
 
 const MAX_RETENTION_LOGS = 3;
 
 @Injectable()
 export class ApplicationService {
+  private readonly logger: Logger;
+
   constructor(
     private readonly entityManager: EntityManager,
     private readonly awrService: AmrService,
     private readonly applicationQueryService: ApplicationQueryService,
     private readonly accountQueryService: AccountQueryService
-  ) { }
+  ) {
+    this.logger = new Logger(ApplicationService.name)
+  }
 
   public async createApplication(
-    data: CreateApplicationBody,
+    data: CreateApplicationDto,
     user: RequestUser,
   ): Promise<Application> {
     const { id, email } = user;
@@ -39,10 +42,11 @@ export class ApplicationService {
       return await this.entityManager.transaction(async (manager) => {
         await this.validate(data.name);
 
-        const account = await manager.getRepository(Account).findOneBy({ id });
+        const account = await this.accountQueryService.getDtoBy({ id });
         if (!account) {
           throw new NotFoundException();
         }
+
         const url = gravatar.url(data.name, "identicon");
         const applicationPayload: Application = {
           ...data,
@@ -79,13 +83,13 @@ export class ApplicationService {
         return application;
       });
     } catch (error) {
-      Logger.error(`[${this.createApplication.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.createApplication.name}] Caused by: ${error}`);
       throw new Error(error);
     }
   }
 
   public async updateApplication(
-    appBody: ApplicationBody | Partial<Application>,
+    appBody: ApplicationDto | Partial<Application>,
     account: RequestUser,
     manager: EntityManager = this.entityManager,
   ): Promise<any> {
@@ -100,7 +104,7 @@ export class ApplicationService {
         },
       );
     } catch (error) {
-      Logger.error(`[${this.updateApplication.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.updateApplication.name}] Caused by: ${error}`);
       throw new Error(error);
     }
   }
@@ -115,11 +119,8 @@ export class ApplicationService {
   }
 
   public async deleteApplication(
-    appId: string,
-    user: RequestUser,
+    appId: string
   ): Promise<void> {
-    //TODO: check here also permission
-
     await this.entityManager
       .getRepository(Application)
       .createQueryBuilder('application')
@@ -139,7 +140,7 @@ export class ApplicationService {
 
       await this.entityManager.getRepository(Log).remove(logs);
 
-      Logger.log(`[handleLogDelete] Deleted logs: ${logs.length}`);
+      this.logger.log(`[handleLogDelete] Deleted logs: ${logs.length}`);
     } catch (error) {
       throw new Error(error);
     }

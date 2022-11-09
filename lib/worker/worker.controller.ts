@@ -1,7 +1,9 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { Incident } from '../types/incident';
-import { Metrics } from '../types/worker';
+import { TraceoIncidentModel } from '../../lib/types/interfaces/incident.interface';
+import { TraceoLog } from '../../lib/types/interfaces/log.interface';
+import { IMetrics } from '../../lib/types/interfaces/metrics.interface';
+import { IRuntime } from '../../lib/types/interfaces/runtime.interface';
 import { LogsService } from './services/logs.service';
 import { MetricsService } from './services/metrics.service';
 import { ProcessIncidentsService } from './services/process-incidents.service';
@@ -20,7 +22,7 @@ export class WorkerController {
     @Post('/incident/:id')
     async handleSDKIncidents(
         @Param("id") id: number,
-        @Body() data: Incident,
+        @Body() data: TraceoIncidentModel,
     ): Promise<void> {
         await this.processIncidentsService.processWorkerData(id, data);
     }
@@ -28,7 +30,7 @@ export class WorkerController {
     @Post("/runtime/:id")
     async handleRuntimeMetrics(
         @Param("id") id: number,
-        @Body() data: any
+        @Body() data: IRuntime
     ): Promise<void> {
         await this.runtimeService.processWorkerData(id, data);
     }
@@ -36,7 +38,7 @@ export class WorkerController {
     @Post("/log/:id")
     async handleLog(
         @Param("id") id: number,
-        @Body() data: any
+        @Body() data: TraceoLog
     ): Promise<void> {
         await this.logsService.processWorkerData(id, data);
     }
@@ -44,7 +46,7 @@ export class WorkerController {
     @Post("/metrics/:id")
     async handleMetrics(
         @Param("id") id: number,
-        @Body() data: Metrics
+        @Body() data: IMetrics
     ): Promise<void> {
         await this.metricsService.processWorkerData(id, data);
     }

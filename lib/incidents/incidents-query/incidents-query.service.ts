@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { RequestUser } from "../../auth/auth.model";
 import { GenericQueryService } from "../../core/query/generic-query.service";
 import { Incident } from "../../db/entities/incident.entity";
-import { IncidentQueryDto, IncidentStatusSearch } from "../../types/incident";
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
+import { IncidentQueryDto } from "../../../lib/types/dto/incident.dto";
+import { IncidentStatusSearch } from "../../../lib/types/enums/incident.enum";
 
 @Injectable()
 export class IncidentsQueryService extends GenericQueryService<
@@ -55,28 +55,6 @@ export class IncidentsQueryService extends GenericQueryService<
       "errorsCount",
       "errorsDetails",
     ];
-  }
-
-  public async getAssignedIncidents(
-    query: IncidentQueryDto,
-    user: RequestUser,
-  ): Promise<Incident[]> {
-    const { take, sortBy, order, page, size } = query;
-    const queryBuilder = await this.entityManager
-      .getRepository(Incident)
-      .createQueryBuilder("incident")
-      .where("incident.assignedId = :id", { id: user.id })
-      .leftJoinAndSelect("incident.application", "application")
-      .leftJoinAndSelect("incident.assigned", "assigned");
-
-    this.commonQuery(queryBuilder, query);
-
-    queryBuilder
-      .orderBy(`incident.${sortBy}`, order, "NULLS LAST")
-      .limit(size)
-      .skip(page > 0 ? (page - 1) * take : 0);
-
-    return queryBuilder.getMany();
   }
 
   public commonQuery(

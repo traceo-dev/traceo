@@ -1,13 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { createHmac } from 'crypto';
 import { AccountService } from '../account/account.service';
-import { Account, AccountStatus } from '../db/entities/account.entity';
-import {
-  AccountCredentialsDto,
-  RequestUser,
-  UpdatePasswordDto
-} from './auth.model';
-import { JwtPayload } from './jwt.payload.interface';
+import { Account } from '../db/entities/account.entity';
 import { JwtService } from "@nestjs/jwt";
 import { EntityManager } from 'typeorm';
 import {
@@ -15,18 +9,27 @@ import {
   AccountSuspendedError,
   BadPasswordOrNotExists
 } from '../helpers/errors';
+import { JwtPayload } from './jwt/jwt.payload.interface';
+import { AccountQueryService } from '../../lib/account/account-query/account-query.service';
+import { AccountStatus } from '../../lib/types/enums/account.enum';
+import { AccountCredentialsDto, UpdatePasswordDto } from '../../lib/types/dto/account.dto';
+import { IAccount, RequestUser } from '../../lib/types/interfaces/account.interface';
+
+export type LoginResponseType = { accessToken: string };
+export type CheckCredentialsType = { isCorrect: boolean; account?: IAccount };
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly accountService: AccountService,
+    private readonly accountQueryService: AccountQueryService,
     private readonly jwtService: JwtService,
     private readonly entityManager: EntityManager,
   ) { }
 
   public async login(
     accountCredentials: AccountCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<LoginResponseType> {
     return await this.entityManager.transaction(async (manager) => {
       const { isCorrect, account } = await this.checkCredentials(
         accountCredentials,
@@ -53,7 +56,7 @@ export class AuthService {
         email,
         username
       };
-      const { accessToken } = await this.createToken(payload);
+      const accessToken = this.createToken(payload);
       return {
         accessToken
       };
@@ -63,18 +66,15 @@ export class AuthService {
   public async checkCredentials(
     credentials: AccountCredentialsDto,
     manager: EntityManager = this.entityManager,
-  ): Promise<{ isCorrect: boolean; account?: Account }> {
-    const { usernameOrEmail, password } = credentials;
+  ): Promise<CheckCredentialsType> {
+    const { username, password } = credentials;
 
-    const account = await manager
-      .getRepository(Account)
-      .createQueryBuilder('account')
-      .where('account.email = :email', { email: usernameOrEmail })
-      .orWhere('account.username = :username', { username: usernameOrEmail })
-      .where("account.password = :password", {
+    const account = await manager.getRepository(Account).findOne({
+      where: {
+        username,
         password: createHmac("sha256", password).digest("hex")
-      })
-      .getOne();
+      }
+    });
 
     if (!account) {
       return {
@@ -91,32 +91,27 @@ export class AuthService {
   public async updateUserPassword(
     currentUser: RequestUser,
     passwords: UpdatePasswordDto,
-  ): Promise<any> {
+  ): Promise<void> {
     const { id } = currentUser;
     const { newPassword, password } = passwords;
 
     await this.entityManager.transaction(async (manager) => {
-      const account = await manager
-        .getRepository(Account)
-        .findOneByOrFail({ id });
-
+      const account = await this.accountQueryService.getDto(id);
       if (!account) {
         throw new AccountNotExistsError();
       }
 
-      const credentials = new AccountCredentialsDto(
-        account?.email || account?.username,
-        password,
-      );
-
+      const credentials = new AccountCredentialsDto(account?.email, password);
       const { isCorrect } = await this.checkCredentials(credentials, manager);
       if (!isCorrect) {
         throw new BadPasswordOrNotExists();
       }
 
-      account.password = createHmac('sha256', newPassword).digest('hex');
-      account.isPasswordUpdated = true;
-      await manager.getRepository(Account).save(account);
+      await manager.getRepository(Account).save({
+        ...account,
+        password: createHmac('sha256', newPassword).digest('hex'),
+        isPasswordUpdated: true
+      });
 
       return {
         status: 200,
@@ -125,10 +120,9 @@ export class AuthService {
     });
   }
 
-  public async createToken(
+  private createToken(
     payload: JwtPayload,
-  ): Promise<{ accessToken: string }> {
-    const accessToken = this.jwtService.sign(payload);
-    return { accessToken };
+  ): string {
+    return this.jwtService.sign(payload);
   }
 }

@@ -12,8 +12,8 @@ export const LoginForm = ({ form, loading, onFinish }) => {
         layout="vertical"
       >
         <Form.Item
-          name="usernameOrEmail"
-          label="Username or email"
+          name="username"
+          label="Username"
           rules={[
             {
               required: true,

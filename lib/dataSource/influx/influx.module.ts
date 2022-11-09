@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
+import { AccountPermissionService } from 'lib/account/account-permission/account-permission.service';
 import { InfluxController } from './influx.controller';
 import { InfluxService } from './influx.service';
 
@@ -7,7 +8,7 @@ import { InfluxService } from './influx.service';
     imports: [
         PassportModule.register({ defaultStrategy: 'jwt' })
     ],
-    providers: [InfluxService],
+    providers: [InfluxService, AccountPermissionService],
     controllers: [InfluxController]
 })
 export class InfluxModule {}

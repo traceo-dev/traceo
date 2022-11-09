@@ -1,4 +1,6 @@
 import { IsBoolean, IsEmail } from "class-validator";
+import { AccountStatus } from "../../../lib/types/enums/account.enum";
+import { IAccount } from "../../../lib/types/interfaces/account.interface";
 import {
   Column,
   Entity,
@@ -9,19 +11,8 @@ import { GenericEntity } from "../../core/generic.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
 
-export enum AccountRole {
-  ADMIN = "admin",
-  GUEST = "guest",
-}
-
-export enum AccountStatus {
-  ACTIVE = "active",
-  INACTIVE = "inactive",
-  DISABLED = "disabled",
-}
-
 @Entity()
-export class Account extends GenericEntity {
+export class Account extends GenericEntity implements IAccount {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 

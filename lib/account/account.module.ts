@@ -8,11 +8,14 @@ import { ApplicationQueryService } from '../application/application-query/applic
 import { AmrService } from '../application-member/amr.service';
 import { AmrQueryService } from '../application-member/amr-query/amr-query.service';
 import { HttpModule } from "@nestjs/axios";
+import { AccountPermissionService } from './account-permission/account-permission.service';
+import { AccountPermissionModule } from './account-permission/account-permission.module';
 
 @Module({
   imports: [
     AuthModule,
     HttpModule,
+    AccountPermissionModule,
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   providers: [
@@ -20,9 +23,10 @@ import { HttpModule } from "@nestjs/axios";
     AccountQueryService,
     ApplicationQueryService,
     AmrService,
-    AmrQueryService
+    AmrQueryService,
+    AccountPermissionService
   ],
   controllers: [AccountController],
-  exports: [AccountService]
+  exports: [AccountService, AccountPermissionService]
 })
-export class AccountModule {}
+export class AccountModule { }

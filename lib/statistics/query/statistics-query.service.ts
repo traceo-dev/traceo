@@ -1,12 +1,11 @@
 import { Injectable } from "@nestjs/common";
-import {
-  PlotData,
-  AppIncidentsStats
-} from "../../types/statistics";
+
 import { EntityManager } from "typeorm";
 import dayjs from "dayjs";
 import { Incident } from "../../db/entities/incident.entity";
-import { ErrorDetails } from "../../types/incident";
+import dateUtils from "../../../lib/helpers/dateUtils";
+import { AppIncidentsStats, DailyOverview, PlotData } from "../../../lib/types/interfaces/statistics.interface";
+import { ErrorDetails } from "../../../lib/types/interfaces/incident.interface";
 
 @Injectable()
 export class StatisticsQueryService {
@@ -46,10 +45,10 @@ export class StatisticsQueryService {
 
   public async getDailyOverview(
     applicationId: string
-  ): Promise<{ count: number; data: PlotData[] }> {
+  ): Promise<DailyOverview> {
     const today = dayjs().startOf("day").unix();
-
     const response: PlotData[] = [];
+    let total = 0;
 
     const incidents = await this.entityManger
       .getRepository(Incident)
@@ -66,14 +65,9 @@ export class StatisticsQueryService {
 
     const todayIncidents = cachedDates.filter((d) => dayjs.unix(d.date).isToday())
 
-    let totalTodayIncidentsCount = 0;
-
     for (let i = 0; i <= 24; i++) {
-      const count = todayIncidents.filter(
-        (o) =>
-          dayjs.unix(o.date).get("hour") === i
-      )?.length;
-      totalTodayIncidentsCount += count;
+      const count = todayIncidents.filter(({ date }) => dateUtils.getHour(date) === i).length;
+      total += count;
       response.push({
         date: dayjs().hour(i).startOf("h").unix(),
         count: count || 0
@@ -81,7 +75,7 @@ export class StatisticsQueryService {
     }
 
     return {
-      count: totalTodayIncidentsCount,
+      count: total,
       data: response
     };
   }
@@ -140,13 +134,11 @@ export class StatisticsQueryService {
     }
 
     while (currentDate <= endDate) {
-      const formatted = dayjs.unix(currentDate).endOf("day").unix();
-      const count = sortedDates?.filter(
-        (a) => dayjs.unix(a?.date).endOf("day").unix() === formatted,
-      ).length;
+      const curr = dateUtils.getEndOf(currentDate);
+      const count = sortedDates?.filter(({ date }) => dateUtils.getEndOf(date).unix() === curr.unix());
       response.push({
         date: currentDate,
-        count: count || 0
+        count: count.length || 0
       });
       currentDate = dayjs.unix(currentDate).add(1, "day").endOf("day").unix();
     }

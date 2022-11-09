@@ -1,7 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { PlotData, AppIncidentsStats, DailyOverview } from '../types/statistics';
-import { AuthRequired } from '../libs/decorators/auth-required.decorator';
+import { DailyOverview, PlotData, AppIncidentsStats } from '../../lib/types/interfaces/statistics.interface';
+import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
 import { StatisticsQueryService } from './query/statistics-query.service';
 
 @ApiTags('statistics')

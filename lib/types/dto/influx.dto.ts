@@ -1,8 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
-import { CONNECTION_STATUS } from "../../types/tsdb";
+import { IsNumber, IsNotEmpty, IsString } from "class-validator";
 
-export class InfluxConfigurationBody {
+export class InfluxConfigurationDto {
     @IsNumber()
     @IsNotEmpty()
     @ApiProperty({ description: "appId" })
@@ -27,13 +26,4 @@ export class InfluxConfigurationBody {
     @IsNotEmpty()
     @ApiProperty({ description: "bucket" })
     public bucket: string;
-}
-
-export interface InfluxConfiguration {
-    url: string;
-    token: string;
-    org: string;
-    bucket: string;
-    appId: number;
-    connStatus: CONNECTION_STATUS;
 }

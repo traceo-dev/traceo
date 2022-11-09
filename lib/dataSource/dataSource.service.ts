@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { InfluxDS } from '../db/entities/influxds.entity';
 import { Application } from '../db/entities/application.entity';
-import { MetricsQueryDto, MetricsResponse, TSDB } from '../types/tsdb';
 import { InfluxService } from './influx/influx.service';
 import { ApplicationNotExistsError } from '../helpers/errors';
+import { MetricsQuery, MetricsResponse } from '../../lib/types/interfaces/metrics.interface';
+import { TSDB } from '../../lib/types/enums/tsdb.enum';
 
 @Injectable()
 export class DataSourceService {
@@ -32,7 +33,7 @@ export class DataSourceService {
         return app;
     }
 
-    async getMetrics(query: MetricsQueryDto): Promise<MetricsResponse[]> {
+    async getMetrics(query: MetricsQuery): Promise<MetricsResponse[]> {
         const app = await this.getDataSourceOrThrowError(query.id);
         if (!app) {
             return;

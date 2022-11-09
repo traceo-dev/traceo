@@ -7,10 +7,11 @@ import {
     PrimaryGeneratedColumn
 } from "typeorm";
 import { Application } from "./application.entity";
+import { IRuntime } from "../../../lib/types/interfaces/runtime.interface";
 
 
 @Entity()
-export class Runtime extends GenericEntity {
+export class Runtime extends GenericEntity implements IRuntime {
     @PrimaryGeneratedColumn("uuid")
     id?: string;
 

@@ -1,11 +1,11 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { Application } from "../../db/entities/application.entity";
 import { Incident } from "../../db/entities/incident.entity";
 import dateUtils from "../../helpers/dateUtils";
-import { IncidentStatus } from "../../types/incident";
-import { TraceoIncidentModel } from "../../types/worker";
 import { EntityManager, UpdateResult } from "typeorm";
 import { BaseWorkerService } from "../../../lib/core/worker/base-worker.service";
+import { TraceoIncidentModel } from "../../../lib/types/interfaces/incident.interface";
+import { IncidentStatus } from "../../../lib/types/enums/incident.enum";
 
 @Injectable()
 export class ProcessIncidentsService extends BaseWorkerService<TraceoIncidentModel> {

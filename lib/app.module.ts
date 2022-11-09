@@ -16,6 +16,7 @@ import { WorkerModule } from './worker/worker.module';
 import { HttpModule } from '@nestjs/axios';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { AccountPermissionModule } from './account/account-permission/account-permission.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { join } from 'path';
         cacheControl: true
       }
     }),
+    AccountPermissionModule,
   ],
   controllers: [AppController],
   providers: [],

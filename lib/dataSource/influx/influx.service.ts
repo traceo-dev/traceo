@@ -1,20 +1,25 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { InfluxConfiguration, InfluxConfigurationBody } from './influx.model';
 import { InfluxDS } from '../../db/entities/influxds.entity';
 import { Application } from '../../db/entities/application.entity';
-import { CONNECTION_STATUS, DataSourceConnStatus, MetricsQueryDto, MetricsResponse, TSDB } from '../../types/tsdb';
 import { InfluxDB, Point } from '@influxdata/influxdb-client'
-import { Metrics } from '../../types/worker';
-
+import { DataSourceConnStatus } from '../../../lib/types/interfaces/tsdb.interface';
+import { IMetrics, MetricsQuery, MetricsResponse } from '../../../lib/types/interfaces/metrics.interface';
+import { CONNECTION_STATUS, TSDB } from '../../../lib/types/enums/tsdb.enum';
+import { InfluxConfigurationDto } from '../../../lib/types/dto/influx.dto';
+import { InfluxConfiguration } from '../../../lib/types/interfaces/influxds.interface';
 
 @Injectable()
 export class InfluxService {
+    private logger: Logger;
+
     constructor(
         private readonly entityManager: EntityManager
-    ) { }
+    ) {
+        this.logger = new Logger(InfluxService.name);
+    }
 
-    async saveInfluxDataSource(config: InfluxConfigurationBody): Promise<DataSourceConnStatus> {
+    async saveInfluxDataSource(config: InfluxConfigurationDto): Promise<DataSourceConnStatus> {
         const { appId, token, ...rest } = config;
 
         return await this.entityManager.transaction(async (manager) => {
@@ -46,14 +51,14 @@ export class InfluxService {
                     influxDS: influx
                 })
 
-                Logger.log(`InfluxDB data source attached to app: ${appId}`);
+                this.logger.log(`InfluxDB data source attached to app: ${appId}`);
                 return {
                     status, error
                 };
             }
 
             await influxRef.update({ id: ds.id }, dsPayload);
-            Logger.log(`InfluxDB data source updated in app: ${appId}`);
+            this.logger.log(`InfluxDB data source updated in app: ${appId}`);
 
             return {
                 status, error
@@ -61,7 +66,7 @@ export class InfluxService {
         });
     }
 
-    async writeData(config: Partial<InfluxConfiguration>, data: Metrics): Promise<void> {
+    async writeData(config: Partial<InfluxConfiguration>, data: IMetrics): Promise<void> {
         const { url, token, bucket, org, connStatus, appId } = config;
         const { cpuUsage, memory, loadAvg, heap, eventLoopLag, gc } = data;
 
@@ -107,7 +112,7 @@ export class InfluxService {
             });
     }
 
-    async influxConnectionTest(config: Partial<InfluxConfigurationBody>): Promise<{ status: CONNECTION_STATUS; error?: string; }> {
+    async influxConnectionTest(config: Partial<InfluxConfigurationDto>): Promise<{ status: CONNECTION_STATUS; error?: string; }> {
         const { url, token, org, bucket } = config;
         const influxDb = new InfluxDB({ url, token });
 
@@ -129,17 +134,13 @@ export class InfluxService {
             });
     }
 
-    async queryData(config: InfluxConfigurationBody, dtoQuery: MetricsQueryDto): Promise<MetricsResponse[]> {
+    async queryData(config: InfluxConfigurationDto, dtoQuery: MetricsQuery): Promise<MetricsResponse[]> {
         const { url, token, org, bucket } = config;
         const { hrCount, id } = dtoQuery;
 
         const influxDb = new InfluxDB({ url, token });
 
         const queryApi = influxDb.getQueryApi(org)
-
-        /**
-         * To return value in this same table add in filter something like "or r._field == "otherMetric""
-         */
 
         const query = `
             from(bucket: "${bucket}") 
@@ -180,6 +181,7 @@ export class InfluxService {
         try {
             return await queryApi.collectRows(query);
         } catch (error) {
+            this.logger.error(error);
             return [];
         }
     }

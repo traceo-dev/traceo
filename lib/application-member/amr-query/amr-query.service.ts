@@ -1,28 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import { RequestUser } from '../../auth/auth.model';
 import { BaseDtoQuery } from '../../core/query/generic.model';
 import { AccountMemberRelationship } from '../../db/entities/account-member-relationship.entity';
-import { Account } from '../../db/entities/account.entity';
-import { ApplicationResponse } from '../../types/application';
 import { EntityManager } from 'typeorm';
-import { ApplicationDtoQuery } from '../amr.model';
+import { ApplicationDtoQuery } from '../../../lib/types/dto/application.dto';
+import { IApplicationResponse } from '../../../lib/types/interfaces/application.interface';
+import { RequestUser } from '../../../lib/types/interfaces/account.interface';
 
 @Injectable()
 export class AmrQueryService {
   constructor(private readonly entityManager: EntityManager) { }
-
-  /**
-   * Return single object with account data and status field from AccountApplicationRelationship
-   *
-   * @param accountId
-   * @param appId
-   * @returns
-   */
-  public async getAccount(accountId: string): Promise<Account | null> {
-    return await this.entityManager
-      .getRepository(Account)
-      .findOne({ where: { id: accountId } });
-  }
 
   /**
    * Return pageable list of the members assigned to app
@@ -116,7 +102,7 @@ export class AmrQueryService {
   public async getApplication(
     appId: number,
     user: RequestUser,
-  ): Promise<ApplicationResponse | null> {
+  ): Promise<IApplicationResponse> {
     const { id } = user;
 
     const applicationQuery = await this.entityManager
@@ -133,16 +119,18 @@ export class AmrQueryService {
       return null;
     }
 
-    const { role, application } = applicationQuery;
+    return this.getApplicationResponse(applicationQuery);
+  }
 
+  private getApplicationResponse({ application, role }: AccountMemberRelationship): IApplicationResponse {
     return {
       ...application,
       member: {
         role
       },
       owner: {
-        name: application?.owner.name
+        name: application.owner.name
       }
-    };
+    }
   }
 }
