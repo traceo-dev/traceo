@@ -5,7 +5,7 @@ import { Application } from '../../../lib/db/entities/application.entity';
 import { UnauthorizedError } from '../../../lib/helpers/errors';
 import { RequestUser } from '../../../lib/types/interfaces/account.interface';
 import { EntityManager } from 'typeorm';
-import { MemberRole } from 'lib/types/enums/amr.enum';
+import { MemberRole } from '../../../lib/types/enums/amr.enum';
 
 type Action = "CREATE_APP" |
     "UPDATE_APP" |

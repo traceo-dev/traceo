@@ -1,4 +1,4 @@
-import { Incident } from "lib/db/entities/incident.entity";
+import { Incident } from "../../../lib/db/entities/incident.entity";
 import { AccountStatus } from "../enums/account.enum";
 import { IAmr } from "./amr.interface";
 

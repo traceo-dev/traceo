@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
-import { BaseDtoQuery } from "lib/core/query/generic.model";
+import { BaseDtoQuery } from "../../../lib/core/query/generic.model";
 import { IncidentStatus, IncidentStatusSearch } from "../enums/incident.enum";
 
 export class IncidentQueryDto extends BaseDtoQuery {
