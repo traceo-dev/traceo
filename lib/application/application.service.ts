@@ -14,7 +14,7 @@ import { ADMIN_EMAIL } from '../helpers/constants';
 import { MemberRole } from '../../lib/types/enums/amr.enum';
 import { gravatar } from '../../lib/helpers/gravatar';
 import { RequestUser } from '../../lib/types/interfaces/account.interface';
-import { ApplicationDto, CreateApplicationDto } from 'lib/types/dto/application.dto';
+import { ApplicationDto, CreateApplicationDto } from '../../lib/types/dto/application.dto';
 
 const MAX_RETENTION_LOGS = 3;
 

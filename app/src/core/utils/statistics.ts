@@ -39,7 +39,7 @@ export const getIncidentsTablePlotData = (errorsDetails: ErrorDetails[]) => {
 };
 
 export interface PlotData {
-  date: number;
+  date: any;
   count: number;
 }
 const getIncidentsAnalyticsTodayPlotData = (errorsDetails: ErrorDetails[]) => {
@@ -51,10 +51,19 @@ const getIncidentsAnalyticsTodayPlotData = (errorsDetails: ErrorDetails[]) => {
 
   const response: PlotData[] = [];
 
-  for (let i = 0; i <= 24; i++) {
+  const getHour = (h: number): string => {
+    const val = dayjs().hour(h).get('h');
+
+    if (val === 0) return "00:00";
+    if (val <= 9) return `0${val}:00`;
+    if (val === 23) return "23:59";
+    else return `${h}:00`;
+  }
+
+  for (let i = 0; i <= 23; i++) {
     const count = todayIncidents?.filter((t) => dayjs.unix(t.date).hour() === i)?.length;
     response.push({
-      date: dayjs().hour(i).startOf("h").unix(),
+      date: getHour(i),
       count
     });
   }

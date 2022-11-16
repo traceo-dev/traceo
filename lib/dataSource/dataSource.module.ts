@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { AccountPermissionService } from 'lib/account/account-permission/account-permission.service';
+import { AccountPermissionService } from '../../lib/account/account-permission/account-permission.service';
 import { DataSourceController } from './dataSource.controller';
 import { DataSourceService } from './dataSource.service';
 import { InfluxModule } from './influx/influx.module';

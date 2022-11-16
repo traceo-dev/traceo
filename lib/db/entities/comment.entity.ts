@@ -1,4 +1,4 @@
-import { IComment } from "lib/types/interfaces/comment.interface";
+import { IComment } from "../../../lib/types/interfaces/comment.interface";
 import {
   Column,
   Entity,

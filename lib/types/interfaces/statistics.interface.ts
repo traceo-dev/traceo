@@ -8,6 +8,6 @@ export interface DailyOverview {
 }
 
 export interface PlotData {
-    date: number;
+    date: any;
     count: number;
 }

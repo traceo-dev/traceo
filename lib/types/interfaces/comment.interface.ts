@@ -1,4 +1,4 @@
-import { Incident } from "lib/db/entities/incident.entity";
+import { Incident } from "../../../lib/db/entities/incident.entity";
 import { IAccount } from "./account.interface";
 
 export interface IComment {

@@ -10,7 +10,7 @@ import { ApplicationQueryService } from '../application/application-query/applic
 import { AmrService } from '../application-member/amr.service';
 import { AmrQueryService } from '../application-member/amr-query/amr-query.service';
 import { HttpModule } from "@nestjs/axios";
-import { AccountPermissionService } from 'lib/account/account-permission/account-permission.service';
+import { AccountPermissionService } from '../../lib/account/account-permission/account-permission.service';
 
 @Module({
   imports: [

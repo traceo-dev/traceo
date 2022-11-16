@@ -65,11 +65,11 @@ export class StatisticsQueryService {
 
     const todayIncidents = cachedDates.filter((d) => dayjs.unix(d.date).isToday())
 
-    for (let i = 0; i <= 24; i++) {
+    for (let i = 0; i <= 23; i++) {
       const count = todayIncidents.filter(({ date }) => dateUtils.getHour(date) === i).length;
       total += count;
       response.push({
-        date: dayjs().hour(i).startOf("h").unix(),
+        date: this.getHour(i),
         count: count || 0
       });
     }
@@ -78,6 +78,15 @@ export class StatisticsQueryService {
       count: total,
       data: response
     };
+  }
+
+  private getHour(h: number): string {
+    const val = dayjs().hour(h).get('h');
+
+    if (val === 0) return "00:00";
+    if (val <= 9) return `0${val}:00`;
+    if (val === 23) return "23:59";
+    else return `${h}:00`;
   }
 
   public async getTotalOverview(

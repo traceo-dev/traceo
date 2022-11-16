@@ -1,7 +1,6 @@
-import { ClockCircleOutlined, LoadingOutlined, SyncOutlined } from "@ant-design/icons";
-import { Space, Typography } from "antd";
+import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
+import { Space } from "antd";
 import { DailyStats } from "../../../../types/statistics";
-import dateUtils from "../../../../core/utils/date";
 import { useParams } from "react-router-dom";
 import { useApi } from "../../../../core/lib/useApi";
 import { PagePanel } from "../../../../core/components/PagePanel";
@@ -29,14 +28,7 @@ export const TodaySection = () => {
   return (
     <>
       <PagePanel
-        title={
-          <Space>
-            <Typography.Text>Today</Typography.Text>
-            <Typography.Text className="text-xs pl-5">
-              <ClockCircleOutlined className="mr-1" /> {dateUtils.getNow("HH:mm")}
-            </Typography.Text>
-          </Space>
-        }
+        title="Today"
         extra={<SyncOutlined className="text-xs" onClick={() => reloadDailyStats()} />}
       >
         {isLoading ? (

@@ -10,8 +10,6 @@ import { StoreState } from "../../../../types/store";
 
 export const StacktraceSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
-
-  const [isInternal, setInternal] = useState<boolean>(false);
   const isTraces = incident?.traces?.length > 0;
 
   return (
