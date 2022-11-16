@@ -38,6 +38,8 @@ export const MetricPlotWrapper: FC<Props> = ({
                 { value: "scatter", label: "Points" }
               ]}
               onChange={(v) => setChartType(v as CHART_TYPE)}
+              onResize={undefined}
+              onResizeCapture={undefined}
             />
             <Segmented
               defaultValue={hrCount}
@@ -51,6 +53,8 @@ export const MetricPlotWrapper: FC<Props> = ({
                 { value: 72, label: "3d" }
               ]}
               onChange={(v) => setHrCount(v as number)}
+              onResize={undefined}
+              onResizeCapture={undefined}
             />
             <Button type="primary" onClick={() => execute()}>
               Refresh <SyncOutlined />

@@ -31,6 +31,8 @@ export const MetricsHeader: FC<Props> = ({ hrCount, setHrCount, loading, execute
               { value: 72, label: "3d" }
             ]}
             onChange={(v) => setHrCount(v as number)}
+            onResize={undefined}
+            onResizeCapture={undefined}
           />
           <Button type="primary" onClick={() => execute()}>
             Refresh <SyncOutlined />

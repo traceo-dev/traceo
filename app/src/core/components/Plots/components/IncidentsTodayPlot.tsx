@@ -1,7 +1,6 @@
 import dayjs from "dayjs";
 import { FC } from "react";
-import dateUtils from "../../../utils/date";
-import { normalizePlotData, tooltipOptions } from "../utils";
+import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption, graphic } from "echarts";
 import { PlotData } from "../../../../core/utils/statistics";
@@ -28,39 +27,13 @@ export const IncidentsTodayPlot: FC<Props> = ({ stats }) => {
       type: "category",
       boundaryGap: false,
       axisLabel: {
-        formatter: (v) => {
-          const isToday = dayjs.unix(Number(v)).isToday();
-
-          if (!isToday) return "23:59";
-          return dateUtils.formatDate(Number(v), "HH:mm");
-        },
+        showMaxLabel: true,
         color: "white",
         fontSize: 11,
         padding: 0,
-        interval: 1
+        interval: 2
       },
-      axisPointer: {
-        label: {
-          formatter: (v) => {
-            return `
-               ${dateUtils.formatDate(v.value as number, "MMM D")},
-               ${dateUtils.formatDate(v.value as number, "HH:mm")}-${dateUtils.formatDate(
-              dayjs
-                .unix(v.value as number)
-                .add(1, "h")
-                .unix(),
-              "HH:mm"
-            )}`;
-          }
-        }
-      },
-      splitLine: {
-        show: true,
-        lineStyle: {
-          color: "#272A30",
-          width: 1
-        }
-      },
+      splitLine,
       offset: 15,
       z: -3
     },
@@ -115,7 +88,7 @@ export const IncidentsTodayPlot: FC<Props> = ({ stats }) => {
           symbol: ["none", "none"],
           data: [
             {
-              xAxis: dayjs().hour()
+              xAxis: dayjs().local().hour()
             }
           ]
         },
@@ -128,7 +101,7 @@ export const IncidentsTodayPlot: FC<Props> = ({ stats }) => {
           data: [
             [
               {
-                xAxis: dayjs().hour()
+                xAxis: dayjs().local().hour()
               },
               {
                 xAxis: 999

@@ -1,5 +1,3 @@
-import { ClockCircleOutlined } from "@ant-design/icons";
-import { Space, Typography } from "antd";
 import { IncidentsOverviewPlot } from "../../../core/components/Plots/components/IncidentsOverviewPlot";
 import { IncidentsTodayPlot } from "../../../core/components/Plots/components/IncidentsTodayPlot";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
@@ -8,7 +6,6 @@ import { statistics } from "../../../core/utils/statistics";
 import { useSelector } from "react-redux";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { PagePanel } from "../../../core/components/PagePanel";
-import dateUtils from "../../../core/utils/date";
 import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
 import { TodayIncidentsStats } from "./components/TodayIncidentsStats";
@@ -41,16 +38,7 @@ export const AppIncidentAnalyticsPage = () => {
   return (
     <AppIncidentNavigationPage>
       <ConditionLayout isLoading={!incident}>
-        <PagePanel
-          title={
-            <Space>
-              <Typography.Text>Today Incident overview</Typography.Text>
-              <Typography.Text className="text-xs pl-5">
-                <ClockCircleOutlined className="mr-1" /> {dateUtils.getNow("HH:mm")}
-              </Typography.Text>
-            </Space>
-          }
-        >
+        <PagePanel title="Today">
           <div className="w-full overflow-hidden">
             <div className="w-3/4 float-left">
               <IncidentsTodayPlot stats={todayStats?.data} />
@@ -65,7 +53,7 @@ export const AppIncidentAnalyticsPage = () => {
             </div>
           </div>
         </PagePanel>
-        <PagePanel title="Total Incident overview">
+        <PagePanel title="Total overview">
           <IncidentsOverviewPlot stats={stats} />
         </PagePanel>
       </ConditionLayout>
