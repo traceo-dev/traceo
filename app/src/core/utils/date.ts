@@ -16,6 +16,7 @@ const getLocalTime = (date: string | Date = new Date()) => dayjs(date).local().u
 const formatDate = (date: number, format = "DD-MM-YYYY") =>
   dayjs.unix(date).local().format(format);
 
+
 const formatDateTime = (date: number) => {
   const time = dayjs.unix(date).local();
 
