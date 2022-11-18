@@ -99,7 +99,7 @@ export const AppSwitcher = () => {
             />
           </Space>
         )}
-        {isDemo && (
+        {process.env.REACT_APP_DEMO === "true" && (
           <Tooltip
             placement="bottomRight"
             title="Use self-hosted app to see every Traceo Platform feature."
