@@ -101,7 +101,7 @@ export class AuthService {
         throw new AccountNotExistsError();
       }
 
-      const credentials = new AccountCredentialsDto(account?.email, password);
+      const credentials = new AccountCredentialsDto(account?.username, password);
       const { isCorrect } = await this.checkCredentials(credentials, manager);
       if (!isCorrect) {
         throw new BadPasswordOrNotExists();

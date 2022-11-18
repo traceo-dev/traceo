@@ -81,7 +81,7 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
             <Space className="w-full">
               <Typography className="font-semibold text-xs">{sender?.name}</Typography>
               <Typography.Text className="text-primary text-xs font-normal">
-                commented {dateUtils.formatDateTime(createdAt)}
+                commented {dateUtils.fromNow(createdAt)}
               </Typography.Text>
               {removed && <Tag color="cyan">Removed</Tag>}
             </Space>

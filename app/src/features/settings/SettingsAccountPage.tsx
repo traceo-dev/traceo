@@ -30,6 +30,7 @@ const SettingsAccountPage = () => {
   };
 
   const isAdmin = account.email === ADMIN_EMAIL;
+  const isDemo = process.env.DEMO === "true";
 
   return (
     <>
@@ -46,7 +47,7 @@ const SettingsAccountPage = () => {
               name="personalInformation"
               layout="vertical"
               className="w-3/5"
-              disabled={isAdmin}
+              disabled={isAdmin || isDemo}
             >
               <Form.Item name="name" label="Name" initialValue={account?.name}>
                 <Input />

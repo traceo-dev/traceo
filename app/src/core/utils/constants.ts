@@ -1,4 +1,4 @@
-export const VERSION = "0.2.5";
+export const VERSION = "0.2.6";
 
 export const CONTACT_EMAIL = "piotr.szewczyk.software@gmail.com";
 export const GH_REPO_LINK = "https://github.com/traceo-dev/traceo";

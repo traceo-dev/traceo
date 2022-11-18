@@ -47,7 +47,6 @@ export function configureApi() {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("session")}`
-        // env: localStorage.getItem("env") || ""
       }
     };
   });

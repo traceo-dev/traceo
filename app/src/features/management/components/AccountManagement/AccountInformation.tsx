@@ -113,7 +113,7 @@ export const AccountInformation = () => {
         <Alert
           showIcon={true}
           type="warning"
-          message="Administrator account is only in read-only mode."
+          message="Administrator account is in read-only mode."
           className="mb-5"
         />
       )}

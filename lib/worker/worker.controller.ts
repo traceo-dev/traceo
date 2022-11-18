@@ -24,6 +24,10 @@ export class WorkerController {
         @Param("id") id: number,
         @Body() data: TraceoIncidentModel,
     ): Promise<void> {
+        if (process.env.DEMO === "true") {
+            return;
+        }
+
         await this.processIncidentsService.processWorkerData(id, data);
     }
 
@@ -32,6 +36,10 @@ export class WorkerController {
         @Param("id") id: number,
         @Body() data: IRuntime
     ): Promise<void> {
+        if (process.env.DEMO === "true") {
+            return;
+        }
+
         await this.runtimeService.processWorkerData(id, data);
     }
 
@@ -40,6 +48,10 @@ export class WorkerController {
         @Param("id") id: number,
         @Body() data: TraceoLog
     ): Promise<void> {
+        if (process.env.DEMO === "true") {
+            return;
+        }
+
         await this.logsService.processWorkerData(id, data);
     }
 
@@ -48,6 +60,10 @@ export class WorkerController {
         @Param("id") id: number,
         @Body() data: IMetrics
     ): Promise<void> {
+        if (process.env.DEMO === "true") {
+            return;
+        }
+
         await this.metricsService.processWorkerData(id, data);
     }
 }

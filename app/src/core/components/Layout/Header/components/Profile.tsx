@@ -1,5 +1,6 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Popover, Space, Typography } from "antd";
+import { useDemo } from "core/hooks/useDemo";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "../../../../../core/components/Avatar";
@@ -11,10 +12,12 @@ interface ProfileRoute {
   onClick?: () => void;
   name: string;
   className?: string;
+  private?: boolean;
 }
 export const Profile = () => {
   const { account } = useSelector((state: StoreState) => state.account);
   const navigate = useNavigate();
+  const { isDemo } = useDemo();
 
   const logout = () => {
     localStorage.removeItem("session");
@@ -29,7 +32,8 @@ export const Profile = () => {
     },
     {
       href: "/dashboard/account/settings",
-      name: "Settings"
+      name: "Settings",
+      private: isDemo
     },
     {
       name: "Sign out",
@@ -38,19 +42,21 @@ export const Profile = () => {
     }
   ];
 
-  const profileContent = routes.map((route, index) => (
-    <Space key={index} className="py-2 w-full">
-      <Typography.Text
-        className={joinClasses(
-          route.className,
-          "hover:text-gray-300 cursor-pointer font-semibold"
-        )}
-        onClick={() => (route.href ? navigate(route.href) : route.onClick())}
-      >
-        {route.name}
-      </Typography.Text>
-    </Space>
-  ));
+  const profileContent = routes
+    .filter((r) => !r.private)
+    .map((route, index) => (
+      <Space key={index} className="py-2 w-full">
+        <Typography.Text
+          className={joinClasses(
+            route.className,
+            "hover:text-gray-300 cursor-pointer font-semibold"
+          )}
+          onClick={() => (route.href ? navigate(route.href) : route.onClick())}
+        >
+          {route.name}
+        </Typography.Text>
+      </Space>
+    ));
 
   const name = () => {
     if (!account?.name) {

@@ -11,9 +11,11 @@ export const Menu: FC<Props> = ({ routes, className }) => {
   return (
     <>
       <nav className={joinClasses("menu", className)}>
-        {routes.map((menu, index) => (
-          <MenuItem menu={menu} key={index} />
-        ))}
+        {routes
+          .filter((route) => !route.private)
+          .map((menu, index) => (
+            <MenuItem menu={menu} key={index} />
+          ))}
       </nav>
       <style>{`
         .menu {

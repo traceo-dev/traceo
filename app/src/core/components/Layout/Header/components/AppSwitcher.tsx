@@ -1,5 +1,5 @@
 import { CheckCircleFilled, DownOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Popover, Space, Typography } from "antd";
+import { Popover, Space, Tag, Tooltip, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "../../../../../core/components/Avatar";
@@ -12,8 +12,10 @@ import { useEffect } from "react";
 import { dispatch } from "../../../../../store/store";
 import { loadApplications } from "../../../../../features/dashboard/state/actions";
 import { ConditionLayout } from "../../../../../core/components/ConditionLayout";
+import { useDemo } from "core/hooks/useDemo";
 
 export const AppSwitcher = () => {
+  const { isDemo } = useDemo();
   const navigate = useNavigate();
   const { application, hasFetched } = useSelector(
     (state: StoreState) => state.application
@@ -95,10 +97,17 @@ export const AppSwitcher = () => {
               size="small"
               withName={true}
             />
-            {/* <Tag className="border-orange-500 rounded-full bg-transparent text-orange-500 font-medium">
-              Preview
-            </Tag> */}
           </Space>
+        )}
+        {isDemo && (
+          <Tooltip
+            placement="bottomRight"
+            title="Use self-hosted app to see every Traceo Platform feature."
+          >
+            <Tag className="border-orange-500 rounded-full bg-transparent text-orange-500 font-medium">
+              Demo
+            </Tag>
+          </Tooltip>
         )}
       </Space>
 

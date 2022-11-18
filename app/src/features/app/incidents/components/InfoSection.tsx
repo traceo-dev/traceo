@@ -15,10 +15,10 @@ export const InfoSection = () => {
       <PagePanel title="Info">
         <Descriptions>
           <DescriptionInputRow label="Catched at" editable={false}>
-            {dateUtils.formatDateTime(incident?.createdAt)}
+            {dateUtils.formatDate(incident?.createdAt, "HH:mm, DD MMM YYYY")}
           </DescriptionInputRow>
           <DescriptionInputRow label="Last error" editable={false}>
-            {dateUtils.formatDateTime(incident?.lastError)}
+            {dateUtils.formatDate(incident?.lastError, "HH:mm, DD MMM YYYY")}
           </DescriptionInputRow>
           <DescriptionInputRow label="Number of errors" editable={false}>
             {incident?.errorsCount}
