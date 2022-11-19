@@ -71,7 +71,7 @@ export class AccountService {
         createdAt: dateUtils.toUnix()
       };
 
-      await this.entityManager.getRepository(Account).insert({ ...account });
+      await this.entityManager.getRepository(Account).insert(account);
     } catch (error) {
       this.logger.error(`[${this.createAccount.name}] Caused by: ${error}`);
       throw new InternalServerError();

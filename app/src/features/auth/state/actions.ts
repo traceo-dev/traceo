@@ -14,7 +14,7 @@ export const loadAccount = (): ThunkResult<void> => {
     const token = localStorage.getItem("session");
     const decodedToken = token ? jwt(token) : null;
     if (!token) {
-      return; //TODO: logout, throw error or something like this
+      return;
     }
 
     const payload = {

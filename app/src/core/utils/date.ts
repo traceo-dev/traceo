@@ -14,9 +14,9 @@ dayjs.extend(isToday);
 const toUnix = (date: string | Date = new Date()) => dayjs(date).unix();
 
 const formatDate = (date: number, format = "DD-MM-YYYY") =>
-  dayjs.unix(date).utc().format(format);
+  date ? dayjs.unix(date).utc().format(format) : "--:--";
 
-const fromNow = (date: number) => dayjs.unix(date).fromNow();
+const fromNow = (date: number) => date ? dayjs.unix(date).fromNow() : "--:--";
 
 const isTodayDate = (date: number) => dayjs.unix(date).isToday();
 

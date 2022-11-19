@@ -50,7 +50,7 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
     <>
       <Modal
         title="Add to application"
-        visible={isOpen}
+        open={isOpen}
         closable={false}
         onCancel={onCancel}
         onOk={submit}

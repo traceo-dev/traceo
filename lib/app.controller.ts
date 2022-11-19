@@ -5,6 +5,6 @@ import { VERSION } from './helpers/constants';
 export class AppController {
   @Get("/heartbeat")
   async heartbeat(): Promise<any> {
-    return `Traceo - backend, v.${VERSION} - ${process.env.NODE_ENV}`;
+    return `Traceo, v.${VERSION} - ${process.env.NODE_ENV}`;
   }
 }

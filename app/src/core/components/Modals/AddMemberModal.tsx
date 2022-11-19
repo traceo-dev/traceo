@@ -55,7 +55,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
       <Modal
         title="Add member"
         onCancel={onClose}
-        visible={isOpen}
+        open={isOpen}
         closable={false}
         confirmLoading={loading}
         onOk={submit}

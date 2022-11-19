@@ -1,42 +1,46 @@
 import { notification } from "antd";
+import { ArgsProps } from "antd/lib/message";
+
+type NotificationPlacement = 'top' | 'topLeft' | 'topRight' | 'bottom' | 'bottomLeft' | 'bottomRight';
+
+const commonOpts: Pick<ArgsProps, "className" | "duration"> = {
+  className: "bg-green-600",
+  duration: 6,
+}
 
 const success = (message: string, description = "") => {
   notification.success({
-    description,
     message,
-    className: "bg-green-600",
-    duration: 6,
-    placement: "topRight"
+    description,
+    placement: "topRight",
+    ...commonOpts
   });
 };
 
 const error = (message: string | unknown, description = "") => {
-  notification.error({
-    description,
+  notification.success({
     message,
-    className: "bg-red-600",
-    duration: 6,
-    placement: "topRight"
+    description,
+    placement: "topRight",
+    ...commonOpts
   });
 };
 
 const warning = (message: string, description = "") => {
-  notification.info({
-    description,
+  notification.success({
     message,
-    className: "bg-blue-600",
-    duration: 6,
-    placement: "topRight"
+    description,
+    placement: "topRight",
+    ...commonOpts
   });
 };
 
 const info = (message: string, description = "") => {
-  notification.info({
-    description,
+  notification.success({
     message,
-    className: "bg-orange-600",
-    duration: 6,
-    placement: "topRight"
+    description,
+    placement: "topRight",
+    ...commonOpts
   });
 };
 

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import isAuthenticated from "../../core/utils/isAuthenticated";
 import api from "./api";
 
 export const useApi = <T>({
@@ -16,18 +15,15 @@ export const useApi = <T>({
     executeOnInit && execute();
   }, []);
 
-  const execute = async (additionalParams = {}) => {
-    if (isAuthenticated()) {
-      try {
-        setIsLoading(true);
-        const resp = await api[method](url, { ...params, ...additionalParams });
-        setData(resp);
-      } catch (error) {
-        console.error(error);
-        setIsError(true);
-      } finally {
-        setIsLoading(false);
-      }
+  const execute = async () => {
+    try {
+      setIsLoading(true);
+      const resp = await api[method](url, params);
+      setData(resp);
+    } catch (error) {
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 

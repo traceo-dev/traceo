@@ -28,7 +28,7 @@ export const NewAccountModal = ({ isOpen, onCancel }) => {
     <>
       <Modal
         title="New account"
-        visible={isOpen}
+        open={isOpen}
         closable={false}
         onOk={submit}
         onCancel={onClose}
