@@ -6,6 +6,7 @@ import {
   ApplicationMemberUpdateProps
 } from "../../../../../types/application";
 import { membersLoaded } from "./reducers";
+import { ApiResponse } from "types/api";
 
 export const loadMembers = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch, getStore) => {
@@ -16,8 +17,8 @@ export const loadMembers = (query?: ApiQueryParams): ThunkResult<void> => {
       };
     }
 
-    const members = await api.get<ApplicationMember[]>("/api/amr/members", query);
-    dispatch(membersLoaded(members));
+    const { data } = await api.get<ApiResponse<ApplicationMember[]>>("/api/amr/members", query);
+    dispatch(membersLoaded(data));
   };
 };
 

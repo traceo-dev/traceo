@@ -2,18 +2,19 @@ import api, { ApiQueryParams } from "../../../../core/lib/api";
 import { ThunkResult } from "../../../../types/store";
 import { serverAccountLoaded, serverAccountsLoaded } from "./reducers";
 import { Account, AddAccountProps } from "../../../../types/accounts";
+import { ApiResponse } from "types/api";
 
 export const loadServerAccounts = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {
-    const accounts = await api.get<Account[]>("/api/account/all", query);
-    dispatch(serverAccountsLoaded(accounts));
+    const { data } = await api.get<ApiResponse<Account[]>>("/api/account/all", query);
+    dispatch(serverAccountsLoaded(data));
   };
 };
 
 export const loadServerAccount = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
-    const account = await api.get<Account>("/api/account", { id });
-    dispatch(serverAccountLoaded(account));
+    const { data } = await api.get<ApiResponse<Account>>("/api/account", { id });
+    dispatch(serverAccountLoaded(data));
   };
 };
 

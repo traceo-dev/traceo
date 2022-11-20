@@ -48,9 +48,9 @@ export const deleteAccount = (): ThunkResult<void> => {
 
 export const loadDataSource = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
-    const response: ApiResponse<object> = await api.get("/api/datasource", {
+    const { data }: ApiResponse<object> = await api.get("/api/datasource", {
       id
     });
-    dispatch(loadedDataSource(response));
+    dispatch(loadedDataSource(data));
   }
 }
