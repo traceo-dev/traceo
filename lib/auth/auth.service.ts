@@ -53,11 +53,10 @@ export class AuthService {
         return new ApiResponse("error", "Account suspended. Contact with administrator.");
       }
 
-      const { id, name, email, username } = account;
+      const { id, name, username } = account;
       const payload: JwtPayload = {
         id,
         name,
-        email,
         username
       };
       const accessToken = this.createToken(payload);
