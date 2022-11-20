@@ -10,7 +10,7 @@ import { AccountQueryService } from '../account/account-query/account-query.serv
 import { Cron, CronExpression } from '@nestjs/schedule';
 import dayjs from 'dayjs';
 import { Log } from '../db/entities/log.entity';
-import { ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from '../helpers/constants';
+import { ADMIN_EMAIL, ADMIN_NAME, INTERNAL_SERVER_ERROR } from '../helpers/constants';
 import { MemberRole } from '../../lib/types/enums/amr.enum';
 import { gravatar } from '../../lib/helpers/gravatar';
 import { RequestUser } from '../../lib/types/interfaces/account.interface';
@@ -36,9 +36,10 @@ export class ApplicationService {
     data: CreateApplicationDto,
     user: RequestUser,
   ): Promise<ApiResponse<Application>> {
-    const { id, email } = user;
+    const { id, name } = user;
 
     const privateKey = crypto.randomUUID();
+    console.log("createApplication")
     return await this.entityManager.transaction(async (manager) => {
       const app = await this.applicationQueryService.getDtoBy({ name: data.name });
       if (app) {
@@ -66,7 +67,7 @@ export class ApplicationService {
         .getRepository(Application)
         .save(applicationPayload);
 
-      if (email !== ADMIN_EMAIL) {
+      if (name !== ADMIN_NAME) {
         const admin = await this.accountQueryService.getDtoBy({ email: ADMIN_EMAIL });
         await this.awrService.createAmr(
           admin,
