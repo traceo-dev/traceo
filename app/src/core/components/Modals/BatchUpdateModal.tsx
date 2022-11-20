@@ -35,7 +35,7 @@ export const BatchUpdateModal: FC<Props> = ({ incidentsIds, isOpen, onClose }) =
       onCancel={onClose}
       onOk={submit}
       confirmLoading={isLoading}
-      visible={isOpen}
+      open={isOpen}
       closable={false}
     >
       <Space direction="vertical" className="w-full">

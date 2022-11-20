@@ -1,5 +1,4 @@
 import { Divider, Row, Statistic, Typography } from "antd";
-import { TextLabel } from "../../../../core/components/TextLabel";
 import { AppIncidentsStats } from "../../../../types/statistics";
 import { FC } from "react";
 import { useSelector } from "react-redux";
@@ -17,13 +16,7 @@ export const StatCards: FC<Props> = ({ stats, isLoading }) => {
     <>
       <Row className="pt-3 w-full justify-flex-start pb-5 px-12">
         <Statistic
-          title={
-            <TextLabel
-              className="font-medium"
-              label="Last week"
-              hint="Number of errors captured by Traceo SDK in the last week"
-            />
-          }
+          title="Last week errors"
           className="font-semibold"
           loading={isLoading}
           value={stats?.lastWeekCount}
@@ -34,13 +27,7 @@ export const StatCards: FC<Props> = ({ stats, isLoading }) => {
         <Statistic
           className="font-semibold"
           loading={isLoading}
-          title={
-            <TextLabel
-              className="font-medium"
-              label="All Incidents"
-              hint="Number of incidents captured by Traceo SDK in this app. Big number is a count of main incidents while small number is a total number of errors."
-            />
-          }
+          title="All Incidents"
           value={application?.incidentsCount}
           suffix={
             <Typography className="text-xs">| {application?.errorsCount || 0}</Typography>

@@ -1,14 +1,16 @@
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { StoreState } from "types/store";
+import { StoreState } from "../../../types/store";
 import { loadAccount } from "../../auth/state/actions";
 import { dispatch } from "../../../store/store";
 import { MenuRoute } from "../../../types/navigation";
 import { Page } from "../../../core/components/Page";
 import Header from "../../../core/components/Layout/Header";
+import { useDemo } from "../../../core/hooks/useDemo";
 
 export const DashboardPage = ({ children }) => {
   const { account } = useSelector((state: StoreState) => state.account);
+  const { isDemo } = useDemo();
 
   useEffect(() => {
     dispatch(loadAccount());
@@ -25,13 +27,15 @@ export const DashboardPage = ({ children }) => {
       key: "management",
       href: "/dashboard/management/accounts",
       label: "Management",
-      adminRoute: true
+      adminRoute: true,
+      private: isDemo
     },
     {
       key: "account",
       href: "/dashboard/account/settings",
       label: "Account",
-      adminRoute: false
+      adminRoute: false,
+      private: isDemo
     }
     // {
     //   key: "updates",

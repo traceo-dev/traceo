@@ -17,6 +17,7 @@ import { BaseDtoQuery } from '../core/query/generic.model';
 import { PatchCommentDto } from '../../lib/types/dto/comment.dto';
 import { RequestUser } from '../../lib/types/interfaces/account.interface';
 import { IComment } from '../../lib/types/interfaces/comment.interface';
+import { ApiResponse } from '../../lib/types/dto/response.dto';
 
 @ApiTags('comments')
 @Controller('comments')
@@ -31,7 +32,7 @@ export class CommentsController {
   async sendComment(
     @Body() comment: PatchCommentDto,
     @AuthAccount() account: RequestUser,
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     return await this.commentsService.saveComment(comment, account);
   }
 
@@ -40,7 +41,7 @@ export class CommentsController {
   async updateComment(
     @Param('id') commentId: string,
     @Body() comment: PatchCommentDto,
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     return await this.commentsService.updateComment(commentId, comment);
   }
 
@@ -49,7 +50,7 @@ export class CommentsController {
   async removeComment(
     @Param('id') commentId: string,
     @Query("incidentId") incidentId: string,
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     return await this.commentsService.removeComment(commentId, incidentId);
   }
 
@@ -58,8 +59,8 @@ export class CommentsController {
   public async getComments(
     @Query("id") id: string,
     @Query() query: BaseDtoQuery,
-  ): Promise<IComment[]> {
-    return await this.commentsQueryService.listDto({
+  ): Promise<ApiResponse<IComment[]>> {
+    return await this.commentsQueryService.getApiListDto({
       incidentId: id,
       ...query
     });

@@ -28,13 +28,11 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
 
   const onFinish = async (form: { accountId: string; role: MemberRole }) => {
     setLoading(true);
-
     await api.post("/api/amr/application/add", {
       accountId: form.accountId,
       role: form.role,
       applicationId: application.id
     });
-
     setLoading(false);
     onClose();
   };
@@ -55,7 +53,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
       <Modal
         title="Add member"
         onCancel={onClose}
-        visible={isOpen}
+        open={isOpen}
         closable={false}
         confirmLoading={loading}
         onOk={submit}

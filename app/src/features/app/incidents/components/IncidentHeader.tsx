@@ -53,9 +53,6 @@ interface ButtonsProps {
   incident: Incident;
 }
 const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
-  // const { application } = useSelector((state: StoreState) => state.application);
-
-  // const navigate = useNavigate();
   const [isVisible, setVisible] = useState<boolean>(false);
 
   const isAssigned = !!incident?.assigned;
@@ -70,11 +67,8 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
   //   const response: ApiResponse<string> = await api.delete(
   //     `/api/incidents/${incident.id}`
   //   );
-  //   if (handleStatus(response.status) === "success") {
-  //     notify.success("Incident removed");
+  //   if (response.status === "success") {
   //     navigate(`/app/${application.id}/${slugifyForUrl(application.name)}/incidents`);
-  //   } else {
-  //     notify.error(TRY_AGAIN_LATER_ERROR);
   //   }
   // };
 

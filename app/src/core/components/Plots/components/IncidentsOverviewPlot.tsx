@@ -64,7 +64,7 @@ export const IncidentsOverviewPlot = ({ stats }: { stats: PlotData[] }) => {
       {
         type: "line",
         // smooth: true,
-        name: "Incidents",
+        name: "Errors",
         showSymbol: false,
         color: "#E24D42",
         // symbolSize: 0,

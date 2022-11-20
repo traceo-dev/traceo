@@ -13,13 +13,13 @@ import { ApplicationDto, CreateApplicationDto } from '../../lib/types/dto/applic
 import { AccountPermissionService } from '../../lib/account/account-permission/account-permission.service';
 import { RequestUser } from '../../lib/types/interfaces/account.interface';
 import { BaseDtoQuery } from '../core/query/generic.model';
-import { Application } from '../db/entities/application.entity';
 import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
 import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { ApplicationService } from './application.service';
 import { ApplicationLogsQuery, ILog } from '../../lib/types/interfaces/log.interface';
 import { IApplication } from '../../lib/types/interfaces/application.interface';
+import { ApiResponse } from '../../lib/types/dto/response.dto';
 
 @ApiTags('application')
 @Controller('application')
@@ -32,21 +32,21 @@ export class ApplicationController {
 
   @Get()
   @AuthRequired()
-  async getApplication(@Query("id") id: number): Promise<IApplication> {
-    return await this.applicationQueryService.getDto(id);
+  async getApplication(@Query("id") id: number): Promise<ApiResponse<IApplication>> {
+    return await this.applicationQueryService.getApiDto(id);
   }
 
   @Get('/all')
   @AuthRequired()
-  async getApplications(@Query() query: BaseDtoQuery): Promise<IApplication[]> {
-    return await this.applicationQueryService.listDto(query);
+  async getApplications(@Query() query: BaseDtoQuery): Promise<ApiResponse<IApplication[]>> {
+    return await this.applicationQueryService.getApiListDto(query);
   }
 
   @Get('/runtime')
   @AuthRequired()
   async getApplicationRuntimeConfiguration(
     @Query() query: { id: number },
-  ) {
+  ): Promise<ApiResponse<object>> {
     return await this.applicationQueryService.getApplicationRuntime(query.id);
   }
 
@@ -54,7 +54,7 @@ export class ApplicationController {
   @AuthRequired()
   async getApplicationLogs(
     @Query() query: ApplicationLogsQuery,
-  ): Promise<ILog[]> {
+  ): Promise<ApiResponse<ILog[]>> {
     return await this.applicationQueryService.getApplicationLogs({ ...query });
   }
 
@@ -63,7 +63,7 @@ export class ApplicationController {
   async createApplication(
     @Body() body: CreateApplicationDto,
     @AuthAccount() account: RequestUser,
-  ): Promise<IApplication> {
+  ): Promise<ApiResponse<IApplication>> {
     await this.permission.can('CREATE_APP', account);
 
     return await this.applicationService.createApplication(body, account);
@@ -74,10 +74,10 @@ export class ApplicationController {
   async updateApplication(
     @Body() body: ApplicationDto,
     @AuthAccount() account: RequestUser,
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     await this.permission.can('UPDATE_APP', account);
 
-    return await this.applicationService.updateApplication(body, account);
+    return await this.applicationService.updateApplication(body);
   }
 
   @Delete('/:id')
@@ -85,7 +85,7 @@ export class ApplicationController {
   public async deleteApplication(
     @Param("id") id: string,
     @AuthAccount() account: RequestUser,
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     await this.permission.can('DELETE_APP', account);
 
     return await this.applicationService.deleteApplication(id);

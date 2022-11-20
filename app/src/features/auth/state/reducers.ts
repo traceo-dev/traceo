@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Account } from "../../../types/accounts";
-import { loginAccount, signupAccount } from "./actions";
+import { loginAccount } from "./actions";
 
 export interface UserState {
   account: Account;
@@ -32,22 +32,22 @@ const accountSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(signupAccount.fulfilled, (state) => {
+    //   builder.addCase(signupAccount.fulfilled, (state) => {
+    //     state.isFetching = false;
+    //     state.isSuccess = true;
+    //   }),
+    //     builder.addCase(signupAccount.pending, (state) => {
+    //       state.isFetching = true;
+    //     }),
+    //     builder.addCase(signupAccount.rejected, (state) => {
+    //       state.isFetching = false;
+    //       state.isSuccess = false;
+    //       state.isError = true;
+    //     }),
+    builder.addCase(loginAccount.fulfilled, (state) => {
       state.isFetching = false;
       state.isSuccess = true;
     }),
-      builder.addCase(signupAccount.pending, (state) => {
-        state.isFetching = true;
-      }),
-      builder.addCase(signupAccount.rejected, (state) => {
-        state.isFetching = false;
-        state.isSuccess = false;
-        state.isError = true;
-      }),
-      builder.addCase(loginAccount.fulfilled, (state) => {
-        state.isFetching = false;
-        state.isSuccess = true;
-      }),
       builder.addCase(loginAccount.pending, (state) => {
         state.isFetching = true;
       }),

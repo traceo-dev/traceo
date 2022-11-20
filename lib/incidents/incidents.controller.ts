@@ -17,6 +17,7 @@ import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsService } from './incidents.service';
 import { IIncident } from '../../lib/types/interfaces/incident.interface';
+import { ApiResponse } from '../../lib/types/dto/response.dto';
 
 @ApiTags('incidents')
 @Controller('incidents')
@@ -29,8 +30,8 @@ export class IncidentsController {
 
   @Get('/:id')
   @AuthRequired()
-  public async getIncident(@Param("id") id: string): Promise<IIncident> {
-    return await this.incidentsQueryService.getDto(id);
+  public async getIncident(@Param("id") id: string): Promise<ApiResponse<IIncident>> {
+    return await this.incidentsQueryService.getApiDto(id);
   }
 
   @Get()
@@ -38,8 +39,8 @@ export class IncidentsController {
   public async getIncidents(
     @Query("id") id: number,
     @Query() query: IncidentQueryDto
-  ): Promise<IIncident[]> {
-    return await this.incidentsQueryService.listDto({
+  ): Promise<ApiResponse<IIncident[]>> {
+    return await this.incidentsQueryService.getApiListDto({
       appId: id,
       ...query
     });
@@ -50,7 +51,7 @@ export class IncidentsController {
   public async updateIncident(
     @Param("id") id: string,
     @Body() body: IncidentUpdateDto,
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     return await this.incidentsService.updateIncident(id, body);
   }
 
@@ -59,7 +60,7 @@ export class IncidentsController {
   public async deleteIncident(
     @Param("id") id: string,
     @AuthAccount() account: RequestUser
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     await this.permission.can('DELETE_INCIDENT', account);
 
     return await this.incidentsService.removeIncident(id);
@@ -69,7 +70,7 @@ export class IncidentsController {
   @AuthRequired()
   public async updateBatchIncidents(
     @Body() body: IncidentBatchUpdateDto,
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     return await this.incidentsService.updateBatchIncidents(body);
   }
 }

@@ -1,7 +1,6 @@
 import { Space, Statistic, Typography, Divider } from "antd";
 import { FC } from "react";
 import { useSelector } from "react-redux";
-import { TextLabel } from "../../../../core/components/TextLabel";
 import dateUtils from "../../../../core/utils/date";
 import { DailyStats } from "../../../../types/statistics";
 import { StoreState } from "../../../../types/store";
@@ -12,12 +11,16 @@ interface Props {
 export const TodayStats: FC<Props> = ({ stats }) => {
   const { application } = useSelector((state: StoreState) => state.application);
 
+  const lastIncidentAt =
+    application?.lastIncidentAt && dateUtils.isTodayDate(application?.lastIncidentAt)
+      ? dateUtils.formatDate(application?.lastIncidentAt, "HH:mm")
+      : "--:--";
   return (
     <>
       <Space className="today-stats" direction="vertical">
         <Space className="w-full py-4 gap-0 pl-8" direction="vertical">
           <Statistic
-            title={<TextLabel className="font-medium" label="Errors count" />}
+            title="Errors count"
             className="font-semibold"
             value={stats?.count}
           />
@@ -27,16 +30,7 @@ export const TodayStats: FC<Props> = ({ stats }) => {
         </Space>
         <Divider className="p-0 m-0 bg-gray-200" />
         <Space className="w-full py-4 gap-0 pl-8" direction="vertical">
-          <Statistic
-            title={<TextLabel className="font-medium" label="Last seen" />}
-            className="font-semibold"
-            value={
-              application?.lastIncidentAt &&
-              dateUtils.isTodayDate(application?.lastIncidentAt)
-                ? dateUtils.formatDate(application?.lastIncidentAt, "HH:mm")
-                : "--:--"
-            }
-          />
+          <Statistic title="Last seen" className="font-semibold" value={lastIncidentAt} />
         </Space>
       </Space>
       <style>{`

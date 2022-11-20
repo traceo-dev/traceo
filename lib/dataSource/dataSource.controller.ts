@@ -7,6 +7,7 @@ import { MetricsQuery, MetricsResponse } from '../../lib/types/interfaces/metric
 import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
 import { DataSourceService } from './dataSource.service';
 import { IInfluxDs } from '../../lib/types/interfaces/influxds.interface';
+import { ApiResponse } from '../../lib/types/dto/response.dto';
 
 @ApiTags('datasource')
 @Controller('datasource')
@@ -18,13 +19,13 @@ export class DataSourceController {
 
     @Get()
     @AuthRequired()
-    public async getDataSource(@Query("id") id: number): Promise<IInfluxDs> {
+    public async getDataSource(@Query("id") id: number): Promise<ApiResponse<IInfluxDs>> {
         return await this.dsService.getConnectedDataSource(id);
     }
 
     @Get("/metrics")
     @AuthRequired()
-    public async getMetrics(@Query() query: MetricsQuery): Promise<MetricsResponse[]> {
+    public async getMetrics(@Query() query: MetricsQuery): Promise<ApiResponse<MetricsResponse[]>> {
         return await this.dsService.getMetrics(query);
     }
 
@@ -33,7 +34,7 @@ export class DataSourceController {
     public async removeDataSource(
         @Query("id") id: number,
         @AuthAccount() account: RequestUser,
-    ): Promise<void> {
+    ): Promise<ApiResponse<unknown>> {
         await this.permission.can('REMOVE_DATASOURCE', account);
 
         return await this.dsService.removeDataSource(id);

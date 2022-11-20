@@ -39,7 +39,7 @@ export const TodayIncidentsStats: FC<Props> = ({ count, last, isMore, value }) =
       <Space className="w-full py-4 gap-0 pl-8" direction="vertical">
         <Typography className="text-md font-semibold text-primary">Last at</Typography>
         <Typography className="text-3xl">
-          {last ? dateUtils.formatDate(last, "HH:mm") : "--:--"}
+          {dateUtils.formatDate(last, "HH:mm")}
         </Typography>
       </Space>
     </Space>

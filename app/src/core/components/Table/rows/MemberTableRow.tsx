@@ -1,11 +1,12 @@
 import { Row, Radio, Button } from "antd";
 import { Avatar } from "../../../../core/components/Avatar";
 import api from "../../../../core/lib/api";
-import { TRY_AGAIN_LATER_ERROR } from "../../../../core/utils/constants";
-import { notify } from "../../../../core/utils/notify";
 import { FC, useState } from "react";
 import { ApplicationMember, MemberRole } from "../../../../types/application";
-import { ActionButtons } from "../RowActionButtons";
+import { RowActionButtons } from "../RowActionButtons";
+import { useSelector } from "react-redux";
+import { StoreState } from "../../../../types/store";
+import { useNavigate } from "react-router-dom";
 
 interface MemberRowProps {
   item: ApplicationMember;
@@ -19,6 +20,9 @@ export const MemberTableRow: FC<MemberRowProps> = ({
   editable = true,
   type = "account"
 }) => {
+  const { account } = useSelector((state: StoreState) => state.account);
+  const navigate = useNavigate();
+
   const [updateMode, setUpdateMode] = useState<boolean>(false);
   const [deleteMode, setDeleteMode] = useState<boolean>(false);
   const [value, setValue] = useState<MemberRole>();
@@ -33,33 +37,34 @@ export const MemberTableRow: FC<MemberRowProps> = ({
 
   const onUpdateRole = async () => {
     setLoadingUpdate(true);
-    try {
-      await api.patch("/api/amr/application/member", {
+    await api
+      .patch("/api/amr/application/member", {
         memberId: item.id,
         role: value
+      })
+      .finally(() => {
+        setUpdateMode(false);
+        setLoadingUpdate(false);
+        postExecute();
       });
-      notify.success("Role updated");
-    } catch (error) {
-      notify.error(TRY_AGAIN_LATER_ERROR);
-    } finally {
-      setUpdateMode(false);
-      setLoadingUpdate(false);
-      postExecute();
-    }
   };
 
   const onRemoveFromApp = async () => {
     setLoadingDelete(true);
-    try {
-      await api.delete("/api/amr/application/member", { id: item.id });
-      notify.success("Removed from app.");
-    } catch (error) {
-      notify.error(TRY_AGAIN_LATER_ERROR);
-    } finally {
-      setDeleteMode(false);
-      setLoadingDelete(false);
-      postExecute();
-    }
+    await api
+      .delete("/api/amr/application/member", {
+        id: item.id
+      })
+      .finally(() => {
+        setDeleteMode(false);
+        setLoadingDelete(false);
+        postExecute();
+
+        // In case when account remove himself from app
+        if (item?.account.id === account.id) {
+          navigate("/dashboard/overview");
+        }
+      });
   };
 
   return (
@@ -102,7 +107,7 @@ export const MemberTableRow: FC<MemberRowProps> = ({
               Remove from app
             </Button>
           ) : (
-            <ActionButtons
+            <RowActionButtons
               loading={loadingDelete}
               onCancel={() => setDeleteMode(false)}
               onSave={() => onRemoveFromApp()}
@@ -115,7 +120,7 @@ export const MemberTableRow: FC<MemberRowProps> = ({
               Change role
             </Button>
           ) : (
-            <ActionButtons
+            <RowActionButtons
               loading={loadingUpdate}
               onCancel={() => setUpdateMode(false)}
               onSave={() => onUpdateRole()}

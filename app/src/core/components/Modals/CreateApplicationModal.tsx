@@ -32,7 +32,7 @@ export const CreateApplicationModal: FC<Props> = ({ isOpen, onCancel, isAdmin })
     <>
       <Modal
         title="New application"
-        visible={isOpen}
+        open={isOpen}
         onCancel={onClose}
         onOk={submit}
         closable={false}

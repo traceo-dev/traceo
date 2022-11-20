@@ -56,7 +56,7 @@ export const IncidentsTodayPlot: FC<Props> = ({ stats }) => {
     series: [
       {
         type: "line",
-        name: "Incidents",
+        name: "Errors",
         showSymbol: false,
         color: "#E24D42",
         symbolSize: 0,

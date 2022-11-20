@@ -39,22 +39,9 @@ export const AppMembersListPage = () => {
   }, [search]);
 
   const fetchMembers = () => {
+    console.log("fetchMembers");
     dispatch(loadMembers(queryParams));
   };
-
-  // const handleLeave = async () => {
-  //   const response: ApiResponse<string> = await api.delete("/api/amr/application/leave", {
-  //     aid: account.id,
-  //     appId: application.id
-  //   });
-
-  //   if (handleStatus(response.status) === "success") {
-  //     navigate("/dashboard/overview");
-  //     notify.success("App have been leaved successfully.");
-  //   } else {
-  //     notify.error(TRY_AGAIN_LATER_ERROR);
-  //   }
-  // };
 
   return (
     <>
@@ -85,7 +72,7 @@ export const AppMembersListPage = () => {
             isLoading={!hasFetched}
             emptyView={<DataNotFound label="Members not found" />}
           >
-            <ApplicationMembersTable members={members} execute={fetchMembers} />
+            <ApplicationMembersTable members={members} execute={() => fetchMembers()} />
           </ConditionLayout>
         </PagePanel>
       </AppSettingsNavigationPage>

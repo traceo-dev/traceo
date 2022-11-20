@@ -1,4 +1,4 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { Column } from "typeorm";
 
 export class GenericEntity {
   @Column({

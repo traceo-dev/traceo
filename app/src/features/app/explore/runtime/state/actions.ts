@@ -1,3 +1,4 @@
+import { ApiResponse } from "../../../../../types/api";
 import api from "../../../../../core/lib/api";
 import { ThunkResult } from "../../../../../types/store";
 import { runtimeLoaded } from "./reducers";
@@ -9,9 +10,9 @@ export const loadApplicationRuntime = (): ThunkResult<void> => {
             return;
         }
 
-        const runtime = await api.get<object>("/api/application/runtime", {
+        const { data } = await api.get<ApiResponse<object>>("/api/application/runtime", {
             id: application.id
         });
-        dispatch(runtimeLoaded(runtime));
+        dispatch(runtimeLoaded(data));
     };
 };

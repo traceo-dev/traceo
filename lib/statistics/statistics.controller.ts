@@ -1,5 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse } from '../../lib/types/dto/response.dto';
 import { DailyOverview, PlotData, AppIncidentsStats } from '../../lib/types/interfaces/statistics.interface';
 import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
 import { StatisticsQueryService } from './query/statistics-query.service';
@@ -15,7 +16,7 @@ export class StatisticsController {
   @AuthRequired()
   async getApplicationStatistics(
     @Query('id') id: string
-  ): Promise<AppIncidentsStats> {
+  ): Promise<ApiResponse<AppIncidentsStats>> {
     return await this.statisticsQueryService.getApplicationStatistics(id);
   }
 
@@ -23,7 +24,7 @@ export class StatisticsController {
   @AuthRequired()
   async getIncidentTotalOverview(
     @Query('id') id: string
-  ): Promise<PlotData[]> {
+  ): Promise<ApiResponse<PlotData[]>> {
     return await this.statisticsQueryService.getTotalOverviewForIncident(
       id
     );
@@ -33,7 +34,7 @@ export class StatisticsController {
   @AuthRequired()
   async getDailyOverview(
     @Query('id') id: string
-  ): Promise<DailyOverview> {
+  ): Promise<ApiResponse<DailyOverview>> {
     return await this.statisticsQueryService.getDailyOverview(id);
   }
 
@@ -41,7 +42,7 @@ export class StatisticsController {
   @AuthRequired()
   async getTotalOverview(
     @Query('id') id: string
-  ): Promise<PlotData[]> {
+  ): Promise<ApiResponse<PlotData[]>> {
     return await this.statisticsQueryService.getTotalOverview(id);
   }
 }

@@ -1,14 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { BaseDtoQuery } from '../../core/query/generic.model';
 import { AccountMemberRelationship } from '../../db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
 import { ApplicationDtoQuery } from '../../../lib/types/dto/application.dto';
 import { IApplicationResponse } from '../../../lib/types/interfaces/application.interface';
 import { RequestUser } from '../../../lib/types/interfaces/account.interface';
+import { ApiResponse } from '../../../lib/types/dto/response.dto';
+import { INTERNAL_SERVER_ERROR } from '../../../lib/helpers/constants';
 
 @Injectable()
 export class AmrQueryService {
-  constructor(private readonly entityManager: EntityManager) { }
+  private logger: Logger;
+  constructor(private readonly entityManager: EntityManager) {
+    this.logger = new Logger(AmrQueryService.name);
+  }
 
   /**
    * Return pageable list of the members assigned to app
@@ -20,32 +25,39 @@ export class AmrQueryService {
   public async getApplicationMembers(
     appId: number,
     pageOptionsDto: BaseDtoQuery,
-  ): Promise<AccountMemberRelationship[]> {
+  ): Promise<ApiResponse<AccountMemberRelationship[]>> {
     const { order, take, search, page } = pageOptionsDto;
-    const queryBuilder = this.entityManager
-      .getRepository(AccountMemberRelationship)
-      .createQueryBuilder('amr')
-      .innerJoin('amr.application', 'app', 'app.id = :appId', { appId })
-      .leftJoin('amr.account', 'account');
 
-    if (search) {
-      queryBuilder.where("LOWER(account.name) LIKE LOWER(:name)", {
-        name: `%${search}%`
-      });
+    try {
+      const queryBuilder = this.entityManager
+        .getRepository(AccountMemberRelationship)
+        .createQueryBuilder('amr')
+        .innerJoin('amr.application', 'app', 'app.id = :appId', { appId })
+        .leftJoin('amr.account', 'account');
+
+      if (search) {
+        queryBuilder.where("LOWER(account.name) LIKE LOWER(:name)", {
+          name: `%${search}%`
+        });
+      }
+
+      queryBuilder
+        .addSelect([
+          "account.name",
+          "account.email",
+          "account.id",
+          "account.gravatar",
+        ])
+        .orderBy("amr.createdAt", order, "NULLS LAST")
+        .skip((page - 1) * take)
+        .take(take);
+
+      const response = await queryBuilder.getMany();
+      return new ApiResponse("success", undefined, response);
+    } catch (error) {
+      this.logger.error(`[${this.getApplicationMembers}] Caused by: ${error}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
-
-    queryBuilder
-      .addSelect([
-        "account.name",
-        "account.email",
-        "account.id",
-        "account.gravatar",
-      ])
-      .orderBy("amr.createdAt", order, "NULLS LAST")
-      .skip((page - 1) * take)
-      .take(take);
-
-    return await queryBuilder.getMany();
   }
 
   /**
@@ -59,32 +71,40 @@ export class AmrQueryService {
   public async getApplicationsForAccount(
     accountId: string,
     pageOptionsDto: ApplicationDtoQuery
-  ): Promise<AccountMemberRelationship[]> {
+  ): Promise<ApiResponse<AccountMemberRelationship[]>> {
     const { page, take, order, search, sortBy } = pageOptionsDto;
-    const queryBuilder = this.entityManager
-      .getRepository(AccountMemberRelationship)
-      .createQueryBuilder("amr")
-      .innerJoin("amr.account", "account", "account.id = :accountId", { accountId })
-      .leftJoinAndSelect("amr.application", "application")
-      .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
-      .leftJoin("application.owner", "owner");
 
-    if (search) {
-      queryBuilder
-        .where("LOWER(application.name) LIKE LOWER(:name)", {
-          name: `%${search}%`
-        })
-        .orWhere("LOWER(owner.name) LIKE LOWER(:name)", {
-          name: `%${search}%`
-        });
+    try {
+      const queryBuilder = this.entityManager
+        .getRepository(AccountMemberRelationship)
+        .createQueryBuilder("amr")
+        .innerJoin("amr.account", "account", "account.id = :accountId", { accountId })
+        .leftJoinAndSelect("amr.application", "application")
+        .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
+        .leftJoin("application.owner", "owner");
+
+      if (search) {
+        queryBuilder
+          .where("LOWER(application.name) LIKE LOWER(:name)", {
+            name: `%${search}%`
+          })
+          .orWhere("LOWER(owner.name) LIKE LOWER(:name)", {
+            name: `%${search}%`
+          });
+      }
+
+      const response = await queryBuilder
+        .addSelect(["owner.name", "owner.email", "owner.id", "owner.gravatar"])
+        .orderBy(`application.${sortBy || "lastIncidentAt"}`, order, "NULLS LAST")
+        .skip((page - 1) * take)
+        .limit(take)
+        .getMany();
+
+      return new ApiResponse("success", undefined, response);
+    } catch (error) {
+      this.logger.error(`[${this.getApplicationsForAccount}] Caused by: ${error}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
-
-    return await queryBuilder
-      .addSelect(["owner.name", "owner.email", "owner.id", "owner.gravatar"])
-      .orderBy(`application.${sortBy || "lastIncidentAt"}`, order, "NULLS LAST")
-      .skip((page - 1) * take)
-      .limit(take)
-      .getMany();
   }
 
   public async awrExists(
@@ -102,27 +122,34 @@ export class AmrQueryService {
   public async getApplication(
     appId: number,
     user: RequestUser,
-  ): Promise<IApplicationResponse> {
+  ): Promise<ApiResponse<IApplicationResponse>> {
     const { id } = user;
 
-    const applicationQuery = await this.entityManager
-      .getRepository(AccountMemberRelationship)
-      .createQueryBuilder("amr")
-      .where('amr.application = :appId', { appId })
-      .innerJoin("amr.account", "account", "account.id = :id", { id })
-      .innerJoinAndSelect("amr.application", "application")
-      .innerJoinAndSelect("application.owner", "owner")
-      .leftJoinAndSelect("application.influxDS", "influxDS")
-      .getOne();
+    try {
+      const applicationQuery = await this.entityManager
+        .getRepository(AccountMemberRelationship)
+        .createQueryBuilder("amr")
+        .where('amr.application = :appId', { appId })
+        .innerJoin("amr.account", "account", "account.id = :id", { id })
+        .innerJoinAndSelect("amr.application", "application")
+        .innerJoinAndSelect("application.owner", "owner")
+        .leftJoinAndSelect("application.influxDS", "influxDS")
+        .getOne();
 
-    if (!applicationQuery) {
-      return null;
+      if (!applicationQuery) {
+        // TODO:
+        return new ApiResponse("success", undefined, []);
+      }
+
+      const response = this.mapApplicationResponse(applicationQuery);
+      return new ApiResponse("success", undefined, response);
+    } catch (error) {
+      this.logger.error(`[${this.getApplicationsForAccount}] Caused by: ${error}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
-
-    return this.getApplicationResponse(applicationQuery);
   }
 
-  private getApplicationResponse({ application, role }: AccountMemberRelationship): IApplicationResponse {
+  private mapApplicationResponse({ application, role }: AccountMemberRelationship): IApplicationResponse {
     return {
       ...application,
       member: {

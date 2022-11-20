@@ -40,7 +40,7 @@ export class AccountDto {
     @ApiProperty({ type: String, description: 'username name' })
     username?: string;
 
-    @IsEmail()
+    // @IsEmail()
     @IsOptional()
     @ApiProperty({ type: String, description: 'account email' })
     email?: string;

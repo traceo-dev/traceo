@@ -36,7 +36,7 @@ import { AccountPermissionModule } from './account/account-permission/account-pe
     WorkerModule,
     HttpModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', "..", 'app'),
+      rootPath: join(__dirname, '../../app'),
       serveStaticOptions: {
         cacheControl: true
       }

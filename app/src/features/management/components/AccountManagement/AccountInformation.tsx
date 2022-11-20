@@ -11,8 +11,6 @@ import { StoreState } from "../../../../types/store";
 import { updateServerAccount } from "../../state/accounts/actions";
 import api from "../../../../core/lib/api";
 import { ApiResponse } from "../../../../types/api";
-import { notify } from "../../../../core/utils/notify";
-import { handleStatus } from "../../../../core/utils/response";
 import { useNavigate } from "react-router-dom";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
@@ -39,19 +37,13 @@ export const AccountInformation = () => {
   };
 
   const onDeleteAccount = async () => {
-    try {
-      const response: ApiResponse<string> = await api.delete(
-        `/api/account/${account.id}`
-      );
-      if (handleStatus(response.status) === "success") {
-        notify.success("Account successfully removed");
-        navigate("/dashboard/management/accounts");
-      } else {
-        notify.error("Error. Please try again later.");
-      }
-    } catch (error) {
-      notify.error(error);
-    }
+    await api
+      .delete<ApiResponse<unknown>>(`/api/account/${account.id}`)
+      .then((response) => {
+        if (response.status === "success") {
+          navigate("/dashboard/management/accounts");
+        }
+      });
   };
 
   const OperationButtons = () => {
@@ -113,7 +105,7 @@ export const AccountInformation = () => {
         <Alert
           showIcon={true}
           type="warning"
-          message="Administrator account is only in read-only mode."
+          message="Administrator account is in read-only mode."
           className="mb-5"
         />
       )}

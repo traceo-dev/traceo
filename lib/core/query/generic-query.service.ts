@@ -8,6 +8,8 @@ import {
 } from 'typeorm';
 import { BaseDtoQuery } from './generic.model';
 import { GenericEntity } from '../generic.entity';
+import { ApiResponse } from '../../../lib/types/dto/response.dto';
+import { InternalServerError } from '../../../lib/helpers/errors';
 
 @Injectable()
 export abstract class GenericQueryService<
@@ -18,6 +20,24 @@ export abstract class GenericQueryService<
 
   constructor(manager: EntityManager, repository: EntityTarget<ENTITY>) {
     this.repository = manager.getRepository<ENTITY>(repository);
+  }
+
+  public async getApiDto(id: number | string): Promise<ApiResponse<ENTITY>> {
+    try {
+      const response = await this.getDto(id);
+      return new ApiResponse("success", undefined, response);
+    } catch (error) {
+      throw new InternalServerError(error);
+    }
+  }
+
+  public async getApiListDto(query: QUERY): Promise<ApiResponse<ENTITY[]>> {
+    try {
+      const response = await this.listDto(query);
+      return new ApiResponse("success", undefined, response);
+    } catch (error) {
+      throw new InternalServerError(error);
+    }
   }
 
   public async getDto(id: number | string): Promise<ENTITY> {

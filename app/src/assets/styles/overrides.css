@@ -388,3 +388,7 @@
 .ant-select-dropdown {
   padding: 0px !important;
 }
+
+.ant-statistic-title {
+  color: var(--text-primary);
+}

@@ -1,42 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { createHmac } from 'crypto';
 import { AccountService } from '../account/account.service';
 import { Account } from '../db/entities/account.entity';
 import { JwtService } from "@nestjs/jwt";
 import { EntityManager } from 'typeorm';
 import {
-  AccountNotExistsError,
-  AccountSuspendedError,
-  BadPasswordOrNotExists
+  AccountNotExistsError
 } from '../helpers/errors';
 import { JwtPayload } from './jwt/jwt.payload.interface';
 import { AccountQueryService } from '../../lib/account/account-query/account-query.service';
 import { AccountStatus } from '../../lib/types/enums/account.enum';
 import { AccountCredentialsDto, UpdatePasswordDto } from '../../lib/types/dto/account.dto';
 import { IAccount, RequestUser } from '../../lib/types/interfaces/account.interface';
+import { ApiResponse } from '../../lib/types/dto/response.dto';
+import { INTERNAL_SERVER_ERROR } from '../../lib/helpers/constants';
 
 export type LoginResponseType = { accessToken: string };
 export type CheckCredentialsType = { isCorrect: boolean; account?: IAccount };
 
 @Injectable()
 export class AuthService {
+  private logger: Logger;
+
   constructor(
     private readonly accountService: AccountService,
     private readonly accountQueryService: AccountQueryService,
     private readonly jwtService: JwtService,
     private readonly entityManager: EntityManager,
-  ) { }
+  ) {
+    this.logger = new Logger(AuthService.name);
+  }
 
   public async login(
     accountCredentials: AccountCredentialsDto,
-  ): Promise<LoginResponseType> {
+  ) {
     return await this.entityManager.transaction(async (manager) => {
       const { isCorrect, account } = await this.checkCredentials(
         accountCredentials,
         manager,
       );
       if (!isCorrect) {
-        throw new BadPasswordOrNotExists();
+        return new ApiResponse("error", "Bad username or password.");
       }
 
       if (!account?.lastActiveAt) {
@@ -46,21 +50,30 @@ export class AuthService {
       }
 
       if (account.status === AccountStatus.DISABLED) {
-        throw new AccountSuspendedError();
+        return new ApiResponse("error", "Account suspended. Contact with administrator.");
       }
 
-      const { id, name, email, username } = account;
+      const { id, name, username } = account;
       const payload: JwtPayload = {
         id,
         name,
-        email,
         username
       };
       const accessToken = this.createToken(payload);
-      return {
-        accessToken
-      };
+
+      return new ApiResponse("success", "", { accessToken });
+    }).catch((err: Error) => {
+      this.logger.error(`[${this.login.name}] Caused by: ${err}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     });
+  }
+
+  public async checkUserCredentials(credentials: AccountCredentialsDto): Promise<ApiResponse<unknown>> {
+    const response = await this.checkCredentials(credentials);
+    const status = response.isCorrect ? "success" : "error";
+    const message = !response.isCorrect ? "Wrong password" : null;
+
+    return new ApiResponse(status, message);
   }
 
   public async checkCredentials(
@@ -91,20 +104,20 @@ export class AuthService {
   public async updateUserPassword(
     currentUser: RequestUser,
     passwords: UpdatePasswordDto,
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     const { id } = currentUser;
     const { newPassword, password } = passwords;
 
-    await this.entityManager.transaction(async (manager) => {
+    return await this.entityManager.transaction(async (manager) => {
       const account = await this.accountQueryService.getDto(id);
       if (!account) {
         throw new AccountNotExistsError();
       }
 
-      const credentials = new AccountCredentialsDto(account?.email, password);
+      const credentials = new AccountCredentialsDto(account?.username, password);
       const { isCorrect } = await this.checkCredentials(credentials, manager);
       if (!isCorrect) {
-        throw new BadPasswordOrNotExists();
+        return new ApiResponse("error", "Bad password!");
       }
 
       await manager.getRepository(Account).save({
@@ -113,10 +126,10 @@ export class AuthService {
         isPasswordUpdated: true
       });
 
-      return {
-        status: 200,
-        data: "Password updated!",
-      };
+      return new ApiResponse("success", "Password updated");
+    }).catch((err: Error) => {
+      this.logger.error(`[${this.updateUserPassword.name}] Caused by: ${err}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     });
   }
 

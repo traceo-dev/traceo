@@ -2,6 +2,7 @@ import Axios, { AxiosRequestConfig } from "axios";
 import { notify } from "../../../core/utils/notify";
 import { comment } from "./actions/comment";
 import { SortOrder } from "../../../types/api";
+import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 
 export interface ApiQueryParams {
   id?: string;
@@ -14,6 +15,21 @@ export interface ApiQueryParams {
 export function configureApi() {
   Axios.interceptors.response.use(
     (response) => {
+      const status = response?.data?.status;
+      const message = response?.data?.message;
+
+      if (status === "success" && message) {
+        notify.success(message);
+      }
+
+      if (status === "error") {
+        if (!message) {
+          notify.error(TRY_AGAIN_LATER_ERROR);
+        } else {
+          notify.error(message);
+        }
+      }
+
       return response?.data || response;
     },
     (error) => {
@@ -47,7 +63,6 @@ export function configureApi() {
         "Content-Type": "application/json",
         Accept: "application/json",
         Authorization: `Bearer ${localStorage.getItem("session")}`
-        // env: localStorage.getItem("env") || ""
       }
     };
   });

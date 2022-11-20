@@ -6,11 +6,9 @@ import {
   Application
 } from "../../../types/application";
 import { ThunkResult } from "../../../types/store";
-import { notify } from "../../../core/utils/notify";
-import { ApiResponse } from "../../../types/api";
-import { handleStatus } from "../../../core/utils/response";
 import { loadApplications } from "../../../features/dashboard/state/actions";
 import { loadServerApplications } from "../../../features/management/state/applications/actions";
+import { ApiResponse } from "../../../types/api";
 
 export const loadApplication = (applicationId?: any): ThunkResult<void> => {
   return async (dispatch, getStore) => {
@@ -28,10 +26,10 @@ export const loadApplication = (applicationId?: any): ThunkResult<void> => {
       return;
     }
 
-    const application = await api.get<Application>("/api/amr/application", {
+    const { data } = await api.get<ApiResponse<Application>>("/api/amr/application", {
       id: applicationId
     });
-    dispatch(applicationLoaded(application));
+    dispatch(applicationLoaded(data));
   };
 };
 
@@ -40,17 +38,13 @@ export const createApplication = (
   isAdmin?: boolean
 ): ThunkResult<void> => {
   return async (dispatch) => {
-    const response: { id: string } = await api.post("/api/application", body);
-    if (response.id) {
-      if (isAdmin) {
-        dispatch(loadServerApplications());
-      } else {
-        dispatch(loadApplications());
-      }
-      notify.success("Application created");
-    } else {
-      notify.error("Error. Try again later.");
+    await api.post("/api/application", body);
+    if (isAdmin) {
+      dispatch(loadServerApplications());
+      return;
     }
+
+    dispatch(loadApplications());
   };
 };
 
@@ -61,16 +55,10 @@ export const updateAplication = (body: UpdateApplicationProps): ThunkResult<void
       return;
     }
 
-    const response: ApiResponse<string> = await api.patch("/api/application", {
+    await api.patch("/api/application", {
       id: application.id,
       ...body
     });
-
-    if (handleStatus(response.status) === "success") {
-      dispatch(loadApplication());
-      notify.success("Application updated");
-    } else {
-      notify.error(response.message);
-    }
+    dispatch(loadApplication());
   };
 };

@@ -12,18 +12,23 @@ import NotFound from "../../../core/components/Layout/Pages/404";
 import { PageCenter } from "../../../core/components/PageCenter";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { isSlugCorrect } from "../../../core/utils/url";
+import { useDemo } from "../../../core/hooks/useDemo";
 
 export const AppPage = ({ children }) => {
   const { application } = useSelector((state: StoreState) => state.application);
   const { id } = useParams();
+  const { isDemo } = useDemo();
 
   useEffect(() => {
     dispatch(loadApplication(id));
   }, []);
 
+  const hasMemberRole = application?.member?.role;
+  const isCorrectClug = isSlugCorrect(application?.name);
+
   if (isEmptyObject(application)) {
     return <TraceoLoading />;
-  } else if (!application?.member?.role || !isSlugCorrect(application.name)) {
+  } else if (!hasMemberRole || !isCorrectClug) {
     return (
       <PageCenter>
         <NotFound />
@@ -45,12 +50,14 @@ export const AppPage = ({ children }) => {
     {
       key: "explore",
       href: "/app/:id/:slug/explore/logs",
-      label: "Explore"
+      label: "Explore",
+      private: isDemo
     },
     {
       key: "metrics",
       href: "/app/:id/:slug/metrics",
-      label: "Metrics"
+      label: "Metrics",
+      private: isDemo
     },
     {
       key: "settings",

@@ -5,6 +5,7 @@ import {
   SearchApplicationQueryParams
 } from "../../../types/application";
 import { applicationsLoaded } from "./reducers";
+import { ApiResponse } from "types/api";
 
 export const loadApplications = (
   query?: SearchApplicationQueryParams
@@ -18,10 +19,10 @@ export const loadApplications = (
       };
     }
 
-    const applications = await api.get<ApplicationMember[]>("/api/amr/applications", {
+    const { data } = await api.get<ApiResponse<ApplicationMember[]>>("/api/amr/applications", {
       accountId: query?.accountId || account?.id,
       ...query
     });
-    dispatch(applicationsLoaded(applications));
+    dispatch(applicationsLoaded(data));
   };
 };

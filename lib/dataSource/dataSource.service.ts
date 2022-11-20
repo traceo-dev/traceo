@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { InfluxDS } from '../db/entities/influxds.entity';
 import { Application } from '../db/entities/application.entity';
@@ -6,13 +6,18 @@ import { InfluxService } from './influx/influx.service';
 import { ApplicationNotExistsError } from '../helpers/errors';
 import { MetricsQuery, MetricsResponse } from '../../lib/types/interfaces/metrics.interface';
 import { TSDB } from '../../lib/types/enums/tsdb.enum';
+import { ApiResponse } from '../../lib/types/dto/response.dto';
+import { INTERNAL_SERVER_ERROR } from '../../lib/helpers/constants';
 
 @Injectable()
 export class DataSourceService {
+    private logger: Logger;
     constructor(
         private readonly entityManager: EntityManager,
         private readonly influxService: InfluxService
-    ) { }
+    ) {
+        this.logger = new Logger(DataSourceService.name);
+    }
 
     private async getDataSourceOrThrowError(id: number) {
         const app = await this.entityManager
@@ -33,7 +38,7 @@ export class DataSourceService {
         return app;
     }
 
-    async getMetrics(query: MetricsQuery): Promise<MetricsResponse[]> {
+    async getMetrics(query: MetricsQuery): Promise<ApiResponse<MetricsResponse[]>> {
         const app = await this.getDataSourceOrThrowError(query.id);
         if (!app) {
             return;
@@ -41,33 +46,36 @@ export class DataSourceService {
 
         switch (app.connectedTSDB) {
             case TSDB.INFLUX2: {
-                return await this.influxService.queryData({ ...app.influxDS }, query)
+                const response = await this.influxService.queryData({ ...app.influxDS }, query);
+                return new ApiResponse("success", undefined, response);
             }
             default:
                 return;
         }
     }
 
-    async getConnectedDataSource(id: number): Promise<InfluxDS> {
+    async getConnectedDataSource(id: number): Promise<ApiResponse<InfluxDS>> {
         const app = await this.getDataSourceOrThrowError(id);
         if (!app) {
             return;
         }
         switch (app.connectedTSDB) {
             case TSDB.INFLUX2: {
-                return await this.entityManager.getRepository(InfluxDS).findOneBy({
+                const response = await this.entityManager.getRepository(InfluxDS).findOneBy({
                     application: {
                         id
                     }
-                })
+                });
+
+                return new ApiResponse("success", undefined, response);
             }
             default:
                 return null;
         }
     }
 
-    async removeDataSource(id: number): Promise<void> {
-        await this.entityManager.transaction(async (manager) => {
+    async removeDataSource(id: number): Promise<ApiResponse<unknown>> {
+        return await this.entityManager.transaction(async (manager) => {
             const app = await this.getDataSourceOrThrowError(id);
             if (!app) {
                 return;
@@ -83,10 +91,14 @@ export class DataSourceService {
                             id
                         }
                     });
+                    return new ApiResponse("success", "Data source removed.");
                 }
                 default:
                     return;
             }
-        })
+        }).catch((err: Error) => {
+            this.logger.error(`[${this.removeDataSource.name}] Caused by: ${err}`);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+        });
     }
 }

@@ -9,11 +9,14 @@ import {
 import { MenuRoute } from "../../../../types/navigation";
 import { Menu } from "../../../../core/components/Layout/Menu";
 import { FC } from "react";
+import { useDemo } from "../../../../core/hooks/useDemo";
 
 interface Props {
   children: any;
 }
 export const AppSettingsNavigationPage: FC<Props> = ({ children }) => {
+  const { isDemo } = useDemo();
+
   const menu: MenuRoute[] = [
     {
       href: "/app/:id/:slug/settings/details",
@@ -31,7 +34,8 @@ export const AppSettingsNavigationPage: FC<Props> = ({ children }) => {
       href: "/app/:id/:slug/settings/datasource",
       label: "Data source",
       key: "datasource",
-      icon: <DatabaseOutlined />
+      icon: <DatabaseOutlined />,
+      private: isDemo
     }
   ];
 

@@ -2,7 +2,6 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { Form, Input, Space, Alert, Button, Typography } from "antd";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
-import { notify } from "../../../../core/utils/notify";
 import { loadApplication } from "../../../../features/app/state/actions";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -12,6 +11,7 @@ import { StoreState } from "../../../../types/store";
 import { REQUIRED_FIELD_ERROR } from "../../../../core/utils/constants";
 import validators from "../../../../core/lib/validators";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
+import { ApiResponse } from "../../../../types/api";
 
 interface Props {
   dataSource: object;
@@ -52,33 +52,27 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
     interval: number;
   }) => {
     setLoading(true);
-
-    try {
-      await api.post("/api/influx/config", {
+    await api
+      .post("/api/influx/config", {
         appId: application.id,
         ...form
+      })
+      .finally(() => {
+        dispatch(loadApplication());
+        setLoading(false);
       });
-
-      notify.success("InfluxDB configuration saved.");
-    } catch (error) {
-      notify.error(error);
-    } finally {
-      dispatch(loadApplication());
-      setLoading(false);
-    }
   };
 
   const remove = async () => {
-    try {
-      await api.delete("/api/datasource", {
+    await api
+      .delete<ApiResponse<unknown>>("/api/datasource", {
         id: application.id
+      })
+      .then((response) => {
+        if (response.status === "success") {
+          window.location.reload();
+        }
       });
-      notify.success("Metrics Data Source removed!");
-
-      window.location.reload();
-    } catch (error) {
-      notify.error(error);
-    }
   };
 
   return (
