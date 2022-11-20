@@ -14,6 +14,9 @@ Traceo enables continuous monitoring of application health by collecting and agg
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-6.PNG" width="270">
 </p> -->
 
+# Demo
+App preview can be found [here](http://ec2-3-74-163-234.eu-central-1.compute.amazonaws.com/). Credentials: `guest`/`Guest!`. 
+
 # SDK
 To start using the Traceo platform, you need to integrate with the [Traceo SDK](https://github.com/traceo-io/traceo-node), which will start monitoring the status of your application.
 
