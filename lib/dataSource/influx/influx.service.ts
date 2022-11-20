@@ -101,6 +101,8 @@ export class InfluxService {
         write
             .close()
             .then(async () => {
+                this.logger.log(`New metrics write to InfluxDB for appId: ${appId}`);
+
                 if (connStatus === CONNECTION_STATUS.FAILED) {
                     await influxRef.update({ application: { id: appId } }, {
                         connStatus: CONNECTION_STATUS.CONNECTED,
@@ -109,6 +111,8 @@ export class InfluxService {
                 }
             })
             .catch(async (error) => {
+                this.logger.error(`Cannot write new metrics to InfluxDB for appId: ${appId}. Caused by: ${error}`);
+
                 if (connStatus === CONNECTION_STATUS.CONNECTED) {
                     await influxRef.update({ application: { id: appId } }, {
                         connStatus: CONNECTION_STATUS.FAILED,

@@ -1,6 +1,6 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Popover, Space, Typography } from "antd";
-import { useDemo } from "core/hooks/useDemo";
+import { useDemo } from "../../../../../core/hooks/useDemo";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "../../../../../core/components/Avatar";

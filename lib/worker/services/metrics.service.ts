@@ -36,7 +36,6 @@ export class MetricsService extends BaseWorkerService<IMetrics> {
                 }
 
                 const config = { ...influxDS, appId: id };
-                this.logger.log(`New metrics write to InfluxDB for appId: ${id}`);
                 await this.influxService.writeData(config, data);
             }
             default:

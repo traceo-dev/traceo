@@ -105,36 +105,4 @@ export class AmrService {
   ): Promise<void> {
     await manager.getRepository(AccountMemberRelationship).delete({ id: awrId });
   }
-
-  // public async leaveApplication(id: string, appId: number): Promise<void> {
-  //   await this.entityManager.transaction(async (manager) => {
-  //     const assignedIncidents = await manager.getRepository(Incident).find({
-  //       where: {
-  //         assigned: { id }
-  //       }
-  //     });
-
-  //     const promises = assignedIncidents?.map(async (incident) => {
-  //       await this.entityManager
-  //         .getRepository(Incident)
-  //         .update({ id: incident.id }, { assigned: null });
-  //     });
-  //     await Promise.all(promises);
-
-  //     const amr = await this.entityManager
-  //       .getRepository(AccountMemberRelationship)
-  //       .findOneBy({
-  //         account: { id },
-  //         application: {
-  //           id: appId
-  //         }
-  //       });
-
-  //     if (!amr) {
-  //       throw new Error("Relationship does not exists!");
-  //     }
-
-  //     await this.removeAccountFromApplication(amr.id);
-  //   });
-  // }
 }

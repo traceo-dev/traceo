@@ -9,7 +9,7 @@ import {
 import { MenuRoute } from "../../../../types/navigation";
 import { Menu } from "../../../../core/components/Layout/Menu";
 import { FC } from "react";
-import { useDemo } from "core/hooks/useDemo";
+import { useDemo } from "../../../../core/hooks/useDemo";
 
 interface Props {
   children: any;

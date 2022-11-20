@@ -12,7 +12,7 @@ import NotFound from "../../../core/components/Layout/Pages/404";
 import { PageCenter } from "../../../core/components/PageCenter";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { isSlugCorrect } from "../../../core/utils/url";
-import { useDemo } from "core/hooks/useDemo";
+import { useDemo } from "../../../core/hooks/useDemo";
 
 export const AppPage = ({ children }) => {
   const { application } = useSelector((state: StoreState) => state.application);

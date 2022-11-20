@@ -4,7 +4,7 @@ import { ApplicationMember } from "../../../types/application";
 import { MemberTableRow } from "./rows/MemberTableRow";
 import { TraceoTable } from "./TraceoTable";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
-import { Account } from "types/accounts";
+import { Account } from "../../../types/accounts";
 
 interface Props {
   members: ApplicationMember[];
@@ -26,7 +26,7 @@ export const ApplicationMembersTable: FC<Props> = ({ members, execute }) => {
           type="account"
           item={member}
           editable={isEditable(member["account"])}
-          postExecute={execute}
+          postExecute={() => execute()}
         />
       ))}
     </TraceoTable>

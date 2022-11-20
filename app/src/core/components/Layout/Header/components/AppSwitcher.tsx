@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { dispatch } from "../../../../../store/store";
 import { loadApplications } from "../../../../../features/dashboard/state/actions";
 import { ConditionLayout } from "../../../../../core/components/ConditionLayout";
-import { useDemo } from "core/hooks/useDemo";
+import { useDemo } from "../../../../../core/hooks/useDemo";
 
 export const AppSwitcher = () => {
   const { isDemo } = useDemo();

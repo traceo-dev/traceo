@@ -83,13 +83,4 @@ export class AmrController {
   ): Promise<ApiResponse<unknown>> {
     return await this.amrService.removeAccountFromApplication(id);
   }
-
-  // @Delete('/application/leave')
-  // @AuthRequired()
-  // public async leaveApplication(
-  //   @Query("aid", new ParseUUIDPipe()) aid: string,
-  //   @Query("appId") appId: number,
-  // ): Promise<void> {
-  //   return await this.amrService.leaveApplication(aid, appId);
-  // }
 }

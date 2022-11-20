@@ -16,6 +16,7 @@ import { PagePanel } from "../../../core/components/PagePanel";
 import { DescriptionInputRow, Descriptions } from "../../../core/components/Descriptions";
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
+import { notify } from "../../../core/utils/notify";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
@@ -28,6 +29,11 @@ export const AppSettingsDetailsPage = () => {
   }
 
   const onUpdateName = (name: string) => {
+    if (!name) {
+      notify.error("Application name cannot be empty.");
+      return;
+    }
+
     dispatch(updateAplication({ name }));
 
     window.location.href = `/app/${application.id}/${slugifyForUrl(

@@ -39,6 +39,7 @@ export const AppMembersListPage = () => {
   }, [search]);
 
   const fetchMembers = () => {
+    console.log("fetchMembers");
     dispatch(loadMembers(queryParams));
   };
 
@@ -71,7 +72,7 @@ export const AppMembersListPage = () => {
             isLoading={!hasFetched}
             emptyView={<DataNotFound label="Members not found" />}
           >
-            <ApplicationMembersTable members={members} execute={fetchMembers} />
+            <ApplicationMembersTable members={members} execute={() => fetchMembers()} />
           </ConditionLayout>
         </PagePanel>
       </AppSettingsNavigationPage>
