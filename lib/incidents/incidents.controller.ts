@@ -30,8 +30,8 @@ export class IncidentsController {
 
   @Get('/:id')
   @AuthRequired()
-  public async getIncident(@Param("id") id: string): Promise<IIncident> {
-    return await this.incidentsQueryService.getDto(id);
+  public async getIncident(@Param("id") id: string): Promise<ApiResponse<IIncident>> {
+    return await this.incidentsQueryService.getApiDto(id);
   }
 
   @Get()
@@ -39,8 +39,8 @@ export class IncidentsController {
   public async getIncidents(
     @Query("id") id: number,
     @Query() query: IncidentQueryDto
-  ): Promise<IIncident[]> {
-    return await this.incidentsQueryService.listDto({
+  ): Promise<ApiResponse<IIncident[]>> {
+    return await this.incidentsQueryService.getApiListDto({
       appId: id,
       ...query
     });

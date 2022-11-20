@@ -1,3 +1,4 @@
+import { ApiResponse } from "../../../../types/api";
 import api, { ApiQueryParams } from "../../../../core/lib/api";
 import { Comment } from "../../../../types/comments";
 import { Incident } from "../../../../types/incidents";
@@ -15,8 +16,8 @@ export const loadIncidents = (query?: ApiQueryParams): ThunkResult<void> => {
       };
     }
 
-    const incidents = await api.get<Incident[]>("/api/incidents", query);
-    dispatch(incidentsLoaded(incidents));
+    const { data } = await api.get<ApiResponse<Incident[]>>("/api/incidents", query);
+    dispatch(incidentsLoaded(data));
   };
 };
 
@@ -26,8 +27,8 @@ export const loadIncident = (id: string): ThunkResult<void> => {
       return;
     }
 
-    const incident = await api.get<Incident>(`/api/incidents/${id}`);
-    dispatch(incidentLoaded(incident));
+    const { data } = await api.get<ApiResponse<Incident>>(`/api/incidents/${id}`);
+    dispatch(incidentLoaded(data));
   };
 };
 
@@ -38,12 +39,12 @@ export const loadIncidentComments = (): ThunkResult<void> => {
       return;
     }
 
-    const comments = await api.get<Comment[]>("/api/comments", {
+    const { data } = await api.get<ApiResponse<Comment[]>>("/api/comments", {
       id: incident.id,
       sortBy: "createdAt",
       order: "ASC"
     });
-    dispatch(incidentCommentsLoaded(comments));
+    dispatch(incidentCommentsLoaded(data));
   };
 };
 

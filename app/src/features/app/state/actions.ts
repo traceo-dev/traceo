@@ -8,6 +8,7 @@ import {
 import { ThunkResult } from "../../../types/store";
 import { loadApplications } from "../../../features/dashboard/state/actions";
 import { loadServerApplications } from "../../../features/management/state/applications/actions";
+import { ApiResponse } from "../../../types/api";
 
 export const loadApplication = (applicationId?: any): ThunkResult<void> => {
   return async (dispatch, getStore) => {
@@ -25,10 +26,10 @@ export const loadApplication = (applicationId?: any): ThunkResult<void> => {
       return;
     }
 
-    const application = await api.get<Application>("/api/amr/application", {
+    const { data } = await api.get<ApiResponse<Application>>("/api/amr/application", {
       id: applicationId
     });
-    dispatch(applicationLoaded(application));
+    dispatch(applicationLoaded(data));
   };
 };
 

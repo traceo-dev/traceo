@@ -19,13 +19,13 @@ export class DataSourceController {
 
     @Get()
     @AuthRequired()
-    public async getDataSource(@Query("id") id: number): Promise<IInfluxDs> {
+    public async getDataSource(@Query("id") id: number): Promise<ApiResponse<IInfluxDs>> {
         return await this.dsService.getConnectedDataSource(id);
     }
 
     @Get("/metrics")
     @AuthRequired()
-    public async getMetrics(@Query() query: MetricsQuery): Promise<MetricsResponse[]> {
+    public async getMetrics(@Query() query: MetricsQuery): Promise<ApiResponse<MetricsResponse[]>> {
         return await this.dsService.getMetrics(query);
     }
 

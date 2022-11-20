@@ -59,8 +59,8 @@ export class CommentsController {
   public async getComments(
     @Query("id") id: string,
     @Query() query: BaseDtoQuery,
-  ): Promise<IComment[]> {
-    return await this.commentsQueryService.listDto({
+  ): Promise<ApiResponse<IComment[]>> {
+    return await this.commentsQueryService.getApiListDto({
       incidentId: id,
       ...query
     });

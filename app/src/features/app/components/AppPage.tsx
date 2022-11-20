@@ -24,7 +24,7 @@ export const AppPage = ({ children }) => {
   }, []);
 
   const hasMemberRole = application?.member?.role;
-  const isCorrectClug = isSlugCorrect(application.name);
+  const isCorrectClug = isSlugCorrect(application?.name);
 
   if (isEmptyObject(application)) {
     return <TraceoLoading />;

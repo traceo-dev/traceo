@@ -1,3 +1,4 @@
+import { ApiResponse } from "../../../../../types/api";
 import api from "../../../../../core/lib/api";
 import { TraceoLog } from "../../../../../types/logs";
 import { ThunkResult } from "../../../../../types/store";
@@ -14,10 +15,10 @@ export const loadApplicationLogs = (appId: string, props: DateProps): ThunkResul
             appId = application.id
         }
 
-        const logs = await api.get<TraceoLog[]>("/api/application/logs", {
+        const { data } = await api.get<ApiResponse<TraceoLog[]>>("/api/application/logs", {
             id: appId,
             ...props
         });
-        dispatch(logsLoaded(logs));
+        dispatch(logsLoaded(data));
     };
 };

@@ -20,8 +20,8 @@ export const loadAccount = (): ThunkResult<void> => {
       id: decodedToken.id
     };
 
-    const account = await api.get<Account>("/api/account", payload);
-    dispatch(accountLoaded(account));
+    const { data } = await api.get<ApiResponse<Account>>("/api/account", payload);
+    dispatch(accountLoaded(data));
   };
 };
 

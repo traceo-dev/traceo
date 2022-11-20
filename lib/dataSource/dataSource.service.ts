@@ -38,7 +38,7 @@ export class DataSourceService {
         return app;
     }
 
-    async getMetrics(query: MetricsQuery): Promise<MetricsResponse[]> {
+    async getMetrics(query: MetricsQuery): Promise<ApiResponse<MetricsResponse[]>> {
         const app = await this.getDataSourceOrThrowError(query.id);
         if (!app) {
             return;
@@ -46,25 +46,28 @@ export class DataSourceService {
 
         switch (app.connectedTSDB) {
             case TSDB.INFLUX2: {
-                return await this.influxService.queryData({ ...app.influxDS }, query)
+                const response = await this.influxService.queryData({ ...app.influxDS }, query);
+                return new ApiResponse("success", undefined, response);
             }
             default:
                 return;
         }
     }
 
-    async getConnectedDataSource(id: number): Promise<InfluxDS> {
+    async getConnectedDataSource(id: number): Promise<ApiResponse<InfluxDS>> {
         const app = await this.getDataSourceOrThrowError(id);
         if (!app) {
             return;
         }
         switch (app.connectedTSDB) {
             case TSDB.INFLUX2: {
-                return await this.entityManager.getRepository(InfluxDS).findOneBy({
+                const response = await this.entityManager.getRepository(InfluxDS).findOneBy({
                     application: {
                         id
                     }
-                })
+                });
+
+                return new ApiResponse("success", undefined, response);
             }
             default:
                 return null;

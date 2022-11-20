@@ -30,14 +30,14 @@ export class AccountController {
 
   @Get()
   @AuthRequired()
-  async getApplication(@Query("id") id: string): Promise<IAccount> {
-    return await this.accountQueryService.getDto(id);
+  async getApplication(@Query("id") id: string): Promise<ApiResponse<IAccount>> {
+    return await this.accountQueryService.getApiDto(id);
   }
 
   @Get('/all')
   @AuthRequired()
-  async getAccounts(@Query() query: BaseDtoQuery): Promise<IAccount[]> {
-    return await this.accountQueryService.listDto(query);
+  async getAccounts(@Query() query: BaseDtoQuery): Promise<ApiResponse<IAccount[]>> {
+    return await this.accountQueryService.getApiListDto(query);
   }
 
   @Post('/new')

@@ -34,7 +34,7 @@ export class AmrController {
   async getApplication(
     @Query('id') id: number,
     @AuthAccount() user: RequestUser,
-  ): Promise<IApplicationResponse> {
+  ): Promise<ApiResponse<IApplicationResponse>> {
     return await this.amrQueryService.getApplication(id, user);
   }
 
@@ -43,7 +43,7 @@ export class AmrController {
   public async getApplicationMembers(
     @Query("id") id: number,
     @Query() query: BaseDtoQuery,
-  ): Promise<IAmr[]> {
+  ): Promise<ApiResponse<IAmr[]>> {
     return await this.amrQueryService.getApplicationMembers(id, query);
   }
 
@@ -53,7 +53,7 @@ export class AmrController {
     @Query() pageOptionsDto: ApplicationDtoQuery,
     @Query("accountId") accountId: string,
     @AuthAccount() user: RequestUser,
-  ): Promise<IAmr[]> {
+  ): Promise<ApiResponse<IAmr[]>> {
     return await this.amrQueryService.getApplicationsForAccount(
       accountId || user.id,
       pageOptionsDto

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { ApiResponse } from "types/api";
 import api from "./api";
 
 export const useApi = <T>({
@@ -18,8 +19,8 @@ export const useApi = <T>({
   const execute = async () => {
     try {
       setIsLoading(true);
-      const resp = await api[method](url, params);
-      setData(resp);
+      const resp: ApiResponse<T> = await api[method](url, params);
+      setData(resp?.data);
     } catch (error) {
       setIsError(true);
     } finally {

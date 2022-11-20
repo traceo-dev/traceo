@@ -32,21 +32,21 @@ export class ApplicationController {
 
   @Get()
   @AuthRequired()
-  async getApplication(@Query("id") id: number): Promise<IApplication> {
-    return await this.applicationQueryService.getDto(id);
+  async getApplication(@Query("id") id: number): Promise<ApiResponse<IApplication>> {
+    return await this.applicationQueryService.getApiDto(id);
   }
 
   @Get('/all')
   @AuthRequired()
-  async getApplications(@Query() query: BaseDtoQuery): Promise<IApplication[]> {
-    return await this.applicationQueryService.listDto(query);
+  async getApplications(@Query() query: BaseDtoQuery): Promise<ApiResponse<IApplication[]>> {
+    return await this.applicationQueryService.getApiListDto(query);
   }
 
   @Get('/runtime')
   @AuthRequired()
   async getApplicationRuntimeConfiguration(
     @Query() query: { id: number },
-  ) {
+  ): Promise<ApiResponse<object>> {
     return await this.applicationQueryService.getApplicationRuntime(query.id);
   }
 
@@ -54,7 +54,7 @@ export class ApplicationController {
   @AuthRequired()
   async getApplicationLogs(
     @Query() query: ApplicationLogsQuery,
-  ): Promise<ILog[]> {
+  ): Promise<ApiResponse<ILog[]>> {
     return await this.applicationQueryService.getApplicationLogs({ ...query });
   }
 

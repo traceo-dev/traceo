@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 
 import { EntityManager } from "typeorm";
 import dayjs from "dayjs";
@@ -6,17 +6,22 @@ import { Incident } from "../../db/entities/incident.entity";
 import dateUtils from "../../../lib/helpers/dateUtils";
 import { AppIncidentsStats, DailyOverview, PlotData } from "../../../lib/types/interfaces/statistics.interface";
 import { ErrorDetails } from "../../../lib/types/interfaces/incident.interface";
+import { ApiResponse } from "../../../lib/types/dto/response.dto";
+import { INTERNAL_SERVER_ERROR } from "../../../lib/helpers/constants";
 
 @Injectable()
 export class StatisticsQueryService {
-  constructor(private entityManger: EntityManager) { }
+  private logger: Logger;
+  constructor(private entityManger: EntityManager) {
+    this.logger = new Logger(StatisticsQueryService.name);
+  }
 
   async getApplicationStatistics(
     id: string
-  ): Promise<AppIncidentsStats> {
-    try {
-      const minDateBefore = dayjs().subtract(7, "day").unix();
+  ): Promise<ApiResponse<AppIncidentsStats>> {
+    const minDateBefore = dayjs().subtract(7, "day").unix();
 
+    try {
       const incidents = await this.entityManger
         .getRepository(Incident)
         .createQueryBuilder("incident")
@@ -35,49 +40,55 @@ export class StatisticsQueryService {
         errorsDetails?.filter((o) => dayjs(o?.date).isAfter(minDateBefore))?.length ||
         0;
 
-      return {
-        lastWeekCount
-      };
+      return new ApiResponse("success", undefined, { lastWeekCount });
     } catch (error) {
-      throw new Error(error);
+      this.logger.error(`[${this.getApplicationStatistics.name}] Caused by: ${error}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
   }
 
   public async getDailyOverview(
     applicationId: string
-  ): Promise<DailyOverview> {
+  ): Promise<ApiResponse<DailyOverview>> {
     const today = dayjs().startOf("day").unix();
     const response: PlotData[] = [];
     let total = 0;
 
-    const incidents = await this.entityManger
-      .getRepository(Incident)
-      .createQueryBuilder("incident")
-      .where("incident.applicationId = :applicationId", { applicationId })
-      .andWhere("incident.lastError > :today", { today })
-      .select(["incident.errorsDetails", "incident.errorsCount"])
-      .getMany();
+    try {
+      const incidents = await this.entityManger
+        .getRepository(Incident)
+        .createQueryBuilder("incident")
+        .where("incident.applicationId = :applicationId", { applicationId })
+        .andWhere("incident.lastError > :today", { today })
+        .select(["incident.errorsDetails", "incident.errorsCount"])
+        .getMany();
 
-    const cachedDates: ErrorDetails[] = incidents.reduce(
-      (acc, curr) => acc.concat(curr.errorsDetails),
-      [],
-    );
+      const cachedDates: ErrorDetails[] = incidents.reduce(
+        (acc, curr) => acc.concat(curr.errorsDetails),
+        [],
+      );
 
-    const todayIncidents = cachedDates.filter((d) => dayjs.unix(d.date).isToday())
+      const todayIncidents = cachedDates.filter((d) => dayjs.unix(d.date).isToday())
 
-    for (let i = 0; i <= 23; i++) {
-      const count = todayIncidents.filter(({ date }) => dateUtils.getHour(date) === i).length;
-      total += count;
-      response.push({
-        date: this.getHour(i),
-        count: count || 0
-      });
+      for (let i = 0; i <= 23; i++) {
+        const count = todayIncidents.filter(({ date }) => dateUtils.getHour(date) === i).length;
+        total += count;
+        response.push({
+          date: this.getHour(i),
+          count: count || 0
+        });
+      }
+
+      const resp = {
+        count: total,
+        data: response
+      };
+
+      return new ApiResponse("success", undefined, resp);
+    } catch (error) {
+      this.logger.error(`[${this.getDailyOverview.name}] Caused by: ${error}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
-
-    return {
-      count: total,
-      data: response
-    };
   }
 
   private getHour(h: number): string {
@@ -91,34 +102,46 @@ export class StatisticsQueryService {
 
   public async getTotalOverview(
     appId: string
-  ): Promise<PlotData[]> {
-    const incidents = await this.entityManger
-      .getRepository(Incident)
-      .createQueryBuilder("incident")
-      .where("incident.applicationId = :appId", { appId })
-      .select("incident.errorsDetails")
-      .getMany();
+  ): Promise<ApiResponse<PlotData[]>> {
+    try {
+      const incidents = await this.entityManger
+        .getRepository(Incident)
+        .createQueryBuilder("incident")
+        .where("incident.applicationId = :appId", { appId })
+        .select("incident.errorsDetails")
+        .getMany();
 
-    const errorsDetails: ErrorDetails[] = incidents.reduce(
-      (acc, curr) => acc.concat(curr.errorsDetails),
-      [],
-    );
-    return this.parseErrorDetails(errorsDetails);
+      const errorsDetails: ErrorDetails[] = incidents.reduce(
+        (acc, curr) => acc.concat(curr.errorsDetails),
+        [],
+      );
+      const response = this.parseErrorDetails(errorsDetails);
+      return new ApiResponse("success", undefined, response);
+    } catch (error) {
+      this.logger.error(`[${this.getTotalOverview.name}] Caused by: ${error}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR);
+    }
   }
 
   public async getTotalOverviewForIncident(
     incidentId: string
-  ): Promise<PlotData[]> {
-    const incident = await this.entityManger
-      .getRepository(Incident)
-      .createQueryBuilder("incident")
-      .where("incident.id = :incidentId", { incidentId })
-      .select("incident.errorsDetails")
-      .getOne();
+  ): Promise<ApiResponse<PlotData[]>> {
+    try {
+      const incident = await this.entityManger
+        .getRepository(Incident)
+        .createQueryBuilder("incident")
+        .where("incident.id = :incidentId", { incidentId })
+        .select("incident.errorsDetails")
+        .getOne();
 
-    const errorsDetails = incident?.errorsDetails;
+      const errorsDetails = incident?.errorsDetails;
 
-    return this.parseErrorDetails(errorsDetails);
+      const response = this.parseErrorDetails(errorsDetails);
+      return new ApiResponse("success", undefined, response);
+    } catch (error) {
+      this.logger.error(`[${this.getTotalOverviewForIncident.name}] Caused by: ${error}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR);
+    }
   }
 
   protected parseErrorDetails(errorsDetails: ErrorDetails[]): PlotData[] {
