@@ -22,3 +22,14 @@ export const loadServerApplication = (id: string): ThunkResult<void> => {
     dispatch(serverApplicationLoaded(application));
   };
 };
+
+export const updateServerApplication = (name: string): ThunkResult<void> => {
+  return async (dispatch, getStore) => {
+    const { application } = getStore().serverApplications;
+    await api.patch("/api/application", {
+      id: application.id,
+      name
+    });
+    dispatch(loadServerApplication(application.id));
+  }
+}

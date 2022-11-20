@@ -1,6 +1,5 @@
 import { Button, Space } from "antd";
 import { PagePanel } from "../../../../core/components/PagePanel";
-import { TRY_AGAIN_LATER_ERROR } from "../../../../core/utils/constants";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -10,12 +9,10 @@ import {
   Descriptions
 } from "../../../../core/components/Descriptions";
 import api from "../../../../core/lib/api";
-import { notify } from "../../../../core/utils/notify";
-import { handleStatus } from "../../../../core/utils/response";
 import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
 import { StoreState } from "../../../../types/store";
-import { loadServerApplication } from "../../state/applications/actions";
+import { updateServerApplication } from "../../state/applications/actions";
 import dateUtils from "../../../../core/utils/date";
 
 export const ApplicationInformation = () => {
@@ -23,36 +20,22 @@ export const ApplicationInformation = () => {
   const { application } = useSelector((state: StoreState) => state.serverApplications);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
 
-  const onUpdate = async (name: string) => {
-    try {
-      await api.patch("/api/application", {
-        id: application.id,
-        name
-      });
-      dispatch(loadServerApplication(application.id));
-      notify.success("Application updated.");
-    } catch (error) {
-      notify.error(TRY_AGAIN_LATER_ERROR);
-    }
+  const onUpdate = (name: string) => {
+    dispatch(updateServerApplication(name));
   };
 
   const onRemove = async () => {
     setLoadingDelete(true);
-    try {
-      const response: ApiResponse<string> = await api.delete(
-        `/api/application/${application.id}`
-      );
-      if (handleStatus(response.status) === "success") {
-        notify.success("App successfully deleted");
-        navigate("/dashboard/management/apps");
-      } else {
-        notify.error(TRY_AGAIN_LATER_ERROR);
-      }
-    } catch (error) {
-      notify.error(error);
-    } finally {
-      setLoadingDelete(false);
-    }
+    await api
+      .delete<ApiResponse<unknown>>(`/api/application/${application.id}`)
+      .then((resp) => {
+        if (resp.status === "success") {
+          navigate("/dashboard/management/apps");
+        }
+      })
+      .finally(() => {
+        setLoadingDelete(false);
+      });
   };
 
   const OperationButtons = () => {
@@ -75,7 +58,7 @@ export const ApplicationInformation = () => {
     <>
       <PagePanel title="Basic Information" extra={<OperationButtons />}>
         <Descriptions>
-          <DescriptionInputRow label="Name" onUpdate={onUpdate}>
+          <DescriptionInputRow label="Name" editable={true} onUpdate={onUpdate}>
             {application.name}
           </DescriptionInputRow>
           <DescriptionInputRow label="Last error at">

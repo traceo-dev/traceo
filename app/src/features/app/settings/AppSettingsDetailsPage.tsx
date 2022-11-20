@@ -4,8 +4,6 @@ import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
 import api from "../../../core/lib/api";
-import { notify } from "../../../core/utils/notify";
-import { handleStatus } from "../../../core/utils/response";
 import { dispatch } from "../../../store/store";
 import { ApiResponse } from "../../../types/api";
 import { StoreState } from "../../../types/store";
@@ -14,7 +12,6 @@ import { updateAplication } from "../state/actions";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";
 import { Permissions } from "../../../core/components/Permissions";
-import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { DescriptionInputRow, Descriptions } from "../../../core/components/Descriptions";
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
@@ -40,21 +37,16 @@ export const AppSettingsDetailsPage = () => {
 
   const remove = async () => {
     setLoadingDelete(true);
-    try {
-      const response: ApiResponse<string> = await api.delete(
-        `/api/application/${application.id}`
-      );
-      if (handleStatus(response.status) === "success") {
-        notify.success("App successfully deleted");
-        navigate("/dashboard/overview");
-      } else {
-        notify.error(TRY_AGAIN_LATER_ERROR);
-      }
-    } catch (error) {
-      notify.error(error);
-    } finally {
-      setLoadingDelete(false);
-    }
+    await api
+      .delete<ApiResponse<unknown>>(`/api/application/${application.id}`)
+      .then((response) => {
+        if (response.status === "success") {
+          navigate("/dashboard/overview");
+        }
+      })
+      .finally(() => {
+        setLoadingDelete(false);
+      });
   };
 
   return (

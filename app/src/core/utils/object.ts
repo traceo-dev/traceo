@@ -3,3 +3,9 @@ export const isEmptyObject = (obj: object): boolean => {
     (x) => x === null || x === "" || x === undefined || x === "undefined"
   );
 };
+
+export const clearObject = (obj: any) =>
+  Object.entries(obj).reduce((a, [k, v]) => (
+    v === "" ||
+      v === null ||
+      v === undefined ? a : ((a[k] = v), a)), {});

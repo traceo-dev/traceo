@@ -1,4 +1,3 @@
-import { notify } from "../../../../core/utils/notify";
 import api, { ApiQueryParams } from "../../../../core/lib/api";
 import { Comment } from "../../../../types/comments";
 import { Incident } from "../../../../types/incidents";
@@ -82,8 +81,6 @@ export const batchUpdate = ({
       incidentsIds,
       ...update
     });
-
     dispatch(loadIncidents());
-    notify.success("Incidents updated");
   };
 };

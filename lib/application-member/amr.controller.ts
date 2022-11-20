@@ -19,6 +19,7 @@ import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
 import { AmrQueryService } from './amr-query/amr-query.service';
 import { AmrService } from './amr.service';
 import { IAmr } from '../../lib/types/interfaces/amr.interface';
+import { ApiResponse } from '../../lib/types/dto/response.dto';
 
 @ApiTags('application-member-relationship')
 @Controller('amr')
@@ -26,7 +27,7 @@ export class AmrController {
   constructor(
     private readonly amrService: AmrService,
     private readonly amrQueryService: AmrQueryService,
-  ) {}
+  ) { }
 
   @Get('/application')
   @AuthRequired()
@@ -63,7 +64,7 @@ export class AmrController {
   @AuthRequired()
   public async addAccountToApplication(
     @Body() body: AddAccountToApplicationDto,
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     return await this.amrService.addAccountToApplication(body);
   }
 
@@ -71,7 +72,7 @@ export class AmrController {
   @AuthRequired()
   public async updateApplicationAccount(
     @Body() body: UpdateAmrDto,
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     return await this.amrService.updateApplicationAccount(body);
   }
 
@@ -79,16 +80,16 @@ export class AmrController {
   @AuthRequired()
   public async removeAccountFromApplication(
     @Query("id", new ParseUUIDPipe()) id: string,
-  ): Promise<void> {
+  ): Promise<ApiResponse<unknown>> {
     return await this.amrService.removeAccountFromApplication(id);
   }
 
-  @Delete('/application/leave')
-  @AuthRequired()
-  public async leaveApplication(
-    @Query("aid", new ParseUUIDPipe()) aid: string,
-    @Query("appId") appId: number,
-  ): Promise<void> {
-    return await this.amrService.leaveApplication(aid, appId);
-  }
+  // @Delete('/application/leave')
+  // @AuthRequired()
+  // public async leaveApplication(
+  //   @Query("aid", new ParseUUIDPipe()) aid: string,
+  //   @Query("appId") appId: number,
+  // ): Promise<void> {
+  //   return await this.amrService.leaveApplication(aid, appId);
+  // }
 }

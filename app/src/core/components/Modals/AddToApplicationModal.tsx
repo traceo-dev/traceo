@@ -33,12 +33,16 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
 
   const onFinish = async (props: AddAccountToApplication) => {
     setLoading(true);
-
-    await api.post("/api/amr/application/add", { accountId: account.id, ...props });
-    postExecute();
-
-    setLoading(false);
-    onClose();
+    await api
+      .post("/api/amr/application/add", {
+        accountId: account.id,
+        ...props
+      })
+      .finally(() => {
+        postExecute();
+        setLoading(false);
+        onClose();
+      });
   };
 
   const onClose = () => {

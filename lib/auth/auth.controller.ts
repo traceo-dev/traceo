@@ -1,33 +1,27 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { IAccount, RequestUser } from '../../lib/types/interfaces/account.interface';
 import { AccountCredentialsDto, UpdatePasswordDto } from '../../lib/types/dto/account.dto';
-import { Account } from '../db/entities/account.entity';
 import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
 import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
-import { AuthService, CheckCredentialsType, LoginResponseType } from './auth.service';
+import { AuthService, LoginResponseType } from './auth.service';
+import { ApiResponse } from '../../lib/types/dto/response.dto';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(readonly authService: AuthService) {}
-
-  @Get()
-  @AuthRequired()
-  async getString(@AuthAccount() account: Account): Promise<IAccount> {
-    return account;
-  }
+  constructor(readonly authService: AuthService) { }
 
   @Post('login')
-  async login(@Body() user: AccountCredentialsDto): Promise<LoginResponseType> {
+  async login(@Body() user: AccountCredentialsDto): Promise<ApiResponse<LoginResponseType>> {
     return await this.authService.login(user);
   }
 
   @Post('check')
   async check(
     @Body() creds: AccountCredentialsDto,
-  ): Promise<CheckCredentialsType> {
-    return this.authService.checkCredentials(creds);
+  ): Promise<ApiResponse<unknown>> {
+    return this.authService.checkUserCredentials(creds);
   }
 
   @Post('update-password')
@@ -35,7 +29,7 @@ export class AuthController {
   async updatePassword(
     @Body() userPassword: UpdatePasswordDto,
     @AuthAccount() account: RequestUser,
-  ): Promise<any> {
+  ): Promise<ApiResponse<unknown>> {
     return await this.authService.updateUserPassword(account, userPassword);
   }
 }

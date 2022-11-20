@@ -10,11 +10,12 @@ import { AccountQueryService } from '../account/account-query/account-query.serv
 import { Cron, CronExpression } from '@nestjs/schedule';
 import dayjs from 'dayjs';
 import { Log } from '../db/entities/log.entity';
-import { ADMIN_EMAIL } from '../helpers/constants';
+import { ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from '../helpers/constants';
 import { MemberRole } from '../../lib/types/enums/amr.enum';
 import { gravatar } from '../../lib/helpers/gravatar';
 import { RequestUser } from '../../lib/types/interfaces/account.interface';
 import { ApplicationDto, CreateApplicationDto } from '../../lib/types/dto/application.dto';
+import { ApiResponse } from '../../lib/types/dto/response.dto';
 
 const MAX_RETENTION_LOGS = 3;
 
@@ -34,78 +35,79 @@ export class ApplicationService {
   public async createApplication(
     data: CreateApplicationDto,
     user: RequestUser,
-  ): Promise<Application> {
+  ): Promise<ApiResponse<Application>> {
     const { id, email } = user;
 
     const privateKey = crypto.randomUUID();
-    try {
-      return await this.entityManager.transaction(async (manager) => {
-        await this.validate(data.name);
+    return await this.entityManager.transaction(async (manager) => {
+      const app = await this.applicationQueryService.getDtoBy({ name: data.name });
+      if (app) {
+        return new ApiResponse("error", "Application with this name already exists.");
+      }
 
-        const account = await this.accountQueryService.getDtoBy({ id });
-        if (!account) {
-          throw new NotFoundException();
-        }
+      const account = await this.accountQueryService.getDtoBy({ id });
+      if (!account) {
+        throw new NotFoundException();
+      }
 
-        const url = gravatar.url(data.name, "identicon");
-        const applicationPayload: Application = {
-          ...data,
-          privateKey,
-          owner: account,
-          gravatar: url,
-          createdAt: dateUtils.toUnix(),
-          updatedAt: dateUtils.toUnix(),
-          incidentsCount: 0,
-          errorsCount: 0
-        };
+      const url = gravatar.url(data.name, "identicon");
+      const applicationPayload: Application = {
+        ...data,
+        privateKey,
+        owner: account,
+        gravatar: url,
+        createdAt: dateUtils.toUnix(),
+        updatedAt: dateUtils.toUnix(),
+        incidentsCount: 0,
+        errorsCount: 0
+      };
 
-        const application = await manager
-          .getRepository(Application)
-          .save(applicationPayload);
+      const application = await manager
+        .getRepository(Application)
+        .save(applicationPayload);
 
-        if (email !== ADMIN_EMAIL) {
-          const admin = await this.accountQueryService.getDtoBy({ email: ADMIN_EMAIL });
-          await this.awrService.createAmr(
-            admin,
-            application,
-            MemberRole.ADMINISTRATOR,
-            manager,
-          );
-        }
-
+      if (email !== ADMIN_EMAIL) {
+        const admin = await this.accountQueryService.getDtoBy({ email: ADMIN_EMAIL });
         await this.awrService.createAmr(
-          account,
+          admin,
           application,
           MemberRole.ADMINISTRATOR,
           manager,
         );
+      }
 
-        return application;
-      });
-    } catch (error) {
-      this.logger.error(`[${this.createApplication.name}] Caused by: ${error}`);
-      throw new Error(error);
-    }
+      await this.awrService.createAmr(
+        account,
+        application,
+        MemberRole.ADMINISTRATOR,
+        manager,
+      );
+
+      return new ApiResponse("success", "Application successfully created.", application);
+    }).catch((err: Error) => {
+      this.logger.error(`[${this.createApplication.name}] Caused by: ${err}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+    });
   }
 
   public async updateApplication(
-    appBody: ApplicationDto | Partial<Application>,
-    account: RequestUser,
-    manager: EntityManager = this.entityManager,
-  ): Promise<any> {
+    appBody: ApplicationDto | Partial<Application>
+  ): Promise<ApiResponse<unknown>> {
     const { id, ...rest } = appBody;
 
     try {
-      await manager.getRepository(Application).update(
+      await this.entityManager.getRepository(Application).update(
         { id },
         {
           updatedAt: dateUtils.toUnix(),
           ...rest
         },
       );
-    } catch (error) {
-      this.logger.error(`[${this.updateApplication.name}] Caused by: ${error}`);
-      throw new Error(error);
+
+      return new ApiResponse("success", "Application updated.")
+    } catch (err) {
+      this.logger.error(`[${this.updateApplication.name}] Caused by: ${err}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     }
   }
 
@@ -120,13 +122,20 @@ export class ApplicationService {
 
   public async deleteApplication(
     appId: string
-  ): Promise<void> {
-    await this.entityManager
-      .getRepository(Application)
-      .createQueryBuilder('application')
-      .where('application.id = :appId', { appId })
-      .delete()
-      .execute();
+  ): Promise<ApiResponse<unknown>> {
+    try {
+      await this.entityManager
+        .getRepository(Application)
+        .createQueryBuilder('application')
+        .where('application.id = :appId', { appId })
+        .delete()
+        .execute();
+
+      return new ApiResponse("success", "Application removed.");
+    } catch (err) {
+      this.logger.error(`[${this.deleteApplication.name}] Caused by: ${err}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+    }
   }
 
   @Cron(CronExpression.EVERY_6_HOURS)

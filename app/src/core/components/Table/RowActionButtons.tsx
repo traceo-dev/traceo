@@ -6,7 +6,11 @@ interface ActionButtonsProps {
   onSave: () => void;
   onCancel: () => void;
 }
-export const ActionButtons: FC<ActionButtonsProps> = ({ loading, onSave, onCancel }) => {
+export const RowActionButtons: FC<ActionButtonsProps> = ({
+  loading,
+  onSave,
+  onCancel
+}) => {
   return (
     <Space>
       <Button loading={loading} type="primary" onClick={() => onSave()}>

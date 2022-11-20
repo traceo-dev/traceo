@@ -8,6 +8,8 @@ import { IMetrics, MetricsQuery, MetricsResponse } from '../../../lib/types/inte
 import { CONNECTION_STATUS, TSDB } from '../../../lib/types/enums/tsdb.enum';
 import { InfluxConfigurationDto } from '../../../lib/types/dto/influx.dto';
 import { InfluxConfiguration } from '../../../lib/types/interfaces/influxds.interface';
+import { ApiResponse } from '../../../lib/types/dto/response.dto';
+import { INTERNAL_SERVER_ERROR } from '../../../lib/helpers/constants';
 
 @Injectable()
 export class InfluxService {
@@ -19,7 +21,7 @@ export class InfluxService {
         this.logger = new Logger(InfluxService.name);
     }
 
-    async saveInfluxDataSource(config: InfluxConfigurationDto): Promise<DataSourceConnStatus> {
+    async saveInfluxDataSource(config: InfluxConfigurationDto): Promise<ApiResponse<DataSourceConnStatus>> {
         const { appId, token, ...rest } = config;
 
         return await this.entityManager.transaction(async (manager) => {
@@ -52,17 +54,21 @@ export class InfluxService {
                 })
 
                 this.logger.log(`InfluxDB data source attached to app: ${appId}`);
-                return {
+
+                return new ApiResponse("success", "InfluxDB data source updated.", {
                     status, error
-                };
+                });
             }
 
             await influxRef.update({ id: ds.id }, dsPayload);
             this.logger.log(`InfluxDB data source updated in app: ${appId}`);
 
-            return {
+            return new ApiResponse("success", "InfluxDB data source updated.", {
                 status, error
-            };
+            });
+        }).catch((err: Error) => {
+            this.logger.error(`[${this.saveInfluxDataSource.name}] Caused by: ${err}`);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
         });
     }
 
@@ -181,7 +187,7 @@ export class InfluxService {
         try {
             return await queryApi.collectRows(query);
         } catch (error) {
-            this.logger.error(error);
+            this.logger.error(`[${this.queryData.name}] Caused by: ${error}`);
             return [];
         }
     }

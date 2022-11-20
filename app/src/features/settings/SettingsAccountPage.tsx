@@ -11,6 +11,7 @@ import {
 } from "../../features/app/settings/state/settings/actions";
 import { ADMIN_EMAIL, REQUIRED_FIELD_ERROR } from "../../core/utils/constants";
 import { PagePanel } from "../../core/components/PagePanel";
+import validators from "../../core/lib/validators";
 
 const SettingsAccountPage = () => {
   const { account } = useSelector((state: StoreState) => state.account);
@@ -53,7 +54,12 @@ const SettingsAccountPage = () => {
                 <Input />
               </Form.Item>
 
-              <Form.Item name="email" label="Email" initialValue={account?.email}>
+              <Form.Item
+                name="email"
+                label="Email"
+                initialValue={account?.email}
+                rules={[{ required: false }, ...validators.email]}
+              >
                 <Input />
               </Form.Item>
 

@@ -1,9 +1,7 @@
 import { Typography, Radio, Button, Row, Space } from "antd";
-import { TRY_AGAIN_LATER_ERROR } from "core/utils/constants";
 import { FC, useState } from "react";
 import { Avatar } from "../../../../core/components/Avatar";
 import api from "../../../../core/lib/api";
-import { notify } from "../../../../core/utils/notify";
 import { ApplicationMember, MemberRole } from "../../../../types/application";
 
 export const ApplicationDescriptionMembersTable = ({ children }) => {
@@ -54,33 +52,29 @@ export const DescriptionAppRadioRow: FC<DescriptionAppRadioRowProps> = ({
 
   const onUpdateRole = async () => {
     setLoadingUpdate(true);
-    try {
-      await api.patch("/api/amr/application/member", {
+    await api
+      .patch("/api/amr/application/member", {
         memberId: member.id,
         role: value
+      })
+      .finally(() => {
+        setUpdateMode(false);
+        setLoadingUpdate(false);
+        postExecute();
       });
-      notify.success("Role updated");
-    } catch (error) {
-      notify.error("Error during change account role");
-    } finally {
-      setUpdateMode(false);
-      setLoadingUpdate(false);
-      postExecute();
-    }
   };
 
   const onRemoveFromApp = async () => {
     setLoadingDelete(true);
-    try {
-      await api.delete("/api/amr/application/member", { id: member.id });
-      notify.success("Removed from app.");
-    } catch (error) {
-      notify.error(TRY_AGAIN_LATER_ERROR);
-    } finally {
-      setDeleteMode(false);
-      setLoadingDelete(false);
-      postExecute();
-    }
+    await api
+      .delete("/api/amr/application/member", {
+        id: member.id
+      })
+      .finally(() => {
+        setDeleteMode(false);
+        setLoadingDelete(false);
+        postExecute();
+      });
   };
 
   return (

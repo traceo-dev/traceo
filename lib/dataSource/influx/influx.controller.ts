@@ -7,6 +7,7 @@ import { DataSourceConnStatus } from '../../../lib/types/interfaces/tsdb.interfa
 import { AuthRequired } from '../../helpers/decorators/auth-required.decorator';
 import { InfluxService } from './influx.service';
 import { InfluxConfigurationDto } from '../../../lib/types/dto/influx.dto';
+import { ApiResponse } from '../../../lib/types/dto/response.dto';
 
 @ApiTags('influx')
 @Controller('influx')
@@ -21,7 +22,7 @@ export class InfluxController {
     async saveInfluxDataSource(
         @Body() body: InfluxConfigurationDto,
         @AuthAccount() account: RequestUser
-    ): Promise<DataSourceConnStatus> {
+    ): Promise<ApiResponse<DataSourceConnStatus>> {
         await this.permission.can('UPDATE_DATASOURCE', account);
 
         return await this.influxService.saveInfluxDataSource(body);
