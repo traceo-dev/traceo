@@ -17,7 +17,7 @@ const { Header: AntHeader } = Layout;
 interface Props {
   routes: MenuRoute[];
 }
-export const Header: FC<Props> = ({ routes }) => {
+export const Header: FC<Props> = () => {
   const { account } = useSelector((state: StoreState) => state.account);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export const Header: FC<Props> = ({ routes }) => {
             </Space>
           </Row>
         </AntHeader>
-        <Menu className="mx-9" routes={routes} />
+        {/* <Menu className="mx-9" routes={routes} /> */}
       </Space>
       <style>{`
         .header {
