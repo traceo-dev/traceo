@@ -23,7 +23,7 @@ export class InfluxController {
         @Body() body: InfluxConfigurationDto,
         @AuthAccount() account: RequestUser
     ): Promise<ApiResponse<DataSourceConnStatus>> {
-        await this.permission.can('UPDATE_DATASOURCE', account);
+        // await this.permission.can('UPDATE_DATASOURCE', account);
 
         return await this.influxService.saveInfluxDataSource(body);
     }

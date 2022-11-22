@@ -24,10 +24,11 @@ export interface RouteDescriptor {
 
 export interface MenuRoute {
   label: string;
-  key: string;
+  key?: string;
   href?: string;
   private?: boolean;
   disabled?: boolean;
   icon?: JSX.Element;
   adminRoute?: boolean;
+  onClick?: () => void;
 }
