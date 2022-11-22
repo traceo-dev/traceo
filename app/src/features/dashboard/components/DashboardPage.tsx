@@ -4,44 +4,51 @@ import { StoreState } from "../../../types/store";
 import { loadAccount } from "../../auth/state/actions";
 import { dispatch } from "../../../store/store";
 import { MenuRoute } from "../../../types/navigation";
-import { useDemo } from "../../../core/hooks/useDemo";
 import {
   HomeOutlined,
+  LoadingOutlined,
   LogoutOutlined,
   SettingOutlined,
   UserOutlined
 } from "@ant-design/icons";
-import { TraceoLogo } from "core/components/Icons/TraceoLogo";
+import { TraceoLogo } from "../../../core/components/Icons/TraceoLogo";
 import { Divider } from "antd";
-import { logout } from "core/utils/logout";
+import { logout } from "../../../core/utils/logout";
 
-import { MainViewWrapper } from "core/components/Layout/MainViewWrapper";
-import { NavBarItem } from "core/components/Layout/Navbar/NavBarItem";
-import { NavbarWrapper } from "core/components/Layout/Navbar/NavbarWrapper";
-import { useNavigate } from "react-router-dom";
+import { MainViewWrapper } from "../../../core/components/Layout/MainViewWrapper";
+import { NavBarItem } from "../../../core/components/Layout/Navbar/NavBarItem";
+import { NavbarWrapper } from "../../../core/components/Layout/Navbar/NavbarWrapper";
+import { isEmptyObject } from "../../../core/utils/object";
+import { PageCenter } from "../../../core/components/PageCenter";
+import { useCleanup } from "../../../core/hooks/useCleanup";
 
 export const DashboardPage = ({ children }) => {
+  useCleanup((state: StoreState) => state.application);
+
   const { account } = useSelector((state: StoreState) => state.account);
-  const { isDemo } = useDemo();
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(loadAccount());
   }, []);
 
-  const topRoutes: MenuRoute[] = [
+  if (!account || isEmptyObject(account)) {
+    return (
+      <PageCenter>
+        <LoadingOutlined />
+      </PageCenter>
+    );
+  }
+
+  const filterRoutes = (routes: MenuRoute[]) =>
+    !account.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
+
+  const topRoutes: MenuRoute[] = filterRoutes([
     {
       key: "home",
       disabled: true,
-      icon: (
-        <TraceoLogo
-          onClick={() => navigate("/dashboard/overview")}
-          size="small"
-          withName={false}
-        />
-      ),
+      icon: <TraceoLogo size="small" withName={false} />,
       label: "",
-      href: ""
+      href: "/dashboard/overview"
     },
     {
       key: "overview",
@@ -50,31 +57,30 @@ export const DashboardPage = ({ children }) => {
       adminRoute: false,
       icon: <HomeOutlined />
     }
-  ];
+  ]);
 
-  const manageRoutes: MenuRoute[] = [
+  const manageRoutes: MenuRoute[] = filterRoutes([
     {
       key: "management",
       href: "/dashboard/management/accounts",
       label: "Management",
       adminRoute: true,
-      private: isDemo,
+      private: !!account.isAdmin,
       icon: <SettingOutlined />
     }
-  ];
+  ]);
 
-  const userRoutes: MenuRoute[] = [
+  const userRoutes: MenuRoute[] = filterRoutes([
     {
       key: "account",
       href: "/dashboard/account/settings",
       label: "Account",
       adminRoute: false,
-      private: isDemo,
       icon: <UserOutlined />
     }
-  ];
+  ]);
 
-  const bottomRoutes: MenuRoute[] = [
+  const bottomRoutes: MenuRoute[] = filterRoutes([
     {
       label: "Logout",
       href: "",
@@ -82,28 +88,25 @@ export const DashboardPage = ({ children }) => {
       icon: <LogoutOutlined />,
       onClick: () => logout()
     }
-  ];
-
-  const filterRoutes = (routes: MenuRoute[]) =>
-    !account.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
+  ]);
 
   return (
     <div className="flex max-h-full">
       <NavbarWrapper>
         <ul className="list-none p-0 h-full self-center space-y-2 justify-between">
-          {filterRoutes(topRoutes).map((route) => (
+          {topRoutes.map((route) => (
             <NavBarItem route={route} />
           ))}
 
           <Divider className="pb-2" />
 
-          {filterRoutes(manageRoutes).map((route) => (
+          {manageRoutes.map((route) => (
             <NavBarItem route={route} />
           ))}
 
-          <Divider className="pb-2" />
+          {manageRoutes.length > 0 && <Divider className="pb-2" />}
 
-          {filterRoutes(userRoutes).map((route) => (
+          {userRoutes.map((route) => (
             <NavBarItem route={route} />
           ))}
         </ul>

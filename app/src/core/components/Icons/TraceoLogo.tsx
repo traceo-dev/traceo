@@ -1,16 +1,15 @@
 import { Space } from "antd";
 import { FC } from "react";
-import { conditionClass, joinClasses } from "../../../core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 
 type Size = "small" | "medium";
 
 interface Props {
   size: Size;
   withName?: boolean;
-  onClick?: () => void;
 }
 
-export const TraceoLogo: FC<Props> = ({ size, withName = false, onClick }) => {
+export const TraceoLogo: FC<Props> = ({ size, withName = false }) => {
   const handleLogoSize: Record<Size, string> = {
     medium: "w-12 h-12",
     small: "w-6 h-6"
@@ -27,10 +26,7 @@ export const TraceoLogo: FC<Props> = ({ size, withName = false, onClick }) => {
   };
 
   return (
-    <Space
-      onClick={() => onClick()}
-      className={conditionClass(!!onClick, "cursor-pointer")}
-    >
+    <Space>
       <div
         className={joinClasses(
           handleLogoSize[size],

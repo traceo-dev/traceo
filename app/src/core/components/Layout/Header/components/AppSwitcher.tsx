@@ -1,10 +1,9 @@
 import { CheckCircleFilled, LoadingOutlined } from "@ant-design/icons";
-import { List, Popover, Space, Table, Typography } from "antd";
+import { List, Popover, Space, Typography } from "antd";
 import { useSelector } from "react-redux";
 import { Avatar } from "../../../../../core/components/Avatar";
 import { StoreState } from "../../../../../types/store";
 import { Application, ApplicationMember } from "../../../../../types/application";
-import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
 import { slugifyForUrl } from "../../../../../core/utils/stringUtils";
 import { useEffect } from "react";
 import { dispatch } from "../../../../../store/store";
@@ -33,42 +32,31 @@ export const AppSwitcher = () => {
 
   const appSelector = () => (
     <ConditionLayout isLoading={!fetchedApps}>
-      {/* <Table
-        scroll={{ y: 240 }}
-        // pagination={{ }}
+      <List
         dataSource={applications}
-        columns={[
-          {
-            render: (record: ApplicationMember) => record.application.name
-          }
-        ]}
-      /> */}
-      {applications?.map((app: ApplicationMember, index) => (
-        <Space key={index} className="py-2 w-full">
-          <Typography.Text
-            className={joinClasses(
-              "cursor-pointer",
-              conditionClass(
-                app.application.id === application.id,
-                "font-semibold text-cyan-600"
-              )
-            )}
-            onClick={() => selectApp(app.application)}
+        style={{ height: "240px", overflowY: "scroll" }}
+        renderItem={(item: ApplicationMember) => (
+          <List.Item
+            onClick={() => selectApp(item.application)}
+            className="cursor-pointer hover:bg-secondary px-3"
           >
-            {app.application.name}
-            {app.application.id === application.id && (
-              <CheckCircleFilled className="pl-2" />
-            )}
-          </Typography.Text>
-        </Space>
-      ))}
+            <Space>
+              <Avatar name={item.application.name} url={item.application.gravatar} />
+              <Typography.Text>{item.application.name}</Typography.Text>
+              {item.application.id === application.id && (
+                <CheckCircleFilled className="pl-2 text-yellow-500" />
+              )}
+            </Space>
+          </List.Item>
+        )}
+      />
     </ConditionLayout>
   );
 
   return (
     <Popover
       trigger={["click"]}
-      placement="bottomRight"
+      placement="topRight"
       title="Change app"
       content={appSelector}
     >

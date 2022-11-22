@@ -1,20 +1,18 @@
 import { useEffect } from "react";
 import { loadApplication } from "../state/actions";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { dispatch } from "../../../store/store";
 import { MenuRoute } from "../../../types/navigation";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import { isEmptyObject } from "../../../core/utils/object";
 import NotFound from "../../../core/components/Layout/Pages/404";
-import { PageCenter } from "../../../core/components/PageCenter";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { isSlugCorrect } from "../../../core/utils/url";
-import { useDemo } from "../../../core/hooks/useDemo";
 import { Divider } from "antd";
-import { MainViewWrapper } from "core/components/Layout/MainViewWrapper";
-import { NavBarItem } from "core/components/Layout/Navbar/NavBarItem";
-import { NavbarWrapper } from "core/components/Layout/Navbar/NavbarWrapper";
+import { MainViewWrapper } from "../../../core/components/Layout/MainViewWrapper";
+import { NavBarItem } from "../../../core/components/Layout/Navbar/NavBarItem";
+import { NavbarWrapper } from "../../../core/components/Layout/Navbar/NavbarWrapper";
 import {
   BarChartOutlined,
   BugOutlined,
@@ -24,15 +22,12 @@ import {
   SettingOutlined,
   UserOutlined
 } from "@ant-design/icons";
-import { TraceoLogo } from "core/components/Icons/TraceoLogo";
-import { logout } from "core/utils/logout";
-import { AppSwitcher } from "core/components/Layout/Header/components/AppSwitcher";
+import { TraceoLogo } from "../../../core/components/Icons/TraceoLogo";
+import { logout } from "../../../core/utils/logout";
+import { AppSwitcher } from "../../../core/components/Layout/Header/components/AppSwitcher";
 
 export const AppPage = ({ children }) => {
-  const navigate = useNavigate();
-
   const { id } = useParams();
-  const { isDemo } = useDemo();
 
   const { application } = useSelector((state: StoreState) => state.application);
   const { account } = useSelector((state: StoreState) => state.account);
@@ -46,22 +41,19 @@ export const AppPage = ({ children }) => {
 
   if (isEmptyObject(application)) {
     return <TraceoLoading />;
-  } else if (!hasMemberRole || !isCorrectClug) {
-    return (
-      <PageCenter>
-        <NotFound />
-      </PageCenter>
-    );
+  }
+
+  if (!hasMemberRole || !isCorrectClug) {
+    return <NotFound />;
   }
 
   const topRoutes: MenuRoute[] = [
     {
       key: "home",
       disabled: true,
-      icon: <TraceoLogo onClick={() => navigate("/dashboard/overview")} size="small" />,
+      icon: <TraceoLogo size="small" />,
       label: "",
-      href: "",
-      onClick: () => navigate("/dashboard/overview")
+      href: "/dashboard/overview"
     },
     {
       key: "overview",
@@ -82,14 +74,12 @@ export const AppPage = ({ children }) => {
       key: "explore",
       href: "/app/:id/:slug/explore/logs",
       label: "Explore",
-      private: isDemo,
       icon: <CompassOutlined />
     },
     {
       key: "metrics",
       href: "/app/:id/:slug/metrics",
       label: "Metrics",
-      private: isDemo,
       icon: <BarChartOutlined />
     }
   ];
@@ -108,14 +98,11 @@ export const AppPage = ({ children }) => {
       key: "account",
       href: "/dashboard/account/settings",
       label: "Account",
-      adminRoute: false,
-      private: isDemo,
       icon: <UserOutlined />
     },
     {
       label: "Logout",
       href: "",
-      adminRoute: false,
       icon: <LogoutOutlined />,
       onClick: () => logout()
     },
