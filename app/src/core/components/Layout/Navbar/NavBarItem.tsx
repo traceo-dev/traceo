@@ -36,7 +36,7 @@ export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
         <li
           onClick={onClick && (() => onClick())}
           className={joinClasses(
-            "flex items-center justify-center h-10 w-10 rounded cursor-pointer",
+            "flex items-center justify-center h-10 w-10 rounded cursor-pointer mb-3",
             conditionClass(key && isActive(key), "text-white bg-canvas"),
             conditionClass(!disabled, "duration-200 hover:text-white hover:bg-canvas")
           )}

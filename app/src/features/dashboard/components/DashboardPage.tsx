@@ -18,10 +18,12 @@ import { logout } from "core/utils/logout";
 import { MainViewWrapper } from "core/components/Layout/MainViewWrapper";
 import { NavBarItem } from "core/components/Layout/Navbar/NavBarItem";
 import { NavbarWrapper } from "core/components/Layout/Navbar/NavbarWrapper";
+import { useNavigate } from "react-router-dom";
 
 export const DashboardPage = ({ children }) => {
   const { account } = useSelector((state: StoreState) => state.account);
   const { isDemo } = useDemo();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(loadAccount());
@@ -31,7 +33,13 @@ export const DashboardPage = ({ children }) => {
     {
       key: "home",
       disabled: true,
-      icon: <TraceoLogo size="small" withName={false} />,
+      icon: (
+        <TraceoLogo
+          onClick={() => navigate("/dashboard/overview")}
+          size="small"
+          withName={false}
+        />
+      ),
       label: "",
       href: ""
     },
@@ -80,35 +88,33 @@ export const DashboardPage = ({ children }) => {
     !account.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
 
   return (
-    <>
-      <div className="flex max-h-full">
-        <NavbarWrapper>
-          <ul className="list-none p-0 h-full self-center space-y-2 justify-between">
-            {filterRoutes(topRoutes).map((route) => (
-              <NavBarItem route={route} />
-            ))}
+    <div className="flex max-h-full">
+      <NavbarWrapper>
+        <ul className="list-none p-0 h-full self-center space-y-2 justify-between">
+          {filterRoutes(topRoutes).map((route) => (
+            <NavBarItem route={route} />
+          ))}
 
-            <Divider className="pb-2" />
+          <Divider className="pb-2" />
 
-            {filterRoutes(manageRoutes).map((route) => (
-              <NavBarItem route={route} />
-            ))}
+          {filterRoutes(manageRoutes).map((route) => (
+            <NavBarItem route={route} />
+          ))}
 
-            <Divider className="pb-2" />
+          <Divider className="pb-2" />
 
-            {filterRoutes(userRoutes).map((route) => (
-              <NavBarItem route={route} />
-            ))}
-          </ul>
+          {filterRoutes(userRoutes).map((route) => (
+            <NavBarItem route={route} />
+          ))}
+        </ul>
 
-          <ul className="list-none p-0 self-center space-y-2 justify-between">
-            {bottomRoutes.map((route) => (
-              <NavBarItem route={route} />
-            ))}
-          </ul>
-        </NavbarWrapper>
-        <MainViewWrapper>{children}</MainViewWrapper>
-      </div>
-    </>
+        <ul className="list-none p-0 self-center space-y-2 justify-between">
+          {bottomRoutes.map((route) => (
+            <NavBarItem route={route} />
+          ))}
+        </ul>
+      </NavbarWrapper>
+      <MainViewWrapper>{children}</MainViewWrapper>
+    </div>
   );
 };
