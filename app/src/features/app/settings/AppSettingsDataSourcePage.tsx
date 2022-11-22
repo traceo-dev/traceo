@@ -12,6 +12,7 @@ import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
 import { loadDataSource } from "./state/settings/actions";
 import { loadApplication } from "../state/actions";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
+import { LoadingOutlined } from "@ant-design/icons";
 
 interface DataSourceSelectOption {
   label: string;
@@ -75,6 +76,7 @@ export const AppSettingsDataSourcePage = () => {
                 </Select.Option>
               ))}
             </Select>
+            {!hasFetched && <LoadingOutlined />}
             {hasFetched && selectedDS === TSDB.INFLUX2 && (
               <DataSourceInflux2Form dataSource={dataSource} />
             )}

@@ -47,7 +47,7 @@ export const App = () => {
         <Provider store={store}>
           <SocketContext.Provider value={{ socket }}>
             <BrowserRouter>
-              <div className="klepper-app">
+              <div className="traceo-app">
                 <main className="main-view">{renderRoutes()}</main>
               </div>
             </BrowserRouter>
@@ -65,7 +65,7 @@ export const App = () => {
           background-color: var(--color-bg-canvas) !important;
         }
         
-        .klepper-app {
+        .traceo-app {
           display: flex;
           align-items: stretch;
           position: absolute;
