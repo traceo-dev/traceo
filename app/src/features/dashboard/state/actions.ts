@@ -5,7 +5,7 @@ import {
   SearchApplicationQueryParams
 } from "../../../types/application";
 import { applicationsLoaded } from "./reducers";
-import { ApiResponse } from "types/api";
+import { ApiResponse } from "../../../types/api";
 
 export const loadApplications = (
   query?: SearchApplicationQueryParams

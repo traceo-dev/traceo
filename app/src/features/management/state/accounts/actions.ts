@@ -2,7 +2,7 @@ import api, { ApiQueryParams } from "../../../../core/lib/api";
 import { ThunkResult } from "../../../../types/store";
 import { serverAccountLoaded, serverAccountsLoaded } from "./reducers";
 import { Account, AddAccountProps } from "../../../../types/accounts";
-import { ApiResponse } from "types/api";
+import { ApiResponse } from "../../../../types/api";
 
 export const loadServerAccounts = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {

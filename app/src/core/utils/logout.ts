@@ -1,5 +1,5 @@
 export const logout = () => {
-  localStorage.removeItem("session");
+  localStorage.clear();
   sessionStorage.clear();
   window.location.href = "/";
 };

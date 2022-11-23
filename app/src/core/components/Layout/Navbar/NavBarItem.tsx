@@ -4,8 +4,8 @@ import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { MenuRoute } from "types/navigation";
-import { StoreState } from "types/store";
+import { MenuRoute } from "../../../../types/navigation";
+import { StoreState } from "../../../../types/store";
 
 interface NavBarItemProps {
   route: MenuRoute;
@@ -30,20 +30,28 @@ export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
       .replace(":slug", slugifyForUrl(application?.name))
       .replace(":iid", incident.id);
 
+  const NavItem = () => (
+    <li
+      onClick={onClick && (() => onClick())}
+      className={joinClasses(
+        "text-lg flex items-center justify-center h-10 w-10 rounded cursor-pointer mb-3",
+        conditionClass(key && isActive(key), "text-white bg-canvas"),
+        conditionClass(!disabled, "duration-200 hover:text-white hover:bg-canvas")
+      )}
+    >
+      {icon}
+    </li>
+  );
+
   return (
     <Tooltip placement="right" title={label}>
-      <NavLink to={handlePath(href)} className="text-inherit">
-        <li
-          onClick={onClick && (() => onClick())}
-          className={joinClasses(
-            "text-lg flex items-center justify-center h-10 w-10 rounded cursor-pointer mb-3",
-            conditionClass(key && isActive(key), "text-white bg-canvas"),
-            conditionClass(!disabled, "duration-200 hover:text-white hover:bg-canvas")
-          )}
-        >
-          {icon}
-        </li>
-      </NavLink>
+      {!href ? (
+        <NavItem />
+      ) : (
+        <NavLink to={handlePath(href)} className="text-inherit">
+          <NavItem />
+        </NavLink>
+      )}
     </Tooltip>
   );
 };

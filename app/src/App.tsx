@@ -10,11 +10,12 @@ import { Suspense } from "react";
 import { LoadingOutlined } from "@ant-design/icons";
 import { PageCenter } from "./core/components/PageCenter";
 import Maintenance from "./core/components/Layout/Pages/Maintenance";
+import { MainViewWrapper } from "./core/components/Layout/MainViewWrapper";
+import { NavBar } from "./core/components/Layout/Navbar";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
     return (
-      //check here for roles in the future
       <Route path={route.path} key={route.path} element={<route.component />} />
     );
   };
@@ -48,33 +49,25 @@ export const App = () => {
           <SocketContext.Provider value={{ socket }}>
             <BrowserRouter>
               <div className="traceo-app">
-                <main className="main-view">{renderRoutes()}</main>
+                <NavBar />
+                <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
               </div>
             </BrowserRouter>
           </SocketContext.Provider>
         </Provider>
       </div>
       <style>{`
-        .main-view {
-          position: relative;
-          display: flex;
-          flex-direction: column;
-          flex-grow: 1;
-          height: 100%;
-          flex: 1 1 0;
-          background-color: var(--color-bg-canvas) !important;
-        }
-        
-        .traceo-app {
-          display: flex;
-          align-items: stretch;
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-        }
-      `}</style>
+      .traceo-app {
+        display: flex;
+        -webkit-box-align: stretch;
+        align-items: stretch;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+      }
+    `}</style>
     </>
   );
 };
