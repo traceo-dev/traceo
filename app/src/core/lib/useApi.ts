@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ApiResponse } from "types/api";
+import { ApiResponse } from "../../types/api";
 import api from "./api";
 
 export const useApi = <T>({

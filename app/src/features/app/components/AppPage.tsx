@@ -2,13 +2,15 @@ import { useEffect } from "react";
 import { loadApplication } from "../state/actions";
 import { useParams } from "react-router-dom";
 import { dispatch } from "../../../store/store";
-import { MenuRoute } from "../../../types/navigation";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import { isEmptyObject } from "../../../core/utils/object";
 import NotFound from "../../../core/components/Layout/Pages/404";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { isSlugCorrect } from "../../../core/utils/url";
+<<<<<<< develop
+import { PageCenter } from "../../../core/components/PageCenter";
+=======
 import { Divider } from "antd";
 import { MainViewWrapper } from "../../../core/components/Layout/MainViewWrapper";
 import { NavBarItem } from "../../../core/components/Layout/Navbar/NavBarItem";
@@ -25,12 +27,16 @@ import {
 import { TraceoLogo } from "../../../core/components/Icons/TraceoLogo";
 import { logout } from "../../../core/utils/logout";
 import { AppSwitcher } from "../../../core/components/Layout/Header/components/AppSwitcher";
+>>>>>>> master
 
 export const AppPage = ({ children }) => {
   const { id } = useParams();
 
   const { application } = useSelector((state: StoreState) => state.application);
+<<<<<<< develop
+=======
   const { account } = useSelector((state: StoreState) => state.account);
+>>>>>>> master
 
   useEffect(() => {
     dispatch(loadApplication(id));
@@ -40,12 +46,24 @@ export const AppPage = ({ children }) => {
   const isCorrectClug = isSlugCorrect(application?.name);
 
   if (isEmptyObject(application)) {
+<<<<<<< develop
+    return (
+      <PageCenter>
+        <TraceoLoading />
+      </PageCenter>
+    );
+=======
     return <TraceoLoading />;
+>>>>>>> master
   }
 
   if (!hasMemberRole || !isCorrectClug) {
     return <NotFound />;
   }
+<<<<<<< develop
+
+  return children;
+=======
 
   const topRoutes: MenuRoute[] = [
     {
@@ -147,6 +165,7 @@ export const AppPage = ({ children }) => {
       <MainViewWrapper>{children}</MainViewWrapper>
     </div>
   );
+>>>>>>> master
 };
 
 export default AppPage;

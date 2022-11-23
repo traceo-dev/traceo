@@ -55,7 +55,7 @@ export class AmrQueryService {
       const response = await queryBuilder.getMany();
       return new ApiResponse("success", undefined, response);
     } catch (error) {
-      this.logger.error(`[${this.getApplicationMembers}] Caused by: ${error}`);
+      this.logger.error(`[${this.getApplicationMembers.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
   }
@@ -102,7 +102,7 @@ export class AmrQueryService {
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {
-      this.logger.error(`[${this.getApplicationsForAccount}] Caused by: ${error}`);
+      this.logger.error(`[${this.getApplicationsForAccount.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
   }
@@ -144,7 +144,7 @@ export class AmrQueryService {
       const response = this.mapApplicationResponse(applicationQuery);
       return new ApiResponse("success", undefined, response);
     } catch (error) {
-      this.logger.error(`[${this.getApplicationsForAccount}] Caused by: ${error}`);
+      this.logger.error(`[${this.getApplicationsForAccount.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
   }

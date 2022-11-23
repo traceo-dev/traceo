@@ -44,7 +44,7 @@ export const AppSwitcher = () => {
               <Avatar name={item.application.name} url={item.application.gravatar} />
               <Typography.Text>{item.application.name}</Typography.Text>
               {item.application.id === application.id && (
-                <CheckCircleFilled className="pl-2 text-yellow-500" />
+                <CheckCircleFilled className="pl-2 text-yellow-600" />
               )}
             </Space>
           </List.Item>

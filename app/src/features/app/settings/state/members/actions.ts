@@ -6,7 +6,7 @@ import {
   ApplicationMemberUpdateProps
 } from "../../../../../types/application";
 import { membersLoaded } from "./reducers";
-import { ApiResponse } from "types/api";
+import { ApiResponse } from "../../../../../types/api";
 
 export const loadMembers = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch, getStore) => {

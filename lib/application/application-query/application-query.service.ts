@@ -68,7 +68,7 @@ export class ApplicationQueryService extends GenericQueryService<
 
       return new ApiResponse("success", undefined, config?.data || {});
     } catch (error) {
-      this.logger.error(`[${this.getApplicationRuntime}] Caused by: ${error}`);
+      this.logger.error(`[${this.getApplicationRuntime.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
   }
@@ -93,7 +93,7 @@ export class ApplicationQueryService extends GenericQueryService<
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {
-      this.logger.error(`[${this.getApplicationRuntime}] Caused by: ${error}`);
+      this.logger.error(`[${this.getApplicationRuntime.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
   }
