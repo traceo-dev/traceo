@@ -28,6 +28,11 @@ export const AppPage = ({ children }) => {
         <TraceoLoading />
       </PageCenter>
     );
+    return <TraceoLoading />;
+  }
+
+  if (!hasMemberRole || !isCorrectClug) {
+    return <NotFound />;
   }
 
   if (!hasMemberRole || !isCorrectClug) {
