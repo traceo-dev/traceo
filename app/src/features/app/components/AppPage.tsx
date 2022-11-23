@@ -8,12 +8,35 @@ import { isEmptyObject } from "../../../core/utils/object";
 import NotFound from "../../../core/components/Layout/Pages/404";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { isSlugCorrect } from "../../../core/utils/url";
+<<<<<<< develop
 import { PageCenter } from "../../../core/components/PageCenter";
+=======
+import { Divider } from "antd";
+import { MainViewWrapper } from "../../../core/components/Layout/MainViewWrapper";
+import { NavBarItem } from "../../../core/components/Layout/Navbar/NavBarItem";
+import { NavbarWrapper } from "../../../core/components/Layout/Navbar/NavbarWrapper";
+import {
+  BarChartOutlined,
+  BugOutlined,
+  CompassOutlined,
+  HomeOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined
+} from "@ant-design/icons";
+import { TraceoLogo } from "../../../core/components/Icons/TraceoLogo";
+import { logout } from "../../../core/utils/logout";
+import { AppSwitcher } from "../../../core/components/Layout/Header/components/AppSwitcher";
+>>>>>>> master
 
 export const AppPage = ({ children }) => {
   const { id } = useParams();
 
   const { application } = useSelector((state: StoreState) => state.application);
+<<<<<<< develop
+=======
+  const { account } = useSelector((state: StoreState) => state.account);
+>>>>>>> master
 
   useEffect(() => {
     dispatch(loadApplication(id));
@@ -23,18 +46,126 @@ export const AppPage = ({ children }) => {
   const isCorrectClug = isSlugCorrect(application?.name);
 
   if (isEmptyObject(application)) {
+<<<<<<< develop
     return (
       <PageCenter>
         <TraceoLoading />
       </PageCenter>
     );
+=======
+    return <TraceoLoading />;
+>>>>>>> master
   }
 
   if (!hasMemberRole || !isCorrectClug) {
     return <NotFound />;
   }
+<<<<<<< develop
 
   return children;
+=======
+
+  const topRoutes: MenuRoute[] = [
+    {
+      key: "home",
+      disabled: true,
+      icon: <TraceoLogo size="small" />,
+      label: "",
+      href: "/dashboard/overview"
+    },
+    {
+      key: "overview",
+      href: "/app/:id/:slug/overview",
+      label: "Overview",
+      icon: <HomeOutlined />
+    }
+  ];
+
+  const mainRoutes: MenuRoute[] = [
+    {
+      key: "incidents",
+      href: "/app/:id/:slug/incidents",
+      label: "Incidents",
+      icon: <BugOutlined />
+    },
+    {
+      key: "explore",
+      href: "/app/:id/:slug/explore/logs",
+      label: "Explore",
+      icon: <CompassOutlined />
+    },
+    {
+      key: "metrics",
+      href: "/app/:id/:slug/metrics",
+      label: "Metrics",
+      icon: <BarChartOutlined />
+    }
+  ];
+
+  const settingsRoutes: MenuRoute[] = [
+    {
+      key: "settings",
+      href: "/app/:id/:slug/settings/details",
+      label: "Settings",
+      icon: <SettingOutlined />
+    }
+  ];
+
+  const userRoutes: MenuRoute[] = [
+    {
+      key: "account",
+      href: "/dashboard/account/settings",
+      label: "Account",
+      icon: <UserOutlined />
+    },
+    {
+      label: "Logout",
+      href: "",
+      icon: <LogoutOutlined />,
+      onClick: () => logout()
+    },
+    {
+      label: application.name,
+      href: "",
+      adminRoute: false,
+      icon: <AppSwitcher />
+    }
+  ];
+
+  const filterRoutes = (routes: MenuRoute[]) =>
+    !account.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
+
+  return (
+    <div className="flex max-h-full">
+      <NavbarWrapper>
+        <ul className="list-none p-0 h-full self-center space-y-2 justify-between">
+          {filterRoutes(topRoutes).map((route) => (
+            <NavBarItem route={route} />
+          ))}
+
+          <Divider className="pb-2" />
+
+          {filterRoutes(mainRoutes).map((route) => (
+            <NavBarItem route={route} />
+          ))}
+
+          <Divider className="pb-2" />
+
+          {filterRoutes(settingsRoutes).map((route) => (
+            <NavBarItem route={route} />
+          ))}
+        </ul>
+
+        <ul className="list-none p-0 self-center space-y-2 justify-between">
+          {filterRoutes(userRoutes).map((route) => (
+            <NavBarItem route={route} />
+          ))}
+        </ul>
+      </NavbarWrapper>
+      <MainViewWrapper>{children}</MainViewWrapper>
+    </div>
+  );
+>>>>>>> master
 };
 
 export default AppPage;
