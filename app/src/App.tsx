@@ -15,9 +15,7 @@ import { NavBar } from "./core/components/Layout/Navbar";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
-    return (
-      <Route path={route.path} key={route.path} element={<route.component />} />
-    );
+    return <Route path={route.path} key={route.path} element={<route.component />} />;
   };
 
   const renderRoutes = () => {

@@ -34,6 +34,10 @@ export const AppPage = ({ children }) => {
     return <NotFound />;
   }
 
+  if (!hasMemberRole || !isCorrectClug) {
+    return <NotFound />;
+  }
+
   return children;
 };
 
