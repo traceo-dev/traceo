@@ -1,5 +1,8 @@
 import {
   AppstoreOutlined,
+  ClockCircleOutlined,
+  CloudOutlined,
+  DashboardOutlined,
   LoadingOutlined,
   QuestionCircleOutlined
 } from "@ant-design/icons";
@@ -30,7 +33,7 @@ export const DashboardHeader = () => {
     <>
       <nav className="flex h-12 max-h-12 items-center justify-between py-2 px-5 header-border-bottom">
         <div>
-          {isApp && (
+          {isApp ? (
             <Space
               className="cursor-pointer"
               onClick={() =>
@@ -45,16 +48,27 @@ export const DashboardHeader = () => {
                 {toTitleCase(breadcrumb[4])}
               </Typography.Text>
             </Space>
+          ) : (
+            <Space
+              className="cursor-pointer"
+              onClick={() => navigate("/dashboard/overview")}
+            >
+              <CloudOutlined />
+              <Typography.Text className="text-md">
+                Traceo / {toTitleCase(breadcrumb[2])}
+              </Typography.Text>
+            </Space>
           )}
         </div>
-
-        <Tooltip title="Help">
-          <QuestionCircleOutlined className="icon-small" onClick={openQuestionCircle} />
-        </Tooltip>
+        <div>
+          <Tooltip title="Help">
+            <QuestionCircleOutlined className="icon-small" onClick={openQuestionCircle} />
+          </Tooltip>
+        </div>
       </nav>
       <style>{`
         .header-border-bottom {
-            border-bottom: 1px solid rgba(204, 204, 220, 0.07)
+            // border-bottom: 1px solid rgba(204, 204, 220, 0.07)
         }
       `}</style>
     </>

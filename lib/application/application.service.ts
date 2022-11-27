@@ -60,7 +60,8 @@ export class ApplicationService {
         createdAt: dateUtils.toUnix(),
         updatedAt: dateUtils.toUnix(),
         incidentsCount: 0,
-        errorsCount: 0
+        errorsCount: 0,
+        isIntegrated: false
       };
 
       const application = await manager

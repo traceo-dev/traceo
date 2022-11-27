@@ -57,7 +57,7 @@ export class ApplicationQueryService extends GenericQueryService<
   }
 
   public selectedColumns(): string[] {
-    return ["id", "name", "gravatar", "lastIncidentAt", "incidentsCount", "connectedTSDB"];
+    return ["id", "name", "gravatar", "lastIncidentAt", "incidentsCount", "connectedTSDB", "isIntegrated"];
   }
 
   public async getApplicationRuntime(appId: number): Promise<ApiResponse<object>> {

@@ -27,15 +27,6 @@ export const CodePreview: FC<Props> = ({ trace }) => {
         </ol>
       </Space>
       <style>{`
-        .code-line {
-          font-family: monospace;
-          font-size: 12px;
-          line-height: 24px;
-          min-height: 24px;
-          white-space: pre;
-          /* white-space: pre-wrap; */
-        }
-
         .exception-code-line {
           background-color: #d67709;
           min-width: 100%;

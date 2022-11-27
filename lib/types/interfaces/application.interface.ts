@@ -23,6 +23,7 @@ export interface IApplication {
     runtimeData?: IRuntime[];
     influxDS?: InfluxDS;
     connectedTSDB?: TSDB;
+    isIntegrated: boolean;
 }
 
 export interface IApplicationResponse extends Omit<IApplication, "influxDS" | "owner"> {

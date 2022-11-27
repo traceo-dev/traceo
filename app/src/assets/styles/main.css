@@ -273,3 +273,11 @@ body {
   content: " | ";
   padding: 0 8px;
 }
+
+.code-line {
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 24px;
+  min-height: 24px;
+  white-space: pre;
+}

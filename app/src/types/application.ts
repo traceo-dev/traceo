@@ -37,6 +37,7 @@ export interface Application {
   };
   connectedTSDB?: TSDB;
   influxDS: InfluxDS;
+  isIntegrated: boolean;
 }
 
 export interface AddAccountToApplication {

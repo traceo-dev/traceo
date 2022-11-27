@@ -44,6 +44,9 @@ export class Application extends GenericEntity implements IApplication {
   @Column({ nullable: true })
   lastIncidentAt?: number;
 
+  @Column({ nullable: false, default: false })
+  isIntegrated: boolean;
+
   @OneToMany(
     () => AccountMemberRelationship,
     (accountApp) => accountApp.application,

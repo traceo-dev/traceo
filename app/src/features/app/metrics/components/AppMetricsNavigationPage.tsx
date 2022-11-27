@@ -8,8 +8,8 @@ export const AppMetricsNavigationPage = ({ children }) => {
       <AppPage>
         <PageHeader
           icon={<BarChartOutlined />}
-          title={"Metrics"}
-          subTitle={"Explore informations about this app"}
+          title="Metrics"
+          subTitle="View metrics from your app after connecting and configuring the SDK"
         />
         {children}
       </AppPage>
