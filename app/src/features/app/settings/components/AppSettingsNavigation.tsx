@@ -45,7 +45,7 @@ export const AppSettingsNavigationPage: FC<Props> = ({ children }) => {
         <PageHeader
           icon={<SettingOutlined />}
           title={"Settings"}
-          subTitle={"Management of the current application"}
+          subTitle={"Management of this application"}
         />
         <Menu className=" mt-5" routes={menu} />
         {children}

@@ -42,15 +42,20 @@ export const AppCard: FC<Props> = ({ app }) => {
                     <SafetyCertificateFilled className="ml-2 text-amber-600" />
                   </Tooltip>
                 )}
+                {!app.isIntegrated && (
+                  <Tooltip title="Not integrated with Traceo SDK">
+                    <WarningOutlined className="ml-2 text-red-500" />
+                  </Tooltip>
+                )}
               </div>
               <Space className="text-xs">
                 <Typography.Text className="pipe">{lastError}</Typography.Text>
-                <Tooltip title="Incidents count">
+                <Tooltip title="Incidents">
                   <Typography.Text className="pipe">
                     <BugOutlined className="pr-1" /> {app?.incidentsCount || 0}
                   </Typography.Text>
                 </Tooltip>
-                <Tooltip title="Errors count">
+                <Tooltip title="Errors">
                   <Typography.Text>
                     <WarningOutlined className="pr-1" /> {app?.errorsCount || 0}
                   </Typography.Text>

@@ -1,4 +1,4 @@
-import { SettingOutlined, UserOutlined } from "@ant-design/icons";
+import { SettingOutlined } from "@ant-design/icons";
 import PageHeader from "../../../core/components/PageHeader";
 import { MenuRoute } from "../../../types/navigation";
 import { Menu } from "../../../core/components/Layout/Menu";
@@ -10,6 +10,7 @@ import { dispatch } from "../../../store/store";
 import { loadAccount } from "../../../features/auth/state/actions";
 import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
+import { Avatar } from "../../../core/components/Avatar";
 
 export const DashboardSettingsNavigation = ({ children }) => {
   const { account } = useSelector((state: StoreState) => state.account);
@@ -34,7 +35,14 @@ export const DashboardSettingsNavigation = ({ children }) => {
   return (
     <DashboardPage>
       <PageHeader
-        icon={<UserOutlined />}
+        icon={
+          <Avatar
+            className="w-16 h-16"
+            size="large"
+            url={account?.gravatar}
+            name={account.username}
+          />
+        }
         title={"Account"}
         subTitle={"Your account settings"}
       />

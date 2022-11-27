@@ -37,6 +37,10 @@ export abstract class BaseWorkerService<PAYLOAD> {
             return;
         }
 
+        if (!app.isIntegrated) {
+            await this.manager.getRepository(Application).save({ ...app, isIntegrated: true });
+        }
+
         this.promises.add(() => this.handle(app, data));
     }
 }
