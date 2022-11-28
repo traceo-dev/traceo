@@ -72,7 +72,7 @@ export class AccountService {
 
       await this.entityManager.getRepository(Account).insert(account);
 
-      return new ApiResponse("success", "New account has been created.");
+      return new ApiResponse("success", "New account has been created");
     } catch (error) {
       this.logger.error(`[${this.createAccount.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
@@ -86,17 +86,17 @@ export class AccountService {
     const { id, ...rest } = accountDto;
 
     if (rest.email === ADMIN_EMAIL) {
-      return new ApiResponse("error", "The administrator account cannot be modified.")
+      return new ApiResponse("error", "The administrator account cannot be modified")
     }
 
     try {
       if (!accountDto.id) {
         await this.updateAccount(accountId, accountDto);
-        return new ApiResponse("success", "Account updated.")
+        return new ApiResponse("success", "Account updated")
       }
 
       await this.updateServerAccount(accountDto);
-      return new ApiResponse("success", "Account updated.");
+      return new ApiResponse("success", "Account updated");
     } catch (err) {
       this.logger.error(`[${this.updateAccountApi.name}] Caused by: ${err}`)
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
@@ -118,7 +118,7 @@ export class AccountService {
         .findOneBy({ id: user.id });
 
       if (!account.isAdmin) {
-        return new ApiResponse("error", "Only users with admin role can remove account.")
+        return new ApiResponse("error", "Only users with admin role can remove account")
       }
 
       await manager
@@ -128,7 +128,7 @@ export class AccountService {
         .delete()
         .execute();
 
-      return new ApiResponse("success", "Account successfully removed.");
+      return new ApiResponse("success", "Account successfully removed");
     }).catch((err: Error) => {
       this.logger.error(`[${this.deleteAccount.name}] Caused by: ${err}`)
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);

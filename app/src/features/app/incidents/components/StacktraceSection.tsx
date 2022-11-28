@@ -73,7 +73,7 @@ const CodeTraces: FC<CodeTracesProps> = ({ incident }) => {
         <Col span={24} md={16}>
           {selectedTrace?.code?.length > 0 && <CodePreview trace={selectedTrace} />}
 
-          <Space className="w-full p-5 bg-gray-800 rounded-md" direction="vertical">
+          <Space className="w-full p-5 bg-gray-800" direction="vertical">
             <ColumnDetail label="Filename" value={selectedTrace?.filename} />
             <ColumnDetail label="Function" value={selectedTrace?.function} />
             <ColumnDetail label="Line No." value={selectedTrace?.lineNo} />

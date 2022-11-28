@@ -26,7 +26,7 @@ export const ColumnSection: FC<Props> = ({
         <Row gutter={[24, 0]}>
           <Col span={24} md={firstColumnWidth}>
             <Typography className="text-xl font-semibold">{title}</Typography>
-            <Space className="w-96">
+            <Space className="w-3/4">
               <Typography className="text-sm">{subtitle}</Typography>
             </Space>
           </Col>

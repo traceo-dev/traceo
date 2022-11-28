@@ -31,12 +31,12 @@ export class IncidentsService {
           .getRepository(Incident)
           .update({ id: incidentId }, { assigned: account });
 
-        return new ApiResponse("success", "Incident assigned.");
+        return new ApiResponse("success", "Incident assigned");
       }
 
       await manager.getRepository(Incident).update({ id: incidentId }, update);
 
-      return new ApiResponse("success", "Incident updated.");
+      return new ApiResponse("success", "Incident updated");
     }).catch((err: Error) => {
       this.logger.error(`[${this.updateIncident.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
@@ -58,7 +58,7 @@ export class IncidentsService {
         .update(rest)
         .execute();
 
-      return new ApiResponse("success", "Incidents updated.");
+      return new ApiResponse("success", "Incidents updated");
     } catch (err) {
       this.logger.error(`[${this.updateBatchIncidents.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
@@ -74,7 +74,7 @@ export class IncidentsService {
         .delete()
         .execute();
 
-      return new ApiResponse("success", "Incident removed.");
+      return new ApiResponse("success", "Incident removed");
     } catch (err) {
       this.logger.error(`[${this.removeIncident.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);

@@ -11,7 +11,7 @@ import { loadAccount } from "../../../features/auth/state/actions";
 import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { PageCenter } from "../../../core/components/PageCenter";
-import NotFound from "../../../core/components/Layout/Pages/404";
+import NotFound from "../../../core/components/Layout/Pages/NotFound";
 
 export const ManagementNavigation = ({ children }) => {
   const { account } = useSelector((state: StoreState) => state.account);

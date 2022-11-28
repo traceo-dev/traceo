@@ -39,10 +39,6 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
     );
   }
 
-  if (stats.length === 0) {
-    return null;
-  }
-
   const options: EChartsOption = {
     dataset: {
       source: stats

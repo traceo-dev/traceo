@@ -1,4 +1,3 @@
-import { LoadingOutlined } from "@ant-design/icons";
 import { Form, Input, Space, Alert, Button, Typography } from "antd";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
@@ -17,16 +16,9 @@ interface Props {
   dataSource: object;
 }
 export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
-  if (!dataSource) {
-    return (
-      <Space className="w-full justify-center">
-        <LoadingOutlined />
-      </Space>
-    );
-  }
-
   const { application } = useSelector((state: StoreState) => state.application);
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [isDeletLoading, setDeleteLoading] = useState<boolean>(false);
   const { isViewer } = useMemberRole();
 
   const isDeleteDSBtn = !!application.connectedTSDB;
@@ -64,6 +56,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
   };
 
   const remove = async () => {
+    setDeleteLoading(true);
     await api
       .delete<ApiResponse<unknown>>("/api/datasource", {
         id: application.id
@@ -72,7 +65,8 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
         if (response.status === "success") {
           window.location.reload();
         }
-      });
+      })
+      .finally(() => setDeleteLoading(false));
   };
 
   return (
@@ -119,7 +113,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
           </Form.Item>
         </Space>
       </Form>
-      <Space>
+      <Space className="pt-5">
         <Alert
           showIcon={true}
           type="info"
@@ -142,7 +136,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
             description="Are you sure that you want to remove InfluxDB configuration?"
             onOk={remove}
           >
-            <Button type="primary" danger>
+            <Button loading={isDeletLoading} type="primary" danger>
               Remove
             </Button>
           </Confirm>

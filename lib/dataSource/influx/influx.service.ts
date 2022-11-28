@@ -55,7 +55,7 @@ export class InfluxService {
 
                 this.logger.log(`InfluxDB data source attached to app: ${appId}`);
 
-                return new ApiResponse("success", "InfluxDB data source updated.", {
+                return new ApiResponse("success", "InfluxDB data source updated", {
                     status, error
                 });
             }
@@ -63,7 +63,7 @@ export class InfluxService {
             await influxRef.update({ id: ds.id }, dsPayload);
             this.logger.log(`InfluxDB data source updated in app: ${appId}`);
 
-            return new ApiResponse("success", "InfluxDB data source updated.", {
+            return new ApiResponse("success", "InfluxDB data source updated", {
                 status, error
             });
         }).catch((err: Error) => {

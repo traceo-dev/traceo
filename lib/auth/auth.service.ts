@@ -40,7 +40,7 @@ export class AuthService {
         manager,
       );
       if (!isCorrect) {
-        return new ApiResponse("error", "Bad username or password.");
+        return new ApiResponse("error", "Bad username or password");
       }
 
       if (!account?.lastActiveAt) {
@@ -50,7 +50,7 @@ export class AuthService {
       }
 
       if (account.status === AccountStatus.DISABLED) {
-        return new ApiResponse("error", "Account suspended. Contact with administrator.");
+        return new ApiResponse("error", "Account suspended. Contact with administrator");
       }
 
       const { id, name, username } = account;

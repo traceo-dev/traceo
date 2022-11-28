@@ -31,7 +31,6 @@ export const DashboardNavBar = () => {
       key: "overview",
       href: "/dashboard/overview",
       label: "Overview",
-      adminRoute: false,
       icon: <HomeOutlined />
     }
   ]);
@@ -42,7 +41,6 @@ export const DashboardNavBar = () => {
       href: "/dashboard/management/accounts",
       label: "Management",
       adminRoute: true,
-      private: !!account.isAdmin,
       icon: <SettingOutlined />
     }
   ]);
@@ -52,7 +50,6 @@ export const DashboardNavBar = () => {
       key: "account",
       href: "/dashboard/account/settings",
       label: "Account",
-      adminRoute: false,
       icon: <UserOutlined />
     }
   ]);
@@ -61,7 +58,6 @@ export const DashboardNavBar = () => {
     {
       label: "Logout",
       href: "",
-      adminRoute: false,
       icon: <LogoutOutlined />,
       onClick: () => logout()
     }

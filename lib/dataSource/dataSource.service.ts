@@ -91,7 +91,7 @@ export class DataSourceService {
                             id
                         }
                     });
-                    return new ApiResponse("success", "Data source removed.");
+                    return new ApiResponse("success", "Data source removed");
                 }
                 default:
                     return;

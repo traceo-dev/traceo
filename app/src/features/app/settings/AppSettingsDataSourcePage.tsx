@@ -47,6 +47,14 @@ export const AppSettingsDataSourcePage = () => {
   const isDisabled = () =>
     isViewer || (application && !!application.connectedTSDB) ? true : false;
 
+  const renderForm = () => {
+    if (selectedDS === TSDB.INFLUX2) {
+      return <DataSourceInflux2Form dataSource={dataSource} />;
+    }
+
+    return null;
+  };
+
   return (
     <AppSettingsNavigationPage>
       <PagePanel title="Metrics Data Source">
@@ -76,10 +84,7 @@ export const AppSettingsDataSourcePage = () => {
                 </Select.Option>
               ))}
             </Select>
-            {!hasFetched && <LoadingOutlined />}
-            {hasFetched && selectedDS === TSDB.INFLUX2 && (
-              <DataSourceInflux2Form dataSource={dataSource} />
-            )}
+            {!hasFetched ? <LoadingOutlined /> : renderForm()}
           </Space>
         </ColumnSection>
       </PagePanel>
