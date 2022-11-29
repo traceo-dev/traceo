@@ -11,7 +11,7 @@ import { PageCenter } from "./core/components/PageCenter";
 import Maintenance from "./core/components/Layout/Pages/Maintenance";
 import { MainViewWrapper } from "./core/components/Layout/MainViewWrapper";
 import { NavBar } from "./core/components/Layout/Navbar";
-import { TraceoLoading } from "core/components/TraceoLoading";
+import { TraceoLoading } from "./core/components/TraceoLoading";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
