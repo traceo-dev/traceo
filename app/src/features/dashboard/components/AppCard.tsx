@@ -42,6 +42,11 @@ export const AppCard: FC<Props> = ({ app }) => {
                     <WarningFilled className="ml-2 text-red-500" />
                   </Tooltip>
                 )}
+                {!app.isIntegrated && (
+                  <Tooltip title="Not integrated with Traceo SDK">
+                    <WarningOutlined className="ml-2 text-red-500" />
+                  </Tooltip>
+                )}
               </div>
               <Space className="text-xs">
                 <Typography.Text className="pipe">{lastError}</Typography.Text>
