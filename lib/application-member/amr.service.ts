@@ -57,7 +57,7 @@ export class AmrService {
         manager,
       );
       if (exists) {
-        return new ApiResponse("error", "Account is already in this application.");
+        return new ApiResponse("error", "Account is already in this application");
       }
 
       const account = await this.accountQueryService.getDto(accountId);
@@ -65,7 +65,7 @@ export class AmrService {
 
       await this.createAmr(account, application, role);
 
-      return new ApiResponse("success", "Account successfully added to application.");
+      return new ApiResponse("success", "Account successfully added to application");
     }).catch((err: Error) => {
       this.logger.error(`[${this.addAccountToApplication.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
@@ -82,7 +82,7 @@ export class AmrService {
         .getRepository(AccountMemberRelationship)
         .update({ id: memberId }, rest);
 
-      return new ApiResponse("success", "Updated.")
+      return new ApiResponse("success", "Updated")
     } catch (err) {
       this.logger.error(`[${this.updateApplicationAccount.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
@@ -92,7 +92,7 @@ export class AmrService {
   public async removeAccountFromApplication(awrId: string): Promise<ApiResponse<unknown>> {
     try {
       await this.removeAwr(awrId);
-      return new ApiResponse("success", "Removed from application.");
+      return new ApiResponse("success", "Removed from application");
     } catch (err) {
       this.logger.error(`[${this.removeAccountFromApplication.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);

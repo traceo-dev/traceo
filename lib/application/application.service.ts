@@ -43,7 +43,7 @@ export class ApplicationService {
     return await this.entityManager.transaction(async (manager) => {
       const app = await this.applicationQueryService.getDtoBy({ name: data.name });
       if (app) {
-        return new ApiResponse("error", "Application with this name already exists.");
+        return new ApiResponse("error", "Application with this name already exists");
       }
 
       const account = await this.accountQueryService.getDtoBy({ id });
@@ -85,7 +85,7 @@ export class ApplicationService {
         manager,
       );
 
-      return new ApiResponse("success", "Application successfully created.", application);
+      return new ApiResponse("success", "Application successfully created", application);
     }).catch((err: Error) => {
       this.logger.error(`[${this.createApplication.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
@@ -106,7 +106,7 @@ export class ApplicationService {
         },
       );
 
-      return new ApiResponse("success", "Application updated.")
+      return new ApiResponse("success", "Application updated")
     } catch (err) {
       this.logger.error(`[${this.updateApplication.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
@@ -133,7 +133,7 @@ export class ApplicationService {
         .delete()
         .execute();
 
-      return new ApiResponse("success", "Application removed.");
+      return new ApiResponse("success", "Application removed");
     } catch (err) {
       this.logger.error(`[${this.deleteApplication.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);

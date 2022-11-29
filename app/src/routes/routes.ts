@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import NotFound from "../core/components/Layout/Pages/404";
+import NotFound from "../core/components/Layout/Pages/NotFound";
 import Login from "../features/auth/login";
 import { RouteDescriptor } from "../types/navigation";
 
@@ -8,10 +8,6 @@ const getPublicRoutes = (): RouteDescriptor[] => {
     {
       path: "/",
       component: Login
-    },
-    {
-      path: "/404",
-      component: NotFound
     },
     {
       path: "*",

@@ -50,7 +50,7 @@ export class CommentsService {
 
       this.commentsGateway.onNewComment(incidentId);
 
-      return new ApiResponse("success", "Comment sent.");
+      return new ApiResponse("success", "Comment has been sent");
     } catch (err) {
       this.logger.error(`[${this.saveComment.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
@@ -74,7 +74,7 @@ export class CommentsService {
 
       this.commentsGateway.onUpdateComment(incidentId);
 
-      return new ApiResponse("success", "Comment updated.");
+      return new ApiResponse("success", "Comment updated");
     } catch (err) {
       this.logger.error(`[${this.updateComment.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
@@ -94,7 +94,7 @@ export class CommentsService {
 
       this.commentsGateway.onUpdateComment(incidentId);
 
-      return new ApiResponse("success", "Comment removed.")
+      return new ApiResponse("success", "Comment removed")
     } catch (err) {
       this.logger.error(`[${this.removeComment.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);

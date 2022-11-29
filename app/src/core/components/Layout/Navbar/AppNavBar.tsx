@@ -75,20 +75,20 @@ export const AppNavBar = () => {
       icon: <UserOutlined />
     },
     {
+      label: application.name,
+      href: "/app/:id/:slug/overview",
+      icon: <AppSwitcher />
+    },
+    {
       label: "Logout",
       icon: <LogoutOutlined />,
       onClick: () => logout()
-    },
-    {
-      label: application.name,
-      href: "/app/:id/:slug/overview",
-      adminRoute: false,
-      icon: <AppSwitcher />
     }
   ];
 
   const filterRoutes = (routes: MenuRoute[]) =>
     !account.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
+
   return (
     <NavbarWrapper>
       <ul className="list-none p-0 h-full self-center space-y-2 justify-between">

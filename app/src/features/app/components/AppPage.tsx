@@ -5,7 +5,7 @@ import { dispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import { isEmptyObject } from "../../../core/utils/object";
-import NotFound from "../../../core/components/Layout/Pages/404";
+import NotFound from "../../../core/components/Layout/Pages/NotFound";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { isSlugCorrect } from "../../../core/utils/url";
 import { PageCenter } from "../../../core/components/PageCenter";
@@ -31,14 +31,14 @@ export const AppPage = ({ children }) => {
   }
 
   if (!hasMemberRole || !isCorrectClug) {
-    return <NotFound />;
+    return (
+      <PageCenter>
+        <NotFound />
+      </PageCenter>
+    );
   }
 
-  if (!hasMemberRole || !isCorrectClug) {
-    return <NotFound />;
-  }
-
-  return children;
+  return <div className="pb-5">{children}</div>;
 };
 
 export default AppPage;

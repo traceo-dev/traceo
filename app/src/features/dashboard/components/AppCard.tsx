@@ -1,4 +1,4 @@
-import { BugOutlined, SafetyCertificateFilled, WarningOutlined } from "@ant-design/icons";
+import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
 import { Card, Space, Tooltip, Typography } from "antd";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import dateUtils from "../../../core/utils/date";
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { loadApplication } from "../../../features/app/state/actions";
 import { dispatch } from "../../../store/store";
-import { ApplicationMember, MemberRole } from "../../../types/application";
+import { ApplicationMember } from "../../../types/application";
 
 interface Props {
   app: ApplicationMember["application"] & Pick<ApplicationMember, "role">;
@@ -37,9 +37,9 @@ export const AppCard: FC<Props> = ({ app }) => {
             <Space className="w-full pl-1 gap-0" direction="vertical">
               <div>
                 <Typography.Text className="text-sm">{app.name}</Typography.Text>
-                {app.role === MemberRole.ADMINISTRATOR && (
-                  <Tooltip title="You're admin!">
-                    <SafetyCertificateFilled className="ml-2 text-amber-600" />
+                {!app.isIntegrated && (
+                  <Tooltip title="Not integrated with Traceo SDK">
+                    <WarningFilled className="ml-2 text-red-500" />
                   </Tooltip>
                 )}
                 {!app.isIntegrated && (

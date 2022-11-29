@@ -19,12 +19,16 @@ export class ProcessIncidentsService extends BaseWorkerService<TraceoIncidentMod
         const { type, message } = data;
 
         await this.entityManager.transaction(async (manager) => {
-            const incident = await manager.getRepository(Incident)
+            let incidentQuery = await manager.getRepository(Incident)
                 .createQueryBuilder('incident')
                 .innerJoin('incident.application', 'application', 'application.id = :id', { id: application.id })
                 .where('incident.type = :type', { type })
-                .where('incident.message = :message', { message })
-                .getOne();
+
+            if (message) {
+                incidentQuery.where('incident.message = :message', { message })
+            }
+
+            const incident = await incidentQuery.getOne();
 
             if (incident) {
                 this.saveError(incident, manager);
@@ -34,8 +38,12 @@ export class ProcessIncidentsService extends BaseWorkerService<TraceoIncidentMod
                 return;
             }
 
-            this.createNewIncident(application, data, manager);
-            this.updateApplication(application, true, manager);
+            const promises = [
+                await this.createNewIncident(application, data, manager),
+                await this.updateApplication(application, true, manager)
+            ];
+
+            await Promise.all(promises);
             this.logger.log(`Incident successfully processed for application: ${application.id}.`);
         });
     }

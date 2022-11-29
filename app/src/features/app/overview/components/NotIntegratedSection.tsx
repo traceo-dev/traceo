@@ -3,6 +3,7 @@ import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { GH_SDK_REPO_LINK } from "../../../../core/utils/constants";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
+import { PagePanel } from "../../../../core/components/PagePanel";
 
 export const NotIntegratedSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -11,7 +12,7 @@ export const NotIntegratedSection = () => {
 
   return (
     !application.isIntegrated && (
-      <Space className="w-full mb-12" direction="vertical">
+      <PagePanel>
         <ColumnSection
           title="Welcome to your new app"
           subtitle={
@@ -34,9 +35,8 @@ export const NotIntegratedSection = () => {
           }
           firstColumnWidth={12}
           secondColumnWidth={12}
-          className="pt-12"
         >
-          <Space className="code-container p-3 mb-5 bg-gray-800 text-white rounded-md">
+          <Space className="code-container p-3 mb-5 bg-canvas text-white">
             <Typography.Text>
               <ol>
                 <li className="code-line">{"import { TraceoClient } from 'traceo';"}</li>
@@ -46,12 +46,13 @@ export const NotIntegratedSection = () => {
                 <li className="code-line">
                   {"  url: 'http://localhost:3000', //or copy url from your browser"}
                 </li>
-                <li className="code-line">{"}"}</li>
+                <li className="code-line">{"});"}</li>
+                <li className="code-line"></li>
               </ol>
             </Typography.Text>
           </Space>
         </ColumnSection>
-      </Space>
+      </PagePanel>
     )
   );
 };
