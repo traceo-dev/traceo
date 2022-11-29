@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { getIncidentsTablePlotData } from "../../../utils/statistics";
+import { statisticUtils } from "../../../utils/statistics";
 import { ErrorDetails } from "../../../../types/incidents";
 import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
 import ReactECharts from "echarts-for-react";
@@ -10,7 +10,7 @@ interface Props {
   errors: ErrorDetails[];
 }
 export const IncidentsListPlot: FC<Props> = ({ errors }) => {
-  const data = getIncidentsTablePlotData(errors);
+  const data = statisticUtils.parseIncidentsTablePlotData(errors);
 
   const plotData = normalizePlotData(data);
 

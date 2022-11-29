@@ -1,5 +1,5 @@
 import dateUtils from "../../../../core/utils/date";
-import { statistics } from "../../../../core/utils/statistics";
+import { statisticUtils } from "../../../../core/utils/statistics";
 import { FC } from "react";
 import { TraceoLog } from "../../../../types/logs";
 import ReactECharts from "echarts-for-react";
@@ -12,7 +12,7 @@ interface Props {
   endDate: number;
 }
 export const LogsExplorePlot: FC<Props> = ({ logs, startDate, endDate }) => {
-  const data = statistics.getExploreLogsPlotData(startDate, endDate, logs);
+  const data = statisticUtils.parseExploreLogsPlotData(startDate, endDate, logs);
 
   const options: EChartsOption = {
     dataset: {

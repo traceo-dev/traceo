@@ -47,12 +47,10 @@ export class StatisticsQueryService {
     }
   }
 
-  public async getDailyOverview(
+  public async getTodayErrors(
     applicationId: string
-  ): Promise<ApiResponse<DailyOverview>> {
-    const today = dayjs().startOf("day").unix();
-    const response: PlotData[] = [];
-    let total = 0;
+  ): Promise<ApiResponse<ErrorDetails[]>> {
+    const today = dayjs().startOf("day").utc().unix();
 
     try {
       const incidents = await this.entityManger
@@ -68,36 +66,13 @@ export class StatisticsQueryService {
         [],
       );
 
-      const todayIncidents = cachedDates.filter((d) => dayjs.unix(d.date).isToday())
-
-      for (let i = 0; i <= 23; i++) {
-        const count = todayIncidents.filter(({ date }) => dateUtils.getHour(date) === i).length;
-        total += count;
-        response.push({
-          date: this.getHour(i),
-          count: count || 0
-        });
-      }
-
-      const resp = {
-        count: total,
-        data: response
-      };
+      const resp = cachedDates.filter((d) => dayjs.unix(d.date).utc().isToday());
 
       return new ApiResponse("success", undefined, resp);
     } catch (error) {
-      this.logger.error(`[${this.getDailyOverview.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.getTodayErrors.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
-  }
-
-  private getHour(h: number): string {
-    const val = dayjs().hour(h).get('h');
-
-    if (val === 0) return "00:00";
-    if (val <= 9) return `0${val}:00`;
-    if (val === 23) return "23:59";
-    else return `${h}:00`;
   }
 
   public async getTotalOverview(

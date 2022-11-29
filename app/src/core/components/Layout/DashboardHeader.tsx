@@ -1,8 +1,6 @@
 import {
   AppstoreOutlined,
-  ClockCircleOutlined,
   CloudOutlined,
-  DashboardOutlined,
   LoadingOutlined,
   QuestionCircleOutlined
 } from "@ant-design/icons";
@@ -66,11 +64,6 @@ export const DashboardHeader = () => {
           </Tooltip>
         </div>
       </nav>
-      <style>{`
-        .header-border-bottom {
-            // border-bottom: 1px solid rgba(204, 204, 220, 0.07)
-        }
-      `}</style>
     </>
   );
 };

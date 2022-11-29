@@ -39,11 +39,9 @@ export const IncidentHeader = ({ incident, onExecute }) => {
       }
       subTitle={<ButtonsSection incident={incident} />}
       extra={
-        <>
-          <Tooltip title="Refresh">
-            <SyncOutlined onClick={refresh} className="text-xs cursor-pointer" />
-          </Tooltip>
-        </>
+        <Tooltip title="Refresh">
+          <SyncOutlined onClick={refresh} className="text-xs cursor-pointer" />
+        </Tooltip>
       }
     />
   );

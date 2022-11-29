@@ -1,4 +1,5 @@
 import { Layout, Row, Typography } from "antd";
+import dateUtils from "../../../core/utils/date";
 import { CONTACT_EMAIL, VERSION } from "../../../core/utils/constants";
 
 export const Footer = () => {
@@ -15,6 +16,9 @@ export const Footer = () => {
           </Typography.Text>
           <Typography.Text onClick={onOpen} className="text-primary pipe cursor-pointer">
             Contact
+          </Typography.Text>
+          <Typography.Text className="text-primary pipe">
+            {dateUtils.guessTz()} timezone
           </Typography.Text>
           <Typography.Text className="text-primary">v.{VERSION}</Typography.Text>
         </Row>
