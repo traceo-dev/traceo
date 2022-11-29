@@ -7,11 +7,11 @@ import { store } from "./store/store";
 import { RouteDescriptor } from "./types/navigation";
 import { getAppRoutes } from "./routes/routes";
 import { Suspense } from "react";
-import { LoadingOutlined } from "@ant-design/icons";
 import { PageCenter } from "./core/components/PageCenter";
 import Maintenance from "./core/components/Layout/Pages/Maintenance";
 import { MainViewWrapper } from "./core/components/Layout/MainViewWrapper";
 import { NavBar } from "./core/components/Layout/Navbar";
+import { TraceoLoading } from "core/components/TraceoLoading";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
@@ -28,13 +28,7 @@ export const App = () => {
     }
 
     return (
-      <Suspense
-        fallback={
-          <PageCenter>
-            <LoadingOutlined />
-          </PageCenter>
-        }
-      >
+      <Suspense fallback={<TraceoLoading />}>
         <Routes>{getAppRoutes().map((r) => renderRoute(r))}</Routes>
       </Suspense>
     );

@@ -2,7 +2,7 @@ import { IncidentsOverviewPlot } from "../../../core/components/Plots/components
 import { IncidentsTodayPlot } from "../../../core/components/Plots/components/IncidentsTodayPlot";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { useApi } from "../../../core/lib/useApi";
-import { statistics } from "../../../core/utils/statistics";
+import { statisticUtils } from "../../../core/utils/statistics";
 import { useSelector } from "react-redux";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { PagePanel } from "../../../core/components/PagePanel";
@@ -27,7 +27,7 @@ export const AppIncidentAnalyticsPage = () => {
     params: queryParams
   });
 
-  const todayStats = statistics.getIncidentsAnalyticsTodayPlotData(
+  const todayStats = statisticUtils.parseIncidentsAnalyticsTodayPlotData(
     incident?.errorsDetails || []
   );
 

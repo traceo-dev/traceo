@@ -6,10 +6,11 @@ import { dispatch } from "../../../../store/store";
 import { StoreState } from "../../../../types/store";
 import { IncidentHeader } from "../../../../features/app/incidents/components/IncidentHeader";
 import AppPage from "../../components/AppPage";
-import { ConditionLayout } from "../../../../core/components/ConditionLayout";
 import { MenuRoute } from "../../../../types/navigation";
 import { Menu } from "../../../../core/components/Layout/Menu";
 import { CommentOutlined, InfoCircleOutlined, StockOutlined } from "@ant-design/icons";
+import { PageCenter } from "../../../../core/components/PageCenter";
+import { TraceoLoading } from "../../../../core/components/TraceoLoading";
 
 export const AppIncidentNavigationPage = ({ children }) => {
   const { iid } = useParams();
@@ -44,13 +45,19 @@ export const AppIncidentNavigationPage = ({ children }) => {
     dispatch(loadIncident(iid));
   };
 
+  if (!hasFetched) {
+    return (
+      <PageCenter>
+        <TraceoLoading />
+      </PageCenter>
+    );
+  }
+
   return (
     <AppPage>
-      <ConditionLayout isLoading={!hasFetched}>
-        <IncidentHeader incident={incident} onExecute={fetchIncident} />
-        <Menu className="mt-5" routes={menu} />
-        {children}
-      </ConditionLayout>
+      <IncidentHeader incident={incident} onExecute={fetchIncident} />
+      <Menu className="mt-5" routes={menu} />
+      {children}
     </AppPage>
   );
 };

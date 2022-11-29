@@ -1,7 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { ErrorDetails } from '../../lib/types/interfaces/incident.interface';
 import { ApiResponse } from '../../lib/types/dto/response.dto';
-import { DailyOverview, PlotData, AppIncidentsStats } from '../../lib/types/interfaces/statistics.interface';
+import { PlotData, AppIncidentsStats } from '../../lib/types/interfaces/statistics.interface';
 import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
 import { StatisticsQueryService } from './query/statistics-query.service';
 
@@ -34,8 +35,8 @@ export class StatisticsController {
   @AuthRequired()
   async getDailyOverview(
     @Query('id') id: string
-  ): Promise<ApiResponse<DailyOverview>> {
-    return await this.statisticsQueryService.getDailyOverview(id);
+  ): Promise<ApiResponse<ErrorDetails[]>> {
+    return await this.statisticsQueryService.getTodayErrors(id);
   }
 
   @Get('/total')

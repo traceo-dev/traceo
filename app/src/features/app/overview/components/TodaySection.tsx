@@ -1,11 +1,12 @@
 import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { Space } from "antd";
-import { DailyStats } from "../../../../types/statistics";
 import { useParams } from "react-router-dom";
 import { useApi } from "../../../../core/lib/useApi";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { TodayStats } from "./TodayStats";
 import { IncidentsTodayPlot } from "../../../../core/components/Plots/components/IncidentsTodayPlot";
+import { ErrorDetails } from "../../../../types/incidents";
+import { statisticUtils } from "../../../../core/utils/statistics";
 
 export const TodaySection = () => {
   const { id } = useParams();
@@ -14,7 +15,7 @@ export const TodaySection = () => {
     data: stats,
     isLoading,
     execute: get
-  } = useApi<DailyStats>({
+  } = useApi<ErrorDetails[]>({
     url: "/api/statistics/daily",
     params: {
       id
@@ -38,10 +39,14 @@ export const TodaySection = () => {
         ) : (
           <div className="w-full overflow-hidden">
             <div className="w-3/4 float-left">
-              <IncidentsTodayPlot stats={stats?.data} />
+              <IncidentsTodayPlot
+                stats={statisticUtils.parseErrorsToTodayPlotSource(stats).data}
+              />
             </div>
             <div className="w-1/4 float-right pl-12">
-              <TodayStats stats={stats} />
+              <TodayStats
+                count={statisticUtils.parseErrorsToTodayPlotSource(stats).count}
+              />
             </div>
           </div>
         )}

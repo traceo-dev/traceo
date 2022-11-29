@@ -1,4 +1,9 @@
-import { AppstoreFilled, SettingOutlined, TeamOutlined } from "@ant-design/icons";
+import {
+  AppstoreFilled,
+  InfoCircleOutlined,
+  SettingOutlined,
+  TeamOutlined
+} from "@ant-design/icons";
 import PageHeader from "../../../core/components/PageHeader";
 import { MenuRoute } from "../../../types/navigation";
 import { Menu } from "../../../core/components/Layout/Menu";
@@ -42,6 +47,12 @@ export const ManagementNavigation = ({ children }) => {
       label: "Applications",
       key: "apps",
       icon: <AppstoreFilled />
+    },
+    {
+      href: "/dashboard/management/instance",
+      label: "Instance Info",
+      key: "instance",
+      icon: <InfoCircleOutlined />
     }
   ];
 
