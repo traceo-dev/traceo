@@ -15,7 +15,7 @@ const ManagementInstancePage = () => {
           </DescriptionInputRow>
           <DescriptionInputRow label="Version">{VERSION}</DescriptionInputRow>
           <DescriptionInputRow label="Timezone">
-            {dateUtils.guessTz()} timezone
+            {dateUtils.guessTz()}
           </DescriptionInputRow>
           <DescriptionInputRow label="Contact">
             <ContactsOutlined
