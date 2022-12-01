@@ -5,11 +5,11 @@ import { useParams } from "react-router-dom";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { IncidentsOverviewPlot } from "../../../../core/components/Plots/components/IncidentsOverviewPlot";
 import { AppIncidentsStats } from "../../../../types/statistics";
-import { PlotData } from "../../../../core/utils/statistics";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { dispatch } from "../../../../store/store";
 import { loadApplication } from "../../../../features/app/state/actions";
 import { ConditionLayout } from "../../../../core/components/ConditionLayout";
+import { ErrorDetails } from "../../../../types/incidents";
 
 export const OverviewSection = () => {
   const { id } = useParams();
@@ -18,7 +18,7 @@ export const OverviewSection = () => {
     data: stats = [],
     isLoading,
     execute: get
-  } = useApi<PlotData[]>({
+  } = useApi<ErrorDetails[]>({
     url: "/api/statistics/total",
     params: {
       id

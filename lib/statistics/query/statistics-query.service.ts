@@ -3,8 +3,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { EntityManager } from "typeorm";
 import dayjs from "dayjs";
 import { Incident } from "../../db/entities/incident.entity";
-import dateUtils from "../../../lib/helpers/dateUtils";
-import { AppIncidentsStats, DailyOverview, PlotData } from "../../../lib/types/interfaces/statistics.interface";
+import { AppIncidentsStats } from "../../../lib/types/interfaces/statistics.interface";
 import { ErrorDetails } from "../../../lib/types/interfaces/incident.interface";
 import { ApiResponse } from "../../../lib/types/dto/response.dto";
 import { INTERNAL_SERVER_ERROR } from "../../../lib/helpers/constants";
@@ -77,7 +76,7 @@ export class StatisticsQueryService {
 
   public async getTotalOverview(
     appId: string
-  ): Promise<ApiResponse<PlotData[]>> {
+  ): Promise<ApiResponse<ErrorDetails[]>> {
     try {
       const incidents = await this.entityManger
         .getRepository(Incident)
@@ -90,66 +89,10 @@ export class StatisticsQueryService {
         (acc, curr) => acc.concat(curr.errorsDetails),
         [],
       );
-      const response = this.parseErrorDetails(errorsDetails);
-      return new ApiResponse("success", undefined, response);
+      return new ApiResponse("success", undefined, errorsDetails);
     } catch (error) {
       this.logger.error(`[${this.getTotalOverview.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
-  }
-
-  public async getTotalOverviewForIncident(
-    incidentId: string
-  ): Promise<ApiResponse<PlotData[]>> {
-    try {
-      const incident = await this.entityManger
-        .getRepository(Incident)
-        .createQueryBuilder("incident")
-        .where("incident.id = :incidentId", { incidentId })
-        .select("incident.errorsDetails")
-        .getOne();
-
-      const errorsDetails = incident?.errorsDetails;
-
-      const response = this.parseErrorDetails(errorsDetails);
-      return new ApiResponse("success", undefined, response);
-    } catch (error) {
-      this.logger.error(`[${this.getTotalOverviewForIncident.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  protected parseErrorDetails(errorsDetails: ErrorDetails[]): PlotData[] {
-    if (!errorsDetails || errorsDetails?.length === 0) {
-      return [];
-    }
-
-    const sortedDates = errorsDetails?.sort((a, b) => a.date - b.date);
-    const beginDate = errorsDetails[0];
-
-    const response: PlotData[] = [];
-
-    let currentDate = dayjs
-      .unix(beginDate?.date)
-      .subtract(3, "day")
-      .endOf("day")
-      .unix();
-    const endDate = dayjs().endOf("day").unix();
-
-    if (currentDate === endDate) {
-      return response;
-    }
-
-    while (currentDate <= endDate) {
-      const curr = dateUtils.getEndOf(currentDate);
-      const count = sortedDates?.filter(({ date }) => dateUtils.getEndOf(date).unix() === curr.unix());
-      response.push({
-        date: currentDate,
-        count: count.length || 0
-      });
-      currentDate = dayjs.unix(currentDate).add(1, "day").endOf("day").unix();
-    }
-
-    return response;
   }
 }

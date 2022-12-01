@@ -1,15 +1,17 @@
 import { Space } from "antd";
 import dateUtils from "../../../utils/date";
-import { PlotData } from "../../../utils/statistics";
+import { statisticUtils } from "../../../utils/statistics";
 import { normalizePlotData, toolboxOptions, tooltipOptions } from "../utils";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption, graphic } from "echarts";
+import { ErrorDetails } from "../../../../types/incidents";
 
-export const IncidentsOverviewPlot = ({ stats }: { stats: PlotData[] }) => {
-  const data = () => normalizePlotData(stats);
+export const IncidentsOverviewPlot = ({ stats }: { stats: ErrorDetails[] }) => {
+  const plotData = statisticUtils.parseIncidentsTablePlotData(stats);
+
   const option: EChartsOption = {
     dataset: {
-      source: data()
+      source: normalizePlotData(plotData)
     },
     animation: false,
     toolbox: toolboxOptions,

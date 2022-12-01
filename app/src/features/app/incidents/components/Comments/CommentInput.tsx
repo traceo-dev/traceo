@@ -23,7 +23,7 @@ export const CommentInput = () => {
   const [sendAvailable, setSendAvailable] = useState<boolean>(false);
 
   useEffect(() => {
-    comment?.length > 0 ? setSendAvailable(false) : setSendAvailable(true);
+    setSendAvailable(comment?.length === 0);
   }, [comment]);
 
   const sendMessage = async () => {

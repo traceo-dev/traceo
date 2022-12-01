@@ -1,7 +1,6 @@
 import { IncidentsOverviewPlot } from "../../../core/components/Plots/components/IncidentsOverviewPlot";
 import { IncidentsTodayPlot } from "../../../core/components/Plots/components/IncidentsTodayPlot";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
-import { useApi } from "../../../core/lib/useApi";
 import { statisticUtils } from "../../../core/utils/statistics";
 import { useSelector } from "react-redux";
 import { ConditionLayout } from "../../../core/components/ConditionLayout";
@@ -13,25 +12,11 @@ import { TodayIncidentsStats } from "./components/TodayIncidentsStats";
 export const AppIncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
 
-  const queryParams = {
-    id: incident?.id
-  };
-
-  const { data: stats = [] } = useApi<
-    {
-      date: number;
-      count: number;
-    }[]
-  >({
-    url: "/api/statistics/incident/total",
-    params: queryParams
-  });
-
   const todayStats = statisticUtils.parseIncidentsAnalyticsTodayPlotData(
     incident?.errorsDetails || []
   );
 
-  if (!incident?.errorsDetails || !stats) {
+  if (!incident?.errorsDetails) {
     return <TraceoLoading />;
   }
 
@@ -54,7 +39,7 @@ export const AppIncidentAnalyticsPage = () => {
           </div>
         </PagePanel>
         <PagePanel title="Total overview">
-          <IncidentsOverviewPlot stats={stats} />
+          <IncidentsOverviewPlot stats={incident.errorsDetails} />
         </PagePanel>
       </ConditionLayout>
     </AppIncidentNavigationPage>

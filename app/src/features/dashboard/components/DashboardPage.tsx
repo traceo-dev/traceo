@@ -27,7 +27,7 @@ export const DashboardPage = ({ children }) => {
 
   return (
     <>
-      <div className="pb-5">{children}</div>
+      <div className="pb-5 pt-12">{children}</div>
       <style>
         {`
         @media screen and (min-width: 1605px) {

@@ -1,4 +1,4 @@
-import { Row, Radio, Button } from "antd";
+import { Row, Button, Select } from "antd";
 import { Avatar } from "../../../../core/components/Avatar";
 import api from "../../../../core/lib/api";
 import { FC, useState } from "react";
@@ -25,7 +25,7 @@ export const MemberTableRow: FC<MemberRowProps> = ({
 
   const [updateMode, setUpdateMode] = useState<boolean>(false);
   const [deleteMode, setDeleteMode] = useState<boolean>(false);
-  const [value, setValue] = useState<MemberRole>();
+  const [role, setRole] = useState<MemberRole>();
   const [loadingUpdate, setLoadingUpdate] = useState<boolean>(false);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
 
@@ -40,7 +40,7 @@ export const MemberTableRow: FC<MemberRowProps> = ({
     await api
       .patch("/api/amr/application/member", {
         memberId: item.id,
-        role: value
+        role: role
       })
       .finally(() => {
         setUpdateMode(false);
@@ -83,15 +83,17 @@ export const MemberTableRow: FC<MemberRowProps> = ({
           </Row>
         </td>
         {type === "account" && <td className="w-64">{item?.account?.email}</td>}
-        <td className="w-96" colSpan={2}>
+        <td className="w-64" colSpan={2}>
           {updateMode ? (
-            <Radio.Group
-              options={options}
-              onChange={(val) => setValue(val.target.value)}
+            <Select
+              style={{ width: "120px" }}
               defaultValue={item?.role}
-              optionType="button"
-              buttonStyle="solid"
-            />
+              onChange={(val) => setRole(val)}
+            >
+              {options.map((option) => (
+                <Select.Option key={option.value}>{option.label}</Select.Option>
+              ))}
+            </Select>
           ) : (
             item?.role
           )}
@@ -102,6 +104,7 @@ export const MemberTableRow: FC<MemberRowProps> = ({
               hidden={!editable}
               danger
               type="primary"
+              size="small"
               onClick={() => setDeleteMode(true)}
             >
               Remove from app
@@ -116,7 +119,12 @@ export const MemberTableRow: FC<MemberRowProps> = ({
         </td>
         <td className="float-left" colSpan={1}>
           {!updateMode ? (
-            <Button hidden={!editable} type="primary" onClick={() => setUpdateMode(true)}>
+            <Button
+              hidden={!editable}
+              type="primary"
+              size="small"
+              onClick={() => setUpdateMode(true)}
+            >
               Change role
             </Button>
           ) : (

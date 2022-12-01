@@ -4,8 +4,6 @@ import {
   UserOutlined,
   LogoutOutlined
 } from "@ant-design/icons";
-import { Divider } from "antd";
-import { TraceoLogo } from "../.../../../../../core/components/Icons/TraceoLogo";
 import { logout } from "../.../../../../../core/utils/logout";
 import { useSelector } from "react-redux";
 import { MenuRoute } from "../.../../../../../types/navigation";
@@ -20,13 +18,6 @@ export const DashboardNavBar = () => {
     !account.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
 
   const topRoutes: MenuRoute[] = filterRoutes([
-    {
-      key: "home",
-      disabled: true,
-      icon: <TraceoLogo size="small" withName={false} />,
-      label: "",
-      href: "/dashboard/overview"
-    },
     {
       key: "overview",
       href: "/dashboard/overview",
@@ -65,25 +56,21 @@ export const DashboardNavBar = () => {
 
   return (
     <NavbarWrapper>
-      <ul className="list-none p-0 h-full self-center space-y-2 justify-between">
+      <ul className="p-0 h-full pt-5">
         {topRoutes.map((route) => (
           <NavBarItem route={route} />
         ))}
 
-        <Divider className="pb-2" />
-
         {manageRoutes.map((route) => (
           <NavBarItem route={route} />
         ))}
-
-        {manageRoutes.length > 0 && <Divider className="pb-2" />}
 
         {userRoutes.map((route) => (
           <NavBarItem route={route} />
         ))}
       </ul>
 
-      <ul className="list-none p-0 self-center space-y-2 justify-between">
+      <ul className="p-0">
         {bottomRoutes.map((route) => (
           <NavBarItem route={route} />
         ))}

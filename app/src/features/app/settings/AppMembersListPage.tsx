@@ -38,16 +38,13 @@ export const AppMembersListPage = () => {
     fetchMembers();
   }, [search]);
 
-  const fetchMembers = () => {
-    console.log("fetchMembers");
-    dispatch(loadMembers(queryParams));
-  };
+  const fetchMembers = () => dispatch(loadMembers(queryParams));
 
   return (
     <>
       <AppSettingsNavigationPage>
         <PagePanel
-          title="Members list"
+          title="Collaborators"
           extra={
             <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
               <Button

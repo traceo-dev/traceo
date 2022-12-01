@@ -1,4 +1,4 @@
-import { Tooltip } from "antd";
+import { Space, Typography } from "antd";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { FC } from "react";
@@ -34,24 +34,23 @@ export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
     <li
       onClick={onClick && (() => onClick())}
       className={joinClasses(
-        "text-lg flex items-center justify-center h-10 w-10 rounded cursor-pointer mb-3",
-        conditionClass(key && isActive(key), "text-white bg-canvas"),
-        conditionClass(!disabled, "duration-200 hover:text-white hover:bg-canvas")
+        "py-2 mx-3 flex cursor-pointer mb-3 rounded-lg",
+        conditionClass(key && isActive(key), "text-white bg-primary"),
+        conditionClass(!disabled, "duration-200 hover:text-white hover:bg-primary")
       )}
     >
-      {icon}
+      <Space className="w-full px-3 text-md">
+        {icon}
+        <Typography.Text className="pl-2">{label}</Typography.Text>
+      </Space>
     </li>
   );
 
-  return (
-    <Tooltip placement="right" title={label}>
-      {!href ? (
-        <NavItem />
-      ) : (
-        <NavLink to={handlePath(href)} className="text-inherit">
-          <NavItem />
-        </NavLink>
-      )}
-    </Tooltip>
+  return !href ? (
+    <NavItem />
+  ) : (
+    <NavLink to={handlePath(href)} className="text-inherit">
+      <NavItem />
+    </NavLink>
   );
 };

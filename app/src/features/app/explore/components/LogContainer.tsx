@@ -71,7 +71,6 @@ export const LogRow: FC<LogProps> = ({ log }) => {
             overflow: hidden;
             text-overflow: ellipsis;
             display: inline-block;
-            width: 1000px; //TODO: this shouldn't be hardcoded
           }
           .log-details {
               padding: 9px;

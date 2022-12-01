@@ -71,7 +71,7 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
               name="applicationId"
               label="Application"
             >
-              <Select loading={isLoading} placeholder="Select application">
+              <Select loading={isLoading}>
                 {applications?.map((val, index) => (
                   <Select.Option key={index} value={val.id}>
                     {val.name}
@@ -85,7 +85,7 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
               name="role"
               label="Role"
             >
-              <Select placeholder="Select role">
+              <Select>
                 {Object.values(MemberRole).map((val, index) => (
                   <Select.Option key={index} value={val}>
                     {val}

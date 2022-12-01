@@ -12,6 +12,7 @@ import Maintenance from "./core/components/Layout/Pages/Maintenance";
 import { MainViewWrapper } from "./core/components/Layout/MainViewWrapper";
 import { NavBar } from "./core/components/Layout/Navbar";
 import { TraceoLoading } from "./core/components/TraceoLoading";
+import { DashboardHeader } from "./core/components/Layout/DashboardHeader";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
@@ -40,9 +41,12 @@ export const App = () => {
         <Provider store={store}>
           <SocketContext.Provider value={{ socket }}>
             <BrowserRouter>
-              <div className="traceo-app">
-                <NavBar />
-                <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
+              <div className="flex flex-col">
+                <DashboardHeader />
+                <div className="traceo-app">
+                  <NavBar />
+                  <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
+                </div>
               </div>
             </BrowserRouter>
           </SocketContext.Provider>

@@ -64,8 +64,8 @@ export const MenuItem: FC<Props> = ({ menu }) => {
         border-bottom: 3px solid !important;
         border-image: linear-gradient(
           90deg,
-          var(--color-primary) 0.01%,
-          var(--color-secondary) 99.99%
+          #F59E0B 0.01%,
+          #C58A0A 99.99%
         ) !important;
         border-image-slice: 1 !important;
       }

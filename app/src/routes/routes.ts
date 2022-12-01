@@ -98,7 +98,7 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       component: lazy(() => import("../features/app/metrics/MetricPreviewPage"))
     },
     {
-      path: "/app/:id/:slug/settings/members",
+      path: "/app/:id/:slug/settings/access",
       component: lazy(() => import("../features/app/settings/AppMembersListPage"))
     },
     {
