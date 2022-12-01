@@ -10,13 +10,10 @@ interface Props {
   errors: ErrorDetails[];
 }
 export const IncidentsListPlot: FC<Props> = ({ errors }) => {
-  const data = statisticUtils.parseIncidentsTablePlotData(errors);
-
-  const plotData = normalizePlotData(data);
-
+  const plotData = statisticUtils.parseIncidentsTablePlotData(errors);
   const options: EChartsOption = {
     dataset: {
-      source: plotData
+      source: normalizePlotData(plotData)
     },
     animation: false,
     tooltip: {

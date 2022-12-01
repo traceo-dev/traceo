@@ -38,7 +38,7 @@ export const AppPage = ({ children }) => {
     );
   }
 
-  return <div className="pb-5">{children}</div>;
+  return <div className="pb-5 pt-12">{children}</div>;
 };
 
 export default AppPage;

@@ -1,11 +1,12 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Space } from "antd";
 import { FC, useEffect } from "react";
-import { splitLine, tooltipOptions } from "../utils";
+import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
 import { useApi } from "../../../lib/useApi";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 import dateUtils from "../../../../core/utils/date";
+import { statisticUtils } from "../../../../core/utils/statistics";
 
 interface Props {
   id: string;
@@ -39,9 +40,10 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
     );
   }
 
+  const plotData = statisticUtils.parseIncidentsTablePlotData(stats);
   const options: EChartsOption = {
     dataset: {
-      source: stats
+      source: normalizePlotData(plotData)
     },
     animation: false,
     tooltip: {

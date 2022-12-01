@@ -13,10 +13,10 @@ export const RowActionButtons: FC<ActionButtonsProps> = ({
 }) => {
   return (
     <Space>
-      <Button loading={loading} type="primary" onClick={() => onSave()}>
+      <Button size="small" loading={loading} type="primary" onClick={() => onSave()}>
         Save
       </Button>
-      <Button type="primary" onClick={() => onCancel()} ghost>
+      <Button size="small" type="primary" onClick={() => onCancel()} ghost>
         Cancel
       </Button>
     </Space>

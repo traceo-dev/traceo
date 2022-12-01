@@ -29,7 +29,7 @@ export const AppCard: FC<Props> = ({ app }) => {
     <>
       <Card
         onClick={() => go()}
-        className="app-card default-card default-card-body rounded-lg flex flex-col"
+        className="default-card default-card-body rounded-lg flex flex-col"
       >
         <Space className="w-full justify-between">
           <Space>

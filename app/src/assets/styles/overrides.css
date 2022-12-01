@@ -9,7 +9,7 @@
 
 .ant-modal-content {
   border-radius: 4px;
-  background-color: #181b1f;
+  background-color: var(--color-bg-primary);
 }
 
 .ant-popover-inner-content {
@@ -328,11 +328,11 @@
 }
 
 .ant-table-row.ant-table-row-level-0:hover {
-  background-color: #22252b !important;
+  background-color: var(--color-secondary) !important;
 }
 
 .ant-table-cell-row-hover {
-  background-color: #22252b !important;
+  background-color: var(--color-bg-secondary) !important;
 }
 
 .ant-btn.ant-btn-background-ghost {

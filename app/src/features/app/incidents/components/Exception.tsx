@@ -8,7 +8,7 @@ export const Exception = () => {
   return (
     incident?.stack !== "undefined" && (
       <PagePanel title="Exception">
-        <Space className="code-container text-xs whitespace-pre p-5 bg-gray-800 whitespace-pre-wrap">
+        <Space className="code-container text-xs whitespace-pre p-5 bg-secondary whitespace-pre-wrap">
           <Typography.Text>{incident?.stack}</Typography.Text>
         </Space>
       </PagePanel>

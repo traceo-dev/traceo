@@ -14,7 +14,7 @@ import dateUtils from "./date";
  */
 
 const parseIncidentsTablePlotData = (errorsDetails: ErrorDetails[]) => {
-  const response: PlotData[] = []; //initial values
+  const data: PlotData[] = []; //initial values
 
   if (!errorsDetails) {
     return;
@@ -22,16 +22,17 @@ const parseIncidentsTablePlotData = (errorsDetails: ErrorDetails[]) => {
 
   const errors = [...errorsDetails];
   const sortedDates = errors?.sort((a, b) => a?.date - b?.date);
-  const beginDate = errorsDetails?.at(0);
+  const beginDate = errorsDetails[0];
 
   let currentDate = dateUtils.endOf(dayjs.unix(beginDate?.date).subtract(3, "day").unix())
   while (currentDate <= dateUtils.endOf()) {
     const currentErrors = sortedDates.filter(({ date }) => dateUtils.endOf(date) === dateUtils.endOf(currentDate));
-    response.push({ date: dateUtils.endOf(currentDate), count: currentErrors?.length });
+    data.push({ date: dateUtils.endOf(currentDate), count: currentErrors?.length });
     currentDate = dateUtils.endOf(dayjs.unix(currentDate).add(1, "day").unix());
   }
 
-  return response;
+  // const response = normalizePlotData(data)
+  return data;
 };
 
 export interface PlotData {

@@ -25,9 +25,9 @@ export const AppSettingsNavigationPage: FC<Props> = ({ children }) => {
       icon: <InfoCircleOutlined />
     },
     {
-      href: "/app/:id/:slug/settings/members",
-      label: "Members",
-      key: "members",
+      href: "/app/:id/:slug/settings/access",
+      label: "Access",
+      key: "access",
       icon: <TeamOutlined />
     },
     {

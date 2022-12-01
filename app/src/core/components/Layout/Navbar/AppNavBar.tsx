@@ -8,7 +8,6 @@ import {
   LogoutOutlined
 } from "@ant-design/icons";
 import { Divider } from "antd";
-import { TraceoLogo } from "../.../../../../../core/components/Icons/TraceoLogo";
 import { logout } from "../.../../../../../core/utils/logout";
 import { useSelector } from "react-redux";
 import { MenuRoute } from "../.../../../../../types/navigation";
@@ -22,13 +21,6 @@ export const AppNavBar = () => {
   const { account } = useSelector((state: StoreState) => state.account);
 
   const topRoutes: MenuRoute[] = [
-    {
-      key: "home",
-      disabled: true,
-      icon: <TraceoLogo size="small" />,
-      label: "",
-      href: "/dashboard/overview"
-    },
     {
       key: "overview",
       href: "/app/:id/:slug/overview",
@@ -75,14 +67,14 @@ export const AppNavBar = () => {
       icon: <UserOutlined />
     },
     {
-      label: application.name,
-      href: "/app/:id/:slug/overview",
-      icon: <AppSwitcher />
-    },
-    {
       label: "Logout",
       icon: <LogoutOutlined />,
       onClick: () => logout()
+    },
+    {
+      label: application.name,
+      // href: "/app/:id/:slug/overview",
+      icon: <AppSwitcher />
     }
   ];
 
@@ -91,27 +83,27 @@ export const AppNavBar = () => {
 
   return (
     <NavbarWrapper>
-      <ul className="list-none p-0 h-full self-center space-y-2 justify-between">
-        {filterRoutes(topRoutes).map((route) => (
-          <NavBarItem route={route} />
+      <ul className="p-0 pt-5 h-full">
+        {filterRoutes(topRoutes).map((route, index) => (
+          <NavBarItem key={index} route={route} />
         ))}
 
-        <Divider className="pb-2" />
+        <Divider />
 
-        {filterRoutes(mainRoutes).map((route) => (
-          <NavBarItem route={route} />
+        {filterRoutes(mainRoutes).map((route, index) => (
+          <NavBarItem key={index} route={route} />
         ))}
 
-        <Divider className="pb-2" />
+        <Divider />
 
-        {filterRoutes(settingsRoutes).map((route) => (
-          <NavBarItem route={route} />
+        {filterRoutes(settingsRoutes).map((route, index) => (
+          <NavBarItem key={index} route={route} />
         ))}
       </ul>
 
-      <ul className="list-none p-0 self-center space-y-2 justify-between">
-        {filterRoutes(userRoutes).map((route) => (
-          <NavBarItem route={route} />
+      <ul className="p-0 pt-5">
+        {filterRoutes(userRoutes).map((route, index) => (
+          <NavBarItem key={index} route={route} />
         ))}
       </ul>
     </NavbarWrapper>

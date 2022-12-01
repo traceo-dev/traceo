@@ -21,16 +21,6 @@ export class StatisticsController {
     return await this.statisticsQueryService.getApplicationStatistics(id);
   }
 
-  @Get('/incident/total')
-  @AuthRequired()
-  async getIncidentTotalOverview(
-    @Query('id') id: string
-  ): Promise<ApiResponse<PlotData[]>> {
-    return await this.statisticsQueryService.getTotalOverviewForIncident(
-      id
-    );
-  }
-
   @Get('/daily')
   @AuthRequired()
   async getDailyOverview(
@@ -43,7 +33,7 @@ export class StatisticsController {
   @AuthRequired()
   async getTotalOverview(
     @Query('id') id: string
-  ): Promise<ApiResponse<PlotData[]>> {
+  ): Promise<ApiResponse<ErrorDetails[]>> {
     return await this.statisticsQueryService.getTotalOverview(id);
   }
 }
