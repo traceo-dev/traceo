@@ -2,7 +2,6 @@ import AuthLayout from "../../../core/components/Layout/AuthLayout";
 import { useEffect, useState } from "react";
 import { LoginForm } from "./LoginForm";
 import { Form } from "antd";
-import { notify } from "../../../core/utils/notify";
 import { useSelector } from "react-redux";
 import { dispatch } from "../../../store/store";
 import { StoreState } from "../../../types/store";
@@ -17,7 +16,6 @@ const Login = () => {
 
   useEffect(() => {
     if (isError) {
-      notify.error("Bad login or password");
       dispatch(clearState());
       setLoading(false);
     }

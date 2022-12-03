@@ -11,34 +11,22 @@ interface Props {
 export const AuthLayout: FC<Props> = ({ children, title }) => {
   return (
     <>
-      <div className="wrapper">
-        <Card className={"ant-card card"}>
-          <Col span={24}>
-            <Space
-              direction="vertical"
-              className="justify-center w-full items-center pb-4 mt-5"
-            >
-              <TraceoLogo size="medium" />
+      <div className="flex justify-center">
+        <Card className="ant-card card pt-12">
+          <Space
+            direction="vertical"
+            className="justify-center w-full items-center pb-4 mt-5"
+          >
+            <TraceoLogo size="medium" />
 
-              {title && (
-                <Typography className="font-semibold text-3xl">{title}</Typography>
-              )}
+            {title && <Typography className="font-semibold text-3xl">{title}</Typography>}
 
-              <Typography.Text className="w-full text-xs">v.{VERSION}</Typography.Text>
-            </Space>
-            <div className="cardBody">{children}</div>
-          </Col>
+            <Typography.Text className="w-full text-xs">v.{VERSION}</Typography.Text>
+          </Space>
+          <div className="cardBody">{children}</div>
         </Card>
       </div>
       <style>{`
-        .wrapper {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          padding: 10px 0;
-          height: 100vh;
-        }
-
         .card {
           width: 450px;
           border-radius: 18px;
