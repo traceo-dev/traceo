@@ -50,7 +50,7 @@ An incident can have one of three statuses: `Resolved`, `Unresolved`, and `In Pr
 
 Incident details contain the most important information about the given error. As the SDK parses the incident, parser breaks down each stack trace into individual traces, from which it extracts information about the location of the error. Thanks to this, it is able to retrieve the code where the exception occurred. This code is shown in the incident details in the `Stacktrace` section.
 
-<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/incidents-preview.PNG">
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-incident-preview.PNG">
 
 ### ***Logs***
 
