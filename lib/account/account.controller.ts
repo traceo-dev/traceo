@@ -9,7 +9,7 @@ import {
   Query
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ApiResponse } from 'lib/types/dto/response.dto';
+import { ApiResponse } from '../../lib/types/dto/response.dto';
 import { AccountDto, CreateAccountDto } from '../../lib/types/dto/account.dto';
 import { IAccount, RequestUser } from '../../lib/types/interfaces/account.interface';
 import { BaseDtoQuery } from '../core/query/generic.model';

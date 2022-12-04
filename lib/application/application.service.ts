@@ -16,8 +16,7 @@ import { gravatar } from '../../lib/helpers/gravatar';
 import { RequestUser } from '../../lib/types/interfaces/account.interface';
 import { ApplicationDto, CreateApplicationDto } from '../../lib/types/dto/application.dto';
 import { ApiResponse } from '../../lib/types/dto/response.dto';
-import uuid from "short-uuid";
-import { uuidService } from 'lib/helpers/uuid';
+import { uuidService } from '../../lib/helpers/uuid';
 
 const MAX_RETENTION_LOGS = 3;
 

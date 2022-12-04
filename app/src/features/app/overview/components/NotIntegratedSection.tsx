@@ -8,7 +8,7 @@ import { PagePanel } from "../../../../core/components/PagePanel";
 export const NotIntegratedSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
 
-  const appIdLine = `  appId: ${application.id},`;
+  const appIdLine = `  appId: '${application.id}',`;
 
   return (
     !application.isIntegrated && (
@@ -43,9 +43,7 @@ export const NotIntegratedSection = () => {
                 <li className="code-line"></li>
                 <li className="code-line">{"new TraceoClient({"}</li>
                 <li className="code-line">{appIdLine}</li>
-                <li className="code-line">
-                  {"  apiKey: '', //first generate from application settings"}
-                </li>
+                <li className="code-line">{"  apiKey: '<API_KEY>',"}</li>
                 <li className="code-line">
                   {"  url: 'http://localhost:3000', //or copy url from your browser"}
                 </li>

@@ -23,7 +23,7 @@ export class AmrQueryService {
    * @returns
    */
   public async getApplicationMembers(
-    appId: number,
+    appId: string,
     pageOptionsDto: BaseDtoQuery,
   ): Promise<ApiResponse<AccountMemberRelationship[]>> {
     const { order, take, search, page } = pageOptionsDto;
@@ -108,7 +108,7 @@ export class AmrQueryService {
   }
 
   public async awrExists(
-    { accountId, applicationId }: { accountId: string; applicationId: number },
+    { accountId, applicationId }: { accountId: string; applicationId: string },
     manager: EntityManager = this.entityManager,
   ): Promise<boolean> {
     const count = await manager

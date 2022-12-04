@@ -8,10 +8,10 @@ export class AddAccountToApplicationDto {
     @ApiProperty()
     accountId: string;
 
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
     @ApiProperty()
-    applicationId: number;
+    applicationId: string;
 
     @IsEnum(MemberRole)
     @IsNotEmpty()

@@ -47,7 +47,7 @@ export interface Application {
 
 export interface AddAccountToApplication {
   role: MemberRole;
-  applicationId: number;
+  applicationId: string;
   accountId: string;
 }
 

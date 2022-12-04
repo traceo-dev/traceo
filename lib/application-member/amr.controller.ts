@@ -41,7 +41,7 @@ export class AmrController {
   @Get('/members')
   @AuthRequired()
   public async getApplicationMembers(
-    @Query("id") id: number,
+    @Query("id") id: string,
     @Query() query: BaseDtoQuery,
   ): Promise<ApiResponse<IAmr[]>> {
     return await this.amrQueryService.getApplicationMembers(id, query);

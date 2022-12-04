@@ -70,6 +70,6 @@ export interface ErrorDetails {
 }
 
 export interface IncidentExistsPayload {
-    appId: number;
+    appId: string;
     incident: TraceoIncidentModel;
 }
