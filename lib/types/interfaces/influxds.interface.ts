@@ -17,6 +17,6 @@ export interface InfluxConfiguration extends Omit<IInfluxDs, "application" | "co
     token: string;
     org: string;
     bucket: string;
-    appId: number;
+    appId: string;
     connStatus: CONNECTION_STATUS;
 }

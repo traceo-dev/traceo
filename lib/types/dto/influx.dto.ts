@@ -1,11 +1,11 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsNumber, IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class InfluxConfigurationDto {
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
     @ApiProperty({ description: "appId" })
-    public appId?: number;
+    public appId?: string;
 
     @IsString()
     @IsNotEmpty()

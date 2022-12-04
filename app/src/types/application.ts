@@ -38,6 +38,11 @@ export interface Application {
   connectedTSDB?: TSDB;
   influxDS: InfluxDS;
   isIntegrated: boolean;
+  security: {
+    apiKey: string;
+    lastUpdate: number;
+    generatedBy: string;
+  }
 }
 
 export interface AddAccountToApplication {

@@ -4,7 +4,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from "typeorm";
 import { Account } from "./account.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
@@ -12,31 +12,31 @@ import { Incident } from "./incident.entity";
 import { GenericEntity } from "../../core/generic.entity";
 import { Runtime } from "./runtime.entity";
 import { InfluxDS } from "./influxds.entity";
-import { IApplication } from "../../../lib/types/interfaces/application.interface";
+import { IApplication, ISecurity } from "../../../lib/types/interfaces/application.interface";
 import { TSDB } from "../../../lib/types/enums/tsdb.enum";
 
 @Entity()
 export class Application extends GenericEntity implements IApplication {
-  @PrimaryGeneratedColumn()
-  id?: number;
+  @PrimaryColumn("varchar", {
+    unique: true,
+    nullable: false
+  })
+  id?: string;
 
   @Column({ type: 'varchar', unique: true })
   name: string;
 
-  @Column({ type: 'varchar' })
-  privateKey: string;
-
-  @Column({ type: 'varchar', nullable: true })
-  dsn?: string;
+  @Column({
+    type: "simple-json",
+    nullable: true
+  })
+  security?: ISecurity;
 
   @ManyToOne(() => Account)
   @JoinColumn({
     name: 'ownerId',
   })
   owner: Account;
-
-  @Column({ nullable: true, length: 256, type: 'varchar' })
-  aboutDescription?: string;
 
   @Column({ nullable: true })
   gravatar?: string;
@@ -49,7 +49,7 @@ export class Application extends GenericEntity implements IApplication {
 
   @OneToMany(
     () => AccountMemberRelationship,
-    (accountApp) => accountApp.application,
+    (member) => member.application,
     {
       onUpdate: "CASCADE",
       onDelete: "CASCADE",

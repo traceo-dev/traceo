@@ -32,7 +32,7 @@ export class AmrController {
   @Get('/application')
   @AuthRequired()
   async getApplication(
-    @Query('id') id: number,
+    @Query('id') id: string,
     @AuthAccount() user: RequestUser,
   ): Promise<ApiResponse<IApplicationResponse>> {
     return await this.amrQueryService.getApplication(id, user);

@@ -31,6 +31,7 @@ export class Incident extends GenericEntity implements IIncident {
 
   @Column({
     type: "varchar",
+    nullable: true
   })
   stack: string;
 

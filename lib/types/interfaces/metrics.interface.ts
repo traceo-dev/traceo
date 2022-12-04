@@ -27,7 +27,7 @@ export interface IMetrics {
 }
 
 export interface MetricsQuery {
-    id: number;
+    id: string;
     hrCount: number;
 }
 

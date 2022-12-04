@@ -17,6 +17,7 @@ import { DescriptionInputRow, Descriptions } from "../../../core/components/Desc
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { notify } from "../../../core/utils/notify";
+import { ApiKeySection } from "./components/ApiKeySection";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
@@ -73,6 +74,9 @@ export const AppSettingsDetailsPage = () => {
           </DescriptionInputRow>
         </Descriptions>
       </PagePanel>
+      <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
+        <ApiKeySection />
+      </Permissions>
       <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
         <PagePanel title="Danger zone">
           <ColumnSection

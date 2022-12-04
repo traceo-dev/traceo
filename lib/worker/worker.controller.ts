@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post, Headers } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { TraceoIncidentModel } from '../../lib/types/interfaces/incident.interface';
 import { TraceoLog } from '../../lib/types/interfaces/log.interface';
@@ -21,49 +21,37 @@ export class WorkerController {
 
     @Post('/incident/:id')
     async handleSDKIncidents(
-        @Param("id") id: number,
+        @Param("id") id: string,
         @Body() data: TraceoIncidentModel,
+        @Headers() headers: { [key: string]: any }
     ): Promise<void> {
-        if (process.env.DEMO === "true") {
-            return;
-        }
-
-        await this.processIncidentsService.processWorkerData(id, data);
+        await this.processIncidentsService.processWorkerData(id, data, headers);
     }
 
     @Post("/runtime/:id")
     async handleRuntimeMetrics(
-        @Param("id") id: number,
-        @Body() data: IRuntime
+        @Param("id") id: string,
+        @Body() data: IRuntime,
+        @Headers() headers: { [key: string]: any }
     ): Promise<void> {
-        if (process.env.DEMO === "true") {
-            return;
-        }
-
-        await this.runtimeService.processWorkerData(id, data);
+        await this.runtimeService.processWorkerData(id, data, headers);
     }
 
     @Post("/log/:id")
     async handleLog(
-        @Param("id") id: number,
-        @Body() data: TraceoLog
+        @Param("id") id: string,
+        @Body() data: TraceoLog,
+        @Headers() headers: { [key: string]: any }
     ): Promise<void> {
-        if (process.env.DEMO === "true") {
-            return;
-        }
-
-        await this.logsService.processWorkerData(id, data);
+        await this.logsService.processWorkerData(id, data, headers);
     }
 
     @Post("/metrics/:id")
     async handleMetrics(
-        @Param("id") id: number,
-        @Body() data: IMetrics
+        @Param("id") id: string,
+        @Body() data: IMetrics,
+        @Headers() headers: { [key: string]: any }
     ): Promise<void> {
-        if (process.env.DEMO === "true") {
-            return;
-        }
-
-        await this.metricsService.processWorkerData(id, data);
+        await this.metricsService.processWorkerData(id, data, headers);
     }
 }

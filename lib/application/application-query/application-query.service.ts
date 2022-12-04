@@ -25,7 +25,7 @@ export class ApplicationQueryService extends GenericQueryService<
     return 'application';
   }
 
-  public async checkAppExists(id: string | number) {
+  public async checkAppExists(id: string) {
     const app = await this.getDto(id);
     if (!app) {
       throw new Error(`Application with ID: ${id} does not exists!`);
@@ -60,7 +60,7 @@ export class ApplicationQueryService extends GenericQueryService<
     return ["id", "name", "gravatar", "lastIncidentAt", "incidentsCount", "connectedTSDB", "isIntegrated"];
   }
 
-  public async getApplicationRuntime(appId: number): Promise<ApiResponse<object>> {
+  public async getApplicationRuntime(appId: string): Promise<ApiResponse<object>> {
     try {
       const config = await this.entityManager
         .getRepository(Runtime)

@@ -19,7 +19,7 @@ export class DataSourceController {
 
     @Get()
     @AuthRequired()
-    public async getDataSource(@Query("id") id: number): Promise<ApiResponse<IInfluxDs>> {
+    public async getDataSource(@Query("id") id: string): Promise<ApiResponse<IInfluxDs>> {
         return await this.dsService.getConnectedDataSource(id);
     }
 
@@ -32,7 +32,7 @@ export class DataSourceController {
     @Delete()
     @AuthRequired()
     public async removeDataSource(
-        @Query("id") id: number,
+        @Query("id") id: string,
         @AuthAccount() account: RequestUser,
     ): Promise<ApiResponse<unknown>> {
         await this.permission.can('REMOVE_DATASOURCE', account);

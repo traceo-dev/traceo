@@ -17,10 +17,10 @@ export class CreateApplicationDto {
 }
 
 export class ApplicationDto {
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
     @ApiProperty({ description: "app id" })
-    public id?: number;
+    public id?: string;
 
     @IsString()
     @IsOptional()

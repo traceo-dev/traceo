@@ -120,7 +120,7 @@ export class AmrQueryService {
   }
 
   public async getApplication(
-    appId: number,
+    appId: string,
     user: RequestUser,
   ): Promise<ApiResponse<IApplicationResponse>> {
     const { id } = user;
@@ -144,7 +144,7 @@ export class AmrQueryService {
       const response = this.mapApplicationResponse(applicationQuery);
       return new ApiResponse("success", undefined, response);
     } catch (error) {
-      this.logger.error(`[${this.getApplicationsForAccount.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.getApplication.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
   }

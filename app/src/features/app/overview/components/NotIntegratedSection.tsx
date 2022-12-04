@@ -44,6 +44,9 @@ export const NotIntegratedSection = () => {
                 <li className="code-line">{"new TraceoClient({"}</li>
                 <li className="code-line">{appIdLine}</li>
                 <li className="code-line">
+                  {"  apiKey: '', //first generate from application settings"}
+                </li>
+                <li className="code-line">
                   {"  url: 'http://localhost:3000', //or copy url from your browser"}
                 </li>
                 <li className="code-line">{"});"}</li>

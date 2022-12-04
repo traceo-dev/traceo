@@ -32,7 +32,7 @@ export class ApplicationController {
 
   @Get()
   @AuthRequired()
-  async getApplication(@Query("id") id: number): Promise<ApiResponse<IApplication>> {
+  async getApplication(@Query("id") id: string): Promise<ApiResponse<IApplication>> {
     return await this.applicationQueryService.getApiDto(id);
   }
 
@@ -45,7 +45,7 @@ export class ApplicationController {
   @Get('/runtime')
   @AuthRequired()
   async getApplicationRuntimeConfiguration(
-    @Query() query: { id: number },
+    @Query() query: { id: string },
   ): Promise<ApiResponse<object>> {
     return await this.applicationQueryService.getApplicationRuntime(query.id);
   }
@@ -75,9 +75,31 @@ export class ApplicationController {
     @Body() body: ApplicationDto,
     @AuthAccount() account: RequestUser,
   ): Promise<ApiResponse<unknown>> {
-    await this.permission.can('UPDATE_APP', account);
+    await this.permission.can('UPDATE_APP', account, body.id);
 
     return await this.applicationService.updateApplication(body);
+  }
+
+  @Post('/api-key/generate/:id')
+  @AuthRequired()
+  async generateApiKey(
+    @Param("id") id: string,
+    @AuthAccount() account: RequestUser,
+  ): Promise<ApiResponse<unknown>> {
+    await this.permission.can('GENERATE_API_KEY', account, id);
+
+    return await this.applicationService.generateApiKey(id, account);
+  }
+
+  @Delete('/api-key/remove/:id')
+  @AuthRequired()
+  async removeApiKey(
+    @Param("id") id: string,
+    @AuthAccount() account: RequestUser,
+  ): Promise<ApiResponse<unknown>> {
+    await this.permission.can('REMOVE_API_KEY', account, id);
+
+    return await this.applicationService.removeApiKey(id);
   }
 
   @Delete('/:id')

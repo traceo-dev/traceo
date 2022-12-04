@@ -19,7 +19,7 @@ export class DataSourceService {
         this.logger = new Logger(DataSourceService.name);
     }
 
-    private async getDataSourceOrThrowError(id: number) {
+    private async getDataSourceOrThrowError(id: string) {
         const app = await this.entityManager
             .getRepository(Application)
             .createQueryBuilder('application')
@@ -54,7 +54,7 @@ export class DataSourceService {
         }
     }
 
-    async getConnectedDataSource(id: number): Promise<ApiResponse<InfluxDS>> {
+    async getConnectedDataSource(id: string): Promise<ApiResponse<InfluxDS>> {
         const app = await this.getDataSourceOrThrowError(id);
         if (!app) {
             return;
@@ -74,7 +74,7 @@ export class DataSourceService {
         }
     }
 
-    async removeDataSource(id: number): Promise<ApiResponse<unknown>> {
+    async removeDataSource(id: string): Promise<ApiResponse<unknown>> {
         return await this.entityManager.transaction(async (manager) => {
             const app = await this.getDataSourceOrThrowError(id);
             if (!app) {

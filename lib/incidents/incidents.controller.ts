@@ -37,7 +37,7 @@ export class IncidentsController {
   @Get()
   @AuthRequired()
   public async getIncidents(
-    @Query("id") id: number,
+    @Query("id") id: string,
     @Query() query: IncidentQueryDto
   ): Promise<ApiResponse<IIncident[]>> {
     return await this.incidentsQueryService.getApiListDto({

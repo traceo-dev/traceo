@@ -7,12 +7,9 @@ import { IIncident } from "./incident.interface";
 import { IRuntime } from "./runtime.interface";
 
 export interface IApplication {
-    id?: number;
+    id?: string;
     name: string;
-    privateKey: string;
-    dsn?: string;
     owner: IAccount;
-    aboutDescription?: string;
     gravatar?: string;
     lastIncidentAt?: number;
     members?: IAmr[];
@@ -24,6 +21,13 @@ export interface IApplication {
     influxDS?: InfluxDS;
     connectedTSDB?: TSDB;
     isIntegrated: boolean;
+    security?: ISecurity;
+}
+
+export interface ISecurity {
+    apiKey: string;
+    lastUpdate: number;
+    generatedBy: string;
 }
 
 export interface IApplicationResponse extends Omit<IApplication, "influxDS" | "owner"> {

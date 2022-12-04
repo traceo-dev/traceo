@@ -10,7 +10,7 @@ enum Order {
 export class BaseDtoQuery {
   @IsString()
   @IsOptional()
-  readonly appId?: number;
+  readonly appId?: string;
 
   @IsString()
   @IsOptional()

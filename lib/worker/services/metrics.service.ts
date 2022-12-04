@@ -25,6 +25,7 @@ export class MetricsService extends BaseWorkerService<IMetrics> {
             .getOne();
 
         if (!app?.connectedTSDB) {
+            this.logger.error(`Metrics are sent to appID: ${id} but metrics datasource are not connected!`);
             return;
         }
 

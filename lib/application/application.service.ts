@@ -16,6 +16,8 @@ import { gravatar } from '../../lib/helpers/gravatar';
 import { RequestUser } from '../../lib/types/interfaces/account.interface';
 import { ApplicationDto, CreateApplicationDto } from '../../lib/types/dto/application.dto';
 import { ApiResponse } from '../../lib/types/dto/response.dto';
+import uuid from "short-uuid";
+import { uuidService } from 'lib/helpers/uuid';
 
 const MAX_RETENTION_LOGS = 3;
 
@@ -38,8 +40,6 @@ export class ApplicationService {
   ): Promise<ApiResponse<Application>> {
     const { id, name } = user;
 
-    const privateKey = crypto.randomUUID();
-    console.log("createApplication")
     return await this.entityManager.transaction(async (manager) => {
       const app = await this.applicationQueryService.getDtoBy({ name: data.name });
       if (app) {
@@ -52,9 +52,9 @@ export class ApplicationService {
       }
 
       const url = gravatar.url(data.name, "identicon");
-      const applicationPayload: Application = {
+      const applicationPayload: Partial<Application> = {
         ...data,
-        privateKey,
+        id: uuidService.generate(),
         owner: account,
         gravatar: url,
         createdAt: dateUtils.toUnix(),
@@ -92,6 +92,35 @@ export class ApplicationService {
     });
   }
 
+  public async generateApiKey(id: string, user: RequestUser): Promise<ApiResponse<string>> {
+    const apiKey = crypto.randomUUID();
+    try {
+      await this.updateApplication({
+        id, security: {
+          apiKey,
+          lastUpdate: dateUtils.toUnix(),
+          generatedBy: user.name
+        }
+      });
+      return new ApiResponse("success", "API Key Generated.", apiKey);
+    } catch (err) {
+      this.logger.error(`[${this.generateApiKey.name}] Caused by: ${err}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+    }
+  }
+
+  public async removeApiKey(id: string): Promise<ApiResponse<unknown>> {
+    try {
+      await this.updateApplication({
+        id, security: null
+      });
+      return new ApiResponse("success", "API Key Removed.");
+    } catch (err) {
+      this.logger.error(`[${this.removeApiKey.name}] Caused by: ${err}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+    }
+  }
+
   public async updateApplication(
     appBody: ApplicationDto | Partial<Application>
   ): Promise<ApiResponse<unknown>> {
@@ -110,15 +139,6 @@ export class ApplicationService {
     } catch (err) {
       this.logger.error(`[${this.updateApplication.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
-    }
-  }
-
-  private async validate(
-    name: string
-  ): Promise<void> {
-    const application = await this.applicationQueryService.getDtoBy({ name });
-    if (application) {
-      throw new ApplicationWithNameAlreadyExistsError();
     }
   }
 

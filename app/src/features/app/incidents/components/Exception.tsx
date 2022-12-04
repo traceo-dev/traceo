@@ -6,7 +6,7 @@ import { StoreState } from "../../../../types/store";
 export const Exception = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
   return (
-    incident?.stack !== "undefined" && (
+    incident?.stack && (
       <PagePanel title="Exception">
         <Space className="code-container text-xs whitespace-pre p-5 bg-secondary whitespace-pre-wrap">
           <Typography.Text>{incident?.stack}</Typography.Text>
