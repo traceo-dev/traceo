@@ -9,10 +9,8 @@ import { TSDB } from "../../../types/application";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
 import { StoreState } from "../../../types/store";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
-import { loadDataSource } from "./state/settings/actions";
 import { loadApplication } from "../state/actions";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
-import { LoadingOutlined } from "@ant-design/icons";
 
 interface DataSourceSelectOption {
   label: string;
@@ -22,14 +20,12 @@ interface DataSourceSelectOption {
 export const AppSettingsDataSourcePage = () => {
   const { id } = useParams();
   const { application } = useSelector((state: StoreState) => state.application);
-  const { dataSource, hasFetched } = useSelector((state: StoreState) => state.settings);
   const { isViewer } = useMemberRole();
 
   const [selectedDS, setSelectedDS] = useState<TSDB>(null);
 
   useEffect(() => {
     dispatch(loadApplication(id));
-    dispatch(loadDataSource(id));
   }, []);
 
   useEffect(() => {
@@ -49,7 +45,7 @@ export const AppSettingsDataSourcePage = () => {
 
   const renderForm = () => {
     if (selectedDS === TSDB.INFLUX2) {
-      return <DataSourceInflux2Form dataSource={dataSource} />;
+      return <DataSourceInflux2Form />;
     }
 
     return null;
@@ -84,7 +80,7 @@ export const AppSettingsDataSourcePage = () => {
                 </Select.Option>
               ))}
             </Select>
-            {!hasFetched ? <LoadingOutlined /> : renderForm()}
+            {renderForm()}
           </Space>
         </ColumnSection>
       </PagePanel>

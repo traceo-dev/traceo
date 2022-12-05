@@ -1,9 +1,9 @@
-import { InfluxDS } from "../../../lib/db/entities/influxds.entity";
 import { MemberRole } from "../enums/amr.enum";
 import { CONNECTION_STATUS, TSDB } from "../enums/tsdb.enum";
 import { IAccount } from "./account.interface";
 import { IAmr } from "./amr.interface";
 import { IIncident } from "./incident.interface";
+import { IInfluxDs } from "./influxds.interface";
 import { IRuntime } from "./runtime.interface";
 
 export interface IApplication {
@@ -18,7 +18,7 @@ export interface IApplication {
     incidentsCount?: number;
     errorsCount?: number;
     runtimeData?: IRuntime[];
-    influxDS?: InfluxDS;
+    influxDS?: IInfluxDs;
     connectedTSDB?: TSDB;
     isIntegrated: boolean;
     security?: ISecurity;

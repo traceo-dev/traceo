@@ -2,20 +2,17 @@ import { Form, Input, Space, Alert, Button, Typography } from "antd";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { loadApplication } from "../../../../features/app/state/actions";
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { dispatch } from "../../../../store/store";
 import { CONNECTION_STATUS, InfluxDS } from "../../../../types/tsdb";
 import { StoreState } from "../../../../types/store";
-import { REQUIRED_FIELD_ERROR } from "../../../../core/utils/constants";
+import { INFLUX2_DOCS, REQUIRED_FIELD_ERROR } from "../../../../core/utils/constants";
 import validators from "../../../../core/lib/validators";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
 import { ApiResponse } from "../../../../types/api";
 
-interface Props {
-  dataSource: object;
-}
-export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
+export const DataSourceInflux2Form = () => {
   const { application } = useSelector((state: StoreState) => state.application);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isDeletLoading, setDeleteLoading] = useState<boolean>(false);
@@ -26,7 +23,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    const { bucket, org, url, token } = dataSource as InfluxDS;
+    const { bucket, org, url, token } = application?.influxDS as InfluxDS;
     form.setFieldsValue({
       url,
       bucket,
@@ -63,7 +60,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
       })
       .then((response) => {
         if (response.status === "success") {
-          window.location.reload();
+          dispatch(loadApplication());
         }
       })
       .finally(() => setDeleteLoading(false));
@@ -118,10 +115,7 @@ export const DataSourceInflux2Form: FC<Props> = ({ dataSource }) => {
           showIcon={true}
           type="info"
           message={
-            <Typography.Link
-              href="https://docs.influxdata.com/influxdb/v2.4/install/"
-              target="_blank"
-            >
+            <Typography.Link href={INFLUX2_DOCS} target="_blank">
               Official documentation
             </Typography.Link>
           }

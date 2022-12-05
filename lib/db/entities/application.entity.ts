@@ -11,9 +11,9 @@ import { AccountMemberRelationship } from "./account-member-relationship.entity"
 import { Incident } from "./incident.entity";
 import { GenericEntity } from "../../core/generic.entity";
 import { Runtime } from "./runtime.entity";
-import { InfluxDS } from "./influxds.entity";
 import { IApplication, ISecurity } from "../../../lib/types/interfaces/application.interface";
 import { TSDB } from "../../../lib/types/enums/tsdb.enum";
+import { IInfluxDs } from "../../../lib/types/interfaces/influxds.interface";
 
 @Entity()
 export class Application extends GenericEntity implements IApplication {
@@ -87,11 +87,11 @@ export class Application extends GenericEntity implements IApplication {
   })
   runtimeData?: Runtime[];
 
-  @ManyToOne(() => InfluxDS)
-  @JoinColumn({
-    name: 'influxId',
+  @Column({
+    type: "simple-json",
+    nullable: true
   })
-  influxDS?: InfluxDS;
+  influxDS?: IInfluxDs;
 
   @Column({
     type: "varchar",

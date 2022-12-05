@@ -21,7 +21,6 @@ export class MetricsService extends BaseWorkerService<IMetrics> {
         const app = await this.entityManager.getRepository(Application)
             .createQueryBuilder('application')
             .where('application.id = :id', { id })
-            .leftJoinAndSelect('application.influxDS', 'influxDS')
             .getOne();
 
         if (!app?.connectedTSDB) {
@@ -31,12 +30,11 @@ export class MetricsService extends BaseWorkerService<IMetrics> {
 
         switch (app.connectedTSDB) {
             case TSDB.INFLUX2: {
-                const { influxDS } = app;
-                if (!influxDS) {
+                if (!app?.influxDS) {
                     return;
                 }
 
-                const config = { ...influxDS, appId: id };
+                const config = { ...app.influxDS, appId: id };
                 await this.influxService.writeData(config, data);
             }
             default:

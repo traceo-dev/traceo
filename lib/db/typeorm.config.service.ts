@@ -6,7 +6,6 @@ import { Account } from './entities/account.entity';
 import { Application } from './entities/application.entity';
 import { Comment } from './entities/comment.entity';
 import { Incident } from './entities/incident.entity';
-import { InfluxDS } from './entities/influxds.entity';
 import { Log } from './entities/log.entity';
 import { Runtime } from './entities/runtime.entity';
 import { InsertAdminUserOnStartup } from './migrations/InsertAdminUserOnStartup';
@@ -35,8 +34,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           Comment,
           Incident,
           Log,
-          Runtime,
-          InfluxDS
+          Runtime
         ]
       })
     }

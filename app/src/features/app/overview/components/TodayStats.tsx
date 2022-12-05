@@ -19,9 +19,6 @@ export const TodayStats: FC<Props> = ({ count }) => {
       <Space className="today-stats" direction="vertical">
         <Space className="w-full py-4 gap-0 pl-8" direction="vertical">
           <Statistic title="Errors count" className="font-semibold" value={count} />
-          <Typography className="text-xs w-full pt-1">
-            The number of today&apos;s errors
-          </Typography>
         </Space>
         <Divider className="p-0 m-0 bg-gray-200" />
         <Space className="w-full py-4 gap-0 pl-8" direction="vertical">

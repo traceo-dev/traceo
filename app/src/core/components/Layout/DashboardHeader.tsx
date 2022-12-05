@@ -20,11 +20,13 @@ export const DashboardHeader = () => {
   return (
     <>
       <nav className="flex h-12 max-h-12 items-center justify-between py-2 px-5 header-border z-10 bg-canvas">
-        <Space
-          className="w-full cursor-pointer"
-          onClick={() => navigate("/dashboard/overview")}
-        >
-          <TraceoLogo name={true} size="small" />
+        <Space className="w-full">
+          <TraceoLogo
+            name={true}
+            size="small"
+            className="cursor-pointer"
+            onClick={() => navigate("/dashboard/overview")}
+          />
         </Space>
         <Space>
           <Tooltip title="Help">

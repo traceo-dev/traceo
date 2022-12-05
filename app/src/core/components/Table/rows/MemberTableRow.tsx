@@ -86,7 +86,7 @@ export const MemberTableRow: FC<MemberRowProps> = ({
         <td className="w-64" colSpan={2}>
           {updateMode ? (
             <Select
-              style={{ width: "120px" }}
+              style={{ width: "160px" }}
               defaultValue={item?.role}
               onChange={(val) => setRole(val)}
             >

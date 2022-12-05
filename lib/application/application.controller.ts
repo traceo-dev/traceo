@@ -66,7 +66,7 @@ export class ApplicationController {
   ): Promise<ApiResponse<IApplication>> {
     await this.permission.can('CREATE_APP', account);
 
-    return await this.applicationService.createApplication(body, account);
+    return await this.applicationService.create(body, account);
   }
 
   @Patch()
@@ -110,6 +110,6 @@ export class ApplicationController {
   ): Promise<ApiResponse<unknown>> {
     await this.permission.can('DELETE_APP', account);
 
-    return await this.applicationService.deleteApplication(id);
+    return await this.applicationService.delete(id);
   }
 }

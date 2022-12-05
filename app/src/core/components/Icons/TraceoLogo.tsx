@@ -7,10 +7,11 @@ type Size = "small" | "medium";
 interface Props {
   size: Size;
   name?: boolean;
+  className?: string;
   onClick?: () => void;
 }
 
-export const TraceoLogo: FC<Props> = ({ size, onClick, name = false }) => {
+export const TraceoLogo: FC<Props> = ({ size, onClick, name = false, className }) => {
   const handleLogoSize: Record<Size, string> = {
     medium: "w-12 h-12",
     small: "w-6 h-6"
@@ -27,7 +28,7 @@ export const TraceoLogo: FC<Props> = ({ size, onClick, name = false }) => {
   };
 
   return (
-    <Space onClick={() => onClick()}>
+    <Space className={joinClasses(className)} onClick={() => onClick()}>
       <div
         className={joinClasses(
           handleLogoSize[size],

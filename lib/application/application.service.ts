@@ -3,7 +3,6 @@ import { AmrService } from '../application-member/amr.service';
 import { Application } from '../db/entities/application.entity';
 import { EntityManager } from 'typeorm';
 import * as crypto from "crypto";
-import { ApplicationWithNameAlreadyExistsError } from '../helpers/errors';
 import dateUtils from '../helpers/dateUtils';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { AccountQueryService } from '../account/account-query/account-query.service';
@@ -33,7 +32,7 @@ export class ApplicationService {
     this.logger = new Logger(ApplicationService.name)
   }
 
-  public async createApplication(
+  public async create(
     data: CreateApplicationDto,
     user: RequestUser,
   ): Promise<ApiResponse<Application>> {
@@ -86,7 +85,7 @@ export class ApplicationService {
 
       return new ApiResponse("success", "Application successfully created", application);
     }).catch((err: Error) => {
-      this.logger.error(`[${this.createApplication.name}] Caused by: ${err}`);
+      this.logger.error(`[${this.create.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     });
   }
@@ -94,8 +93,8 @@ export class ApplicationService {
   public async generateApiKey(id: string, user: RequestUser): Promise<ApiResponse<string>> {
     const apiKey = crypto.randomUUID();
     try {
-      await this.updateApplication({
-        id, security: {
+      await this.update(id, {
+        security: {
           apiKey,
           lastUpdate: dateUtils.toUnix(),
           generatedBy: user.name
@@ -110,9 +109,7 @@ export class ApplicationService {
 
   public async removeApiKey(id: string): Promise<ApiResponse<unknown>> {
     try {
-      await this.updateApplication({
-        id, security: null
-      });
+      await this.update(id, { security: null });
       return new ApiResponse("success", "API Key Removed.");
     } catch (err) {
       this.logger.error(`[${this.removeApiKey.name}] Caused by: ${err}`);
@@ -120,28 +117,33 @@ export class ApplicationService {
     }
   }
 
-  public async updateApplication(
-    appBody: ApplicationDto | Partial<Application>
-  ): Promise<ApiResponse<unknown>> {
+  public async update(
+    id: string,
+    update: Partial<Application>,
+    manager: EntityManager = this.entityManager
+  ): Promise<void> {
+    await manager.getRepository(Application).update(
+      { id },
+      {
+        updatedAt: dateUtils.toUnix(),
+        ...update
+      },
+    );
+  }
+
+  public async updateApplication(appBody: ApplicationDto | Partial<Application>) {
     const { id, ...rest } = appBody;
 
     try {
-      await this.entityManager.getRepository(Application).update(
-        { id },
-        {
-          updatedAt: dateUtils.toUnix(),
-          ...rest
-        },
-      );
-
+      await this.update(id, rest);
       return new ApiResponse("success", "Application updated")
     } catch (err) {
-      this.logger.error(`[${this.updateApplication.name}] Caused by: ${err}`);
+      this.logger.error(`[${this.update.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     }
   }
 
-  public async deleteApplication(
+  public async delete(
     appId: string
   ): Promise<ApiResponse<unknown>> {
     try {
@@ -154,7 +156,7 @@ export class ApplicationService {
 
       return new ApiResponse("success", "Application removed");
     } catch (err) {
-      this.logger.error(`[${this.deleteApplication.name}] Caused by: ${err}`);
+      this.logger.error(`[${this.delete.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     }
   }

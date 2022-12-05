@@ -7,6 +7,7 @@ import { IApplicationResponse } from '../../../lib/types/interfaces/application.
 import { RequestUser } from '../../../lib/types/interfaces/account.interface';
 import { ApiResponse } from '../../../lib/types/dto/response.dto';
 import { INTERNAL_SERVER_ERROR } from '../../../lib/helpers/constants';
+import { CONNECTION_STATUS } from 'lib/types/enums/tsdb.enum';
 
 @Injectable()
 export class AmrQueryService {
@@ -133,7 +134,6 @@ export class AmrQueryService {
         .innerJoin("amr.account", "account", "account.id = :id", { id })
         .innerJoinAndSelect("amr.application", "application")
         .innerJoinAndSelect("application.owner", "owner")
-        .leftJoinAndSelect("application.influxDS", "influxDS")
         .getOne();
 
       if (!applicationQuery) {
@@ -150,8 +150,15 @@ export class AmrQueryService {
   }
 
   private mapApplicationResponse({ application, role }: AccountMemberRelationship): IApplicationResponse {
+    const { influxDS } = application;
+
     return {
       ...application,
+      influxDS: {
+        ...influxDS,
+        connStatus: influxDS?.connStatus,
+        connError: influxDS?.connStatus
+      },
       member: {
         role
       },
