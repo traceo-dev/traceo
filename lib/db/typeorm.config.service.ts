@@ -7,7 +7,6 @@ import { Application } from './entities/application.entity';
 import { Comment } from './entities/comment.entity';
 import { Incident } from './entities/incident.entity';
 import { Log } from './entities/log.entity';
-import { Runtime } from './entities/runtime.entity';
 import { InsertAdminUserOnStartup } from './migrations/InsertAdminUserOnStartup';
 
 @Injectable()
@@ -33,8 +32,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
           Application,
           Comment,
           Incident,
-          Log,
-          Runtime
+          Log
         ]
       })
     }

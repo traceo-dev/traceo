@@ -10,10 +10,10 @@ import { Account } from "./account.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
 import { GenericEntity } from "../../core/generic.entity";
-import { Runtime } from "./runtime.entity";
 import { IApplication, ISecurity } from "../../../lib/types/interfaces/application.interface";
 import { TSDB } from "../../../lib/types/enums/tsdb.enum";
 import { IInfluxDs } from "../../../lib/types/interfaces/influxds.interface";
+import { IRuntime } from "../../../lib/types/interfaces/runtime.interface";
 
 @Entity()
 export class Application extends GenericEntity implements IApplication {
@@ -64,7 +64,6 @@ export class Application extends GenericEntity implements IApplication {
   })
   incidents?: Incident[];
 
-
   @Column({
     type: "bigint",
     nullable: false,
@@ -81,11 +80,11 @@ export class Application extends GenericEntity implements IApplication {
   })
   errorsCount?: number = 0;
 
-  @OneToMany(() => Runtime, (runtime) => runtime.application, {
-    onUpdate: "CASCADE",
-    onDelete: "CASCADE",
+  @Column({
+    type: "simple-json",
+    nullable: true
   })
-  runtimeData?: Runtime[];
+  runtimeConfig?: IRuntime;
 
   @Column({
     type: "simple-json",

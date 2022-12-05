@@ -7,7 +7,6 @@ import { IApplicationResponse } from '../../../lib/types/interfaces/application.
 import { RequestUser } from '../../../lib/types/interfaces/account.interface';
 import { ApiResponse } from '../../../lib/types/dto/response.dto';
 import { INTERNAL_SERVER_ERROR } from '../../../lib/helpers/constants';
-import { CONNECTION_STATUS } from 'lib/types/enums/tsdb.enum';
 
 @Injectable()
 export class AmrQueryService {
@@ -137,7 +136,6 @@ export class AmrQueryService {
         .getOne();
 
       if (!applicationQuery) {
-        // TODO:
         return new ApiResponse("success", undefined, []);
       }
 

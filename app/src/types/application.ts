@@ -38,6 +38,9 @@ export interface Application {
   connectedTSDB?: TSDB;
   influxDS: InfluxDS;
   isIntegrated: boolean;
+  runtimeConfig: {
+    data: { [key: string]: any }
+  }
   security: {
     apiKey: string;
     lastUpdate: number;

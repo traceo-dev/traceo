@@ -3,7 +3,6 @@ import { combineReducers, AnyAction } from "redux";
 import applicationReducer from "../../features/app/state/reducers";
 import incidentsReducer from "../../features/app/incidents/state/reducers";
 import membersReducer from "../../features/app/settings/state/members/reducers";
-import configReducer from "../../features/app/explore/runtime/state/reducers";
 import logsReducer from "../../features/app/explore/logs/state/reducers";
 import accountReducer from "../../features/auth/state/reducers";
 import serverAccountsReducer from "../../features/management/state/accounts/reducers";
@@ -20,7 +19,6 @@ const rootReducers = {
   ...membersReducer,
   ...applicationReducer,
   ...dashboardReducer,
-  ...configReducer,
   ...logsReducer
 };
 

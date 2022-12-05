@@ -17,7 +17,7 @@ export interface IApplication {
     incidents?: IIncident[];
     incidentsCount?: number;
     errorsCount?: number;
-    runtimeData?: IRuntime[];
+    runtimeConfig?: IRuntime;
     influxDS?: IInfluxDs;
     connectedTSDB?: TSDB;
     isIntegrated: boolean;

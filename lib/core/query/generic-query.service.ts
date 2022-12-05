@@ -22,7 +22,7 @@ export abstract class GenericQueryService<
     this.repository = manager.getRepository<ENTITY>(repository);
   }
 
-  public async getApiDto(id: number | string): Promise<ApiResponse<ENTITY>> {
+  public async getApiDto(id: string): Promise<ApiResponse<ENTITY>> {
     try {
       const response = await this.getDto(id);
       return new ApiResponse("success", undefined, response);
@@ -40,7 +40,7 @@ export abstract class GenericQueryService<
     }
   }
 
-  public async getDto(id: number | string): Promise<ENTITY> {
+  public async getDto(id: string): Promise<ENTITY> {
     const where: FindOptionsWhere<ENTITY> = { id } as any;
     return await this.repository.findOneBy(where)
   }

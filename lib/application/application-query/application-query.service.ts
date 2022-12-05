@@ -3,7 +3,6 @@ import { BaseDtoQuery } from '../../core/query/generic.model';
 import { GenericQueryService } from '../../core/query/generic-query.service';
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
 import { Application } from '../../db/entities/application.entity';
-import { Runtime } from '../../db/entities/runtime.entity';
 import { Log } from '../../db/entities/log.entity';
 import { ApplicationLogsQuery } from '../../../lib/types/interfaces/log.interface';
 import { ApiResponse } from '../../../lib/types/dto/response.dto';
@@ -60,25 +59,11 @@ export class ApplicationQueryService extends GenericQueryService<
     return ["id", "name", "gravatar", "lastIncidentAt", "incidentsCount", "connectedTSDB", "isIntegrated"];
   }
 
-  public async getApplicationRuntime(appId: string): Promise<ApiResponse<object>> {
-    try {
-      const config = await this.entityManager
-        .getRepository(Runtime)
-        .findOneBy({ application: { id: appId } });
-
-      return new ApiResponse("success", undefined, config?.data || {});
-    } catch (error) {
-      this.logger.error(`[${this.getApplicationRuntime.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR);
-    }
-  }
-
   public async getApplicationLogs(query: ApplicationLogsQuery) {
     const { startDate, endDate, id } = query;
 
     if (!id) {
-      // TODO:
-      return new ApiResponse("success", undefined, []);
+      throw new Error(`[${this.getApplicationLogs.name}] Application ID is required!`);
     }
 
     try {
@@ -93,7 +78,7 @@ export class ApplicationQueryService extends GenericQueryService<
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {
-      this.logger.error(`[${this.getApplicationRuntime.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.getApplicationLogs.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
   }

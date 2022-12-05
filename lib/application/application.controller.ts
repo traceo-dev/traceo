@@ -42,14 +42,6 @@ export class ApplicationController {
     return await this.applicationQueryService.getApiListDto(query);
   }
 
-  @Get('/runtime')
-  @AuthRequired()
-  async getApplicationRuntimeConfiguration(
-    @Query() query: { id: string },
-  ): Promise<ApiResponse<object>> {
-    return await this.applicationQueryService.getApplicationRuntime(query.id);
-  }
-
   @Get('/logs')
   @AuthRequired()
   async getApplicationLogs(

@@ -46,8 +46,14 @@ export class InfluxService {
     }
 
     async writeData(config: Partial<InfluxConfiguration>, data: IMetrics): Promise<void> {
-        const { url, token, bucket, org, connStatus, appId } = config;
+        const { appId, connStatus, ...rest } = config;
+        const { bucket, org, token, url } = rest;
         const { cpuUsage, memory, loadAvg, heap, eventLoopLag, gc } = data;
+
+        if (!url || !token) {
+            this.logger.error(`[${this.queryData.name}] URL and Token are required!`);
+            return;
+        }
 
         const influxDb = new InfluxDB({ url, token });
 
@@ -77,8 +83,9 @@ export class InfluxService {
                 if (connStatus === CONNECTION_STATUS.FAILED) {
                     await this.entityManager.getRepository(Application).update({ id: appId }, {
                         influxDS: {
+                            ...rest,
                             connStatus: CONNECTION_STATUS.CONNECTED,
-                            connError: null
+                            connError: null,
                         }
                     });
                 }
@@ -89,6 +96,7 @@ export class InfluxService {
                 if (connStatus === CONNECTION_STATUS.CONNECTED) {
                     await this.entityManager.getRepository(Application).update({ id: appId }, {
                         influxDS: {
+                            ...rest,
                             connStatus: CONNECTION_STATUS.FAILED,
                             connError: error
                         }
@@ -122,6 +130,11 @@ export class InfluxService {
     async queryData(config: IInfluxDs, dtoQuery: MetricsQuery): Promise<MetricsResponse[]> {
         const { url, token, org, bucket } = config;
         const { hrCount, id } = dtoQuery;
+
+        if (!url || !token) {
+            this.logger.error(`[${this.queryData.name}] URL and Token are required!`);
+            return;
+        }
 
         const influxDb = new InfluxDB({ url, token });
 
