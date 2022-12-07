@@ -49,7 +49,7 @@ export abstract class BaseWorkerService<PAYLOAD> {
             throw new Error('Missing property: API Key.');
         }
 
-        if (!app.security.apiKey || app.security.apiKey !== apiKey) {
+        if (!app.security?.apiKey || app.security?.apiKey !== apiKey) {
             throw new Error(`Bad API Key for App ID: ${id}`);
         }
 

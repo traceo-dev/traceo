@@ -31,7 +31,7 @@ export class IncidentsQueryService extends GenericQueryService<
     const { appId } = query;
 
     builder
-      .where("incident.applicationId = :appId", { appId })
+      .where("incident.application_id = :appId", { appId })
       .leftJoin("incident.assigned", "assigned")
       .loadRelationCountAndMap("incident.commentsCount", "incident.comments")
       .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.gravatar"]);

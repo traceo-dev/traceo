@@ -23,15 +23,14 @@ export class InfluxService {
     async saveInfluxDataSource(config: InfluxConfigurationDto): Promise<ApiResponse<DataSourceConnStatus>> {
         const { appId } = config;
 
-        return await this.entityManager.transaction(async (manager) => {
+        return this.entityManager.transaction(async (manager) => {
             const { status, error } = await this.influxConnectionTest({ ...config });
-            const dsPayload = {
-                ...config,
-                connError: error,
-                connStatus: status
-            };
             await manager.getRepository(Application).update({ id: appId }, {
-                influxDS: dsPayload,
+                influxDS: {
+                    ...config,
+                    connError: error,
+                    connStatus: status
+                },
                 connectedTSDB: TSDB.INFLUX2
             });
             this.logger.log(`InfluxDB data source updated in app: ${appId}`);
@@ -54,6 +53,8 @@ export class InfluxService {
             this.logger.error(`[${this.queryData.name}] URL and Token are required!`);
             return;
         }
+
+        const appRef = this.entityManager.getRepository(Application);
 
         const influxDb = new InfluxDB({ url, token });
 
@@ -81,26 +82,16 @@ export class InfluxService {
                 this.logger.log(`New metrics write to InfluxDB for appId: ${appId}`);
 
                 if (connStatus === CONNECTION_STATUS.FAILED) {
-                    await this.entityManager.getRepository(Application).update({ id: appId }, {
-                        influxDS: {
-                            ...rest,
-                            connStatus: CONNECTION_STATUS.CONNECTED,
-                            connError: null,
-                        }
-                    });
+                    const influxDS = { ...rest, connStatus: CONNECTION_STATUS.CONNECTED, connError: null };
+                    await appRef.update({ id: appId }, { influxDS });
                 }
             })
             .catch(async (error) => {
                 this.logger.error(`Cannot write new metrics to InfluxDB for appId: ${appId}. Caused by: ${error}`);
 
                 if (connStatus === CONNECTION_STATUS.CONNECTED) {
-                    await this.entityManager.getRepository(Application).update({ id: appId }, {
-                        influxDS: {
-                            ...rest,
-                            connStatus: CONNECTION_STATUS.FAILED,
-                            connError: error
-                        }
-                    });
+                    const influxDS = { ...rest, connStatus: CONNECTION_STATUS.FAILED, connError: String(error["code"]) };
+                    await appRef.update({ id: appId }, { influxDS });
                 }
             });
     }

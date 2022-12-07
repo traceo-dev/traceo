@@ -155,7 +155,7 @@ export class AmrQueryService {
       influxDS: {
         ...influxDS,
         connStatus: influxDS?.connStatus,
-        connError: influxDS?.connStatus
+        connError: influxDS?.connError
       },
       member: {
         role

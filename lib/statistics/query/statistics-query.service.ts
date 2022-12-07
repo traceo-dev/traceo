@@ -24,10 +24,10 @@ export class StatisticsQueryService {
       const incidents = await this.entityManger
         .getRepository(Incident)
         .createQueryBuilder("incident")
-        .where("incident.applicationId = :id", { id })
-        .andWhere("incident.lastError > :date", { date: minDateBefore })
-        .orderBy("incident.createdAt", "DESC", "NULLS LAST")
-        .select(["incident.errorsDetails", "incident.errorsCount"])
+        .where("incident.application_id = :id", { id })
+        .andWhere("incident.last_error > :date", { date: minDateBefore })
+        .orderBy("incident.created_at", "DESC", "NULLS LAST")
+        .select(["incident.errorsDetails"])
         .getMany();
 
       const errorsDetails: ErrorDetails[] = incidents.reduce(
@@ -55,9 +55,9 @@ export class StatisticsQueryService {
       const incidents = await this.entityManger
         .getRepository(Incident)
         .createQueryBuilder("incident")
-        .where("incident.applicationId = :applicationId", { applicationId })
-        .andWhere("incident.lastError > :today", { today })
-        .select(["incident.errorsDetails", "incident.errorsCount"])
+        .where("incident.application_id = :applicationId", { applicationId })
+        .andWhere("incident.last_error > :today", { today })
+        .select(["incident.errorsDetails"])
         .getMany();
 
       const cachedDates: ErrorDetails[] = incidents.reduce(
@@ -81,7 +81,7 @@ export class StatisticsQueryService {
       const incidents = await this.entityManger
         .getRepository(Incident)
         .createQueryBuilder("incident")
-        .where("incident.applicationId = :appId", { appId })
+        .where("incident.application_id = :appId", { appId })
         .select("incident.errorsDetails")
         .getMany();
 

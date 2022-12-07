@@ -29,7 +29,8 @@ export class Log extends GenericEntity implements ILog {
 
     @Column({
         type: "bigint",
-        nullable: true
+        nullable: true,
+        name: "receive_timestamp"
     })
     receiveTimestamp: number;
 

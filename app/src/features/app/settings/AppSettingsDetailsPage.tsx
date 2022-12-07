@@ -61,7 +61,7 @@ export const AppSettingsDetailsPage = () => {
       <PagePanel title="Basic Informations">
         <Descriptions>
           <DescriptionInputRow label="ID" editable={false}>
-            {application?.id}
+            <Typography.Text copyable>{application?.id}</Typography.Text>
           </DescriptionInputRow>
           <DescriptionInputRow label="Name" onUpdate={onUpdateName} editable={!isViewer}>
             {application?.name}

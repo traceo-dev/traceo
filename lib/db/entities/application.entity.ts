@@ -34,17 +34,24 @@ export class Application extends GenericEntity implements IApplication {
 
   @ManyToOne(() => Account)
   @JoinColumn({
-    name: 'ownerId',
+    name: 'owner_id',
   })
   owner: Account;
 
   @Column({ nullable: true })
   gravatar?: string;
 
-  @Column({ nullable: true })
+  @Column({
+    nullable: true,
+    name: "last_incident_at"
+  })
   lastIncidentAt?: number;
 
-  @Column({ nullable: false, default: false })
+  @Column({
+    nullable: false,
+    default: false,
+    name: "is_integrated"
+  })
   isIntegrated: boolean;
 
   @OneToMany(
@@ -67,7 +74,7 @@ export class Application extends GenericEntity implements IApplication {
   @Column({
     type: "bigint",
     nullable: false,
-    name: "incidentscount",
+    name: "incidents_count",
     default: 0
   })
   incidentsCount?: number = 0;
@@ -75,26 +82,29 @@ export class Application extends GenericEntity implements IApplication {
   @Column({
     type: "bigint",
     nullable: false,
-    name: "errorscount",
+    name: "errors_count",
     default: 0
   })
   errorsCount?: number = 0;
 
   @Column({
     type: "simple-json",
-    nullable: true
+    nullable: true,
+    name: "runtime_config"
   })
   runtimeConfig?: IRuntime;
 
   @Column({
     type: "simple-json",
-    nullable: true
+    nullable: true,
+    name: "influx_ds"
   })
   influxDS?: IInfluxDs;
 
   @Column({
     type: "varchar",
-    nullable: true
+    nullable: true,
+    name: "connected_tsdb"
   })
   connectedTSDB?: TSDB;
 }

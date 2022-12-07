@@ -36,7 +36,7 @@ export class Account extends GenericEntity implements IAccount {
   @Column({ nullable: false })
   status: AccountStatus;
 
-  @Column({ nullable: true, default: false })
+  @Column({ nullable: true, default: false, name: "is_admin" })
   @IsBoolean()
   isAdmin: boolean;
 
@@ -52,12 +52,18 @@ export class Account extends GenericEntity implements IAccount {
   @OneToMany(() => Incident, (incident) => incident.assigned)
   incidents: Incident[];
 
-  @Column({ nullable: false, type: "boolean", default: false })
+  @Column({ 
+    nullable: false, 
+    type: "boolean", 
+    default: false, 
+    name: "is_password_updated" 
+  })
   isPasswordUpdated: boolean;
 
   @Column({
     type: 'bigint',
-    nullable: true
+    nullable: true,
+    name: "last_active_at"
   })
   lastActiveAt?: number;
 }

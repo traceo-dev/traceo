@@ -34,7 +34,7 @@ export class AuthService {
   public async login(
     accountCredentials: AccountCredentialsDto,
   ) {
-    return await this.entityManager.transaction(async (manager) => {
+    return this.entityManager.transaction(async (manager) => {
       const { isCorrect, account } = await this.checkCredentials(
         accountCredentials,
         manager,
@@ -108,7 +108,7 @@ export class AuthService {
     const { id } = currentUser;
     const { newPassword, password } = passwords;
 
-    return await this.entityManager.transaction(async (manager) => {
+    return this.entityManager.transaction(async (manager) => {
       const account = await this.accountQueryService.getDto(id);
       if (!account) {
         throw new AccountNotExistsError();

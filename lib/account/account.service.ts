@@ -112,7 +112,7 @@ export class AccountService {
   }
 
   public async deleteAccount(id: string, user: RequestUser): Promise<ApiResponse<unknown>> {
-    return await this.entityManager.transaction(async (manager) => {
+    return this.entityManager.transaction(async (manager) => {
       const account = await manager
         .getRepository(Account)
         .findOneBy({ id: user.id });

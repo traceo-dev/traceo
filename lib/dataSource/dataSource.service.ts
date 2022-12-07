@@ -64,7 +64,7 @@ export class DataSourceService {
     }
 
     async removeDataSource(id: string): Promise<ApiResponse<unknown>> {
-        return await this.entityManager.transaction(async (manager) => {
+        return this.entityManager.transaction(async (manager) => {
             const app = await this.getDataSourceOrThrowError(id);
             if (!app) {
                 return;

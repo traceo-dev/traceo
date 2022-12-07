@@ -33,6 +33,8 @@ const SettingsAccountPage = () => {
   const isAdmin = account.email === ADMIN_EMAIL;
   const isDemo = process.env.DEMO === "true";
 
+  console.log("ACC: ", account);
+
   return (
     <>
       <DashboardSettingsNavigation>

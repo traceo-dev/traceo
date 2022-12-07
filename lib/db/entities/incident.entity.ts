@@ -47,12 +47,15 @@ export class Incident extends GenericEntity implements IIncident {
 
   @Column({
     type: "bigint",
-    nullable: true
+    nullable: true,
+    name: "last_error"
   })
   lastError: number;
 
   @Column({
     type: "int",
+    name: "errors_count",
+    default: 0
   })
   errorsCount: number;
 
@@ -61,7 +64,7 @@ export class Incident extends GenericEntity implements IIncident {
     onDelete: "CASCADE",
   })
   @JoinColumn({
-    name: "applicationId",
+    name: "application_id",
   })
   application: Application;
 
@@ -69,7 +72,7 @@ export class Incident extends GenericEntity implements IIncident {
     onDelete: "SET NULL"
   })
   @JoinColumn({
-    name: "assignedId",
+    name: "assigned_id",
   })
   assigned: Account;
 
@@ -85,7 +88,8 @@ export class Incident extends GenericEntity implements IIncident {
 
   @Column({
     type: "simple-json",
-    nullable: true
+    nullable: true,
+    name: "errors_details"
   })
   errorsDetails: Array<ErrorDetails>;
 

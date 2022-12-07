@@ -19,7 +19,7 @@ export class ProcessIncidentsService extends BaseWorkerService<TraceoIncidentMod
         const { type, message } = data;
 
         await this.entityManager.transaction(async (manager) => {
-            let incidentQuery = await manager.getRepository(Incident)
+            let incidentQuery = manager.getRepository(Incident)
                 .createQueryBuilder('incident')
                 .innerJoin('incident.application', 'application', 'application.id = :id', { id: application.id })
                 .where('incident.type = :type', { type })
@@ -68,26 +68,23 @@ export class ProcessIncidentsService extends BaseWorkerService<TraceoIncidentMod
     }
 
     private async updateApplication(app: Application, incrementIncidentCount: boolean, manager: EntityManager = this.entityManager): Promise<UpdateResult> {
-        return await manager
-            .createQueryBuilder()
-            .update(Application)
-            .whereInIds(app.id)
-            .set({
-                lastIncidentAt: dateUtils.toUnix(),
-                errorsCount: () => "errorsCount + 1",
-                incidentsCount: () => `incidentsCount + ${incrementIncidentCount ? 1 : 0}`
-            })
-            .execute();
+        const incrementValue = incrementIncidentCount ? 1 : 0;
+        const sql = `
+          UPDATE application
+          SET last_incident_at = ${dateUtils.toUnix()},
+              errors_count = errors_count + 1,
+              incidents_count = incidents_count + ${incrementValue}
+          WHERE id = '${app.id}'
+        `;
+        return await manager.query(sql);
     }
 
-    private async saveError(incident: Incident, manager: EntityManager = this.entityManager) {
-        // TODO: to refactoring
-        incident?.errorsDetails.push({ date: dateUtils.toUnix() });
-        await manager.getRepository(Incident).update(
-            { id: incident?.id },
+    private async saveError({ id, errorsCount, errorsDetails }: Incident, manager: EntityManager = this.entityManager) {
+        errorsDetails.push({ date: dateUtils.toUnix() });
+        await manager.getRepository(Incident).update({ id },
             {
-                errorsCount: (incident.errorsCount += 1),
-                errorsDetails: incident?.errorsDetails,
+                errorsDetails,
+                errorsCount: (errorsCount += 1),
                 lastError: dateUtils.toUnix()
             },
         );

@@ -38,7 +38,7 @@ export class ApplicationService {
   ): Promise<ApiResponse<Application>> {
     const { id, name } = user;
 
-    return await this.entityManager.transaction(async (manager) => {
+    return this.entityManager.transaction(async (manager) => {
       const app = await this.applicationQueryService.getDtoBy({ name: data.name });
       if (app) {
         return new ApiResponse("error", "Application with this name already exists");

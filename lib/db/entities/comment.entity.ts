@@ -22,13 +22,14 @@ export class Comment extends GenericEntity implements IComment {
 
   @ManyToOne(() => Account)
   @JoinColumn({
-    name: "senderId",
+    name: "sender_id",
   })
   sender: Account;
 
   @Column({
     type: "bigint",
-    nullable: true
+    nullable: true,
+    name: "last_updated_at"
   })
   lastUpdateAt?: number;
 
@@ -44,7 +45,7 @@ export class Comment extends GenericEntity implements IComment {
     nullable: false
   })
   @JoinColumn({
-    name: "incidentId",
+    name: "incident_id",
   })
   incident: Incident;
 }

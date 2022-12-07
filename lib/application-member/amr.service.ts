@@ -37,21 +37,20 @@ export class AmrService {
     role: MemberRole = MemberRole.VIEWER,
     manager: EntityManager = this.entityManager,
   ): Promise<void> {
-    const awr: Partial<AccountMemberRelationship> = {
+    await manager.getRepository(AccountMemberRelationship).save({
       account,
       application,
       role,
       createdAt: dateUtils.toUnix(),
       updatedAt: dateUtils.toUnix()
-    };
-    await manager.getRepository(AccountMemberRelationship).save(awr);
+    });
   }
 
   public async addAccountToApplication(
     body: AddAccountToApplicationDto,
   ): Promise<ApiResponse<unknown>> {
     const { applicationId, accountId, role } = body;
-    return await this.entityManager.transaction(async (manager) => {
+    return this.entityManager.transaction(async (manager) => {
       const exists = await this.awrQueryService.awrExists(
         { accountId, applicationId },
         manager,
@@ -89,9 +88,9 @@ export class AmrService {
     }
   }
 
-  public async removeAccountFromApplication(awrId: string): Promise<ApiResponse<unknown>> {
+  public async removeAccountFromApplication(id: string): Promise<ApiResponse<unknown>> {
     try {
-      await this.removeAwr(awrId);
+      await this.removeAwr(id);
       return new ApiResponse("success", "Removed from application");
     } catch (err) {
       this.logger.error(`[${this.removeAccountFromApplication.name}] Caused by: ${err}`);
@@ -100,9 +99,9 @@ export class AmrService {
   }
 
   private async removeAwr(
-    awrId: string,
+    id: string,
     manager: EntityManager = this.entityManager,
   ): Promise<void> {
-    await manager.getRepository(AccountMemberRelationship).delete({ id: awrId });
+    await manager.getRepository(AccountMemberRelationship).delete({ id });
   }
 }

@@ -1,4 +1,4 @@
-import { Button, Space } from "antd";
+import { Button, Space, Typography } from "antd";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -58,6 +58,9 @@ export const ApplicationInformation = () => {
     <>
       <PagePanel title="Basic Information" extra={<OperationButtons />}>
         <Descriptions>
+          <DescriptionInputRow label="ID" editable={false}>
+            <Typography.Text copyable>{application?.id}</Typography.Text>
+          </DescriptionInputRow>
           <DescriptionInputRow label="Name" editable={true} onUpdate={onUpdate}>
             {application.name}
           </DescriptionInputRow>
