@@ -11,7 +11,7 @@ import { MenuRoute } from "../.../../../../../types/navigation";
 import { StoreState } from "../.../../../../../types/store";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
-import { GH_REPO_LINK } from "core/utils/constants";
+import { GH_REPO_LINK } from "../.../../../../../core/utils/constants";
 import { useNavigate } from "react-router-dom";
 
 export const DashboardNavBar = () => {
