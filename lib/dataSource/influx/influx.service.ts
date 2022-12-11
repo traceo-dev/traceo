@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { InfluxDB, Point } from '@influxdata/influxdb-client'
 import { DataSourceConnStatus } from '../../../lib/types/interfaces/tsdb.interface';
-import { IMetrics, MetricsQuery, MetricsResponse } from '../../../lib/types/interfaces/metrics.interface';
+import { IMetrics, metricFields, MetricNameEnum, MetricsQuery, MetricsResponse } from '../../../lib/types/interfaces/metrics.interface';
 import { CONNECTION_STATUS, TSDB } from '../../../lib/types/enums/tsdb.enum';
 import { InfluxConfigurationDto } from '../../../lib/types/dto/influx.dto';
 import { IInfluxDs, InfluxConfiguration } from '../../../lib/types/interfaces/influxds.interface';
@@ -20,7 +20,7 @@ export class InfluxService {
         this.logger = new Logger(InfluxService.name);
     }
 
-    async saveInfluxDataSource(config: InfluxConfigurationDto): Promise<ApiResponse<DataSourceConnStatus>> {
+    public async saveInfluxDataSource(config: InfluxConfigurationDto): Promise<ApiResponse<DataSourceConnStatus>> {
         const { appId } = config;
 
         return this.entityManager.transaction(async (manager) => {
@@ -44,7 +44,7 @@ export class InfluxService {
         });
     }
 
-    async writeData(config: Partial<InfluxConfiguration>, data: IMetrics): Promise<void> {
+    public async writeData(config: Partial<InfluxConfiguration>, data: IMetrics): Promise<void> {
         const { appId, connStatus, ...rest } = config;
         const { bucket, org, token, url } = rest;
         const { cpuUsage, memory, loadAvg, heap, eventLoopLag, gc } = data;
@@ -57,23 +57,22 @@ export class InfluxService {
         const appRef = this.entityManager.getRepository(Application);
 
         const influxDb = new InfluxDB({ url, token });
-
         const write = influxDb.getWriteApi(org, bucket);
-        // TODO: probably there is a better way to store multiple values allocated to single time...
+
         const point = new Point(`metrics_${appId}`)
-            .floatField('cpuUsage', cpuUsage)
-            .floatField('memoryUsage', memory.percentage)
-            .floatField('rss', heap.rss)
-            .floatField('heapUsed', heap.used)
-            .floatField('heapTotal', heap.total)
-            .intField('loadAvg', loadAvg)
-            .intField('heapNativeContexts', heap.nativeContexts)
-            .intField('heapDetachedContexts', heap.detachedContexts)
-            .intField('loopMin', eventLoopLag.min)
-            .intField('loopMax', eventLoopLag.max)
-            .intField('loopMean', eventLoopLag.mean)
-            .floatField('gcTotalTime', gc.duration?.total || 0)
-            .floatField('gcAvgTime', gc.duration?.average || 0);
+            .floatField(MetricNameEnum.CPU_USAGE, cpuUsage)
+            .floatField(MetricNameEnum.MEMORY_USAGE, memory.percentage)
+            .floatField(MetricNameEnum.RSS, heap.rss)
+            .floatField(MetricNameEnum.HEAP_USED, heap.used)
+            .floatField(MetricNameEnum.HEAP_TOTAL, heap.total)
+            .intField(MetricNameEnum.LOAD_AVG, loadAvg)
+            .intField(MetricNameEnum.HEAP_NATIVE_CONTEXTS, heap.nativeContexts)
+            .intField(MetricNameEnum.HEAP_DETACHED_CONTEXTS, heap.detachedContexts)
+            .intField(MetricNameEnum.LOOP_MIN, eventLoopLag.min)
+            .intField(MetricNameEnum.LOOP_MAX, eventLoopLag.max)
+            .intField(MetricNameEnum.LOOP_MEAN, eventLoopLag.mean)
+            .floatField(MetricNameEnum.GC_TOTAL_TIME, gc.duration?.total || 0)
+            .floatField(MetricNameEnum.GC_AVG_TIME, gc.duration?.average || 0);
 
         write.writePoint(point);
         write
@@ -118,7 +117,7 @@ export class InfluxService {
             });
     }
 
-    async queryData(config: IInfluxDs, dtoQuery: MetricsQuery): Promise<MetricsResponse[]> {
+    public async queryData(config: IInfluxDs, dtoQuery: MetricsQuery): Promise<MetricsResponse[]> {
         const { url, token, org, bucket } = config;
         const { hrCount, id } = dtoQuery;
 
@@ -128,7 +127,6 @@ export class InfluxService {
         }
 
         const influxDb = new InfluxDB({ url, token });
-
         const queryApi = influxDb.getQueryApi(org)
 
         const query = `
@@ -136,35 +134,11 @@ export class InfluxService {
                 |> range(start: -${hrCount}h)
                 |> filter(fn: (r) => r._measurement == "metrics_${id}")
                 |> filter(fn: (r) => 
-                    r._field == "cpuUsage" or 
-                    r._field == "memoryUsage" or
-                    r._field == "loadAvg" or
-                    r._field == "heapUsed" or
-                    r._field == "heapTotal" or
-                    r._field == "rss" or
-                    r._field == "heapNativeContexts" or
-                    r._field == "heapDetachedContexts" or
-                    r._field == "loopMin" or
-                    r._field == "loopMax" or
-                    r._field == "loopMean" or
-                    r._field == "gcTotalTime" or
-                    r._field == "gcAvgTime")
+                    ${this.filterQuery}
                 |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
                 |> keep(columns: [
                         "_time", 
-                        "cpuUsage", 
-                        "memoryUsage", 
-                        "loadAvg", 
-                        "heapUsed", 
-                        "heapTotal", 
-                        "rss", 
-                        "heapNativeContexts", 
-                        "heapDetachedContexts",
-                        "loopMin",
-                        "loopMax",
-                        "loopMean",
-                        "gcTotalTime",
-                        "gcAvgTime"
+                    ${this.columnQuery}
                     ])
         `;
         try {
@@ -173,5 +147,31 @@ export class InfluxService {
             this.logger.error(`[${this.queryData.name}] Caused by: ${error}`);
             return [];
         }
+    }
+
+    private get filterQuery(): string {
+        const mapSize = metricFields.size;
+        let index = 0, filterQuery = "";
+
+        for (const [key, _] of metricFields.entries()) {
+            index++;
+            const isLastField = index === mapSize;
+            filterQuery += isLastField ? `r._field == "${key}")` : `r._field == "${key}" or \n`;
+        }
+
+        return filterQuery;
+    }
+
+    private get columnQuery(): string {
+        const mapSize = metricFields.size;
+        let index = 0, columnQuery = "";
+
+        for (const [key, _] of metricFields.entries()) {
+            index++;
+            const isLastIndex = index === mapSize;
+            columnQuery += isLastIndex ? `"${key}"\n` : `"${key}",\n`;
+        }
+
+        return columnQuery;
     }
 }

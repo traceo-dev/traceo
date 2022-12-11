@@ -1,5 +1,5 @@
-import { AreaChartOutlined } from "@ant-design/icons";
-import PageHeader from "../../../../core/components/PageHeader";
+import { Typography } from "antd";
+import { PagePanel } from "core/components/PagePanel";
 import AppPage from "../../../../features/app/components/AppPage";
 import { handleHeaderInfo } from "../../../../types/metrics";
 
@@ -12,7 +12,9 @@ export const AppMetricsPreviewNavigationPage = ({ children }) => {
   return (
     <>
       <AppPage>
-        <PageHeader icon={<AreaChartOutlined />} {...info} />
+        <PagePanel title={info?.title}>
+          <Typography.Paragraph>{info?.description}</Typography.Paragraph>
+        </PagePanel>
         {children}
       </AppPage>
     </>

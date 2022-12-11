@@ -28,11 +28,7 @@ export const DashboardHeader = () => {
             onClick={() => navigate("/dashboard/overview")}
           />
         </Space>
-        <Space>
-          <Tooltip title="Help">
-            <QuestionCircleOutlined className="icon-small" onClick={openQuestionCircle} />
-          </Tooltip>
-        </Space>
+        <Space></Space>
       </nav>
       <style>{`
         .header-border {

@@ -11,24 +11,24 @@ export enum METRIC_TYPE {
 
 export type CHART_TYPE = "bar" | "line" | "scatter";
 
-export const handleHeaderInfo: Record<METRIC_TYPE, { title: string; subTitle: string }> = {
+export const handleHeaderInfo: Record<METRIC_TYPE, { title: string; description: string }> = {
     [METRIC_TYPE.CPU]: {
         title: "CPU Usage",
-        subTitle:
+        description:
             "CPU usage is the percentage of time that the CPU is being used to complete its tasks."
     },
     [METRIC_TYPE.MEMORY]: {
         title: "Memory Usage",
-        subTitle: "The amount of RAM memory being used."
+        description: "The amount of RAM memory being used."
     },
     [METRIC_TYPE.LOAD_AVG]: {
         title: "Load Average",
-        subTitle:
-            "Load Average is a measure of system activity calculated by the operating system over the last minute and expressed as a fractional number. Supported only by UNIX os."
+        description:
+            "Load Average is a measure of system activity calculated by the operating system over the last minute and expressed as a fractional number. Supported only by UNIX operation systems."
     },
     [METRIC_TYPE.HEAP]: {
         title: "Heap",
-        subTitle: "Total amount of memory being used by JS objects."
+        description: "Total amount of memory being used by JS objects."
     },
     // [METRIC_TYPE.GC_TIME]: {
     //     title: "Garbage Collection Time",
@@ -36,14 +36,14 @@ export const handleHeaderInfo: Record<METRIC_TYPE, { title: string; subTitle: st
     // },
     [METRIC_TYPE.RSS]: {
         title: "RSS",
-        subTitle: "Resident set size (RSS) is the portion of memory occupied by a process that is held in main memory (RAM)."
+        description: "Resident set size (RSS) is the portion of memory occupied by a process that is held in main memory (RAM)."
     },
     [METRIC_TYPE.HEAP_CONTEXTS]: {
         title: "Heap Contexts",
-        subTitle: "Values that indicate the existence of memory leaks."
+        description: "Values that indicate the existence of memory leaks."
     },
     [METRIC_TYPE.EVENT_LOOP_DELAY]: {
         title: "Event Loop Delay",
-        subTitle: "Minimum, maximum and mean delay of the NodeJS event loop."
+        description: "Minimum, maximum and mean delay of the NodeJS event loop."
     }
 };

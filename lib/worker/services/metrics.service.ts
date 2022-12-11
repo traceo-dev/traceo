@@ -18,10 +18,11 @@ export class MetricsService extends BaseWorkerService<IMetrics> {
     public async handle(application: Application, data: IMetrics): Promise<void> {
         const { id } = application;
 
-        const app = await this.entityManager.getRepository(Application)
-            .createQueryBuilder('application')
-            .where('application.id = :id', { id })
-            .getOne();
+        const app = await this.entityManager.getRepository(Application).findOneBy({ id });
+        if (!app) {
+            this.logger.error(`Bad appId. Application for metrics not found!`);
+            return;
+        }
 
         if (!app?.connectedTSDB) {
             this.logger.error(`Metrics are sent to appID: ${id} but metrics datasource are not connected!`);

@@ -2,7 +2,8 @@ import {
   HomeOutlined,
   SettingOutlined,
   UserOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  LinkOutlined
 } from "@ant-design/icons";
 import { logout } from "../.../../../../../core/utils/logout";
 import { useSelector } from "react-redux";
@@ -10,12 +11,18 @@ import { MenuRoute } from "../.../../../../../types/navigation";
 import { StoreState } from "../.../../../../../types/store";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
+import { GH_REPO_LINK } from "core/utils/constants";
+import { useNavigate } from "react-router-dom";
 
 export const DashboardNavBar = () => {
+  const navigate = useNavigate();
+
   const { account } = useSelector((state: StoreState) => state.account);
 
   const filterRoutes = (routes: MenuRoute[]) =>
     !account.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
+
+  const navigateDocumentation = () => window.open(GH_REPO_LINK, "_blank");
 
   const topRoutes: MenuRoute[] = filterRoutes([
     {
@@ -46,6 +53,12 @@ export const DashboardNavBar = () => {
   ]);
 
   const bottomRoutes: MenuRoute[] = filterRoutes([
+    {
+      label: "Documentation",
+      href: "",
+      icon: <LinkOutlined />,
+      onClick: () => navigateDocumentation()
+    },
     {
       label: "Logout",
       href: "",
