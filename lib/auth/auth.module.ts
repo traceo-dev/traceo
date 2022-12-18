@@ -3,14 +3,14 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { AccountService } from '../account/account.service';
-import { JwtStrategy } from './jwt/jwt.strategy';
-import { AccountQueryService } from '../account/account-query/account-query.service';
-import { ApplicationQueryService } from '../application/application-query/application-query.service';
-import { AmrService } from '../application-member/amr.service';
-import { AmrQueryService } from '../application-member/amr-query/amr-query.service';
 import { HttpModule } from "@nestjs/axios";
-import { AccountPermissionService } from '../../lib/account/account-permission/account-permission.service';
+import { GuardsService } from '../common/guards/guards.service';
+import { AccountService } from '../api/account/account.service';
+import { AccountQueryService } from '../api/account/account-query/account-query.service';
+import { AmrQueryService } from '../api/application-member/amr-query/amr-query.service';
+import { AmrService } from '../api/application-member/amr.service';
+import { ApplicationQueryService } from '../api/application/application-query/application-query.service';
+import { JwtStrategy } from './jwt/jwt.strategy';
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { AccountPermissionService } from '../../lib/account/account-permission/a
     ApplicationQueryService,
     AmrService,
     AmrQueryService,
-    AccountPermissionService
+    GuardsService
   ],
   controllers: [AuthController]
 })

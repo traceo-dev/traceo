@@ -9,14 +9,14 @@ import {
 import { Account } from "./account.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
-import { GenericEntity } from "../../core/generic.entity";
-import { IApplication, ISecurity } from "../../../lib/types/interfaces/application.interface";
-import { TSDB } from "../../../lib/types/enums/tsdb.enum";
-import { IInfluxDs } from "../../../lib/types/interfaces/influxds.interface";
-import { IRuntime } from "../../../lib/types/interfaces/runtime.interface";
+import { BaseEntity } from "../../common/base/base.entity";
+import { IApplication, ISecurity } from "../../common/types/interfaces/application.interface";
+import { IInfluxDs } from "../../common/types/interfaces/influxds.interface";
+import { IRuntime } from "../../common/types/interfaces/runtime.interface";
+import { TSDB } from "../../common/types/enums/tsdb.enum";
 
 @Entity()
-export class Application extends GenericEntity implements IApplication {
+export class Application extends BaseEntity implements IApplication {
   @PrimaryColumn("varchar", {
     unique: true,
     nullable: false

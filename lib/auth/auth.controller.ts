@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { IAccount, RequestUser } from '../../lib/types/interfaces/account.interface';
-import { AccountCredentialsDto, UpdatePasswordDto } from '../../lib/types/dto/account.dto';
-import { AuthRequired } from '../helpers/decorators/auth-required.decorator';
-import { AuthAccount } from '../helpers/decorators/auth-user.decorator';
+import { AuthRequired } from '../common/decorators/auth-required.decorator';
+import { AuthAccount } from '../common/decorators/auth-user.decorator';
+import { AccountCredentialsDto, UpdatePasswordDto } from '../common/types/dto/account.dto';
+import { ApiResponse } from '../common/types/dto/response.dto';
+import { RequestUser } from '../common/types/interfaces/account.interface';
 import { AuthService, LoginResponseType } from './auth.service';
-import { ApiResponse } from '../../lib/types/dto/response.dto';
 
 @ApiTags('auth')
 @Controller('auth')

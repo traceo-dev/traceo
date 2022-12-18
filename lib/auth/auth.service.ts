@@ -1,19 +1,17 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { createHmac } from 'crypto';
-import { AccountService } from '../account/account.service';
 import { Account } from '../db/entities/account.entity';
 import { JwtService } from "@nestjs/jwt";
 import { EntityManager } from 'typeorm';
-import {
-  AccountNotExistsError
-} from '../helpers/errors';
-import { JwtPayload } from './jwt/jwt.payload.interface';
-import { AccountQueryService } from '../../lib/account/account-query/account-query.service';
-import { AccountStatus } from '../../lib/types/enums/account.enum';
-import { AccountCredentialsDto, UpdatePasswordDto } from '../../lib/types/dto/account.dto';
-import { IAccount, RequestUser } from '../../lib/types/interfaces/account.interface';
-import { ApiResponse } from '../../lib/types/dto/response.dto';
-import { INTERNAL_SERVER_ERROR } from '../../lib/helpers/constants';
+import { JwtPayload } from 'jsonwebtoken';
+import { AccountQueryService } from '../api/account/account-query/account-query.service';
+import { AccountService } from '../api/account/account.service';
+import { INTERNAL_SERVER_ERROR } from '../common/helpers/constants';
+import { AccountNotExistsError } from '../common/helpers/errors';
+import { AccountCredentialsDto, UpdatePasswordDto } from '../common/types/dto/account.dto';
+import { IAccount, RequestUser } from '../common/types/interfaces/account.interface';
+import { ApiResponse } from '../common/types/dto/response.dto';
+import { AccountStatus } from '../common/types/enums/account.enum';
 
 export type LoginResponseType = { accessToken: string };
 export type CheckCredentialsType = { isCorrect: boolean; account?: IAccount };

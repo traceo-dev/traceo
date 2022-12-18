@@ -9,8 +9,8 @@ import {
 import { Account } from "./account.entity";
 import { Comment } from "./comment.entity";
 import { Application } from "./application.entity";
-import { GenericEntity } from "../../core/generic.entity";
-import { ErrorDetails, IIncident, Platform, Trace } from "../../../lib/types/interfaces/incident.interface";
+import { BaseEntity } from "../../common/base/base.entity";
+import { ErrorDetails, IIncident, Platform, Trace } from "../../common/types/interfaces/incident.interface";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",
@@ -19,7 +19,7 @@ export enum IncidentStatus {
 }
 
 @Entity()
-export class Incident extends GenericEntity implements IIncident {
+export class Incident extends BaseEntity implements IIncident {
   @PrimaryGeneratedColumn("uuid")
   id?: string;
 
