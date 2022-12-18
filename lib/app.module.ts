@@ -1,47 +1,33 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { ApplicationModule } from './application/application.module';
 import { AuthModule } from './auth/auth.module';
-import { AccountModule } from './account/account.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './db/typeorm.config.service';
-import { AmrModule } from './application-member/amr.module';
-import { IncidentsModule } from './incidents/incidents.module';
-import { StatisticsModule } from './statistics/statistics.module';
-import { CommentsModule } from './comments/comments.module';
-import { WebsocketsModule } from './websockets/websockets.module';
-import { DataSourceModule } from './dataSource/dataSource.module';
-import { WorkerModule } from './worker/worker.module';
 import { HttpModule } from '@nestjs/axios';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { AccountPermissionModule } from './account/account-permission/account-permission.module';
+import { CommonModule } from './common/common.module';
+import { ApiModule } from './api/api.module';
+import { ProvidersModule } from './providers/providers.module';
 
 @Module({
   imports: [
     AuthModule,
+    ApiModule,
+    CommonModule,
+    ProvidersModule,
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService
     }),
     ScheduleModule.forRoot(),
-    AccountModule,
-    ApplicationModule,
-    AmrModule,
-    IncidentsModule,
-    StatisticsModule,
-    CommentsModule,
-    WebsocketsModule,
-    DataSourceModule,
-    WorkerModule,
     HttpModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../app'),
       serveStaticOptions: {
         cacheControl: true
       }
-    }),
-    AccountPermissionModule,
+    })
   ],
   controllers: [AppController],
   providers: [],

@@ -1,10 +1,10 @@
-import dateUtils from "../../helpers/dateUtils";
-import tokenService from "../../helpers/tokens";
+import { ADMIN_EMAIL } from "../../common/helpers/constants";
+import dateUtils from "../../common/helpers/dateUtils";
+import { gravatar } from "../../common/helpers/gravatar";
+import tokenService from "../../common/helpers/tokens";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { Account } from "../entities/account.entity";
-import { ADMIN_EMAIL } from "../../helpers/constants";
-import { AccountStatus } from "../../../lib/types/enums/account.enum";
-import { gravatar } from "../../../lib/helpers/gravatar";
+import { AccountStatus } from "../../common/types/enums/account.enum";
 
 export class InsertAdminUserOnStartup implements MigrationInterface {
     name?: string;

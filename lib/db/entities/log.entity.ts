@@ -1,4 +1,4 @@
-import { GenericEntity } from "../../core/generic.entity";
+import { BaseEntity } from "../../common/base/base.entity";
 import {
     Column,
     Entity,
@@ -7,12 +7,12 @@ import {
     PrimaryGeneratedColumn
 } from "typeorm";
 import { Application } from "./application.entity";
-import { ILog } from "../../../lib/types/interfaces/log.interface";
-import { LogLevel } from "../../../lib/types/enums/log.enum";
+import { ILog } from "../../common/types/interfaces/log.interface";
+import { LogLevel } from "../../common/types/enums/log.enum";
 
 
 @Entity()
-export class Log extends GenericEntity implements ILog {
+export class Log extends BaseEntity implements ILog {
     @PrimaryGeneratedColumn("uuid")
     id?: string;
 

@@ -1,4 +1,4 @@
-import { GenericEntity } from "../../core/generic.entity";
+import { BaseEntity } from "../../common/base/base.entity";
 import {
   Column,
   Entity,
@@ -8,11 +8,11 @@ import {
 } from "typeorm";
 import { Account } from "./account.entity";
 import { Application } from "./application.entity";
-import { IAmr } from "../../../lib/types/interfaces/amr.interface";
-import { MemberRole } from "../../../lib/types/enums/amr.enum";
+import { MemberRole } from "../../common/types/enums/amr.enum";
+import { IAmr } from "../../common/types/interfaces/amr.interface";
 
 @Entity()
-export class AccountMemberRelationship extends GenericEntity implements IAmr {
+export class AccountMemberRelationship extends BaseEntity implements IAmr {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 

@@ -1,4 +1,4 @@
-import { IComment } from "../../../lib/types/interfaces/comment.interface";
+import { IComment } from "../../common/types/interfaces/comment.interface";
 import {
   Column,
   Entity,
@@ -6,12 +6,12 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn
 } from "typeorm";
-import { GenericEntity } from "../../core/generic.entity";
+import { BaseEntity } from "../../common/base/base.entity";
 import { Account } from "./account.entity";
 import { Incident } from "./incident.entity";
 
 @Entity()
-export class Comment extends GenericEntity implements IComment {
+export class Comment extends BaseEntity implements IComment {
   @PrimaryGeneratedColumn("uuid")
   id?: string;
 

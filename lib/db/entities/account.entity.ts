@@ -1,18 +1,18 @@
 import { IsBoolean, IsEmail } from "class-validator";
-import { AccountStatus } from "../../../lib/types/enums/account.enum";
-import { IAccount } from "../../../lib/types/interfaces/account.interface";
+import { BaseEntity } from "../../common/base/base.entity";
+import { AccountStatus } from "../../common/types/enums/account.enum";
+import { IAccount } from "../../common/types/interfaces/account.interface";
 import {
   Column,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn
 } from "typeorm";
-import { GenericEntity } from "../../core/generic.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
 
 @Entity()
-export class Account extends GenericEntity implements IAccount {
+export class Account extends BaseEntity implements IAccount {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
