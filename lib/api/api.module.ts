@@ -1,7 +1,7 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { AuthModule } from 'lib/auth/auth.module';
+import { AuthModule } from '../auth/auth.module';
 import { GuardsModule } from '../common/guards/guards.module';
 import { GuardsService } from '../common/guards/guards.service';
 import { CommentsGateway } from '../common/websockets/comments.gateway';
