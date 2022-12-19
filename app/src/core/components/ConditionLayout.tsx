@@ -10,7 +10,7 @@ interface Props {
   children?: any;
   className?: string;
 }
-export const ConditionLayout: FC<Props> = ({
+export const ConditionalWrapper: FC<Props> = ({
   isLoading = false,
   isEmpty = false,
   emptyView = null,

@@ -2,7 +2,7 @@ import { Space, Typography } from "antd";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { ApplicationMembersTable } from "../../../../core/components/Table/ApplicationMembersTable";
 import { useParams } from "react-router-dom";
-import { ConditionLayout } from "../../../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useApi } from "../../../../core/lib/useApi";
 import { ApplicationMember } from "../../../../types/application";
 
@@ -22,7 +22,7 @@ export const ApplicationMembers = () => {
   return (
     <>
       <PagePanel title="Application members">
-        <ConditionLayout
+        <ConditionalWrapper
           isEmpty={members?.length === 0}
           emptyView={
             <Space className="w-full justify-center">
@@ -34,7 +34,7 @@ export const ApplicationMembers = () => {
           isLoading={isLoading}
         >
           <ApplicationMembersTable members={members} execute={postExecute} />
-        </ConditionLayout>
+        </ConditionalWrapper>
       </PagePanel>
     </>
   );

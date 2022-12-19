@@ -8,7 +8,7 @@ import AppExploreNavigationPage from "../components/AppExploreNavigation";
 import { loadApplicationLogs } from "./state/actions";
 
 import { Divider, Space, Tag, Typography } from "antd";
-import { ConditionLayout } from "../../../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import dateUtils from "../../../../core/utils/date";
@@ -74,7 +74,7 @@ const AppLogsPage = () => {
       <PagePanel title="Logs list">
         <LogDetails />
         <Divider className="my-2" />
-        <ConditionLayout
+        <ConditionalWrapper
           emptyView={<DataNotFound label="Logs not found" />}
           isEmpty={logs?.length === 0}
           isLoading={!hasFetched}
@@ -84,7 +84,7 @@ const AppLogsPage = () => {
               <LogRow key={index} log={log} />
             ))}
           </LogContainer>
-        </ConditionLayout>
+        </ConditionalWrapper>
       </PagePanel>
     </AppExploreNavigationPage>
   );

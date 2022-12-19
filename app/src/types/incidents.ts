@@ -66,10 +66,7 @@ export interface Incident {
 
 export interface ErrorDetails {
   date: number;
-  version?: {
-    id: string;
-    name: string;
-  };
+  type?: string;
 }
 
 export interface Trace {

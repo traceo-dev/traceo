@@ -1,6 +1,6 @@
 import { Space, Timeline } from "antd";
 import { Avatar } from "../../../../../core/components/Avatar";
-import { ConditionLayout } from "../../../../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 import { CommentItem } from "./CommentItem";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../../types/store";
@@ -13,7 +13,7 @@ export const CommentsBox = () => {
   return (
     <>
       <Space id="messagesBox" className="messagesBox" direction="vertical">
-        <ConditionLayout
+        <ConditionalWrapper
           className="my-12"
           isLoading={!hasCommentsFetched}
           isEmpty={comments?.length === 0 && hasCommentsFetched}
@@ -37,7 +37,7 @@ export const CommentsBox = () => {
               </Timeline.Item>
             ))}
           </Timeline>
-        </ConditionLayout>
+        </ConditionalWrapper>
       </Space>
       <style>{`
         .messagesBox {

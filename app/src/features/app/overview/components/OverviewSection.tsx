@@ -1,24 +1,30 @@
-import { StatCards } from "./StatCards";
 import { useApi } from "../../../../core/lib/useApi";
 import { SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { IncidentsOverviewPlot } from "../../../../core/components/Plots/components/IncidentsOverviewPlot";
-import { AppIncidentsStats } from "../../../../types/statistics";
-import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { AppIncidentsStats, PieData } from "../../../../types/statistics";
 import { dispatch } from "../../../../store/store";
 import { loadApplication } from "../../../../features/app/state/actions";
-import { ConditionLayout } from "../../../../core/components/ConditionLayout";
 import { ErrorDetails } from "../../../../types/incidents";
+import { IncidentsPie } from "../../../../core/components/Plots/components/Pie/IncidentsPie";
+import { StatCards } from "./StatCards";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
+
+export interface TotalOverviewType {
+  errors: ErrorDetails[];
+  pie: PieData[];
+}
 
 export const OverviewSection = () => {
   const { id } = useParams();
 
   const {
-    data: stats = [],
+    data: stats,
     isLoading,
     execute: get
-  } = useApi<ErrorDetails[]>({
+  } = useApi<TotalOverviewType>({
     url: "/api/statistics/total",
     params: {
       id
@@ -43,20 +49,33 @@ export const OverviewSection = () => {
   };
 
   return (
-    <>
-      <PagePanel
-        title="App overview"
-        extra={<SyncOutlined className="text-xs" onClick={() => refresh()} />}
-      >
-        <StatCards stats={cardStats} isLoading={loadingCardStats} />
-        <ConditionLayout
-          isLoading={isLoading && loadingCardStats}
-          isEmpty={stats?.length === 0}
-          emptyView={<DataNotFound label="Incidents metrics not found" />}
+    <div className="grid grid-cols-3 w-full mb-2">
+      <div className="col-span-1 h-full">
+        <PagePanel title="Incidents">
+          <ConditionalWrapper
+            emptyView={<DataNotFound />}
+            isEmpty={stats?.pie?.length === 0}
+            isLoading={isLoading}
+          >
+            <IncidentsPie data={stats?.pie} />
+          </ConditionalWrapper>
+        </PagePanel>
+      </div>
+      <div className="col-span-2 ml-2 h-full">
+        <PagePanel
+          title="App overview"
+          extra={<SyncOutlined className="text-xs" onClick={() => refresh()} />}
         >
-          <IncidentsOverviewPlot stats={stats} />
-        </ConditionLayout>
-      </PagePanel>
-    </>
+          <ConditionalWrapper
+            emptyView={<DataNotFound />}
+            isEmpty={stats?.pie?.length === 0}
+            isLoading={isLoading}
+          >
+            <StatCards stats={cardStats} isLoading={loadingCardStats} />
+            <IncidentsOverviewPlot stats={stats?.errors} />
+          </ConditionalWrapper>
+        </PagePanel>
+      </div>
+    </div>
   );
 };

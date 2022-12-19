@@ -12,7 +12,7 @@ import { StoreState } from "../../types/store";
 import { ApplicationsTable } from "./components/ApplicationManagement/ApplicationsTable";
 import { ManagementNavigation } from "./components/ManagementNavigation";
 import { loadServerApplications } from "./state/applications/actions";
-import { ConditionLayout } from "../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 import { DataNotFound } from "../../core/components/DataNotFound";
 
 export const ManagementApplicationsPage = () => {
@@ -57,13 +57,13 @@ export const ManagementApplicationsPage = () => {
             setValue={setSearch}
           />
         </SearchWrapper>
-        <ConditionLayout
+        <ConditionalWrapper
           isEmpty={applications?.length === 0}
           isLoading={!hasFetched}
           emptyView={<DataNotFound label="Applications not found. Create first one!" />}
         >
           <ApplicationsTable applications={applications} hasFetched={hasFetched} />
-        </ConditionLayout>
+        </ConditionalWrapper>
       </PagePanel>
 
       <CreateApplicationModal

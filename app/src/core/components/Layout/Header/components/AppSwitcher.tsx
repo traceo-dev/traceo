@@ -8,7 +8,7 @@ import { slugifyForUrl } from "../../../../../core/utils/stringUtils";
 import { useEffect } from "react";
 import { dispatch } from "../../../../../store/store";
 import { loadApplications } from "../../../../../features/dashboard/state/actions";
-import { ConditionLayout } from "../../../../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 
 export const AppSwitcher = () => {
   const { application, hasFetched } = useSelector(
@@ -31,7 +31,7 @@ export const AppSwitcher = () => {
   };
 
   const appSelector = () => (
-    <ConditionLayout isLoading={!fetchedApps}>
+    <ConditionalWrapper isLoading={!fetchedApps}>
       <List
         dataSource={applications}
         style={{ height: "240px", overflowY: "scroll" }}
@@ -50,7 +50,7 @@ export const AppSwitcher = () => {
           </List.Item>
         )}
       />
-    </ConditionLayout>
+    </ConditionalWrapper>
   );
 
   return (

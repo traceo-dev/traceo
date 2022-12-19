@@ -7,21 +7,17 @@ import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 import dateUtils from "../../../../core/utils/date";
 import { statisticUtils } from "../../../../core/utils/statistics";
+import { TotalOverviewType } from "../../../../features/app/overview/components/OverviewSection";
 
 interface Props {
   id: string;
 }
 export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
   const {
-    data: stats = [],
+    data: stats,
     isLoading,
     execute
-  } = useApi<
-    {
-      date: number;
-      count: number;
-    }[]
-  >({
+  } = useApi<TotalOverviewType>({
     url: "/api/statistics/total",
     params: {
       id
@@ -40,7 +36,7 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
     );
   }
 
-  const plotData = statisticUtils.parseIncidentsTablePlotData(stats);
+  const plotData = statisticUtils.parseIncidentsTablePlotData(stats?.errors);
   const options: EChartsOption = {
     dataset: {
       source: normalizePlotData(plotData)

@@ -3,11 +3,12 @@ import { IncidentsTodayPlot } from "../../../core/components/Plots/components/In
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { statisticUtils } from "../../../core/utils/statistics";
 import { useSelector } from "react-redux";
-import { ConditionLayout } from "../../../core/components/ConditionLayout";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
-import { TodayIncidentsStats } from "./components/TodayIncidentsStats";
+import { Space, Tooltip, Typography } from "antd";
+import dateUtils from "../../../core/utils/date";
+import { StatPercent } from "../../../core/components/StatPercent";
 
 export const AppIncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
@@ -22,26 +23,44 @@ export const AppIncidentAnalyticsPage = () => {
 
   return (
     <AppIncidentNavigationPage>
-      <ConditionLayout isLoading={!incident}>
-        <PagePanel title="Today">
-          <div className="w-full overflow-hidden">
-            <div className="w-3/4 float-left">
-              <IncidentsTodayPlot stats={todayStats?.data} />
+      <div className="grid grid-cols-4 w-full mb-2">
+        <div className="col-span-3 h-full">
+          <PagePanel title="Today">
+            <IncidentsTodayPlot stats={todayStats?.data} />
+          </PagePanel>
+        </div>
+        <div className="col-span-1 ml-2">
+          <div className="flex flex-col items-stretch h-full">
+            <div className="h-full mb-1">
+              <PagePanel title="Errors count">
+                <Space className="w-full">
+                  <Typography className="text-4xl">{todayStats?.count}</Typography>
+                  <Tooltip title="Day-to-day difference">
+                    <div>
+                      <StatPercent
+                        type={todayStats?.diff?.isMore ? "warning" : "success"}
+                      >
+                        {todayStats?.diff?.isMore ? "+" : ""}
+                        {todayStats?.diff?.value}
+                      </StatPercent>
+                    </div>
+                  </Tooltip>
+                </Space>
+              </PagePanel>
             </div>
-            <div className="w-1/4 float-right">
-              <TodayIncidentsStats
-                count={todayStats?.count}
-                last={todayStats?.last}
-                isMore={todayStats?.diff?.isMore}
-                value={todayStats?.diff?.value}
-              />
+            <div className="h-full mt-1">
+              <PagePanel className="h-full" title="Last seen">
+                <Typography className="text-4xl">
+                  {dateUtils.formatDate(todayStats?.last, "HH:mm")}
+                </Typography>
+              </PagePanel>
             </div>
           </div>
-        </PagePanel>
-        <PagePanel title="Total overview">
-          <IncidentsOverviewPlot stats={incident.errorsDetails} />
-        </PagePanel>
-      </ConditionLayout>
+        </div>
+      </div>
+      <PagePanel title="Total overview">
+        <IncidentsOverviewPlot stats={incident.errorsDetails} />
+      </PagePanel>
     </AppIncidentNavigationPage>
   );
 };

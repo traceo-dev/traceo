@@ -9,7 +9,7 @@ import { StoreState } from "../../../types/store";
 import { MemberRole } from "../../../types/application";
 import { loadMembers } from "./state/members/actions";
 import { useParams } from "react-router-dom";
-import { ConditionLayout } from "../../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { Permissions } from "../../../core/components/Permissions";
 import AppSettingsNavigationPage from "./components/AppSettingsNavigation";
 import { AddMemberModal } from "../../../core/components/Modals/AddMemberModal";
@@ -64,13 +64,13 @@ export const AppMembersListPage = () => {
               setValue={setSearch}
             />
           </SearchWrapper>
-          <ConditionLayout
+          <ConditionalWrapper
             isEmpty={members?.length === 0}
             isLoading={!hasFetched}
             emptyView={<DataNotFound label="Members not found" />}
           >
             <ApplicationMembersTable members={members} execute={() => fetchMembers()} />
-          </ConditionLayout>
+          </ConditionalWrapper>
         </PagePanel>
       </AppSettingsNavigationPage>
       <AddMemberModal

@@ -67,6 +67,7 @@ export interface Trace {
 
 export interface ErrorDetails {
     date: number;
+    type?: string;
 }
 
 export interface IncidentExistsPayload {

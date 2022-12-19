@@ -19,7 +19,7 @@ import { loadIncidents } from "../../../features/app/incidents/state/actions";
 import { useParams } from "react-router-dom";
 import { SortOrder } from "../../../types/api";
 import { PagePanel } from "../../../core/components/PagePanel";
-import { ConditionLayout } from "../../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { BatchUpdateModal } from "../../../core/components/Modals/BatchUpdateModal";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
@@ -126,7 +126,7 @@ export const AppIncidentsListPage = () => {
             )}
           </SearchWrapper>
 
-          <ConditionLayout
+          <ConditionalWrapper
             isEmpty={incidents?.length === 0}
             isLoading={!hasFetched}
             emptyView={<EmptyIncidentsList constraints={search} />}
@@ -137,7 +137,7 @@ export const AppIncidentsListPage = () => {
               selectedIncidents={selectedIncidents}
               setSelectedIncidents={setSelectedIncidents}
             />
-          </ConditionLayout>
+          </ConditionalWrapper>
         </PagePanel>
       </AppPage>
 

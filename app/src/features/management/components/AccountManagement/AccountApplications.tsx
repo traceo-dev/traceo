@@ -1,7 +1,7 @@
 import { Space, Button } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { ConditionLayout } from "../../../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useApi } from "../../../../core/lib/useApi";
 import { ApplicationMember } from "../../../../types/application";
 import { StoreState } from "../../../../types/store";
@@ -44,7 +44,7 @@ export const AccountApplications = () => {
           )
         }
       >
-        <ConditionLayout
+        <ConditionalWrapper
           emptyView={<DataNotFound label="No applications found" />}
           isEmpty={applications?.length === 0}
           isLoading={isLoading}
@@ -60,7 +60,7 @@ export const AccountApplications = () => {
               />
             ))}
           </TraceoTable>
-        </ConditionLayout>
+        </ConditionalWrapper>
 
         <AddToApplicationModal
           isOpen={isOpenAddAppDrawer}

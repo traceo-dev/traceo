@@ -21,6 +21,7 @@ export const PagePanel: FC<Props> = ({ children, className = "", title = "", ext
           box-shadow: rgb(24 26 27 / 75%) 0px 1px 2px;
           margin-bottom: 8px;
           min-width: 100%;
+          height: inherit;
         }
       `}</style>
     </>

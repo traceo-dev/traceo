@@ -4,7 +4,7 @@ import { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { CommentInput } from "./components/Comments/CommentInput";
 import { CommentsBox } from "./components/Comments/CommentsBox";
-import { ConditionLayout } from "../../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SocketContext } from "../../../core/hooks/SocketContextProvider";
 import { dispatch } from "../../../store/store";
 import { StoreState } from "../../../types/store";
@@ -33,7 +33,7 @@ export const AppIncidentConversationPage = () => {
   return (
     <>
       <AppIncidentNavigationPage>
-        <ConditionLayout isLoading={!hasFetched}>
+        <ConditionalWrapper isLoading={!hasFetched}>
           <Card className="w-full p-1 rounded-md mb-5 bg-primary">
             <Space className="w-full">
               <AlertOutlined className="text-3xl pr-2 text-red-700" />
@@ -47,7 +47,7 @@ export const AppIncidentConversationPage = () => {
           </Card>
           <CommentsBox />
           <CommentInput />
-        </ConditionLayout>
+        </ConditionalWrapper>
       </AppIncidentNavigationPage>
     </>
   );

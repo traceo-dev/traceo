@@ -1,6 +1,6 @@
 import { Button, Dropdown, List, Menu } from "antd";
 import { useEffect, useState } from "react";
-import { ConditionLayout } from "../../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { EmptyAppList } from "./EmptyAppList";
 import { SearchInput } from "../../../core/components/SearchInput";
 import { SortIcons } from "../../../core/components/SortIcons";
@@ -81,7 +81,7 @@ export const AppsTable = () => {
   return (
     <>
       <SearchHeader />
-      <ConditionLayout
+      <ConditionalWrapper
         isLoading={!hasFetched}
         isEmpty={applications?.length === 0}
         emptyView={<EmptyAppList constraints={search} />}
@@ -94,7 +94,7 @@ export const AppsTable = () => {
             </List.Item>
           )}
         />
-      </ConditionLayout>
+      </ConditionalWrapper>
     </>
   );
 };

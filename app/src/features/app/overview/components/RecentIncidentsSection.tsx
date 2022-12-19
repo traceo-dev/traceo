@@ -1,4 +1,4 @@
-import { LoadingOutlined, RightOutlined } from "@ant-design/icons";
+import { RightOutlined } from "@ant-design/icons";
 import { Card, List, Space, Typography } from "antd";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import { useApi } from "../../../../core/lib/useApi";
@@ -14,6 +14,7 @@ import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 
 export const RecentIncidentsSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -49,11 +50,11 @@ export const RecentIncidentsSection = () => {
           </Typography.Link>
         }
       >
-        {isLoading ? (
-          <Space className="w-full my-8 justify-center">
-            <LoadingOutlined />
-          </Space>
-        ) : incidents?.length ? (
+        <ConditionalWrapper
+          isLoading={isLoading}
+          isEmpty={incidents && incidents.length === 0}
+          emptyView={<DataNotFound label="Incidents not found" />}
+        >
           <List
             loading={isLoading}
             dataSource={incidents || []}
@@ -89,9 +90,7 @@ export const RecentIncidentsSection = () => {
               </Card>
             )}
           />
-        ) : (
-          <DataNotFound label="Incidents not found" />
-        )}
+        </ConditionalWrapper>
       </PagePanel>
     </>
   );

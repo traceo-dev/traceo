@@ -1,15 +1,19 @@
-import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
-import { Space } from "antd";
+import { SyncOutlined } from "@ant-design/icons";
+import { Typography } from "antd";
 import { useParams } from "react-router-dom";
 import { useApi } from "../../../../core/lib/useApi";
 import { PagePanel } from "../../../../core/components/PagePanel";
-import { TodayStats } from "./TodayStats";
 import { IncidentsTodayPlot } from "../../../../core/components/Plots/components/IncidentsTodayPlot";
 import { ErrorDetails } from "../../../../types/incidents";
 import { statisticUtils } from "../../../../core/utils/statistics";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
+import dateUtils from "../../../../core/utils/date";
+import { useSelector } from "react-redux";
+import { StoreState } from "../../../../types/store";
 
 export const TodaySection = () => {
   const { id } = useParams();
+  const { application } = useSelector((state: StoreState) => state.application);
 
   const {
     data: stats,
@@ -26,31 +30,49 @@ export const TodaySection = () => {
     get();
   };
 
+  const lastIncidentAt =
+    application?.lastIncidentAt && dateUtils.isTodayDate(application?.lastIncidentAt)
+      ? dateUtils.formatDate(application?.lastIncidentAt, "HH:mm")
+      : "--:--";
+
   return (
-    <>
-      <PagePanel
-        title="Today"
-        extra={<SyncOutlined className="text-xs" onClick={() => reloadDailyStats()} />}
-      >
-        {isLoading ? (
-          <Space className="w-full justify-center">
-            <LoadingOutlined />
-          </Space>
-        ) : (
-          <div className="w-full overflow-hidden">
-            <div className="w-3/4 float-left">
-              <IncidentsTodayPlot
-                stats={statisticUtils.parseErrorsToTodayPlotSource(stats).data}
-              />
-            </div>
-            <div className="w-1/4 float-right pl-12">
-              <TodayStats
-                count={statisticUtils.parseErrorsToTodayPlotSource(stats).count}
-              />
-            </div>
+    <div className="grid grid-cols-4 w-full mb-2">
+      <div className="col-span-3 h-full">
+        <PagePanel title="Today">
+          <ConditionalWrapper isLoading={isLoading}>
+            <IncidentsTodayPlot
+              stats={statisticUtils.parseErrorsToTodayPlotSource(stats).data}
+            />
+          </ConditionalWrapper>
+        </PagePanel>
+      </div>
+      <div className="col-span-1 ml-2">
+        <div className="flex flex-col items-stretch h-full">
+          <div className="h-full mb-1">
+            <PagePanel
+              title="Errors count"
+              extra={
+                <SyncOutlined className="text-xs" onClick={() => reloadDailyStats()} />
+              }
+            >
+              <ConditionalWrapper isLoading={isLoading}>
+                <Typography.Text className="text-semibold text-4xl">
+                  {statisticUtils.parseErrorsToTodayPlotSource(stats).count}
+                </Typography.Text>
+              </ConditionalWrapper>
+            </PagePanel>
           </div>
-        )}
-      </PagePanel>
-    </>
+          <div className="h-full mt-1">
+            <PagePanel className="h-full" title="Last seen">
+              <ConditionalWrapper isLoading={isLoading}>
+                <Typography.Text className="text-semibold text-4xl">
+                  {lastIncidentAt}
+                </Typography.Text>
+              </ConditionalWrapper>
+            </PagePanel>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };

@@ -1,4 +1,4 @@
-import { ConditionLayout } from "../../../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { DescriptionRow, Descriptions } from "../../../../core/components/Descriptions";
 import { PagePanel } from "../../../../core/components/PagePanel";
@@ -14,7 +14,7 @@ const AppRuntimePage = () => {
   return (
     <AppExploreNavigationPage>
       <PagePanel title="Runtime configuration">
-        <ConditionLayout
+        <ConditionalWrapper
           isLoading={!hasFetched}
           isEmpty={!application?.runtimeConfig}
           emptyView={
@@ -45,7 +45,7 @@ const AppRuntimePage = () => {
               )
             )}
           </Descriptions>
-        </ConditionLayout>
+        </ConditionalWrapper>
       </PagePanel>
     </AppExploreNavigationPage>
   );

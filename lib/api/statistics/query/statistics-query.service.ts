@@ -3,9 +3,9 @@ import { Injectable, Logger } from "@nestjs/common";
 import { EntityManager } from "typeorm";
 import dayjs from "dayjs";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
-import { Incident } from "../../../db/entities/incident.entity";
+import { Incident, IncidentStatus } from "../../../db/entities/incident.entity";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { AppIncidentsStats } from "../../../common/types/interfaces/statistics.interface";
+import { AppIncidentsStats, PieData } from "../../../common/types/interfaces/statistics.interface";
 import { ErrorDetails } from "../../../common/types/interfaces/incident.interface";
 
 @Injectable()
@@ -76,23 +76,39 @@ export class StatisticsQueryService {
 
   public async getTotalOverview(
     appId: string
-  ): Promise<ApiResponse<ErrorDetails[]>> {
+  ): Promise<ApiResponse<{
+    errors: ErrorDetails[],
+    pie: PieData[]
+  }>> {
     try {
       const incidents = await this.entityManger
         .getRepository(Incident)
         .createQueryBuilder("incident")
         .where("incident.application_id = :appId", { appId })
-        .select("incident.errorsDetails")
+        .select(["incident.errorsDetails", "incident.type", "incident.status", "incident.id"])
         .getMany();
 
-      const errorsDetails: ErrorDetails[] = incidents.reduce(
-        (acc, curr) => acc.concat(curr.errorsDetails),
-        [],
-      );
-      return new ApiResponse("success", undefined, errorsDetails);
+      const errorsDetails: ErrorDetails[] = incidents.reduce((acc, curr) => acc.concat(curr.errorsDetails), []);
+      const pieData = this.parseIncidentsToPieChart(incidents);
+
+      return new ApiResponse("success", undefined, {
+        errors: errorsDetails,
+        pie: pieData
+      });
     } catch (error) {
       this.logger.error(`[${this.getTotalOverview.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
+  }
+
+  private parseIncidentsToPieChart(incidents: Incident[]): PieData[] {
+    const result = incidents.map(({ type, errorsDetails, status, id }) => ({
+      name: type,
+      value: errorsDetails ? errorsDetails.length : 0,
+      status,
+      id
+    }));
+
+    return result.sort((a, b) => b.value - a.value);
   }
 }
