@@ -5,16 +5,22 @@ import { normalizePlotData, toolboxOptions, tooltipOptions } from "../utils";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption, graphic } from "echarts";
 import { ErrorDetails } from "../../../../types/incidents";
+import { useMemo } from "react";
 
 export const IncidentsOverviewPlot = ({ stats }: { stats: ErrorDetails[] }) => {
-  const plotData = statisticUtils.parseIncidentsTablePlotData(stats);
+  const plotData = useMemo(
+    () => statisticUtils.parseIncidentsTablePlotData(stats),
+    [stats]
+  );
 
   const option: EChartsOption = {
     dataset: {
       source: normalizePlotData(plotData)
     },
     animation: false,
-    toolbox: toolboxOptions,
+    toolbox: {
+      show: false
+    },
     tooltip: tooltipOptions,
     grid: {
       left: "24px",
@@ -65,11 +71,9 @@ export const IncidentsOverviewPlot = ({ stats }: { stats: ErrorDetails[] }) => {
     series: [
       {
         type: "line",
-        // smooth: true,
         name: "Errors",
         showSymbol: false,
         color: "#E24D42",
-        // symbolSize: 0,
         areaStyle: {
           color: new graphic.LinearGradient(0, 0, 0, 1, [
             {

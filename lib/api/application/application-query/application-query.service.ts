@@ -61,10 +61,16 @@ export class ApplicationQueryService extends BaseQueryService<
   }
 
   public async getApplicationLogs(query: ApplicationLogsQuery): Promise<ApiResponse<ILog[]>> {
-    const { startDate, endDate, id } = query;
+    const { startDate, endDate, id, levels } = query;
 
     if (!id) {
       throw new Error(`[${this.getApplicationLogs.name}] Application ID is required!`);
+    }
+
+    console.log("LEVELS: ", query.levels)
+    if (!query?.levels || query.levels.length === 0) {
+      console.log("HERE")
+      return new ApiResponse("success", undefined, []);
     }
 
     try {
@@ -72,6 +78,7 @@ export class ApplicationQueryService extends BaseQueryService<
         .where('log.applicationId = :id', { id })
         .andWhere('log.receiveTimestamp > :startDate', { startDate })
         .andWhere('log.receiveTimestamp < :endDate', { endDate })
+        .andWhere('log.level in (:...levels)', { levels: query.levels || [] })
         .orderBy('log.receiveTimestamp', 'DESC', "NULLS LAST")
         .select(['log.timestamp', 'log.message', 'log.level', 'log.resources', 'log.receiveTimestamp'])
         .take(1000)

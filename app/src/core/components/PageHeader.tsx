@@ -1,8 +1,7 @@
-import { PageHeader as AntdPageHeader, Space } from "antd";
-import { PageHeaderProps } from "antd/es/page-header";
-import { FC } from "react";
+import { Space, Typography } from "antd";
+import { FC, ReactNode } from "react";
 
-interface PanelHeaderProps extends PageHeaderProps {
+interface PanelHeaderProps {
   title: string | JSX.Element;
   fontSize?: number;
   subTitle?: string | JSX.Element;
@@ -10,18 +9,23 @@ interface PanelHeaderProps extends PageHeaderProps {
   suffix?: string | JSX.Element;
   backgroundColor?: string;
   icon?: JSX.Element;
+  children?: ReactNode;
+  showBreadcrumbs?: boolean;
+  marginBottom?: boolean;
+  copyBreadcrumbNames?: string[];
+  extra?: ReactNode;
 }
 
 const PageHeader: FC<PanelHeaderProps> = ({
   title,
-  fontSize = 27,
+  // fontSize = 27,
   subTitle,
   contentPadding = 25,
-  children = null,
+  // children = null,
   suffix,
   backgroundColor,
-  icon,
-  ...props
+  icon
+  // ...props
 }) => {
   const renderTitle = (
     <Space className="w-full justify-between">
@@ -39,9 +43,12 @@ const PageHeader: FC<PanelHeaderProps> = ({
 
   return (
     <>
-      <AntdPageHeader className={props.className} title={renderTitle} {...props}>
+      {/* <AntdPageHeader className={props.className} title={renderTitle} {...props}>
         {children}
-      </AntdPageHeader>
+      </AntdPageHeader> */}
+
+      <Typography.Title className="mb-0 leading-tight">{renderTitle}</Typography.Title>
+
       <style>{`
         .ant-page-header {
           align-items: center;

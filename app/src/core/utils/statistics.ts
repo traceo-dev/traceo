@@ -1,6 +1,6 @@
 import { normalizePlotData } from "../../core/components/Plots/utils";
 import dayjs from "dayjs";
-import { TraceoLog } from "../../types/logs";
+import { LogLevel, TraceoLog } from "../../types/logs";
 import { ErrorDetails } from "../../types/incidents";
 import { DailyStats } from "../../types/statistics";
 import dateUtils from "./date";
@@ -67,19 +67,54 @@ const parseIncidentsAnalyticsTodayPlotData = (errorsDetails: ErrorDetails[]) => 
 };
 
 const parseExploreLogsPlotData = (startDate: number, endDate: number, logs: TraceoLog[]) => {
-  const plotData: PlotData[] = [];
-
   let date = startDate;
   const endPlotDate = endDate;
 
+  const map = new Map<LogLevel, PlotData[]>();
+  const xAxis: number[] = [];
+
   while (date <= endPlotDate) {
-    const currentLogs = logs?.filter(({ receiveTimestamp }) => dateUtils.formatDate(receiveTimestamp, "HH:mm") === dateUtils.formatDate(date, "HH:mm"));
-    plotData.push({ date, count: currentLogs?.length });
+    const currentLogs = logs?.filter(
+      ({ receiveTimestamp }) =>
+        dateUtils.formatDate(receiveTimestamp, "HH:mm") === dateUtils.formatDate(date, "HH:mm")
+    );
+
+    Object.values(LogLevel).map((level) => {
+      const count = currentLogs.filter((log) => log.level === level).length;
+      const mapLevel = map.get(level);
+      if (!mapLevel) {
+        map.set(level, [{
+          date,
+          count
+        }]);
+      } else {
+        mapLevel.push({
+          date,
+          count
+        });
+      }
+    });
+
     date = dayjs.unix(date).local().add(1, "minute").unix();
+    xAxis.push(date);
   }
 
-  const data = normalizePlotData(plotData);
-  return data;
+  const result: Record<LogLevel, number[]> = {
+    [LogLevel.Debug]: [],
+    [LogLevel.Log]: [],
+    [LogLevel.Info]: [],
+    [LogLevel.Warn]: [],
+    [LogLevel.Error]: []
+  };
+
+  for (const [key, value] of map.entries()) {
+    result[key] = value?.map((plot) => plot.count) || [];
+  }
+
+  return {
+    level: result,
+    xAxis
+  };
 };
 
 const parseErrorsToTodayPlotSource = (stats: ErrorDetails[]): DailyStats => {

@@ -6,7 +6,6 @@ import { ApplicationQueryService } from './application-query/application-query.s
 import { AccountQueryService } from '../account/account-query/account-query.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import dayjs from 'dayjs';
-import { MemberRole } from 'app/src/types/application';
 import { ADMIN_NAME, ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from '../../common/helpers/constants';
 import dateUtils from '../../common/helpers/dateUtils';
 import { gravatar } from '../../common/helpers/gravatar';
@@ -16,6 +15,7 @@ import { RequestUser } from '../../common/types/interfaces/account.interface';
 import { Application } from '../../db/entities/application.entity';
 import { ApiResponse } from '../../common/types/dto/response.dto';
 import { Log } from '../../db/entities/log.entity';
+import { MemberRole } from '../../common/types/enums/amr.enum';
 
 
 const MAX_RETENTION_LOGS = 3;
@@ -168,7 +168,7 @@ export class ApplicationService {
       const maxRetentionDate = dayjs().subtract(MAX_RETENTION_LOGS, 'd').unix();
       const logs = await this.entityManager.getRepository(Log)
         .createQueryBuilder('log')
-        .where('log.receiveTimestamp > :maxRetentionDate', { maxRetentionDate })
+        .where('log.receiveTimestamp < :maxRetentionDate', { maxRetentionDate })
         .getMany();
 
       await this.entityManager.getRepository(Log).remove(logs);

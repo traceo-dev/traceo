@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DashboardPage } from "./components/DashboardPage";
 import { PagePanel } from "../../core/components/PagePanel";
 import { useAppStoreClean } from "../../core/hooks/useCleanup";
@@ -9,14 +9,8 @@ import ServerPermissions from "../../core/components/ServerPermissions";
 import { CreateApplicationModal } from "../../core/components/Modals/CreateApplicationModal";
 
 export const Dashboard = () => {
-  useAppStoreClean();
-
   const [openApplicationModal, setOpenApplicationModal] = useState<boolean>(false);
-
-  useEffect(() => {
-    const chartsEnv = localStorage.getItem("chartsEnv") || "development";
-    localStorage.setItem("env", chartsEnv);
-  }, []);
+  useAppStoreClean();
 
   return (
     <>

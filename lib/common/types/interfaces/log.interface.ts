@@ -23,4 +23,5 @@ export interface ApplicationLogsQuery {
     id: number;
     startDate: number;
     endDate: number;
+    levels: LogLevel[];
 }

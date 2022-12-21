@@ -1,5 +1,5 @@
 import { TraceoLoading } from "../../../../core/components/TraceoLoading";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { dispatch } from "../../../../store/store";
 import { LogLevel } from "../../../../types/logs";
@@ -11,24 +11,14 @@ import { Divider, Space, Tag, Typography } from "antd";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
-import dateUtils from "../../../../core/utils/date";
 import { LogsHistogram } from "../../../../features/app/explore/components/LogsHistogram";
 import { LogContainer, LogRow } from "../components/LogContainer";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { PagePanel } from "../../../../core/components/PagePanel";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const AppLogsPage = () => {
-  const { id } = useParams();
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);
-
-  useEffect(() => {
-    dispatch(
-      loadApplicationLogs(id, {
-        startDate: dayjs().subtract(30, "minute").unix(),
-        endDate: dateUtils.toUnix()
-      })
-    );
-  }, []);
 
   if (!logs) {
     return <TraceoLoading />;
@@ -68,7 +58,7 @@ const AppLogsPage = () => {
 
   return (
     <AppExploreNavigationPage>
-      <PagePanel title="Histogram">
+      <PagePanel title="Histogram" extra={!hasFetched && <LoadingOutlined />}>
         <LogsHistogram />
       </PagePanel>
       <PagePanel title="Logs list">
@@ -77,7 +67,7 @@ const AppLogsPage = () => {
         <ConditionalWrapper
           emptyView={<DataNotFound label="Logs not found" />}
           isEmpty={logs?.length === 0}
-          isLoading={!hasFetched}
+          isLoading={!hasFetched && !logs}
         >
           <LogContainer>
             {logs?.map((log, index) => (

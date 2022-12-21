@@ -65,9 +65,9 @@ export const handleIncidentStatusPieColor: Record<
     Exclude<IncidentStatusSearch, "all">,
     string
 > = {
-    [IncidentStatusSearch.IN_PROGRESS]: "#6B21A8",
+    [IncidentStatusSearch.IN_PROGRESS]: "#58205B",
     [IncidentStatusSearch.RESOLVED]: "#14432D",
-    [IncidentStatusSearch.UNRESOLVED]: "#7F1D1D"
+    [IncidentStatusSearch.UNRESOLVED]: "#631616"
 };
 
 export const handleColorPallete: Record<IncidentPieType, string[]> = {
@@ -85,32 +85,42 @@ export const getPiePlotOptions = (type: IncidentStatusSearch, data: PieData[]): 
             backgroundColor: tooltipOptions.backgroundColor,
             borderColor: tooltipOptions.borderColor,
             textStyle: tooltipOptions.textStyle,
-            position: "right"
+            position: "bottom"
         },
         series: [
             {
                 name: type === IncidentStatusSearch.ALL ? "Incidents" : "Errors",
                 data,
                 type: "pie",
-                radius: ["70%", "30%"],
+                radius: ["80%", "50%"],
                 avoidLabelOverlap: false,
                 label: {
-                    show: false,
                     position: "center",
-                    formatter: ({ value }) => `${value}`,
-                    fontWeight: 15,
+                    formatter: (_) => {
+                        if (type === IncidentStatusSearch.ALL) {
+                            const total = data.reduce((acc, d) => acc += d.value, 0);
+                            return `${total} \n\nIncidents`;
+                        } else {
+                            const total = data
+                                .filter((d) => d.status === type)
+                                .reduce((acc, d) => acc += d.value, 0);
+
+                            return `${total} \n\nErrors`
+                        }
+
+                    },
+                    color: "#ffffff",
                     fontSize: 20
                 },
                 itemStyle: {
-                    borderRadius: 8,
+                    borderRadius: 0,
                     borderColor: "#181B1F",
-                    borderWidth: 3
+                    borderWidth: 2
                 },
                 emphasis: {
                     label: {
                         show: true,
                         fontSize: 20,
-                        fontWeight: "normal",
                         color: "#ffffff"
                     }
                 },

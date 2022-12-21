@@ -50,22 +50,8 @@ export const OverviewSection = () => {
 
   return (
     <div className="grid grid-cols-3 w-full mb-2">
-      <div className="col-span-1 h-full">
-        <PagePanel title="Incidents">
-          <ConditionalWrapper
-            emptyView={<DataNotFound />}
-            isEmpty={stats?.pie?.length === 0}
-            isLoading={isLoading}
-          >
-            <IncidentsPie data={stats?.pie} />
-          </ConditionalWrapper>
-        </PagePanel>
-      </div>
-      <div className="col-span-2 ml-2 h-full">
-        <PagePanel
-          title="App overview"
-          extra={<SyncOutlined className="text-xs" onClick={() => refresh()} />}
-        >
+      <div className="col-span-2 h-full">
+        <PagePanel title="App overview">
           <ConditionalWrapper
             emptyView={<DataNotFound />}
             isEmpty={stats?.pie?.length === 0}
@@ -73,6 +59,20 @@ export const OverviewSection = () => {
           >
             <StatCards stats={cardStats} isLoading={loadingCardStats} />
             <IncidentsOverviewPlot stats={stats?.errors} />
+          </ConditionalWrapper>
+        </PagePanel>
+      </div>
+      <div className="col-span-1 ml-2 h-full">
+        <PagePanel
+          title="Incidents"
+          extra={<SyncOutlined className="text-xs" onClick={() => refresh()} />}
+        >
+          <ConditionalWrapper
+            emptyView={<DataNotFound />}
+            isEmpty={stats?.pie?.length === 0}
+            isLoading={isLoading}
+          >
+            <IncidentsPie data={stats?.pie} />
           </ConditionalWrapper>
         </PagePanel>
       </div>

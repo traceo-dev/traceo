@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AppIncidentsStats } from 'app/src/types/statistics';
+import { AppIncidentsStats } from '../../common/types/interfaces/statistics.interface';
 import { AuthRequired } from '../../common/decorators/auth-required.decorator';
 import { ApiResponse } from '../../common/types/dto/response.dto';
 import { ErrorDetails } from '../../common/types/interfaces/incident.interface';

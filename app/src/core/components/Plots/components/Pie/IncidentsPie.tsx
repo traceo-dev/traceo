@@ -24,7 +24,7 @@ interface Props {
 }
 
 export const IncidentsPie: FC<Props> = ({ data }) => {
-  const [type, setType] = useState<IncidentStatusSearch>(IncidentStatusSearch.ALL);
+  const [type, setType] = useState<IncidentStatusSearch>(IncidentStatusSearch.UNRESOLVED);
   const [plotData, setPlotData] = useState([]);
   const { application } = useSelector((state: StoreState) => state.application);
   const navigate = useNavigate();
@@ -66,7 +66,7 @@ export const IncidentsPie: FC<Props> = ({ data }) => {
   };
 
   return (
-    <div>
+    <div className="w-full text-center">
       <Segmented
         options={pieChartOptions}
         value={type}
@@ -87,6 +87,7 @@ export const IncidentsPie: FC<Props> = ({ data }) => {
           //TODO: using onevents in this component break animation
           onEvents={onEvents}
           option={getPiePlotOptions(type, plotData)}
+          className="mt-12"
         />
       </ConditionalWrapper>
     </div>

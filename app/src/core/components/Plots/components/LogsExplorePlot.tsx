@@ -1,23 +1,66 @@
 import dateUtils from "../../../../core/utils/date";
 import { statisticUtils } from "../../../../core/utils/statistics";
-import { FC } from "react";
-import { TraceoLog } from "../../../../types/logs";
+import { FC, useMemo } from "react";
+import { LogLevel, TraceoLog } from "../../../../types/logs";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 import { tooltipOptions } from "../utils";
+import { useSelector } from "react-redux";
+import { StoreState } from "types/store";
 
 interface Props {
   logs: TraceoLog[];
   startDate: number;
   endDate: number;
 }
+
+const handleLogName: Record<LogLevel, string> = {
+  [LogLevel.Log]: "Log",
+  [LogLevel.Debug]: "Debug",
+  [LogLevel.Info]: "Info",
+  [LogLevel.Error]: "Error",
+  [LogLevel.Warn]: "Warning"
+};
+
+const handleLogColor: Record<LogLevel, string> = {
+  [LogLevel.Log]: "#2b6cb0",
+  [LogLevel.Debug]: "#f6993f",
+  [LogLevel.Info]: "#176537",
+  [LogLevel.Error]: "#e53e3e",
+  [LogLevel.Warn]: "#F7DF4B"
+};
+
+const commonSeriesOptions = {
+  type: "bar",
+  stack: "Ad",
+  barWidth: 15,
+  itemStyle: {
+    borderColor: "transparent",
+    borderWidth: 2,
+    borderRadius: 2
+  }
+};
+
 export const LogsExplorePlot: FC<Props> = ({ logs, startDate, endDate }) => {
-  const data = statisticUtils.parseExploreLogsPlotData(startDate, endDate, logs);
+  const { hasFetched } = useSelector((state: StoreState) => state.logs);
+
+  const data = useMemo(
+    () => statisticUtils.parseExploreLogsPlotData(startDate, endDate, logs),
+    [startDate, endDate, logs]
+  );
+
+  const series = Object.values(LogLevel).reduce((acc, level) => {
+    acc.push({
+      data: data.level[level],
+      color: handleLogColor[level],
+      name: handleLogName[level],
+      ...commonSeriesOptions
+    });
+
+    return acc;
+  }, []);
 
   const options: EChartsOption = {
-    dataset: {
-      source: data
-    },
     animation: false,
     tooltip: {
       ...tooltipOptions,
@@ -32,6 +75,7 @@ export const LogsExplorePlot: FC<Props> = ({ logs, startDate, endDate }) => {
       containLabel: true
     },
     xAxis: {
+      data: data.xAxis,
       type: "category",
       axisLabel: {
         formatter: (v) => dateUtils.formatDate(Number(v), "HH:mm"),
@@ -69,14 +113,7 @@ export const LogsExplorePlot: FC<Props> = ({ logs, startDate, endDate }) => {
       minInterval: 10,
       offset: 12
     },
-    series: [
-      {
-        type: "bar",
-        color: "#0991b3",
-        barWidth: 15,
-        name: "Logs"
-      }
-    ]
+    series
   };
 
   return (

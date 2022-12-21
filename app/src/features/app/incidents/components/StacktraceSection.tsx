@@ -1,95 +1,89 @@
-import { Card, Col, Row, Space, Timeline, Typography } from "antd";
+import { Space, Tooltip, Typography } from "antd";
 import { CodePreview } from "../../../../core/components/CodePreview";
 import { ColumnDetail } from "../../../../core/components/ColumnDetail";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
-import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Incident, Trace } from "../../../../types/incidents";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { StoreState } from "../../../../types/store";
+import { Collapse } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+
+const { Panel } = Collapse;
 
 export const StacktraceSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
   const isTraces = incident?.traces?.length > 0;
 
-  return (
-    <>
-      {isTraces && (
-        <PagePanel title="Stacktrace">
-          <Space className="w-full py-5 gap-0" direction="vertical">
-            <Typography.Text className="text-xl font-semibold">
-              {incident?.type}
-            </Typography.Text>
-            <Typography.Text className="text-md">{incident?.message}</Typography.Text>
-          </Space>
-          <CodeTraces incident={incident} />
-        </PagePanel>
-      )}
-    </>
-  );
-};
-
-interface CodeTracesProps {
-  incident: Incident;
-}
-const CodeTraces: FC<CodeTracesProps> = ({ incident }) => {
-  const [selectedTrace, setSelectedTrace] = useState<Trace>();
-
-  useEffect(() => {
-    if (!selectedTrace) {
-      setSelectedTrace(incident?.traces?.[0]);
-    }
-  });
+  if (!isTraces) {
+    return null;
+  }
 
   return (
     <>
-      <Row gutter={[24, 0]} className="pt-12">
-        <Col span={24} md={8}>
-          <Timeline>
-            {incident?.traces?.map((trace, index) => (
-              <Timeline.Item
-                color={trace.internal ? "#D67709" : "#1F2937"}
-                key={index}
-                className="pb-1"
-              >
-                <Card
-                  onClick={() => setSelectedTrace(trace)}
-                  className={joinClasses(
-                    "m-0 p-0 default-card",
-                    conditionClass(
-                      trace === selectedTrace,
-                      "border-2 border-cyan-600",
-                      ""
-                    ),
-                    conditionClass(!trace.code, "pointer-events-none")
-                  )}
-                >
-                  <Typography.Text className="text-xs">{trace.absPath}</Typography.Text>
-                </Card>
-              </Timeline.Item>
-            ))}
-          </Timeline>
-        </Col>
-        <Col span={24} md={16}>
-          {selectedTrace?.code?.length > 0 && <CodePreview trace={selectedTrace} />}
+      <PagePanel title="Stacktrace">
+        <Space className="w-full py-5 gap-0" direction="vertical">
+          <Typography.Text className="text-xl font-semibold">
+            {incident?.type}
+          </Typography.Text>
+          <Typography.Text className="text-md">{incident?.message}</Typography.Text>
+        </Space>
+        <Collapse
+          expandIconPosition="end"
+          defaultActiveKey={["0"]}
+          ghost
+          className="my-12"
+        >
+          {incident?.traces?.map((trace, index) => (
+            <Panel
+              header={
+                <Space className="w-full">
+                  <Tooltip
+                    title={
+                      trace.internal
+                        ? "This exception has been thrown in your code"
+                        : "This exception has been thrown in third-party external library"
+                    }
+                  >
+                    <ExclamationCircleOutlined
+                      className={conditionClass(
+                        trace.internal,
+                        "text-amber-500",
+                        "text-cyan-500"
+                      )}
+                    />
+                  </Tooltip>
 
-          <Space className="w-full p-5 bg-secondary" direction="vertical">
-            <ColumnDetail label="Filename" value={selectedTrace?.filename} />
-            <ColumnDetail label="Function" value={selectedTrace?.function} />
-            <ColumnDetail label="Line No." value={selectedTrace?.lineNo} />
-            <ColumnDetail label="Column No." value={selectedTrace?.columnNo} />
-            <Space direction="vertical" className="w-full py-1">
-              <Typography className="text-primary info-label">
-                {"Absolute path"}
-              </Typography>
+                  <Typography.Text className="text-md">
+                    {trace.absPath}:{trace.lineNo}:{trace.columnNo}
+                  </Typography.Text>
+                </Space>
+              }
+              key={index}
+              className={joinClasses(conditionClass(!trace.code, "pointer-events-none"))}
+            >
+              <Space className="w-full p-5">
+                <ColumnDetail label="Function" value={trace?.function} />
+                <ColumnDetail label="Line No." value={trace?.lineNo} />
+                <ColumnDetail label="Column No." value={trace?.columnNo} />
+              </Space>
+              <CodePreview trace={trace} />
+            </Panel>
+          ))}
+        </Collapse>
+      </PagePanel>
+      <style>{`
+          .ant-collapse-header {
+            border: 1px solid #2a2d32;
+            border-radius: 4px;
+            background-color: #22252b;
+            margin-bottom: 5px;
+          }
 
-              <Typography.Paragraph className="text-primary pr-3 font-semibold" copyable>
-                {selectedTrace?.absPath}
-              </Typography.Paragraph>
-            </Space>
-          </Space>
-        </Col>
-      </Row>
+          .ant-collapse-content-box {
+            border: 1px solid #2a2d32;
+            border-radius: 4px;
+          }
+        `}</style>
     </>
   );
 };

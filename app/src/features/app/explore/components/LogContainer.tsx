@@ -15,7 +15,7 @@ const handleLogLevel: Record<LogLevel, JSX.Element> = {
   [LogLevel.Info]: <InfoCircleOutlined className="text-blue-500" />,
   [LogLevel.Debug]: <BugOutlined className="text-amber-500" />,
   [LogLevel.Error]: <ExclamationCircleOutlined className="text-red-500" />,
-  [LogLevel.Warn]: <WarningOutlined classID="text-orange-500" />,
+  [LogLevel.Warn]: <WarningOutlined className="text-yellow-500" />,
   [LogLevel.Log]: <InfoCircleOutlined className="text-blue-500" />
 };
 
@@ -27,7 +27,6 @@ export const LogContainer = ({ children }) => {
       </table>
       <style>{`
           table {
-              margin-top: 15px;
               width: 100%;
           }
           .logs-tbody {
@@ -76,6 +75,8 @@ export const LogRow: FC<LogProps> = ({ log }) => {
               padding: 9px;
               font-size: 12px;
               width: 100%;
+              border: 1px solid #2a2d32;
+            border-radius: 4px;
           }
           .log-tr {
               cursor: pointer;  

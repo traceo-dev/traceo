@@ -36,8 +36,8 @@ export const TodaySection = () => {
       : "--:--";
 
   return (
-    <div className="grid grid-cols-4 w-full mb-2">
-      <div className="col-span-3 h-full">
+    <div className="grid grid-cols-5 w-full mb-2">
+      <div className="col-span-4 h-full">
         <PagePanel title="Today">
           <ConditionalWrapper isLoading={isLoading}>
             <IncidentsTodayPlot
@@ -56,7 +56,7 @@ export const TodaySection = () => {
               }
             >
               <ConditionalWrapper isLoading={isLoading}>
-                <Typography.Text className="text-semibold text-4xl">
+                <Typography.Text className="font-semibold text-4xl">
                   {statisticUtils.parseErrorsToTodayPlotSource(stats).count}
                 </Typography.Text>
               </ConditionalWrapper>
@@ -65,7 +65,7 @@ export const TodaySection = () => {
           <div className="h-full mt-1">
             <PagePanel className="h-full" title="Last seen">
               <ConditionalWrapper isLoading={isLoading}>
-                <Typography.Text className="text-semibold text-4xl">
+                <Typography.Text className="font-semibold text-4xl text-center">
                   {lastIncidentAt}
                 </Typography.Text>
               </ConditionalWrapper>

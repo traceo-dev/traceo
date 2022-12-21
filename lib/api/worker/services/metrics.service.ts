@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { TSDB } from "app/src/types/application";
 import { IMetrics } from "../../../common/types/interfaces/metrics.interface";
 import { BaseWorkerService } from "../../../common/base/worker/base-worker.service";
 import { Application } from "../../../db/entities/application.entity";
 import { InfluxService } from "../../../providers/influx/influx.service";
 import { EntityManager } from "typeorm";
+import { TSDB } from "../../../common/types/enums/tsdb.enum";
 
 @Injectable()
 export class MetricsService extends BaseWorkerService<IMetrics> {
