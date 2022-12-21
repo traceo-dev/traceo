@@ -10,7 +10,7 @@ export const ConnectionError = () => {
   const navigate = useNavigate();
 
   return (
-    <Space className="w-full justify-center text-center" direction="vertical">
+    <Space className="w-full justify-center text-center pt-12" direction="vertical">
       <ExclamationCircleFilled className="text-5xl text-red-500" />
       <Typography.Text className="text-3xl font-bold">Connection Error</Typography.Text>
       <Typography.Text>

@@ -1,16 +1,11 @@
 import { TraceoLoading } from "../../../../core/components/TraceoLoading";
-import { useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { dispatch } from "../../../../store/store";
 import { LogLevel } from "../../../../types/logs";
 import { StoreState } from "../../../../types/store";
 import AppExploreNavigationPage from "../components/AppExploreNavigation";
-import { loadApplicationLogs } from "./state/actions";
 
 import { Divider, Space, Tag, Typography } from "antd";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { useParams } from "react-router-dom";
-import dayjs from "dayjs";
 import { LogsHistogram } from "../../../../features/app/explore/components/LogsHistogram";
 import { LogContainer, LogRow } from "../components/LogContainer";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
@@ -27,6 +22,7 @@ const AppLogsPage = () => {
   const errorLogsCount = logs?.filter((log) => log.level === LogLevel.Error).length;
 
   const LogDetails = () => {
+    // TODO: remove this
     const logsDetails = [
       {
         label: "Fetched logs:",
@@ -58,9 +54,7 @@ const AppLogsPage = () => {
 
   return (
     <AppExploreNavigationPage>
-      <PagePanel title="Histogram" extra={!hasFetched && <LoadingOutlined />}>
-        <LogsHistogram />
-      </PagePanel>
+      <LogsHistogram />
       <PagePanel title="Logs list">
         <LogDetails />
         <Divider className="my-2" />

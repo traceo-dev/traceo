@@ -26,7 +26,7 @@ interface Props {
 export const IncidentsPie: FC<Props> = ({ data }) => {
   const [type, setType] = useState<IncidentStatusSearch>(IncidentStatusSearch.UNRESOLVED);
   const [plotData, setPlotData] = useState([]);
-  const { application } = useSelector((state: StoreState) => state.application);
+  // const { application } = useSelector((state: StoreState) => state.application);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,25 +45,25 @@ export const IncidentsPie: FC<Props> = ({ data }) => {
       key: incident
     }));
 
-  const onPieItemClick = (params: any) => {
-    const seriesName = params?.seriesName;
+  // const onPieItemClick = (params: any) => {
+  //   const seriesName = params?.seriesName;
 
-    if (seriesName === "Incidents") {
-      setType(params.data.key);
-    }
+  //   if (seriesName === "Incidents") {
+  //     setType(params.data.key);
+  //   }
 
-    if (seriesName === "Errors" && params.data.id) {
-      navigate(
-        `/app/${application.id}/${slugifyForUrl(application.name)}/incidents/${
-          params.data.id
-        }/details`
-      );
-    }
-  };
+  //   if (seriesName === "Errors" && params.data.id) {
+  //     navigate(
+  //       `/app/${application.id}/${slugifyForUrl(application.name)}/incidents/${
+  //         params.data.id
+  //       }/details`
+  //     );
+  //   }
+  // };
 
-  const onEvents = {
-    click: onPieItemClick
-  };
+  // const onEvents = {
+  //   click: onPieItemClick
+  // };
 
   return (
     <div className="w-full text-center">
@@ -85,7 +85,7 @@ export const IncidentsPie: FC<Props> = ({ data }) => {
       >
         <ReactECharts
           //TODO: using onevents in this component break animation
-          onEvents={onEvents}
+          // onEvents={onEvents}
           option={getPiePlotOptions(type, plotData)}
           className="mt-12"
         />

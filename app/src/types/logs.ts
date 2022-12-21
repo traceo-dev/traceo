@@ -1,9 +1,9 @@
 export enum LogLevel {
-    Debug = "debug",
     Log = "log",
-    Info = "info",
+    Error = "error",
     Warn = "warn",
-    Error = "error"
+    Debug = "debug",
+    Info = "info"
 }
 
 export interface TraceoLog {
@@ -11,5 +11,5 @@ export interface TraceoLog {
     receiveTimestamp: number;
     message: string;
     level: LogLevel;
-    resources: {[key: string]: string}
+    resources: { [key: string]: string }
 }

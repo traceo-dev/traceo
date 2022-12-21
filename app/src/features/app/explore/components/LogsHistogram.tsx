@@ -1,28 +1,21 @@
-import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import { Space, Button, Tooltip, Checkbox, Typography } from "antd";
+import { LeftOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
+import { Space, Button, Tooltip } from "antd";
 import dayjs from "dayjs";
-import { LogsExplorePlot } from "../../../../core/components/Plots/components/LogsExplorePlot";
+import { LogsExplorePlot } from "../../../../core/components/Plots/components/Logs/LogsExplorePlot";
 import { loadApplicationLogs } from "../../../../features/app/explore/logs/state/actions";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { dispatch } from "../../../../store/store";
 import { StoreState } from "../../../../types/store";
-import { LogLevel } from "types/logs";
+import { LogLevel } from "../../../../types/logs";
 import {
   getLocalStorageLogLevels,
   setLocalStorageLogLevels
 } from "../../../../core/utils/localStorage";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { resetState } from "../logs/state/reducers";
-
-const checkboxOptions = [
-  { label: "Log", value: LogLevel.Log },
-  { label: "Errors", value: LogLevel.Error },
-  { label: "Warnings", value: LogLevel.Warn },
-  { label: "Info", value: LogLevel.Info },
-  { label: "Debug", value: LogLevel.Debug }
-];
+import { PagePanel } from "../../../../core/components/PagePanel";
+import { LogsFilterPanel } from "./LogsFilterPanel";
 
 export const LogsHistogram = () => {
   const { id } = useParams();
@@ -45,7 +38,6 @@ export const LogsHistogram = () => {
       levels: checkedLevels
     };
     dispatch(loadApplicationLogs(id, props));
-    dispatch(resetState());
   }, [checkedLevels, startDate, endDate]);
 
   useEffect(() => setLocalStorageLogLevels(checkedLevels), [checkedLevels]);
@@ -60,43 +52,44 @@ export const LogsHistogram = () => {
     setEndDate(dayjs.unix(endDate).add(30, "minute").unix());
   };
 
-  const isActiveRightButton = dayjs(dayjs.unix(endDate).add(1, "m").unix()).isAfter(
+  const isActiveRightButton = dayjs(dayjs.unix(endDate).add(5, "m").unix()).isAfter(
     dayjs().unix()
   );
   const isActiveLeftButton = dayjs(startDate).isBefore(dayjs().subtract(3, "d").unix());
 
   return (
-    <Space className="w-full" direction="vertical">
-      <div className="w-full overflow-hidden flex items-center">
-        <div className="float-left w-12">
-          <Tooltip title="-0.5h">
-            <Button disabled={isActiveLeftButton} onClick={() => onClickLeft()}>
-              <ArrowLeftOutlined />
-            </Button>
-          </Tooltip>
-        </div>
-        <div className="w-11/12 float-left">
-          <Space className="w-full" direction="vertical">
-            <Typography.Text className="text-md font-semibold">Severity</Typography.Text>
-            <Checkbox.Group
-              className="mb-7"
-              options={checkboxOptions}
-              defaultValue={checkedLevels}
-              onChange={(val) => setCheckedLevels(val as LogLevel[])}
-            />
+    <div className="grid grid-cols-12 w-full mb-2">
+      <div className="col-span-2 h-full mr-2">
+        <LogsFilterPanel
+          checkedLevels={checkedLevels}
+          setCheckedLevels={setCheckedLevels}
+        />
+      </div>
+      <div className="col-span-10">
+        <PagePanel
+          className="mb-0"
+          title="Histogram"
+          extra={!hasFetched && <LoadingOutlined />}
+        >
+          <Space className="w-full justify-end">
+            <Tooltip title="- 0.5h">
+              <Button onClick={onClickLeft} disabled={isActiveLeftButton}>
+                <LeftOutlined className="text-md" />
+              </Button>
+            </Tooltip>
+
+            <Tooltip title="+ 0.5h">
+              <Button onClick={onClickRight} disabled={isActiveRightButton}>
+                <RightOutlined className="text-md" />
+              </Button>
+            </Tooltip>
           </Space>
+
           <ConditionalWrapper isLoading={!hasFetched && !logs}>
             <LogsExplorePlot logs={logs} startDate={startDate} endDate={endDate} />
           </ConditionalWrapper>
-        </div>
-        <div className="float-right w-12">
-          <Tooltip title="+0.5h">
-            <Button disabled={isActiveRightButton} onClick={() => onClickRight()}>
-              <ArrowRightOutlined />
-            </Button>
-          </Tooltip>
-        </div>
+        </PagePanel>
       </div>
-    </Space>
+    </div>
   );
 };

@@ -13,11 +13,11 @@ import { MetricsHeader } from "./components/MetricsHeader";
 import { METRIC_TYPE } from "../../../types/metrics";
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { EChartsOption } from "echarts";
-import { MetricPlot } from "../../../core/components/Plots/components/metrics/MetricPlot";
+import { MetricPlot } from "../../../core/components/Plots/components/Metrics/MetricPlot";
 import {
   metricConfig,
   MetricSeriesOption
-} from "../../../core/components/Plots/components/metrics/utils";
+} from "../../../core/components/Plots/components/Metrics/utils";
 
 const MetricsPage = () => {
   const { id } = useParams();
@@ -72,10 +72,11 @@ const MetricsPage = () => {
     }
 
     const field = options[0].field;
+    const sum = metrics?.reduce((acc, val) => (acc += val[field]), 0);
 
-    return (
-      metrics?.reduce((acc, val) => (acc += val[field]), 0) / metrics?.length || null
-    );
+    const result = sum / metrics?.length || null;
+
+    return result;
   };
 
   if (!isConnectedTSDB) {

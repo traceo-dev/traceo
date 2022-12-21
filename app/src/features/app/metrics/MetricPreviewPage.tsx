@@ -6,7 +6,7 @@ import { AppMetricsPreviewNavigationPage } from "./components/AppMetricsPreviewN
 import { MetricPlotWrapper } from "./components/MetricPlotWrapper";
 import { CHART_TYPE, METRIC_TYPE } from "../../../types/metrics";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
-import { MetricPlot } from "../../../core/components/Plots/components/metrics/MetricPlot";
+import { MetricPlot } from "../../../core/components/Plots/components/Metrics/MetricPlot";
 
 export const MetricPreviewPage = () => {
   const { id } = useParams();

@@ -1,4 +1,4 @@
-import { LogLevel } from "types/logs"
+import { LogLevel } from "../../types/logs"
 
 export const getLocalStorageLogLevels = () => {
     return localStorage.getItem("logLevels")?.split(",") as LogLevel[] || [LogLevel.Log, LogLevel.Error, LogLevel.Warn];

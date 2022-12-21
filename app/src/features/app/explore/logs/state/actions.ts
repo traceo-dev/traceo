@@ -2,7 +2,7 @@ import { ApiResponse } from "../../../../../types/api";
 import api from "../../../../../core/lib/api";
 import { LogLevel, TraceoLog } from "../../../../../types/logs";
 import { ThunkResult } from "../../../../../types/store";
-import { logsLoaded } from "./reducers";
+import { logsLoaded, resetState } from "./reducers";
 
 interface LogsProps {
     startDate: number;
@@ -11,6 +11,8 @@ interface LogsProps {
 }
 export const loadApplicationLogs = (appId: string, props: LogsProps): ThunkResult<void> => {
     return async (dispatch, getStore) => {
+        dispatch(resetState());
+        
         const application = getStore().application.application;
         if (!appId) {
             appId = application.id

@@ -67,9 +67,7 @@ export class ApplicationQueryService extends BaseQueryService<
       throw new Error(`[${this.getApplicationLogs.name}] Application ID is required!`);
     }
 
-    console.log("LEVELS: ", query.levels)
     if (!query?.levels || query.levels.length === 0) {
-      console.log("HERE")
       return new ApiResponse("success", undefined, []);
     }
 

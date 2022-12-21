@@ -1,7 +1,7 @@
 import { Space, Typography, Switch, Table } from "antd";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { PagePanel } from "../../../../core/components/PagePanel";
-import { metricConfig } from "../../../../core/components/Plots/components/metrics/utils";
+import { metricConfig } from "../../../../core/components/Plots/components/Metrics/utils";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
 import { METRIC_TYPE } from "../../../../types/metrics";

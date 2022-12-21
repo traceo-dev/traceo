@@ -11,7 +11,7 @@ import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { FC, useState } from "react";
 import { TraceoLog, LogLevel } from "../../../../types/logs";
 
-const handleLogLevel: Record<LogLevel, JSX.Element> = {
+export const handleLogIcon: Record<LogLevel, JSX.Element> = {
   [LogLevel.Info]: <InfoCircleOutlined className="text-blue-500" />,
   [LogLevel.Debug]: <BugOutlined className="text-amber-500" />,
   [LogLevel.Error]: <ExclamationCircleOutlined className="text-red-500" />,
@@ -54,7 +54,7 @@ export const LogRow: FC<LogProps> = ({ log }) => {
         onClick={() => setSelected(!isSelected)}
       >
         <td className="log-expand">{expandIcon}</td>
-        <td className="log-level">{handleLogLevel[log.level]}</td>
+        <td className="log-level">{handleLogIcon[log.level]}</td>
         <td className="log-timestamp">{log.timestamp}</td>
         <td className="log-message">{<span className="msg">{log.message}</span>}</td>
       </tr>
