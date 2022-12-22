@@ -16,7 +16,6 @@ export const Dashboard = () => {
     <>
       <DashboardPage>
         <PagePanel
-          className="mt-12"
           title="Applications"
           extra={
             <ServerPermissions>

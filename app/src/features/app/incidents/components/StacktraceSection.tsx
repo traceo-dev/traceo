@@ -75,7 +75,7 @@ export const StacktraceSection = () => {
           .ant-collapse-header {
             border: 1px solid #2a2d32;
             border-radius: 4px;
-            background-color: #22252b;
+            background-color: var(--color-bg-secondary);
             margin-bottom: 5px;
           }
 

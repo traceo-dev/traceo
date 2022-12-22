@@ -46,9 +46,11 @@ export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
     </li>
   );
 
-  return !href ? (
-    <NavItem />
-  ) : (
+  if (!href) {
+    return <NavItem />;
+  }
+
+  return (
     <NavLink to={handlePath(href)} className="text-inherit">
       <NavItem />
     </NavLink>

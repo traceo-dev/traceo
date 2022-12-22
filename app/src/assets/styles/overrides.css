@@ -248,7 +248,7 @@
 }
 
 .ant-dropdown-trigger {
-  background: rgb(17, 18, 23);
+  background: var(--color-bg-canvas);
   font-size: 14px;
   color: rgb(204, 204, 220);
   border: 1px solid rgba(204, 204, 220, 0.15);
@@ -391,4 +391,8 @@
 
 .ant-statistic-title {
   color: var(--text-primary);
+}
+
+.ant-select-item-empty {
+  background-color: var(--color-bg-canvas);
 }

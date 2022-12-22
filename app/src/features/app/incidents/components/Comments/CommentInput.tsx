@@ -82,7 +82,7 @@ export const CommentInput = () => {
               </Form>
             </TabPane>
             <TabPane key={2} tab="Preview">
-              <Space className="w-full p-3 pb-34">
+              <Space className="w-full p-3 pb-34 mb-2 bg-secondary">
                 <ReactMarkdown className="pb-24">
                   {form.getFieldValue("typedComment")}
                 </ReactMarkdown>
