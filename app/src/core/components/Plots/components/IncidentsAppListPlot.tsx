@@ -90,14 +90,12 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
     }
   };
   return (
-    <>
-      <ReactECharts option={options} />
-      <style>{`
-      .echarts-for-react {
-        height: 40px !important;
-        width: 320px !important;
-      }
-    `}</style>
-    </>
+    <ReactECharts
+      style={{
+        height: "40px",
+        width: "320px"
+      }}
+      option={options}
+    />
   );
 };

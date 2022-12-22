@@ -8,7 +8,9 @@
     "build:prod": "webpack --progress --color --config scripts/webpack/webpack.prod.js",
     "test": "react-scripts test",
     "lint": "eslint . --ext .js,.ts,.tsx",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
@@ -54,11 +56,22 @@
     "@babel/core": "^7.16.7",
     "@babel/eslint-parser": "^7.16.5",
     "@babel/preset-typescript": "^7.16.7",
+    "@storybook/addon-actions": "^6.5.15",
+    "@storybook/addon-essentials": "^6.5.15",
+    "@storybook/addon-interactions": "^6.5.15",
+    "@storybook/addon-links": "^6.5.15",
+    "@storybook/builder-webpack5": "^6.5.15",
+    "@storybook/manager-webpack5": "^6.5.15",
+    "@storybook/node-logger": "^6.5.15",
+    "@storybook/preset-create-react-app": "^4.1.2",
+    "@storybook/react": "^6.5.15",
+    "@storybook/testing-library": "^0.0.13",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@types/babel-generator": "^6.25.5",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
+    "babel-plugin-named-exports-order": "^0.0.2",
     "babel-preset-react": "^6.24.1",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "6.7.1",
@@ -72,9 +85,10 @@
     "postcss": "^8.4.18",
     "postcss-loader": "^7.0.1",
     "postcss-preset-env": "^7.8.2",
+    "prop-types": "^15.8.1",
     "raw-loader": "4.0.2",
     "tailwindcss": "^3.2.1",
-    "webpack": "^5.74.0",
+    "webpack": "^5.75.0",
     "webpack-bundle-analyzer": "^4.4.2",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "4.11.1",
@@ -100,6 +114,18 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   }
 }

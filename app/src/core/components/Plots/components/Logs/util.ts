@@ -40,9 +40,10 @@ export const getLogExploreOptions = (xAxis: number[], series: SeriesOption[]): E
             }
         },
         grid: {
-            left: "24px",
-            right: "24px",
-            top: "32px",
+            left: "15px",
+            right: "15px",
+            top: "10px",
+            bottom: "15px",
             containLabel: true
         },
         xAxis: {

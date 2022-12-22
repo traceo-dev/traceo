@@ -2,15 +2,14 @@ import { TraceoLoading } from "../../../../core/components/TraceoLoading";
 import { useSelector } from "react-redux";
 import { LogLevel } from "../../../../types/logs";
 import { StoreState } from "../../../../types/store";
-import AppExploreNavigationPage from "../components/AppExploreNavigation";
+import AppExploreNavigationPage from "../AppExploreNavigation";
 
 import { Divider, Space, Tag, Typography } from "antd";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { LogsHistogram } from "../../../../features/app/explore/components/LogsHistogram";
-import { LogContainer, LogRow } from "../components/LogContainer";
+import { LogsHistogram } from "./components/LogsHistogram";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { PagePanel } from "../../../../core/components/PagePanel";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LogContainer, LogRow } from "./components/LogContainer";
 
 const AppLogsPage = () => {
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);

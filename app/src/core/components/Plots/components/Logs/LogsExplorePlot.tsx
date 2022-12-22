@@ -33,13 +33,9 @@ export const LogsExplorePlot: FC<Props> = ({ logs, startDate, endDate }) => {
   }, []);
 
   return (
-    <>
-      <ReactECharts option={getLogExploreOptions(data.xAxis, series)} />
-      <style>{`
-          .echarts-for-react {
-            height: 280px !important;
-          }
-      `}</style>
-    </>
+    <ReactECharts
+      style={{ height: "150px" }}
+      option={getLogExploreOptions(data.xAxis, series)}
+    />
   );
 };

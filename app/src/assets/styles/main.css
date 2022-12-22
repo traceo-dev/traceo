@@ -262,7 +262,7 @@ body {
 
 .details-table-label {
   font-weight: 400 !important;
-  width: 256px !important;
+  /* width: 256px !important; */
 }
 
 .details-table-value {

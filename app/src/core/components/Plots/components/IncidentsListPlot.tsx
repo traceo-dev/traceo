@@ -66,14 +66,12 @@ export const IncidentsListPlot: FC<Props> = ({ errors }) => {
   };
 
   return (
-    <>
-      <ReactECharts option={options} />
-      <style>{`
-      .echarts-for-react {
-        height: 80px !important;
-        width: 380px !important;
-      }
-    `}</style>
-    </>
+    <ReactECharts
+      style={{
+        height: "80px",
+        width: "380px"
+      }}
+      option={options}
+    />
   );
 };
