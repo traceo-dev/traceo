@@ -9,7 +9,7 @@ import { EntityManager, UpdateResult } from "typeorm";
 
 
 @Injectable()
-export class ProcessIncidentsService extends BaseWorkerService<TraceoIncidentModel> {
+export class WorkerIncidentsService extends BaseWorkerService<TraceoIncidentModel> {
     constructor(
         private readonly entityManager: EntityManager,
     ) {

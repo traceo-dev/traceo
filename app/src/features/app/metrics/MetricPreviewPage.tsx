@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { MetricsResponse } from "../../../types/tsdb";
 import { AppMetricsPreviewNavigationPage } from "./components/AppMetricsPreviewNavigationPage";
 import { MetricPlotWrapper } from "./components/MetricPlotWrapper";
-import { CHART_TYPE, METRIC_TYPE } from "../../../types/metrics";
+// import { CHART_TYPE, METRIC_TYPE } from "../../../types/metrics";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { MetricPlot } from "../../../core/components/Plots/components/Metrics/MetricPlot";
 
@@ -12,10 +12,10 @@ export const MetricPreviewPage = () => {
   const { id } = useParams();
 
   const query = new URLSearchParams(location.search);
-  const type = query.get("type") as METRIC_TYPE;
+  // const type = query.get("type") as METRIC_TYPE;
 
   const [hrCount, setHrCount] = useState<number>(1);
-  const [chartType, setChartType] = useState<CHART_TYPE>("line");
+  // const [chartType, setChartType] = useState<CHART_TYPE>("line");
 
   const {
     data: metrics = [],
@@ -32,7 +32,7 @@ export const MetricPreviewPage = () => {
 
   return (
     <AppMetricsPreviewNavigationPage>
-      <MetricPlotWrapper
+      {/* <MetricPlotWrapper
         execute={execute}
         hrCount={hrCount}
         setHrCount={setHrCount}
@@ -41,8 +41,8 @@ export const MetricPreviewPage = () => {
         metrics={metrics}
       >
         <MetricPlot type={type} metrics={metrics} plotType={chartType} />
-      </MetricPlotWrapper>
-      <MetricTableWrapper type={type} metrics={metrics} />
+      </MetricPlotWrapper> */}
+      {/* <MetricTableWrapper type={type} metrics={metrics} /> */}
     </AppMetricsPreviewNavigationPage>
   );
 };

@@ -8,6 +8,7 @@ import accountReducer from "../../features/auth/state/reducers";
 import serverAccountsReducer from "../../features/management/state/accounts/reducers";
 import serverApplicationsReducer from "../../features/management/state/applications/reducers";
 import dashboardReducer from "../../features/dashboard/state/reducers";
+import metricsReducer from "../../features/app/metrics/state/reducers"
 
 import { cleanUpAction, CleanUp } from "../hooks/useCleanup";
 
@@ -19,7 +20,8 @@ const rootReducers = {
   ...membersReducer,
   ...applicationReducer,
   ...dashboardReducer,
-  ...logsReducer
+  ...logsReducer,
+  ...metricsReducer
 };
 
 const addedReducers = {};

@@ -17,6 +17,7 @@ export class InfluxController {
         private readonly permission: GuardsService
     ) { }
 
+    // TODO: move to metrics and remove this controller
     @Post('/config')
     @AuthRequired()
     async saveInfluxDataSource(

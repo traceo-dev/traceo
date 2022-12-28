@@ -1,83 +1,30 @@
 import { Card, Col, Row, Typography } from "antd";
 import { PagePanel } from "../../../core/components/PagePanel";
-import { useApi } from "../../../core/lib/useApi";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
 import { StoreState } from "../../../types/store";
-import { CONNECTION_STATUS, MetricsResponse } from "../../../types/tsdb";
+import { CONNECTION_STATUS } from "../../../types/tsdb";
 import AppMetricsNavigationPage from "./components/AppMetricsNavigationPage";
 import { ConnectionError } from "./components/ConnectionError";
 import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
-import { MetricsHeader } from "./components/MetricsHeader";
-import { METRIC_TYPE } from "../../../types/metrics";
-import { slugifyForUrl } from "../../../core/utils/stringUtils";
-import { EChartsOption } from "echarts";
+import { IMetric } from "../../../types/metrics";
 import { MetricPlot } from "../../../core/components/Plots/components/Metrics/MetricPlot";
-import {
-  metricConfig,
-  MetricSeriesOption
-} from "../../../core/components/Plots/components/Metrics/utils";
+import { ConditionalWrapper } from "core/components/ConditionLayout";
+import { dispatch } from "store/store";
+import { loadMetrics } from "./state/actions";
 
 const MetricsPage = () => {
-  const { id } = useParams();
   const { application } = useSelector((state: StoreState) => state.application);
+  const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
 
-  const navigate = useNavigate();
-
-  const [hrCount, setHrCount] = useState<number>(1);
+  useEffect(() => {
+    dispatch(loadMetrics());
+  }, [application]);
 
   const isConnectedTSDB = !!application?.connectedTSDB;
 
   const isConnectedSuccessfully =
     application?.influxDS?.connStatus === CONNECTION_STATUS.CONNECTED;
-
-  const {
-    data: metrics = [],
-    isLoading,
-    execute
-  } = useApi<MetricsResponse[]>({
-    url: "/api/datasource/metrics",
-    params: { id, hrCount }
-  });
-
-  useEffect(() => {
-    execute();
-  }, [hrCount]);
-
-  const showMetricPreview = (type: METRIC_TYPE) =>
-    navigate(
-      `/app/${application.id}/${slugifyForUrl(
-        application.name
-      )}/metrics/preview?type=${type}`
-    );
-
-  const options: EChartsOption = {
-    grid: {
-      containLabel: true,
-      right: 10,
-      left: 10,
-      bottom: 10,
-      top: 10,
-      height: 150
-    }
-  };
-
-  const avg = (options: MetricSeriesOption[]) => {
-    if (!metrics) return;
-
-    //average value calculated only for single series charts
-    if (!options || options.length > 1) {
-      return null;
-    }
-
-    const field = options[0].field;
-    const sum = metrics?.reduce((acc, val) => (acc += val[field]), 0);
-
-    const result = sum / metrics?.length || null;
-
-    return result;
-  };
 
   if (!isConnectedTSDB) {
     return (
@@ -102,59 +49,41 @@ const MetricsPage = () => {
   return (
     <>
       <AppMetricsNavigationPage>
-        <MetricsHeader
+        {/* <MetricsHeader
           loading={isLoading}
           hrCount={hrCount}
           setHrCount={setHrCount}
-          execute={execute}
-        />
-        <Row className="pt-3" gutter={[12, 24]}>
-          {Object.values(METRIC_TYPE).map((type, index) => (
-            <Col span={12} key={index}>
-              <MetricCard
-                type={type}
-                avg={avg(metricConfig[type].series)}
-                onExplore={() => showMetricPreview(type)}
-              >
-                <MetricPlot
-                  type={type}
-                  metrics={metrics}
-                  options={options}
-                  plotType="line"
-                />
-              </MetricCard>
-            </Col>
-          ))}
-        </Row>
+          execute={() => console.log()}
+        /> */}
+        <ConditionalWrapper isLoading={!hasFetched}>
+          <Row className="pt-3" gutter={[12, 24]}>
+            {metrics?.map((metric, index) => (
+              <Col span={12} key={index}>
+                <MetricCard metric={metric} />
+              </Col>
+            ))}
+          </Row>
+        </ConditionalWrapper>
       </AppMetricsNavigationPage>
     </>
   );
 };
 
 interface MetricCardProps {
-  type: METRIC_TYPE;
-  children: JSX.Element;
-  onExplore?: () => void;
-  avg?: number;
+  metric: IMetric;
 }
-const MetricCard: FC<MetricCardProps> = ({ children, onExplore, avg, type }) => {
-  const { unit, title } = metricConfig[type];
+const MetricCard: FC<MetricCardProps> = ({ metric }) => {
   return (
     <>
       <Card
-        extra={
-          avg && (
-            <span className="text-amber-500 font-semibold">
-              {avg.toFixed(2)}
-              {unit}
-            </span>
-          )
+        title={
+          <Typography.Text className="font-normal text-md">
+            {metric?.name}
+          </Typography.Text>
         }
-        onClick={onExplore}
-        title={<Typography.Text className="font-normal text-md">{title}</Typography.Text>}
         className="metric-panel"
       >
-        {children}
+        <MetricPlot metric={metric} />
       </Card>
       <style>{`
         .metric-panel {

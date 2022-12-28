@@ -1,19 +1,8 @@
-import { CONNECTION_STATUS } from "../enums/tsdb.enum";
+import { BaseProviderDto } from "./provider.interface";
 
-export interface IInfluxDs {
+export interface IInfluxDs extends BaseProviderDto {
     url?: string;
     token?: string;
     org?: string;
     bucket?: string;
-    connStatus?: CONNECTION_STATUS;
-    connError?: string;
-}
-
-export interface InfluxConfiguration extends Omit<IInfluxDs, "application" | "connError" | "id"> {
-    url: string;
-    token: string;
-    org: string;
-    bucket: string;
-    appId: string;
-    connStatus: CONNECTION_STATUS;
 }

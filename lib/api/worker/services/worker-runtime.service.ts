@@ -4,7 +4,7 @@ import { Application } from "../../../db/entities/application.entity";
 import { EntityManager } from "typeorm";
 
 @Injectable()
-export class RuntimeService extends BaseWorkerService<object> {
+export class WorkerRuntimeService extends BaseWorkerService<object> {
     constructor(
         private readonly entityManager: EntityManager
     ) {

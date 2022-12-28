@@ -7,6 +7,7 @@ import { ApplicationQueryService } from './application-query/application-query.s
 import { AmrQueryService } from '../application-member/amr-query/amr-query.service';
 import { AccountQueryService } from '../account/account-query/account-query.service';
 import { GuardsService } from '../../common/guards/guards.service';
+import { MetricsService } from '../metrics/metrics.service';
 
 @Module({
   imports: [PassportModule.register({ defaultStrategy: "jwt" })],
@@ -16,7 +17,8 @@ import { GuardsService } from '../../common/guards/guards.service';
     AmrQueryService,
     AccountQueryService,
     ApplicationQueryService,
-    GuardsService
+    GuardsService,
+    MetricsService
   ],
   controllers: [ApplicationController]
 })

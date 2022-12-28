@@ -2,7 +2,7 @@ import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { Space, Segmented, Button } from "antd";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { FC } from "react";
-import { CHART_TYPE } from "../../../../types/metrics";
+import { PLOT_TYPE } from "../../../../types/metrics";
 import { MetricsResponse } from "../../../../types/tsdb";
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
   metrics: MetricsResponse[];
   hrCount: number;
   setHrCount: (val: number) => void;
-  setChartType: (val: CHART_TYPE) => void;
+  setChartType: (val: PLOT_TYPE) => void;
 }
 export const MetricPlotWrapper: FC<Props> = ({
   children,
@@ -37,7 +37,7 @@ export const MetricPlotWrapper: FC<Props> = ({
                 { value: "bar", label: "Bars" },
                 { value: "scatter", label: "Points" }
               ]}
-              onChange={(v) => setChartType(v as CHART_TYPE)}
+              onChange={(v) => setChartType(v as PLOT_TYPE)}
               onResize={undefined}
               onResizeCapture={undefined}
             />

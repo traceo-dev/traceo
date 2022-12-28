@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { AmrService } from '../application-member/amr.service';
 import { EntityManager } from 'typeorm';
 import * as crypto from "crypto";
@@ -16,6 +16,7 @@ import { Application } from '../../db/entities/application.entity';
 import { ApiResponse } from '../../common/types/dto/response.dto';
 import { Log } from '../../db/entities/log.entity';
 import { MemberRole } from '../../common/types/enums/amr.enum';
+import { MetricsService } from '../metrics/metrics.service';
 
 
 const MAX_RETENTION_LOGS = 3;
@@ -28,7 +29,8 @@ export class ApplicationService {
     private readonly entityManager: EntityManager,
     private readonly awrService: AmrService,
     private readonly applicationQueryService: ApplicationQueryService,
-    private readonly accountQueryService: AccountQueryService
+    private readonly accountQueryService: AccountQueryService,
+    private readonly metricsService: MetricsService
   ) {
     this.logger = new Logger(ApplicationService.name)
   }
@@ -47,7 +49,7 @@ export class ApplicationService {
 
       const account = await this.accountQueryService.getDtoBy({ id });
       if (!account) {
-        throw new NotFoundException();
+        throw new Error('Owner account is required!');
       }
 
       const url = gravatar.url(data.name, "identicon");
@@ -83,6 +85,8 @@ export class ApplicationService {
         MemberRole.ADMINISTRATOR,
         manager,
       );
+
+      await this.metricsService.addDefaultMetrics(application, manager);
 
       return new ApiResponse("success", "Application successfully created", application);
     }).catch((err: Error) => {
