@@ -1,12 +1,12 @@
 import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
 import { Card, Space, Tooltip, Typography } from "antd";
+import { loadApplication } from "features/app/state/application/actions";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "../../../core/components/Avatar";
 import { IncidentsAppListPlot } from "../../../core/components/Plots/components/IncidentsAppListPlot";
 import dateUtils from "../../../core/utils/date";
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
-import { loadApplication } from "../../../features/app/state/actions";
 import { dispatch } from "../../../store/store";
 import { ApplicationMember } from "../../../types/application";
 

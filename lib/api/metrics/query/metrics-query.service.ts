@@ -4,7 +4,7 @@ import { INTERNAL_SERVER_ERROR } from "lib/common/helpers/constants";
 import { MetricQueryDto } from "lib/common/types/dto/metrics.dto";
 import { ApiResponse } from "lib/common/types/dto/response.dto";
 import { TSDB_PROVIDER } from "lib/common/types/enums/tsdb.enum";
-import { IMetric, MetricsResponse } from "lib/common/types/interfaces/metrics.interface";
+import { IMetric, IMetricSerie, MetricPreviewType, MetricsResponse } from "lib/common/types/interfaces/metrics.interface";
 import { Metric } from "lib/db/entities/metric.entity";
 import { InfluxService } from "lib/providers/influx/influx.service";
 import { EntityManager } from "typeorm";
@@ -52,5 +52,42 @@ export class MetricsQueryService {
             this.logger.error(`[${this.getApplicationMetrics.name}] Caused by: ${err}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
         }
+    }
+
+    public async getApplicationMetricPreviewData(
+        appId: string, metricId: string
+    ): Promise<ApiResponse<MetricPreviewType>> {
+        if (!appId || !metricId) {
+            throw new Error('App and metric ids are required!');
+        }
+
+        try {
+            const metric = await this.entityManager.getRepository(Metric).findOneBy({
+                id: metricId, application: {
+                    id: appId
+                }
+            });
+
+            const datasource = await this.getMetricData(appId, {
+                fields: this.parseSeries(metric.series),
+                hrCount: 72
+            });
+
+            return new ApiResponse("success", undefined, {
+                config: metric,
+                datasource: datasource.data || []
+            });
+        } catch (err) {
+            this.logger.error(`[${this.getApplicationMetricPreviewData.name}] Caused by: ${err}`);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+        }
+    }
+
+    private parseSeries(series: IMetricSerie[]): string[] {
+        return series?.reduce<string[]>((acc, serie) => {
+            acc.push(serie.field);
+
+            return acc;
+        }, []) || [];
     }
 }

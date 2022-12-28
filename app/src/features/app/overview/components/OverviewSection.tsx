@@ -5,12 +5,11 @@ import { PagePanel } from "../../../../core/components/PagePanel";
 import { IncidentsOverviewPlot } from "../../../../core/components/Plots/components/IncidentsOverviewPlot";
 import { AppIncidentsStats, PieData } from "../../../../types/statistics";
 import { dispatch } from "../../../../store/store";
-import { loadApplication } from "../../../../features/app/state/actions";
 import { ErrorDetails } from "../../../../types/incidents";
-import { IncidentsPie } from "../../../../core/components/Plots/components/Pie/IncidentsPie";
 import { StatCards } from "./StatCards";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { loadApplication } from "features/app/state/application/actions";
 
 export interface TotalOverviewType {
   errors: ErrorDetails[];

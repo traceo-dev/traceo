@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty } from "class-validator";
+import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString } from "class-validator";
 
 export class MetricQueryDto {
     @IsArray()
@@ -8,4 +8,22 @@ export class MetricQueryDto {
     // @IsInt()
     @IsNotEmpty()
     hrCount: number;
+}
+
+export class UpdateMetricDto {
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+
+    @IsString()
+    @IsOptional()
+    description: string;
+
+    // @IsBoolean()
+    // @IsNotEmpty()
+    // show: boolean;
+
+    // @IsString()
+    // @IsNotEmpty()
+    // unit: string;
 }

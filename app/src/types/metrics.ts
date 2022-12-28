@@ -1,4 +1,5 @@
 export type IMetric = {
+    id: string;
     name: string;
     description: string;
     isDefault: boolean;
@@ -34,7 +35,11 @@ export type IMetricConfiguration = {
 }
 
 export type TOOLTIP_PLACEMENT = "bottom" | "inside" | "left" | "right" | "top";
-export type PLOT_TYPE = "bar" | "line" | "scatter";
+export enum PLOT_TYPE {
+    BAR = "bar",
+    LINE = "line",
+    POINTS = "points"
+}
 export type METRIC_UNIT = "%" | "MB" | "kb" | "s" | "ms" | "";
 export type LegendOrientType = "vertical" | "horizontal";
 

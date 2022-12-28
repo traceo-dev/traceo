@@ -8,7 +8,6 @@ import { dispatch } from "../../../store/store";
 import { ApiResponse } from "../../../types/api";
 import { StoreState } from "../../../types/store";
 import { MemberRole } from "../../../types/application";
-import { updateAplication } from "../state/actions";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";
 import { Permissions } from "../../../core/components/Permissions";
@@ -18,6 +17,7 @@ import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { notify } from "../../../core/utils/notify";
 import { ApiKeySection } from "./components/ApiKeySection";
+import { updateAplication } from "../state/application/actions";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();

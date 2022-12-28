@@ -1,8 +1,4 @@
-import { FC } from "react";
 import ReactECharts from "echarts-for-react";
-import { IMetric, MetricsResponse } from "../../../../../types/metrics";
-import { MetricLoading } from "../../../../../core/components/MetricLoading";
-import { useApi } from "core/lib/useApi";
 import { StoreState } from "types/store";
 import { useSelector } from "react-redux";
 import { EChartsOption, SeriesOption } from "echarts";
@@ -10,33 +6,15 @@ import { ConditionalWrapper } from "core/components/ConditionLayout";
 import { commonOptions } from "./utils";
 import { METRIC_UNIT } from "types/tsdb";
 
-interface Props {
-  metric: IMetric;
-}
-export const MetricPlot: FC<Props> = ({ metric }) => {
-  const { application } = useSelector((state: StoreState) => state.application);
+export const MetricPreviewPlot = () => {
+  const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
 
-  const seriesFields =
-    metric?.series?.reduce<string[]>((acc, serie) => {
-      acc.push(serie.field);
-
-      return acc;
-    }, []) || [];
-
-  const { data, isLoading } = useApi<MetricsResponse[]>({
-    url: `/api/metrics/${application.id}/datasource`,
-    params: {
-      fields: seriesFields,
-      hrCount: 72
-    }
-  });
-
-  if (!data) {
-    return <MetricLoading />;
+  if (!metric) {
+    return null;
   }
 
   const buildSeries = () =>
-    metric.series?.map((serie) => ({
+    metric.config.series?.map((serie) => ({
       type: serie.config.type,
       name: serie.name,
       showSymbol: false,
@@ -53,12 +31,12 @@ export const MetricPlot: FC<Props> = ({ metric }) => {
 
   const buildSources = () => {
     const commonSource = {
-      time: data?.map((t) => t._time)
+      time: metric?.datasource?.map((t) => t._time)
     };
 
-    metric.series?.map(({ field }) =>
+    metric?.config.series?.map(({ field }) =>
       Object.assign(commonSource, {
-        [field]: data?.map((m) => m[field])
+        [field]: metric?.datasource?.map((m) => m[field])
       })
     );
 
@@ -66,14 +44,13 @@ export const MetricPlot: FC<Props> = ({ metric }) => {
   };
 
   const options: EChartsOption = {
-    ...commonOptions({ unit: metric.unit as METRIC_UNIT }),
+    ...commonOptions({ unit: metric?.config?.unit as METRIC_UNIT }),
     grid: {
       containLabel: true,
       right: 10,
       left: 10,
       bottom: 10,
-      top: 10,
-      height: 150
+      top: 10
     },
     series: buildSeries() as SeriesOption[],
     dataset: {
@@ -82,7 +59,7 @@ export const MetricPlot: FC<Props> = ({ metric }) => {
   };
 
   return (
-    <ConditionalWrapper isLoading={isLoading}>
+    <ConditionalWrapper isLoading={!hasFetchedMetric}>
       <ReactECharts option={options} />
     </ConditionalWrapper>
   );

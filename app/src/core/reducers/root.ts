@@ -1,6 +1,7 @@
 import { combineReducers, AnyAction } from "redux";
 
-import applicationReducer from "../../features/app/state/reducers";
+import applicationReducer from "../../features/app/state/application/reducers";
+import navbarReducer from "../../features/app/state/navbar/reducers";
 import incidentsReducer from "../../features/app/incidents/state/reducers";
 import membersReducer from "../../features/app/settings/state/members/reducers";
 import logsReducer from "../../features/app/explore/logs/state/reducers";
@@ -21,6 +22,7 @@ const rootReducers = {
   ...applicationReducer,
   ...dashboardReducer,
   ...logsReducer,
+  ...navbarReducer,
   ...metricsReducer
 };
 

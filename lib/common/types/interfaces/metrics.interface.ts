@@ -1,4 +1,5 @@
 export type IMetric = {
+    id?: string;
     name: string;
     description: string;
     isDefault: boolean;
@@ -19,6 +20,7 @@ export type IMetricSerie = {
 }
 
 export type IMetricConfiguration = {
+    showDescription: boolean;
     area: {
         color: string;
         opacity: number;
@@ -87,3 +89,8 @@ export enum MetricValueEnum {
     FLOAT_FIELD = "floatField",
     INT_FIELD = "intField"
 };
+
+export type MetricPreviewType = {
+    config: IMetric,
+    datasource: MetricsResponse[]
+}

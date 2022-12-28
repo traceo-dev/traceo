@@ -12,8 +12,13 @@ import { MetricPlot } from "../../../core/components/Plots/components/Metrics/Me
 import { ConditionalWrapper } from "core/components/ConditionLayout";
 import { dispatch } from "store/store";
 import { loadMetrics } from "./state/actions";
+import { useNavigate } from "react-router-dom";
+import { slugifyForUrl } from "core/utils/stringUtils";
+import { useCleanup } from "core/hooks/useCleanup";
 
 const MetricsPage = () => {
+  useCleanup((state: StoreState) => state.metrics);
+
   const { application } = useSelector((state: StoreState) => state.application);
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
 
@@ -73,9 +78,21 @@ interface MetricCardProps {
   metric: IMetric;
 }
 const MetricCard: FC<MetricCardProps> = ({ metric }) => {
+  const navigate = useNavigate();
+  const { application } = useSelector((state: StoreState) => state.application);
+
+  const onClick = () => {
+    navigate(
+      `/app/${application.id}/${slugifyForUrl(application.name)}/metrics/preview/${
+        metric.id
+      }?name=${slugifyForUrl(metric.name)}`
+    );
+  };
+
   return (
     <>
       <Card
+        onClick={onClick}
         title={
           <Typography.Text className="font-normal text-md">
             {metric?.name}

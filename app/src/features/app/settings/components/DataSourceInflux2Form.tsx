@@ -1,7 +1,6 @@
 import { Form, Input, Space, Alert, Button, Typography } from "antd";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
-import { loadApplication } from "../../../../features/app/state/actions";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { dispatch } from "../../../../store/store";
@@ -11,6 +10,7 @@ import { INFLUX2_DOCS, REQUIRED_FIELD_ERROR } from "../../../../core/utils/const
 import validators from "../../../../core/lib/validators";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
 import { ApiResponse } from "../../../../types/api";
+import { loadApplication } from "features/app/state/application/actions";
 
 export const DataSourceInflux2Form = () => {
   const { application } = useSelector((state: StoreState) => state.application);

@@ -7,6 +7,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { isEmptyObject } from "../../../core/utils/object";
 import { PageCenter } from "../../../core/components/PageCenter";
 import { useCleanup } from "../../../core/hooks/useCleanup";
+import { changeNavbarHiddenMode } from "features/app/state/navbar/actions";
 
 export const DashboardPage = ({ children }) => {
   useCleanup((state: StoreState) => state.application);
@@ -14,6 +15,7 @@ export const DashboardPage = ({ children }) => {
   const { account } = useSelector((state: StoreState) => state.account);
 
   useEffect(() => {
+    dispatch(changeNavbarHiddenMode(false));
     dispatch(loadAccount());
   }, []);
 

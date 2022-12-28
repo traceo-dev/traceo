@@ -1,14 +1,11 @@
-import api from "../../../core/lib/api";
+import api from "core/lib/api";
+import { loadApplications } from "features/dashboard/state/actions";
+import { loadServerApplications } from "features/management/state/applications/actions";
+import { ApiResponse } from "types/api";
+import { Application, CreateApplicationProps, UpdateApplicationProps } from "types/application";
+import { ThunkResult } from "types/store";
 import { applicationLoaded } from "./reducers";
-import {
-  CreateApplicationProps,
-  UpdateApplicationProps,
-  Application
-} from "../../../types/application";
-import { ThunkResult } from "../../../types/store";
-import { loadApplications } from "../../../features/dashboard/state/actions";
-import { loadServerApplications } from "../../../features/management/state/applications/actions";
-import { ApiResponse } from "../../../types/api";
+
 
 export const loadApplication = (applicationId?: any): ThunkResult<void> => {
   return async (dispatch, getStore) => {

@@ -1,8 +1,8 @@
 import { ApiResponse } from "../../../../types/api";
-import api, { ApiQueryParams } from "../../../../core/lib/api";
+import api from "../../../../core/lib/api";
 import { ThunkResult } from "../../../../types/store";
-import { IMetric } from "types/metrics";
-import { metricsLoaded } from "./reducers";
+import { IMetric, MetricsResponse } from "types/metrics";
+import { metricLoaded, metricsLoaded } from "./reducers";
 
 export const loadMetrics = (): ThunkResult<void> => {
     return async (dispatch, getStore) => {
@@ -15,3 +15,15 @@ export const loadMetrics = (): ThunkResult<void> => {
         dispatch(metricsLoaded(data));
     };
 };
+
+type MetricPreviewType = {
+    config: IMetric,
+    datasource: MetricsResponse[]
+}
+
+export const loadMetric = (appId: string, metricId: string): ThunkResult<void> => {
+    return async (dispatch) => {
+        const { data } = await api.get<ApiResponse<MetricPreviewType>>(`/api/metrics/${appId}/preview/${metricId}`);
+        dispatch(metricLoaded({ ...data }));
+    }
+}
