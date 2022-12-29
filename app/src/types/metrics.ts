@@ -20,13 +20,14 @@ export type IMetricSerie = {
 }
 
 export type IMetricConfiguration = {
+    showDescription: boolean;
     area: {
         color: string;
         opacity: number;
     },
     tooltip: {
         show: boolean;
-        placement: string;
+        position: string;
     };
     legend: {
         show: boolean;
@@ -40,7 +41,15 @@ export enum PLOT_TYPE {
     LINE = "line",
     POINTS = "points"
 }
-export type METRIC_UNIT = "%" | "MB" | "kb" | "s" | "ms" | "";
+export enum METRIC_UNIT {
+    PERCENTAGE = "%",
+    MEGABYTES = "MB",
+    KILOBYTES = "kb",
+    SECONDS = "s",
+    MILISECONDS = "ms",
+    NONE = ""
+};
+
 export type LegendOrientType = "vertical" | "horizontal";
 
 export type IDefaultSDKMetrics = {

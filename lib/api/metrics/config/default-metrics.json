@@ -25,7 +25,7 @@
                 },
                 "tooltip": {
                     "show": false,
-                    "placement": "bottom"
+                    "position": "bottom"
                 },
                 "legend": {
                     "show": false,
@@ -58,7 +58,7 @@
                 },
                 "tooltip": {
                     "show": false,
-                    "placement": "bottom"
+                    "position": "bottom"
                 },
                 "legend": {
                     "show": false,
@@ -91,7 +91,7 @@
                 },
                 "tooltip": {
                     "show": false,
-                    "placement": "bottom"
+                    "position": "bottom"
                 },
                 "legend": {
                     "show": false,
@@ -133,7 +133,7 @@
                 },
                 "tooltip": {
                     "show": false,
-                    "placement": "bottom"
+                    "position": "bottom"
                 },
                 "legend": {
                     "show": false,
@@ -184,7 +184,7 @@
                 },
                 "tooltip": {
                     "show": false,
-                    "placement": "bottom"
+                    "position": "bottom"
                 },
                 "legend": {
                     "show": false,
@@ -226,7 +226,7 @@
                 },
                 "tooltip": {
                     "show": false,
-                    "placement": "bottom"
+                    "position": "bottom"
                 },
                 "legend": {
                     "show": false,
@@ -259,7 +259,7 @@
                 },
                 "tooltip": {
                     "show": false,
-                    "placement": "bottom"
+                    "position": "bottom"
                 },
                 "legend": {
                     "show": false,

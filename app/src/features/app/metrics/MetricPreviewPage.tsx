@@ -15,18 +15,34 @@ import { conditionClass } from "core/utils/classes";
 import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
 import { MetricPreviewCustomizeForm } from "./components/MetricPreviewCustomizeForm";
 import { useForm } from "antd/es/form/Form";
+import { IMetric } from "types/metrics";
+import { TraceoLoading } from "core/components/TraceoLoading";
+import { useImmer } from "use-immer";
+import { DeepPartial } from "redux";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
-
+  const [options, setOptions] = useImmer<DeepPartial<IMetric>>(metric?.options);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
-
   const [form] = useForm();
 
   useEffect(() => {
     dispatch(loadMetric(id, metricId));
   }, []);
+
+  useEffect(() => {
+    if (metric) {
+      setOptions(metric.options);
+    }
+  }, [metric]);
+
+  if (!metric?.options) {
+    return <TraceoLoading />;
+  }
+
+  const isDescriptionVisible =
+    metric?.options?.description && options?.config.showDescription;
 
   return (
     <>
@@ -36,25 +52,28 @@ export const MetricPreviewPage = () => {
             form={form}
             isCustomizeMode={isCustomizeMode}
             setCustomizeMode={setCustomizeMode}
+            setOptions={setOptions}
           />
           <div className="w-full grid grid-cols-12">
             <div className={conditionClass(isCustomizeMode, "col-span-9", "col-span-12")}>
-              {metric?.config?.description && (
+              {isDescriptionVisible && (
                 <PagePanel>
                   <Typography.Paragraph>
-                    {metric?.config?.description}
+                    {metric?.options?.description}
                   </Typography.Paragraph>
                 </PagePanel>
               )}
               <MetricPlotWrapper>
-                <MetricPreviewPlot />
+                <MetricPreviewPlot options={options} />
               </MetricPlotWrapper>
               <MetricTableWrapper
-                metric={metric?.config}
+                metric={metric?.options}
                 metricData={metric?.datasource}
               />
             </div>
-            {isCustomizeMode && <MetricPreviewCustomizeForm form={form} />}
+            {isCustomizeMode && (
+              <MetricPreviewCustomizeForm setOptions={setOptions} form={form} />
+            )}
           </div>
         </ConditionalWrapper>
       </AppPage>

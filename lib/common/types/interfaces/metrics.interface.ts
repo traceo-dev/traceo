@@ -27,7 +27,7 @@ export type IMetricConfiguration = {
     },
     tooltip: {
         show: boolean;
-        placement: string;
+        position: string;
     };
     legend: {
         show: boolean;
@@ -35,9 +35,21 @@ export type IMetricConfiguration = {
     }
 }
 
-export type TOOLTIP_PLACEMENT = "bottom" | "inside" | "left" | "right" | "top";
-export type PLOT_TYPE = "bar" | "line" | "scatter";
-export type METRIC_UNIT = "%" | "MB" | "kb" | "s" | "ms" | "";
+export type TOOLTIP_POSITION = "bottom" | "inside" | "left" | "right" | "top";
+export enum PLOT_TYPE {
+    BAR = "bar",
+    LINE = "line",
+    POINTS = "points"
+}
+export enum METRIC_UNIT {
+    PERCENTAGE = "%",
+    MEGABYTES = "MB",
+    KILOBYTES = "kb",
+    SECONDS = "s",
+    MILISECONDS = "ms",
+    NONE = ""
+};
+
 export type LegendOrientType = "vertical" | "horizontal";
 
 export type IDefaultSDKMetrics = {
@@ -91,6 +103,6 @@ export enum MetricValueEnum {
 };
 
 export type MetricPreviewType = {
-    config: IMetric,
+    options: IMetric,
     datasource: MetricsResponse[]
 }

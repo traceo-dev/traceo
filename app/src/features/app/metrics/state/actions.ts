@@ -17,7 +17,7 @@ export const loadMetrics = (): ThunkResult<void> => {
 };
 
 type MetricPreviewType = {
-    config: IMetric,
+    options: IMetric,
     datasource: MetricsResponse[]
 }
 

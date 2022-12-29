@@ -19,7 +19,7 @@ export const commonOptions = ({ unit }: { unit: METRIC_UNIT }) => {
             left: 10,
             top: 10,
             right: 10,
-            bottom: 15,
+            bottom: 45,
             containLabel: true
         },
         xAxis: {
@@ -44,7 +44,7 @@ export const commonOptions = ({ unit }: { unit: METRIC_UNIT }) => {
             axisLabel: {
                 color: "white",
                 fontSize: 11,
-                formatter: `{value}${unit}`
+                formatter: `{value} ${unit}`
             },
             minInterval: 1,
             splitLine

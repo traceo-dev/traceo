@@ -74,7 +74,7 @@ export class MetricsQueryService {
             });
 
             return new ApiResponse("success", undefined, {
-                config: metric,
+                options: metric,
                 datasource: datasource.data || []
             });
         } catch (err) {

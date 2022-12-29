@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IMetric, MetricsResponse } from "types/metrics";
 
 type MetricType = {
-    config: IMetric,
+    options: IMetric,
     datasource: MetricsResponse[]
 }
 
@@ -31,7 +31,7 @@ const metricsSlice = createSlice({
             return {
                 ...state, hasFetchedMetric: true, metric: {
                     datasource: action.payload.datasource,
-                    config: action.payload.config
+                    options: action.payload.options
                 }
             }
         }

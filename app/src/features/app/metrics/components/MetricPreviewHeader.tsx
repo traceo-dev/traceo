@@ -1,26 +1,36 @@
-import { BarChartOutlined, ArrowLeftOutlined, SyncOutlined } from "@ant-design/icons";
+import {
+  BarChartOutlined,
+  ArrowLeftOutlined,
+  SyncOutlined,
+  SettingOutlined
+} from "@ant-design/icons";
 import { Space, Typography, Button, Tooltip } from "antd";
 import { FormInstance } from "antd/es/form/Form";
 import PageHeader from "core/components/PageHeader";
 import api from "core/lib/api";
-import { changeNavbarHiddenMode } from "features/app/state/navbar/actions";
+import { toggleNavbar } from "features/app/state/navbar/actions";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { DeepPartial } from "redux";
 import { dispatch } from "store/store";
 import { ApiResponse } from "types/api";
+import { IMetric } from "types/metrics";
 import { StoreState } from "types/store";
+import { DraftFunction } from "use-immer";
 import { loadMetric } from "../state/actions";
 
 interface Props {
-  setCustomizeMode: (val: boolean) => void;
-  isCustomizeMode: boolean;
   form: FormInstance;
+  isCustomizeMode: boolean;
+  setCustomizeMode: (val: boolean) => void;
+  setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
 }
 export const MetricPreviewHeader: FC<Props> = ({
-  setCustomizeMode,
+  form,
   isCustomizeMode,
-  form
+  setCustomizeMode,
+  setOptions
 }) => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -29,27 +39,29 @@ export const MetricPreviewHeader: FC<Props> = ({
 
   const onSave = async () => {
     setSaveLoading(true);
-    const payload = form.getFieldsValue();
+
+    const update = form.getFieldsValue();
     await api
-      .patch<ApiResponse<string>>(`/api/metrics/${metric.config.id}/update`, payload)
+      .patch<ApiResponse<string>>(`/api/metrics/${metric.options.id}/update`, update)
       .then(() => {
-        dispatch(loadMetric(id, metric.config.id));
+        dispatch(loadMetric(id, metric.options.id));
       })
       .finally(() => {
         setSaveLoading(false);
         setCustomizeMode(false);
-        dispatch(changeNavbarHiddenMode(false));
+        dispatch(toggleNavbar(false));
       });
   };
 
   const onDiscard = () => {
+    setOptions(metric?.options);
     setCustomizeMode(false);
-    dispatch(changeNavbarHiddenMode(false));
+    dispatch(toggleNavbar(false));
   };
 
   const onCustomize = () => {
     setCustomizeMode(true);
-    dispatch(changeNavbarHiddenMode(true));
+    dispatch(toggleNavbar(true));
   };
 
   return (
@@ -66,10 +78,12 @@ export const MetricPreviewHeader: FC<Props> = ({
               className="text-xl"
               onClick={() => {
                 navigate(-1);
-                dispatch(changeNavbarHiddenMode(false));
+                dispatch(toggleNavbar(false));
               }}
             />
-            <Typography.Text className="text-2xl">{metric?.config?.name}</Typography.Text>
+            <Typography.Text className="text-2xl">
+              {metric?.options?.name}
+            </Typography.Text>
           </Space>
         </Space>
       }
@@ -88,7 +102,12 @@ export const MetricPreviewHeader: FC<Props> = ({
 
           {!isCustomizeMode && (
             <>
-              <Button type="primary" onClick={() => onCustomize()} ghost>
+              <Button
+                icon={<SettingOutlined />}
+                type="primary"
+                onClick={() => onCustomize()}
+                ghost
+              >
                 Customize
               </Button>
               <Tooltip title="Refresh">

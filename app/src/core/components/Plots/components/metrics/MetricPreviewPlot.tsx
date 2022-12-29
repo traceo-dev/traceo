@@ -5,16 +5,19 @@ import { EChartsOption, SeriesOption } from "echarts";
 import { ConditionalWrapper } from "core/components/ConditionLayout";
 import { commonOptions } from "./utils";
 import { METRIC_UNIT } from "types/tsdb";
+import { tooltipOptions } from "../../utils";
+import { FC } from "react";
+import { IMetric } from "types/metrics";
+import { DeepPartial } from "types/partials";
 
-export const MetricPreviewPlot = () => {
+interface Props {
+  options: DeepPartial<IMetric>;
+}
+export const MetricPreviewPlot: FC<Props> = ({ options }) => {
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
 
-  if (!metric) {
-    return null;
-  }
-
   const buildSeries = () =>
-    metric.config.series?.map((serie) => ({
+    metric.options.series?.map((serie) => ({
       type: serie.config.type,
       name: serie.name,
       showSymbol: false,
@@ -34,7 +37,7 @@ export const MetricPreviewPlot = () => {
       time: metric?.datasource?.map((t) => t._time)
     };
 
-    metric?.config.series?.map(({ field }) =>
+    metric?.options.series?.map(({ field }) =>
       Object.assign(commonSource, {
         [field]: metric?.datasource?.map((m) => m[field])
       })
@@ -43,11 +46,30 @@ export const MetricPreviewPlot = () => {
     return commonSource;
   };
 
-  const options: EChartsOption = {
-    ...commonOptions({ unit: metric?.config?.unit as METRIC_UNIT }),
+  const showTooltip = options?.config.tooltip.show;
+  const showLegend = options?.config.legend.show;
+  const unit = options?.unit;
+
+  const echartsOptions: EChartsOption = {
+    ...commonOptions({ unit: unit as METRIC_UNIT }),
+    tooltip: {
+      show: showTooltip,
+      ...tooltipOptions
+    },
+    legend: {
+      show: showLegend,
+      orient: "vertical",
+      right: 10,
+      top: "center",
+      textStyle: {
+        color: "#ffffff"
+      },
+      icon: "roundRect",
+      itemHeight: 5
+    },
     grid: {
       containLabel: true,
-      right: 10,
+      right: showLegend ? 120 : 10,
       left: 10,
       bottom: 10,
       top: 10
@@ -59,8 +81,8 @@ export const MetricPreviewPlot = () => {
   };
 
   return (
-    <ConditionalWrapper isLoading={!hasFetchedMetric}>
-      <ReactECharts option={options} />
+    <ConditionalWrapper isLoading={!hasFetchedMetric || !metric || !options}>
+      <ReactECharts option={echartsOptions} />
     </ConditionalWrapper>
   );
 };

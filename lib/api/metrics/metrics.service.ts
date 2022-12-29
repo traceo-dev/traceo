@@ -5,7 +5,6 @@ import { Metric } from "../../db/entities/metric.entity";
 import { EntityManager } from "typeorm";
 import * as default_metrics from "./config/default-metrics.json";
 import { ApiResponse } from "lib/common/types/dto/response.dto";
-import { IMetric } from "lib/common/types/interfaces/metrics.interface";
 import { INTERNAL_SERVER_ERROR } from "lib/common/helpers/constants";
 import { UpdateMetricDto } from "lib/common/types/dto/metrics.dto";
 
@@ -44,7 +43,7 @@ export class MetricsService {
     ): Promise<ApiResponse<string>> {
         try {
             await manager.getRepository(Metric).update({ id: metricId }, dto);
-            return new ApiResponse("success", undefined, "Metric updated");
+            return new ApiResponse("success", "Metric updated", undefined);
         } catch (error) {
             this.logger.error(`[${this.updateMetric.name}] Caused by: ${error}`)
             return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
