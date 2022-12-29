@@ -4,7 +4,7 @@ import {
   SyncOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import { Space, Typography, Button, Tooltip } from "antd";
+import { Space, Typography, Button, Tooltip, Select } from "antd";
 import { FormInstance } from "antd/es/form/Form";
 import PageHeader from "core/components/PageHeader";
 import api from "core/lib/api";
@@ -23,12 +23,14 @@ import { loadMetric } from "../state/actions";
 interface Props {
   form: FormInstance;
   isCustomizeMode: boolean;
+  isExpandMode: boolean;
   setCustomizeMode: (val: boolean) => void;
   setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
 }
 export const MetricPreviewHeader: FC<Props> = ({
   form,
   isCustomizeMode,
+  isExpandMode,
   setCustomizeMode,
   setOptions
 }) => {
@@ -65,60 +67,71 @@ export const MetricPreviewHeader: FC<Props> = ({
   };
 
   return (
-    <PageHeader
-      className="mb-5"
-      title={
-        <Space direction="vertical" className="gap-0 w-full">
-          <Space className="text-2xs font-semibold text-primary pb-0 mb-0">
-            <BarChartOutlined />
-            <Typography.Text>METRIC</Typography.Text>
+    <>
+      <PageHeader
+        className="mb-5"
+        title={
+          <Space direction="vertical" className="gap-0 w-full">
+            <Space className="text-2xs font-semibold text-primary pb-0 mb-0">
+              <ArrowLeftOutlined
+                onClick={() => {
+                  navigate(-1);
+                  dispatch(toggleNavbar(false));
+                }}
+              />
+              <Typography.Text>METRICS</Typography.Text>
+            </Space>
+            <Space>
+              <BarChartOutlined />
+              <Typography.Text className="text-2xl">
+                {metric?.options?.name}
+              </Typography.Text>
+            </Space>
           </Space>
+        }
+        suffix={
           <Space>
-            <ArrowLeftOutlined
-              className="text-xl"
-              onClick={() => {
-                navigate(-1);
-                dispatch(toggleNavbar(false));
-              }}
-            />
-            <Typography.Text className="text-2xl">
-              {metric?.options?.name}
-            </Typography.Text>
-          </Space>
-        </Space>
-      }
-      suffix={
-        <Space>
-          {isCustomizeMode && (
-            <>
-              <Button loading={saveLoading} type="primary" ghost onClick={() => onSave()}>
-                Save
-              </Button>
-              <Button type="primary" danger onClick={() => onDiscard()}>
-                Discard
-              </Button>
-            </>
-          )}
-
-          {!isCustomizeMode && (
-            <>
-              <Button
-                icon={<SettingOutlined />}
-                type="primary"
-                onClick={() => onCustomize()}
-                ghost
-              >
-                Customize
-              </Button>
-              <Tooltip title="Refresh">
-                <Button type="primary">
-                  <SyncOutlined className="text-xs cursor-pointer" />
+            {isCustomizeMode && (
+              <>
+                <Button
+                  loading={saveLoading}
+                  type="primary"
+                  ghost
+                  onClick={() => onSave()}
+                >
+                  Save
                 </Button>
-              </Tooltip>
-            </>
-          )}
-        </Space>
-      }
-    />
+                <Button type="primary" danger onClick={() => onDiscard()}>
+                  Discard
+                </Button>
+              </>
+            )}
+
+            {!isCustomizeMode && (
+              <>
+                <Button
+                  hidden={isExpandMode}
+                  icon={<SettingOutlined />}
+                  type="primary"
+                  onClick={() => onCustomize()}
+                  ghost
+                >
+                  Customize
+                </Button>
+                <Tooltip title="Refresh">
+                  <Button
+                    icon={<SyncOutlined className="text-xs cursor-pointer" />}
+                    type="primary"
+                    onClick={() => dispatch(loadMetric(id, metric.options.id))}
+                  >
+                    Refresh
+                  </Button>
+                </Tooltip>
+              </>
+            )}
+          </Space>
+        }
+      />
+    </>
   );
 };

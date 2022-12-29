@@ -1,9 +1,8 @@
-import { MetricPlotWrapper } from "./components/MetricPlotWrapper";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { useSelector } from "react-redux";
 import { StoreState } from "types/store";
 import AppPage from "../components/AppPage";
-import { Typography } from "antd";
+import { Space, Tooltip, Typography } from "antd";
 import { PagePanel } from "core/components/PagePanel";
 import { ConditionalWrapper } from "core/components/ConditionLayout";
 import { useEffect, useState } from "react";
@@ -19,12 +18,15 @@ import { IMetric } from "types/metrics";
 import { TraceoLoading } from "core/components/TraceoLoading";
 import { useImmer } from "use-immer";
 import { DeepPartial } from "redux";
+import { toggleNavbar } from "../state/navbar/actions";
+import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
   const [options, setOptions] = useImmer<DeepPartial<IMetric>>(metric?.options);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
+  const [isExpandMode, setExpandMode] = useState<boolean>(false);
   const [form] = useForm();
 
   useEffect(() => {
@@ -44,6 +46,16 @@ export const MetricPreviewPage = () => {
   const isDescriptionVisible =
     metric?.options?.description && options?.config.showDescription;
 
+  const onExpand = () => {
+    dispatch(toggleNavbar(true));
+    setExpandMode(true);
+  };
+
+  const onCompress = () => {
+    dispatch(toggleNavbar(false));
+    setExpandMode(false);
+  };
+
   return (
     <>
       <AppPage>
@@ -51,25 +63,48 @@ export const MetricPreviewPage = () => {
           <MetricPreviewHeader
             form={form}
             isCustomizeMode={isCustomizeMode}
+            isExpandMode={isExpandMode}
             setCustomizeMode={setCustomizeMode}
             setOptions={setOptions}
           />
+
           <div className="w-full grid grid-cols-12">
             <div className={conditionClass(isCustomizeMode, "col-span-9", "col-span-12")}>
-              {isDescriptionVisible && (
+              {isDescriptionVisible && !isExpandMode && (
                 <PagePanel>
                   <Typography.Paragraph>
                     {metric?.options?.description}
                   </Typography.Paragraph>
                 </PagePanel>
               )}
-              <MetricPlotWrapper>
-                <MetricPreviewPlot options={options} />
-              </MetricPlotWrapper>
-              <MetricTableWrapper
-                metric={metric?.options}
-                metricData={metric?.datasource}
-              />
+
+              <PagePanel
+                title="Graph"
+                extra={
+                  <Space>
+                    {!isExpandMode && !isCustomizeMode && (
+                      <Tooltip title="Expand view">
+                        <ExpandOutlined onClick={onExpand} />
+                      </Tooltip>
+                    )}
+
+                    {isExpandMode && (
+                      <Tooltip title="Compress view">
+                        <CompressOutlined onClick={onCompress} />
+                      </Tooltip>
+                    )}
+                  </Space>
+                }
+              >
+                <MetricPreviewPlot isExpandMode={isExpandMode} options={options} />
+              </PagePanel>
+
+              {!isExpandMode && (
+                <MetricTableWrapper
+                  metric={metric?.options}
+                  metricData={metric?.datasource}
+                />
+              )}
             </div>
             {isCustomizeMode && (
               <MetricPreviewCustomizeForm setOptions={setOptions} form={form} />

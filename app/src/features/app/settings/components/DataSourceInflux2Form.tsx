@@ -4,7 +4,7 @@ import api from "../../../../core/lib/api";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { dispatch } from "../../../../store/store";
-import { CONNECTION_STATUS, InfluxDS } from "../../../../types/tsdb";
+import { CONNECTION_STATUS, InfluxDS, TSDB_PROVIDER } from "../../../../types/tsdb";
 import { StoreState } from "../../../../types/store";
 import { INFLUX2_DOCS, REQUIRED_FIELD_ERROR } from "../../../../core/utils/constants";
 import validators from "../../../../core/lib/validators";
@@ -19,6 +19,8 @@ export const DataSourceInflux2Form = () => {
   const { isViewer } = useMemberRole();
 
   const isDeleteDSBtn = !!application.connectedTSDB;
+  const isFailedConnection =
+    application.influxDS?.connStatus === CONNECTION_STATUS.FAILED;
 
   const [form] = Form.useForm();
 
@@ -44,6 +46,7 @@ export const DataSourceInflux2Form = () => {
     await api
       .post("/api/influx/config", {
         appId: application.id,
+        provider: TSDB_PROVIDER.INFLUX2,
         ...form
       })
       .finally(() => {
@@ -136,7 +139,7 @@ export const DataSourceInflux2Form = () => {
           </Confirm>
         )}
       </Space>
-      {application.influxDS?.connStatus === CONNECTION_STATUS.FAILED && (
+      {isFailedConnection && (
         <Alert
           className="mt-5"
           showIcon={true}

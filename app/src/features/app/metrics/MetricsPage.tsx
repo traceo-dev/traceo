@@ -52,25 +52,17 @@ const MetricsPage = () => {
   }
 
   return (
-    <>
-      <AppMetricsNavigationPage>
-        {/* <MetricsHeader
-          loading={isLoading}
-          hrCount={hrCount}
-          setHrCount={setHrCount}
-          execute={() => console.log()}
-        /> */}
-        <ConditionalWrapper isLoading={!hasFetched}>
-          <Row className="pt-3" gutter={[12, 24]}>
-            {metrics?.map((metric, index) => (
-              <Col span={12} key={index}>
-                <MetricCard metric={metric} />
-              </Col>
-            ))}
-          </Row>
-        </ConditionalWrapper>
-      </AppMetricsNavigationPage>
-    </>
+    <AppMetricsNavigationPage>
+      <ConditionalWrapper isLoading={!hasFetched}>
+        <Row className="pt-3" gutter={[12, 24]}>
+          {metrics?.map((metric, index) => (
+            <Col span={12} key={index}>
+              <MetricCard metric={metric} />
+            </Col>
+          ))}
+        </Row>
+      </ConditionalWrapper>
+    </AppMetricsNavigationPage>
   );
 };
 
@@ -109,10 +101,6 @@ const MetricCard: FC<MetricCardProps> = ({ metric }) => {
           border: 1px solid rgba(204, 204, 220, 0.07);
           box-shadow: rgb(24 26 27 / 75%) 0px 1px 2px;
           min-width: 100%;
-        }
-
-        .echarts-for-react {
-          height: 170px !important;
         }
       `}</style>
     </>

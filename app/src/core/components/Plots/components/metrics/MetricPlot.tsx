@@ -9,6 +9,7 @@ import { EChartsOption, SeriesOption } from "echarts";
 import { ConditionalWrapper } from "core/components/ConditionLayout";
 import { commonOptions } from "./utils";
 import { METRIC_UNIT } from "types/tsdb";
+import { DataNotFound } from "core/components/DataNotFound";
 
 interface Props {
   metric: IMetric;
@@ -82,8 +83,17 @@ export const MetricPlot: FC<Props> = ({ metric }) => {
   };
 
   return (
-    <ConditionalWrapper isLoading={isLoading}>
-      <ReactECharts option={options} />
+    <ConditionalWrapper
+      isLoading={isLoading}
+      isEmpty={data.length === 0}
+      emptyView={<DataNotFound label="Metrics not found" />}
+    >
+      <ReactECharts
+        style={{
+          height: "170px"
+        }}
+        option={options}
+      />
     </ConditionalWrapper>
   );
 };

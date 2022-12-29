@@ -12,8 +12,9 @@ import { DeepPartial } from "types/partials";
 
 interface Props {
   options: DeepPartial<IMetric>;
+  isExpandMode: boolean;
 }
-export const MetricPreviewPlot: FC<Props> = ({ options }) => {
+export const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
 
   const buildSeries = () =>
@@ -82,7 +83,12 @@ export const MetricPreviewPlot: FC<Props> = ({ options }) => {
 
   return (
     <ConditionalWrapper isLoading={!hasFetchedMetric || !metric || !options}>
-      <ReactECharts option={echartsOptions} />
+      <ReactECharts
+        style={{
+          height: isExpandMode ? "500px" : "300px"
+        }}
+        option={echartsOptions}
+      />
     </ConditionalWrapper>
   );
 };
