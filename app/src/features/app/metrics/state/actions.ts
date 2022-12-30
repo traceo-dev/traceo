@@ -21,9 +21,16 @@ type MetricPreviewType = {
     datasource: MetricsResponse[]
 }
 
-export const loadMetric = (appId: string, metricId: string): ThunkResult<void> => {
+type LoadMetricType = {
+    appId: string;
+    metricId: string;
+    hrCount: number;
+}
+export const loadMetric = (payload: LoadMetricType): ThunkResult<void> => {
     return async (dispatch) => {
-        const { data } = await api.get<ApiResponse<MetricPreviewType>>(`/api/metrics/${appId}/preview/${metricId}`);
+        const { data } = await api.get<ApiResponse<MetricPreviewType>>(`/api/metrics/${payload.appId}/preview/${payload.metricId}`, {
+            hrCount: payload.hrCount
+        });
         dispatch(metricLoaded({ ...data }));
     }
 }

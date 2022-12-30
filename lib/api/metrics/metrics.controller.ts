@@ -30,8 +30,9 @@ export class MetricsController {
     async getApplicationMetricPreviewData(
         @Param('id') id: string,
         @Param('metricId') metricId: string,
+        @Query('hrCount') hrCount: number
     ): Promise<ApiResponse<MetricPreviewType>> {
-        return await this.metricsQueryService.getApplicationMetricPreviewData(id, metricId);
+        return await this.metricsQueryService.getApplicationMetricPreviewData(id, metricId, hrCount);
     }
 
     @Get('/:id/datasource')

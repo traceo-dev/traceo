@@ -55,7 +55,7 @@ export class MetricsQueryService {
     }
 
     public async getApplicationMetricPreviewData(
-        appId: string, metricId: string
+        appId: string, metricId: string, hrCount: number
     ): Promise<ApiResponse<MetricPreviewType>> {
         if (!appId || !metricId) {
             throw new Error('App and metric ids are required!');
@@ -70,7 +70,7 @@ export class MetricsQueryService {
 
             const datasource = await this.getMetricData(appId, {
                 fields: this.parseSeries(metric.series),
-                hrCount: 72
+                hrCount
             });
 
             return new ApiResponse("success", undefined, {

@@ -101,3 +101,30 @@ export enum MetricValueEnum {
     FLOAT_FIELD = "floatField",
     INT_FIELD = "intField"
 };
+
+export const timeLimitOptions = [
+    {
+        value: 1,
+        label: "Last 1 hour"
+    },
+    {
+        value: 2,
+        label: "last 2 hours"
+    },
+    {
+        value: 3,
+        label: "Last 3 hours"
+    },
+    {
+        value: 6,
+        label: "Last 6 hours"
+    },
+    {
+        value: 12,
+        label: "Last 12 hours"
+    },
+    {
+        value: 24,
+        label: "Last 24 hours"
+    }
+];

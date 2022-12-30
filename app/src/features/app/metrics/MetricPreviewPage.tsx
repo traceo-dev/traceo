@@ -2,7 +2,7 @@ import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { useSelector } from "react-redux";
 import { StoreState } from "types/store";
 import AppPage from "../components/AppPage";
-import { Space, Tooltip, Typography } from "antd";
+import { Select, Space, Tooltip, Typography } from "antd";
 import { PagePanel } from "core/components/PagePanel";
 import { ConditionalWrapper } from "core/components/ConditionLayout";
 import { useEffect, useState } from "react";
@@ -14,12 +14,16 @@ import { conditionClass } from "core/utils/classes";
 import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
 import { MetricPreviewCustomizeForm } from "./components/MetricPreviewCustomizeForm";
 import { useForm } from "antd/es/form/Form";
-import { IMetric } from "types/metrics";
+import { IMetric, timeLimitOptions } from "types/metrics";
 import { TraceoLoading } from "core/components/TraceoLoading";
 import { useImmer } from "use-immer";
 import { DeepPartial } from "redux";
 import { toggleNavbar } from "../state/navbar/actions";
-import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, CompressOutlined, ExpandOutlined } from "@ant-design/icons";
+import {
+  getLocalStorageMetricHrCount,
+  setLocalStorageMetricHrCount
+} from "core/utils/localStorage";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
@@ -27,11 +31,18 @@ export const MetricPreviewPage = () => {
   const [options, setOptions] = useImmer<DeepPartial<IMetric>>(metric?.options);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
   const [isExpandMode, setExpandMode] = useState<boolean>(false);
+  const [hrCount, setHrCount] = useState<number>(getLocalStorageMetricHrCount());
   const [form] = useForm();
 
   useEffect(() => {
-    dispatch(loadMetric(id, metricId));
-  }, []);
+    dispatch(
+      loadMetric({
+        appId: id,
+        metricId,
+        hrCount
+      })
+    );
+  }, [hrCount]);
 
   useEffect(() => {
     if (metric) {
@@ -56,6 +67,11 @@ export const MetricPreviewPage = () => {
     setExpandMode(false);
   };
 
+  const onChangeTimeLimit = (val: number) => {
+    setHrCount(val);
+    setLocalStorageMetricHrCount(val);
+  };
+
   return (
     <>
       <AppPage>
@@ -66,6 +82,7 @@ export const MetricPreviewPage = () => {
             isExpandMode={isExpandMode}
             setCustomizeMode={setCustomizeMode}
             setOptions={setOptions}
+            onChangeTimeLimit={onChangeTimeLimit}
           />
 
           <div className="w-full grid grid-cols-12">

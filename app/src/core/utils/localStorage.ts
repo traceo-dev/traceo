@@ -7,3 +7,11 @@ export const getLocalStorageLogLevels = () => {
 export const setLocalStorageLogLevels = (levels: LogLevel[] = []) => {
     localStorage.setItem("logLevels", levels.join(","))
 }
+
+export const getLocalStorageMetricHrCount = () => {
+    return localStorage.getItem("hrCount") as unknown as number || 12;
+}
+
+export const setLocalStorageMetricHrCount = (val: number) => {
+    localStorage.setItem("hrCount", val as unknown as string);
+}

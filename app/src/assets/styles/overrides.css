@@ -396,3 +396,7 @@
 .ant-select-item-empty {
   background-color: var(--color-bg-canvas);
 }
+
+.ant-select-selector {
+  border: none !important;
+}

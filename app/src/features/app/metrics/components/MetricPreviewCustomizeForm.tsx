@@ -53,10 +53,10 @@ export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {
             <Collapse ghost defaultActiveKey={"basic"}>
               <Panel className="pl-0" header="Basic options" key={"basic"}>
                 <Form.Item label="Name" name="name">
-                  <Input />
+                  <Input maxLength={40} showCount />
                 </Form.Item>
                 <Form.Item label="Description" name="description">
-                  <Input.TextArea rows={4} />
+                  <Input.TextArea rows={4} maxLength={1000} showCount />
                 </Form.Item>
                 <Form.Item label="Unit" name="unit">
                   <Select onChange={(v) => onChangeUnit(v)}>
