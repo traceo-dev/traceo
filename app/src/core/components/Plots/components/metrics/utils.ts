@@ -44,7 +44,8 @@ export const commonOptions = ({ unit }: { unit: METRIC_UNIT }) => {
             axisLabel: {
                 color: "white",
                 fontSize: 11,
-                formatter: `{value} ${unit}`
+                formatter: `{value} ${unit}`,
+                interval: "auto"
             },
             minInterval: 1,
             splitLine

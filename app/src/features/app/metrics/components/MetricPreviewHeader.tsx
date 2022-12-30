@@ -72,13 +72,14 @@ export const MetricPreviewHeader: FC<Props> = ({
         className="mb-5"
         title={
           <Space direction="vertical" className="gap-0 w-full">
-            <Space className="text-2xs font-semibold text-primary pb-0 mb-0">
-              <ArrowLeftOutlined
-                onClick={() => {
-                  navigate(-1);
-                  dispatch(toggleNavbar(false));
-                }}
-              />
+            <Space
+              onClick={() => {
+                navigate(-1);
+                dispatch(toggleNavbar(false));
+              }}
+              className="text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 px-2 hover:bg-secondary"
+            >
+              <ArrowLeftOutlined />
               <Typography.Text>METRICS</Typography.Text>
             </Space>
             <Space>

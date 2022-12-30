@@ -60,7 +60,7 @@ export class UpdateMetricDto {
     // show: boolean;
 
     @IsEnum(METRIC_UNIT)
-    @IsNotEmpty()
+    @IsOptional()
     unit: METRIC_UNIT = METRIC_UNIT.NONE;
 
     @ValidateNested()

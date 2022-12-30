@@ -14,7 +14,7 @@ export interface MetricsState {
 }
 
 const initialState = {
-    metrics: [],
+    metrics: [] as IMetric[],
     metric: {} as MetricType,
     hasFetched: false,
     hasFetchedMetric: false

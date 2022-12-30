@@ -20,7 +20,7 @@ export const SearchInput: FC<Props> = ({
         placeholder={placeholder}
         suffix={loading && <LoadingOutlined />}
         defaultValue={value}
-        onSearch={setValue}
+        onChange={(a) => setValue(a.target.value)}
         prefix={<SearchOutlined />}
         allowClear
         className="input-class"

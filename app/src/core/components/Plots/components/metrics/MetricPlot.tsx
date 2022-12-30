@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import ReactECharts from "echarts-for-react";
 import { IMetric, MetricsResponse } from "../../../../../types/metrics";
 import { MetricLoading } from "../../../../../core/components/MetricLoading";
@@ -13,8 +13,9 @@ import { DataNotFound } from "core/components/DataNotFound";
 
 interface Props {
   metric: IMetric;
+  hrCount: number;
 }
-export const MetricPlot: FC<Props> = ({ metric }) => {
+export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
   const { application } = useSelector((state: StoreState) => state.application);
 
   const seriesFields =
@@ -24,13 +25,17 @@ export const MetricPlot: FC<Props> = ({ metric }) => {
       return acc;
     }, []) || [];
 
-  const { data, isLoading } = useApi<MetricsResponse[]>({
+  const { data, isLoading, execute } = useApi<MetricsResponse[]>({
     url: `/api/metrics/${application.id}/datasource`,
     params: {
       fields: seriesFields,
-      hrCount: 72
+      hrCount
     }
   });
+
+  useEffect(() => {
+    execute();
+  }, [hrCount, metric]);
 
   if (!data) {
     return <MetricLoading />;
@@ -73,8 +78,7 @@ export const MetricPlot: FC<Props> = ({ metric }) => {
       right: 10,
       left: 10,
       bottom: 10,
-      top: 10,
-      height: 150
+      top: 10
     },
     series: buildSeries() as SeriesOption[],
     dataset: {
@@ -90,7 +94,7 @@ export const MetricPlot: FC<Props> = ({ metric }) => {
     >
       <ReactECharts
         style={{
-          height: "170px"
+          height: "150px"
         }}
         option={options}
       />
