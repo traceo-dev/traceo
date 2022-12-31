@@ -45,15 +45,16 @@ export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
     metric.series?.map((serie) => ({
       type: serie.config.type,
       name: serie.name,
-      showSymbol: false,
+      showSymbol: metric.config.line.marker.show,
       color: serie.config.color,
       lineStyle: {
         color: serie.config.color,
-        width: 1
+        //Better is to use static 1 because higher value is not hood for small plots
+        width: 1 //metric.config.line.width || 2
       },
       areaStyle: {
         color: serie.config.color,
-        opacity: 0.4
+        opacity: metric.config.area.show ? metric.config.area.opacity / 100 : 0
       }
     }));
 
@@ -90,7 +91,7 @@ export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
     <ConditionalWrapper
       isLoading={isLoading}
       isEmpty={data.length === 0}
-      emptyView={<DataNotFound label="Metrics not found" />}
+      emptyView={<DataNotFound className="text-2xs" label="Data not found" />}
     >
       <ReactECharts
         style={{

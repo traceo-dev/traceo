@@ -17,6 +17,9 @@ export class Metric extends BaseEntity implements IMetric {
     @Column({ type: "boolean", default: false, nullable: false })
     show: boolean;
 
+    @Column({ type: "boolean", default: false, nullable: false, name: "show_description" })
+    showDescription: boolean;
+
     @Column({ type: "boolean", default: false, nullable: false, name: "is_default" })
     isDefault: boolean;
 

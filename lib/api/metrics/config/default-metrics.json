@@ -3,6 +3,7 @@
         {
             "name": "CPU Usage",
             "description": "CPU usage is the percentage of time that the CPU is being used to complete its tasks.",
+            "showDescription": true,
             "isDefault": true,
             "show": true,
             "unit": "%",
@@ -12,16 +13,21 @@
                     "field": "cpu_usage",
                     "type": "floatField",
                     "config": {
-                        "type": "bar",
-                        "color": "#ffffff"
+                        "type": "line",
+                        "color": "#0991B3"
                     }
                 }
             ],
             "config": {
-                "showDescription": true,
+                "line": {
+                    "width": 2,
+                    "marker": {
+                        "show": false
+                    }
+                },
                 "area": {
-                    "color": "",
-                    "opacity": 0
+                    "show": true,
+                    "opacity": 50
                 },
                 "tooltip": {
                     "show": false,
@@ -36,6 +42,7 @@
         {
             "name": "Memory Usage",
             "description": "The amount of RAM memory being used.",
+            "showDescription": true,
             "isDefault": true,
             "show": true,
             "unit": "%",
@@ -45,16 +52,21 @@
                     "field": "memory_usage_percentage",
                     "type": "floatField",
                     "config": {
-                        "type": "bar",
-                        "color": "#ffffff"
+                        "type": "line",
+                        "color": "#BD123C"
                     }
                 }
             ],
             "config": {
-                "showDescription": true,
+                "line": {
+                    "width": 2,
+                    "marker": {
+                        "show": false
+                    }
+                },
                 "area": {
-                    "color": "",
-                    "opacity": 0
+                    "show": true,
+                    "opacity": 50
                 },
                 "tooltip": {
                     "show": false,
@@ -69,6 +81,7 @@
         {
             "name": "RSS",
             "description": "Resident set size (RSS) is the portion of memory occupied by a process that is held in main memory (RAM).",
+            "showDescription": true,
             "isDefault": true,
             "show": true,
             "unit": "MB",
@@ -78,16 +91,21 @@
                     "field": "heap_rss",
                     "type": "floatField",
                     "config": {
-                        "type": "bar",
-                        "color": "#ffffff"
+                        "type": "line",
+                        "color": "#C88A08"
                     }
                 }
             ],
             "config": {
-                "showDescription": true,
+                "line": {
+                    "width": 2,
+                    "marker": {
+                        "show": false
+                    }
+                },
                 "area": {
-                    "color": "",
-                    "opacity": 0
+                    "show": true,
+                    "opacity": 50
                 },
                 "tooltip": {
                     "show": false,
@@ -102,6 +120,7 @@
         {
             "name": "Heap",
             "description": "Total amount of memory being used by JS objects.",
+            "showDescription": true,
             "isDefault": true,
             "show": true,
             "unit": "MB",
@@ -111,8 +130,8 @@
                     "field": "heap_used",
                     "type": "floatField",
                     "config": {
-                        "type": "bar",
-                        "color": "#ffffff"
+                        "type": "line",
+                        "color": "#0369A1"
                     }
                 },
                 {
@@ -120,15 +139,20 @@
                     "field": "heap_total",
                     "type": "floatField",
                     "config": {
-                        "type": "bar",
-                        "color": "#ffffff"
+                        "type": "line",
+                        "color": "#1D50D8"
                     }
                 }
             ],
             "config": {
-                "showDescription": true,
+                "line": {
+                    "width": 2,
+                    "marker": {
+                        "show": false
+                    }
+                },
                 "area": {
-                    "color": "",
+                    "show": false,
                     "opacity": 0
                 },
                 "tooltip": {
@@ -144,6 +168,7 @@
         {
             "name": "Event Loop Delay",
             "description": "Minimum, maximum and mean delay of the NodeJS event loop.",
+            "showDescription": true,
             "isDefault": true,
             "show": true,
             "unit": "ms",
@@ -153,8 +178,8 @@
                     "field": "loop_min",
                     "type": "floatField",
                     "config": {
-                        "type": "bar",
-                        "color": "#ffffff"
+                        "type": "line",
+                        "color": "#0A437C"
                     }
                 },
                 {
@@ -162,8 +187,8 @@
                     "field": "loop_max",
                     "type": "floatField",
                     "config": {
-                        "type": "bar",
-                        "color": "#ffffff"
+                        "type": "line",
+                        "color": "#5195CE"
                     }
                 },
                 {
@@ -171,15 +196,20 @@
                     "field": "loop_mean",
                     "type": "floatField",
                     "config": {
-                        "type": "bar",
-                        "color": "#ffffff"
+                        "type": "line",
+                        "color": "#70DBED"
                     }
                 }
             ],
             "config": {
-                "showDescription": true,
+                "line": {
+                    "width": 2,
+                    "marker": {
+                        "show": false
+                    }
+                },
                 "area": {
-                    "color": "",
+                    "show": false,
                     "opacity": 0
                 },
                 "tooltip": {
@@ -195,6 +225,7 @@
         {
             "name": "Heap Contexts",
             "description": "Values that indicate the existence of memory leaks.",
+            "showDescription": true,
             "isDefault": true,
             "show": true,
             "unit": "",
@@ -204,8 +235,8 @@
                     "field": "heap_native_contexts",
                     "type": "intField",
                     "config": {
-                        "type": "bar",
-                        "color": "#ffffff"
+                        "type": "line",
+                        "color": "#E24D42"
                     }
                 },
                 {
@@ -213,15 +244,20 @@
                     "field": "heap_detached_contexts",
                     "type": "intField",
                     "config": {
-                        "type": "bar",
-                        "color": "#ffffff"
+                        "type": "line",
+                        "color": "#447EBC"
                     }
                 }
             ],
             "config": {
-                "showDescription": true,
+                "line": {
+                    "width": 2,
+                    "marker": {
+                        "show": false
+                    }
+                },
                 "area": {
-                    "color": "",
+                    "show": false,
                     "opacity": 0
                 },
                 "tooltip": {
@@ -237,6 +273,7 @@
         {
             "name": "Average Load",
             "description": "Load Average is a measure of system activity calculated by the operating system over the last minute and expressed as a fractional number. Supported only by UNIX operation systems.",
+            "showDescription": true,
             "isDefault": true,
             "show": false,
             "unit": "",
@@ -246,15 +283,20 @@
                     "field": "load_avg",
                     "type": "floatField",
                     "config": {
-                        "type": "bar",
+                        "type": "line",
                         "color": "#ffffff"
                     }
                 }
             ],
             "config": {
-                "showDescription": true,
+                "line": {
+                    "width": 2,
+                    "marker": {
+                        "show": false
+                    }
+                },
                 "area": {
-                    "color": "",
+                    "show": false,
                     "opacity": 0
                 },
                 "tooltip": {

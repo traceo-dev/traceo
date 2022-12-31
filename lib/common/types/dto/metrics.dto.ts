@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsArray, IsBoolean, IsEnum, IsNotEmpty, IsObject, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsArray, IsBoolean, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, ValidateNested } from "class-validator";
 import { METRIC_UNIT, TOOLTIP_POSITION } from "../interfaces/metrics.interface";
 
 export class MetricQueryDto {
@@ -32,11 +32,32 @@ export class UpdateLegendMetricDto {
     orient: string = "vertical";
 }
 
-export class UpdateConfigMetricDto {
+export class UpdateAreaMetricDto {
     @IsBoolean()
     @IsNotEmpty()
-    showDescription: boolean = true;
+    show: boolean = false;
 
+    // @IsInt()
+    @IsNotEmpty()
+    opacity: number = 50;
+}
+
+export class UpdateMarkerMetricDto {
+    @IsBoolean()
+    @IsNotEmpty()
+    show: boolean = false;
+}
+export class UpdateLineMetricDto {
+    @IsInt()
+    @IsNotEmpty()
+    width: number = 1;
+
+    @ValidateNested()
+    @Type(() => UpdateMarkerMetricDto)
+    marker: UpdateMarkerMetricDto;
+}
+
+export class UpdateConfigMetricDto {
     @ValidateNested()
     @Type(() => UpdateTooltipMetricDto)
     tooltip: UpdateTooltipMetricDto;
@@ -44,6 +65,14 @@ export class UpdateConfigMetricDto {
     @ValidateNested()
     @Type(() => UpdateLegendMetricDto)
     legend: UpdateLegendMetricDto;
+
+    @ValidateNested()
+    @Type(() => UpdateAreaMetricDto)
+    area: UpdateAreaMetricDto;
+
+    @ValidateNested()
+    @Type(() => UpdateLineMetricDto)
+    line: UpdateLineMetricDto;
 }
 
 export class UpdateMetricDto {
@@ -54,6 +83,10 @@ export class UpdateMetricDto {
     @IsString()
     @IsOptional()
     description: string;
+
+    @IsBoolean()
+    @IsNotEmpty()
+    showDescription: boolean = true;
 
     // @IsBoolean()
     // @IsNotEmpty()

@@ -9,6 +9,7 @@ import { tooltipOptions } from "../../utils";
 import { FC } from "react";
 import { IMetric } from "types/metrics";
 import { DeepPartial } from "types/partials";
+import { DataNotFound } from "core/components/DataNotFound";
 
 interface Props {
   options: DeepPartial<IMetric>;
@@ -21,15 +22,15 @@ export const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
     metric.options.series?.map((serie) => ({
       type: serie.config.type,
       name: serie.name,
-      showSymbol: false,
+      showSymbol: options?.config.line.marker.show || false,
       color: serie.config.color,
       lineStyle: {
         color: serie.config.color,
-        width: 1
+        width: options?.config.line.width || 2
       },
       areaStyle: {
         color: serie.config.color,
-        opacity: 0.4
+        opacity: options?.config.area.show ? options?.config.area.opacity / 100 : 0
       }
     }));
 
@@ -82,7 +83,11 @@ export const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
   };
 
   return (
-    <ConditionalWrapper isLoading={!hasFetchedMetric || !metric || !options}>
+    <ConditionalWrapper
+      isEmpty={metric?.datasource.length === 0}
+      isLoading={!hasFetchedMetric || !metric || !options}
+      emptyView={<DataNotFound />}
+    >
       <ReactECharts
         style={{
           height: isExpandMode ? "500px" : "300px"

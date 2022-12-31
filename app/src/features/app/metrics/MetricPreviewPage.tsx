@@ -2,7 +2,7 @@ import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { useSelector } from "react-redux";
 import { StoreState } from "types/store";
 import AppPage from "../components/AppPage";
-import { Select, Space, Tooltip, Typography } from "antd";
+import { Space, Tooltip, Typography } from "antd";
 import { PagePanel } from "core/components/PagePanel";
 import { ConditionalWrapper } from "core/components/ConditionLayout";
 import { useEffect, useState } from "react";
@@ -14,16 +14,16 @@ import { conditionClass } from "core/utils/classes";
 import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
 import { MetricPreviewCustomizeForm } from "./components/MetricPreviewCustomizeForm";
 import { useForm } from "antd/es/form/Form";
-import { IMetric, timeLimitOptions } from "types/metrics";
+import { IMetric } from "types/metrics";
 import { TraceoLoading } from "core/components/TraceoLoading";
 import { useImmer } from "use-immer";
-import { DeepPartial } from "redux";
 import { toggleNavbar } from "../state/navbar/actions";
-import { ClockCircleOutlined, CompressOutlined, ExpandOutlined } from "@ant-design/icons";
+import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
 import {
   getLocalStorageMetricHrCount,
   setLocalStorageMetricHrCount
 } from "core/utils/localStorage";
+import { DeepPartial } from "types/partials";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
@@ -54,8 +54,7 @@ export const MetricPreviewPage = () => {
     return <TraceoLoading />;
   }
 
-  const isDescriptionVisible =
-    metric?.options?.description && options?.config.showDescription;
+  const isDescriptionVisible = options?.showDescription;
 
   const onExpand = () => {
     dispatch(toggleNavbar(true));
@@ -117,10 +116,7 @@ export const MetricPreviewPage = () => {
               </PagePanel>
 
               {!isExpandMode && (
-                <MetricTableWrapper
-                  metric={metric?.options}
-                  metricData={metric?.datasource}
-                />
+                <MetricTableWrapper metric={options} metricData={metric?.datasource} />
               )}
             </div>
             {isCustomizeMode && (

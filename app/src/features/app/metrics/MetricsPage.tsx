@@ -1,6 +1,6 @@
-import { Col, Row, Select, Space, Tooltip, Typography } from "antd";
+import { Button, Col, Row, Select, Space, Tooltip, Typography } from "antd";
 import { PagePanel } from "../../../core/components/PagePanel";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useLayoutEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import { CONNECTION_STATUS } from "../../../types/tsdb";
@@ -17,7 +17,8 @@ import { slugifyForUrl } from "core/utils/stringUtils";
 import {
   BarChartOutlined,
   ClockCircleOutlined,
-  QuestionCircleOutlined
+  QuestionCircleOutlined,
+  SyncOutlined
 } from "@ant-design/icons";
 import { getLocalStorageMetricHrCount } from "core/utils/localStorage";
 import PageHeader from "core/components/PageHeader";
@@ -31,8 +32,10 @@ const MetricsPage = () => {
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
 
   useEffect(() => {
-    dispatch(loadMetrics());
+    reloadMetrics();
   }, [application]);
+
+  const reloadMetrics = () => dispatch(loadMetrics());
 
   const isConnectedTSDB = !!application?.connectedTSDB;
 
@@ -76,18 +79,26 @@ const MetricsPage = () => {
         title="Metrics"
         subTitle="View metrics from your app after connecting and configuring the SDK"
         extra={
-          <Select
-            className="bg-secondary"
-            defaultValue={12}
-            onChange={(v) => setHrCount(v)}
-          >
-            {timeLimitOptions.map(({ label, value }, index) => (
-              <Select.Option key={index} value={value}>
-                <ClockCircleOutlined />
-                <Typography.Text className="ml-2">{label}</Typography.Text>
-              </Select.Option>
-            ))}
-          </Select>
+          isConnectedTSDB &&
+          isConnectedSuccessfully && (
+            <>
+              <Select
+                className="bg-secondary"
+                defaultValue={12}
+                onChange={(v) => setHrCount(v)}
+              >
+                {timeLimitOptions.map(({ label, value }, index) => (
+                  <Select.Option key={index} value={value}>
+                    <ClockCircleOutlined />
+                    <Typography.Text className="ml-2">{label}</Typography.Text>
+                  </Select.Option>
+                ))}
+              </Select>
+              <Button onClick={reloadMetrics} icon={<SyncOutlined />} type="primary">
+                Refresh
+              </Button>
+            </>
+          )
         }
       />
       {renderContent()}

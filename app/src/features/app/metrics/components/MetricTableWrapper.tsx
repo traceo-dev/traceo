@@ -4,9 +4,10 @@ import { PagePanel } from "../../../../core/components/PagePanel";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
 import { IMetric, MetricsResponse } from "types/metrics";
+import { DeepPartial } from "types/partials";
 
 interface Props {
-  metric: IMetric;
+  metric: DeepPartial<IMetric>;
   metricData: MetricsResponse[];
 }
 export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
@@ -22,11 +23,12 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
       }
     ];
 
-    const seriesColumns = metric.series.map(({ field, name }) => ({
-      title: name,
-      dataIndex: field,
-      render: (v: any) => (v ? `${v}${metric.unit}` : "-")
-    }));
+    const seriesColumns =
+      metric?.series.map(({ field, name }) => ({
+        title: name,
+        dataIndex: field,
+        render: (v: any) => (v ? `${v}${metric.unit}` : "-")
+      })) || [];
 
     return [...commonColumns, ...seriesColumns];
   };

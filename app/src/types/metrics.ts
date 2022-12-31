@@ -2,6 +2,7 @@ export type IMetric = {
     id: string;
     name: string;
     description: string;
+    showDescription: boolean;
     isDefault: boolean;
     show: boolean;
     unit: string;
@@ -20,9 +21,14 @@ export type IMetricSerie = {
 }
 
 export type IMetricConfiguration = {
-    showDescription: boolean;
+    line: {
+        width: number;
+        marker: {
+            show: boolean;
+        };
+    },
     area: {
-        color: string;
+        show: boolean;
         opacity: number;
     },
     tooltip: {
