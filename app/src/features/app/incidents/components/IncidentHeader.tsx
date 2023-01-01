@@ -1,6 +1,8 @@
 import {
+  ArrowLeftOutlined,
   BugOutlined,
   DownOutlined,
+  LeftOutlined,
   SyncOutlined,
   UserAddOutlined
 } from "@ant-design/icons";
@@ -19,8 +21,11 @@ import PageHeader from "../../../../core/components/PageHeader";
 import { notify } from "../../../../core/utils/notify";
 import { updateIncident } from "../state/actions";
 import { joinClasses } from "../../../../core/utils/classes";
+import { useNavigate } from "react-router-dom";
 
 export const IncidentHeader = ({ incident, onExecute }) => {
+  const navigate = useNavigate();
+
   const refresh = () => {
     onExecute();
     notify.success("Refreshed");
@@ -30,11 +35,17 @@ export const IncidentHeader = ({ incident, onExecute }) => {
     <PageHeader
       title={
         <Space direction="vertical" className="gap-0 w-full">
-          <Space className="text-2xs font-semibold text-primary pb-0 mb-0">
-            <BugOutlined />
-            <Typography.Text>INCIDENT</Typography.Text>
+          <Space
+            className="text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 hover:text-white"
+            onClick={() => navigate(-1)}
+          >
+            <ArrowLeftOutlined />
+            <Typography.Text>INCIDENTS</Typography.Text>
           </Space>
-          <Typography.Text className="text-3xl">{incident?.type}</Typography.Text>
+          <Space>
+            <BugOutlined />
+            <Typography.Text className="text-2xl">{incident?.type}</Typography.Text>
+          </Space>
         </Space>
       }
       subTitle={<ButtonsSection incident={incident} />}

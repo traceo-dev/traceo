@@ -39,11 +39,16 @@ export class MetricsQueryService {
 
     public async getApplicationMetrics(applicationId: string): Promise<ApiResponse<IMetric[]>> {
         try {
+            await this.influxService.checkConnection(applicationId);
+
             const metrics = await this.entityManager.getRepository(Metric).find({
                 where: {
                     application: {
                         id: applicationId
                     }
+                },
+                order: {
+                    createdAt: "DESC"
                 }
             });
 

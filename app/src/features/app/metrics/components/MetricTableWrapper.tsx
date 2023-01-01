@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { FC, useState } from "react";
 import { IMetric, MetricsResponse } from "types/metrics";
 import { DeepPartial } from "types/partials";
+import { ConditionalWrapper } from "core/components/ConditionLayout";
 
 interface Props {
   metric: DeepPartial<IMetric>;
@@ -27,7 +28,7 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
       metric?.series.map(({ field, name }) => ({
         title: name,
         dataIndex: field,
-        render: (v: any) => (v ? `${v}${metric.unit}` : "-")
+        render: (v: any) => (v ? `${v} ${metric.unit}` : "-")
       })) || [];
 
     return [...commonColumns, ...seriesColumns];
@@ -46,17 +47,14 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
         </Space>
       }
     >
-      {/* ConditionalWrapper */}
-      {metricData?.length > 0 ? (
+      <ConditionalWrapper isEmpty={metricData?.length === 0} emptyView={<DataNotFound />}>
         <Table
           dataSource={metricData}
           columns={buildColumns()}
           pagination={{ pageSize: 150 }}
           scroll={{ y: 440 }}
         />
-      ) : (
-        <DataNotFound />
-      )}
+      </ConditionalWrapper>
     </PagePanel>
   );
 };

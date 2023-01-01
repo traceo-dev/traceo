@@ -1,4 +1,4 @@
-import { Button, Dropdown, Menu, Typography } from "antd";
+import { Button, Divider, Dropdown, Menu, Typography } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import AppPage from "../components/AppPage";
@@ -23,6 +23,8 @@ import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { BatchUpdateModal } from "../../../core/components/Modals/BatchUpdateModal";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
+import PageHeader from "core/components/PageHeader";
+import { BugOutlined } from "@ant-design/icons";
 
 const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.FIRST_SEEN]: "First seen",
@@ -105,8 +107,13 @@ export const AppIncidentsListPage = () => {
   return (
     <>
       <AppPage>
-        <PagePanel title="Incidents">
-          <SearchWrapper className="pb-5">
+        <PageHeader
+          icon={<BugOutlined />}
+          title="Incidents"
+          subTitle="List of incidents catched by Traceo SDK"
+        />
+        <PagePanel>
+          <SearchWrapper className="pt-2 pb-12">
             <SearchInput
               placeholder="Search incidents by type, message, status or assigned user"
               value={search}

@@ -53,7 +53,7 @@ export const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
   const unit = options?.unit;
 
   const echartsOptions: EChartsOption = {
-    ...commonOptions({ unit: unit as METRIC_UNIT }),
+    ...commonOptions({ unit: unit as METRIC_UNIT, xAxisInterval: 15 }),
     tooltip: {
       show: showTooltip,
       ...tooltipOptions

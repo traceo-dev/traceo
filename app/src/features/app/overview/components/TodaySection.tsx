@@ -56,7 +56,7 @@ export const TodaySection = () => {
               }
             >
               <ConditionalWrapper isLoading={isLoading}>
-                <Typography.Text className="font-semibold text-4xl">
+                <Typography.Text className="font-semibold text-3xl">
                   {statisticUtils.parseErrorsToTodayPlotSource(stats).count}
                 </Typography.Text>
               </ConditionalWrapper>
@@ -65,7 +65,7 @@ export const TodaySection = () => {
           <div className="h-full mt-1">
             <PagePanel className="h-full" title="Last seen">
               <ConditionalWrapper isLoading={isLoading}>
-                <Typography.Text className="font-semibold text-4xl text-center">
+                <Typography.Text className="font-semibold text-3xl text-center">
                   {lastIncidentAt}
                 </Typography.Text>
               </ConditionalWrapper>

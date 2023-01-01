@@ -108,29 +108,15 @@ export enum MetricValueEnum {
     INT_FIELD = "intField"
 };
 
-export const timeLimitOptions = [
-    {
-        value: 1,
-        label: "Last 1 hour"
-    },
-    {
-        value: 2,
-        label: "last 2 hours"
-    },
-    {
-        value: 3,
-        label: "Last 3 hours"
-    },
-    {
-        value: 6,
-        label: "Last 6 hours"
-    },
-    {
-        value: 12,
-        label: "Last 12 hours"
-    },
-    {
-        value: 24,
-        label: "Last 24 hours"
-    }
-];
+export const handleTimeLimitLabel: Record<number, string> = {
+    1: "Last 1 hour",
+    2: "Last 2 hours",
+    3: "Last 3 hours",
+    6: "Last 6 hours",
+    12: "Last 12 hours",
+    24: "Last 24 hours",
+    48: "Last 2 days",
+    72: "Last 3 days"
+}
+
+export const timeLimitOptions = [1, 2, 3, 6, 12, 24, 48, 72];

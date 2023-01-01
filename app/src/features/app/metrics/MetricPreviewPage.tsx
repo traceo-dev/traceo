@@ -19,11 +19,10 @@ import { TraceoLoading } from "core/components/TraceoLoading";
 import { useImmer } from "use-immer";
 import { toggleNavbar } from "../state/navbar/actions";
 import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
-import {
-  getLocalStorageMetricHrCount,
-  setLocalStorageMetricHrCount
-} from "core/utils/localStorage";
+import { getLocalStorageMetricHrCount } from "core/utils/localStorage";
 import { DeepPartial } from "types/partials";
+
+const DEFAULT_TIME_LIMIT = getLocalStorageMetricHrCount() || 12;
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
@@ -31,7 +30,7 @@ export const MetricPreviewPage = () => {
   const [options, setOptions] = useImmer<DeepPartial<IMetric>>(metric?.options);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
   const [isExpandMode, setExpandMode] = useState<boolean>(false);
-  const [hrCount, setHrCount] = useState<number>(getLocalStorageMetricHrCount());
+  const [timeLimit, setTimeLimit] = useState<number>(DEFAULT_TIME_LIMIT);
   const [form] = useForm();
 
   useEffect(() => {
@@ -39,10 +38,10 @@ export const MetricPreviewPage = () => {
       loadMetric({
         appId: id,
         metricId,
-        hrCount
+        hrCount: timeLimit
       })
     );
-  }, [hrCount]);
+  }, [timeLimit]);
 
   useEffect(() => {
     if (metric) {
@@ -66,11 +65,6 @@ export const MetricPreviewPage = () => {
     setExpandMode(false);
   };
 
-  const onChangeTimeLimit = (val: number) => {
-    setHrCount(val);
-    setLocalStorageMetricHrCount(val);
-  };
-
   return (
     <>
       <AppPage>
@@ -81,7 +75,8 @@ export const MetricPreviewPage = () => {
             isExpandMode={isExpandMode}
             setCustomizeMode={setCustomizeMode}
             setOptions={setOptions}
-            onChangeTimeLimit={onChangeTimeLimit}
+            timeLimit={timeLimit}
+            setTimeLimit={setTimeLimit}
           />
 
           <div className="w-full grid grid-cols-12">

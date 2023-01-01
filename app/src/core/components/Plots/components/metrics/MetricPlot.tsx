@@ -73,10 +73,10 @@ export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
   };
 
   const options: EChartsOption = {
-    ...commonOptions({ unit: metric.unit as METRIC_UNIT }),
+    ...commonOptions({ unit: metric.unit as METRIC_UNIT, xAxisInterval: 50 }),
     grid: {
       containLabel: true,
-      right: 10,
+      right: 20,
       left: 10,
       bottom: 10,
       top: 10

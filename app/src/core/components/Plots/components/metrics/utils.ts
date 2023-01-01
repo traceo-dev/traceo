@@ -5,7 +5,7 @@ import { tooltipOptions, splitLine } from "../../utils";
 
 export type SerieType = "bar" | "line" | "scatter";
 
-export const commonOptions = ({ unit }: { unit: METRIC_UNIT }) => {
+export const commonOptions = ({ unit, xAxisInterval = 15 }: { unit: METRIC_UNIT, xAxisInterval: number }) => {
     return {
         legend: {
             show: false
@@ -29,7 +29,7 @@ export const commonOptions = ({ unit }: { unit: METRIC_UNIT }) => {
                 formatter: (v: string) => dayjs(v).format("HH:mm"),
                 color: "white",
                 fontSize: 11,
-                interval: 15,
+                interval: xAxisInterval,
                 showMaxLabel: true
             },
             axisPointer: {

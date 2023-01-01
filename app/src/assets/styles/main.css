@@ -25,12 +25,12 @@
   --color-text-link: #6e9fff;
   --color-text-contrast: #ffffff;
 
-  --color-bg-primary: #1B1B28;
-  --color-bg-secondary: #282A3B;
-  --color-bg-canvas: #14141F;
+  --color-bg-primary: #181b1f;
+  --color-bg-secondary: #22252b;
+  --color-bg-canvas: #111217;
 
-  --color-card: #282A3B;
-  --color-card-hover: #313345;
+  --color-card: rgb(34, 37, 43);
+  --color-card-hover: rgb(40, 43, 49);
   --color-border: rgba(204, 204, 220, 0.07);
   --color-hover: rgba(204, 204, 220, 0.65);
 }

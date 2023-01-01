@@ -21,6 +21,7 @@ import { IMetric, timeLimitOptions } from "types/metrics";
 import { StoreState } from "types/store";
 import { DraftFunction } from "use-immer";
 import { loadMetric } from "../state/actions";
+import { TimeLimitDropdown } from "./TimeLimitDropdown";
 
 const DEFAULT_TIME_LIMIT = 12;
 
@@ -30,7 +31,8 @@ interface Props {
   isExpandMode: boolean;
   setCustomizeMode: (val: boolean) => void;
   setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
-  onChangeTimeLimit: (val: number) => void;
+  timeLimit: number;
+  setTimeLimit: (val: number) => void;
 }
 export const MetricPreviewHeader: FC<Props> = ({
   form,
@@ -38,7 +40,8 @@ export const MetricPreviewHeader: FC<Props> = ({
   isExpandMode,
   setCustomizeMode,
   setOptions,
-  onChangeTimeLimit
+  timeLimit,
+  setTimeLimit
 }) => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -92,7 +95,7 @@ export const MetricPreviewHeader: FC<Props> = ({
                 navigate(-1);
                 dispatch(toggleNavbar(false));
               }}
-              className="text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 px-2 hover:bg-secondary"
+              className="text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 hover:text-white"
             >
               <ArrowLeftOutlined />
               <Typography.Text>METRICS</Typography.Text>
@@ -125,23 +128,16 @@ export const MetricPreviewHeader: FC<Props> = ({
 
             {!isCustomizeMode && (
               <>
-                <Select
-                  defaultValue={DEFAULT_TIME_LIMIT}
-                  onChange={(v) => onChangeTimeLimit(v)}
-                  className="bg-secondary"
-                >
-                  {timeLimitOptions.map(({ label, value }, index) => (
-                    <Select.Option key={index} value={value}>
-                      <ClockCircleOutlined />
-                      <Typography.Text className="ml-2">{label}</Typography.Text>
-                    </Select.Option>
-                  ))}
-                </Select>
+                <TimeLimitDropdown
+                  ghost={true}
+                  setTimeLimit={setTimeLimit}
+                  timeLimit={timeLimit}
+                />
                 <Button
                   hidden={isExpandMode}
                   icon={<SettingOutlined />}
                   type="primary"
-                  className="bg-secondary border-none"
+                  className="bg-secondary border-none text-primary hover:text-white"
                   onClick={() => onCustomize()}
                 >
                   Customize

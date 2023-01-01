@@ -32,17 +32,9 @@ export class InfluxService {
         const { appId } = config;
 
         return this.entityManager.transaction(async (manager) => {
-            const { status, error } = await this.connectionTest({ ...config });
-            await manager.getRepository(Application).update({ id: appId }, {
-                influxDS: {
-                    ...config,
-                    connError: error,
-                    connStatus: status
-                },
-                connectedTSDB: TSDB_PROVIDER.INFLUX2
-            });
-            this.logger.log(`InfluxDB data source updated in app: ${appId}`);
+            const { error, status } = await this.checkAndUpdateConnectionStatus(appId, config, manager);
 
+            this.logger.log(`InfluxDB data source updated in app: ${appId}`);
             return new ApiResponse("success", "InfluxDB data source updated", {
                 status, error
             });
@@ -50,6 +42,46 @@ export class InfluxService {
             this.logger.error(`[${this.saveInfluxDataSource.name}] Caused by: ${err}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
         });
+    }
+
+    public async checkConnection(appId: string): Promise<ApiResponse<DataSourceConnStatus>> {
+        try {
+            const { status, error } = await this.checkAndUpdateConnectionStatus(appId)
+            return new ApiResponse("success", undefined, {
+                status,
+                error
+            })
+        } catch (err) {
+            this.logger.error(`[${this.checkConnection.name}] Caused by: ${err}`);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+        }
+    }
+
+    private async checkAndUpdateConnectionStatus<T extends BaseDataSourceDto>(
+        appId: string,
+        config?: T,
+        manager: EntityManager = this.entityManager
+    ): Promise<DataSourceConnStatus> {
+        let state: DataSourceConnStatus;
+
+        if (!config) {
+            const app = await manager.getRepository(Application).findOneBy({ id: appId });
+            state = await this.connectionTest({ ...app.influxDS });
+            await manager.getRepository(Application).update({ id: appId }, {
+                influxDS: { ...app.influxDS, connError: state.error, connStatus: state.status },
+                connectedTSDB: TSDB_PROVIDER.INFLUX2
+            });
+        } else {
+            state = await this.connectionTest({ ...config });
+            await manager.getRepository(Application).update({ id: appId }, {
+                influxDS: { ...config, connError: state.error, connStatus: state.status },
+                connectedTSDB: TSDB_PROVIDER.INFLUX2
+            });
+        }
+
+        return {
+            ...state
+        }
     }
 
     public async writeData(appId: string, config: Partial<IInfluxDs>, data: ISDKMetrics): Promise<void> {
@@ -94,9 +126,9 @@ export class InfluxService {
         return point;
     }
 
-    public async connectionTest(
+    private async connectionTest(
         config: Partial<InfluxConfigurationDto>
-    ): Promise<{ status: CONNECTION_STATUS; error?: string; }> {
+    ): Promise<DataSourceConnStatus> {
         const { url, token, org, bucket } = config;
         const influxDb = new InfluxDB({ url, token });
 
