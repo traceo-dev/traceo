@@ -1,4 +1,4 @@
-import { INCIDENT_PLOT_TYPE } from "types/metrics";
+import { INCIDENT_PLOT_TYPE } from "../../types/metrics";
 import { LogLevel } from "../../types/logs"
 
 export const getLocalStorageLogLevels = () => {

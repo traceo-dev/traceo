@@ -2,14 +2,14 @@ import { FC, useEffect } from "react";
 import ReactECharts from "echarts-for-react";
 import { IMetric, MetricsResponse } from "../../../../../types/metrics";
 import { MetricLoading } from "../../../../../core/components/MetricLoading";
-import { useApi } from "core/lib/useApi";
-import { StoreState } from "types/store";
+import { useApi } from "../../../../../core/lib/useApi";
+import { StoreState } from "../../../../../types/store";
 import { useSelector } from "react-redux";
 import { EChartsOption, SeriesOption } from "echarts";
-import { ConditionalWrapper } from "core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 import { commonOptions } from "./utils";
-import { METRIC_UNIT } from "types/tsdb";
-import { DataNotFound } from "core/components/DataNotFound";
+import { METRIC_UNIT } from "../../../../../types/tsdb";
+import { DataNotFound } from "../../../../../core/components/DataNotFound";
 
 interface Props {
   metric: IMetric;

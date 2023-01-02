@@ -1,26 +1,26 @@
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { useSelector } from "react-redux";
-import { StoreState } from "types/store";
+import { StoreState } from "../../../types/store";
 import AppPage from "../components/AppPage";
-import { Space, Tooltip, Typography } from "antd";
-import { PagePanel } from "core/components/PagePanel";
-import { ConditionalWrapper } from "core/components/ConditionLayout";
+import { Space, Tooltip } from "antd";
+import { PagePanel } from "../../../core/components/PagePanel";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { dispatch } from "store/store";
+import { dispatch } from "../../../store/store";
 import { loadMetric } from "./state/actions";
-import { MetricPreviewPlot } from "core/components/Plots/components/Metrics/MetricPreviewPlot";
-import { conditionClass } from "core/utils/classes";
+import { MetricPreviewPlot } from "../../../core/components/Plots/components/Metrics/MetricPreviewPlot";
+import { conditionClass } from "../../../core/utils/classes";
 import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
 import { MetricPreviewCustomizeForm } from "./components/MetricPreviewCustomizeForm";
 import { useForm } from "antd/es/form/Form";
-import { IMetric } from "types/metrics";
-import { TraceoLoading } from "core/components/TraceoLoading";
+import { IMetric } from "../../../types/metrics";
+import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { useImmer } from "use-immer";
 import { toggleNavbar } from "../state/navbar/actions";
 import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
-import { getLocalStorageTimeLimit } from "core/utils/localStorage";
-import { DeepPartial } from "types/partials";
+import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
+import { DeepPartial } from "../../../types/partials";
 import ReactMarkdown from "react-markdown";
 
 export const MetricPreviewPage = () => {

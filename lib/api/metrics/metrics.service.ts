@@ -4,9 +4,9 @@ import { Application } from "../../db/entities/application.entity";
 import { Metric } from "../../db/entities/metric.entity";
 import { EntityManager } from "typeorm";
 import * as default_metrics from "./config/default-metrics.json";
-import { ApiResponse } from "lib/common/types/dto/response.dto";
-import { INTERNAL_SERVER_ERROR } from "lib/common/helpers/constants";
-import { UpdateMetricDto } from "lib/common/types/dto/metrics.dto";
+import { ApiResponse } from "../../common/types/dto/response.dto";
+import { INTERNAL_SERVER_ERROR } from "../../common/helpers/constants";
+import { UpdateMetricDto } from "../../common/types/dto/metrics.dto";
 
 @Injectable()
 export class MetricsService {

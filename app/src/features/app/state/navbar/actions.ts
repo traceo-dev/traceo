@@ -1,4 +1,4 @@
-import { ThunkResult } from "types/store";
+import { ThunkResult } from "../../../../types/store";
 import { navbarState } from "./reducers";
 
 export const toggleNavbar = (state: boolean): ThunkResult<void> => {

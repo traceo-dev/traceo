@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IMetric, MetricsResponse } from "types/metrics";
+import { IMetric, MetricsResponse } from "../../../../types/metrics";
 
 type MetricType = {
     options: IMetric,

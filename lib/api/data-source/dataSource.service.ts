@@ -6,9 +6,9 @@ import { TSDB_PROVIDER } from '../../common/types/enums/tsdb.enum';
 import { IInfluxDs } from '../../common/types/interfaces/influxds.interface';
 import { Application } from '../../db/entities/application.entity';
 import { EntityManager } from 'typeorm';
-import { BaseDataSourceDto } from 'lib/common/types/dto/data-source';
-import { DataSourceConnStatus } from 'app/src/types/tsdb';
-import { InfluxService } from 'lib/providers/influx/influx.service';
+import { BaseDataSourceDto } from '../../common/types/dto/data-source';
+import { InfluxService } from '../../providers/influx/influx.service';
+import { DataSourceConnStatus } from '../../common/types/interfaces/tsdb.interface';
 
 @Injectable()
 export class DataSourceService {

@@ -5,7 +5,7 @@ import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 import dateUtils from "../../../../core/utils/date";
-import { getLocalStorageIncidentPlotType } from "core/utils/localStorage";
+import { getLocalStorageIncidentPlotType } from "../../../../core/utils/localStorage";
 
 interface Props {
   errors: ErrorDetails[];

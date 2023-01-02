@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { InfluxService } from 'lib/providers/influx/influx.service';
+import { InfluxService } from '../../providers/influx/influx.service';
 import { DataSourceService } from '../data-source/dataSource.service';
 import { MetricsController } from './metrics.controller';
 import { MetricsService } from './metrics.service';

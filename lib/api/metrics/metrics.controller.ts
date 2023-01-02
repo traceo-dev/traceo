@@ -2,10 +2,10 @@ import { Query } from "@nestjs/common";
 import { Controller, Get, Param } from "@nestjs/common";
 import { Body, Patch } from "@nestjs/common/decorators";
 import { ApiTags } from "@nestjs/swagger";
-import { AuthRequired } from "lib/common/decorators/auth-required.decorator";
-import { MetricQueryDto, UpdateMetricDto } from "lib/common/types/dto/metrics.dto";
-import { ApiResponse } from "lib/common/types/dto/response.dto";
-import { IMetric, MetricPreviewType, MetricsResponse } from "lib/common/types/interfaces/metrics.interface";
+import { AuthRequired } from "../../common/decorators/auth-required.decorator";
+import { MetricQueryDto, UpdateMetricDto } from "../../common/types/dto/metrics.dto";
+import { ApiResponse } from "../../common/types/dto/response.dto";
+import { IMetric, MetricPreviewType, MetricsResponse } from "../../common/types/interfaces/metrics.interface";
 import { MetricsService } from "./metrics.service";
 import { MetricsQueryService } from "./query/metrics-query.service";
 

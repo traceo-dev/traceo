@@ -1,15 +1,15 @@
 import ReactECharts from "echarts-for-react";
-import { StoreState } from "types/store";
+import { StoreState } from "../../../../../types/store";
 import { useSelector } from "react-redux";
 import { EChartsOption, SeriesOption } from "echarts";
-import { ConditionalWrapper } from "core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 import { commonOptions } from "./utils";
-import { METRIC_UNIT } from "types/tsdb";
+import { METRIC_UNIT } from "../../../../../types/tsdb";
 import { tooltipOptions } from "../../utils";
 import { FC } from "react";
-import { IMetric } from "types/metrics";
-import { DeepPartial } from "types/partials";
-import { DataNotFound } from "core/components/DataNotFound";
+import { IMetric } from "../../../../../types/metrics";
+import { DeepPartial } from "../../../../../types/partials";
+import { DataNotFound } from "../../../../../core/components/DataNotFound";
 
 interface Props {
   options: DeepPartial<IMetric>;

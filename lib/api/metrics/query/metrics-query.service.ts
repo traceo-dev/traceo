@@ -1,12 +1,12 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { DataSourceService } from "lib/api/data-source/dataSource.service";
-import { INTERNAL_SERVER_ERROR } from "lib/common/helpers/constants";
-import { MetricQueryDto } from "lib/common/types/dto/metrics.dto";
-import { ApiResponse } from "lib/common/types/dto/response.dto";
-import { TSDB_PROVIDER } from "lib/common/types/enums/tsdb.enum";
-import { IMetric, IMetricSerie, MetricPreviewType, MetricsResponse } from "lib/common/types/interfaces/metrics.interface";
-import { Metric } from "lib/db/entities/metric.entity";
-import { InfluxService } from "lib/providers/influx/influx.service";
+import { DataSourceService } from "../../../api/data-source/dataSource.service";
+import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
+import { MetricQueryDto } from "../../../common/types/dto/metrics.dto";
+import { ApiResponse } from "../../../common/types/dto/response.dto";
+import { TSDB_PROVIDER } from "../../../common/types/enums/tsdb.enum";
+import { IMetric, IMetricSerie, MetricPreviewType, MetricsResponse } from "../../../common/types/interfaces/metrics.interface";
+import { Metric } from "../../../db/entities/metric.entity";
+import { InfluxService } from "../../../providers/influx/influx.service";
 import { EntityManager } from "typeorm";
 
 @Injectable()

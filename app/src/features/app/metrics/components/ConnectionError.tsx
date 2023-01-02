@@ -1,15 +1,15 @@
-import { ExclamationCircleFilled, SyncOutlined } from "@ant-design/icons";
+import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Space, Typography, Button } from "antd";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StoreState } from "../../../../types/store";
-import api from "core/lib/api";
-import { notify } from "core/utils/notify";
-import { loadApplication } from "features/app/state/application/actions";
-import { dispatch } from "store/store";
-import { ApiResponse } from "types/api";
-import { DataSourceConnStatus, CONNECTION_STATUS } from "types/tsdb";
+import api from "../../../../core/lib/api";
+import { notify } from "../../../../core/utils/notify";
+import { loadApplication } from "../../../../features/app/state/application/actions";
+import { dispatch } from "../../../../store/store";
+import { ApiResponse } from "../../../../types/api";
+import { DataSourceConnStatus, CONNECTION_STATUS } from "../../../../types/tsdb";
 import { loadMetrics } from "../state/actions";
 import { useState } from "react";
 

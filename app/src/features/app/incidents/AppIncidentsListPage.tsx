@@ -22,13 +22,13 @@ import { PagePanel } from "../../../core/components/PagePanel";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
-import PageHeader from "core/components/PageHeader";
+import PageHeader from "../../../core/components/PageHeader";
 import { BarChartOutlined, BugOutlined, LineChartOutlined } from "@ant-design/icons";
 import {
   getLocalStorageIncidentPlotType,
   setLocalStorageIncidentPlotType
-} from "core/utils/localStorage";
-import { INCIDENT_PLOT_TYPE } from "types/metrics";
+} from "../../../core/utils/localStorage";
+import { INCIDENT_PLOT_TYPE } from "../../../types/metrics";
 
 const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.FIRST_SEEN]: "First seen",

@@ -1,9 +1,9 @@
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Menu, Dropdown, Button } from "antd";
-import { conditionClass } from "core/utils/classes";
-import { setLocalStorageTimeLimit } from "core/utils/localStorage";
+import { conditionClass } from "../../../../core/utils/classes";
+import { setLocalStorageTimeLimit } from "../../../../core/utils/localStorage";
 import { FC } from "react";
-import { timeLimitOptions, handleTimeLimitLabel } from "types/metrics";
+import { timeLimitOptions, handleTimeLimitLabel } from "../../../../types/metrics";
 
 interface Props {
   setTimeLimit: (val: number) => void;

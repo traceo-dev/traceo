@@ -1,12 +1,12 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { Space, Typography, Tooltip } from "antd";
-import { MetricPlot } from "core/components/Plots/components/Metrics/MetricPlot";
-import { slugifyForUrl } from "core/utils/stringUtils";
+import { MetricPlot } from "../../../../core/components/Plots/components/Metrics/MetricPlot";
+import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { IMetric } from "types/metrics";
-import { StoreState } from "types/store";
+import { IMetric } from "../../../../types/metrics";
+import { StoreState } from "../../../../types/store";
 
 interface MetricCardProps {
   metric: IMetric;

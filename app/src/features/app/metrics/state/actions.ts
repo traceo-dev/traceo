@@ -1,7 +1,7 @@
 import { ApiResponse } from "../../../../types/api";
 import api from "../../../../core/lib/api";
 import { ThunkResult } from "../../../../types/store";
-import { IMetric, MetricsResponse } from "types/metrics";
+import { IMetric, MetricsResponse } from "../../../../types/metrics";
 import { metricLoaded, metricsLoaded } from "./reducers";
 
 export const loadMetrics = (): ThunkResult<void> => {

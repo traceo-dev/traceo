@@ -1,11 +1,11 @@
 import { Collapse, Form, Input, Checkbox, Select, Slider } from "antd";
 import { FormInstance } from "antd/es/form/Form";
-import { PagePanel } from "core/components/PagePanel";
+import { PagePanel } from "../../../../core/components/PagePanel";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { StoreState } from "types/store";
-import { IMetric, METRIC_UNIT } from "types/metrics";
-import { DeepPartial } from "types/partials";
+import { StoreState } from "../../../../types/store";
+import { IMetric, METRIC_UNIT } from "../../../../types/metrics";
+import { DeepPartial } from "../../../../types/partials";
 import { DraftFunction } from "use-immer";
 
 const { Panel } = Collapse;

@@ -9,8 +9,8 @@ import { IDefaultSDKMetrics, ISDKMetrics, MetricsResponse } from '../../common/t
 import { ApiResponse } from '../../common/types/dto/response.dto';
 import { CONNECTION_STATUS, TSDB_PROVIDER } from '../../common/types/enums/tsdb.enum';
 import { DataSourceConnStatus } from '../../common/types/interfaces/tsdb.interface';
-import { MetricQueryDto } from 'lib/common/types/dto/metrics.dto';
-import { BaseDataSourceDto } from 'lib/common/types/dto/data-source';
+import { MetricQueryDto } from '../../common/types/dto/metrics.dto';
+import { BaseDataSourceDto } from '../../common/types/dto/data-source';
 
 
 /**

@@ -3,9 +3,9 @@ import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
-import { IMetric, MetricsResponse } from "types/metrics";
-import { DeepPartial } from "types/partials";
-import { ConditionalWrapper } from "core/components/ConditionLayout";
+import { IMetric, MetricsResponse } from "../../../../types/metrics";
+import { DeepPartial } from "../../../../types/partials";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 
 interface Props {
   metric: DeepPartial<IMetric>;

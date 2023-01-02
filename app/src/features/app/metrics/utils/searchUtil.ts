@@ -1,4 +1,4 @@
-import { IMetric } from "types/metrics";
+import { IMetric } from "../../../../types/metrics";
 
 export const searchMetric = (val: string, metrics: IMetric[]) => {
     if (!metrics) {
