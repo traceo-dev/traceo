@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { loadApplication } from "../state/actions";
 import { useParams } from "react-router-dom";
 import { dispatch } from "../../../store/store";
 import { useSelector } from "react-redux";
@@ -9,6 +8,7 @@ import NotFound from "../../../core/components/Layout/Pages/NotFound";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { isSlugCorrect } from "../../../core/utils/url";
 import { PageCenter } from "../../../core/components/PageCenter";
+import { loadApplication } from "../state/application/actions";
 
 export const AppPage = ({ children }) => {
   const { id } = useParams();

@@ -1,12 +1,8 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsString } from "class-validator";
+import { BaseDataSourceDto } from "./data-source";
 
-export class InfluxConfigurationDto {
-    @IsString()
-    @IsNotEmpty()
-    @ApiProperty({ description: "appId" })
-    public appId?: string;
-
+export class InfluxConfigurationDto extends BaseDataSourceDto {
     @IsString()
     @IsNotEmpty()
     @ApiProperty({ description: "url" })

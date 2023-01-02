@@ -1,69 +1,79 @@
-import { EChartsOption } from "echarts";
-import { FC } from "react";
-import { MetricsResponse } from "../../../../../types/tsdb";
+import { FC, useEffect } from "react";
 import ReactECharts from "echarts-for-react";
-import { CHART_TYPE, METRIC_TYPE } from "../../../../../types/metrics";
-import { commonOptions, metricConfig } from "./utils";
+import { IMetric, MetricsResponse, METRIC_UNIT } from "../../../../../types/metrics";
 import { MetricLoading } from "../../../../../core/components/MetricLoading";
+import { useApi } from "../../../../../core/lib/useApi";
+import { StoreState } from "../../../../../types/store";
+import { useSelector } from "react-redux";
+import { EChartsOption } from "echarts";
+import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
+import { buildDatasource, buildSeries, commonOptions } from "./utils";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
 
 interface Props {
-  metrics: MetricsResponse[];
-  options?: EChartsOption;
-  type: METRIC_TYPE;
-  plotType: CHART_TYPE;
+  metric: IMetric;
+  hrCount: number;
 }
-export const MetricPlot: FC<Props> = ({ metrics, options, type, plotType }) => {
-  const { series, unit } = metricConfig[type];
+export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
+  const { application } = useSelector((state: StoreState) => state.application);
 
-  if (!metrics) {
+  const seriesFields =
+    metric?.series?.reduce<string[]>((acc, serie) => {
+      acc.push(serie.field);
+
+      return acc;
+    }, []) || [];
+
+  const {
+    data: datasource,
+    isLoading,
+    execute
+  } = useApi<MetricsResponse[]>({
+    url: `/api/metrics/${application.id}/datasource`,
+    params: {
+      fields: seriesFields,
+      hrCount
+    }
+  });
+
+  useEffect(() => {
+    execute();
+  }, [hrCount, metric]);
+
+  if (!datasource) {
     return <MetricLoading />;
   }
 
-  if (metrics.length === 0) {
-    return <DataNotFound />;
-  }
-
-  const buildSeries = () =>
-    series.map(({ area, color, name, type, seriesLineWidth }) => ({
-      type: type || plotType,
-      name,
-      showSymbol: false,
-      color,
-      lineStyle: {
-        color,
-        width: seriesLineWidth || 1
-      },
-      areaStyle: {
-        color: area?.color || color,
-        opacity: area?.opacity || 0.4
-      }
-    }));
-
-  const buildSources = () => {
-    const commonSource = {
-      time: metrics.map((t) => t._time)
-    };
-
-    series.map(({ field }) =>
-      Object.assign(commonSource, {
-        [field]: metrics.map((m) => m[field])
-      })
-    );
-
-    return commonSource;
+  const options: EChartsOption = {
+    ...commonOptions({
+      unit: metric.unit as METRIC_UNIT,
+      xAxisInterval: 50
+    }),
+    grid: {
+      containLabel: true,
+      right: 20,
+      left: 10,
+      bottom: 10,
+      top: 10
+    },
+    series: buildSeries(metric.series, metric, "card"),
+    dataset: {
+      source: buildDatasource(datasource, metric.series)
+    }
   };
 
-  const chartOptions: EChartsOption = Object.assign(
-    {
-      ...commonOptions({ unit }),
-      dataset: {
-        source: buildSources()
-      },
-      series: buildSeries()
-    },
-    options
+  return (
+    <ConditionalWrapper
+      isLoading={isLoading}
+      isEmpty={datasource.length === 0}
+      emptyView={<DataNotFound className="text-2xs" label="Data not found" />}
+    >
+      <ReactECharts
+        style={{
+          height: "150px"
+        }}
+        option={options}
+      />
+    </ConditionalWrapper>
   );
-
-  return <ReactECharts option={chartOptions} />;
 };

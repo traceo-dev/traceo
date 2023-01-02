@@ -13,7 +13,8 @@ import { BaseEntity } from "../../common/base/base.entity";
 import { IApplication, ISecurity } from "../../common/types/interfaces/application.interface";
 import { IInfluxDs } from "../../common/types/interfaces/influxds.interface";
 import { IRuntime } from "../../common/types/interfaces/runtime.interface";
-import { TSDB } from "../../common/types/enums/tsdb.enum";
+import { TSDB_PROVIDER } from "../../common/types/enums/tsdb.enum";
+import { Metric } from "./metric.entity";
 
 @Entity()
 export class Application extends BaseEntity implements IApplication {
@@ -106,5 +107,11 @@ export class Application extends BaseEntity implements IApplication {
     nullable: true,
     name: "connected_tsdb"
   })
-  connectedTSDB?: TSDB;
+  connectedTSDB?: TSDB_PROVIDER;
+
+  @OneToMany(() => Metric, (metric) => metric.application, {
+    onUpdate: "CASCADE",
+    onDelete: "CASCADE",
+  })
+  metrics?: Metric[];
 }

@@ -1,49 +1,124 @@
-export enum METRIC_TYPE {
-    CPU = "cpu",
-    MEMORY = "memory",
-    RSS = "rss",
-    HEAP = "heap",
-    EVENT_LOOP_DELAY = "event_loop_delay",
-    // GC_TIME = "gc_time",
-    HEAP_CONTEXTS = "heap_contexts",
-    LOAD_AVG = "load_avg",
+export type IMetric = {
+    id: string;
+    name: string;
+    description: string;
+    showDescription: boolean;
+    isDefault: boolean;
+    show: boolean;
+    unit: string;
+    series: IMetricSerie[],
+    config: IMetricConfiguration;
+};
+
+export type IMetricSerie = {
+    name: string;
+    field: string;
+    type: MetricValueEnum | string;
+    config: {
+        type: PLOT_TYPE | string;
+        color: string;
+    }
 }
 
-export type CHART_TYPE = "bar" | "line" | "scatter";
-
-export const handleHeaderInfo: Record<METRIC_TYPE, { title: string; description: string }> = {
-    [METRIC_TYPE.CPU]: {
-        title: "CPU Usage",
-        description:
-            "CPU usage is the percentage of time that the CPU is being used to complete its tasks."
+export type IMetricConfiguration = {
+    line: {
+        width: number;
+        marker: {
+            show: boolean;
+        };
     },
-    [METRIC_TYPE.MEMORY]: {
-        title: "Memory Usage",
-        description: "The amount of RAM memory being used."
+    area: {
+        show: boolean;
+        opacity: number;
     },
-    [METRIC_TYPE.LOAD_AVG]: {
-        title: "Load Average",
-        description:
-            "Load Average is a measure of system activity calculated by the operating system over the last minute and expressed as a fractional number. Supported only by UNIX operation systems."
-    },
-    [METRIC_TYPE.HEAP]: {
-        title: "Heap",
-        description: "Total amount of memory being used by JS objects."
-    },
-    // [METRIC_TYPE.GC_TIME]: {
-    //     title: "Garbage Collection Time",
-    //     subTitle: "Garbage collection average and total duration counted from the last measurement."
-    // },
-    [METRIC_TYPE.RSS]: {
-        title: "RSS",
-        description: "Resident set size (RSS) is the portion of memory occupied by a process that is held in main memory (RAM)."
-    },
-    [METRIC_TYPE.HEAP_CONTEXTS]: {
-        title: "Heap Contexts",
-        description: "Values that indicate the existence of memory leaks."
-    },
-    [METRIC_TYPE.EVENT_LOOP_DELAY]: {
-        title: "Event Loop Delay",
-        description: "Minimum, maximum and mean delay of the NodeJS event loop."
+    tooltip: {
+        show: boolean;
+        position: string;
+    };
+    legend: {
+        show: boolean;
+        orient: string;
     }
+}
+
+export type TOOLTIP_PLACEMENT = "bottom" | "inside" | "left" | "right" | "top";
+export enum PLOT_TYPE {
+    BAR = "bar",
+    LINE = "line",
+    POINTS = "points"
+}
+export enum METRIC_UNIT {
+    PERCENTAGE = "%",
+    MEGABYTES = "MB",
+    KILOBYTES = "kb",
+    SECONDS = "s",
+    MILISECONDS = "ms",
+    NONE = ""
 };
+
+export type LegendOrientType = "vertical" | "horizontal";
+
+export type IDefaultSDKMetrics = {
+    cpu_usage: number;
+    load_avg: number;
+} & EventLoopMetricType & HeapMetricType & MemoryUsageMetricType;
+
+export type ISDKMetrics = {
+    default: IDefaultSDKMetrics;
+    counter: Record<string, number>;
+    meauserement: Record<string, number>;
+    gauge: Record<string, number>;
+    timeSeries: Record<string, number>;
+};
+
+export type MemoryUsageMetricType = {
+    memory_usage_mb: number;
+    memory_usage_percentage: number;
+};
+
+export type EventLoopMetricType = {
+    loop_min: number;
+    loop_max: number;
+    loop_mean: number;
+    loop_stddev: number;
+};
+
+export type HeapMetricType = {
+    heap_used: number;
+    heap_total: number;
+    heap_rss: number;
+    heap_native_contexts: number;
+    heap_detached_contexts: number;
+};
+
+export interface MetricsQuery {
+    id: string;
+    field: string;
+    hrCount: number;
+}
+
+export type MetricsResponse = {
+    _time: string;
+} & {
+    [key: string]: number;
+}
+
+export enum MetricValueEnum {
+    FLOAT_FIELD = "floatField",
+    INT_FIELD = "intField"
+};
+
+export const handleTimeLimitLabel: Record<number, string> = {
+    1: "Last 1 hour",
+    2: "Last 2 hours",
+    3: "Last 3 hours",
+    6: "Last 6 hours",
+    12: "Last 12 hours",
+    24: "Last 24 hours",
+    48: "Last 2 days",
+    72: "Last 3 days"
+}
+
+export const timeLimitOptions = [1, 2, 3, 6, 12, 24, 48, 72];
+
+export type INCIDENT_PLOT_TYPE = "bar" | "line";

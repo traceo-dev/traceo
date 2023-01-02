@@ -1,49 +1,130 @@
-import { useApi } from "../../../core/lib/useApi";
+import { MetricTableWrapper } from "./components/MetricTableWrapper";
+import { useSelector } from "react-redux";
+import { StoreState } from "../../../types/store";
+import AppPage from "../components/AppPage";
+import { Space, Tooltip } from "antd";
+import { PagePanel } from "../../../core/components/PagePanel";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { MetricsResponse } from "../../../types/tsdb";
-import { AppMetricsPreviewNavigationPage } from "./components/AppMetricsPreviewNavigationPage";
-import { MetricPlotWrapper } from "./components/MetricPlotWrapper";
-import { CHART_TYPE, METRIC_TYPE } from "../../../types/metrics";
-import { MetricTableWrapper } from "./components/MetricTableWrapper";
-import { MetricPlot } from "../../../core/components/Plots/components/Metrics/MetricPlot";
+import { dispatch } from "../../../store/store";
+import { loadMetric } from "./state/actions";
+import { MetricPreviewPlot } from "../../../core/components/Plots/components/Metrics/MetricPreviewPlot";
+import { conditionClass } from "../../../core/utils/classes";
+import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
+import { MetricPreviewCustomizeForm } from "./components/MetricPreviewCustomizeForm";
+import { useForm } from "antd/es/form/Form";
+import { IMetric } from "../../../types/metrics";
+import { TraceoLoading } from "../../../core/components/TraceoLoading";
+import { useImmer } from "use-immer";
+import { toggleNavbar } from "../state/navbar/actions";
+import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
+import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
+import { DeepPartial } from "../../../types/partials";
+import ReactMarkdown from "react-markdown";
 
 export const MetricPreviewPage = () => {
-  const { id } = useParams();
+  const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
 
-  const query = new URLSearchParams(location.search);
-  const type = query.get("type") as METRIC_TYPE;
-
-  const [hrCount, setHrCount] = useState<number>(1);
-  const [chartType, setChartType] = useState<CHART_TYPE>("line");
-
-  const {
-    data: metrics = [],
-    isLoading,
-    execute
-  } = useApi<MetricsResponse[]>({
-    url: "/api/datasource/metrics",
-    params: { id, hrCount }
-  });
+  const { metricId, id } = useParams();
+  const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
+  const [options, setOptions] = useImmer<DeepPartial<IMetric>>(metric?.options);
+  const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
+  const [isExpandMode, setExpandMode] = useState<boolean>(false);
+  const [timeLimit, setTimeLimit] = useState<number>(DEFAULT_TIME_LIMIT);
+  const [form] = useForm();
 
   useEffect(() => {
-    execute();
-  }, [hrCount]);
+    dispatch(
+      loadMetric({
+        appId: id,
+        metricId,
+        hrCount: timeLimit
+      })
+    );
+  }, [timeLimit]);
+
+  useEffect(() => {
+    if (metric) {
+      setOptions(metric.options);
+    }
+  }, [metric]);
+
+  if (!metric?.options) {
+    return <TraceoLoading />;
+  }
+
+  const isDescriptionVisible = options?.showDescription;
+
+  const onExpand = () => {
+    dispatch(toggleNavbar(true));
+    setExpandMode(true);
+  };
+
+  const onCompress = () => {
+    dispatch(toggleNavbar(false));
+    setExpandMode(false);
+  };
 
   return (
-    <AppMetricsPreviewNavigationPage>
-      <MetricPlotWrapper
-        execute={execute}
-        hrCount={hrCount}
-        setHrCount={setHrCount}
-        setChartType={setChartType}
-        isLoading={isLoading}
-        metrics={metrics}
-      >
-        <MetricPlot type={type} metrics={metrics} plotType={chartType} />
-      </MetricPlotWrapper>
-      <MetricTableWrapper type={type} metrics={metrics} />
-    </AppMetricsPreviewNavigationPage>
+    <>
+      <AppPage>
+        <ConditionalWrapper isLoading={!hasFetchedMetric}>
+          <MetricPreviewHeader
+            form={form}
+            isCustomizeMode={isCustomizeMode}
+            isExpandMode={isExpandMode}
+            setCustomizeMode={setCustomizeMode}
+            setOptions={setOptions}
+            timeLimit={timeLimit}
+            setTimeLimit={setTimeLimit}
+          />
+
+          <div className="w-full grid grid-cols-12">
+            <div className={conditionClass(isCustomizeMode, "col-span-9", "col-span-12")}>
+              {isDescriptionVisible && !isExpandMode && (
+                <PagePanel>
+                  <ReactMarkdown>{metric?.options?.description}</ReactMarkdown>
+                </PagePanel>
+              )}
+
+              <PagePanel
+                title="Graph"
+                extra={
+                  <Space>
+                    {!isExpandMode && !isCustomizeMode && (
+                      <Tooltip title="Expand view">
+                        <ExpandOutlined onClick={onExpand} />
+                      </Tooltip>
+                    )}
+
+                    {isExpandMode && (
+                      <Tooltip title="Compress view">
+                        <CompressOutlined onClick={onCompress} />
+                      </Tooltip>
+                    )}
+                  </Space>
+                }
+              >
+                <MetricPreviewPlot isExpandMode={isExpandMode} options={options} />
+              </PagePanel>
+
+              {!isExpandMode && (
+                <MetricTableWrapper metric={options} metricData={metric?.datasource} />
+              )}
+            </div>
+            {isCustomizeMode && (
+              <MetricPreviewCustomizeForm setOptions={setOptions} form={form} />
+            )}
+          </div>
+        </ConditionalWrapper>
+      </AppPage>
+      <style>{`
+        .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+          padding-left: 0px !important;
+        }
+    `}</style>
+    </>
   );
 };
 

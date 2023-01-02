@@ -40,7 +40,7 @@ export class IncidentCommentsService {
 
       this.commentsGateway.onNewComment(incidentId);
 
-      return new ApiResponse("success", "Comment has been sent");
+      return new ApiResponse("success", undefined);
     } catch (err) {
       this.logger.error(`[${this.saveComment.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);

@@ -26,10 +26,10 @@ const PageHeader: FC<PanelHeaderProps> = ({
   const renderTitle = (
     <Space className="w-full justify-between">
       <Space>
-        {icon && <div className="pr-2 text-5xl">{icon}</div>}
+        {icon && <div className="pr-2 text-4xl">{icon}</div>}
 
         <div className="inline-grid gap-0">
-          <span className="pt-2 text-3xl">{title}</span>
+          <span className="pt-2 text-2xl">{title}</span>
           <span className="font-normal text-md">{subTitle}</span>
         </div>
       </Space>

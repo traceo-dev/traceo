@@ -1,4 +1,4 @@
-export enum TSDB {
+export enum TSDB_PROVIDER {
     INFLUX = "influx",
     INFLUX2 = "influx2",
     PROMETHEUS = "prometheus"

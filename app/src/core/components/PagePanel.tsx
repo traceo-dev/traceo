@@ -1,4 +1,4 @@
-import { Card } from "antd";
+import { Card, Space } from "antd";
 import { FC } from "react";
 import { joinClasses } from "../utils/classes";
 
@@ -7,11 +7,31 @@ interface Props {
   className?: string;
   title?: JSX.Element | string;
   extra?: JSX.Element;
+  icon?: JSX.Element;
 }
-export const PagePanel: FC<Props> = ({ children, className = "", title = "", extra }) => {
+export const PagePanel: FC<Props> = ({
+  children,
+  className = "",
+  title = "",
+  extra,
+  icon
+}) => {
   return (
     <>
-      <Card extra={extra} title={title} className={joinClasses("page-panel", className)}>
+      <Card
+        extra={extra}
+        title={
+          icon ? (
+            <Space>
+              {icon}
+              {title}
+            </Space>
+          ) : (
+            title
+          )
+        }
+        className={joinClasses("page-panel", className)}
+      >
         {children}
       </Card>
       <style>{`

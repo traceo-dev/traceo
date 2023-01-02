@@ -1,5 +1,5 @@
 import { MemberRole } from "../enums/amr.enum";
-import { CONNECTION_STATUS, TSDB } from "../enums/tsdb.enum";
+import { CONNECTION_STATUS, TSDB_PROVIDER } from "../enums/tsdb.enum";
 import { IAccount } from "./account.interface";
 import { IAmr } from "./amr.interface";
 import { IIncident } from "./incident.interface";
@@ -19,7 +19,7 @@ export interface IApplication {
     errorsCount?: number;
     runtimeConfig?: IRuntime;
     influxDS?: IInfluxDs;
-    connectedTSDB?: TSDB;
+    connectedTSDB?: TSDB_PROVIDER;
     isIntegrated: boolean;
     security?: ISecurity;
 }

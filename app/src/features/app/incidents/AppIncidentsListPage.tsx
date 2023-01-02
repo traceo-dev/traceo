@@ -1,4 +1,4 @@
-import { Button, Dropdown, Menu, Typography } from "antd";
+import { Button, Divider, Dropdown, Menu, Segmented } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import AppPage from "../components/AppPage";
@@ -20,9 +20,15 @@ import { useParams } from "react-router-dom";
 import { SortOrder } from "../../../types/api";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
-import { BatchUpdateModal } from "../../../core/components/Modals/BatchUpdateModal";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
+import PageHeader from "../../../core/components/PageHeader";
+import { BarChartOutlined, BugOutlined, LineChartOutlined } from "@ant-design/icons";
+import {
+  getLocalStorageIncidentPlotType,
+  setLocalStorageIncidentPlotType
+} from "../../../core/utils/localStorage";
+import { INCIDENT_PLOT_TYPE } from "../../../types/metrics";
 
 const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.FIRST_SEEN]: "First seen",
@@ -31,19 +37,30 @@ const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.STATUS]: "Status"
 };
 
+const changeBarOptions = [
+  {
+    icon: <BarChartOutlined />,
+    value: "bar"
+  },
+  {
+    icon: <LineChartOutlined />,
+    value: "line"
+  }
+];
+
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
 
   const { id } = useParams();
   const { incidents, hasFetched } = useSelector((state: StoreState) => state.incidents);
 
-  const [selectedIncidents, setSelectedIncidents] = useState<string[]>([]);
-  const [isBatchVisible, setBatchVisible] = useState<boolean>(false);
-
   const [search, setSearch] = useState<string>(null);
   const [order, setOrder] = useState<SortOrder>("DESC");
   const [sortBy, setSortBy] = useState<IncidentSortBy>(IncidentSortBy.LAST_SEEN);
   const [status, setStatus] = useState<IncidentStatusSearch>(IncidentStatusSearch.ALL);
+
+  const plot = getLocalStorageIncidentPlotType();
+  const [plotType, setPlotType] = useState<INCIDENT_PLOT_TYPE>(plot);
 
   const queryParams: ApiQueryParams = {
     id,
@@ -102,54 +119,46 @@ export const AppIncidentsListPage = () => {
     );
   };
 
+  const onChangePlotType = (type: INCIDENT_PLOT_TYPE) => {
+    setPlotType(type);
+    setLocalStorageIncidentPlotType(type);
+  };
+
   return (
-    <>
-      <AppPage>
-        <PagePanel title="Incidents">
-          <SearchWrapper className="pb-5">
-            <SearchInput
-              placeholder="Search incidents by type, message, status or assigned user"
-              value={search}
-              setValue={setSearch}
-            />
-            <IncidentStatusDropdown />
-            <IncidentsSortDropdown />
-            <SortIcons order={order} setOrder={setOrder} />
-
-            {selectedIncidents?.length > 0 && (
-              <Button type="primary" onClick={() => setBatchVisible(true)}>
-                <Typography.Text className="text-white">Batch update</Typography.Text>
-                <Typography.Text className="pl-2 text-amber-500">
-                  {selectedIncidents?.length}
-                </Typography.Text>
-              </Button>
-            )}
-          </SearchWrapper>
-
-          <ConditionalWrapper
-            isEmpty={incidents?.length === 0}
-            isLoading={!hasFetched}
-            emptyView={<EmptyIncidentsList constraints={search} />}
-          >
-            <IncidentTable
-              isLoading={!hasFetched}
-              incidents={incidents}
-              selectedIncidents={selectedIncidents}
-              setSelectedIncidents={setSelectedIncidents}
-            />
-          </ConditionalWrapper>
-        </PagePanel>
-      </AppPage>
-
-      <BatchUpdateModal
-        incidentsIds={selectedIncidents}
-        isOpen={isBatchVisible}
-        onClose={() => {
-          setBatchVisible(false);
-          setSelectedIncidents([]);
-        }}
+    <AppPage>
+      <PageHeader
+        icon={<BugOutlined />}
+        title="Incidents"
+        subTitle="List of incidents catched by Traceo SDK"
       />
-    </>
+      <PagePanel>
+        <SearchWrapper className="pt-2 pb-12">
+          <SearchInput
+            placeholder="Search incidents by type, message, status or assigned user"
+            value={search}
+            setValue={setSearch}
+          />
+          <IncidentStatusDropdown />
+          <IncidentsSortDropdown />
+          <Segmented
+            onResize={undefined}
+            onResizeCapture={undefined}
+            value={plotType}
+            onChange={(v) => onChangePlotType(v as INCIDENT_PLOT_TYPE)}
+            options={changeBarOptions}
+          />
+          <SortIcons order={order} setOrder={setOrder} />
+        </SearchWrapper>
+
+        <ConditionalWrapper
+          isEmpty={incidents?.length === 0}
+          isLoading={!hasFetched}
+          emptyView={<EmptyIncidentsList constraints={search} />}
+        >
+          <IncidentTable isLoading={!hasFetched} incidents={incidents} />
+        </ConditionalWrapper>
+      </PagePanel>
+    </AppPage>
   );
 };
 

@@ -28,17 +28,24 @@ import { IncidentsQueryService } from './incidents/incidents-query/incidents-que
 import { IncidentsController } from './incidents/incidents.controller';
 import { IncidentsModule } from './incidents/incidents.module';
 import { IncidentsService } from './incidents/incidents.service';
-import { InfluxController } from './influx.controller';
+import { MetricsController } from './metrics/metrics.controller';
+import { MetricsModule } from './metrics/metrics.module';
+import { MetricsService } from './metrics/metrics.service';
+import { MetricsQueryService } from './metrics/query/metrics-query.service';
 import { StatisticsQueryService } from './statistics/query/statistics-query.service';
 import { StatisticsController } from './statistics/statistics.controller';
 import { StatisticsModule } from './statistics/statistics.module';
-import { LogsService } from './worker/services/logs.service';
-import { MetricsService } from './worker/services/metrics.service';
-import { ProcessIncidentsService } from './worker/services/process-incidents.service';
-import { RuntimeService } from './worker/services/runtime.service';
+import { WorkerLogsService } from './worker/services/worker-logs.service';
+import { WorkerMetricsService } from './worker/services/worker-metrics.service';
+import { WorkerIncidentsService } from './worker/services/worker-incidents.service';
+import { WorkerRuntimeService } from './worker/services/worker-runtime.service';
 import { WorkerController } from './worker/worker.controller';
 import { WorkerModule } from './worker/worker.module';
 
+/**
+ * TODO: instead of import every service and controller, use only Modules in imports and
+ * export every Controller and Service from him. Then remove controllers and providers arrays.
+ */
 @Module({
     imports: [
         AuthModule,
@@ -51,10 +58,10 @@ import { WorkerModule } from './worker/worker.module';
         StatisticsModule,
         WorkerModule,
         GuardsModule,
-        HttpModule
+        HttpModule,
+        MetricsModule
     ],
     controllers: [
-        InfluxController,
         AccountController,
         ApplicationController,
         AmrController,
@@ -62,7 +69,8 @@ import { WorkerModule } from './worker/worker.module';
         IncidentCommentsController,
         IncidentsController,
         StatisticsController,
-        WorkerController
+        WorkerController,
+        MetricsController
     ],
     providers: [
         InfluxService,
@@ -80,10 +88,12 @@ import { WorkerModule } from './worker/worker.module';
         StatisticsQueryService,
         CommentsGateway,
         DataSourceService,
-        ProcessIncidentsService,
-        LogsService,
-        RuntimeService,
-        MetricsService
+        WorkerIncidentsService,
+        WorkerLogsService,
+        WorkerRuntimeService,
+        WorkerMetricsService,
+        MetricsService,
+        MetricsQueryService
     ]
 })
 export class ApiModule { }

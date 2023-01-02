@@ -1,20 +1,18 @@
 import { Space, Typography, Switch, Table } from "antd";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { PagePanel } from "../../../../core/components/PagePanel";
-import { metricConfig } from "../../../../core/components/Plots/components/Metrics/utils";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
-import { METRIC_TYPE } from "../../../../types/metrics";
-import { MetricsResponse } from "../../../../types/tsdb";
+import { IMetric, MetricsResponse } from "../../../../types/metrics";
+import { DeepPartial } from "../../../../types/partials";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 
 interface Props {
-  type: METRIC_TYPE;
-  metrics: MetricsResponse[];
+  metric: DeepPartial<IMetric>;
+  metricData: MetricsResponse[];
 }
-export const MetricTableWrapper: FC<Props> = ({ metrics, type }) => {
+export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
   const [isFormattedTime, setFormattedTime] = useState<boolean>(true);
-
-  const { series, unit } = metricConfig[type];
 
   const buildColumns = () => {
     const commonColumns = [
@@ -26,11 +24,12 @@ export const MetricTableWrapper: FC<Props> = ({ metrics, type }) => {
       }
     ];
 
-    const seriesColumns = series.map(({ field, name }) => ({
-      title: name,
-      dataIndex: field,
-      render: (v: any) => (v ? `${v}${unit}` : "-")
-    }));
+    const seriesColumns =
+      metric?.series.map(({ field, name }) => ({
+        title: name,
+        dataIndex: field,
+        render: (v: any) => (v ? `${v} ${metric.unit}` : "-")
+      })) || [];
 
     return [...commonColumns, ...seriesColumns];
   };
@@ -48,16 +47,14 @@ export const MetricTableWrapper: FC<Props> = ({ metrics, type }) => {
         </Space>
       }
     >
-      {metrics?.length > 0 ? (
+      <ConditionalWrapper isEmpty={metricData?.length === 0} emptyView={<DataNotFound />}>
         <Table
-          dataSource={metrics}
+          dataSource={metricData}
           columns={buildColumns()}
           pagination={{ pageSize: 150 }}
           scroll={{ y: 440 }}
         />
-      ) : (
-        <DataNotFound />
-      )}
+      </ConditionalWrapper>
     </PagePanel>
   );
 };

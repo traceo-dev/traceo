@@ -4,12 +4,12 @@ import { Confirm } from "../../../../core/components/Confirm";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import api from "../../../../core/lib/api";
 import dateUtils from "../../../../core/utils/date";
-import { loadApplication } from "../../../../features/app/state/actions";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
 import { StoreState } from "../../../../types/store";
+import { loadApplication } from "../../../app/state/application/actions";
 
 export const ApiKeySection = () => {
   const { application } = useSelector((state: StoreState) => state.application);

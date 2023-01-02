@@ -7,7 +7,7 @@ import { EntityManager } from "typeorm";
 
 
 @Injectable()
-export class LogsService extends BaseWorkerService<TraceoLog> {
+export class WorkerLogsService extends BaseWorkerService<TraceoLog> {
     constructor(
         private readonly entityManager: EntityManager
     ) {

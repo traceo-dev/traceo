@@ -20,7 +20,8 @@ export const IncidentsTodayPlot: FC<Props> = ({ stats }) => {
     grid: {
       left: "24px",
       right: "24px",
-      top: "32px",
+      top: "15px",
+      bottom: "30px",
       containLabel: true
     },
     xAxis: {
@@ -113,5 +114,12 @@ export const IncidentsTodayPlot: FC<Props> = ({ stats }) => {
     ]
   };
 
-  return <ReactECharts option={option} />;
+  return (
+    <ReactECharts
+      style={{
+        height: "200px"
+      }}
+      option={option}
+    />
+  );
 };

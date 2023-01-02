@@ -9,8 +9,8 @@ import { TSDB } from "../../../types/application";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
 import { StoreState } from "../../../types/store";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
-import { loadApplication } from "../state/actions";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
+import { loadApplication } from "../state/application/actions";
 
 interface DataSourceSelectOption {
   label: string;

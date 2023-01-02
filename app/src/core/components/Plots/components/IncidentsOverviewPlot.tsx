@@ -26,6 +26,7 @@ export const IncidentsOverviewPlot = ({ stats }: { stats: ErrorDetails[] }) => {
       left: "24px",
       right: "24px",
       top: "32px",
+      bottom: "15px",
       containLabel: true
     },
     xAxis: {
@@ -95,7 +96,7 @@ export const IncidentsOverviewPlot = ({ stats }: { stats: ErrorDetails[] }) => {
 
   return (
     <Space className="w-full" direction="vertical">
-      <ReactECharts option={option} />
+      <ReactECharts style={{ height: "250px" }} option={option} />
     </Space>
   );
 };

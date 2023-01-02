@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common";
-import { IMetrics } from "../../../common/types/interfaces/metrics.interface";
+import { ISDKMetrics } from "../../../common/types/interfaces/metrics.interface";
 import { BaseWorkerService } from "../../../common/base/worker/base-worker.service";
 import { Application } from "../../../db/entities/application.entity";
 import { InfluxService } from "../../../providers/influx/influx.service";
 import { EntityManager } from "typeorm";
-import { TSDB } from "../../../common/types/enums/tsdb.enum";
+import { TSDB_PROVIDER } from "../../../common/types/enums/tsdb.enum";
 
 @Injectable()
-export class MetricsService extends BaseWorkerService<IMetrics> {
+export class WorkerMetricsService extends BaseWorkerService<ISDKMetrics> {
     constructor(
         private entityManager: EntityManager,
         private influxService: InfluxService
@@ -15,7 +15,7 @@ export class MetricsService extends BaseWorkerService<IMetrics> {
         super(entityManager);
     }
 
-    public async handle(application: Application, data: IMetrics): Promise<void> {
+    public async handle(application: Application, data: ISDKMetrics): Promise<void> {
         const { id } = application;
 
         const app = await this.entityManager.getRepository(Application).findOneBy({ id });
@@ -30,13 +30,12 @@ export class MetricsService extends BaseWorkerService<IMetrics> {
         }
 
         switch (app.connectedTSDB) {
-            case TSDB.INFLUX2: {
+            case TSDB_PROVIDER.INFLUX2: {
                 if (!app?.influxDS) {
                     return;
                 }
 
-                const config = { ...app.influxDS, appId: id };
-                await this.influxService.writeData(config, data);
+                await this.influxService.writeData(id, app.influxDS, data);
             }
             default:
                 break;

@@ -22,15 +22,8 @@ import dateUtils from "../../../../core/utils/date";
 interface Props {
   incidents: Incident[];
   isLoading: boolean;
-  selectedIncidents?: string[];
-  setSelectedIncidents?: (incidents: string[]) => void;
 }
-export const IncidentTable: FC<Props> = ({
-  incidents,
-  isLoading,
-  selectedIncidents,
-  setSelectedIncidents
-}) => {
+export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
   const { application } = useSelector((state: StoreState) => state.application);
   const navigate = useNavigate();
 
@@ -41,9 +34,6 @@ export const IncidentTable: FC<Props> = ({
       )}/incidents/${incidentId}/details`
     );
   };
-
-  const handleRowSelect = (incidents: string[]) =>
-    setSelectedIncidents && setSelectedIncidents(incidents);
 
   const columns: ColumnsType<Incident> = [
     {
@@ -101,11 +91,6 @@ export const IncidentTable: FC<Props> = ({
     },
     dataSource: incidents,
     columns,
-    rowSelection: {
-      onChange: (selectedRowKeys: any[]) => handleRowSelect(selectedRowKeys),
-      selectedRowKeys: selectedIncidents,
-      hideSelectAll: true
-    },
     pagination: {
       defaultPageSize: 15,
       total: incidents?.length,

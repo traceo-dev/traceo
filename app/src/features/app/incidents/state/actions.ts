@@ -55,33 +55,3 @@ export const updateIncident = (update: any): ThunkResult<void> => {
     dispatch(loadIncident(incident.id));
   };
 };
-
-interface BatchUpdateProps {
-  status: string;
-  releaseId: string;
-}
-
-export const batchUpdate = ({
-  incidentsIds,
-  update
-}: {
-  incidentsIds: string[];
-  update: BatchUpdateProps;
-}): ThunkResult<void> => {
-  return async (dispatch, getStore) => {
-    if (!incidentsIds) {
-      return;
-    }
-
-    const application = getStore().application.application;
-    if (!application) {
-      return;
-    }
-
-    await api.post("/api/incidents/batch", {
-      incidentsIds,
-      ...update
-    });
-    dispatch(loadIncidents());
-  };
-};
