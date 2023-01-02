@@ -42,10 +42,7 @@ export const IncidentHeader = ({ incident, onExecute }) => {
             <ArrowLeftOutlined />
             <Typography.Text>INCIDENTS</Typography.Text>
           </Space>
-          <Space>
-            <BugOutlined />
-            <Typography.Text className="text-2xl">{incident?.type}</Typography.Text>
-          </Space>
+          <Typography.Text className="text-2xl">{incident?.type}</Typography.Text>
         </Space>
       }
       subTitle={<ButtonsSection incident={incident} />}

@@ -120,3 +120,5 @@ export const handleTimeLimitLabel: Record<number, string> = {
 }
 
 export const timeLimitOptions = [1, 2, 3, 6, 12, 24, 48, 72];
+
+export type INCIDENT_PLOT_TYPE = "bar" | "line";

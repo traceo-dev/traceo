@@ -1,6 +1,10 @@
 import { IMetric } from "types/metrics";
 
 export const searchMetric = (val: string, metrics: IMetric[]) => {
+    if (!metrics) {
+        return [];
+    }
+
     if (!val) {
         return metrics;
     }
@@ -8,7 +12,17 @@ export const searchMetric = (val: string, metrics: IMetric[]) => {
     const searchValue = val.toLowerCase();
 
     return metrics.filter((metric) =>
-        metric.name.toLowerCase().includes(searchValue) ||
-        metric.description.toLowerCase().includes(searchValue)
+        stringIncludes(metric.name, searchValue) ||
+        stringIncludes(metric.description, searchValue) ||
+        arrayIncludes(metric.series.map((a) => a.field), searchValue) ||
+        arrayIncludes(metric.series.map((a) => a.name), searchValue)
     );
 }
+
+const stringIncludes = (string: string, value: string | number | boolean) => {
+    return string?.toLowerCase().includes(value.toString().toLowerCase());
+};
+
+const arrayIncludes = (arr: string[], value: string | number | boolean) => {
+    return arr?.some((e) => stringIncludes(e, value));
+};

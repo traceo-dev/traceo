@@ -1,6 +1,7 @@
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Menu, Dropdown, Button } from "antd";
 import { conditionClass } from "core/utils/classes";
+import { setLocalStorageTimeLimit } from "core/utils/localStorage";
 import { FC } from "react";
 import { timeLimitOptions, handleTimeLimitLabel } from "types/metrics";
 
@@ -10,8 +11,13 @@ interface Props {
   ghost?: boolean;
 }
 export const TimeLimitDropdown: FC<Props> = ({ setTimeLimit, timeLimit = 12, ghost }) => {
+  const onSet = (val: number) => {
+    setTimeLimit(val);
+    setLocalStorageTimeLimit(val);
+  };
+
   const overlay = (
-    <Menu className="w-52" onClick={(val) => setTimeLimit(val.key as unknown as number)}>
+    <Menu className="w-52" onClick={(val) => onSet(val.key as any)}>
       {timeLimitOptions.map((limit) => (
         <Menu.Item key={limit}>{handleTimeLimitLabel[limit]}</Menu.Item>
       ))}

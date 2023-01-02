@@ -19,12 +19,13 @@ export const NavBar = () => {
   }, [navigate]);
 
   const renderNavbar = () => {
-    if (type === "app") {
-      return <AppNavBar />;
-    } else if (type === "dashboard") {
-      return <DashboardNavBar />;
-    } else {
-      return null;
+    switch (type) {
+      case "app":
+        return <AppNavBar />;
+      case "dashboard":
+        return <DashboardNavBar />;
+      default:
+        return null;
     }
   };
 

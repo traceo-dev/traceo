@@ -5,12 +5,18 @@ import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
 import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 import dateUtils from "../../../../core/utils/date";
+import { getLocalStorageIncidentPlotType } from "core/utils/localStorage";
 
 interface Props {
   errors: ErrorDetails[];
 }
+
+const PLOT_COLOR = "#04785A";
+
 export const IncidentsListPlot: FC<Props> = ({ errors }) => {
   const plotData = statisticUtils.parseIncidentsTablePlotData(errors);
+  const plotType = getLocalStorageIncidentPlotType();
+
   const options: EChartsOption = {
     dataset: {
       source: normalizePlotData(plotData)
@@ -25,7 +31,7 @@ export const IncidentsListPlot: FC<Props> = ({ errors }) => {
     grid: {
       left: "5px",
       right: "5px",
-      top: "10px",
+      top: "8px",
       bottom: "0px",
       containLabel: true
     },
@@ -54,11 +60,16 @@ export const IncidentsListPlot: FC<Props> = ({ errors }) => {
     },
     series: {
       name: "Errors",
-      type: "bar",
-      color: "#04785A",
+      type: plotType,
+      color: PLOT_COLOR,
+      showSymbol: false,
       itemStyle: {
-        borderColor: "#04785A",
+        borderColor: PLOT_COLOR,
         borderWidth: 2
+      },
+      areaStyle: {
+        color: PLOT_COLOR,
+        opacity: 0.4
       },
       barWidth: 10,
       barGap: "5%"
@@ -68,8 +79,8 @@ export const IncidentsListPlot: FC<Props> = ({ errors }) => {
   return (
     <ReactECharts
       style={{
-        height: "80px",
-        width: "380px"
+        height: "50px",
+        width: "250px"
       }}
       option={options}
     />

@@ -56,32 +56,32 @@ export const updateIncident = (update: any): ThunkResult<void> => {
   };
 };
 
-interface BatchUpdateProps {
-  status: string;
-  releaseId: string;
-}
+// interface BatchUpdateProps {
+//   status: string;
+//   releaseId: string;
+// }
 
-export const batchUpdate = ({
-  incidentsIds,
-  update
-}: {
-  incidentsIds: string[];
-  update: BatchUpdateProps;
-}): ThunkResult<void> => {
-  return async (dispatch, getStore) => {
-    if (!incidentsIds) {
-      return;
-    }
+// export const batchUpdate = ({
+//   incidentsIds,
+//   update
+// }: {
+//   incidentsIds: string[];
+//   update: BatchUpdateProps;
+// }): ThunkResult<void> => {
+//   return async (dispatch, getStore) => {
+//     if (!incidentsIds) {
+//       return;
+//     }
 
-    const application = getStore().application.application;
-    if (!application) {
-      return;
-    }
+//     const application = getStore().application.application;
+//     if (!application) {
+//       return;
+//     }
 
-    await api.post("/api/incidents/batch", {
-      incidentsIds,
-      ...update
-    });
-    dispatch(loadIncidents());
-  };
-};
+//     await api.post("/api/incidents/batch", {
+//       incidentsIds,
+//       ...update
+//     });
+//     dispatch(loadIncidents());
+//   };
+// };

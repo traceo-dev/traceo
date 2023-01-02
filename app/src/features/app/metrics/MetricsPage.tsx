@@ -18,15 +18,17 @@ import api from "core/lib/api";
 import { notify } from "core/utils/notify";
 import { ApiResponse } from "types/api";
 import { TimeLimitDropdown } from "./components/TimeLimitDropdown";
-import { getLocalStorageMetricHrCount } from "core/utils/localStorage";
+import { getLocalStorageTimeLimit } from "core/utils/localStorage";
 import { SearchInput } from "core/components/SearchInput";
-
-const DEFAULT_TIME_LIMIT = getLocalStorageMetricHrCount() || 12;
+import { searchMetric } from "./utils/searchUtil";
 
 const MetricsPage = () => {
+  const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
+
   const { application } = useSelector((state: StoreState) => state.application);
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
   const [timeLimit, setTimeLimit] = useState<number>(DEFAULT_TIME_LIMIT);
+  const [search, setSearch] = useState<string>(null);
 
   useEffect(() => {
     dispatch(loadMetrics());
@@ -67,10 +69,9 @@ const MetricsPage = () => {
       <>
         <SearchWrapper className="pt-2 pb-12 justify-end">
           <SearchInput
-            value={""}
-            setValue={function (_val: string): void {
-              throw new Error("Function not implemented.");
-            }}
+            value={search}
+            setValue={setSearch}
+            placeholder="Search metric by name, description or series details"
           />
           <TimeLimitDropdown setTimeLimit={setTimeLimit} timeLimit={timeLimit} />
           <Button onClick={reloadMetrics} type="primary">
@@ -80,7 +81,7 @@ const MetricsPage = () => {
         </SearchWrapper>
         <ConditionalWrapper isLoading={!hasFetched}>
           <Row className="gap-0" gutter={[8, 24]}>
-            {metrics?.map((metric, index) => (
+            {searchMetric(search, metrics).map((metric, index) => (
               <Col span={8} key={index}>
                 <MetricCard metric={metric} hrCount={timeLimit} />
               </Col>

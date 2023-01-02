@@ -202,6 +202,11 @@ body {
   padding: 15px !important;
 }
 
+.incident-card-body > .ant-card-body {
+  padding: 3px;
+  padding-inline: 15px;
+}
+
 .small-pd-card .ant-card-body {
   padding: 16px;
 }

@@ -19,12 +19,13 @@ import { TraceoLoading } from "core/components/TraceoLoading";
 import { useImmer } from "use-immer";
 import { toggleNavbar } from "../state/navbar/actions";
 import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
-import { getLocalStorageMetricHrCount } from "core/utils/localStorage";
+import { getLocalStorageTimeLimit } from "core/utils/localStorage";
 import { DeepPartial } from "types/partials";
-
-const DEFAULT_TIME_LIMIT = getLocalStorageMetricHrCount() || 12;
+import ReactMarkdown from "react-markdown";
 
 export const MetricPreviewPage = () => {
+  const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
+
   const { metricId, id } = useParams();
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
   const [options, setOptions] = useImmer<DeepPartial<IMetric>>(metric?.options);
@@ -83,9 +84,7 @@ export const MetricPreviewPage = () => {
             <div className={conditionClass(isCustomizeMode, "col-span-9", "col-span-12")}>
               {isDescriptionVisible && !isExpandMode && (
                 <PagePanel>
-                  <Typography.Paragraph>
-                    {metric?.options?.description}
-                  </Typography.Paragraph>
+                  <ReactMarkdown>{metric?.options?.description}</ReactMarkdown>
                 </PagePanel>
               )}
 

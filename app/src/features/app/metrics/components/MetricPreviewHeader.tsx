@@ -2,14 +2,13 @@ import {
   BarChartOutlined,
   ArrowLeftOutlined,
   SyncOutlined,
-  SettingOutlined,
-  ClockCircleOutlined
+  SettingOutlined
 } from "@ant-design/icons";
-import { Space, Typography, Button, Tooltip, Select } from "antd";
+import { Space, Typography, Button, Tooltip } from "antd";
 import { FormInstance } from "antd/es/form/Form";
 import PageHeader from "core/components/PageHeader";
 import api from "core/lib/api";
-import { getLocalStorageMetricHrCount } from "core/utils/localStorage";
+import { getLocalStorageTimeLimit } from "core/utils/localStorage";
 import { toggleNavbar } from "features/app/state/navbar/actions";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
@@ -17,13 +16,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { DeepPartial } from "redux";
 import { dispatch } from "store/store";
 import { ApiResponse } from "types/api";
-import { IMetric, timeLimitOptions } from "types/metrics";
+import { IMetric } from "types/metrics";
 import { StoreState } from "types/store";
 import { DraftFunction } from "use-immer";
 import { loadMetric } from "../state/actions";
 import { TimeLimitDropdown } from "./TimeLimitDropdown";
-
-const DEFAULT_TIME_LIMIT = 12;
 
 interface Props {
   form: FormInstance;
@@ -67,7 +64,7 @@ export const MetricPreviewHeader: FC<Props> = ({
       loadMetric({
         appId: id,
         metricId: metric.options.id,
-        hrCount: getLocalStorageMetricHrCount()
+        hrCount: getLocalStorageTimeLimit()
       })
     );
   };

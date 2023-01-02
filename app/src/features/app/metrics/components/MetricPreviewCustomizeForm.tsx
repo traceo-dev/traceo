@@ -81,7 +81,11 @@ export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {
                 <Form.Item label="Name" name="name">
                   <Input maxLength={40} showCount />
                 </Form.Item>
-                <Form.Item label="Description" name="description">
+                <Form.Item
+                  label="Description"
+                  name="description"
+                  tooltip="Markdown supported"
+                >
                   <Input.TextArea rows={4} maxLength={1000} showCount />
                 </Form.Item>
                 <Form.Item label="Unit" name="unit">
