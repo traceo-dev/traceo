@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
 import { StoreState } from "../../../../types/store";
-import { loadApplication } from "features/app/state/application/actions";
+import { loadApplication } from "../../../app/state/application/actions";
 
 export const ApiKeySection = () => {
   const { application } = useSelector((state: StoreState) => state.application);

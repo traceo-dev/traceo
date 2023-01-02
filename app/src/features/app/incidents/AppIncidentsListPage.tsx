@@ -37,6 +37,17 @@ const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.STATUS]: "Status"
 };
 
+const changeBarOptions = [
+  {
+    icon: <BarChartOutlined />,
+    value: "bar"
+  },
+  {
+    icon: <LineChartOutlined />,
+    value: "line"
+  }
+];
+
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
 
@@ -134,16 +145,7 @@ export const AppIncidentsListPage = () => {
             onResizeCapture={undefined}
             value={plotType}
             onChange={(v) => onChangePlotType(v as INCIDENT_PLOT_TYPE)}
-            options={[
-              {
-                icon: <BarChartOutlined />,
-                value: "bar"
-              },
-              {
-                icon: <LineChartOutlined />,
-                value: "line"
-              }
-            ]}
+            options={changeBarOptions}
           />
           <SortIcons order={order} setOrder={setOrder} />
         </SearchWrapper>

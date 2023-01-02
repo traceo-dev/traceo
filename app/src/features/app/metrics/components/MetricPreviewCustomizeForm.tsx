@@ -141,9 +141,7 @@ export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {
                   <Form.Item label="Area opacity" name={["config", "area", "opacity"]}>
                     <Slider
                       tooltip={{
-                        formatter: (val: number) => {
-                          return val / 100;
-                        }
+                        formatter: (val: number) => val / 100
                       }}
                       marks={{
                         0: 0,

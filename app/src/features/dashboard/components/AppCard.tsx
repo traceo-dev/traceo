@@ -1,6 +1,6 @@
 import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
 import { Card, Space, Tooltip, Typography } from "antd";
-import { loadApplication } from "features/app/state/application/actions";
+import { loadApplication } from "../../../features/app/state/application/actions";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "../../../core/components/Avatar";

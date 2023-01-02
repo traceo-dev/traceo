@@ -26,7 +26,7 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, hrCount }) => {
 
   return (
     <>
-      <div className="p-2 metric-panel">
+      <div className="metric-panel p-2 cursor-pointer mb-2 rounded-md hover:bg-secondary">
         <Space className="w-full" direction="vertical" onClick={onClick}>
           <Space className="w-full pb-5 pt-1 justify-center">
             <Typography.Text className="text-md">{metric?.name}</Typography.Text>
@@ -43,19 +43,8 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, hrCount }) => {
 
       <style>{`
           .metric-panel {
-            cursor: pointer;
-            // background-color: var(--color-bg-secondary);
             border: 1px solid var(--color-bg-secondary);
-            border-radius: 3px;
-            box-shadow: rgb(24 26 27 / 75%) 0px 1px 2px;
-            min-width: 100%;
             height: 240px;
-            margin-bottom: 7px;
-          }
-          
-          .metric-panel:hover {
-            background-color: var(--color-bg-secondary);
-            transition: .2s;
           }
         `}</style>
     </>

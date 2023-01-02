@@ -21,6 +21,7 @@ import { TimeLimitDropdown } from "./components/TimeLimitDropdown";
 import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
 import { SearchInput } from "../../../core/components/SearchInput";
 import { searchMetric } from "./utils/searchUtil";
+import { metricsApi } from "./api";
 
 const MetricsPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
@@ -35,19 +36,7 @@ const MetricsPage = () => {
   }, [application]);
 
   const reloadMetrics = async () => {
-    await api
-      .get<ApiResponse<DataSourceConnStatus>>("/api/influx/connection/check", {
-        id: application.id
-      })
-      .then((resp) => {
-        const status = resp.data.status;
-        if (status === CONNECTION_STATUS.CONNECTED) {
-          dispatch(loadMetrics());
-        }
-
-        dispatch(loadApplication());
-      });
-
+    await metricsApi.reload(application.id);
     notify.success("Refreshed");
   };
 

@@ -1,5 +1,3 @@
-export type METRIC_UNIT = "%" | "MB" | "kb" | "s" | "ms" | "";
-
 export enum TSDB_PROVIDER {
     INFLUX = "influx",
     INFLUX2 = "influx2",
@@ -23,21 +21,4 @@ export enum CONNECTION_STATUS {
 export interface DataSourceConnStatus {
     status: CONNECTION_STATUS;
     error: string;
-}
-
-export interface MetricsResponse {
-    cpuUsage: number;
-    memoryUsage: number;
-    _time: string;
-    id?: string;
-    heapUsed: number;
-    heapTotal: number;
-    heapNativeContexts: number;
-    heapDetachedContexts: number;
-    loopMin: number;
-    loopMax: number;
-    loopMean: number;
-    rss: number;
-    gcTotalTime: number;
-    gcAvgTime: number;
 }

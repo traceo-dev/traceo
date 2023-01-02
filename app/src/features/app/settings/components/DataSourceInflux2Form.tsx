@@ -10,7 +10,7 @@ import { INFLUX2_DOCS, REQUIRED_FIELD_ERROR } from "../../../../core/utils/const
 import validators from "../../../../core/lib/validators";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
 import { ApiResponse } from "../../../../types/api";
-import { loadApplication } from "features/app/state/application/actions";
+import { loadApplication } from "../../../../features/app/state/application/actions";
 
 export const DataSourceInflux2Form = () => {
   const { application } = useSelector((state: StoreState) => state.application);

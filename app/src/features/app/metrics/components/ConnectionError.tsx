@@ -12,6 +12,7 @@ import { ApiResponse } from "../../../../types/api";
 import { DataSourceConnStatus, CONNECTION_STATUS } from "../../../../types/tsdb";
 import { loadMetrics } from "../state/actions";
 import { useState } from "react";
+import { metricsApi } from "../api";
 
 export const ConnectionError = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -19,21 +20,7 @@ export const ConnectionError = () => {
   const navigate = useNavigate();
 
   const reloadMetrics = async () => {
-    setLoading(true);
-    await api
-      .get<ApiResponse<DataSourceConnStatus>>("/api/influx/connection/check", {
-        id: application.id
-      })
-      .then((resp) => {
-        const status = resp.data.status;
-        if (status === CONNECTION_STATUS.CONNECTED) {
-          dispatch(loadMetrics());
-        }
-
-        dispatch(loadApplication());
-      })
-      .finally(() => setLoading(false));
-
+    await metricsApi.reload(application.id, setLoading);
     notify.success("Refreshed");
   };
 

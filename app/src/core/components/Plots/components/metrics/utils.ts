@@ -1,11 +1,60 @@
 import dayjs from "dayjs";
-import { EChartsOption } from "echarts";
-import { METRIC_UNIT } from "../../../../../types/tsdb";
+import { EChartsOption, SeriesOption } from "echarts";
+import { IMetric, IMetricSerie, MetricsResponse, METRIC_UNIT } from "../../../../../types/metrics";
 import { tooltipOptions, splitLine } from "../../utils";
 
 export type SerieType = "bar" | "line" | "scatter";
 
-export const commonOptions = ({ unit, xAxisInterval = 15 }: { unit: METRIC_UNIT, xAxisInterval: number }) => {
+export const buildDatasource = (
+    datasource: MetricsResponse[],
+    series: IMetricSerie[]
+) => {
+    if (!datasource || !series) {
+        return []
+    };
+
+    const commonSource = {
+        time: datasource?.map((t) => t._time)
+    };
+
+    series.map(({ field }) =>
+        Object.assign(commonSource, {
+            [field]: datasource?.map((m) => m[field])
+        })
+    );
+
+    return commonSource;
+
+}
+export const buildSeries = (
+    series: IMetricSerie[],
+    options: IMetric,
+    type: "card" | "preview" = "preview"
+) => {
+    const lineWidth = type === "card" ? 1 : options?.config.line.width || 2;
+    return series?.map((serie) => ({
+        type: serie.config.type,
+        name: serie.name,
+        showSymbol: options?.config.line.marker.show || false,
+        color: serie.config.color,
+        lineStyle: {
+            color: serie.config.color,
+            width: lineWidth
+        },
+        areaStyle: {
+            color: serie.config.color,
+            opacity: options?.config.area.show ? options?.config.area.opacity / 100 : 0
+        }
+    })) as SeriesOption[];
+}
+
+export const commonOptions = ({
+    unit,
+    xAxisInterval = 15
+}: {
+    unit: METRIC_UNIT,
+    xAxisInterval: number
+}) => {
     return {
         legend: {
             show: false

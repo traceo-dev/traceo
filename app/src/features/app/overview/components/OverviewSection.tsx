@@ -9,7 +9,7 @@ import { ErrorDetails } from "../../../../types/incidents";
 import { StatCards } from "./StatCards";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { loadApplication } from "features/app/state/application/actions";
+import { loadApplication } from "../../../../features/app/state/application/actions";
 
 export interface TotalOverviewType {
   errors: ErrorDetails[];

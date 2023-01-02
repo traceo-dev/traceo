@@ -1,14 +1,13 @@
 import { FC, useEffect } from "react";
 import ReactECharts from "echarts-for-react";
-import { IMetric, MetricsResponse } from "../../../../../types/metrics";
+import { IMetric, MetricsResponse, METRIC_UNIT } from "../../../../../types/metrics";
 import { MetricLoading } from "../../../../../core/components/MetricLoading";
 import { useApi } from "../../../../../core/lib/useApi";
 import { StoreState } from "../../../../../types/store";
 import { useSelector } from "react-redux";
-import { EChartsOption, SeriesOption } from "echarts";
+import { EChartsOption } from "echarts";
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
-import { commonOptions } from "./utils";
-import { METRIC_UNIT } from "../../../../../types/tsdb";
+import { buildDatasource, buildSeries, commonOptions } from "./utils";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
 
 interface Props {
@@ -25,7 +24,11 @@ export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
       return acc;
     }, []) || [];
 
-  const { data, isLoading, execute } = useApi<MetricsResponse[]>({
+  const {
+    data: datasource,
+    isLoading,
+    execute
+  } = useApi<MetricsResponse[]>({
     url: `/api/metrics/${application.id}/datasource`,
     params: {
       fields: seriesFields,
@@ -37,43 +40,15 @@ export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
     execute();
   }, [hrCount, metric]);
 
-  if (!data) {
+  if (!datasource) {
     return <MetricLoading />;
   }
 
-  const buildSeries = () =>
-    metric.series?.map((serie) => ({
-      type: serie.config.type,
-      name: serie.name,
-      showSymbol: metric.config.line.marker.show,
-      color: serie.config.color,
-      lineStyle: {
-        color: serie.config.color,
-        //Better is to use static 1 because higher value is not hood for small plots
-        width: 1 //metric.config.line.width || 2
-      },
-      areaStyle: {
-        color: serie.config.color,
-        opacity: metric.config.area.show ? metric.config.area.opacity / 100 : 0
-      }
-    }));
-
-  const buildSources = () => {
-    const commonSource = {
-      time: data?.map((t) => t._time)
-    };
-
-    metric.series?.map(({ field }) =>
-      Object.assign(commonSource, {
-        [field]: data?.map((m) => m[field])
-      })
-    );
-
-    return commonSource;
-  };
-
   const options: EChartsOption = {
-    ...commonOptions({ unit: metric.unit as METRIC_UNIT, xAxisInterval: 50 }),
+    ...commonOptions({
+      unit: metric.unit as METRIC_UNIT,
+      xAxisInterval: 50
+    }),
     grid: {
       containLabel: true,
       right: 20,
@@ -81,16 +56,16 @@ export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
       bottom: 10,
       top: 10
     },
-    series: buildSeries() as SeriesOption[],
+    series: buildSeries(metric.series, metric, "card"),
     dataset: {
-      source: buildSources()
+      source: buildDatasource(datasource, metric.series)
     }
   };
 
   return (
     <ConditionalWrapper
       isLoading={isLoading}
-      isEmpty={data.length === 0}
+      isEmpty={datasource.length === 0}
       emptyView={<DataNotFound className="text-2xs" label="Data not found" />}
     >
       <ReactECharts
