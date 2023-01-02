@@ -20,6 +20,22 @@ export class DataSourceService {
         this.logger = new Logger(DataSourceService.name);
     }
 
+    public async checkConnection(appId: string): Promise<ApiResponse<DataSourceConnStatus>> {
+        const app = await this.getDataSourceOrThrowError(appId);
+
+        if (!app) {
+            return;
+        }
+
+        switch (app.connectedTSDB) {
+            case TSDB_PROVIDER.INFLUX2: {
+                return await this.influxService.checkConnection(appId);
+            }
+            default:
+                return null;
+        }
+    }
+
     public async getDataSourceOrThrowError(id: string) {
         const app = await this.entityManager.getRepository(Application).findOneBy({ id });
         if (!app) {

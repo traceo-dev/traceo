@@ -1,5 +1,4 @@
 import api from "../../../../core/lib/api";
-import { notify } from "../../../../core/utils/notify";
 import { loadApplication } from "../../../../features/app/state/application/actions";
 import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
@@ -12,7 +11,7 @@ const reload = async (
 ) => {
     setLoading && setLoading(true);
     await api
-        .get<ApiResponse<DataSourceConnStatus>>("/api/influx/connection/check", { id })
+        .get<ApiResponse<DataSourceConnStatus>>("/api/datasource/connection/check", { id })
         .then((resp) => {
             const status = resp.data.status;
             if (status === CONNECTION_STATUS.CONNECTED) {

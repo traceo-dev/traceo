@@ -25,26 +25,15 @@ export const DataSourceInflux2Form = () => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    const { bucket, org, url, token } = application?.influxDS as InfluxDS;
-    form.setFieldsValue({
-      url,
-      bucket,
-      org,
-      token
-    });
+    form.setFieldsValue({ ...application?.influxDS });
   }, []);
 
   const submit = () => form.submit();
 
-  const update = async (form: {
-    url: string;
-    token: string;
-    org: string;
-    interval: number;
-  }) => {
+  const update = async (form: InfluxDS) => {
     setLoading(true);
     await api
-      .post("/api/influx/config", {
+      .post("/api/datasource/config", {
         appId: application.id,
         provider: TSDB_PROVIDER.INFLUX2,
         ...form

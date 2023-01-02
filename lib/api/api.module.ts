@@ -28,7 +28,6 @@ import { IncidentsQueryService } from './incidents/incidents-query/incidents-que
 import { IncidentsController } from './incidents/incidents.controller';
 import { IncidentsModule } from './incidents/incidents.module';
 import { IncidentsService } from './incidents/incidents.service';
-import { InfluxController } from './influx.controller';
 import { MetricsController } from './metrics/metrics.controller';
 import { MetricsModule } from './metrics/metrics.module';
 import { MetricsService } from './metrics/metrics.service';
@@ -63,7 +62,6 @@ import { WorkerModule } from './worker/worker.module';
         MetricsModule
     ],
     controllers: [
-        InfluxController,
         AccountController,
         ApplicationController,
         AmrController,
