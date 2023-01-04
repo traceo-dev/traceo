@@ -1,9 +1,10 @@
-import { Input, Space, Form, Modal } from "antd";
+import { Space, Form, Modal } from "antd";
 import { FC, useState } from "react";
 import { CreateApplicationProps } from "../../../types/application";
 import { dispatch } from "../../../store/store";
 import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 import { createApplication } from "../../../features/app/state/application/actions";
+import { Input } from "core/ui-components/Input";
 
 interface Props {
   isOpen: boolean;
@@ -42,10 +43,9 @@ export const CreateApplicationModal: FC<Props> = ({ isOpen, onCancel, isAdmin })
           <Form form={form} layout="vertical" onFinish={onFinish} requiredMark={false}>
             <Form.Item
               name="name"
-              label="Name"
               rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
             >
-              <Input />
+              <Input required={true} placeholder="Test" label="Name" />
             </Form.Item>
           </Form>
         </Space>

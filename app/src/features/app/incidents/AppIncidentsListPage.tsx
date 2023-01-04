@@ -1,8 +1,7 @@
-import { Button, Divider, Dropdown, Menu, Segmented } from "antd";
+import { Button, Dropdown, Menu, Segmented } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import AppPage from "../components/AppPage";
-import { SearchInput } from "../../../core/components/SearchInput";
 import { SortIcons } from "../../../core/components/SortIcons";
 import { IncidentTable } from "../../../features/app/incidents/components/IncidentTable";
 import { useCleanup } from "../../../core/hooks/useCleanup";
@@ -29,6 +28,7 @@ import {
   setLocalStorageIncidentPlotType
 } from "../../../core/utils/localStorage";
 import { INCIDENT_PLOT_TYPE } from "../../../types/metrics";
+import { InputSearch } from "../../../core/ui-components/InputSearch";
 
 const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.FIRST_SEEN]: "First seen",
@@ -133,10 +133,10 @@ export const AppIncidentsListPage = () => {
       />
       <PagePanel>
         <SearchWrapper className="pt-2 pb-12">
-          <SearchInput
+          <InputSearch
             placeholder="Search incidents by type, message, status or assigned user"
             value={search}
-            setValue={setSearch}
+            onChange={setSearch}
           />
           <IncidentStatusDropdown />
           <IncidentsSortDropdown />

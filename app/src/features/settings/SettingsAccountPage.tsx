@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "../../core/components/ColumnSection";
@@ -12,6 +12,8 @@ import {
 import { ADMIN_EMAIL, REQUIRED_FIELD_ERROR } from "../../core/utils/constants";
 import { PagePanel } from "../../core/components/PagePanel";
 import validators from "../../core/lib/validators";
+import { Input } from "core/ui-components/Input";
+import { InputSecret } from "core/ui-components/InputSecret";
 
 const SettingsAccountPage = () => {
   const { account } = useSelector((state: StoreState) => state.account);
@@ -50,17 +52,16 @@ const SettingsAccountPage = () => {
               className="w-3/5"
               disabled={isAdmin || isDemo}
             >
-              <Form.Item name="name" label="Name" initialValue={account?.name}>
-                <Input />
+              <Form.Item name="name" initialValue={account?.name}>
+                <Input label="Name" />
               </Form.Item>
 
               <Form.Item
                 name="email"
-                label="Email"
                 initialValue={account?.email}
                 rules={[{ required: false }, ...validators.email]}
               >
-                <Input />
+                <Input label="Email" />
               </Form.Item>
 
               {!isAdmin && (
@@ -87,20 +88,18 @@ const SettingsAccountPage = () => {
             >
               <Form.Item
                 name="password"
-                label="Current password"
                 requiredMark={"optional"}
                 rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
               >
-                <Input.Password />
+                <InputSecret label="Current password" />
               </Form.Item>
 
               <Form.Item
                 name="newPassword"
-                label="New password"
                 requiredMark={"optional"}
                 rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
               >
-                <Input.Password />
+                <InputSecret label="New password" />
               </Form.Item>
 
               <Button htmlType="submit" loading={loadingConfirmPassword} type="primary">

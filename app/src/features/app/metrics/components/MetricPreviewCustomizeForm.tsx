@@ -1,4 +1,4 @@
-import { Collapse, Form, Input, Checkbox, Select, Slider } from "antd";
+import { Collapse, Form, Checkbox, Select, Slider } from "antd";
 import { FormInstance } from "antd/es/form/Form";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { FC, useEffect, useState } from "react";
@@ -7,6 +7,8 @@ import { StoreState } from "../../../../types/store";
 import { IMetric, METRIC_UNIT } from "../../../../types/metrics";
 import { DeepPartial } from "../../../../types/partials";
 import { DraftFunction } from "use-immer";
+import { Input } from "core/ui-components/Input";
+import { InputArea } from "core/ui-components/InputArea";
 
 const { Panel } = Collapse;
 
@@ -79,14 +81,10 @@ export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {
             <Collapse ghost defaultActiveKey={"basic"}>
               <Panel className="pl-0" header="Basic options" key={"basic"}>
                 <Form.Item label="Name" name="name">
-                  <Input maxLength={40} showCount />
+                  <Input maxLength={40} />
                 </Form.Item>
-                <Form.Item
-                  label="Description"
-                  name="description"
-                  tooltip="Markdown supported"
-                >
-                  <Input.TextArea rows={4} maxLength={1000} showCount />
+                <Form.Item name="description">
+                  <InputArea maxLength={1000} label="Description" />
                 </Form.Item>
                 <Form.Item label="Unit" name="unit">
                   <Select onChange={(v) => onChangeUnit(v)}>

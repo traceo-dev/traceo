@@ -1,6 +1,7 @@
-import { Typography, Input, Button, Space, Radio } from "antd";
+import { Typography, Button, Space, Radio } from "antd";
 import { joinClasses } from "../../core/utils/classes";
 import { FC, useState } from "react";
+import { Input } from "core/ui-components/Input";
 
 export const Descriptions = ({ children }) => {
   return (
@@ -102,7 +103,11 @@ export const DescriptionInputRow: FC<DescriptionInputRowProps> = ({
         </td>
         <td className="details-table-value" colSpan={2}>
           {updateMode ? (
-            <Input defaultValue={children} onChange={(e) => setValue(e.target.value)} />
+            <Input
+              defaultValue={children}
+              onChange={(e) => setValue(e.currentTarget.value)}
+              className="p-0"
+            />
           ) : (
             <Typography.Text className="text-sm font-normal">{children}</Typography.Text>
           )}

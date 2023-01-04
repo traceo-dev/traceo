@@ -5,7 +5,6 @@ import { SearchWrapper } from "../../core/components/SearchWrapper";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { CreateApplicationModal } from "../../core/components/Modals/CreateApplicationModal";
-import { SearchInput } from "../../core/components/SearchInput";
 import { ApiQueryParams } from "../../core/lib/api";
 import { dispatch } from "../../store/store";
 import { StoreState } from "../../types/store";
@@ -14,6 +13,7 @@ import { ManagementNavigation } from "./components/ManagementNavigation";
 import { loadServerApplications } from "./state/applications/actions";
 import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 import { DataNotFound } from "../../core/components/DataNotFound";
+import { InputSearch } from "core/ui-components/InputSearch";
 
 export const ManagementApplicationsPage = () => {
   const { applications, hasFetched } = useSelector(
@@ -51,10 +51,10 @@ export const ManagementApplicationsPage = () => {
         }
       >
         <SearchWrapper className="pb-5">
-          <SearchInput
-            placeholder="Seach application by name"
+          <InputSearch
+            placeholder="Search application by name"
             value={search}
-            setValue={setSearch}
+            onChange={setSearch}
           />
         </SearchWrapper>
         <ConditionalWrapper

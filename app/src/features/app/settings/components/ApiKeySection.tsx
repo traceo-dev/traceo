@@ -10,6 +10,8 @@ import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
 import { StoreState } from "../../../../types/store";
 import { loadApplication } from "../../../app/state/application/actions";
+import { InputSecret } from "core/ui-components/InputSecret";
+import { InputGroup } from "core/ui-components/InputGroup";
 
 export const ApiKeySection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -51,8 +53,9 @@ export const ApiKeySection = () => {
         >
           {hasApiKey ? (
             <>
-              <Input.Group compact className="mt-5 w-full flex-row flex">
-                <Input.Password
+              <InputGroup>
+                <InputSecret
+                  className="w-full"
                   readOnly={true}
                   defaultValue={application?.security?.apiKey}
                 />
@@ -65,7 +68,7 @@ export const ApiKeySection = () => {
                     Remove
                   </Button>
                 </Confirm>
-              </Input.Group>
+              </InputGroup>
               <Typography.Text className="text-xs">
                 Last generated {dateUtils.fromNow(application?.security?.lastUpdate)} by{" "}
                 {application?.security?.generatedBy}

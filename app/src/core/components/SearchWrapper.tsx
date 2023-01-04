@@ -8,8 +8,6 @@ export const SearchWrapper = ({ children, className = "" }) => {
             .search-wrapper {
                 align-items: flex-start;
                 display: flex;
-                flex-direction: row;
-                margin-bottom: 4px;
                 position: relative;
                 text-align: left;
             }

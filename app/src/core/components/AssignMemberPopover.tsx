@@ -1,5 +1,5 @@
-import { DeleteOutlined, LoadingOutlined, SearchOutlined } from "@ant-design/icons";
-import { Divider, Input, Space, Typography } from "antd";
+import { DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
+import { Divider, Space, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { useApi } from "../../core/lib/useApi";
 import { Avatar } from "./Avatar";
@@ -65,13 +65,6 @@ export const AssignMemberPopover = ({ setVisible }) => {
     <>
       <Space direction="vertical" className="w-full">
         <Typography className="text-md font-semibold">Select member</Typography>
-        <Input
-          size="small"
-          className="min-w-full mt-2"
-          value={search}
-          onChange={(val) => setSearch(val.target.value)}
-          prefix={<SearchOutlined />}
-        />
         <Divider className="p-0 m-0" />
         <Space direction="vertical" className="w-full">
           {content}

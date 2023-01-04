@@ -1,4 +1,4 @@
-import { Form, Input, Space, Alert, Button, Typography } from "antd";
+import { Form, Space, Alert, Button, Typography } from "antd";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { useEffect, useState } from "react";
@@ -11,6 +11,8 @@ import validators from "../../../../core/lib/validators";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
 import { ApiResponse } from "../../../../types/api";
 import { loadApplication } from "../../../../features/app/state/application/actions";
+import { Input } from "core/ui-components/Input";
+import { InputSecret } from "core/ui-components/InputSecret";
 
 export const DataSourceInflux2Form = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -81,7 +83,7 @@ export const DataSourceInflux2Form = () => {
           requiredMark={"optional"}
           rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
         >
-          <Input type="password" />
+          <InputSecret />
         </Form.Item>
         <Space className="w-full justify-between gap-0">
           <Form.Item

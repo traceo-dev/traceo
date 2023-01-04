@@ -3,7 +3,7 @@ import { PagePanel } from "../../../core/components/PagePanel";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
-import { CONNECTION_STATUS, DataSourceConnStatus } from "../../../types/tsdb";
+import { CONNECTION_STATUS } from "../../../types/tsdb";
 import AppMetricsNavigationPage from "./components/AppMetricsNavigationPage";
 import { ConnectionError } from "./components/ConnectionError";
 import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
@@ -13,15 +13,12 @@ import { loadMetrics } from "./state/actions";
 import { SyncOutlined } from "@ant-design/icons";
 import { MetricCard } from "./components/MetricCard";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
-import { loadApplication } from "../state/application/actions";
-import api from "../../../core/lib/api";
 import { notify } from "../../../core/utils/notify";
-import { ApiResponse } from "../../../types/api";
 import { TimeLimitDropdown } from "./components/TimeLimitDropdown";
 import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
-import { SearchInput } from "../../../core/components/SearchInput";
 import { searchMetric } from "./utils/searchUtil";
 import { metricsApi } from "./api";
+import { InputSearch } from "core/ui-components/InputSearch";
 
 const MetricsPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
@@ -57,9 +54,9 @@ const MetricsPage = () => {
     return (
       <>
         <SearchWrapper className="pt-2 pb-12 justify-end">
-          <SearchInput
+          <InputSearch
             value={search}
-            setValue={setSearch}
+            onChange={setSearch}
             placeholder="Search metric by name, description or series details"
           />
           <TimeLimitDropdown setTimeLimit={setTimeLimit} timeLimit={timeLimit} />

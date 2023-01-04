@@ -1,10 +1,12 @@
-import { Input, Space, Form, Modal } from "antd";
+import { Space, Form, Modal } from "antd";
 import { useState } from "react";
 import { dispatch } from "../../../store/store";
 import { addServerAccount } from "../../../features/management/state/accounts/actions";
 import { AddAccountProps } from "../../../types/accounts";
 import validators from "../../lib/validators";
 import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
+import { Input } from "core/ui-components/Input";
+import { InputSecret } from "core/ui-components/InputSecret";
 
 export const NewAccountModal = ({ isOpen, onCancel }) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -41,29 +43,18 @@ export const NewAccountModal = ({ isOpen, onCancel }) => {
           <Form onFinish={onFinish} form={form} layout="vertical">
             <Form.Item
               name="username"
-              label="Username *"
-              className="text-xs mb-5 font-semibold"
-              requiredMark={"optional"}
               rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
             >
-              <Input />
+              <Input label="Username *" />
             </Form.Item>
-            <Form.Item name="name" label="Name" className="text-xs mb-5 font-semibold">
-              <Input />
+            <Form.Item name="name">
+              <Input label="Name" />
             </Form.Item>
-            <Form.Item
-              name="email"
-              label="Email address"
-              className="text-xs mb-5 font-semibold"
-              rules={[{ required: false }, ...validators.email]}
-            >
-              <Input />
+            <Form.Item name="email" rules={[{ required: false }, ...validators.email]}>
+              <Input label="Email address" />
             </Form.Item>
             <Form.Item
               name="password"
-              label="Password *"
-              className="text-xs mb-5 font-semibold"
-              requiredMark={"optional"}
               rules={[
                 {
                   required: true,
@@ -72,7 +63,7 @@ export const NewAccountModal = ({ isOpen, onCancel }) => {
                 ...validators.password
               ]}
             >
-              <Input.Password type="Password" />
+              <InputSecret label="Password *" />
             </Form.Item>
           </Form>
         </Space>

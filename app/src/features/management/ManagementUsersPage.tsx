@@ -5,13 +5,13 @@ import { SearchWrapper } from "../../core/components/SearchWrapper";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NewAccountModal } from "../../core/components/Modals/NewAccountModal";
-import { SearchInput } from "../../core/components/SearchInput";
 import { ApiQueryParams } from "../../core/lib/api";
 import { dispatch } from "../../store/store";
 import { StoreState } from "../../types/store";
 import { AccountsTable } from "./components/AccountManagement/AccountsTable";
 import { ManagementNavigation } from "./components/ManagementNavigation";
 import { loadServerAccounts } from "./state/accounts/actions";
+import { InputSearch } from "core/ui-components/InputSearch";
 
 const ManagementUsersPage = () => {
   const { accounts, hasFetched } = useSelector(
@@ -47,10 +47,10 @@ const ManagementUsersPage = () => {
         }
       >
         <SearchWrapper className="pb-5">
-          <SearchInput
+          <InputSearch
             placeholder="Search user by username, name or email"
             value={search}
-            setValue={setSearch}
+            onChange={setSearch}
           />
         </SearchWrapper>
         <AccountsTable accounts={accounts} hasFetched={hasFetched} />

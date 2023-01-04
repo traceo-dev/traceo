@@ -10,6 +10,7 @@ import { MarkdownHeader } from "./MarkdownHeader";
 import api from "../../../../../core/lib/api";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../../types/store";
+import { InputArea } from "core/ui-components/InputArea";
 
 interface Props {
   comment: Comment;
@@ -23,7 +24,7 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
 
   const { application } = useSelector((state: StoreState) => state.application);
   const { account } = useSelector((state: StoreState) => state.account);
-  const textAreaRef = useRef<TextAreaRef>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [form] = Form.useForm();
 
   const shortcut = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -122,11 +123,9 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
             </Space>
             <Form form={form}>
               <Form.Item name="comment" className="w-full mb-2">
-                <Input.TextArea
-                  id="commentInput"
+                <InputArea
                   placeholder="Leave a comment"
-                  autoSize={{ minRows: 6, maxRows: 12 }}
-                  className="w-full rounded-md p-3"
+                  rows={6}
                   ref={textAreaRef}
                   onKeyDown={(val) => shortcut(val)}
                 />

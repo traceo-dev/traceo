@@ -2,7 +2,6 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Button } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { SearchInput } from "../../../core/components/SearchInput";
 import { ApiQueryParams } from "../../../core/lib/api";
 import { dispatch } from "../../../store/store";
 import { StoreState } from "../../../types/store";
@@ -17,6 +16,7 @@ import { DataNotFound } from "../../../core/components/DataNotFound";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { ApplicationMembersTable } from "../../../core/components/Table/ApplicationMembersTable";
+import { InputSearch } from "core/ui-components/InputSearch";
 
 export const AppMembersListPage = () => {
   const { id } = useParams();
@@ -57,13 +57,11 @@ export const AppMembersListPage = () => {
             </Permissions>
           }
         >
-          <SearchWrapper className="pb-9">
-            <SearchInput
-              placeholder="Search by name or email"
-              value={search}
-              setValue={setSearch}
-            />
-          </SearchWrapper>
+          <InputSearch
+            placeholder="Search by name or email"
+            value={search}
+            onChange={setSearch}
+          />
           <ConditionalWrapper
             isEmpty={members?.length === 0}
             isLoading={!hasFetched}

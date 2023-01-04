@@ -1,6 +1,5 @@
 import { FileMarkdownFilled } from "@ant-design/icons";
-import { Button, Card, Col, Form, Input, Row, Space, Tabs, Typography } from "antd";
-import { TextAreaRef } from "antd/lib/input/TextArea";
+import { Button, Card, Col, Form, Row, Space, Tabs, Typography } from "antd";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
@@ -10,6 +9,7 @@ import { dispatch } from "../../../../../store/store";
 import { StoreState } from "../../../../../types/store";
 import { Avatar } from "../../../../../core/components/Avatar";
 import { MarkdownHeader } from "./MarkdownHeader";
+import { InputArea } from "core/ui-components/InputArea";
 
 const { TabPane } = Tabs;
 
@@ -17,7 +17,7 @@ export const CommentInput = () => {
   const { account } = useSelector((state: StoreState) => state.account);
   const { application } = useSelector((state: StoreState) => state.application);
   const { incident } = useSelector((state: StoreState) => state.incident);
-  const textAreaRef = useRef<TextAreaRef>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [form] = Form.useForm();
   const [comment, setComment] = useState<string>(null);
   const [sendAvailable, setSendAvailable] = useState<boolean>(false);
@@ -69,14 +69,12 @@ export const CommentInput = () => {
             <TabPane key={1} tab="Write">
               <Form form={form}>
                 <Form.Item name="typedComment" className="w-full mb-2">
-                  <Input.TextArea
-                    id="commentInput"
+                  <InputArea
                     placeholder="Leave a comment"
-                    autoSize={{ minRows: 6, maxRows: 12 }}
-                    className="w-full rounded-md p-3"
-                    ref={textAreaRef}
                     onKeyDown={(val) => shortcut(val)}
-                    onChange={(val) => setComment(val.target.value)}
+                    onChange={(val) => setComment(val.currentTarget.value)}
+                    ref={textAreaRef}
+                    rows={6}
                   />
                 </Form.Item>
               </Form>

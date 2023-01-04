@@ -2,7 +2,6 @@ import { Button, Dropdown, List, Menu } from "antd";
 import { useEffect, useState } from "react";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { EmptyAppList } from "./EmptyAppList";
-import { SearchInput } from "../../../core/components/SearchInput";
 import { SortIcons } from "../../../core/components/SortIcons";
 import { SortOrder } from "../../../types/api";
 import {
@@ -15,6 +14,7 @@ import { StoreState } from "../../../types/store";
 import { AppCard } from "./AppCard";
 import { loadApplications } from "../state/actions";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
+import { InputSearch } from "core/ui-components/InputSearch";
 
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",
@@ -35,7 +35,7 @@ export const AppsTable = () => {
   const { account } = useSelector((state: StoreState) => state.account);
 
   const [order, setOrder] = useState<SortOrder>("DESC");
-  const [search, setSearch] = useState<string>(null);
+  const [search, setSearch] = useState<string>("");
   const [sortBy, setSortBy] = useState<AppsSortBy>(AppsSortBy.LAST_ERROR);
 
   const queryParams: SearchApplicationQueryParams = {
@@ -70,9 +70,9 @@ export const AppsTable = () => {
     );
   };
 
-  const SearchHeader = () => (
+  const renderSearch = () => (
     <SearchWrapper>
-      <SearchInput placeholder="Search by name" value={search} setValue={onSearch} />
+      <InputSearch placeholder="Search by name" value={search} onChange={setSearch} />
       <AppsSortDropdown />
       <SortIcons order={order} setOrder={setOrder} />
     </SearchWrapper>
@@ -80,7 +80,7 @@ export const AppsTable = () => {
 
   return (
     <>
-      <SearchHeader />
+      {renderSearch()}
       <ConditionalWrapper
         isLoading={!hasFetched}
         isEmpty={applications?.length === 0}

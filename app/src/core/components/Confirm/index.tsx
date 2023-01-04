@@ -4,6 +4,7 @@ import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { ApiResponse } from "../../../types/api";
 import { StoreState } from "../../../types/store";
+import { InputSecret } from "core/ui-components/InputSecret";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;
@@ -81,7 +82,7 @@ export const Confirm: FC<Props> = ({
               </Typography.Text>
               <Form form={form} onFinish={confirm}>
                 <Form.Item className="pt-5" name="password" rules={[{ required: true }]}>
-                  <Input.Password placeholder="Password" />
+                  <InputSecret placeholder="Password" />
                 </Form.Item>
               </Form>
             </Space>
