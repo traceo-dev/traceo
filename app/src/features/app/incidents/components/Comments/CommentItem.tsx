@@ -10,7 +10,7 @@ import { MarkdownHeader } from "./MarkdownHeader";
 import api from "../../../../../core/lib/api";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../../types/store";
-import { InputArea } from "core/ui-components/InputArea";
+import { InputArea } from "core/ui-components/Input/InputArea";
 
 interface Props {
   comment: Comment;

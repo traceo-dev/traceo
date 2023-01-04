@@ -16,7 +16,7 @@ import { DataNotFound } from "../../../core/components/DataNotFound";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { ApplicationMembersTable } from "../../../core/components/Table/ApplicationMembersTable";
-import { InputSearch } from "core/ui-components/InputSearch";
+import { InputSearch } from "core/ui-components/Input/InputSearch";
 
 export const AppMembersListPage = () => {
   const { id } = useParams();

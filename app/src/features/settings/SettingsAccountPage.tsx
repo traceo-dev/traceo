@@ -12,8 +12,8 @@ import {
 import { ADMIN_EMAIL, REQUIRED_FIELD_ERROR } from "../../core/utils/constants";
 import { PagePanel } from "../../core/components/PagePanel";
 import validators from "../../core/lib/validators";
-import { Input } from "core/ui-components/Input";
-import { InputSecret } from "core/ui-components/InputSecret";
+import { Input } from "core/ui-components/Input/Input";
+import { InputSecret } from "core/ui-components/Input/InputSecret";
 
 const SettingsAccountPage = () => {
   const { account } = useSelector((state: StoreState) => state.account);

@@ -28,7 +28,7 @@ import {
   setLocalStorageIncidentPlotType
 } from "../../../core/utils/localStorage";
 import { INCIDENT_PLOT_TYPE } from "../../../types/metrics";
-import { InputSearch } from "../../../core/ui-components/InputSearch";
+import { InputSearch } from "../../../core/ui-components/Input/InputSearch";
 
 const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.FIRST_SEEN]: "First seen",

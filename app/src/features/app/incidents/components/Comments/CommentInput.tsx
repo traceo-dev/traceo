@@ -9,7 +9,7 @@ import { dispatch } from "../../../../../store/store";
 import { StoreState } from "../../../../../types/store";
 import { Avatar } from "../../../../../core/components/Avatar";
 import { MarkdownHeader } from "./MarkdownHeader";
-import { InputArea } from "core/ui-components/InputArea";
+import { InputArea } from "core/ui-components/Input/InputArea";
 
 const { TabPane } = Tabs;
 

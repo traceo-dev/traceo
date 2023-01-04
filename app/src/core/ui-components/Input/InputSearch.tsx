@@ -1,5 +1,5 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Input } from "core/ui-components/Input";
+import { Input } from "core/ui-components/Input/Input";
 import { joinClasses } from "core/utils/classes";
 import { ChangeEvent, forwardRef, HTMLProps } from "react";
 

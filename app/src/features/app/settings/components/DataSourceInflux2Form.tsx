@@ -11,8 +11,8 @@ import validators from "../../../../core/lib/validators";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
 import { ApiResponse } from "../../../../types/api";
 import { loadApplication } from "../../../../features/app/state/application/actions";
-import { Input } from "core/ui-components/Input";
-import { InputSecret } from "core/ui-components/InputSecret";
+import { Input } from "core/ui-components/Input/Input";
+import { InputSecret } from "core/ui-components/Input/InputSecret";
 
 export const DataSourceInflux2Form = () => {
   const { application } = useSelector((state: StoreState) => state.application);

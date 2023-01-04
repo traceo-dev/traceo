@@ -11,7 +11,7 @@ import { StoreState } from "../../types/store";
 import { AccountsTable } from "./components/AccountManagement/AccountsTable";
 import { ManagementNavigation } from "./components/ManagementNavigation";
 import { loadServerAccounts } from "./state/accounts/actions";
-import { InputSearch } from "core/ui-components/InputSearch";
+import { InputSearch } from "core/ui-components/Input/InputSearch";
 
 const ManagementUsersPage = () => {
   const { accounts, hasFetched } = useSelector(

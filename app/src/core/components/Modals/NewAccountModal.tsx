@@ -5,8 +5,8 @@ import { addServerAccount } from "../../../features/management/state/accounts/ac
 import { AddAccountProps } from "../../../types/accounts";
 import validators from "../../lib/validators";
 import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
-import { Input } from "core/ui-components/Input";
-import { InputSecret } from "core/ui-components/InputSecret";
+import { Input } from "core/ui-components/Input/Input";
+import { InputSecret } from "core/ui-components/Input/InputSecret";
 
 export const NewAccountModal = ({ isOpen, onCancel }) => {
   const [loading, setLoading] = useState<boolean>(false);

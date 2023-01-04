@@ -18,7 +18,7 @@ import { TimeLimitDropdown } from "./components/TimeLimitDropdown";
 import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
 import { searchMetric } from "./utils/searchUtil";
 import { metricsApi } from "./api";
-import { InputSearch } from "core/ui-components/InputSearch";
+import { InputSearch } from "core/ui-components/Input/InputSearch";
 
 const MetricsPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;

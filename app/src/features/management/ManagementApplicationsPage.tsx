@@ -13,7 +13,7 @@ import { ManagementNavigation } from "./components/ManagementNavigation";
 import { loadServerApplications } from "./state/applications/actions";
 import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 import { DataNotFound } from "../../core/components/DataNotFound";
-import { InputSearch } from "core/ui-components/InputSearch";
+import { InputSearch } from "core/ui-components/Input/InputSearch";
 
 export const ManagementApplicationsPage = () => {
   const { applications, hasFetched } = useSelector(

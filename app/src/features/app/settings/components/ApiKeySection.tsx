@@ -10,8 +10,8 @@ import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
 import { StoreState } from "../../../../types/store";
 import { loadApplication } from "../../../app/state/application/actions";
-import { InputSecret } from "core/ui-components/InputSecret";
-import { InputGroup } from "core/ui-components/InputGroup";
+import { InputSecret } from "core/ui-components/Input/InputSecret";
+import { InputGroup } from "core/ui-components/Input/InputGroup";
 
 export const ApiKeySection = () => {
   const { application } = useSelector((state: StoreState) => state.application);

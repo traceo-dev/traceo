@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { ApiResponse } from "../../../types/api";
 import { StoreState } from "../../../types/store";
-import { InputSecret } from "core/ui-components/InputSecret";
+import { InputSecret } from "core/ui-components/Input/InputSecret";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;

@@ -1,6 +1,6 @@
 import { Button, Form, Space } from "antd";
-import { Input } from "core/ui-components/Input";
-import { InputSecret } from "core/ui-components/InputSecret";
+import { Input } from "core/ui-components/Input/Input";
+import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 
 export const LoginForm = ({ form, loading, onFinish }) => {

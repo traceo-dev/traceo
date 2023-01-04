@@ -4,7 +4,7 @@ import { CreateApplicationProps } from "../../../types/application";
 import { dispatch } from "../../../store/store";
 import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 import { createApplication } from "../../../features/app/state/application/actions";
-import { Input } from "core/ui-components/Input";
+import { Input } from "core/ui-components/Input/Input";
 
 interface Props {
   isOpen: boolean;

@@ -14,7 +14,7 @@ import { StoreState } from "../../../types/store";
 import { AppCard } from "./AppCard";
 import { loadApplications } from "../state/actions";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
-import { InputSearch } from "core/ui-components/InputSearch";
+import { InputSearch } from "core/ui-components/Input/InputSearch";
 
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",
