@@ -10,6 +10,9 @@ module.exports = {
         primary: "#181b1f",
         secondary: "#22252b",
         canvas: "#111217"
+      },
+      fontSize: {
+        // md: "13px"
       }
     }
   },

@@ -1,4 +1,4 @@
-import { Button, Form } from "antd";
+import { Form } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "../../core/components/ColumnSection";
@@ -14,6 +14,7 @@ import { PagePanel } from "../../core/components/PagePanel";
 import validators from "../../core/lib/validators";
 import { Input } from "core/ui-components/Input/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
+import { Button } from "core/ui-components/Button/Button";
 
 const SettingsAccountPage = () => {
   const { account } = useSelector((state: StoreState) => state.account);
@@ -65,7 +66,7 @@ const SettingsAccountPage = () => {
               </Form.Item>
 
               {!isAdmin && (
-                <Button htmlType="submit" loading={loadingUpdateAccount} type="primary">
+                <Button type="submit" loading={loadingUpdateAccount}>
                   Update
                 </Button>
               )}
@@ -102,7 +103,7 @@ const SettingsAccountPage = () => {
                 <InputSecret label="New password" />
               </Form.Item>
 
-              <Button htmlType="submit" loading={loadingConfirmPassword} type="primary">
+              <Button type="submit" loading={loadingConfirmPassword}>
                 Confirm
               </Button>
             </Form>

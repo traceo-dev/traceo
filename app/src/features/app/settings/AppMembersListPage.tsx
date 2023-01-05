@@ -1,5 +1,4 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { ApiQueryParams } from "../../../core/lib/api";
@@ -17,6 +16,7 @@ import { PagePanel } from "../../../core/components/PagePanel";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { ApplicationMembersTable } from "../../../core/components/Table/ApplicationMembersTable";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
+import { Button } from "core/ui-components/Button/Button";
 
 export const AppMembersListPage = () => {
   const { id } = useParams();
@@ -47,11 +47,7 @@ export const AppMembersListPage = () => {
           title="Collaborators"
           extra={
             <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-              <Button
-                onClick={() => setModalOpen(true)}
-                type="primary"
-                icon={<PlusOutlined />}
-              >
+              <Button onClick={() => setModalOpen(true)} icon={<PlusOutlined />}>
                 Add
               </Button>
             </Permissions>

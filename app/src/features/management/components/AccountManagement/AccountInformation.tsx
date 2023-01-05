@@ -1,4 +1,4 @@
-import { Space, Button, Typography, Alert } from "antd";
+import { Space, Typography, Alert } from "antd";
 import { useSelector } from "react-redux";
 import { Confirm } from "../../../../core/components/Confirm";
 import {
@@ -14,6 +14,7 @@ import { ApiResponse } from "../../../../types/api";
 import { useNavigate } from "react-router-dom";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
+import { Button } from "core/ui-components/Button/Button";
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -63,9 +64,7 @@ export const AccountInformation = () => {
               </Typography.Text>
             }
           >
-            <Button type="primary" ghost>
-              Disable user
-            </Button>
+            <Button variant="ghost">Disable user</Button>
           </Confirm>
         )}
 
@@ -78,9 +77,7 @@ export const AccountInformation = () => {
               </Typography.Text>
             }
           >
-            <Button type="primary" ghost>
-              Enable user
-            </Button>
+            <Button variant="ghost">Enable user</Button>
           </Confirm>
         )}
 
@@ -90,9 +87,7 @@ export const AccountInformation = () => {
             description={"Are you sure that you want to delete this account?"}
             onOk={() => onDeleteAccount()}
           >
-            <Button type="primary" danger>
-              Delete account
-            </Button>
+            <Button variant="danger">Delete account</Button>
           </Confirm>
         )}
       </Space>

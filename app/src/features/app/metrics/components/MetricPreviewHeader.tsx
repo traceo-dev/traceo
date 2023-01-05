@@ -4,7 +4,7 @@ import {
   SyncOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import { Space, Typography, Button, Tooltip } from "antd";
+import { Space, Typography, Tooltip, Button as AntButton } from "antd";
 import { FormInstance } from "antd/es/form/Form";
 import PageHeader from "../../../../core/components/PageHeader";
 import api from "../../../../core/lib/api";
@@ -21,6 +21,7 @@ import { StoreState } from "../../../../types/store";
 import { DraftFunction } from "use-immer";
 import { loadMetric } from "../state/actions";
 import { TimeLimitDropdown } from "./TimeLimitDropdown";
+import { Button } from "core/ui-components/Button/Button";
 
 interface Props {
   form: FormInstance;
@@ -109,15 +110,10 @@ export const MetricPreviewHeader: FC<Props> = ({
           <Space>
             {isCustomizeMode && (
               <>
-                <Button
-                  loading={saveLoading}
-                  type="primary"
-                  ghost
-                  onClick={() => onSave()}
-                >
+                <Button loading={saveLoading} variant="ghost" onClick={() => onSave()}>
                   Save
                 </Button>
-                <Button type="primary" danger onClick={() => onDiscard()}>
+                <Button variant="danger" onClick={() => onDiscard()}>
                   Discard
                 </Button>
               </>
@@ -130,7 +126,7 @@ export const MetricPreviewHeader: FC<Props> = ({
                   setTimeLimit={setTimeLimit}
                   timeLimit={timeLimit}
                 />
-                <Button
+                <AntButton
                   hidden={isExpandMode}
                   icon={<SettingOutlined />}
                   type="primary"
@@ -138,15 +134,15 @@ export const MetricPreviewHeader: FC<Props> = ({
                   onClick={() => onCustomize()}
                 >
                   Customize
-                </Button>
+                </AntButton>
                 <Tooltip title="Refresh">
-                  <Button
+                  <AntButton
                     icon={<SyncOutlined className="text-xs cursor-pointer" />}
                     type="primary"
                     onClick={() => reloadMetric()}
                   >
                     Refresh
-                  </Button>
+                  </AntButton>
                 </Tooltip>
               </>
             )}

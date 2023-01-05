@@ -1,4 +1,4 @@
-import { Button, Col, Row } from "antd";
+import { Col, Row } from "antd";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -19,6 +19,7 @@ import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
 import { searchMetric } from "./utils/searchUtil";
 import { metricsApi } from "./api";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
+import { Button } from "core/ui-components/Button/Button";
 
 const MetricsPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
@@ -60,7 +61,7 @@ const MetricsPage = () => {
             placeholder="Search metric by name, description or series details"
           />
           <TimeLimitDropdown setTimeLimit={setTimeLimit} timeLimit={timeLimit} />
-          <Button onClick={reloadMetrics} type="primary">
+          <Button onClick={reloadMetrics}>
             <SyncOutlined />
             Refresh metrics
           </Button>

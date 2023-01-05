@@ -1,5 +1,5 @@
 import { LeftOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
-import { Space, Button, Tooltip } from "antd";
+import { Space, Tooltip } from "antd";
 import dayjs from "dayjs";
 import { LogsExplorePlot } from "../../../../../core/components/Plots/components/Logs/LogsExplorePlot";
 import { loadApplicationLogs } from "../state/actions";
@@ -16,6 +16,7 @@ import {
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 import { PagePanel } from "../../../../../core/components/PagePanel";
 import { LogsFilterPanel } from "./LogsFilterPanel";
+import { Button } from "core/ui-components/Button/Button";
 
 export const LogsHistogram = () => {
   const { id } = useParams();
@@ -73,13 +74,17 @@ export const LogsHistogram = () => {
         >
           <Space className="w-full justify-end">
             <Tooltip title="- 0.5h">
-              <Button onClick={onClickLeft} disabled={isActiveLeftButton}>
+              <Button variant="ghost" onClick={onClickLeft} disabled={isActiveLeftButton}>
                 <LeftOutlined className="text-md" />
               </Button>
             </Tooltip>
 
             <Tooltip title="+ 0.5h">
-              <Button onClick={onClickRight} disabled={isActiveRightButton}>
+              <Button
+                variant="ghost"
+                onClick={onClickRight}
+                disabled={isActiveRightButton}
+              >
                 <RightOutlined className="text-md" />
               </Button>
             </Tooltip>

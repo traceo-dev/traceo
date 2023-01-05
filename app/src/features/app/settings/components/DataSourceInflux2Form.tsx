@@ -1,4 +1,4 @@
-import { Form, Space, Alert, Button, Typography } from "antd";
+import { Form, Space, Alert, Typography } from "antd";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import { ApiResponse } from "../../../../types/api";
 import { loadApplication } from "../../../../features/app/state/application/actions";
 import { Input } from "core/ui-components/Input/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
+import { Button } from "core/ui-components/Button/Button";
 
 export const DataSourceInflux2Form = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -116,7 +117,7 @@ export const DataSourceInflux2Form = () => {
         />
       </Space>
       <Space hidden={isViewer} className="w-full pt-5">
-        <Button loading={isLoading} type="primary" onClick={submit}>
+        <Button loading={isLoading} onClick={submit}>
           Save & Test
         </Button>
         {isDeleteDSBtn && (
@@ -124,7 +125,7 @@ export const DataSourceInflux2Form = () => {
             description="Are you sure that you want to remove InfluxDB configuration?"
             onOk={remove}
           >
-            <Button loading={isDeletLoading} type="primary" danger>
+            <Button loading={isDeletLoading} variant="ghost">
               Remove
             </Button>
           </Confirm>

@@ -1,4 +1,4 @@
-import { Space, Button } from "antd";
+import { Space } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
@@ -12,6 +12,7 @@ import { PagePanel } from "../../../../core/components/PagePanel";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { TraceoTable } from "../../../../core/components/Table/TraceoTable";
 import { MemberTableRow } from "../../../../core/components/Table/rows/MemberTableRow";
+import { Button } from "core/ui-components/Button/Button";
 
 export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -37,7 +38,7 @@ export const AccountApplications = () => {
         extra={
           !isAdmin && (
             <Space className="w-full justify-end">
-              <Button onClick={() => setOpenAddAppDrawer(true)} type="primary">
+              <Button onClick={() => setOpenAddAppDrawer(true)}>
                 Add user to application
               </Button>
             </Space>

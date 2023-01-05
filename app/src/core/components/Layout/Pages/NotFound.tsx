@@ -1,4 +1,5 @@
-import { Button, Space, Typography } from "antd";
+import { Space, Typography } from "antd";
+import { Button } from "core/ui-components/Button/Button";
 import { useNavigate } from "react-router-dom";
 
 const NotFound = () => {
@@ -10,7 +11,7 @@ const NotFound = () => {
         <Typography.Text>
           This page doesn&apos;t exist or you have no permission to be here.
         </Typography.Text>
-        <Button type="primary" className="mt-12" onClick={() => navigate(-1)}>
+        <Button className="mt-12" onClick={() => navigate(-1)}>
           GO BACK
         </Button>
       </Space>

@@ -1,7 +1,8 @@
-import { Typography, Button, Space, Radio } from "antd";
+import { Typography, Space, Radio } from "antd";
 import { joinClasses } from "../../core/utils/classes";
 import { FC, useState } from "react";
 import { Input } from "core/ui-components/Input/Input";
+import { Button } from "core/ui-components/Button/Button";
 
 export const Descriptions = ({ children }) => {
   return (
@@ -30,7 +31,7 @@ const UpdateButtons: FC<UpdateButtonsProps> = ({
 }) => {
   if (!updateMode) {
     return (
-      <Button onClick={() => setUpdateMode(true)} htmlType="submit" type="primary">
+      <Button onClick={() => setUpdateMode(true)} type="submit">
         Update
       </Button>
     );
@@ -38,10 +39,8 @@ const UpdateButtons: FC<UpdateButtonsProps> = ({
 
   return (
     <Space>
-      <Button type="primary" onClick={() => onFinish()}>
-        Save
-      </Button>
-      <Button type="primary" ghost onClick={() => setUpdateMode(false)}>
+      <Button onClick={() => onFinish()}>Save</Button>
+      <Button variant="ghost" onClick={() => setUpdateMode(false)}>
         Cancel
       </Button>
     </Space>

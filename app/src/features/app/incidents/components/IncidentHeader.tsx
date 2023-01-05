@@ -1,12 +1,18 @@
 import {
   ArrowLeftOutlined,
-  BugOutlined,
   DownOutlined,
-  LeftOutlined,
   SyncOutlined,
   UserAddOutlined
 } from "@ant-design/icons";
-import { Space, Typography, Tooltip, Button, Popover, Dropdown, Menu } from "antd";
+import {
+  Space,
+  Typography,
+  Tooltip,
+  Button as AntButton,
+  Popover,
+  Dropdown,
+  Menu
+} from "antd";
 import { AssignMemberPopover } from "../../../../core/components/AssignMemberPopover";
 import { Avatar } from "../../../../core/components/Avatar";
 import { FC, useState } from "react";
@@ -22,6 +28,7 @@ import { notify } from "../../../../core/utils/notify";
 import { updateIncident } from "../state/actions";
 import { joinClasses } from "../../../../core/utils/classes";
 import { useNavigate } from "react-router-dom";
+import { Button } from "core/ui-components/Button/Button";
 
 export const IncidentHeader = ({ incident, onExecute }) => {
   const navigate = useNavigate();
@@ -90,11 +97,11 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
     <Space className="w-full mt-2 justify-between">
       <Space>
         <Dropdown overlay={overlay} placement="bottom">
-          <Button
+          <AntButton
             className={joinClasses(handleIncidentColor[incident.status], "text-xs")}
           >
             {handleIncidentStatus[incident.status]}
-          </Button>
+          </AntButton>
         </Dropdown>
         <Popover
           visible={isVisible}
@@ -115,7 +122,7 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
                     name={incident?.assigned?.name}
                   />
                 }
-                ghost
+                variant="ghost"
               >
                 <>
                   {incident?.assigned?.name}
@@ -123,7 +130,7 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
                 </>
               </Button>
             ) : (
-              <Button ghost>
+              <Button variant="ghost">
                 <UserAddOutlined />
               </Button>
             )}

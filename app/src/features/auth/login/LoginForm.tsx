@@ -1,4 +1,5 @@
-import { Button, Form, Space } from "antd";
+import { Form, Space } from "antd";
+import { Button } from "core/ui-components/Button/Button";
 import { Input } from "core/ui-components/Input/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
@@ -37,9 +38,9 @@ export const LoginForm = ({ form, loading, onFinish }) => {
 
       <Space direction="vertical" className="mt-12 w-full">
         <Button
-          size="large"
-          htmlType="submit"
-          className="w-full submit-button"
+          size="lg"
+          type="submit"
+          className="w-full justify-center text-xs"
           loading={loading}
         >
           Log In

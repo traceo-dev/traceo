@@ -1,16 +1,16 @@
-import { Space, Typography, Card, Form, Input, Popover, List, Tag, Button } from "antd";
+import { Space, Typography, Card, Form, Popover, List, Tag } from "antd";
 import { FC, useRef, useState } from "react";
 import { Comment } from "../../../../../types/comments";
 import dateUtils from "../../../../../core/utils/date";
 import ReactMarkdown from "react-markdown";
 import { EllipsisOutlined } from "@ant-design/icons";
 import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
-import { TextAreaRef } from "antd/lib/input/TextArea";
 import { MarkdownHeader } from "./MarkdownHeader";
 import api from "../../../../../core/lib/api";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../../types/store";
 import { InputArea } from "core/ui-components/Input/InputArea";
+import { Button } from "core/ui-components/Button/Button";
 
 interface Props {
   comment: Comment;
@@ -132,10 +132,8 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
               </Form.Item>
             </Form>
             <Space>
-              <Button type="primary" onClick={() => sendEdit()}>
-                Edit
-              </Button>
-              <Button ghost onClick={() => setEditMode(false)}>
+              <Button onClick={() => sendEdit()}>Edit</Button>
+              <Button variant="ghost" onClick={() => setEditMode(false)}>
                 Cancel
               </Button>
             </Space>

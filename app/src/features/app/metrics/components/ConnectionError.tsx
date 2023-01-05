@@ -1,18 +1,13 @@
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Space, Typography, Button } from "antd";
+import { Space, Typography } from "antd";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StoreState } from "../../../../types/store";
-import api from "../../../../core/lib/api";
 import { notify } from "../../../../core/utils/notify";
-import { loadApplication } from "../../../../features/app/state/application/actions";
-import { dispatch } from "../../../../store/store";
-import { ApiResponse } from "../../../../types/api";
-import { DataSourceConnStatus, CONNECTION_STATUS } from "../../../../types/tsdb";
-import { loadMetrics } from "../state/actions";
 import { useState } from "react";
 import { metricsApi } from "../api";
+import { Button } from "core/ui-components/Button/Button";
 
 export const ConnectionError = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -47,11 +42,11 @@ export const ConnectionError = () => {
               )}/settings/datasource`
             )
           }
-          type="primary"
+          variant="primary"
         >
           Settings
         </Button>
-        <Button loading={loading} type="primary" ghost onClick={reloadMetrics}>
+        <Button loading={loading} variant="ghost" onClick={reloadMetrics}>
           Reload
         </Button>
       </Space>

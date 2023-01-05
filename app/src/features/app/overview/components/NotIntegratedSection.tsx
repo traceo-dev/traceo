@@ -1,9 +1,10 @@
-import { Space, Typography, Button } from "antd";
+import { Space, Typography } from "antd";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { GH_SDK_REPO_LINK } from "../../../../core/utils/constants";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { PagePanel } from "../../../../core/components/PagePanel";
+import { Button } from "core/ui-components/Button/Button";
 
 export const NotIntegratedSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);

@@ -1,9 +1,10 @@
 import { DatabaseOutlined } from "@ant-design/icons";
-import { Space, Typography, Button } from "antd";
+import { Space, Typography } from "antd";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StoreState } from "../../../../types/store";
+import { Button } from "core/ui-components/Button/Button";
 
 export const NotConnectedTSDB = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -27,7 +28,6 @@ export const NotConnectedTSDB = () => {
           )
         }
         className="mt-5"
-        type="primary"
       >
         Configure
       </Button>

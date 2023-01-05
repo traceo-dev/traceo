@@ -1,4 +1,4 @@
-import { Button, Input, Typography } from "antd";
+import { Typography } from "antd";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { Confirm } from "../../../../core/components/Confirm";
 import { PagePanel } from "../../../../core/components/PagePanel";
@@ -12,6 +12,7 @@ import { StoreState } from "../../../../types/store";
 import { loadApplication } from "../../../app/state/application/actions";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { InputGroup } from "core/ui-components/Input/InputGroup";
+import { Button } from "core/ui-components/Button/Button";
 
 export const ApiKeySection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -64,9 +65,7 @@ export const ApiKeySection = () => {
                   description="Removing your API key will cause that SDK using this token lose access."
                   onOk={handleRemoveApiKey}
                 >
-                  <Button type="primary" danger>
-                    Remove
-                  </Button>
+                  <Button variant="danger">Remove</Button>
                 </Confirm>
               </InputGroup>
               <Typography.Text className="text-xs">
@@ -75,7 +74,7 @@ export const ApiKeySection = () => {
               </Typography.Text>
             </>
           ) : (
-            <Button loading={loading} type="primary" onClick={handleGenerateApiKey}>
+            <Button loading={loading} onClick={handleGenerateApiKey}>
               Generate
             </Button>
           )}

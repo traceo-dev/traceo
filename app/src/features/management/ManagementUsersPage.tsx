@@ -1,5 +1,4 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 import { PagePanel } from "../../core/components/PagePanel";
 import { SearchWrapper } from "../../core/components/SearchWrapper";
 import { useEffect, useState } from "react";
@@ -12,6 +11,7 @@ import { AccountsTable } from "./components/AccountManagement/AccountsTable";
 import { ManagementNavigation } from "./components/ManagementNavigation";
 import { loadServerAccounts } from "./state/accounts/actions";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
+import { Button } from "core/ui-components/Button/Button";
 
 const ManagementUsersPage = () => {
   const { accounts, hasFetched } = useSelector(
@@ -37,11 +37,7 @@ const ManagementUsersPage = () => {
       <PagePanel
         title="Accounts list"
         extra={
-          <Button
-            onClick={() => setOpenNewAccountDrawer(true)}
-            type="primary"
-            icon={<PlusOutlined />}
-          >
+          <Button onClick={() => setOpenNewAccountDrawer(true)} icon={<PlusOutlined />}>
             New account
           </Button>
         }

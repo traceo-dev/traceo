@@ -1,4 +1,4 @@
-import { Button, Space, Typography } from "antd";
+import { Space, Typography } from "antd";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -14,6 +14,7 @@ import { ApiResponse } from "../../../../types/api";
 import { StoreState } from "../../../../types/store";
 import { updateServerApplication } from "../../state/applications/actions";
 import dateUtils from "../../../../core/utils/date";
+import { Button } from "core/ui-components/Button/Button";
 
 export const ApplicationInformation = () => {
   const navigate = useNavigate();
@@ -46,9 +47,7 @@ export const ApplicationInformation = () => {
           description="Are you sure that you want to remove this app?"
           onOk={() => onRemove()}
         >
-          <Button type="primary" loading={loadingDelete} danger>
-            Remove app
-          </Button>
+          <Button loading={loadingDelete}>Remove app</Button>
         </Confirm>
       </Space>
     );

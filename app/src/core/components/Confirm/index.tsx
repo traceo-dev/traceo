@@ -1,10 +1,11 @@
-import { Button, Form, Input, Modal, Space, Typography } from "antd";
+import { Form, Modal, Space, Typography } from "antd";
 import api from "../../../core/lib/api";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { ApiResponse } from "../../../types/api";
 import { StoreState } from "../../../types/store";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
+import { Button } from "core/ui-components/Button/Button";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;
@@ -64,12 +65,10 @@ export const Confirm: FC<Props> = ({
         closable={false}
         footer={
           <>
-            <Button onClick={() => setOpen(false)} type="default">
+            <Button onClick={() => setOpen(false)} variant="ghost" className="mr-2">
               Cancel
             </Button>
-            <Button onClick={handleOk} type="primary">
-              Confirm
-            </Button>
+            <Button onClick={handleOk}>Confirm</Button>
           </>
         }
       >

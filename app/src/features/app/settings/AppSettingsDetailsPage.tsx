@@ -1,4 +1,4 @@
-import { Space, Button, Typography } from "antd";
+import { Space, Typography } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
@@ -18,6 +18,7 @@ import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { notify } from "../../../core/utils/notify";
 import { ApiKeySection } from "./components/ApiKeySection";
 import { updateAplication } from "../state/application/actions";
+import { Button } from "core/ui-components/Button/Button";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
@@ -91,7 +92,7 @@ export const AppSettingsDetailsPage = () => {
                 description="Are you sure that you want to remove this app?"
                 onOk={() => remove()}
               >
-                <Button type="primary" loading={loadingDelete} danger>
+                <Button variant="danger" loading={loadingDelete}>
                   Delete
                 </Button>
               </Confirm>

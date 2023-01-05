@@ -1,5 +1,5 @@
 import { FileMarkdownFilled } from "@ant-design/icons";
-import { Button, Card, Col, Form, Row, Space, Tabs, Typography } from "antd";
+import { Card, Col, Form, Row, Space, Tabs, Typography } from "antd";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { StoreState } from "../../../../../types/store";
 import { Avatar } from "../../../../../core/components/Avatar";
 import { MarkdownHeader } from "./MarkdownHeader";
 import { InputArea } from "core/ui-components/Input/InputArea";
+import { Button } from "core/ui-components/Button/Button";
 
 const { TabPane } = Tabs;
 
@@ -97,7 +98,7 @@ export const CommentInput = () => {
               <FileMarkdownFilled className="pr-1" />
               Markdown supported
             </Typography.Link>
-            <Button disabled={sendAvailable} onClick={() => sendMessage()} type="primary">
+            <Button disabled={sendAvailable} onClick={() => sendMessage()}>
               Comment
             </Button>
           </Space>

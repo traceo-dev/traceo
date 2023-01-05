@@ -1,5 +1,4 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button } from "antd";
 import { PagePanel } from "../../core/components/PagePanel";
 import { SearchWrapper } from "../../core/components/SearchWrapper";
 import { useState, useEffect } from "react";
@@ -14,6 +13,7 @@ import { loadServerApplications } from "./state/applications/actions";
 import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 import { DataNotFound } from "../../core/components/DataNotFound";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
+import { Button } from "core/ui-components/Button/Button";
 
 export const ManagementApplicationsPage = () => {
   const { applications, hasFetched } = useSelector(
@@ -41,11 +41,7 @@ export const ManagementApplicationsPage = () => {
       <PagePanel
         title="Applications list"
         extra={
-          <Button
-            onClick={() => setOpenNewAppDrawer(true)}
-            type="primary"
-            icon={<PlusOutlined />}
-          >
+          <Button onClick={() => setOpenNewAppDrawer(true)} icon={<PlusOutlined />}>
             New aplication
           </Button>
         }

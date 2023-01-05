@@ -1,4 +1,4 @@
-import { Row, Button, Select } from "antd";
+import { Row, Select } from "antd";
 import { Avatar } from "../../../../core/components/Avatar";
 import api from "../../../../core/lib/api";
 import { FC, useState } from "react";
@@ -7,6 +7,7 @@ import { RowActionButtons } from "../RowActionButtons";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { useNavigate } from "react-router-dom";
+import { Button } from "core/ui-components/Button/Button";
 
 interface MemberRowProps {
   item: ApplicationMember;
@@ -102,9 +103,8 @@ export const MemberTableRow: FC<MemberRowProps> = ({
           {!deleteMode ? (
             <Button
               hidden={!editable}
-              danger
-              type="primary"
-              size="small"
+              variant="danger"
+              size="xs"
               onClick={() => setDeleteMode(true)}
             >
               Remove from app
@@ -119,12 +119,7 @@ export const MemberTableRow: FC<MemberRowProps> = ({
         </td>
         <td className="float-left" colSpan={1}>
           {!updateMode ? (
-            <Button
-              hidden={!editable}
-              type="primary"
-              size="small"
-              onClick={() => setUpdateMode(true)}
-            >
+            <Button hidden={!editable} size="xs" onClick={() => setUpdateMode(true)}>
               Change role
             </Button>
           ) : (

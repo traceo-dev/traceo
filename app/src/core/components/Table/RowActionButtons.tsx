@@ -1,4 +1,5 @@
-import { Space, Button } from "antd";
+import { Space } from "antd";
+import { Button } from "core/ui-components/Button/Button";
 import { FC } from "react";
 
 interface ActionButtonsProps {
@@ -13,10 +14,10 @@ export const RowActionButtons: FC<ActionButtonsProps> = ({
 }) => {
   return (
     <Space>
-      <Button size="small" loading={loading} type="primary" onClick={() => onSave()}>
+      <Button size="xs" loading={loading} onClick={() => onSave()}>
         Save
       </Button>
-      <Button size="small" type="primary" onClick={() => onCancel()} ghost>
+      <Button size="xs" variant="ghost" onClick={() => onCancel()}>
         Cancel
       </Button>
     </Space>
