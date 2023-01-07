@@ -1,4 +1,4 @@
-import { Space, Form, Modal } from "antd";
+import { Space, Modal } from "antd";
 import { useEffect, useState } from "react";
 import { dispatch } from "../../../store/store";
 import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
@@ -8,16 +8,14 @@ import { Avatar } from "../Avatar";
 import { ApplicationMember, MemberRole } from "../../../types/application";
 import api from "../../../core/lib/api";
 import { Account } from "../../../types/accounts";
-import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 import { Select } from "core/ui-components/Select/Select";
+import { Form } from "core/ui-components/Form/Form";
+import { FormItem } from "core/ui-components/Form/FormItem";
+import { Button } from "core/ui-components/Button/Button";
 
 type FormType = {
-  account: {
-    value: string;
-  };
-  role: {
-    value: MemberRole;
-  };
+  accountId: string;
+  role: MemberRole;
 };
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
@@ -28,9 +26,6 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { members } = useSelector((state: StoreState) => state.members);
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [form] = Form.useForm();
-
-  const submit = () => form.submit();
 
   useEffect(() => {
     dispatch(loadServerAccounts());
@@ -39,8 +34,8 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   const onFinish = async (form: FormType) => {
     setLoading(true);
     await api.post("/api/amr/application/add", {
-      accountId: form.account.value,
-      role: form.role.value,
+      accountId: form.accountId,
+      role: form.role,
       applicationId: application.id
     });
     setLoading(false);
@@ -48,7 +43,6 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   };
 
   const onClose = () => {
-    form.resetFields();
     onCancel();
   };
 
@@ -77,27 +71,40 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
         open={isOpen}
         closable={false}
         confirmLoading={loading}
-        onOk={submit}
       >
         <Space direction="vertical" className="w-full">
-          <Form onFinish={onFinish} form={form} layout="vertical">
-            <Form.Item
-              name="account"
-              label="Server account"
-              requiredMark={"optional"}
-              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
-            >
-              <Select isLoading={!hasFetched} options={accountOptions} />
-            </Form.Item>
-            <Form.Item
-              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
-              name="role"
-              label="Role"
-              requiredMark={"optional"}
-            >
-              <Select options={roleOptions} />
-            </Form.Item>
+          <Form id="add-member-form" onSubmit={onFinish}>
+            {({ register, setValue, errors }) => (
+              <>
+                <FormItem
+                  label="Server account"
+                  error={errors?.accountId}
+                  required={true}
+                >
+                  <Select
+                    {...register("accountId", {
+                      required: true
+                    })}
+                    onChange={(opt) => setValue("accountId", opt?.value)}
+                    isLoading={!hasFetched}
+                    options={accountOptions}
+                  />
+                </FormItem>
+                <FormItem label="Role" error={errors?.role} required={true}>
+                  <Select
+                    {...register("role", {
+                      required: true
+                    })}
+                    onChange={(opt) => setValue("role", opt?.value)}
+                    options={roleOptions}
+                  />
+                </FormItem>
+              </>
+            )}
           </Form>
+          <Button type="submit" form="add-member-form">
+            Submit
+          </Button>
         </Space>
       </Modal>
     </>
