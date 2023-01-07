@@ -1,4 +1,4 @@
-import { Collapse, Form, Checkbox, Select, Slider } from "antd";
+import { Collapse, Form, Checkbox, Slider } from "antd";
 import { FormInstance } from "antd/es/form/Form";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { FC, useEffect, useState } from "react";
@@ -9,8 +9,14 @@ import { DeepPartial } from "../../../../types/partials";
 import { DraftFunction } from "use-immer";
 import { Input } from "core/ui-components/Input/Input";
 import { InputArea } from "core/ui-components/Input/InputArea";
+import { Select } from "core/ui-components/Select/Select";
 
 const { Panel } = Collapse;
+
+const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
+  value: unit,
+  label: unit
+}));
 
 interface Props {
   form: FormInstance;
@@ -68,6 +74,10 @@ export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {
   };
 
   const onChangeUnit = (unit: string) => {
+    /**
+     * TODO: Select inside Form.Item return object with value and label as form value
+     */
+    form.setFieldValue("unit", unit);
     setOptions((a) => {
       a.unit = unit;
     });
@@ -87,11 +97,10 @@ export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {
                   <InputArea maxLength={1000} label="Description" />
                 </Form.Item>
                 <Form.Item label="Unit" name="unit">
-                  <Select onChange={(v) => onChangeUnit(v)}>
-                    {Object.values(METRIC_UNIT).map((val) => (
-                      <Select.Option key={val}>{val ? val : "None"}</Select.Option>
-                    ))}
-                  </Select>
+                  <Select
+                    options={unitOptions}
+                    onChange={(opt) => onChangeUnit(opt?.value)}
+                  />
                 </Form.Item>
                 <Form.Item name="showDescription" valuePropName="checked">
                   <Checkbox onChange={(v) => onChangeDescription(v.target.checked)}>

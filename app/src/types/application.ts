@@ -49,8 +49,12 @@ export interface Application {
 }
 
 export interface AddAccountToApplication {
-  role: MemberRole;
-  applicationId: string;
+  role: {
+    value: MemberRole
+  };
+  application: {
+    value: string
+  };
   accountId: string;
 }
 

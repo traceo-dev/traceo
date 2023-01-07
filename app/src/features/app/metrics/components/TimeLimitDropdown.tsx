@@ -1,41 +1,31 @@
 import { ClockCircleOutlined } from "@ant-design/icons";
-import { Menu, Dropdown, Button } from "antd";
-import { conditionClass } from "../../../../core/utils/classes";
 import { setLocalStorageTimeLimit } from "../../../../core/utils/localStorage";
 import { FC } from "react";
 import { timeLimitOptions, handleTimeLimitLabel } from "../../../../types/metrics";
+import { Select } from "core/ui-components/Select/Select";
 
 interface Props {
   setTimeLimit: (val: number) => void;
   timeLimit: number;
-  ghost?: boolean;
 }
-export const TimeLimitDropdown: FC<Props> = ({ setTimeLimit, timeLimit = 12, ghost }) => {
-  const onSet = (val: number) => {
+export const TimeLimitDropdown: FC<Props> = ({ setTimeLimit, timeLimit = 12 }) => {
+  const onChangeTimeLimit = (val: number) => {
     setTimeLimit(val);
     setLocalStorageTimeLimit(val);
   };
 
-  const overlay = (
-    <Menu className="w-52" onClick={(val) => onSet(val.key as any)}>
-      {timeLimitOptions.map((limit) => (
-        <Menu.Item key={limit}>{handleTimeLimitLabel[limit]}</Menu.Item>
-      ))}
-    </Menu>
-  );
+  const limitOptions = timeLimitOptions.map((limit) => ({
+    value: limit,
+    label: handleTimeLimitLabel[limit]
+  }));
+
   return (
-    <Dropdown overlay={overlay} placement="bottom">
-      <Button
-        type="primary"
-        className={conditionClass(
-          ghost,
-          "bg-secondary border-none",
-          "hover:bg-black hover:text-white focus:bg-black"
-        )}
-      >
-        <ClockCircleOutlined />
-        <span>{handleTimeLimitLabel[timeLimit]}</span>
-      </Button>
-    </Dropdown>
+    <Select
+      options={limitOptions}
+      value={timeLimit}
+      prefix={<ClockCircleOutlined />}
+      width={150}
+      onChange={(opt) => onChangeTimeLimit(opt?.value)}
+    />
   );
 };

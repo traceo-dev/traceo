@@ -61,8 +61,7 @@ const MetricsPage = () => {
             placeholder="Search metric by name, description or series details"
           />
           <TimeLimitDropdown setTimeLimit={setTimeLimit} timeLimit={timeLimit} />
-          <Button onClick={reloadMetrics}>
-            <SyncOutlined />
+          <Button icon={<SyncOutlined />} onClick={reloadMetrics}>
             Refresh metrics
           </Button>
         </SearchWrapper>

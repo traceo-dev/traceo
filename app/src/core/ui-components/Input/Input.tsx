@@ -32,7 +32,7 @@ export const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
     ${conditionClass(!!prefix, "pl-10")}
     ${conditionClass(!!suffix, "pr-10")}
       bg-canvas border border-secondary rounded-md
-      focus:ring-blue-500 focus:border-blue-500 block w-full py-1 px-3 
+      focus:border-blue-500 block w-full py-1 px-3 
       focus:outline-none focus:ring focus:ring-2 focus:ring-blue-400 focus:shadow-sm
       placeholder:text-gray-500
   `);

@@ -4,7 +4,7 @@ import {
   SyncOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import { Space, Typography, Tooltip, Button as AntButton } from "antd";
+import { Space, Typography, Tooltip } from "antd";
 import { FormInstance } from "antd/es/form/Form";
 import PageHeader from "../../../../core/components/PageHeader";
 import api from "../../../../core/lib/api";
@@ -37,9 +37,9 @@ export const MetricPreviewHeader: FC<Props> = ({
   isCustomizeMode,
   isExpandMode,
   setCustomizeMode,
-  setOptions,
-  timeLimit,
-  setTimeLimit
+  setOptions
+  // timeLimit,
+  // setTimeLimit
 }) => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -121,28 +121,19 @@ export const MetricPreviewHeader: FC<Props> = ({
 
             {!isCustomizeMode && (
               <>
-                <TimeLimitDropdown
-                  ghost={true}
-                  setTimeLimit={setTimeLimit}
-                  timeLimit={timeLimit}
-                />
-                <AntButton
+                {/* <TimeLimitDropdown setTimeLimit={setTimeLimit} timeLimit={timeLimit} /> */}
+                <Button
                   hidden={isExpandMode}
                   icon={<SettingOutlined />}
-                  type="primary"
-                  className="bg-secondary border-none text-primary hover:text-white"
+                  variant="ghost"
                   onClick={() => onCustomize()}
                 >
                   Customize
-                </AntButton>
+                </Button>
                 <Tooltip title="Refresh">
-                  <AntButton
-                    icon={<SyncOutlined className="text-xs cursor-pointer" />}
-                    type="primary"
-                    onClick={() => reloadMetric()}
-                  >
+                  <Button icon={<SyncOutlined />} onClick={() => reloadMetric()}>
                     Refresh
-                  </AntButton>
+                  </Button>
                 </Tooltip>
               </>
             )}

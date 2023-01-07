@@ -1,4 +1,4 @@
-import { Button, Dropdown, Menu, Segmented } from "antd";
+import { Segmented } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import AppPage from "../components/AppPage";
@@ -8,7 +8,6 @@ import { useCleanup } from "../../../core/hooks/useCleanup";
 import { ApiQueryParams } from "../../../core/lib/api";
 import { dispatch } from "../../../store/store";
 import {
-  handleIncidentSort,
   handleIncidentStatus,
   IncidentSortBy,
   IncidentStatusSearch
@@ -29,6 +28,7 @@ import {
 } from "../../../core/utils/localStorage";
 import { INCIDENT_PLOT_TYPE } from "../../../types/metrics";
 import { InputSearch } from "../../../core/ui-components/Input/InputSearch";
+import { Select } from "core/ui-components/Select/Select";
 
 const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.FIRST_SEEN]: "First seen",
@@ -36,6 +36,16 @@ const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.ERRORS_COUNT]: "Errors count",
   [IncidentSortBy.STATUS]: "Status"
 };
+
+const statusOptions = Object.values(IncidentStatusSearch).map((status) => ({
+  label: handleIncidentStatus[status],
+  value: status
+}));
+
+const sortOptions = Object.values(IncidentSortBy).map((sort) => ({
+  label: handlIncidentSortName[sort],
+  value: sort
+}));
 
 const changeBarOptions = [
   {
@@ -78,47 +88,6 @@ export const AppIncidentsListPage = () => {
 
   const fetchIncidents = () => dispatch(loadIncidents(queryParams));
 
-  const IncidentStatusDropdown = () => {
-    const statusContent = (
-      <Menu
-        className="w-52"
-        onClick={(val) => setStatus(val.key as IncidentStatusSearch)}
-      >
-        {Object.values(IncidentStatusSearch).map((status) => (
-          <Menu.Item key={status}>{handleIncidentStatus[status]}</Menu.Item>
-        ))}
-      </Menu>
-    );
-
-    return (
-      <Dropdown overlay={statusContent} placement="bottom">
-        <Button className="hover:bg-black hover:text-white focus:bg-black">
-          <span>Status:</span>
-          <span className="font-bold">&nbsp;{handleIncidentStatus[status]}</span>
-        </Button>
-      </Dropdown>
-    );
-  };
-
-  const IncidentsSortDropdown = () => {
-    const sortByContent = (
-      <Menu className="w-52" onClick={(val) => setSortBy(val.key as IncidentSortBy)}>
-        {Object.values(IncidentSortBy).map((sort) => (
-          <Menu.Item key={sort}>{handlIncidentSortName[sort]}</Menu.Item>
-        ))}
-      </Menu>
-    );
-
-    return (
-      <Dropdown overlay={sortByContent} placement="bottom">
-        <Button className="hover:bg-black hover:text-white focus:bg-black">
-          <span>Sort by:</span>
-          <span className="font-bold">&nbsp;{handleIncidentSort[sortBy]}</span>
-        </Button>
-      </Dropdown>
-    );
-  };
-
   const onChangePlotType = (type: INCIDENT_PLOT_TYPE) => {
     setPlotType(type);
     setLocalStorageIncidentPlotType(type);
@@ -132,14 +101,53 @@ export const AppIncidentsListPage = () => {
         subTitle="List of incidents catched by Traceo SDK"
       />
       <PagePanel>
+        {/* <div className="grid grid-cols-12">
+          <div className="col-span-8">
+            <InputSearch
+              placeholder="Search incidents by type, message, status or assigned user"
+              value={search}
+              onChange={setSearch}
+            />
+          </div>
+          <div className="col-span-2">
+            <Select
+              placeholder="Select status"
+              options={statusOptions}
+              value={status}
+              onChange={({ value }) => setStatus(value)}
+            />
+          </div>
+          <div className="col-span-2">
+            <Select
+              placeholder="Sort by"
+              options={sortOptions}
+              value={sortBy}
+              onChange={({ value }) => setSortBy(value)}
+            />
+          </div>
+        </div> */}
         <SearchWrapper className="pt-2 pb-12">
           <InputSearch
             placeholder="Search incidents by type, message, status or assigned user"
             value={search}
             onChange={setSearch}
           />
-          <IncidentStatusDropdown />
-          <IncidentsSortDropdown />
+          <Select
+            placeholder="Select status"
+            width={150}
+            options={statusOptions}
+            value={status}
+            onChange={(opt) => setStatus(opt?.value)}
+            isClearable
+          />
+          <Select
+            placeholder="Sort by"
+            width={150}
+            options={sortOptions}
+            value={sortBy}
+            onChange={(opt) => setSortBy(opt?.value)}
+            isClearable
+          />
           <Segmented
             onResize={undefined}
             onResizeCapture={undefined}

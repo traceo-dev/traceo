@@ -26,7 +26,7 @@ export enum IncidentSortBy {
   LAST_SEEN = "last_error",
   FIRST_SEEN = "created_at",
   STATUS = "status",
-  ERRORS_COUNT = "errors_eount"
+  ERRORS_COUNT = "errors_count"
 }
 
 export const handleIncidentSort: Record<IncidentSortBy, string> = {

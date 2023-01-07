@@ -1,4 +1,4 @@
-import { Row, Select } from "antd";
+import { Row } from "antd";
 import { Avatar } from "../../../../core/components/Avatar";
 import api from "../../../../core/lib/api";
 import { FC, useState } from "react";
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { useNavigate } from "react-router-dom";
 import { Button } from "core/ui-components/Button/Button";
+import { Select } from "core/ui-components/Select/Select";
 
 interface MemberRowProps {
   item: ApplicationMember;
@@ -87,14 +88,10 @@ export const MemberTableRow: FC<MemberRowProps> = ({
         <td className="w-64" colSpan={2}>
           {updateMode ? (
             <Select
-              style={{ width: "160px" }}
               defaultValue={item?.role}
-              onChange={(val) => setRole(val)}
-            >
-              {options.map((option) => (
-                <Select.Option key={option.value}>{option.label}</Select.Option>
-              ))}
-            </Select>
+              options={options}
+              onChange={(opt) => setRole(opt?.value)}
+            />
           ) : (
             item?.role
           )}

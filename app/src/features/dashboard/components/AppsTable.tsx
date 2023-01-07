@@ -15,6 +15,7 @@ import { AppCard } from "./AppCard";
 import { loadApplications } from "../state/actions";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
+import { Select } from "core/ui-components/Select/Select";
 
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",
@@ -22,11 +23,16 @@ export enum AppsSortBy {
   LAST_ERROR = "lastIncidentAt"
 }
 
-export const handleAppSort: Record<AppsSortBy, string> = {
+export const handleAppSortLabel: Record<AppsSortBy, string> = {
   [AppsSortBy.CREATED_AT]: "Created at",
   [AppsSortBy.LAST_UPDATE]: "Last update",
   [AppsSortBy.LAST_ERROR]: "Last error"
 };
+
+const sortOptions = Object.values(AppsSortBy).map((sort) => ({
+  value: sort,
+  label: handleAppSortLabel[sort]
+}));
 
 export const AppsTable = () => {
   const { applications, hasFetched } = useSelector(
@@ -47,33 +53,19 @@ export const AppsTable = () => {
 
   useEffect(() => fetchApplications(), []);
   useEffect(() => fetchApplications(), [order, sortBy, search]);
+
   const fetchApplications = () => dispatch(loadApplications(queryParams));
-
-  const onSearch = (val: string) => setSearch(val);
-
-  const AppsSortDropdown = () => {
-    const statusContent = (
-      <Menu className="w-52" onClick={(val) => setSortBy(val.key as AppsSortBy)}>
-        {Object.values(AppsSortBy).map((sort) => (
-          <Menu.Item key={sort}>{handleAppSort[sort]}</Menu.Item>
-        ))}
-      </Menu>
-    );
-
-    return (
-      <Dropdown overlay={statusContent} placement="bottom">
-        <Button className="hover:bg-black hover:text-white focus:bg-black">
-          <span>Sort by:</span>
-          <span className="font-bold">&nbsp;{handleAppSort[sortBy]}</span>
-        </Button>
-      </Dropdown>
-    );
-  };
 
   const renderSearch = () => (
     <SearchWrapper>
       <InputSearch placeholder="Search by name" value={search} onChange={setSearch} />
-      <AppsSortDropdown />
+      <Select
+        width={150}
+        options={sortOptions}
+        value={sortBy}
+        onChange={(opt) => setSortBy(opt?.value)}
+        isClearable
+      />
       <SortIcons order={order} setOrder={setOrder} />
     </SearchWrapper>
   );

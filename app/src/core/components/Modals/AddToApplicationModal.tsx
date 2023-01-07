@@ -1,4 +1,4 @@
-import { Space, Form, Select, Modal } from "antd";
+import { Space, Form, Modal } from "antd";
 import { FC, useState } from "react";
 import { useApi } from "../../lib/useApi";
 import {
@@ -10,6 +10,12 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import api from "../../lib/api";
 import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
+import { Select } from "core/ui-components/Select/Select";
+
+const roleOptions = Object.values(MemberRole).map((role) => ({
+  label: role,
+  value: role
+}));
 
 interface Props {
   isOpen: boolean;
@@ -36,7 +42,8 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
     await api
       .post("/api/amr/application/add", {
         accountId: account.id,
-        ...props
+        applicationId: props.application.value,
+        role: props.role.value
       })
       .finally(() => {
         postExecute();
@@ -68,16 +75,16 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
             <Form.Item
               requiredMark={"optional"}
               rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
-              name="applicationId"
+              name="application"
               label="Application"
             >
-              <Select loading={isLoading}>
-                {applications?.map((val, index) => (
-                  <Select.Option key={index} value={val.id}>
-                    {val.name}
-                  </Select.Option>
-                ))}
-              </Select>
+              <Select
+                isLoading={isLoading}
+                options={applications?.map((app) => ({
+                  label: app.name,
+                  value: app.id
+                }))}
+              />
             </Form.Item>
             <Form.Item
               requiredMark={"optional"}
@@ -85,13 +92,7 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
               name="role"
               label="Role"
             >
-              <Select>
-                {Object.values(MemberRole).map((val, index) => (
-                  <Select.Option key={index} value={val}>
-                    {val}
-                  </Select.Option>
-                ))}
-              </Select>
+              <Select options={roleOptions} />
             </Form.Item>
           </Form>
         </Space>

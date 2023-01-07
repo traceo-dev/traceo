@@ -1,4 +1,4 @@
-import { Space, Typography, Form, Select, Modal } from "antd";
+import { Space, Form, Modal } from "antd";
 import { useEffect, useState } from "react";
 import { dispatch } from "../../../store/store";
 import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
@@ -9,6 +9,16 @@ import { ApplicationMember, MemberRole } from "../../../types/application";
 import api from "../../../core/lib/api";
 import { Account } from "../../../types/accounts";
 import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
+import { Select } from "core/ui-components/Select/Select";
+
+type FormType = {
+  account: {
+    value: string;
+  };
+  role: {
+    value: MemberRole;
+  };
+};
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { accounts, hasFetched } = useSelector(
@@ -26,11 +36,11 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
     dispatch(loadServerAccounts());
   }, []);
 
-  const onFinish = async (form: { accountId: string; role: MemberRole }) => {
+  const onFinish = async (form: FormType) => {
     setLoading(true);
     await api.post("/api/amr/application/add", {
-      accountId: form.accountId,
-      role: form.role,
+      accountId: form.account.value,
+      role: form.role.value,
       applicationId: application.id
     });
     setLoading(false);
@@ -48,6 +58,17 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
         !members.find(({ account }: ApplicationMember) => account.id === acc.id)
     );
 
+  const accountOptions = filterAccounts().map((account) => ({
+    icon: <Avatar name={account.name} url={account.gravatar} />,
+    label: account.name,
+    value: account.id
+  }));
+
+  const roleOptions = Object.values(MemberRole).map((role) => ({
+    label: role,
+    value: role
+  }));
+
   return (
     <>
       <Modal
@@ -58,43 +79,23 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
         confirmLoading={loading}
         onOk={submit}
       >
-        <Space
-          direction="vertical"
-          className="pt-0 px-4 w-full h-full justify-between text-center"
-        >
+        <Space direction="vertical" className="w-full">
           <Form onFinish={onFinish} form={form} layout="vertical">
             <Form.Item
-              name="accountId"
+              name="account"
               label="Server account"
-              className="text-xs mb-0 font-semibold"
               requiredMark={"optional"}
               rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
             >
-              <Select loading={!hasFetched}>
-                {filterAccounts()?.map((val, index) => (
-                  <Select.Option key={index} value={val.id}>
-                    <Avatar name={val.name} url={val.gravatar} />
-                    <Typography.Text className="ml-2">
-                      {val.name || val.username || val.email}
-                    </Typography.Text>
-                  </Select.Option>
-                ))}
-              </Select>
+              <Select isLoading={!hasFetched} options={accountOptions} />
             </Form.Item>
             <Form.Item
-              requiredMark={"optional"}
               rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
               name="role"
               label="Role"
-              className="mt-5"
+              requiredMark={"optional"}
             >
-              <Select>
-                {Object.values(MemberRole).map((val, index) => (
-                  <Select.Option key={index} value={val}>
-                    {val}
-                  </Select.Option>
-                ))}
-              </Select>
+              <Select options={roleOptions} />
             </Form.Item>
           </Form>
         </Space>
