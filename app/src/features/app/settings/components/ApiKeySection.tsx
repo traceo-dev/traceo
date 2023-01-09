@@ -61,7 +61,7 @@ export const ApiKeySection = () => {
                   defaultValue={application?.security?.apiKey}
                 />
                 <Confirm
-                  withAuth={true}
+                  auth={true}
                   description="Removing your API key will cause that SDK using this token lose access."
                   onOk={handleRemoveApiKey}
                 >

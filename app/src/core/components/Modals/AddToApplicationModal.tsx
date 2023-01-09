@@ -1,16 +1,15 @@
-import { Space, Form, Modal } from "antd";
-import { FC, useState } from "react";
+import { Space, Modal } from "antd";
+import { FC, useState, FormEvent } from "react";
 import { useApi } from "../../lib/useApi";
-import {
-  AddAccountToApplication,
-  Application,
-  MemberRole
-} from "../../../types/application";
+import { Application, MemberRole } from "../../../types/application";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import api from "../../lib/api";
-import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 import { Select } from "core/ui-components/Select/Select";
+import { FormItem } from "core/ui-components/Form/FormItem";
+import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
+import { Button } from "core/ui-components/Button/Button";
+import { Avatar } from "../Avatar";
 
 const roleOptions = Object.values(MemberRole).map((role) => ({
   label: role,
@@ -24,8 +23,10 @@ interface Props {
 }
 export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute }) => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
+  const [application, setApplication] = useState<string>(null);
+  const [role, setRole] = useState<MemberRole>(MemberRole.VIEWER);
+
   const [loading, setLoading] = useState<boolean>(false);
-  const [form] = Form.useForm();
 
   const { data: applications = [], isLoading } = useApi<Application[]>({
     url: "/api/application/all",
@@ -35,15 +36,15 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
     }
   });
 
-  const submit = () => form.submit();
+  const onFinish = async (e: FormEvent) => {
+    e.preventDefault();
 
-  const onFinish = async (props: AddAccountToApplication) => {
     setLoading(true);
     await api
       .post("/api/amr/application/add", {
         accountId: account.id,
-        applicationId: props.application.value,
-        role: props.role.value
+        applicationId: application,
+        role: role
       })
       .finally(() => {
         postExecute();
@@ -53,9 +54,12 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
   };
 
   const onClose = () => {
-    form.resetFields();
+    setRole(MemberRole.VIEWER);
+    setApplication(null);
     onCancel();
   };
+
+  // const onChangeApplication =
 
   return (
     <>
@@ -64,37 +68,47 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
         open={isOpen}
         closable={false}
         onCancel={onCancel}
-        onOk={submit}
-        confirmLoading={loading}
+        footer={null}
       >
         <Space
           direction="vertical"
           className="pt-0 px-4 w-full h-full justify-between text-center"
         >
-          <Form onFinish={onFinish} form={form} layout="vertical" className="pt-5">
-            <Form.Item
-              requiredMark={"optional"}
-              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
-              name="application"
-              label="Application"
-            >
+          <form onSubmit={onFinish} id="add-to-application-form">
+            <FormItem label="Application">
               <Select
                 isLoading={isLoading}
+                value={application}
                 options={applications?.map((app) => ({
                   label: app.name,
-                  value: app.id
+                  value: app.id,
+                  icon: <Avatar url={app?.gravatar} name={app.name} />
                 }))}
+                onChange={(opt) => setApplication(opt?.value)}
               />
-            </Form.Item>
-            <Form.Item
-              requiredMark={"optional"}
-              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
-              name="role"
-              label="Role"
+            </FormItem>
+            <FormItem label="Role">
+              <Select
+                value={role}
+                options={roleOptions}
+                onChange={(opt) => setRole(opt?.value)}
+              />
+            </FormItem>
+          </form>
+
+          <ButtonContainer>
+            <Button
+              disabled={!role || !application}
+              loading={loading}
+              type="submit"
+              form="add-to-application-form"
             >
-              <Select options={roleOptions} />
-            </Form.Item>
-          </Form>
+              OK
+            </Button>
+            <Button variant="ghost" onClick={onCancel}>
+              Cancel
+            </Button>
+          </ButtonContainer>
         </Space>
       </Modal>
     </>

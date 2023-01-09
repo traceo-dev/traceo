@@ -29,6 +29,7 @@ export class DataSourceService {
 
         switch (app.connectedTSDB) {
             case TSDB_PROVIDER.INFLUX2: {
+                //TODO: if no datasource configuration stop function here
                 return await this.influxService.checkConnection(appId);
             }
             default:
@@ -60,14 +61,7 @@ export class DataSourceService {
     async saveDataSource<T extends BaseDataSourceDto>(
         config: T
     ): Promise<ApiResponse<DataSourceConnStatus>> {
-        const { appId, provider } = config;
-        const app = await this.getDataSourceOrThrowError(appId);
-
-        if (!app) {
-            return;
-        }
-
-        switch (provider) {
+        switch (config.provider) {
             case TSDB_PROVIDER.INFLUX2: {
                 return await this.influxService.saveInfluxDataSource(config);
             }
@@ -98,11 +92,9 @@ export class DataSourceService {
                 return;
             }
 
-            await manager.getRepository(Application).update({ id }, { connectedTSDB: null });
-
             switch (app.connectedTSDB) {
                 case TSDB_PROVIDER.INFLUX2: {
-                    await manager.getRepository(Application).update({ id }, { influxDS: null })
+                    await manager.getRepository(Application).update({ id }, { connectedTSDB: null, influxDS: null })
                     return new ApiResponse("success", "Data source removed");
                 }
                 default:

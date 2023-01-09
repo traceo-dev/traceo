@@ -1,4 +1,4 @@
-import React, { HTMLProps, useEffect } from "react";
+import React, { HTMLProps } from "react";
 import {
   useForm,
   SubmitHandler,
@@ -24,11 +24,11 @@ export function Form<T>(props: Props<T>) {
     defaultValues
   });
 
-  useEffect(() => {
-    if (formState.isSubmitSuccessful) {
-      reset();
-    }
-  }, [formState, reset]);
+  // useEffect(() => {
+  //   if (formState.isSubmitSuccessful) {
+  //     reset();
+  //   }
+  // }, [formState]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} {...restProps}>

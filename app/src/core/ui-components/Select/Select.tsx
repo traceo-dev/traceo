@@ -28,6 +28,7 @@ interface SelectProps {
   isSearchable?: boolean;
   isMulti?: boolean;
   prefix?: JSX.Element;
+  suffix?: JSX.Element;
   className?: string;
   placeholder?: string;
   width?: number;
@@ -43,12 +44,13 @@ const Control = (props: any) => {
 
   return (
     <div
-      style={{ maxHeight: "32px" }}
+      style={{ maxHeight: "30px" }}
       className="bg-canvas px-2 flex rounded-md items-center"
       {...innerProps}
     >
       {selectProps.prefix && <div className="px-1">{selectProps.prefix}</div>}
       {children}
+      {selectProps.suffix && <div className="pr-1 pl-2">{selectProps.suffix}</div>}
     </div>
   );
 };

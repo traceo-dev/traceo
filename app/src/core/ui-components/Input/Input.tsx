@@ -14,6 +14,7 @@ export interface Props extends Omit<HTMLProps<HTMLInputElement>, "prefix" | "siz
   prefix?: JSX.Element;
   suffix?: JSX.Element;
   loading?: boolean;
+  isFocusable?: boolean;
 }
 
 export const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -25,16 +26,22 @@ export const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
     suffix,
     loading,
     value,
+    isFocusable = true,
+    disabled,
     ...restProps
   } = props;
 
   const inputClassNames = joinClasses(`
     ${conditionClass(!!prefix, "pl-10")}
     ${conditionClass(!!suffix, "pr-10")}
+    ${conditionClass(
+      isFocusable,
+      "focus:border-blue-500 focus:outline-none focus:ring focus:ring-2 focus:ring-blue-400 focus:shadow-sm",
+      "focus:outline-0"
+    )}
+    ${conditionClass(disabled, "opacity-50")}
       bg-canvas border border-secondary rounded-md
-      focus:border-blue-500 block w-full py-1 px-3 
-      focus:outline-none focus:ring focus:ring-2 focus:ring-blue-400 focus:shadow-sm
-      placeholder:text-gray-500
+      block w-full py-1 px-3 placeholder:text-gray-500
   `);
 
   return (
@@ -47,7 +54,13 @@ export const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
           </div>
         )}
 
-        <input ref={ref} value={value} {...restProps} className={inputClassNames} />
+        <input
+          ref={ref}
+          value={value}
+          {...restProps}
+          className={inputClassNames}
+          disabled={disabled}
+        />
 
         {(suffix || loading) && (
           <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500">

@@ -12,7 +12,6 @@ import { LoginProps } from "../../../types/auth";
 const Login = () => {
   const { isError, isSuccess } = useSelector((state: StoreState) => state.account);
   const [loading, setLoading] = useState<boolean>(false);
-  const [form] = Form.useForm();
 
   useEffect(() => {
     if (isError) {
@@ -45,7 +44,7 @@ const Login = () => {
     <>
       <div className="w-full">
         <AuthLayout title="Welcome to Traceo">
-          <LoginForm form={form} loading={loading} onFinish={onFinish} />
+          <LoginForm loading={loading} onFinish={onFinish} />
         </AuthLayout>
       </div>
     </>

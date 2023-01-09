@@ -1,51 +1,64 @@
+import { conditionClass, joinClasses } from "core/utils/classes";
 import { REQUIRED_FIELD_ERROR } from "core/utils/constants";
+import React from "react";
 import { FC } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { clearObject } from "core/utils/object";
 
 interface FormItemProps {
   label?: string;
   children: JSX.Element;
-  required?: boolean;
-  requiredMessage?: string;
   showRequiredMark?: boolean;
   error?: FieldError | Merge<FieldError, FieldErrorsImpl<any>>;
   tooltip?: string;
+  className?: string;
+  disabled?: boolean;
 }
 export const FormItem: FC<FormItemProps> = (props: FormItemProps) => {
   const {
     children,
     label,
     error,
-    required,
-    requiredMessage,
-    showRequiredMark = false
+    showRequiredMark = false,
+    className,
+    disabled = false
   } = props;
 
   const formLabel =
     typeof label === "string" ? (
       <span>
-        {label} {required && showRequiredMark ? "*" : null}
+        {label} {showRequiredMark ? "*" : null}
       </span>
     ) : (
       label
     );
 
-  const isRequireMessage =
-    requiredMessage?.length > 0 || error?.message?.toString()?.length > 0;
+  const isErrorMessage = error?.message?.toString().length > 0;
+  const errorMessage = isErrorMessage
+    ? error?.message
+    : error?.type === "required" && isErrorMessage
+    ? error?.message
+    : REQUIRED_FIELD_ERROR;
 
-  const errorMessage =
-    error?.type && error?.type === "required" && required
-      ? isRequireMessage
-        ? requiredMessage || error?.message
-        : REQUIRED_FIELD_ERROR
-      : null;
+  const childrenProps = clearObject({
+    suffix: error ? (
+      <ExclamationCircleOutlined className="text-red-500 font-semibold" />
+    ) : null,
+    isFocusable: !error,
+    disabled
+  });
 
   return (
-    <div className="flex flex-col text-start mb-5">
+    <div className={joinClasses("flex flex-col text-start mb-5", className)}>
       {label && <span className="mb-2 font-semibold text-md">{formLabel}</span>}
-      <div>{children}</div>
-
-      {error && <span className="text-red-500 mt-1 font-semibold">{errorMessage}</span>}
+      <div className={conditionClass(!!error, "ring-2 ring-red-500 rounded-md")}>
+        {React.cloneElement(children, childrenProps)}
+      </div>
+      {/* TODO: Make it later as information in tooltip for suffix icon */}
+      {error && (
+        <div className="relative inline-block pt-2 text-red-500">{errorMessage}</div>
+      )}
     </div>
   );
 };

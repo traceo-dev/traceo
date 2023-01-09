@@ -64,6 +64,7 @@ export class InfluxService {
     ): Promise<DataSourceConnStatus> {
         let state: DataSourceConnStatus;
 
+        // TODO: trash here
         if (!config) {
             const app = await manager.getRepository(Application).findOneBy({ id: appId });
             state = await this.connectionTest({ ...app.influxDS });

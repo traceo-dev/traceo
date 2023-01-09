@@ -43,7 +43,7 @@ export const ApplicationInformation = () => {
     return (
       <Space className="w-full justify-end">
         <Confirm
-          withAuth={true}
+          auth={true}
           description="Are you sure that you want to remove this app?"
           onOk={() => onRemove()}
         >

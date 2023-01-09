@@ -9,8 +9,8 @@ export interface Props
 
 export const InputSecret = forwardRef<HTMLInputElement, Props>((props, ref) => {
   const { value, className, ...restProps } = props;
-
   const [isSecret, setSecret] = useState<boolean>(true);
+
   const onClickEye = (e) => {
     e.preventDefault();
     setSecret(!isSecret);

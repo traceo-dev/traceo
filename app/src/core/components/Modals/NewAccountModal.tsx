@@ -1,28 +1,30 @@
-import { Space, Form, Modal } from "antd";
+import { Space, Modal } from "antd";
 import { useState } from "react";
 import { dispatch } from "../../../store/store";
 import { addServerAccount } from "../../../features/management/state/accounts/actions";
 import { AddAccountProps } from "../../../types/accounts";
-import validators from "../../lib/validators";
-import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 import { Input } from "core/ui-components/Input/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
+import { Form } from "core/ui-components/Form/Form";
+import { FormItem } from "core/ui-components/Form/FormItem";
+import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
+import { Button } from "core/ui-components/Button/Button";
+import { clearObject } from "core/utils/object";
 
 export const NewAccountModal = ({ isOpen, onCancel }) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [form] = Form.useForm();
-
-  const submit = () => form.submit();
 
   const onFinish = (props: AddAccountProps) => {
     setLoading(true);
-    dispatch(addServerAccount(props));
+
+    const payload = clearObject<AddAccountProps>(props);
+    dispatch(addServerAccount(payload));
+
     setLoading(false);
     onClose();
   };
 
   const onClose = () => {
-    form.resetFields();
     onCancel();
   };
 
@@ -32,40 +34,63 @@ export const NewAccountModal = ({ isOpen, onCancel }) => {
         title="New account"
         open={isOpen}
         closable={false}
-        onOk={submit}
+        footer={null}
         onCancel={onClose}
-        confirmLoading={loading}
       >
         <Space
           direction="vertical"
           className="pt-0 px-4 w-full h-full justify-between text-center"
         >
-          <Form onFinish={onFinish} form={form} layout="vertical">
-            <Form.Item
-              name="username"
-              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
-            >
-              <Input label="Username *" />
-            </Form.Item>
-            <Form.Item name="name">
-              <Input label="Name" />
-            </Form.Item>
-            <Form.Item name="email" rules={[{ required: false }, ...validators.email]}>
-              <Input label="Email address" />
-            </Form.Item>
-            <Form.Item
-              name="password"
-              rules={[
-                {
-                  required: true,
-                  message: REQUIRED_FIELD_ERROR
-                },
-                ...validators.password
-              ]}
-            >
-              <InputSecret label="Password *" />
-            </Form.Item>
+          <Form onSubmit={onFinish} id="add-account-form">
+            {({ register, errors }) => (
+              <>
+                <FormItem label="Username" error={errors.username}>
+                  <Input
+                    {...register("username", {
+                      required: true
+                    })}
+                  />
+                </FormItem>
+                <FormItem label="Name" error={errors.name}>
+                  <Input
+                    {...register("name", {
+                      required: false
+                    })}
+                  />
+                </FormItem>
+                <FormItem label="Email" error={errors.email}>
+                  <Input
+                    {...register("email", {
+                      required: false,
+                      pattern: {
+                        value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        message: "Invalid email address"
+                      }
+                    })}
+                  />
+                </FormItem>
+                <FormItem label="Password" error={errors.password}>
+                  <InputSecret
+                    {...register("password", {
+                      required: true,
+                      pattern: {
+                        value: /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+                        message: "This password is too weak"
+                      }
+                    })}
+                  />
+                </FormItem>
+              </>
+            )}
           </Form>
+          <ButtonContainer>
+            <Button loading={loading} type="submit" form="add-account-form">
+              OK
+            </Button>
+            <Button variant="ghost" onClick={onCancel}>
+              Cancel
+            </Button>
+          </ButtonContainer>
         </Space>
       </Modal>
     </>

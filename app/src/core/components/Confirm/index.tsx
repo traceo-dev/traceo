@@ -1,4 +1,4 @@
-import { Form, Modal, Space, Typography } from "antd";
+import { Modal, Space, Typography } from "antd";
 import api from "../../../core/lib/api";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
@@ -6,6 +6,9 @@ import { ApiResponse } from "../../../types/api";
 import { StoreState } from "../../../types/store";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { Button } from "core/ui-components/Button/Button";
+import { Form } from "core/ui-components/Form/Form";
+import { FormItem } from "core/ui-components/Form/FormItem";
+import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;
@@ -15,41 +18,33 @@ interface Props {
   description: string | JSX.Element;
   children: any;
   onOk: () => void;
-  withAuth?: boolean;
+  auth?: boolean;
 }
 export const Confirm: FC<Props> = ({
   title = "",
   description,
   children,
   onOk,
-  withAuth = false
+  auth = false
 }) => {
   const [isOpen, setOpen] = useState<boolean>(false);
   const { account } = useSelector((state: StoreState) => state.account);
-  const [form] = Form.useForm();
-
-  const submit = () => form.submit();
-
-  const handleOk = () => {
-    if (withAuth) {
-      submit();
-    } else {
-      onOk();
-      setOpen(false);
-    }
-  };
 
   const confirm = async ({ password }: { password: string }) => {
-    const resp: ApiResponse<CheckCredentialsResponse> = await api.post(
-      "/api/auth/check",
-      {
+    if (auth) {
+      const props = {
         username: account.username,
         password
-      }
-    );
+      };
 
-    if (resp.status === "error") {
-      return;
+      const resp: ApiResponse<CheckCredentialsResponse> = await api.post(
+        "/api/auth/check",
+        props
+      );
+
+      if (resp.status === "error") {
+        return;
+      }
     }
 
     onOk();
@@ -59,34 +54,37 @@ export const Confirm: FC<Props> = ({
   return (
     <>
       <Space onClick={() => setOpen(true)}>{children}</Space>
-      <Modal
-        open={isOpen}
-        title={title}
-        closable={false}
-        footer={
-          <>
-            <Button onClick={() => setOpen(false)} variant="ghost" className="mr-2">
-              Cancel
-            </Button>
-            <Button onClick={handleOk}>Confirm</Button>
-          </>
-        }
-      >
+      <Modal open={isOpen} title={title} closable={false} footer={null}>
         <Space className="w-full" direction="vertical">
           <Space className="w-full text-md">{description}</Space>
-          {withAuth && (
+          {auth && (
             <Space className="w-full pt-5" direction="vertical">
               <Typography.Text>
                 To perform this operation, please enter the password below and confirm.
               </Typography.Text>
-              <Form form={form} onFinish={confirm}>
-                <Form.Item className="pt-5" name="password" rules={[{ required: true }]}>
-                  <InputSecret placeholder="Password" />
-                </Form.Item>
+              <Form onSubmit={confirm} id="confirm-password-form">
+                {({ register, errors }) => (
+                  <FormItem error={errors?.password}>
+                    <InputSecret
+                      {...register("password", {
+                        required: true
+                      })}
+                      placeholder="Password"
+                    />
+                  </FormItem>
+                )}
               </Form>
             </Space>
           )}
         </Space>
+        <ButtonContainer>
+          <Button type="submit" form="confirm-password-form">
+            OK
+          </Button>
+          <Button variant="ghost" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+        </ButtonContainer>
       </Modal>
     </>
   );

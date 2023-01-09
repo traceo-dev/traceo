@@ -101,31 +101,6 @@ export const AppIncidentsListPage = () => {
         subTitle="List of incidents catched by Traceo SDK"
       />
       <PagePanel>
-        {/* <div className="grid grid-cols-12">
-          <div className="col-span-8">
-            <InputSearch
-              placeholder="Search incidents by type, message, status or assigned user"
-              value={search}
-              onChange={setSearch}
-            />
-          </div>
-          <div className="col-span-2">
-            <Select
-              placeholder="Select status"
-              options={statusOptions}
-              value={status}
-              onChange={({ value }) => setStatus(value)}
-            />
-          </div>
-          <div className="col-span-2">
-            <Select
-              placeholder="Sort by"
-              options={sortOptions}
-              value={sortBy}
-              onChange={({ value }) => setSortBy(value)}
-            />
-          </div>
-        </div> */}
         <SearchWrapper className="pt-2 pb-12">
           <InputSearch
             placeholder="Search incidents by type, message, status or assigned user"

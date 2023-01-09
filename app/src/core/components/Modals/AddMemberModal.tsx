@@ -1,5 +1,5 @@
 import { Space, Modal } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useState, FormEvent } from "react";
 import { dispatch } from "../../../store/store";
 import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
 import { useSelector } from "react-redux";
@@ -9,14 +9,9 @@ import { ApplicationMember, MemberRole } from "../../../types/application";
 import api from "../../../core/lib/api";
 import { Account } from "../../../types/accounts";
 import { Select } from "core/ui-components/Select/Select";
-import { Form } from "core/ui-components/Form/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { Button } from "core/ui-components/Button/Button";
-
-type FormType = {
-  accountId: string;
-  role: MemberRole;
-};
+import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { accounts, hasFetched } = useSelector(
@@ -25,24 +20,34 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { application } = useSelector((state: StoreState) => state.application);
   const { members } = useSelector((state: StoreState) => state.members);
 
+  const [role, setRole] = useState<MemberRole>(null);
+  const [accountId, setAccountId] = useState<string>(null);
+
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(loadServerAccounts());
   }, []);
 
-  const onFinish = async (form: FormType) => {
+  const onFinish = async (e: FormEvent) => {
+    e.preventDefault();
+
     setLoading(true);
-    await api.post("/api/amr/application/add", {
-      accountId: form.accountId,
-      role: form.role,
-      applicationId: application.id
-    });
-    setLoading(false);
-    onClose();
+    await api
+      .post("/api/amr/application/add", {
+        accountId: accountId,
+        role: role,
+        applicationId: application.id
+      })
+      .finally(() => {
+        setLoading(false);
+        onClose();
+      });
   };
 
   const onClose = () => {
+    setAccountId(null);
+    setRole(null);
     onCancel();
   };
 
@@ -55,13 +60,17 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   const accountOptions = filterAccounts().map((account) => ({
     icon: <Avatar name={account.name} url={account.gravatar} />,
     label: account.name,
-    value: account.id
+    value: account.id,
+    description: account?.email
   }));
 
   const roleOptions = Object.values(MemberRole).map((role) => ({
     label: role,
     value: role
   }));
+
+  const onChangeRole = (role: MemberRole) => setRole(role);
+  const onChangeAccount = (accountId: string) => setAccountId(accountId);
 
   return (
     <>
@@ -71,10 +80,43 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
         open={isOpen}
         closable={false}
         confirmLoading={loading}
+        footer={null}
       >
         <Space direction="vertical" className="w-full">
-          <Form id="add-member-form" onSubmit={onFinish}>
-            {({ register, setValue, errors }) => (
+          <form id="add-member-form" onSubmit={onFinish}>
+            <FormItem label="Server account">
+              <Select
+                value={accountId}
+                onChange={(opt) => onChangeAccount(opt?.value)}
+                isLoading={!hasFetched}
+                options={accountOptions}
+              />
+            </FormItem>
+            <FormItem label="Role">
+              <Select
+                value={role}
+                onChange={(opt) => onChangeRole(opt?.value)}
+                options={roleOptions}
+              />
+            </FormItem>
+          </form>
+
+          <ButtonContainer className="float-left">
+            <Button
+              disabled={!role || !accountId}
+              loading={loading}
+              type="submit"
+              form="add-member-form"
+            >
+              OK
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Cancel
+            </Button>
+          </ButtonContainer>
+
+          {/* <Form id="add-member-form" onSubmit={onFinish}>
+            {({ register, errors }) => (
               <>
                 <FormItem
                   label="Server account"
@@ -85,7 +127,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
                     {...register("accountId", {
                       required: true
                     })}
-                    onChange={(opt) => setValue("accountId", opt?.value)}
+                    onChange={(opt) => onChangeAccount(opt?.value)}
                     isLoading={!hasFetched}
                     options={accountOptions}
                   />
@@ -95,16 +137,13 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
                     {...register("role", {
                       required: true
                     })}
-                    onChange={(opt) => setValue("role", opt?.value)}
+                    onChange={(opt) => onChangeRole(opt?.value)}
                     options={roleOptions}
                   />
                 </FormItem>
               </>
             )}
-          </Form>
-          <Button type="submit" form="add-member-form">
-            Submit
-          </Button>
+          </Form> */}
         </Space>
       </Modal>
     </>

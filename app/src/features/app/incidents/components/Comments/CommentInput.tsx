@@ -1,5 +1,5 @@
 import { FileMarkdownFilled } from "@ant-design/icons";
-import { Card, Col, Form, Row, Space, Tabs, Typography } from "antd";
+import { Card, Col, Row, Space, Tabs, Typography } from "antd";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
@@ -8,7 +8,6 @@ import { loadIncidentComments } from "../../state/actions";
 import { dispatch } from "../../../../../store/store";
 import { StoreState } from "../../../../../types/store";
 import { Avatar } from "../../../../../core/components/Avatar";
-import { MarkdownHeader } from "./MarkdownHeader";
 import { InputArea } from "core/ui-components/Input/InputArea";
 import { Button } from "core/ui-components/Button/Button";
 
@@ -19,7 +18,6 @@ export const CommentInput = () => {
   const { application } = useSelector((state: StoreState) => state.application);
   const { incident } = useSelector((state: StoreState) => state.incident);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [form] = Form.useForm();
   const [comment, setComment] = useState<string>(null);
   const [sendAvailable, setSendAvailable] = useState<boolean>(false);
 
@@ -28,11 +26,10 @@ export const CommentInput = () => {
   }, [comment]);
 
   const sendMessage = async () => {
-    const comment = form.getFieldValue("typedComment");
-
     await api.comment.send(incident.id, application.id, comment);
 
-    form.resetFields();
+    setComment(null);
+    textAreaRef.current.value = null;
     setTimeout(() => {
       textAreaRef.current.focus();
     }, 10);
@@ -65,26 +62,19 @@ export const CommentInput = () => {
           <Tabs
             type="card"
             className="customized-tab customized-tab-active customized-tab-header customized-tab-body"
-            tabBarExtraContent={<MarkdownHeader form={form} />}
           >
             <TabPane key={1} tab="Write">
-              <Form form={form}>
-                <Form.Item name="typedComment" className="w-full mb-2">
-                  <InputArea
-                    placeholder="Leave a comment"
-                    onKeyDown={(val) => shortcut(val)}
-                    onChange={(val) => setComment(val.currentTarget.value)}
-                    ref={textAreaRef}
-                    rows={6}
-                  />
-                </Form.Item>
-              </Form>
+              <InputArea
+                placeholder="Leave a comment"
+                onKeyDown={(val) => shortcut(val)}
+                onChange={(val) => setComment(val.currentTarget.value)}
+                ref={textAreaRef}
+                rows={6}
+              />
             </TabPane>
             <TabPane key={2} tab="Preview">
               <Space className="w-full p-3 pb-34 mb-2 bg-secondary">
-                <ReactMarkdown className="pb-24">
-                  {form.getFieldValue("typedComment")}
-                </ReactMarkdown>
+                <ReactMarkdown className="pb-24">{comment}</ReactMarkdown>
               </Space>
             </TabPane>
           </Tabs>
@@ -98,7 +88,11 @@ export const CommentInput = () => {
               <FileMarkdownFilled className="pr-1" />
               Markdown supported
             </Typography.Link>
-            <Button disabled={sendAvailable} onClick={() => sendMessage()}>
+            <Button
+              className="mt-5"
+              disabled={sendAvailable}
+              onClick={() => sendMessage()}
+            >
               Comment
             </Button>
           </Space>
