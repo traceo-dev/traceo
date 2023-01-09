@@ -63,7 +63,8 @@ export const defaultStyles = (width: number | string | undefined): StylesConfig 
             }),
             placeholder: (provided) => ({
                 ...provided,
-                color: "#6A7281"
+                color: "#6A7281",
+                textAlign: "left"
             })
         }
     }, [width])

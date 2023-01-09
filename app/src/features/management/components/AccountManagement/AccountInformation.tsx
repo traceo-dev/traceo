@@ -83,7 +83,7 @@ export const AccountInformation = () => {
 
         {!isAdmin && (
           <Confirm
-            withAuth={true}
+            auth={true}
             description={"Are you sure that you want to delete this account?"}
             onOk={() => onDeleteAccount()}
           >

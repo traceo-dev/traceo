@@ -36,7 +36,7 @@ export const AppSettingsDataSourcePage = () => {
     setSelectedDS(application?.connectedTSDB);
   }, [application]);
 
-  const isDisabled = () =>
+  const isDisabled =
     isViewer || (application && !!application.connectedTSDB) ? true : false;
 
   const renderForm = () => {
@@ -63,7 +63,7 @@ export const AppSettingsDataSourcePage = () => {
               onChange={(opt) => setSelectedDS(opt?.value)}
               placeholder="Select data source provider"
               value={selectedDS}
-              isDisabled
+              isDisabled={isDisabled}
             />
             {renderForm()}
           </Space>

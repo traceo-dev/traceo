@@ -1,16 +1,16 @@
-import { Space, Typography, Card, Form, Popover, List, Tag } from "antd";
+import { Space, Typography, Card, Popover, List, Tag } from "antd";
 import { FC, useRef, useState } from "react";
 import { Comment } from "../../../../../types/comments";
 import dateUtils from "../../../../../core/utils/date";
 import ReactMarkdown from "react-markdown";
 import { EllipsisOutlined } from "@ant-design/icons";
 import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
-import { MarkdownHeader } from "./MarkdownHeader";
 import api from "../../../../../core/lib/api";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../../types/store";
 import { InputArea } from "core/ui-components/Input/InputArea";
 import { Button } from "core/ui-components/Button/Button";
+import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 
 interface Props {
   comment: Comment;
@@ -25,7 +25,6 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
   const { application } = useSelector((state: StoreState) => state.application);
   const { account } = useSelector((state: StoreState) => state.account);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-  const [form] = Form.useForm();
 
   const shortcut = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.keyCode === 13 && e.ctrlKey) {
@@ -34,18 +33,14 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
   };
 
   const edit = () => {
-    form.setFieldsValue({
-      comment: comment.message
-    });
     setEditMode(true);
-
     setTimeout(() => {
       textAreaRef.current.focus();
     }, 10);
   };
 
   const sendEdit = async () => {
-    const message = form.getFieldValue("comment");
+    const message = textAreaRef.current.value;
     await api.comment.update(comment.id, message, application.id, incidentId);
 
     setEditMode(false);
@@ -115,28 +110,19 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
           </Space>
         ) : (
           <Space direction="vertical" className="w-full">
-            <Space
-              direction="vertical"
-              className="w-full justify-end bg-secondary rounded-lg"
-            >
-              <MarkdownHeader className="pb-0" form={form} />
-            </Space>
-            <Form form={form}>
-              <Form.Item name="comment" className="w-full mb-2">
-                <InputArea
-                  placeholder="Leave a comment"
-                  rows={6}
-                  ref={textAreaRef}
-                  onKeyDown={(val) => shortcut(val)}
-                />
-              </Form.Item>
-            </Form>
-            <Space>
-              <Button onClick={() => sendEdit()}>Edit</Button>
+            <InputArea
+              placeholder="Leave a comment"
+              rows={6}
+              defaultValue={comment?.message}
+              ref={textAreaRef}
+              onKeyDown={(val) => shortcut(val)}
+            />
+            <ButtonContainer justify="start">
+              <Button onClick={sendEdit}>Edit</Button>
               <Button variant="ghost" onClick={() => setEditMode(false)}>
                 Cancel
               </Button>
-            </Space>
+            </ButtonContainer>
           </Space>
         )}
       </Card>

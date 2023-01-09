@@ -1,4 +1,3 @@
-import { Form } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "../../core/components/ColumnSection";
@@ -9,12 +8,14 @@ import {
   updateAccount,
   updateAccountPassword
 } from "../../features/app/settings/state/settings/actions";
-import { ADMIN_EMAIL, REQUIRED_FIELD_ERROR } from "../../core/utils/constants";
+import { ADMIN_EMAIL } from "../../core/utils/constants";
 import { PagePanel } from "../../core/components/PagePanel";
-import validators from "../../core/lib/validators";
 import { Input } from "core/ui-components/Input/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { Button } from "core/ui-components/Button/Button";
+import { Form } from "core/ui-components/Form/Form";
+import { FormItem } from "core/ui-components/Form/FormItem";
+import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 
 const SettingsAccountPage = () => {
   const { account } = useSelector((state: StoreState) => state.account);
@@ -47,30 +48,57 @@ const SettingsAccountPage = () => {
             subtitle="This information will appear on your profile."
           >
             <Form
-              onFinish={onFinishUpdateAccount}
-              name="personalInformation"
-              layout="vertical"
-              className="w-3/5"
-              disabled={isAdmin || isDemo}
+              onSubmit={onFinishUpdateAccount}
+              defaultValues={{
+                name: account?.name,
+                email: account?.email
+              }}
+              id="basic-info-form"
+              className="w-1/2"
             >
-              <Form.Item name="name" initialValue={account?.name}>
-                <Input label="Name" />
-              </Form.Item>
+              {({ register, errors }) => (
+                <>
+                  <FormItem
+                    label="Name"
+                    error={errors?.name}
+                    disabled={isAdmin || isDemo}
+                  >
+                    <Input
+                      {...register("name", {
+                        required: true
+                      })}
+                    />
+                  </FormItem>
 
-              <Form.Item
-                name="email"
-                initialValue={account?.email}
-                rules={[{ required: false }, ...validators.email]}
-              >
-                <Input label="Email" />
-              </Form.Item>
-
-              {!isAdmin && (
-                <Button type="submit" loading={loadingUpdateAccount}>
-                  Update
-                </Button>
+                  <FormItem
+                    label="Email"
+                    error={errors?.email}
+                    disabled={isAdmin || isDemo}
+                  >
+                    <Input
+                      {...register("email", {
+                        required: false,
+                        pattern: {
+                          value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                          message: "This email address is invalid"
+                        }
+                      })}
+                    />
+                  </FormItem>
+                </>
               )}
             </Form>
+            {!isAdmin && (
+              <ButtonContainer justify="start">
+                <Button
+                  form="basic-info-form"
+                  type="submit"
+                  loading={loadingUpdateAccount}
+                >
+                  Update
+                </Button>
+              </ButtonContainer>
+            )}
           </ColumnSection>
         </PagePanel>
 
@@ -82,31 +110,43 @@ const SettingsAccountPage = () => {
             subtitle="After a successful password update, you will be redirected to the login page where you can log in with your new password."
           >
             <Form
-              onFinish={onFinishUpdatePassword}
-              name="updatePassword"
-              layout="vertical"
-              className="w-3/5"
+              onSubmit={onFinishUpdatePassword}
+              id="update-password-form"
+              className="w-1/2"
             >
-              <Form.Item
-                name="password"
-                requiredMark={"optional"}
-                rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
-              >
-                <InputSecret label="Current password" />
-              </Form.Item>
+              {({ register, errors }) => (
+                <>
+                  <FormItem label="Password" error={errors.password}>
+                    <InputSecret
+                      {...register("password", {
+                        required: true
+                      })}
+                    />
+                  </FormItem>
 
-              <Form.Item
-                name="newPassword"
-                requiredMark={"optional"}
-                rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
+                  <FormItem label="New password" error={errors.newPassword}>
+                    <InputSecret
+                      {...register("newPassword", {
+                        required: true,
+                        pattern: {
+                          value: /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+                          message: "This password is too weak"
+                        }
+                      })}
+                    />
+                  </FormItem>
+                </>
+              )}
+            </Form>
+            <ButtonContainer justify="start">
+              <Button
+                type="submit"
+                form="update-password-form"
+                loading={loadingConfirmPassword}
               >
-                <InputSecret label="New password" />
-              </Form.Item>
-
-              <Button type="submit" loading={loadingConfirmPassword}>
                 Confirm
               </Button>
-            </Form>
+            </ButtonContainer>
           </ColumnSection>
         </PagePanel>
         {/* <ColumnSection

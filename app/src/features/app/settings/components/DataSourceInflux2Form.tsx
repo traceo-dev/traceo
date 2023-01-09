@@ -1,19 +1,21 @@
-import { Form, Space, Alert, Typography } from "antd";
+import { Space, Alert, Typography } from "antd";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { dispatch } from "../../../../store/store";
 import { CONNECTION_STATUS, InfluxDS, TSDB_PROVIDER } from "../../../../types/tsdb";
 import { StoreState } from "../../../../types/store";
-import { INFLUX2_DOCS, REQUIRED_FIELD_ERROR } from "../../../../core/utils/constants";
-import validators from "../../../../core/lib/validators";
+import { INFLUX2_DOCS } from "../../../../core/utils/constants";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
 import { ApiResponse } from "../../../../types/api";
 import { loadApplication } from "../../../../features/app/state/application/actions";
 import { Input } from "core/ui-components/Input/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { Button } from "core/ui-components/Button/Button";
+import { Form } from "core/ui-components/Form/Form";
+import { FormItem } from "core/ui-components/Form/FormItem";
+import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 
 export const DataSourceInflux2Form = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -25,13 +27,9 @@ export const DataSourceInflux2Form = () => {
   const isFailedConnection =
     application.influxDS?.connStatus === CONNECTION_STATUS.FAILED;
 
-  const [form] = Form.useForm();
-
-  useEffect(() => {
-    form.setFieldsValue({ ...application?.influxDS });
-  }, []);
-
-  const submit = () => form.submit();
+  const defaultValues = useMemo(() => {
+    return { ...application?.influxDS };
+  }, [application]);
 
   const update = async (form: InfluxDS) => {
     setLoading(true);
@@ -64,46 +62,50 @@ export const DataSourceInflux2Form = () => {
   return (
     <>
       <Form
+        id="inlfux-provider-form"
         disabled={isViewer}
-        onFinish={update}
-        form={form}
-        layout="vertical"
-        className="pt-5"
+        onSubmit={update}
+        defaultValues={defaultValues}
       >
-        <Form.Item
-          label="URL"
-          name="url"
-          requiredMark={"optional"}
-          rules={[{ required: true, message: REQUIRED_FIELD_ERROR }, ...validators.url]}
-        >
-          <Input placeholder="http://localhost:8086/" />
-        </Form.Item>
-        <Form.Item
-          label="Token"
-          name="token"
-          requiredMark={"optional"}
-          rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
-        >
-          <InputSecret />
-        </Form.Item>
-        <Space className="w-full justify-between gap-0">
-          <Form.Item
-            label="Organization"
-            name="org"
-            requiredMark={"optional"}
-            rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Bucket name"
-            name="bucket"
-            requiredMark={"optional"}
-            rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
-          >
-            <Input />
-          </Form.Item>
-        </Space>
+        {({ register, errors }) => (
+          <>
+            <FormItem error={errors.url} label="URL">
+              <Input
+                {...register("url", {
+                  required: true,
+                  pattern: {
+                    value: /^((https|http):\/\/.*):?(\d*)\/?(.*)/,
+                    message: "This url is invalid!"
+                  }
+                })}
+                placeholder="http://localhost:8086/"
+              />
+            </FormItem>
+            <FormItem error={errors.token} label="Token">
+              <InputSecret
+                {...register("token", {
+                  required: true
+                })}
+              />
+            </FormItem>
+            <div className="w-full flex flex-row justify-between gap-2">
+              <FormItem error={errors.org} label="Organization">
+                <Input
+                  {...register("org", {
+                    required: true
+                  })}
+                />
+              </FormItem>
+              <FormItem error={errors.bucket} label="Bucket name">
+                <Input
+                  {...register("bucket", {
+                    required: true
+                  })}
+                />
+              </FormItem>
+            </div>
+          </>
+        )}
       </Form>
       <Space className="pt-5">
         <Alert
@@ -116,8 +118,8 @@ export const DataSourceInflux2Form = () => {
           }
         />
       </Space>
-      <Space hidden={isViewer} className="w-full pt-5">
-        <Button loading={isLoading} onClick={submit}>
+      <ButtonContainer justify="start" hidden={isViewer}>
+        <Button loading={isLoading} type="submit" form="inlfux-provider-form">
           Save & Test
         </Button>
         {isDeleteDSBtn && (
@@ -130,7 +132,7 @@ export const DataSourceInflux2Form = () => {
             </Button>
           </Confirm>
         )}
-      </Space>
+      </ButtonContainer>
       {isFailedConnection && (
         <Alert
           className="mt-5"

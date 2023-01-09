@@ -1,5 +1,5 @@
-import { Space, Form, Modal } from "antd";
-import { useEffect, useState } from "react";
+import { Space, Modal } from "antd";
+import { useEffect, useState, FormEvent } from "react";
 import { dispatch } from "../../../store/store";
 import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
 import { useSelector } from "react-redux";
@@ -8,17 +8,10 @@ import { Avatar } from "../Avatar";
 import { ApplicationMember, MemberRole } from "../../../types/application";
 import api from "../../../core/lib/api";
 import { Account } from "../../../types/accounts";
-import { REQUIRED_FIELD_ERROR } from "../../../core/utils/constants";
 import { Select } from "core/ui-components/Select/Select";
-
-type FormType = {
-  account: {
-    value: string;
-  };
-  role: {
-    value: MemberRole;
-  };
-};
+import { FormItem } from "core/ui-components/Form/FormItem";
+import { Button } from "core/ui-components/Button/Button";
+import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { accounts, hasFetched } = useSelector(
@@ -27,28 +20,34 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { application } = useSelector((state: StoreState) => state.application);
   const { members } = useSelector((state: StoreState) => state.members);
 
-  const [loading, setLoading] = useState<boolean>(false);
-  const [form] = Form.useForm();
+  const [role, setRole] = useState<MemberRole>(null);
+  const [accountId, setAccountId] = useState<string>(null);
 
-  const submit = () => form.submit();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(loadServerAccounts());
   }, []);
 
-  const onFinish = async (form: FormType) => {
+  const onFinish = async (e: FormEvent) => {
+    e.preventDefault();
+
     setLoading(true);
-    await api.post("/api/amr/application/add", {
-      accountId: form.account.value,
-      role: form.role.value,
-      applicationId: application.id
-    });
-    setLoading(false);
-    onClose();
+    await api
+      .post("/api/amr/application/add", {
+        accountId: accountId,
+        role: role,
+        applicationId: application.id
+      })
+      .finally(() => {
+        setLoading(false);
+        onClose();
+      });
   };
 
   const onClose = () => {
-    form.resetFields();
+    setAccountId(null);
+    setRole(null);
     onCancel();
   };
 
@@ -61,13 +60,17 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   const accountOptions = filterAccounts().map((account) => ({
     icon: <Avatar name={account.name} url={account.gravatar} />,
     label: account.name,
-    value: account.id
+    value: account.id,
+    description: account?.email
   }));
 
   const roleOptions = Object.values(MemberRole).map((role) => ({
     label: role,
     value: role
   }));
+
+  const onChangeRole = (role: MemberRole) => setRole(role);
+  const onChangeAccount = (accountId: string) => setAccountId(accountId);
 
   return (
     <>
@@ -77,27 +80,70 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
         open={isOpen}
         closable={false}
         confirmLoading={loading}
-        onOk={submit}
+        footer={null}
       >
         <Space direction="vertical" className="w-full">
-          <Form onFinish={onFinish} form={form} layout="vertical">
-            <Form.Item
-              name="account"
-              label="Server account"
-              requiredMark={"optional"}
-              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
+          <form id="add-member-form" onSubmit={onFinish}>
+            <FormItem label="Server account">
+              <Select
+                value={accountId}
+                onChange={(opt) => onChangeAccount(opt?.value)}
+                isLoading={!hasFetched}
+                options={accountOptions}
+              />
+            </FormItem>
+            <FormItem label="Role">
+              <Select
+                value={role}
+                onChange={(opt) => onChangeRole(opt?.value)}
+                options={roleOptions}
+              />
+            </FormItem>
+          </form>
+
+          <ButtonContainer className="float-left">
+            <Button
+              disabled={!role || !accountId}
+              loading={loading}
+              type="submit"
+              form="add-member-form"
             >
-              <Select isLoading={!hasFetched} options={accountOptions} />
-            </Form.Item>
-            <Form.Item
-              rules={[{ required: true, message: REQUIRED_FIELD_ERROR }]}
-              name="role"
-              label="Role"
-              requiredMark={"optional"}
-            >
-              <Select options={roleOptions} />
-            </Form.Item>
-          </Form>
+              OK
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Cancel
+            </Button>
+          </ButtonContainer>
+
+          {/* <Form id="add-member-form" onSubmit={onFinish}>
+            {({ register, errors }) => (
+              <>
+                <FormItem
+                  label="Server account"
+                  error={errors?.accountId}
+                  required={true}
+                >
+                  <Select
+                    {...register("accountId", {
+                      required: true
+                    })}
+                    onChange={(opt) => onChangeAccount(opt?.value)}
+                    isLoading={!hasFetched}
+                    options={accountOptions}
+                  />
+                </FormItem>
+                <FormItem label="Role" error={errors?.role} required={true}>
+                  <Select
+                    {...register("role", {
+                      required: true
+                    })}
+                    onChange={(opt) => onChangeRole(opt?.value)}
+                    options={roleOptions}
+                  />
+                </FormItem>
+              </>
+            )}
+          </Form> */}
         </Space>
       </Modal>
     </>

@@ -88,7 +88,7 @@ export const AppSettingsDetailsPage = () => {
           >
             <Space className="w-full mb-5">
               <Confirm
-                withAuth={true}
+                auth={true}
                 description="Are you sure that you want to remove this app?"
                 onOk={() => remove()}
               >
