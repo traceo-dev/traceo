@@ -2,12 +2,6 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { conditionClass, joinClasses } from "core/utils/classes";
 import { forwardRef, HTMLProps } from "react";
 
-/**
- * TODO:
- * - tooltip
- *
- */
-
 export interface Props extends Omit<HTMLProps<HTMLInputElement>, "prefix" | "size"> {
   width?: string | number;
   label?: string;

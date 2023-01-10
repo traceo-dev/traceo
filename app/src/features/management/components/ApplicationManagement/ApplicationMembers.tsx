@@ -1,10 +1,11 @@
-import { Space, Typography } from "antd";
+import { Space } from "antd";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { ApplicationMembersTable } from "../../../../core/components/Table/ApplicationMembersTable";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useApi } from "../../../../core/lib/useApi";
 import { ApplicationMember } from "../../../../types/application";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const ApplicationMembers = () => {
   const { id } = useParams();
@@ -26,9 +27,7 @@ export const ApplicationMembers = () => {
           isEmpty={members?.length === 0}
           emptyView={
             <Space className="w-full justify-center">
-              <Typography.Text className="w-full justify-center">
-                No members
-              </Typography.Text>
+              <Typography className="w-full justify-center">No members</Typography>
             </Space>
           }
           isLoading={isLoading}

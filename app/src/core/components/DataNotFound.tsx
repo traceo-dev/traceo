@@ -1,7 +1,8 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Space, Typography } from "antd";
+import { Space } from "antd";
 import { joinClasses } from "../../core/utils/classes";
 import { FC } from "react";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface Props {
   label?: string;
@@ -20,9 +21,11 @@ export const DataNotFound: FC<Props> = ({
     className={joinClasses("font-semibold w-full items-center pb-5 gap-0", className)}
   >
     {showIcon && <SearchOutlined className="text-2xl" />}
-    <Typography.Text>{label}</Typography.Text>
+    <Typography>{label}</Typography>
     {explanation && (
-      <Typography.Text className="text-xs font-normal">{explanation}</Typography.Text>
+      <Typography size="xs" weight="normal">
+        {explanation}
+      </Typography>
     )}
   </Space>
 );

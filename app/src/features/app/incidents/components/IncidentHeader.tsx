@@ -4,15 +4,7 @@ import {
   SyncOutlined,
   UserAddOutlined
 } from "@ant-design/icons";
-import {
-  Space,
-  Typography,
-  Tooltip,
-  Button as AntButton,
-  Popover,
-  Dropdown,
-  Menu
-} from "antd";
+import { Space, Tooltip, Button as AntButton, Popover, Dropdown, Menu } from "antd";
 import { AssignMemberPopover } from "../../../../core/components/AssignMemberPopover";
 import { Avatar } from "../../../../core/components/Avatar";
 import { FC, useState } from "react";
@@ -29,6 +21,7 @@ import { updateIncident } from "../state/actions";
 import { joinClasses } from "../../../../core/utils/classes";
 import { useNavigate } from "react-router-dom";
 import { Button } from "core/ui-components/Button/Button";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const IncidentHeader = ({ incident, onExecute }) => {
   const navigate = useNavigate();
@@ -47,9 +40,9 @@ export const IncidentHeader = ({ incident, onExecute }) => {
             onClick={() => navigate(-1)}
           >
             <ArrowLeftOutlined />
-            <Typography.Text>INCIDENTS</Typography.Text>
+            <Typography>INCIDENTS</Typography>
           </Space>
-          <Typography.Text className="text-2xl">{incident?.type}</Typography.Text>
+          <Typography size="xxl">{incident?.type}</Typography>
         </Space>
       }
       subTitle={<ButtonsSection incident={incident} />}

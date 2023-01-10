@@ -1,4 +1,4 @@
-import { Space, Tooltip, Typography } from "antd";
+import { Space, Tooltip } from "antd";
 import { CodePreview } from "../../../../core/components/CodePreview";
 import { ColumnDetail } from "../../../../core/components/ColumnDetail";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
@@ -7,6 +7,7 @@ import { PagePanel } from "../../../../core/components/PagePanel";
 import { StoreState } from "../../../../types/store";
 import { Collapse } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 const { Panel } = Collapse;
 
@@ -22,10 +23,10 @@ export const StacktraceSection = () => {
     <>
       <PagePanel title="Stacktrace">
         <Space className="w-full py-5 gap-0" direction="vertical">
-          <Typography.Text className="text-xl font-semibold">
+          <Typography size="xl" weight="semibold">
             {incident?.type}
-          </Typography.Text>
-          <Typography.Text className="text-md">{incident?.message}</Typography.Text>
+          </Typography>
+          <Typography>{incident?.message}</Typography>
         </Space>
         <Collapse
           expandIconPosition="end"
@@ -53,9 +54,9 @@ export const StacktraceSection = () => {
                     />
                   </Tooltip>
 
-                  <Typography.Text className="text-md">
+                  <Typography>
                     {trace.absPath}:{trace.lineNo}:{trace.columnNo}
-                  </Typography.Text>
+                  </Typography>
                 </Space>
               }
               key={index}

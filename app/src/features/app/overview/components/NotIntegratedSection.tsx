@@ -1,10 +1,11 @@
-import { Space, Typography } from "antd";
+import { Space } from "antd";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { GH_SDK_REPO_LINK } from "../../../../core/utils/constants";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { Button } from "core/ui-components/Button/Button";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const NotIntegratedSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -18,27 +19,25 @@ export const NotIntegratedSection = () => {
           title="Welcome to your new app"
           subtitle={
             <Space className="w-full" direction="vertical">
-              <Typography.Text>
+              <Typography>
                 We noticed that the Traceo SDK has not yet been integrated into this
                 application. To do this, use the example code on the right and restart
                 your software.
-              </Typography.Text>
+              </Typography>
               <Space className="w-full mt-5">
                 <Button onClick={() => window.open(GH_SDK_REPO_LINK, "_blank")}>
                   Documentation
                 </Button>
               </Space>
-              <Typography.Text className="text-2xs">
+              <Typography size="xxs">
                 This section will be hidden after receiving the first information from the
                 application via the SDK.
-              </Typography.Text>
+              </Typography>
             </Space>
           }
-          firstColumnWidth={12}
-          secondColumnWidth={12}
         >
           <Space className="code-container p-3 mb-5 bg-canvas text-white">
-            <Typography.Text>
+            <Typography>
               <ol>
                 <li className="code-line">{"import { TraceoClient } from 'traceo';"}</li>
                 <li className="code-line"></li>
@@ -51,7 +50,7 @@ export const NotIntegratedSection = () => {
                 <li className="code-line">{"});"}</li>
                 <li className="code-line"></li>
               </ol>
-            </Typography.Text>
+            </Typography>
           </Space>
         </ColumnSection>
       </PagePanel>

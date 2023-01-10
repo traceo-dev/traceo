@@ -1,4 +1,4 @@
-import { Space, Alert, Typography } from "antd";
+import { Space, Alert } from "antd";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { useState, useMemo } from "react";
@@ -16,6 +16,7 @@ import { Button } from "core/ui-components/Button/Button";
 import { Form } from "core/ui-components/Form/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
+import { Link } from "core/ui-components/Link/Link";
 
 export const DataSourceInflux2Form = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -112,9 +113,9 @@ export const DataSourceInflux2Form = () => {
           showIcon={true}
           type="info"
           message={
-            <Typography.Link href={INFLUX2_DOCS} target="_blank">
+            <Link href={INFLUX2_DOCS} target="_blank">
               Official documentation
-            </Typography.Link>
+            </Link>
           }
         />
       </Space>

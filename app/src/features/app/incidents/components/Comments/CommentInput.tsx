@@ -1,5 +1,5 @@
 import { FileMarkdownFilled } from "@ant-design/icons";
-import { Card, Col, Row, Space, Tabs, Typography } from "antd";
+import { Card, Col, Row, Space, Tabs } from "antd";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
@@ -10,6 +10,8 @@ import { StoreState } from "../../../../../types/store";
 import { Avatar } from "../../../../../core/components/Avatar";
 import { InputArea } from "core/ui-components/Input/InputArea";
 import { Button } from "core/ui-components/Button/Button";
+import { Link } from "core/ui-components/Link/Link";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 const { TabPane } = Tabs;
 
@@ -80,14 +82,17 @@ export const CommentInput = () => {
           </Tabs>
 
           <Space className="w-full justify-between pt-0 mt-0">
-            <Typography.Link
+            <Link
+              className="cursor-pointer"
               target="_blank"
               href="https://www.markdownguide.org/basic-syntax/"
-              className="text-primary text-xs"
             >
-              <FileMarkdownFilled className="pr-1" />
-              Markdown supported
-            </Typography.Link>
+              <span className="text-xs">
+                <FileMarkdownFilled className="pr-1" />
+                Markdown supported
+              </span>
+            </Link>
+
             <Button
               className="mt-5"
               disabled={sendAvailable}

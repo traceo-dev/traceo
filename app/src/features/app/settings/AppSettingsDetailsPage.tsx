@@ -1,4 +1,4 @@
-import { Space, Typography } from "antd";
+import { Space } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
@@ -19,6 +19,7 @@ import { notify } from "../../../core/utils/notify";
 import { ApiKeySection } from "./components/ApiKeySection";
 import { updateAplication } from "../state/application/actions";
 import { Button } from "core/ui-components/Button/Button";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
@@ -62,7 +63,7 @@ export const AppSettingsDetailsPage = () => {
       <PagePanel title="Basic Informations">
         <Descriptions>
           <DescriptionInputRow label="ID" editable={false}>
-            <Typography.Text copyable>{application?.id}</Typography.Text>
+            <Typography>{application?.id}</Typography>
           </DescriptionInputRow>
           <DescriptionInputRow label="Name" onUpdate={onUpdateName} editable={!isViewer}>
             {application?.name}
@@ -81,9 +82,11 @@ export const AppSettingsDetailsPage = () => {
       <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
         <PagePanel title="Danger zone">
           <ColumnSection
-            firstColumnWidth={12}
-            secondColumnWidth={12}
-            title={<Typography.Text className="text-red-700">Delete app</Typography.Text>}
+            title={
+              <Typography size="xl" weight="semibold" className="text-red-700">
+                Delete app
+              </Typography>
+            }
             subtitle="Note that the removal of the application is immediate and irreversible. Only members with `Administrator` role can perform this operation."
           >
             <Space className="w-full mb-5">

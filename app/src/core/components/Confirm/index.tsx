@@ -1,4 +1,4 @@
-import { Modal, Space, Typography } from "antd";
+import { Modal, Space } from "antd";
 import api from "../../../core/lib/api";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import { Button } from "core/ui-components/Button/Button";
 import { Form } from "core/ui-components/Form/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;
@@ -59,9 +60,9 @@ export const Confirm: FC<Props> = ({
           <Space className="w-full text-md">{description}</Space>
           {auth && (
             <Space className="w-full pt-5" direction="vertical">
-              <Typography.Text>
+              <Typography>
                 To perform this operation, please enter the password below and confirm.
-              </Typography.Text>
+              </Typography>
               <Form onSubmit={confirm} id="confirm-password-form">
                 {({ register, errors }) => (
                   <FormItem error={errors?.password}>

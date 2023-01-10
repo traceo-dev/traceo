@@ -1,8 +1,9 @@
-import { Divider, Row, Statistic, Typography } from "antd";
+import { Divider, Row, Statistic } from "antd";
 import { AppIncidentsStats } from "../../../../types/statistics";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface Props {
   stats: AppIncidentsStats;
@@ -29,9 +30,7 @@ export const StatCards: FC<Props> = ({ stats, isLoading }) => {
           loading={isLoading}
           title="All Incidents"
           value={application?.incidentsCount}
-          suffix={
-            <Typography className="text-xs">| {application?.errorsCount || 0}</Typography>
-          }
+          suffix={<Typography size="xs">| {application?.errorsCount || 0}</Typography>}
         />
       </Row>
     </>

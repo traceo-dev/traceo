@@ -1,5 +1,6 @@
-import { Badge, Table, Typography } from "antd";
+import { Badge, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
+import { Typography } from "core/ui-components/Typography/Typography";
 import { useSelector } from "react-redux";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import dateUtils from "../../../../core/utils/date";

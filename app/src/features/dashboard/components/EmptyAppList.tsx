@@ -1,6 +1,6 @@
-import { Typography } from "antd";
 import { DataNotFound } from "../../../core/components/DataNotFound";
 import { FC } from "react";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface Props {
   constraints?: string;
@@ -13,13 +13,13 @@ export const EmptyAppList: FC<Props> = ({ constraints }) => {
         label="Applications not found"
         explanation={
           constraints ? (
-            <Typography.Text>
+            <Typography>
               No results for <b>{constraints}</b>
-            </Typography.Text>
+            </Typography>
           ) : (
-            <Typography.Text>
+            <Typography>
               Contact the administrator and start monitoring the applications.
-            </Typography.Text>
+            </Typography>
           )
         }
       />

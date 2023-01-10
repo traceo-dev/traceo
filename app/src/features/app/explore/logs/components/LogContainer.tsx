@@ -6,10 +6,11 @@ import {
   DownOutlined,
   RightOutlined
 } from "@ant-design/icons";
-import { Space, Typography } from "antd";
+import { Space } from "antd";
 import { joinClasses, conditionClass } from "../../../../../core/utils/classes";
 import { FC, useState } from "react";
 import { LogLevel, TraceoLog } from "../../../../../types/logs";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const handleLogIcon: Record<LogLevel, JSX.Element> = {
   [LogLevel.Info]: <InfoCircleOutlined className="text-blue-500" />,
@@ -44,7 +45,7 @@ export const LogRow: FC<LogProps> = ({ log }) => {
       >
         <td className="col-span-1">
           {isSelected ? <DownOutlined /> : <RightOutlined />}
-          <Typography.Text className="ml-4">{handleLogIcon[log.level]}</Typography.Text>
+          <Typography className="ml-4">{handleLogIcon[log.level]}</Typography>
         </td>
         <td className="col-span-2">{log.timestamp}</td>
         <td className="col-span-7">

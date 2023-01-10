@@ -1,6 +1,7 @@
-import { Layout, Row, Typography } from "antd";
+import { Layout, Row } from "antd";
 import dateUtils from "../../../core/utils/date";
 import { CONTACT_EMAIL, VERSION } from "../../../core/utils/constants";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const Footer = () => {
   const { Footer: AntFooter } = Layout;
@@ -11,16 +12,16 @@ export const Footer = () => {
     <>
       <AntFooter className="p-4 bg-transparent mt-12 relative bottom-0 w-full">
         <Row className="text-xs w-full justify-center">
-          <Typography.Text className="text-primary pipe">
+          <Typography className="text-primary pipe">
             © {new Date().getFullYear()} Traceo Platform
-          </Typography.Text>
-          <Typography.Text onClick={onOpen} className="text-primary pipe cursor-pointer">
+          </Typography>
+          <Typography onClick={onOpen} className="text-primary pipe cursor-pointer">
             Contact
-          </Typography.Text>
-          <Typography.Text className="text-primary pipe">
+          </Typography>
+          <Typography className="text-primary pipe">
             {dateUtils.guessTz()} timezone
-          </Typography.Text>
-          <Typography.Text className="text-primary">v.{VERSION}</Typography.Text>
+          </Typography>
+          <Typography className="text-primary">v.{VERSION}</Typography>
         </Row>
       </AntFooter>
     </>

@@ -1,4 +1,5 @@
-import { Space, Typography } from "antd";
+import { Space } from "antd";
+import { Typography } from "core/ui-components/Typography/Typography";
 import { joinClasses } from "../../core/utils/classes";
 
 export const ColumnDetail = ({ label, value, className = "" }) => {
@@ -7,9 +8,11 @@ export const ColumnDetail = ({ label, value, className = "" }) => {
       direction="vertical"
       className={joinClasses("w-full pb-4 gap-0 pr-3", className)}
     >
-      <Typography className="text-primary info-label">{label}</Typography>
+      <Typography className="info-label">{label}</Typography>
       {typeof value === "string" || typeof value === "number" ? (
-        <Typography className="w-full font-semibold text-link">{value}</Typography>
+        <Typography weight="semibold" className="text-link">
+          {value}
+        </Typography>
       ) : (
         value
       )}

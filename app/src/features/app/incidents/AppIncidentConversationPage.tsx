@@ -1,5 +1,5 @@
 import { AlertOutlined } from "@ant-design/icons";
-import { Card, Space, Typography } from "antd";
+import { Card, Space } from "antd";
 import { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { CommentInput } from "./components/Comments/CommentInput";
@@ -10,6 +10,7 @@ import { dispatch } from "../../../store/store";
 import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
 import { loadIncidentComments } from "./state/actions";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const AppIncidentConversationPage = () => {
   const { socket } = useContext(SocketContext);
@@ -38,10 +39,10 @@ export const AppIncidentConversationPage = () => {
             <Space className="w-full">
               <AlertOutlined className="text-3xl pr-2 text-red-700" />
               <Space className="w-full gap-0" direction="vertical">
-                <Typography className="text-xl font-semibold">
+                <Typography size="xxl" weight="normal">
                   {incident?.type}
                 </Typography>
-                <Typography.Text>{incident?.message}</Typography.Text>
+                <Typography weight="normal">{incident?.message}</Typography>
               </Space>
             </Space>
           </Card>

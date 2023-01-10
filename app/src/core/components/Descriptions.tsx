@@ -1,8 +1,9 @@
-import { Typography, Space, Radio } from "antd";
+import { Space, Radio } from "antd";
 import { joinClasses } from "../../core/utils/classes";
 import { FC, useState } from "react";
 import { Input } from "core/ui-components/Input/Input";
 import { Button } from "core/ui-components/Button/Button";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const Descriptions = ({ children }) => {
   return (
@@ -60,13 +61,11 @@ export const DescriptionRow: FC<DescriptionRowProps> = ({
     <>
       <tr>
         <td className="details-table-label">
-          <Typography.Text className={joinClasses("text-sm font-normal", className)}>
-            {label}
-          </Typography.Text>
+          <Typography className={className}>{label}</Typography>
         </td>
         <td className="w-32" />
         <td className="details-table-value" colSpan={2}>
-          <Typography.Text className="text-sm font-normal">{children}</Typography.Text>
+          <Typography>{children}</Typography>
         </td>
       </tr>
     </>
@@ -98,7 +97,7 @@ export const DescriptionInputRow: FC<DescriptionInputRowProps> = ({
     <>
       <tr>
         <td className="details-table-label">
-          <Typography.Text className="text-sm font-semibold">{label}</Typography.Text>
+          <Typography weight="semibold">{label}</Typography>
         </td>
         <td className="details-table-value" colSpan={2}>
           {updateMode ? (
@@ -108,7 +107,7 @@ export const DescriptionInputRow: FC<DescriptionInputRowProps> = ({
               className="p-0"
             />
           ) : (
-            <Typography.Text className="text-sm font-normal">{children}</Typography.Text>
+            <Typography>{children}</Typography>
           )}
         </td>
         <td className="action">
@@ -153,7 +152,7 @@ export const DescriptionRadioRow: FC<DescriptionRadioRowProps> = ({
     <>
       <tr>
         <td className="details-table-label">
-          <Typography.Text className="text-sm font-semibold">{label}</Typography.Text>
+          <Typography weight="semibold">{label}</Typography>
         </td>
         <td className="details-table-value" colSpan={2}>
           {updateMode ? (
@@ -165,7 +164,7 @@ export const DescriptionRadioRow: FC<DescriptionRadioRowProps> = ({
               buttonStyle="solid"
             />
           ) : (
-            <Typography.Text className="text-sm font-normal">{children}</Typography.Text>
+            <Typography>{children}</Typography>
           )}
         </td>
         <td className="action">

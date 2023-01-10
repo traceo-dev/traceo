@@ -1,4 +1,4 @@
-import { Typography, Checkbox, Col, Row, Space } from "antd";
+import { Checkbox, Col, Row, Space } from "antd";
 import { PagePanel } from "../../../../../core/components/PagePanel";
 import { handleLogName } from "../../../../../core/components/Plots/components/Logs/util";
 import { FC } from "react";
@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { LogLevel } from "../../../../../types/logs";
 import { StoreState } from "../../../../../types/store";
 import { handleLogIcon } from "./LogContainer";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface Props {
   checkedLevels: LogLevel[];
@@ -30,10 +31,10 @@ export const LogsFilterPanel: FC<Props> = ({ checkedLevels, setCheckedLevels }) 
           {Object.values(LogLevel).map((level, index) => (
             <Row className="w-full mb-2 justify-between" key={index}>
               <Space>
-                <Typography.Text className="mr-1">{handleLogIcon[level]}</Typography.Text>
-                <Typography.Text>
+                <Typography className="mr-1">{handleLogIcon[level]}</Typography>
+                <Typography>
                   {handleLogName[level]} ({calculateCountByLevel(level)})
-                </Typography.Text>
+                </Typography>
               </Space>
               <Checkbox value={level} />
             </Row>

@@ -4,7 +4,7 @@ import {
   UserOutlined,
   WarningOutlined
 } from "@ant-design/icons";
-import { Space, Tooltip, Typography } from "antd";
+import { Space, Tooltip } from "antd";
 import { ColumnsType, TableProps } from "antd/lib/table";
 import { FC } from "react";
 import { Table } from "antd";
@@ -18,6 +18,7 @@ import { slugifyForUrl, wrapIncidentMessage } from "../../../../core/utils/strin
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import { joinClasses } from "../../../../core/utils/classes";
 import dateUtils from "../../../../core/utils/date";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface Props {
   incidents: Incident[];
@@ -117,27 +118,23 @@ interface MainColumnProps {
 const IncidentMainColumn: FC<MainColumnProps> = ({ incident }) => {
   return (
     <Space direction="vertical" className="gap-0">
-      <Typography.Link
-        className={joinClasses("font-semibold", "text-lg", "text-primary")}
-      >
+      <Typography size="lg" weight="semibold" className="text-primary">
         {incident?.type}
-      </Typography.Link>
-      <Typography className="text-xs">
-        {wrapIncidentMessage(incident?.message)}
       </Typography>
+      <Typography size="xs">{wrapIncidentMessage(incident?.message)}</Typography>
       <Space className="pt-2">
         <IncidentStatusTag status={incident?.status} />|
-        <Typography className="text-xs font-semibold text-primary pipe">
+        <Typography size="xs" weight="semibold" className="text-primary pipe">
           Last: {dateUtils.fromNow(incident?.lastError)}
         </Typography>
         <Tooltip title="Errors count">
-          <Typography className="text-xs font-semibold text-primary pipe">
+          <Typography size="xs" weight="semibold" className="text-primary pipe">
             <WarningOutlined className="pr-2" />
             {incident?.errorsCount}
           </Typography>
         </Tooltip>
         <Tooltip title="Comments count">
-          <Typography className="text-xs font-semibold text-primary">
+          <Typography size="xs" weight="semibold" className="text-primary">
             <MessageOutlined className="pr-2" />
             {incident?.commentsCount || 0}
           </Typography>

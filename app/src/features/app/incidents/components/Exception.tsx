@@ -1,4 +1,5 @@
-import { Space, Typography } from "antd";
+import { Space } from "antd";
+import { Typography } from "core/ui-components/Typography/Typography";
 import { useSelector } from "react-redux";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { StoreState } from "../../../../types/store";
@@ -8,8 +9,8 @@ export const Exception = () => {
   return (
     incident?.stack && (
       <PagePanel title="Exception">
-        <Space className="code-container text-xs whitespace-pre p-5 bg-secondary whitespace-pre-wrap">
-          <Typography.Text>{incident?.stack}</Typography.Text>
+        <Space className="code-container whitespace-pre p-5 bg-secondary whitespace-pre-wrap">
+          <Typography size="xs">{incident?.stack}</Typography>
         </Space>
       </PagePanel>
     )

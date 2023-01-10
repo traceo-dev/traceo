@@ -3,7 +3,8 @@ import {
   LockFilled,
   SafetyCertificateFilled
 } from "@ant-design/icons";
-import { Space, Tooltip, Typography } from "antd";
+import { Space, Tooltip } from "antd";
+import { Typography } from "core/ui-components/Typography/Typography";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

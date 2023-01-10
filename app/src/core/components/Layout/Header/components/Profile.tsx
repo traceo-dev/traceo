@@ -1,11 +1,12 @@
 import { UserOutlined } from "@ant-design/icons";
-import { Popover, Space, Typography } from "antd";
+import { Popover, Space } from "antd";
 import { useDemo } from "../../../../../core/hooks/useDemo";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Avatar } from "../../../../../core/components/Avatar";
 import { joinClasses } from "../../../../../core/utils/classes";
 import { StoreState } from "../../../../../types/store";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface ProfileRoute {
   href?: string;
@@ -46,15 +47,13 @@ export const Profile = () => {
     .filter((r) => !r.private)
     .map((route, index) => (
       <Space key={index} className="py-2 w-full">
-        <Typography.Text
-          className={joinClasses(
-            route.className,
-            "hover:text-gray-300 cursor-pointer font-semibold"
-          )}
+        <Typography
+          weight="semibold"
+          className={joinClasses(route.className, "hover:text-gray-300 cursor-pointer")}
           onClick={() => (route.href ? navigate(route.href) : route.onClick())}
         >
           {route.name}
-        </Typography.Text>
+        </Typography>
       </Space>
     ));
 
@@ -76,7 +75,7 @@ export const Profile = () => {
               url={account?.gravatar}
               name={account?.name}
             />
-            <Typography.Text>{name()}</Typography.Text>
+            <Typography>{name()}</Typography>
           </Space>
         }
         placement="bottomLeft"

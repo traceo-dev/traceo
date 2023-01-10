@@ -1,5 +1,4 @@
 import { CloseOutlined, SafetyCertificateOutlined } from "@ant-design/icons";
-import { Typography } from "antd";
 import { useSelector } from "react-redux";
 import {
   DescriptionRadioRow,
@@ -10,6 +9,7 @@ import { StoreState } from "../../../../types/store";
 import { updateServerAccount } from "../../state/accounts/actions";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const AccountPermissions = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -34,13 +34,13 @@ export const AccountPermissions = () => {
           editable={!isAdmin}
         >
           {account.isAdmin ? (
-            <Typography.Text>
+            <Typography>
               Admin <SafetyCertificateOutlined />
-            </Typography.Text>
+            </Typography>
           ) : (
-            <Typography.Text>
+            <Typography>
               No <CloseOutlined />
-            </Typography.Text>
+            </Typography>
           )}
         </DescriptionRadioRow>
       </Descriptions>

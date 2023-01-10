@@ -1,4 +1,4 @@
-import { Space, Typography, Card, Popover, List, Tag } from "antd";
+import { Space, Card, Popover, List, Tag } from "antd";
 import { FC, useRef, useState } from "react";
 import { Comment } from "../../../../../types/comments";
 import dateUtils from "../../../../../core/utils/date";
@@ -11,6 +11,7 @@ import { StoreState } from "../../../../../types/store";
 import { InputArea } from "core/ui-components/Input/InputArea";
 import { Button } from "core/ui-components/Button/Button";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface Props {
   comment: Comment;
@@ -75,10 +76,12 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
         title={
           <Space className="w-full py-0 justify-between">
             <Space className="w-full">
-              <Typography className="font-semibold text-xs">{sender?.name}</Typography>
-              <Typography.Text className="text-primary text-xs font-normal">
+              <Typography size="xs" weight="semibold">
+                {sender?.name}
+              </Typography>
+              <Typography size="xs" className="text-primary">
                 commented {dateUtils.fromNow(createdAt)}
-              </Typography.Text>
+              </Typography>
               {removed && <Tag color="cyan">Removed</Tag>}
             </Space>
             {isEdit && (
@@ -102,7 +105,7 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
             <ReactMarkdown>{message}</ReactMarkdown>
             <Space className="w-full justify-end">
               {lastUpdateAt && !removed && (
-                <Typography className="text-2xs text-gray-400 font-normal">
+                <Typography size="xxs" className="text-gray-400">
                   edited {dateUtils.fromNow(lastUpdateAt)}
                 </Typography>
               )}

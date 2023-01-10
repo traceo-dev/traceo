@@ -1,7 +1,8 @@
-import { Card, Col, Space, Typography } from "antd";
+import { Card, Space } from "antd";
 import { VERSION } from "../../../core/utils/constants";
 import { FC } from "react";
 import { TraceoLogo } from "../Icons/TraceoLogo";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface Props {
   children: JSX.Element;
@@ -19,9 +20,13 @@ export const AuthLayout: FC<Props> = ({ children, title }) => {
           >
             <TraceoLogo size="medium" />
 
-            {title && <Typography className="font-semibold text-3xl">{title}</Typography>}
+            {title && (
+              <Typography size="xxl" weight="semibold">
+                {title}
+              </Typography>
+            )}
 
-            <Typography.Text className="w-full text-xs">v.{VERSION}</Typography.Text>
+            <Typography size="xs">v.{VERSION}</Typography>
           </Space>
           <div className="cardBody">{children}</div>
         </Card>

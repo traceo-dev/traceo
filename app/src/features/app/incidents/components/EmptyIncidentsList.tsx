@@ -1,6 +1,6 @@
-import { Typography } from "antd";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { FC } from "react";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface Props {
   constraints?: string;
@@ -13,13 +13,11 @@ export const EmptyIncidentsList: FC<Props> = ({ constraints }) => {
         label="Incidents not found"
         explanation={
           constraints ? (
-            <Typography.Text>
+            <Typography>
               No results for <b>{constraints}</b>
-            </Typography.Text>
+            </Typography>
           ) : (
-            <Typography.Text>
-              Great! You have nothing to worry about for now!
-            </Typography.Text>
+            <Typography>Great! You have nothing to worry about for now!</Typography>
           )
         }
       />

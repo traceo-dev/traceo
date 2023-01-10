@@ -1,5 +1,5 @@
 import { DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Divider, Space, Typography } from "antd";
+import { Divider, Space } from "antd";
 import { useEffect, useState } from "react";
 import { useApi } from "../../core/lib/useApi";
 import { Avatar } from "./Avatar";
@@ -8,6 +8,7 @@ import { updateIncident } from "../../features/app/incidents/state/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../types/store";
 import { ApplicationMember } from "../../types/application";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const AssignMemberPopover = ({ setVisible }) => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -32,6 +33,7 @@ export const AssignMemberPopover = ({ setVisible }) => {
     get();
   }, [search]);
 
+  // TODO: use condition-wrapper
   const content = isLoading ? (
     <Space className="justify-center w-full">
       <LoadingOutlined />
@@ -49,11 +51,11 @@ export const AssignMemberPopover = ({ setVisible }) => {
           url={member?.account?.gravatar}
           name={member?.account?.name}
         />
-        <Typography className="text-xs">{member?.account?.name}</Typography>
+        <Typography size="xs">{member?.account?.name}</Typography>
       </Space>
     ))
   ) : (
-    <Typography.Text className="text-xs">Not found</Typography.Text>
+    <Typography size="xs">Not found</Typography>
   );
 
   const handleIncidentMember = (update: { [key: string]: any }) => {
@@ -64,7 +66,7 @@ export const AssignMemberPopover = ({ setVisible }) => {
   return (
     <>
       <Space direction="vertical" className="w-full">
-        <Typography className="text-md font-semibold">Select member</Typography>
+        <Typography weight="semibold">Select member</Typography>
         <Divider className="p-0 m-0" />
         <Space direction="vertical" className="w-full">
           {content}

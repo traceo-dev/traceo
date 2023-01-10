@@ -4,7 +4,7 @@ import {
   SyncOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import { Space, Typography, Tooltip } from "antd";
+import { Space, Tooltip } from "antd";
 import { FormInstance } from "antd/es/form/Form";
 import PageHeader from "../../../../core/components/PageHeader";
 import api from "../../../../core/lib/api";
@@ -22,6 +22,7 @@ import { DraftFunction } from "use-immer";
 import { loadMetric } from "../state/actions";
 import { TimeLimitDropdown } from "./TimeLimitDropdown";
 import { Button } from "core/ui-components/Button/Button";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface Props {
   form: FormInstance;
@@ -96,13 +97,11 @@ export const MetricPreviewHeader: FC<Props> = ({
               className="text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 hover:text-white"
             >
               <ArrowLeftOutlined />
-              <Typography.Text>METRICS</Typography.Text>
+              <Typography>METRICS</Typography>
             </Space>
             <Space>
               <BarChartOutlined />
-              <Typography.Text className="text-2xl">
-                {metric?.options?.name}
-              </Typography.Text>
+              <Typography size="xxl">{metric?.options?.name}</Typography>
             </Space>
           </Space>
         }

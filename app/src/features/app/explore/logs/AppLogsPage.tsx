@@ -4,12 +4,13 @@ import { LogLevel } from "../../../../types/logs";
 import { StoreState } from "../../../../types/store";
 import AppExploreNavigationPage from "../AppExploreNavigation";
 
-import { Divider, Space, Tag, Typography } from "antd";
+import { Divider, Space, Tag } from "antd";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { LogsHistogram } from "./components/LogsHistogram";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { LogContainer, LogRow } from "./components/LogContainer";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 const AppLogsPage = () => {
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);
@@ -43,9 +44,9 @@ const AppLogsPage = () => {
     return (
       <Space className="w-full">
         {logsDetails.map(({ label, value }, index) => (
-          <Typography.Text key={index} className="text-xs">
+          <Typography key={index} size="xs">
             {label} <Tag>{value}</Tag>
-          </Typography.Text>
+          </Typography>
         ))}
       </Space>
     );

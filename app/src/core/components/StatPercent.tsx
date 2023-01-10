@@ -1,4 +1,4 @@
-import { Typography } from "antd";
+import { Typography } from "core/ui-components/Typography/Typography";
 import { FC } from "react";
 import { joinClasses } from "../../core/utils/classes";
 
@@ -14,7 +14,9 @@ export const StatPercent: FC<Props> = ({ type, children }) => {
   return (
     <>
       <Typography
-        className={joinClasses(typeStyle[type], "font-semibold px-2 rounded-md text-xs")}
+        weight="semibold"
+        size="xs"
+        className={joinClasses(typeStyle[type], "px-2 rounded-md")}
       >
         {children}
       </Typography>

@@ -1,5 +1,5 @@
 import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
-import { Card, Space, Tooltip, Typography } from "antd";
+import { Card, Space, Tooltip } from "antd";
 import { loadApplication } from "../../../features/app/state/application/actions";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +9,7 @@ import dateUtils from "../../../core/utils/date";
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { dispatch } from "../../../store/store";
 import { ApplicationMember } from "../../../types/application";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface Props {
   app: ApplicationMember["application"] & Pick<ApplicationMember, "role">;
@@ -36,7 +37,7 @@ export const AppCard: FC<Props> = ({ app }) => {
             <Avatar shape="circle" size="large" name={app.name} url={app?.gravatar} />
             <Space className="w-full pl-1 gap-0" direction="vertical">
               <div>
-                <Typography.Text className="text-sm">{app.name}</Typography.Text>
+                <Typography className="cursor-pointer">{app.name}</Typography>
                 {!app.isIntegrated && (
                   <Tooltip title="Not integrated with Traceo SDK">
                     <WarningFilled className="ml-2 text-red-500" />
@@ -44,16 +45,18 @@ export const AppCard: FC<Props> = ({ app }) => {
                 )}
               </div>
               <Space className="text-xs">
-                <Typography.Text className="pipe">{lastError}</Typography.Text>
+                <Typography size="xs" className="pipe">
+                  {lastError}
+                </Typography>
                 <Tooltip title="Incidents">
-                  <Typography.Text className="pipe">
+                  <Typography size="xs" className="pipe">
                     <BugOutlined className="pr-1" /> {app?.incidentsCount || 0}
-                  </Typography.Text>
+                  </Typography>
                 </Tooltip>
                 <Tooltip title="Errors">
-                  <Typography.Text>
+                  <Typography size="xs">
                     <WarningOutlined className="pr-1" /> {app?.errorsCount || 0}
-                  </Typography.Text>
+                  </Typography>
                 </Tooltip>
               </Space>
             </Space>

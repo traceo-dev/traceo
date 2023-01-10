@@ -1,4 +1,4 @@
-import { Space, Typography } from "antd";
+import { Space } from "antd";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import { StoreState } from "../../../../types/store";
 import { updateServerApplication } from "../../state/applications/actions";
 import dateUtils from "../../../../core/utils/date";
 import { Button } from "core/ui-components/Button/Button";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const ApplicationInformation = () => {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ export const ApplicationInformation = () => {
       <PagePanel title="Basic Information" extra={<OperationButtons />}>
         <Descriptions>
           <DescriptionInputRow label="ID" editable={false}>
-            <Typography.Text copyable>{application?.id}</Typography.Text>
+            <Typography>{application?.id}</Typography>
           </DescriptionInputRow>
           <DescriptionInputRow label="Name" editable={true} onUpdate={onUpdate}>
             {application.name}

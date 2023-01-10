@@ -1,5 +1,5 @@
 import { RightOutlined } from "@ant-design/icons";
-import { Card, List, Space, Typography } from "antd";
+import { Card, List, Space } from "antd";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import { useApi } from "../../../../core/lib/useApi";
 import {
@@ -15,6 +15,8 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
+import { Link } from "core/ui-components/Link/Link";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const RecentIncidentsSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -38,7 +40,7 @@ export const RecentIncidentsSection = () => {
       <PagePanel
         title="Recent Incidents"
         extra={
-          <Typography.Link
+          <Link
             onClick={() =>
               navigate(
                 `/app/${application.id}/${slugifyForUrl(application.name)}/incidents`
@@ -47,7 +49,7 @@ export const RecentIncidentsSection = () => {
             className="text-xs font-semibold color-primary"
           >
             View
-          </Typography.Link>
+          </Link>
         }
       >
         <ConditionalWrapper
@@ -73,17 +75,15 @@ export const RecentIncidentsSection = () => {
                 <Space className="w-full justify-between py-2">
                   <Space direction="vertical" className="gap-0">
                     <Space>
-                      <Typography.Link className="font-semibold text-primary">
+                      <Typography weight="semibold" className="text-primary">
                         {item.type}
-                      </Typography.Link>
+                      </Typography>
                       <IncidentStatusTag status={item.status} />
                     </Space>
-                    <Typography.Text className="text-xs">{item.message}</Typography.Text>
+                    <Typography size="xs">{item.message}</Typography>
                   </Space>
                   <Space>
-                    <Typography.Text className="text-xs">
-                      {dateUtils.fromNow(item.lastError)}
-                    </Typography.Text>
+                    <Typography size="xs">{dateUtils.fromNow(item.lastError)}</Typography>
                     <RightOutlined className="cursor-pointer text-gray-800" />
                   </Space>
                 </Space>

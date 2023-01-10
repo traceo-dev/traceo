@@ -1,5 +1,4 @@
 import { SyncOutlined } from "@ant-design/icons";
-import { Typography } from "antd";
 import { useParams } from "react-router-dom";
 import { useApi } from "../../../../core/lib/useApi";
 import { PagePanel } from "../../../../core/components/PagePanel";
@@ -10,6 +9,7 @@ import { ConditionalWrapper } from "../../../../core/components/ConditionLayout"
 import dateUtils from "../../../../core/utils/date";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const TodaySection = () => {
   const { id } = useParams();
@@ -56,18 +56,18 @@ export const TodaySection = () => {
               }
             >
               <ConditionalWrapper isLoading={isLoading}>
-                <Typography.Text className="font-semibold text-3xl">
+                <Typography size="xxl" weight="semibold">
                   {statisticUtils.parseErrorsToTodayPlotSource(stats).count}
-                </Typography.Text>
+                </Typography>
               </ConditionalWrapper>
             </PagePanel>
           </div>
           <div className="h-full mt-1">
             <PagePanel className="h-full" title="Last seen">
               <ConditionalWrapper isLoading={isLoading}>
-                <Typography.Text className="font-semibold text-3xl text-center">
+                <Typography size="xxl" weight="semibold" className="text-center">
                   {lastIncidentAt}
-                </Typography.Text>
+                </Typography>
               </ConditionalWrapper>
             </PagePanel>
           </div>

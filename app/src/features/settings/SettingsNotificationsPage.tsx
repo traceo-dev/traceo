@@ -1,10 +1,10 @@
-import { Typography } from "antd";
+import { Typography } from "core/ui-components/Typography/Typography";
 import { DashboardSettingsNavigation } from "../../features/settings/components/DashboardSettingsNavigation";
 
 export const SettingsNotificationsPage = () => {
   return (
     <DashboardSettingsNavigation>
-      <Typography.Text>{"Notifications"}</Typography.Text>
+      <Typography>Notifications</Typography>
     </DashboardSettingsNavigation>
   );
 };

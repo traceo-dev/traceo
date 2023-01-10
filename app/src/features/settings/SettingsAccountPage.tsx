@@ -42,8 +42,6 @@ const SettingsAccountPage = () => {
       <DashboardSettingsNavigation>
         <PagePanel title="Basic Information">
           <ColumnSection
-            firstColumnWidth={10}
-            secondColumnWidth={14}
             title="Personal information"
             subtitle="This information will appear on your profile."
           >
@@ -104,8 +102,6 @@ const SettingsAccountPage = () => {
 
         <PagePanel title="Security">
           <ColumnSection
-            firstColumnWidth={10}
-            secondColumnWidth={14}
             title="Update password"
             subtitle="After a successful password update, you will be redirected to the login page where you can log in with your new password."
           >
@@ -153,20 +149,20 @@ const SettingsAccountPage = () => {
           firstColumnWidth={10}
           secondColumnWidth={14}
           title={
-            <Typography.Text className="text-red-700">Delete account</Typography.Text>
+            <Typography className="text-red-700">Delete account</Typography>
           }
           subtitle={
             <Space direction="vertical" className="gap-0">
-              <Typography.Paragraph>
+              <Typography>
                 Account deletion is immediate and irreversible.
-              </Typography.Paragraph>
-              <Typography.Paragraph className="font-semibold">
+              </Typography>
+              <Typography className="font-semibold">
                 Performing this operation is possible only when you do not have the owner
                 status in any of the apps.
-              </Typography.Paragraph>
-              <Typography.Text>
+              </Typography>
+              <Typography>
                 Click <a>here</a> to read more about the account deletion process.
-              </Typography.Text>
+              </Typography>
             </Space>
           }
         >

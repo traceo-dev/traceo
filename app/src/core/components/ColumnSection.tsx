@@ -1,10 +1,9 @@
-import { Col, Row, Space, Typography } from "antd";
+import { Space } from "antd";
+import { Typography } from "core/ui-components/Typography/Typography";
 import { FC } from "react";
 
 interface Props {
   marginTop?: number;
-  firstColumnWidth?: number;
-  secondColumnWidth?: number;
   title?: string | JSX.Element;
   subtitle?: string | JSX.Element;
   className?: string;
@@ -12,8 +11,6 @@ interface Props {
 }
 
 export const ColumnSection: FC<Props> = ({
-  firstColumnWidth = 10,
-  secondColumnWidth = 14,
   title,
   subtitle,
   children,
@@ -23,17 +20,19 @@ export const ColumnSection: FC<Props> = ({
   return (
     !hidden && (
       <div className={className}>
-        <Row gutter={[24, 0]}>
-          <Col span={24} md={firstColumnWidth}>
-            <Typography className="text-xl font-semibold">{title}</Typography>
-            <Space className="w-3/4">
-              <Typography className="text-sm">{subtitle}</Typography>
-            </Space>
-          </Col>
-          <Col span={24} md={secondColumnWidth} className="self-end">
-            {children}
-          </Col>
-        </Row>
+        <div className="grid grid-cols-12">
+          <div className="col-span-6">
+            <div className="flex flex-col">
+              <Typography size="xl" weight="semibold">
+                {title}
+              </Typography>
+              <Space className="w-3/4 pt-3">
+                <Typography size="sm">{subtitle}</Typography>
+              </Space>
+            </div>
+          </div>
+          <div className="col-span-6">{children}</div>
+        </div>
       </div>
     )
   );

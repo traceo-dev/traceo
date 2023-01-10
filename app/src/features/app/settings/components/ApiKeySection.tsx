@@ -1,4 +1,3 @@
-import { Typography } from "antd";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { Confirm } from "../../../../core/components/Confirm";
 import { PagePanel } from "../../../../core/components/PagePanel";
@@ -13,6 +12,7 @@ import { loadApplication } from "../../../app/state/application/actions";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { InputGroup } from "core/ui-components/Input/InputGroup";
 import { Button } from "core/ui-components/Button/Button";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const ApiKeySection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -47,11 +47,7 @@ export const ApiKeySection = () => {
   return (
     <>
       <PagePanel title="API Key">
-        <ColumnSection
-          firstColumnWidth={12}
-          secondColumnWidth={12}
-          subtitle="Thanks to API Key you can fully integrate this app with Traceo SDK. Remember to not store this key in your code, better way is to use him like as environment variable."
-        >
+        <ColumnSection subtitle="Thanks to API Key you can fully integrate this app with Traceo SDK. Remember to not store this key in your code, better way is to use him like as environment variable.">
           {hasApiKey ? (
             <>
               <InputGroup>
@@ -68,10 +64,10 @@ export const ApiKeySection = () => {
                   <Button variant="danger">Remove</Button>
                 </Confirm>
               </InputGroup>
-              <Typography.Text className="text-xs">
+              <Typography size="xs">
                 Last generated {dateUtils.fromNow(application?.security?.lastUpdate)} by{" "}
                 {application?.security?.generatedBy}
-              </Typography.Text>
+              </Typography>
             </>
           ) : (
             <Button loading={loading} onClick={handleGenerateApiKey}>

@@ -1,4 +1,4 @@
-import { Space, Typography, Switch, Table } from "antd";
+import { Space, Switch, Table } from "antd";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import dayjs from "dayjs";
@@ -6,6 +6,7 @@ import { FC, useState } from "react";
 import { IMetric, MetricsResponse } from "../../../../types/metrics";
 import { DeepPartial } from "../../../../types/partials";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface Props {
   metric: DeepPartial<IMetric>;
@@ -39,7 +40,7 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
       title="Raw data"
       extra={
         <Space className="w-full justify-end">
-          <Typography.Text className="text-md">Formatted time</Typography.Text>
+          <Typography>Formatted time</Typography>
           <Switch
             defaultChecked={isFormattedTime}
             onClick={() => setFormattedTime(!isFormattedTime)}

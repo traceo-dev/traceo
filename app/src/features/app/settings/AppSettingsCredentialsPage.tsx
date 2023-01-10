@@ -1,4 +1,4 @@
-import { Typography } from "antd";
+import { Typography } from "core/ui-components/Typography/Typography";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
@@ -11,17 +11,16 @@ export const AppSettingsCredentialsPage = () => {
     <AppSettingsNavigationPage>
       <ColumnSection
         marginTop={0}
-        firstColumnWidth={11}
-        secondColumnWidth={13}
         title="DSN"
         subtitle="Thanks to the DSN (Data Source Name), the Traceo SDK knows where to send all the Incidents that it captures in your application."
       >
-        <Typography.Paragraph
-          copyable
-          className="text-xs bg-canvas p-3 main-border rounded-md"
+        <Typography
+          // copyable
+          size="xs"
+          className="bg-canvas p-3 main-border rounded-md"
         >
           {application?.dsn}
-        </Typography.Paragraph>
+        </Typography>
       </ColumnSection>
     </AppSettingsNavigationPage>
   );

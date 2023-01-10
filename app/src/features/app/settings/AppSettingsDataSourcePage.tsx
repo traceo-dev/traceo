@@ -1,4 +1,4 @@
-import { Space, Typography } from "antd";
+import { Space } from "antd";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { useEffect, useState } from "react";
@@ -12,6 +12,7 @@ import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { loadApplication } from "../state/application/actions";
 import { Select } from "core/ui-components/Select/Select";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 const dataSourceOptions = [
   {
@@ -51,13 +52,11 @@ export const AppSettingsDataSourcePage = () => {
     <AppSettingsNavigationPage>
       <PagePanel title="Metrics Data Source">
         <ColumnSection
-          firstColumnWidth={12}
-          secondColumnWidth={12}
           subtitle="Configure a connection to the time series database to enable metrics
           collection in this app."
         >
           <Space className="w-2/3" direction="vertical">
-            <Typography.Text>Data Source</Typography.Text>
+            <Typography>Data Source</Typography>
             <Select
               options={dataSourceOptions}
               onChange={(opt) => setSelectedDS(opt?.value)}

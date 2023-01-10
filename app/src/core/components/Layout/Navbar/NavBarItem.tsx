@@ -1,4 +1,4 @@
-import { Space, Typography } from "antd";
+import { Space } from "antd";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { FC } from "react";
@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { MenuRoute } from "../../../../types/navigation";
 import { StoreState } from "../../../../types/store";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface NavBarItemProps {
   route: MenuRoute;
@@ -41,7 +42,7 @@ export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
     >
       <Space className="w-full px-3 text-md">
         {icon}
-        <Typography.Text className="pl-2">{label}</Typography.Text>
+        <Typography className="pl-2 cursor-pointer">{label}</Typography>
       </Space>
     </li>
   );

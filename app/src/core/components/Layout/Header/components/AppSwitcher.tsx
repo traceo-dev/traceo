@@ -1,5 +1,5 @@
 import { CheckCircleFilled, LoadingOutlined } from "@ant-design/icons";
-import { List, Popover, Space, Typography } from "antd";
+import { List, Popover, Space } from "antd";
 import { useSelector } from "react-redux";
 import { Avatar } from "../../../../../core/components/Avatar";
 import { StoreState } from "../../../../../types/store";
@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { dispatch } from "../../../../../store/store";
 import { loadApplications } from "../../../../../features/dashboard/state/actions";
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const AppSwitcher = () => {
   const { application, hasFetched } = useSelector(
@@ -42,7 +43,7 @@ export const AppSwitcher = () => {
           >
             <Space>
               <Avatar name={item.application.name} url={item.application.gravatar} />
-              <Typography.Text>{item.application.name}</Typography.Text>
+              <Typography>{item.application.name}</Typography>
               {item.application.id === application.id && (
                 <CheckCircleFilled className="pl-2 text-yellow-600" />
               )}

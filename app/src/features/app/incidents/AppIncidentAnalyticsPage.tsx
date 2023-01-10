@@ -6,9 +6,10 @@ import { useSelector } from "react-redux";
 import { PagePanel } from "../../../core/components/PagePanel";
 import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
-import { Space, Tooltip, Typography } from "antd";
+import { Space, Tooltip } from "antd";
 import dateUtils from "../../../core/utils/date";
 import { StatPercent } from "../../../core/components/StatPercent";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const AppIncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
@@ -34,7 +35,7 @@ export const AppIncidentAnalyticsPage = () => {
             <div className="h-full mb-1">
               <PagePanel title="Errors count">
                 <Space className="w-full font-semibold">
-                  <Typography className="text-4xl">{todayStats?.count}</Typography>
+                  <Typography size="xxl">{todayStats?.count}</Typography>
                   <Tooltip title="Day-to-day difference">
                     <div>
                       <StatPercent
@@ -50,7 +51,7 @@ export const AppIncidentAnalyticsPage = () => {
             </div>
             <div className="h-full mt-1">
               <PagePanel className="h-full" title="Last seen">
-                <Typography className="text-4xl font-semibold">
+                <Typography size="xxl" weight="semibold">
                   {dateUtils.formatDate(todayStats?.last, "HH:mm")}
                 </Typography>
               </PagePanel>

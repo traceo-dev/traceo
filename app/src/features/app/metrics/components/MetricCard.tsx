@@ -1,5 +1,5 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { Space, Typography, Tooltip } from "antd";
+import { Space, Tooltip } from "antd";
 import { MetricPlot } from "../../../../core/components/Plots/components/Metrics/MetricPlot";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { FC } from "react";
@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IMetric } from "../../../../types/metrics";
 import { StoreState } from "../../../../types/store";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 interface MetricCardProps {
   metric: IMetric;
@@ -29,7 +30,7 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, hrCount }) => {
       <div className="metric-panel p-2 cursor-pointer mb-2 rounded-md hover:bg-secondary">
         <Space className="w-full" direction="vertical" onClick={onClick}>
           <Space className="w-full pb-5 pt-1 justify-center">
-            <Typography.Text className="text-md">{metric?.name}</Typography.Text>
+            <Typography>{metric?.name}</Typography>
             {metric?.description && (
               <Tooltip title={metric?.description}>
                 <QuestionCircleOutlined className="text-xs" />

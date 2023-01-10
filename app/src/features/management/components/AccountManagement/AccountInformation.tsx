@@ -1,4 +1,4 @@
-import { Space, Typography, Alert } from "antd";
+import { Space, Alert } from "antd";
 import { useSelector } from "react-redux";
 import { Confirm } from "../../../../core/components/Confirm";
 import {
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { PagePanel } from "../../../../core/components/PagePanel";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { Button } from "core/ui-components/Button/Button";
+import { Typography } from "core/ui-components/Typography/Typography";
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -58,10 +59,10 @@ export const AccountInformation = () => {
           <Confirm
             onOk={() => onChangeAccountStatus()}
             description={
-              <Typography.Text>
+              <Typography>
                 Are you sure that you want to suspend <b>{account.name}</b>? After this
                 action, user will not be able to log into the account.
-              </Typography.Text>
+              </Typography>
             }
           >
             <Button variant="ghost">Disable user</Button>
@@ -72,9 +73,9 @@ export const AccountInformation = () => {
           <Confirm
             onOk={() => onChangeAccountStatus()}
             description={
-              <Typography.Text>
+              <Typography>
                 Are you sure that you want to activate <b>{account.name}</b> account?
-              </Typography.Text>
+              </Typography>
             }
           >
             <Button variant="ghost">Enable user</Button>
