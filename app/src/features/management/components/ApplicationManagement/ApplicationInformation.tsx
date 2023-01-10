@@ -1,5 +1,4 @@
 import { Space } from "antd";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +15,7 @@ import { updateServerApplication } from "../../state/applications/actions";
 import dateUtils from "../../../../core/utils/date";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 export const ApplicationInformation = () => {
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ export const ApplicationInformation = () => {
 
   return (
     <>
-      <PagePanel title="Basic Information" extra={<OperationButtons />}>
+      <Card title="Basic Information" extra={<OperationButtons />}>
         <Descriptions>
           <DescriptionInputRow label="ID" editable={false}>
             <Typography>{application?.id}</Typography>
@@ -74,7 +74,7 @@ export const ApplicationInformation = () => {
             {application.errorsCount}
           </DescriptionInputRow>
         </Descriptions>
-      </PagePanel>
+      </Card>
     </>
   );
 };

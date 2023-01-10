@@ -1,5 +1,4 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { PagePanel } from "../../core/components/PagePanel";
 import { SearchWrapper } from "../../core/components/SearchWrapper";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -12,6 +11,7 @@ import { ManagementNavigation } from "./components/ManagementNavigation";
 import { loadServerAccounts } from "./state/accounts/actions";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
 import { Button } from "core/ui-components/Button/Button";
+import { Card } from "core/ui-components/Card/Card";
 
 const ManagementUsersPage = () => {
   const { accounts, hasFetched } = useSelector(
@@ -34,7 +34,7 @@ const ManagementUsersPage = () => {
 
   return (
     <ManagementNavigation>
-      <PagePanel
+      <Card
         title="Accounts list"
         extra={
           <Button onClick={() => setOpenNewAccountDrawer(true)} icon={<PlusOutlined />}>
@@ -50,7 +50,7 @@ const ManagementUsersPage = () => {
           />
         </SearchWrapper>
         <AccountsTable accounts={accounts} hasFetched={hasFetched} />
-      </PagePanel>
+      </Card>
       <NewAccountModal
         isOpen={isOpenNewAccountDrawer}
         onCancel={() => setOpenNewAccountDrawer(false)}

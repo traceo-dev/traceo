@@ -1,5 +1,4 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { PagePanel } from "../../core/components/PagePanel";
 import { SearchWrapper } from "../../core/components/SearchWrapper";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -14,6 +13,7 @@ import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 import { DataNotFound } from "../../core/components/DataNotFound";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
 import { Button } from "core/ui-components/Button/Button";
+import { Card } from "core/ui-components/Card/Card";
 
 export const ManagementApplicationsPage = () => {
   const { applications, hasFetched } = useSelector(
@@ -38,7 +38,7 @@ export const ManagementApplicationsPage = () => {
 
   return (
     <ManagementNavigation>
-      <PagePanel
+      <Card
         title="Applications list"
         extra={
           <Button onClick={() => setOpenNewAppDrawer(true)} icon={<PlusOutlined />}>
@@ -60,7 +60,7 @@ export const ManagementApplicationsPage = () => {
         >
           <ApplicationsTable applications={applications} hasFetched={hasFetched} />
         </ConditionalWrapper>
-      </PagePanel>
+      </Card>
 
       <CreateApplicationModal
         isOpen={openNewAppDrawer}

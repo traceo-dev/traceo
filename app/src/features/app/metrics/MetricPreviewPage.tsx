@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import AppPage from "../components/AppPage";
 import { Space, Tooltip } from "antd";
-import { PagePanel } from "../../../core/components/PagePanel";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -22,6 +21,7 @@ import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
 import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
 import { DeepPartial } from "../../../types/partials";
 import ReactMarkdown from "react-markdown";
+import { Card } from "core/ui-components/Card/Card";
 
 export const MetricPreviewPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
@@ -83,13 +83,14 @@ export const MetricPreviewPage = () => {
           <div className="w-full grid grid-cols-12">
             <div className={conditionClass(isCustomizeMode, "col-span-9", "col-span-12")}>
               {isDescriptionVisible && !isExpandMode && (
-                <PagePanel>
+                <Card title="Description" className="h-fit">
                   <ReactMarkdown>{metric?.options?.description}</ReactMarkdown>
-                </PagePanel>
+                </Card>
               )}
 
-              <PagePanel
+              <Card
                 title="Graph"
+                className="h-fit"
                 extra={
                   <Space>
                     {!isExpandMode && !isCustomizeMode && (
@@ -107,7 +108,7 @@ export const MetricPreviewPage = () => {
                 }
               >
                 <MetricPreviewPlot isExpandMode={isExpandMode} options={options} />
-              </PagePanel>
+              </Card>
 
               {!isExpandMode && (
                 <MetricTableWrapper metric={options} metricData={metric?.datasource} />

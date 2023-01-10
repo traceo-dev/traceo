@@ -16,7 +16,6 @@ import { StoreState } from "../../../types/store";
 import { loadIncidents } from "../../../features/app/incidents/state/actions";
 import { useParams } from "react-router-dom";
 import { SortOrder } from "../../../types/api";
-import { PagePanel } from "../../../core/components/PagePanel";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
@@ -29,6 +28,7 @@ import {
 import { INCIDENT_PLOT_TYPE } from "../../../types/metrics";
 import { InputSearch } from "../../../core/ui-components/Input/InputSearch";
 import { Select } from "core/ui-components/Select/Select";
+import { Card } from "core/ui-components/Card/Card";
 
 const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.FIRST_SEEN]: "First seen",
@@ -100,7 +100,7 @@ export const AppIncidentsListPage = () => {
         title="Incidents"
         subTitle="List of incidents catched by Traceo SDK"
       />
-      <PagePanel>
+      <Card>
         <SearchWrapper className="pt-2 pb-12">
           <InputSearch
             placeholder="Search incidents by type, message, status or assigned user"
@@ -140,7 +140,7 @@ export const AppIncidentsListPage = () => {
         >
           <IncidentTable isLoading={!hasFetched} incidents={incidents} />
         </ConditionalWrapper>
-      </PagePanel>
+      </Card>
     </AppPage>
   );
 };

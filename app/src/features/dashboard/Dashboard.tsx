@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { DashboardPage } from "./components/DashboardPage";
-import { PagePanel } from "../../core/components/PagePanel";
 import { useAppStoreClean } from "../../core/hooks/useCleanup";
 import { AppsTable } from "./components/AppsTable";
 import { PlusOutlined } from "@ant-design/icons";
 import ServerPermissions from "../../core/components/ServerPermissions";
 import { CreateApplicationModal } from "../../core/components/Modals/CreateApplicationModal";
 import { Button } from "core/ui-components/Button/Button";
+import { Card } from "core/ui-components/Card/Card";
 
 export const Dashboard = () => {
   const [openApplicationModal, setOpenApplicationModal] = useState<boolean>(false);
@@ -15,7 +15,7 @@ export const Dashboard = () => {
   return (
     <>
       <DashboardPage>
-        <PagePanel
+        <Card
           title="Applications"
           extra={
             <ServerPermissions>
@@ -29,7 +29,7 @@ export const Dashboard = () => {
           }
         >
           <AppsTable />
-        </PagePanel>
+        </Card>
       </DashboardPage>
       <CreateApplicationModal
         isOpen={openApplicationModal}

@@ -1,5 +1,5 @@
 import { RightOutlined } from "@ant-design/icons";
-import { Card, List, Space } from "antd";
+import { List, Space } from "antd";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import { useApi } from "../../../../core/lib/useApi";
 import {
@@ -9,7 +9,6 @@ import {
 } from "../../../../types/incidents";
 import dateUtils from "../../../../core/utils/date";
 import { useNavigate } from "react-router-dom";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
@@ -17,6 +16,8 @@ import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { Link } from "core/ui-components/Link/Link";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
+import { ListCard } from "core/ui-components/Card/ListCard";
 
 export const RecentIncidentsSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -37,7 +38,7 @@ export const RecentIncidentsSection = () => {
 
   return (
     <>
-      <PagePanel
+      <Card
         title="Recent Incidents"
         extra={
           <Link
@@ -62,7 +63,7 @@ export const RecentIncidentsSection = () => {
             dataSource={incidents || []}
             className="pt-2"
             renderItem={(item: Incident) => (
-              <Card
+              <ListCard
                 onClick={() =>
                   navigate(
                     `/app/${application.id}/${slugifyForUrl(
@@ -70,7 +71,6 @@ export const RecentIncidentsSection = () => {
                     )}/incidents/${item.id}/details`
                   )
                 }
-                className="default-card default-card-body"
               >
                 <Space className="w-full justify-between py-2">
                   <Space direction="vertical" className="gap-0">
@@ -87,11 +87,11 @@ export const RecentIncidentsSection = () => {
                     <RightOutlined className="cursor-pointer text-gray-800" />
                   </Space>
                 </Space>
-              </Card>
+              </ListCard>
             )}
           />
         </ConditionalWrapper>
-      </PagePanel>
+      </Card>
     </>
   );
 };

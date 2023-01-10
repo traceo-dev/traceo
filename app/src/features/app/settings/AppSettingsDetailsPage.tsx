@@ -11,7 +11,6 @@ import { MemberRole } from "../../../types/application";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";
 import { Permissions } from "../../../core/components/Permissions";
-import { PagePanel } from "../../../core/components/PagePanel";
 import { DescriptionInputRow, Descriptions } from "../../../core/components/Descriptions";
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
@@ -20,6 +19,7 @@ import { ApiKeySection } from "./components/ApiKeySection";
 import { updateAplication } from "../state/application/actions";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ export const AppSettingsDetailsPage = () => {
 
   return (
     <AppSettingsNavigationPage>
-      <PagePanel title="Basic Informations">
+      <Card title="Basic Informations">
         <Descriptions>
           <DescriptionInputRow label="ID" editable={false}>
             <Typography>{application?.id}</Typography>
@@ -75,12 +75,12 @@ export const AppSettingsDetailsPage = () => {
             </span>
           </DescriptionInputRow>
         </Descriptions>
-      </PagePanel>
+      </Card>
       <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
         <ApiKeySection />
       </Permissions>
       <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
-        <PagePanel title="Danger zone">
+        <Card title="Danger zone">
           <ColumnSection
             title={
               <Typography size="xl" weight="semibold" className="text-red-700">
@@ -101,7 +101,7 @@ export const AppSettingsDetailsPage = () => {
               </Confirm>
             </Space>
           </ColumnSection>
-        </PagePanel>
+        </Card>
       </Permissions>
     </AppSettingsNavigationPage>
   );

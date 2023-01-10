@@ -19,10 +19,10 @@ export const CommentsBox = () => {
           isEmpty={comments?.length === 0 && hasCommentsFetched}
           emptyView={<DataNotFound label="No comments yet" />}
         >
-          <Timeline>
+          <Timeline className="h-full">
             {comments?.map((comment, index) => (
               <Timeline.Item
-                className="pb-0"
+                className="pb-0 mb-5"
                 key={index}
                 dot={
                   <Avatar
@@ -41,7 +41,7 @@ export const CommentsBox = () => {
       </Space>
       <style>{`
         .messagesBox {
-          overflow-y: scroll;
+          overflow-y: hidden !important;
           padding: 10px;
           row-gap: 2px !important;
           overflow: auto;

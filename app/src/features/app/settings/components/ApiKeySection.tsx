@@ -1,6 +1,5 @@
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { Confirm } from "../../../../core/components/Confirm";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import api from "../../../../core/lib/api";
 import dateUtils from "../../../../core/utils/date";
 import { useState } from "react";
@@ -13,6 +12,7 @@ import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { InputGroup } from "core/ui-components/Input/InputGroup";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 export const ApiKeySection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -46,7 +46,7 @@ export const ApiKeySection = () => {
 
   return (
     <>
-      <PagePanel title="API Key">
+      <Card title="API Key">
         <ColumnSection subtitle="Thanks to API Key you can fully integrate this app with Traceo SDK. Remember to not store this key in your code, better way is to use him like as environment variable.">
           {hasApiKey ? (
             <>
@@ -75,7 +75,7 @@ export const ApiKeySection = () => {
             </Button>
           )}
         </ColumnSection>
-      </PagePanel>
+      </Card>
     </>
   );
 };

@@ -1,6 +1,5 @@
 import { Collapse, Form, Checkbox, Slider } from "antd";
 import { FormInstance } from "antd/es/form/Form";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
@@ -10,6 +9,7 @@ import { DraftFunction } from "use-immer";
 import { Input } from "core/ui-components/Input/Input";
 import { InputArea } from "core/ui-components/Input/InputArea";
 import { Select } from "core/ui-components/Select/Select";
+import { Card } from "core/ui-components/Card/Card";
 
 const { Panel } = Collapse;
 
@@ -86,7 +86,7 @@ export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {
   return (
     <>
       <div className="col-span-3">
-        <PagePanel title="Customize metric" className="ml-2 customize-body">
+        <Card title="Customize metric" className="ml-1 h-fit">
           <Form form={form} layout="vertical">
             <Collapse ghost defaultActiveKey={"basic"}>
               <Panel className="pl-0" header="Basic options" key={"basic"}>
@@ -163,7 +163,7 @@ export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {
               </Panel>
             </Collapse>
           </Form>
-        </PagePanel>
+        </Card>
       </div>
       <style>{`
         .customize-body > .ant-card-body {

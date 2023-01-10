@@ -1,18 +1,18 @@
 import dateUtils from "../../../../core/utils/date";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import {
   DescriptionInputRow,
   Descriptions
 } from "../../../../core/components/Descriptions";
+import { Card } from "core/ui-components/Card/Card";
 
 export const InfoSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
 
   return (
     <>
-      <PagePanel title="Info">
+      <Card title="Info">
         <Descriptions>
           <DescriptionInputRow label="Catched at" editable={false}>
             {dateUtils.formatDate(incident?.createdAt, "DD MMM YYYY, HH:mm")}
@@ -24,7 +24,7 @@ export const InfoSection = () => {
             {incident?.errorsCount}
           </DescriptionInputRow>
         </Descriptions>
-      </PagePanel>
+      </Card>
     </>
   );
 };

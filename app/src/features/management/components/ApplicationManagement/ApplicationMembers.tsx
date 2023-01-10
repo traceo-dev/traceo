@@ -1,11 +1,11 @@
 import { Space } from "antd";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { ApplicationMembersTable } from "../../../../core/components/Table/ApplicationMembersTable";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useApi } from "../../../../core/lib/useApi";
 import { ApplicationMember } from "../../../../types/application";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 export const ApplicationMembers = () => {
   const { id } = useParams();
@@ -22,7 +22,7 @@ export const ApplicationMembers = () => {
   });
   return (
     <>
-      <PagePanel title="Application members">
+      <Card title="Application members">
         <ConditionalWrapper
           isEmpty={members?.length === 0}
           emptyView={
@@ -34,7 +34,7 @@ export const ApplicationMembers = () => {
         >
           <ApplicationMembersTable members={members} execute={postExecute} />
         </ConditionalWrapper>
-      </PagePanel>
+      </Card>
     </>
   );
 };

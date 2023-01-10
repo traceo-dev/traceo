@@ -1,12 +1,12 @@
 import { Space, Switch, Table } from "antd";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
 import { IMetric, MetricsResponse } from "../../../../types/metrics";
 import { DeepPartial } from "../../../../types/partials";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 interface Props {
   metric: DeepPartial<IMetric>;
@@ -36,8 +36,9 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
   };
 
   return (
-    <PagePanel
+    <Card
       title="Raw data"
+      className="h-fit"
       extra={
         <Space className="w-full justify-end">
           <Typography>Formatted time</Typography>
@@ -56,6 +57,6 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
           scroll={{ y: 440 }}
         />
       </ConditionalWrapper>
-    </PagePanel>
+    </Card>
   );
 };

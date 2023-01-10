@@ -3,9 +3,9 @@ import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { GH_SDK_REPO_LINK } from "../../../../core/utils/constants";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 export const NotIntegratedSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -14,7 +14,7 @@ export const NotIntegratedSection = () => {
 
   return (
     !application.isIntegrated && (
-      <PagePanel>
+      <Card>
         <ColumnSection
           title="Welcome to your new app"
           subtitle={
@@ -53,7 +53,7 @@ export const NotIntegratedSection = () => {
             </Typography>
           </Space>
         </ColumnSection>
-      </PagePanel>
+      </Card>
     )
   );
 };

@@ -12,10 +12,10 @@ import { updateServerAccount } from "../../state/accounts/actions";
 import api from "../../../../core/lib/api";
 import { ApiResponse } from "../../../../types/api";
 import { useNavigate } from "react-router-dom";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -106,7 +106,7 @@ export const AccountInformation = () => {
         />
       )}
 
-      <PagePanel title="Personal Information" extra={<OperationButtons />}>
+      <Card title="Personal Information" extra={<OperationButtons />}>
         <Descriptions>
           <DescriptionInputRow label="Name" onUpdate={onUpdateName} editable={!isAdmin}>
             {account.name}
@@ -122,7 +122,7 @@ export const AccountInformation = () => {
             {account.email}
           </DescriptionInputRow>
         </Descriptions>
-      </PagePanel>
+      </Card>
     </>
   );
 };

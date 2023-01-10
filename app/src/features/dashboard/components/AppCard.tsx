@@ -1,5 +1,5 @@
 import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
-import { Card, Space, Tooltip } from "antd";
+import { Space, Tooltip } from "antd";
 import { loadApplication } from "../../../features/app/state/application/actions";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,8 @@ import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { dispatch } from "../../../store/store";
 import { ApplicationMember } from "../../../types/application";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
+import { ListCard } from "core/ui-components/Card/ListCard";
 
 interface Props {
   app: ApplicationMember["application"] & Pick<ApplicationMember, "role">;
@@ -28,10 +30,7 @@ export const AppCard: FC<Props> = ({ app }) => {
 
   return (
     <>
-      <Card
-        onClick={() => go()}
-        className="default-card default-card-body rounded-lg flex flex-col"
-      >
+      <ListCard onClick={() => go()} className="flex flex-col">
         <Space className="w-full justify-between">
           <Space>
             <Avatar shape="circle" size="large" name={app.name} url={app?.gravatar} />
@@ -63,7 +62,7 @@ export const AppCard: FC<Props> = ({ app }) => {
           </Space>
           <IncidentsAppListPlot id={app.id} />
         </Space>
-      </Card>
+      </ListCard>
     </>
   );
 };

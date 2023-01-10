@@ -14,9 +14,9 @@ import {
   setLocalStorageLogLevels
 } from "../../../../../core/utils/localStorage";
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
-import { PagePanel } from "../../../../../core/components/PagePanel";
 import { LogsFilterPanel } from "./LogsFilterPanel";
 import { Button } from "core/ui-components/Button/Button";
+import { Card } from "core/ui-components/Card/Card";
 
 export const LogsHistogram = () => {
   const { id } = useParams();
@@ -59,15 +59,15 @@ export const LogsHistogram = () => {
   const isActiveLeftButton = dayjs(startDate).isBefore(dayjs().subtract(3, "d").unix());
 
   return (
-    <div className="grid grid-cols-12 w-full mb-2">
-      <div className="col-span-2 h-full mr-2">
+    <div className="grid grid-cols-12 w-full mb-1">
+      <div className="col-span-2 h-full mr-1">
         <LogsFilterPanel
           checkedLevels={checkedLevels}
           setCheckedLevels={setCheckedLevels}
         />
       </div>
       <div className="col-span-10">
-        <PagePanel
+        <Card
           className="mb-0"
           title="Histogram"
           extra={!hasFetched && <LoadingOutlined />}
@@ -93,7 +93,7 @@ export const LogsHistogram = () => {
           <ConditionalWrapper isLoading={!hasFetched && !logs}>
             <LogsExplorePlot logs={logs} startDate={startDate} endDate={endDate} />
           </ConditionalWrapper>
-        </PagePanel>
+        </Card>
       </div>
     </div>
   );

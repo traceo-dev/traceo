@@ -3,13 +3,13 @@ import { IncidentsTodayPlot } from "../../../core/components/Plots/components/In
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { statisticUtils } from "../../../core/utils/statistics";
 import { useSelector } from "react-redux";
-import { PagePanel } from "../../../core/components/PagePanel";
 import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
 import { Space, Tooltip } from "antd";
 import dateUtils from "../../../core/utils/date";
 import { StatPercent } from "../../../core/components/StatPercent";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 export const AppIncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
@@ -24,16 +24,16 @@ export const AppIncidentAnalyticsPage = () => {
 
   return (
     <AppIncidentNavigationPage>
-      <div className="grid grid-cols-5 w-full mb-2">
+      <div className="grid grid-cols-5 w-full mb-1">
         <div className="col-span-4 h-full">
-          <PagePanel title="Today">
+          <Card title="Today">
             <IncidentsTodayPlot stats={todayStats?.data} />
-          </PagePanel>
+          </Card>
         </div>
-        <div className="col-span-1 ml-2">
+        <div className="col-span-1 ml-1">
           <div className="flex flex-col items-stretch h-full">
             <div className="h-full mb-1">
-              <PagePanel title="Errors count">
+              <Card title="Errors count">
                 <Space className="w-full font-semibold">
                   <Typography size="xxl">{todayStats?.count}</Typography>
                   <Tooltip title="Day-to-day difference">
@@ -47,21 +47,21 @@ export const AppIncidentAnalyticsPage = () => {
                     </div>
                   </Tooltip>
                 </Space>
-              </PagePanel>
+              </Card>
             </div>
-            <div className="h-full mt-1">
-              <PagePanel className="h-full" title="Last seen">
+            <div className="h-full">
+              <Card className="h-full" title="Last seen">
                 <Typography size="xxl" weight="semibold">
                   {dateUtils.formatDate(todayStats?.last, "HH:mm")}
                 </Typography>
-              </PagePanel>
+              </Card>
             </div>
           </div>
         </div>
       </div>
-      <PagePanel title="Total overview">
+      <Card title="Total overview">
         <IncidentsOverviewPlot stats={incident.errorsDetails} />
-      </PagePanel>
+      </Card>
     </AppIncidentNavigationPage>
   );
 };

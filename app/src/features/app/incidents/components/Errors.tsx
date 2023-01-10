@@ -1,8 +1,8 @@
 import { Badge, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
+import { Card } from "core/ui-components/Card/Card";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { useSelector } from "react-redux";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import dateUtils from "../../../../core/utils/date";
 import { ErrorDetails } from "../../../../types/incidents";
 import { StoreState } from "../../../../types/store";
@@ -23,7 +23,7 @@ export const Errors = () => {
   ];
 
   return (
-    <PagePanel
+    <Card
       title={
         <Typography>
           Errors <Badge count={incident?.errorsDetails?.length} />
@@ -36,6 +36,6 @@ export const Errors = () => {
         dataSource={incident?.errorsDetails}
         columns={columns}
       />
-    </PagePanel>
+    </Card>
   );
 };

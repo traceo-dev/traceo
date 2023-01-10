@@ -1,5 +1,4 @@
 import { Col, Row } from "antd";
-import { PagePanel } from "../../../core/components/PagePanel";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
@@ -20,6 +19,7 @@ import { searchMetric } from "./utils/searchUtil";
 import { metricsApi } from "./api";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
 import { Button } from "core/ui-components/Button/Button";
+import { Card } from "core/ui-components/Card/Card";
 
 const MetricsPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
@@ -80,7 +80,7 @@ const MetricsPage = () => {
 
   return (
     <AppMetricsNavigationPage>
-      <PagePanel>{renderContent()}</PagePanel>
+      <Card>{renderContent()}</Card>
     </AppMetricsNavigationPage>
   );
 };

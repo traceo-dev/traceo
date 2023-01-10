@@ -1,6 +1,5 @@
 import { Space } from "antd";
 import { ColumnSection } from "../../../core/components/ColumnSection";
-import { PagePanel } from "../../../core/components/PagePanel";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -13,6 +12,7 @@ import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { loadApplication } from "../state/application/actions";
 import { Select } from "core/ui-components/Select/Select";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 const dataSourceOptions = [
   {
@@ -50,7 +50,7 @@ export const AppSettingsDataSourcePage = () => {
 
   return (
     <AppSettingsNavigationPage>
-      <PagePanel title="Metrics Data Source">
+      <Card title="Metrics Data Source">
         <ColumnSection
           subtitle="Configure a connection to the time series database to enable metrics
           collection in this app."
@@ -67,7 +67,7 @@ export const AppSettingsDataSourcePage = () => {
             {renderForm()}
           </Space>
         </ColumnSection>
-      </PagePanel>
+      </Card>
     </AppSettingsNavigationPage>
   );
 };

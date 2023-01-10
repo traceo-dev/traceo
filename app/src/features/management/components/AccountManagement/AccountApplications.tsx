@@ -8,11 +8,11 @@ import { StoreState } from "../../../../types/store";
 
 import { AddToApplicationModal } from "../../../../core/components/Modals/AddToApplicationModal";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { TraceoTable } from "../../../../core/components/Table/TraceoTable";
 import { MemberTableRow } from "../../../../core/components/Table/rows/MemberTableRow";
 import { Button } from "core/ui-components/Button/Button";
+import { Card } from "core/ui-components/Card/Card";
 
 export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -33,7 +33,7 @@ export const AccountApplications = () => {
 
   return (
     <>
-      <PagePanel
+      <Card
         title="Applications list"
         extra={
           !isAdmin && (
@@ -68,7 +68,7 @@ export const AccountApplications = () => {
           onCancel={() => setOpenAddAppDrawer(false)}
           postExecute={() => postExecute()}
         />
-      </PagePanel>
+      </Card>
     </>
   );
 };

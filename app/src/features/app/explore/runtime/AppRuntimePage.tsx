@@ -1,10 +1,10 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { DescriptionRow, Descriptions } from "../../../../core/components/Descriptions";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import AppExploreNavigationPage from "../AppExploreNavigation";
+import { Card } from "core/ui-components/Card/Card";
 
 const AppRuntimePage = () => {
   const { application, hasFetched } = useSelector(
@@ -13,7 +13,7 @@ const AppRuntimePage = () => {
 
   return (
     <AppExploreNavigationPage>
-      <PagePanel title="Runtime configuration">
+      <Card title="Runtime configuration">
         <ConditionalWrapper
           isLoading={!hasFetched}
           isEmpty={!application?.runtimeConfig}
@@ -46,7 +46,7 @@ const AppRuntimePage = () => {
             )}
           </Descriptions>
         </ConditionalWrapper>
-      </PagePanel>
+      </Card>
     </AppExploreNavigationPage>
   );
 };

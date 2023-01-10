@@ -12,29 +12,30 @@ type FormType = {
 export const LoginForm = ({ loading, onFinish }) => {
   return (
     <>
-      <Form<FormType> onSubmit={onFinish} id="login-form">
+      <Form<FormType> onSubmit={onFinish} id="login-form" className="w-full items-center">
         {({ register, errors }) => (
           <>
-            <FormItem label="Username" error={errors.username}>
-              <Input
-                {...register("username", {
-                  required: true
-                })}
-              />
+            <FormItem
+              className="w-1/4 ml-auto mr-auto"
+              label="Username"
+              error={errors.username}
+            >
+              <Input {...register("username", { required: false })} />
             </FormItem>
 
-            <FormItem label="Password" className="mt-8">
-              <InputSecret
-                {...register("password", {
-                  required: true
-                })}
-              />
+            <FormItem label="Password" className="mt-8 w-1/4 ml-auto mr-auto">
+              <InputSecret {...register("password", { required: false })} />
             </FormItem>
           </>
         )}
       </Form>
-      <ButtonContainer>
-        <Button form="login-form" loading={loading} type="submit">
+      <ButtonContainer className="pt-12" justify="center">
+        <Button
+          className="w-1/4 justify-center py-5"
+          form="login-form"
+          loading={loading}
+          type="submit"
+        >
           Log In
         </Button>
       </ButtonContainer>

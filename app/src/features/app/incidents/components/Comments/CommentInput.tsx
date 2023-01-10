@@ -1,5 +1,5 @@
 import { FileMarkdownFilled } from "@ant-design/icons";
-import { Card, Col, Row, Space, Tabs } from "antd";
+import { Col, Row, Space, Tabs } from "antd";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
@@ -11,7 +11,7 @@ import { Avatar } from "../../../../../core/components/Avatar";
 import { InputArea } from "core/ui-components/Input/InputArea";
 import { Button } from "core/ui-components/Button/Button";
 import { Link } from "core/ui-components/Link/Link";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 const { TabPane } = Tabs;
 
@@ -50,7 +50,7 @@ export const CommentInput = () => {
   };
 
   return (
-    <Card className="w-full p-1 bg-primary mb-5">
+    <Card className="w-full mb-5">
       <Row gutter={24} className="w-full">
         <Col span={1}>
           <Avatar

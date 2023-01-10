@@ -1,6 +1,6 @@
 import { ContactsOutlined } from "@ant-design/icons";
+import { Card } from "core/ui-components/Card/Card";
 import { DescriptionInputRow, Descriptions } from "../../core/components/Descriptions";
-import { PagePanel } from "../../core/components/PagePanel";
 import { CONTACT_EMAIL, VERSION } from "../../core/utils/constants";
 import dateUtils from "../../core/utils/date";
 import { ManagementNavigation } from "./components/ManagementNavigation";
@@ -8,7 +8,7 @@ import { ManagementNavigation } from "./components/ManagementNavigation";
 const ManagementInstancePage = () => {
   return (
     <ManagementNavigation>
-      <PagePanel title="Basic Informations">
+      <Card title="Basic Informations">
         <Descriptions>
           <DescriptionInputRow label="Name">
             © {new Date().getFullYear()} Traceo Platform
@@ -24,7 +24,7 @@ const ManagementInstancePage = () => {
             />
           </DescriptionInputRow>
         </Descriptions>
-      </PagePanel>
+      </Card>
     </ManagementNavigation>
   );
 };

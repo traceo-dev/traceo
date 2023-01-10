@@ -8,9 +8,9 @@ import { Divider, Space, Tag } from "antd";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { LogsHistogram } from "./components/LogsHistogram";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { LogContainer, LogRow } from "./components/LogContainer";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 const AppLogsPage = () => {
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);
@@ -55,7 +55,7 @@ const AppLogsPage = () => {
   return (
     <AppExploreNavigationPage>
       <LogsHistogram />
-      <PagePanel title="Logs list">
+      <Card title="Logs list">
         <LogDetails />
         <Divider className="my-2" />
         <ConditionalWrapper
@@ -69,7 +69,7 @@ const AppLogsPage = () => {
             ))}
           </LogContainer>
         </ConditionalWrapper>
-      </PagePanel>
+      </Card>
     </AppExploreNavigationPage>
   );
 };

@@ -9,13 +9,13 @@ import {
   updateAccountPassword
 } from "../../features/app/settings/state/settings/actions";
 import { ADMIN_EMAIL } from "../../core/utils/constants";
-import { PagePanel } from "../../core/components/PagePanel";
 import { Input } from "core/ui-components/Input/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { Button } from "core/ui-components/Button/Button";
 import { Form } from "core/ui-components/Form/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
+import { Card } from "core/ui-components/Card/Card";
 
 const SettingsAccountPage = () => {
   const { account } = useSelector((state: StoreState) => state.account);
@@ -40,7 +40,7 @@ const SettingsAccountPage = () => {
   return (
     <>
       <DashboardSettingsNavigation>
-        <PagePanel title="Basic Information">
+        <Card title="Basic Information">
           <ColumnSection
             title="Personal information"
             subtitle="This information will appear on your profile."
@@ -98,9 +98,9 @@ const SettingsAccountPage = () => {
               </ButtonContainer>
             )}
           </ColumnSection>
-        </PagePanel>
+        </Card>
 
-        <PagePanel title="Security">
+        <Card title="Security">
           <ColumnSection
             title="Update password"
             subtitle="After a successful password update, you will be redirected to the login page where you can log in with your new password."
@@ -144,7 +144,7 @@ const SettingsAccountPage = () => {
               </Button>
             </ButtonContainer>
           </ColumnSection>
-        </PagePanel>
+        </Card>
         {/* <ColumnSection
           firstColumnWidth={10}
           secondColumnWidth={14}

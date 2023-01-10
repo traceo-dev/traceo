@@ -7,9 +7,9 @@ import {
 import { dispatch } from "../../../../store/store";
 import { StoreState } from "../../../../types/store";
 import { updateServerAccount } from "../../state/accounts/actions";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 export const AccountPermissions = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -21,7 +21,7 @@ export const AccountPermissions = () => {
   };
 
   return (
-    <PagePanel title="Permissions">
+    <Card title="Permissions">
       <Descriptions>
         <DescriptionRadioRow
           label="Server Admin"
@@ -44,6 +44,6 @@ export const AccountPermissions = () => {
           )}
         </DescriptionRadioRow>
       </Descriptions>
-    </PagePanel>
+    </Card>
   );
 };

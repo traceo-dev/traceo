@@ -40,7 +40,9 @@ export const IncidentHeader = ({ incident, onExecute }) => {
             onClick={() => navigate(-1)}
           >
             <ArrowLeftOutlined />
-            <Typography>INCIDENTS</Typography>
+            <Typography size="xxs" weight="semibold">
+              INCIDENTS
+            </Typography>
           </Space>
           <Typography size="xxl">{incident?.type}</Typography>
         </Space>

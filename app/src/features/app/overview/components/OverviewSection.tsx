@@ -1,7 +1,6 @@
 import { useApi } from "../../../../core/lib/useApi";
 import { SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { IncidentsOverviewPlot } from "../../../../core/components/Plots/components/IncidentsOverviewPlot";
 import { AppIncidentsStats, PieData } from "../../../../types/statistics";
 import { dispatch } from "../../../../store/store";
@@ -10,6 +9,7 @@ import { StatCards } from "./StatCards";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { loadApplication } from "../../../../features/app/state/application/actions";
+import { Card } from "core/ui-components/Card/Card";
 
 export interface TotalOverviewType {
   errors: ErrorDetails[];
@@ -48,9 +48,9 @@ export const OverviewSection = () => {
   };
 
   return (
-    <div className="grid grid-cols-3 w-full mb-2">
+    <div className="grid grid-cols-3 w-full mb-1">
       <div className="col-span-3 h-full">
-        <PagePanel
+        <Card
           title="App overview"
           extra={<SyncOutlined className="text-xs" onClick={() => refresh()} />}
         >
@@ -62,10 +62,10 @@ export const OverviewSection = () => {
             <StatCards stats={cardStats} isLoading={loadingCardStats} />
             <IncidentsOverviewPlot stats={stats?.errors} />
           </ConditionalWrapper>
-        </PagePanel>
+        </Card>
       </div>
       {/* <div className="col-span-1 ml-2 h-full">
-        <PagePanel
+        <Card
           title="Incidents"
           extra={<SyncOutlined className="text-xs" onClick={() => refresh()} />}
         >
@@ -76,7 +76,7 @@ export const OverviewSection = () => {
           >
             <IncidentsPie data={stats?.pie} />
           </ConditionalWrapper>
-        </PagePanel>
+        </Card>
       </div> */}
     </div>
   );

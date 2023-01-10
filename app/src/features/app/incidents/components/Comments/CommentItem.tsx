@@ -1,4 +1,4 @@
-import { Space, Card, Popover, List, Tag } from "antd";
+import { Space, Popover, List, Tag } from "antd";
 import { FC, useRef, useState } from "react";
 import { Comment } from "../../../../../types/comments";
 import dateUtils from "../../../../../core/utils/date";
@@ -12,6 +12,7 @@ import { InputArea } from "core/ui-components/Input/InputArea";
 import { Button } from "core/ui-components/Button/Button";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 interface Props {
   comment: Comment;
@@ -91,14 +92,8 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
             )}
           </Space>
         }
-        className={joinClasses(
-          "whitespace-pre whitespace-pre-line w-full rounded-md mt-5 comment-card-header bg-comment-body",
-          conditionClass(
-            dateUtils.isRecentComment(createdAt),
-            "border-cyan-600 border-2"
-          ),
-          conditionClass(removed, "ant-card-body-none")
-        )}
+        className="border border-solid border-[#303030] rounded-lg"
+        bodyClassName={joinClasses("bg-canvas", conditionClass(removed, "hidden"))}
       >
         {!isEditMode ? (
           <Space direction="vertical" className="w-full">

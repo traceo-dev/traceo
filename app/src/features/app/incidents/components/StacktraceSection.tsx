@@ -3,11 +3,11 @@ import { CodePreview } from "../../../../core/components/CodePreview";
 import { ColumnDetail } from "../../../../core/components/ColumnDetail";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { useSelector } from "react-redux";
-import { PagePanel } from "../../../../core/components/PagePanel";
 import { StoreState } from "../../../../types/store";
 import { Collapse } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card/Card";
 
 const { Panel } = Collapse;
 
@@ -21,7 +21,7 @@ export const StacktraceSection = () => {
 
   return (
     <>
-      <PagePanel title="Stacktrace">
+      <Card title="Stacktrace">
         <Space className="w-full py-5 gap-0" direction="vertical">
           <Typography size="xl" weight="semibold">
             {incident?.type}
@@ -71,7 +71,7 @@ export const StacktraceSection = () => {
             </Panel>
           ))}
         </Collapse>
-      </PagePanel>
+      </Card>
       <style>{`
           .ant-collapse-header {
             border: 1px solid #2a2d32;

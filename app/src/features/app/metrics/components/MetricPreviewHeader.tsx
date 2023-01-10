@@ -97,7 +97,9 @@ export const MetricPreviewHeader: FC<Props> = ({
               className="text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 hover:text-white"
             >
               <ArrowLeftOutlined />
-              <Typography>METRICS</Typography>
+              <Typography size="xxs" weight="semibold">
+                METRICS
+              </Typography>
             </Space>
             <Space>
               <BarChartOutlined />
