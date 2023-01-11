@@ -35,6 +35,7 @@
     "prettier": "^2.5.1",
     "prismjs": "^1.28.0",
     "process": "^0.11.10",
+    "rc-dialog": "^9.0.2",
     "rc-field-form": "^1.27.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
