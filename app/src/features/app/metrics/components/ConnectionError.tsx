@@ -1,4 +1,4 @@
-import { ExclamationCircleFilled } from "@ant-design/icons";
+import { ExclamationCircleFilled, SyncOutlined } from "@ant-design/icons";
 import { Space } from "core/ui-components/Space/Space";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
@@ -9,6 +9,7 @@ import { useState } from "react";
 import { metricsApi } from "../api";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Tag } from "core/ui-components/Tag/Tag";
 
 export const ConnectionError = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -34,7 +35,7 @@ export const ConnectionError = () => {
         Click Reload button to check your connection health.
       </Typography>
       <Typography size="xs">Reason: {application?.influxDS?.connError}</Typography>
-      <Space className="mt-7 w-full justify-center">
+      <Space className="mt-7 gap-3 w-full justify-center">
         <Button
           onClick={() =>
             navigate(

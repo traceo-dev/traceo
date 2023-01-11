@@ -79,7 +79,7 @@ export const RecentIncidentsSection = () => {
                       <Typography weight="semibold" className="text-primary">
                         {item.type}
                       </Typography>
-                      <IncidentStatusTag status={item.status} />
+                      <IncidentStatusTag className="ml-2" status={item.status} />
                     </Space>
                     <Typography size="xs">{item.message}</Typography>
                   </Space>

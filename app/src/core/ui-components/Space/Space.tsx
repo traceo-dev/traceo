@@ -25,3 +25,5 @@ export const Space: FC<SpaceProps> = ({
     </div>
   );
 };
+
+Space.displayName = "Space";

@@ -1,4 +1,4 @@
-import { Space, Popover, List, Tag } from "antd";
+import { Space, Popover, List } from "antd";
 import { FC, useRef, useState } from "react";
 import { Comment } from "../../../../../types/comments";
 import dateUtils from "../../../../../core/utils/date";
@@ -13,6 +13,7 @@ import { Button } from "core/ui-components/Button/Button";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
+import { Tag } from "core/ui-components/Tag/Tag";
 
 interface Props {
   comment: Comment;
@@ -83,7 +84,7 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
               <Typography size="xs" className="text-primary">
                 commented {dateUtils.fromNow(createdAt)}
               </Typography>
-              {removed && <Tag color="cyan">Removed</Tag>}
+              {removed && <Tag color="purple">Removed</Tag>}
             </Space>
             {isEdit && (
               <Popover placement="bottom" content={popoverContent}>

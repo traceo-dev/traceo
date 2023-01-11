@@ -122,7 +122,7 @@ const IncidentMainColumn: FC<MainColumnProps> = ({ incident }) => {
       </Typography>
       <Typography size="xs">{wrapIncidentMessage(incident?.message)}</Typography>
       <Space className="pt-2">
-        <IncidentStatusTag status={incident?.status} />|
+        <IncidentStatusTag status={incident?.status} className="mr-2" />
         <Typography size="xs" weight="semibold" className="text-primary pipe">
           Last: {dateUtils.fromNow(incident?.lastError)}
         </Typography>

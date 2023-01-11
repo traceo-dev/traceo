@@ -57,8 +57,8 @@ const AppLogsPage = () => {
     <AppExploreNavigationPage>
       <LogsHistogram />
       <Card title="Logs list">
-        <LogDetails />
-        <Divider className="my-2" />
+        {/* <LogDetails /> */}
+        {/* <Divider className="my-2" /> */}
         <ConditionalWrapper
           emptyView={<DataNotFound label="Logs not found" />}
           isEmpty={logs?.length === 0}

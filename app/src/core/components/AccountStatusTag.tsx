@@ -1,20 +1,23 @@
-import { Tag } from "antd";
-import { joinClasses } from "../../core/utils/classes";
+import { Tag, TagColorType } from "core/ui-components/Tag/Tag";
+import { joinClasses } from "core/utils/classes";
+import { FC } from "react";
 import { AccountStatus } from "../../types/accounts";
 
-export const AccountStatusTag = ({ status }) => {
-  const accountStatusColor: Record<AccountStatus, string> = {
-    [AccountStatus.ACTIVE]: "text-white bg-green-700",
-    [AccountStatus.INACTIVE]: "text-white bg-blue-700",
-    [AccountStatus.DISABLED]: "text-white bg-gray-500"
+interface Props {
+  status: AccountStatus;
+  className?: string;
+}
+export const AccountStatusTag: FC<Props> = ({ status, className }) => {
+  const accountStatusColor: Record<AccountStatus, TagColorType> = {
+    [AccountStatus.ACTIVE]: "green",
+    [AccountStatus.INACTIVE]: "blue",
+    [AccountStatus.DISABLED]: "gray"
   };
 
   return (
     <Tag
-      className={joinClasses(
-        accountStatusColor[status],
-        "font-semibold rounded-sm border-0 capitalize"
-      )}
+      color={accountStatusColor[status]}
+      className={joinClasses("capitalize", className)}
     >
       {status}
     </Tag>

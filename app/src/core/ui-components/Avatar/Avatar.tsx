@@ -43,3 +43,5 @@ export const Avatar: FC<AvatarProps> = ({
     />
   );
 };
+
+Avatar.displayName = "Avatar";
