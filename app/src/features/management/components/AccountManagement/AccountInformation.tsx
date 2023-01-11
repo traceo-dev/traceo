@@ -1,4 +1,4 @@
-import { Space, Alert } from "antd";
+import { Space } from "antd";
 import { useSelector } from "react-redux";
 import { Confirm } from "../../../../core/components/Confirm";
 import {
@@ -16,6 +16,7 @@ import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
+import { Alert } from "core/ui-components/Alert/Alert";
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -99,10 +100,9 @@ export const AccountInformation = () => {
     <>
       {isAdmin && (
         <Alert
-          showIcon={true}
           type="warning"
           message="Administrator account is in read-only mode."
-          className="mb-5"
+          className="my-1"
         />
       )}
 

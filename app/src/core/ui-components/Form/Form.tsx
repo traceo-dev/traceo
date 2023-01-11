@@ -31,7 +31,7 @@ export function Form<T>(props: Props<T>) {
   // }, [formState]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} {...restProps}>
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-xl" {...restProps}>
       {children({ errors: formState.errors, formState, reset, ...restFormProps })}
     </form>
   );

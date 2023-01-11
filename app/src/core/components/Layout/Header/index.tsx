@@ -18,47 +18,27 @@ interface Props {
   routes: MenuRoute[];
 }
 export const Header: FC<Props> = () => {
-  const { account } = useSelector((state: StoreState) => state.account);
-
   useEffect(() => {
     dispatch(loadAccount());
   }, []);
-
-  const isPasswordUpdated = !isEmptyObject(account) && !account?.isPasswordUpdated;
 
   const openQuestionCircle = () => window.open(GH_REPO_LINK, "_blank");
 
   return (
     <>
       <Space direction="vertical" className="gap-0">
-        {isPasswordUpdated && (
-          <Alert
-            message={
-              <Space>
-                Your password has not changed since you created your account. Change your
-                password now.
-              </Space>
-            }
-            type="warning"
-            showIcon
-            closable
-          />
-        )}
         <AntHeader className="header">
           <Row className="w-full justify-between">
             <AppSwitcher />
             <Space>
-              {/* <EnvironmentSwitcher /> */}
               <QuestionCircleOutlined
                 onClick={openQuestionCircle}
                 className="icon-small"
               />
-              {/* <BellOutlined className="icon-small" /> */}
               <Profile />
             </Space>
           </Row>
         </AntHeader>
-        {/* <Menu className="mx-9" routes={routes} /> */}
       </Space>
       <style>{`
         .header {

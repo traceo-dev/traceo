@@ -32,18 +32,6 @@ const accountSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    //   builder.addCase(signupAccount.fulfilled, (state) => {
-    //     state.isFetching = false;
-    //     state.isSuccess = true;
-    //   }),
-    //     builder.addCase(signupAccount.pending, (state) => {
-    //       state.isFetching = true;
-    //     }),
-    //     builder.addCase(signupAccount.rejected, (state) => {
-    //       state.isFetching = false;
-    //       state.isSuccess = false;
-    //       state.isError = true;
-    //     }),
     builder.addCase(loginAccount.fulfilled, (state) => {
       state.isFetching = false;
       state.isSuccess = true;

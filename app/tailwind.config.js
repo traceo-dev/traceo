@@ -11,9 +11,6 @@ module.exports = {
         secondary: "#22252b",
         "light-secondary": "#2d3139",
         canvas: "#111217"
-      },
-      fontSize: {
-        // md: "13px"
       }
     }
   },

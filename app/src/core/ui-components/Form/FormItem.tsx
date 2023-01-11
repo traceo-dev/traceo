@@ -46,7 +46,8 @@ export const FormItem: FC<FormItemProps> = (props: FormItemProps) => {
       <ExclamationCircleOutlined className="text-red-500 font-semibold" />
     ) : null,
     isFocusable: !error,
-    disabled
+    disabled,
+    className: "text-md"
   });
 
   return (
@@ -57,7 +58,9 @@ export const FormItem: FC<FormItemProps> = (props: FormItemProps) => {
       </div>
       {/* TODO: Make it later as information in tooltip for suffix icon */}
       {error && (
-        <div className="relative inline-block pt-2 text-red-500">{errorMessage}</div>
+        <div className="text-xs font-semibold relative inline-block pt-2 text-red-500">
+          {errorMessage}
+        </div>
       )}
     </div>
   );

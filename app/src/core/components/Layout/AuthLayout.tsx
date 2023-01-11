@@ -12,22 +12,24 @@ interface Props {
 
 export const AuthLayout: FC<Props> = ({ children, title }) => {
   return (
-    <div className="pt-12">
-      <Space
-        direction="vertical"
-        className="justify-center w-full items-center pb-4 mt-5"
+    <div className="flex h-screen justify-center items-center">
+      <div
+        style={{ width: "calc(100% - 2rem)" }}
+        className="border border-solid border-secondary bg-primary rounded-lg drop-shadow-lg text-white p-12 max-w-md"
       >
-        <TraceoLogo size="medium" />
+        <Space direction="vertical" className="justify-center w-full items-center pb-12">
+          <TraceoLogo size="medium" />
 
-        {title && (
-          <Typography size="xxl" weight="semibold">
-            {title}
-          </Typography>
-        )}
+          {title && (
+            <Typography size="xxl" weight="semibold">
+              {title}
+            </Typography>
+          )}
 
-        <Typography size="xs">v.{VERSION}</Typography>
-      </Space>
-      <div className="justify-center items-center pt-12">{children}</div>
+          <Typography size="xs">v.{VERSION}</Typography>
+        </Space>
+        {children}
+      </div>
     </div>
   );
 };

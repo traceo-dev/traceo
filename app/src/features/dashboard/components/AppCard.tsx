@@ -10,7 +10,6 @@ import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { dispatch } from "../../../store/store";
 import { ApplicationMember } from "../../../types/application";
 import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
 import { ListCard } from "core/ui-components/Card/ListCard";
 
 interface Props {

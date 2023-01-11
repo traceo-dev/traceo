@@ -1,4 +1,3 @@
-import { Space, Alert } from "antd";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { useState, useMemo } from "react";
@@ -17,6 +16,7 @@ import { Form } from "core/ui-components/Form/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Link } from "core/ui-components/Link/Link";
+import { Alert } from "core/ui-components/Alert/Alert";
 
 export const DataSourceInflux2Form = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -108,17 +108,6 @@ export const DataSourceInflux2Form = () => {
           </>
         )}
       </Form>
-      <Space className="pt-5">
-        <Alert
-          showIcon={true}
-          type="info"
-          message={
-            <Link href={INFLUX2_DOCS} target="_blank">
-              Official documentation
-            </Link>
-          }
-        />
-      </Space>
       <ButtonContainer justify="start" hidden={isViewer}>
         <Button loading={isLoading} type="submit" form="inlfux-provider-form">
           Save & Test
@@ -128,12 +117,26 @@ export const DataSourceInflux2Form = () => {
             description="Are you sure that you want to remove InfluxDB configuration?"
             onOk={remove}
           >
-            <Button loading={isDeletLoading} variant="ghost">
+            <Button loading={isDeletLoading} variant="danger">
               Remove
             </Button>
           </Confirm>
         )}
       </ButtonContainer>
+      <Alert
+        showIcon={true}
+        type="info"
+        className="mt-12"
+        message={
+          <Link
+            href={INFLUX2_DOCS}
+            target="_blank"
+            className="text-white hover:text-gray-200"
+          >
+            Official documentation
+          </Link>
+        }
+      />
       {isFailedConnection && (
         <Alert
           className="mt-5"

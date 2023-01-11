@@ -11,11 +11,13 @@ import { LoginProps } from "../../../types/auth";
 const Login = () => {
   const { isError, isSuccess } = useSelector((state: StoreState) => state.account);
   const [loading, setLoading] = useState<boolean>(false);
+  const [invalid, setInvalid] = useState<boolean>(false);
 
   useEffect(() => {
     if (isError) {
       dispatch(clearState());
       setLoading(false);
+      setInvalid(true);
     }
 
     if (isSuccess) {
@@ -43,7 +45,7 @@ const Login = () => {
     <>
       <div className="w-full">
         <AuthLayout title="Welcome to Traceo">
-          <LoginForm loading={loading} onFinish={onFinish} />
+          <LoginForm invalid={invalid} loading={loading} onFinish={onFinish} />
         </AuthLayout>
       </div>
     </>
