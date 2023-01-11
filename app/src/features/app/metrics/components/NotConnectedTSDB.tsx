@@ -1,5 +1,5 @@
 import { DatabaseOutlined } from "@ant-design/icons";
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

@@ -1,4 +1,4 @@
-import { Space, Switch, Table } from "antd";
+import { Switch, Table } from "antd";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
@@ -7,6 +7,7 @@ import { DeepPartial } from "../../../../types/partials";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
+import { Space } from "core/ui-components/Space/Space";
 
 interface Props {
   metric: DeepPartial<IMetric>;
@@ -38,7 +39,7 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
   return (
     <Card
       title="Raw data"
-      className="h-fit"
+      className="h-min"
       extra={
         <Space className="w-full justify-end">
           <Typography>Formatted time</Typography>

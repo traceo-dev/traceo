@@ -1,5 +1,5 @@
 import { LeftOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
-import { Space, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import dayjs from "dayjs";
 import { LogsExplorePlot } from "../../../../../core/components/Plots/components/Logs/LogsExplorePlot";
 import { loadApplicationLogs } from "../state/actions";
@@ -17,6 +17,7 @@ import { ConditionalWrapper } from "../../../../../core/components/ConditionLayo
 import { LogsFilterPanel } from "./LogsFilterPanel";
 import { Button } from "core/ui-components/Button/Button";
 import { Card } from "core/ui-components/Card/Card";
+import { Space } from "core/ui-components/Space/Space";
 
 export const LogsHistogram = () => {
   const { id } = useParams();

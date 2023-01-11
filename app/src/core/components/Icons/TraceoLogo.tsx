@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { FC } from "react";
 import { joinClasses } from "../../../core/utils/classes";
 
@@ -39,7 +39,7 @@ export const TraceoLogo: FC<Props> = ({ size, onClick, name = false, className }
       </div>
 
       {name && (
-        <span className={joinClasses(typographyNameSize[size], "font-semibold")}>
+        <span className={joinClasses(typographyNameSize[size], "font-semibold pl-2")}>
           Traceo
         </span>
       )}

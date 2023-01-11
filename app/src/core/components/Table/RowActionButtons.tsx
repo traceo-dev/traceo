@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { Button } from "core/ui-components/Button/Button";
 import { FC } from "react";
 

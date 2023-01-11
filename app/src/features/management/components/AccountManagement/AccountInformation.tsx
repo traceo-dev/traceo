@@ -1,4 +1,3 @@
-import { Space } from "antd";
 import { useSelector } from "react-redux";
 import { Confirm } from "../../../../core/components/Confirm";
 import {
@@ -17,6 +16,7 @@ import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
 import { Alert } from "core/ui-components/Alert/Alert";
+import { Space } from "core/ui-components/Space/Space";
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);

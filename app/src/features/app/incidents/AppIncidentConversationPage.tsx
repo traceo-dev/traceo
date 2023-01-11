@@ -1,5 +1,5 @@
 import { AlertOutlined } from "@ant-design/icons";
-import { Card, Space } from "antd";
+import { Card } from "antd";
 import { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { CommentInput } from "./components/Comments/CommentInput";
@@ -11,6 +11,7 @@ import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
 import { loadIncidentComments } from "./state/actions";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Space } from "core/ui-components/Space/Space";
 
 export const AppIncidentConversationPage = () => {
   const { socket } = useContext(SocketContext);

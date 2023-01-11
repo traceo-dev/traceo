@@ -6,7 +6,7 @@ import {
   DownOutlined,
   RightOutlined
 } from "@ant-design/icons";
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { joinClasses, conditionClass } from "../../../../../core/utils/classes";
 import { FC, useState } from "react";
 import { LogLevel, TraceoLog } from "../../../../../types/logs";

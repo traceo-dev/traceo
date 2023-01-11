@@ -1,5 +1,5 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { joinClasses } from "../../core/utils/classes";
 import { FC } from "react";
 import { Typography } from "core/ui-components/Typography/Typography";
@@ -23,7 +23,7 @@ export const DataNotFound: FC<Props> = ({
     {showIcon && <SearchOutlined className="text-2xl" />}
     <Typography>{label}</Typography>
     {explanation && (
-      <Typography size="xs" weight="normal">
+      <Typography size="xxs" weight="normal">
         {explanation}
       </Typography>
     )}

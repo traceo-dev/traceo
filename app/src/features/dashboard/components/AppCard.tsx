@@ -1,9 +1,8 @@
 import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
-import { Space, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import { loadApplication } from "../../../features/app/state/application/actions";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "../../../core/components/Avatar";
 import { IncidentsAppListPlot } from "../../../core/components/Plots/components/IncidentsAppListPlot";
 import dateUtils from "../../../core/utils/date";
 import { slugifyForUrl } from "../../../core/utils/stringUtils";
@@ -11,6 +10,8 @@ import { dispatch } from "../../../store/store";
 import { ApplicationMember } from "../../../types/application";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { ListCard } from "core/ui-components/Card/ListCard";
+import { Space } from "core/ui-components/Space/Space";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
 
 interface Props {
   app: ApplicationMember["application"] & Pick<ApplicationMember, "role">;
@@ -32,8 +33,8 @@ export const AppCard: FC<Props> = ({ app }) => {
       <ListCard onClick={() => go()} className="flex flex-col">
         <Space className="w-full justify-between">
           <Space>
-            <Avatar shape="circle" size="large" name={app.name} url={app?.gravatar} />
-            <Space className="w-full pl-1 gap-0" direction="vertical">
+            <Avatar alt={app.name} src={app?.gravatar} />
+            <Space className="w-full pl-2 gap-0" direction="vertical">
               <div>
                 <Typography className="cursor-pointer">{app.name}</Typography>
                 {!app.isIntegrated && (

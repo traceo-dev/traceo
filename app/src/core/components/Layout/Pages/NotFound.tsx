@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { useNavigate } from "react-router-dom";

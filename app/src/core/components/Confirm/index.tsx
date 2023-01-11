@@ -1,4 +1,4 @@
-import { Modal, Space } from "antd";
+import { Modal } from "antd";
 import api from "../../../core/lib/api";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import { Form } from "core/ui-components/Form/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Space } from "core/ui-components/Space/Space";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;

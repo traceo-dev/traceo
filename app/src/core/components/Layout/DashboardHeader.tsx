@@ -1,13 +1,9 @@
-import { QuestionCircleOutlined } from "@ant-design/icons";
-import { Space, Tooltip } from "antd";
-import { GH_REPO_LINK } from "../../../core/utils/constants";
 import { useNavigate } from "react-router-dom";
 import { TraceoLogo } from "../Icons/TraceoLogo";
+import { Space } from "core/ui-components/Space/Space";
 
 export const DashboardHeader = () => {
   const navigate = useNavigate();
-
-  const openQuestionCircle = () => window.open(GH_REPO_LINK, "_blank");
 
   const breadcrumb = window.location.pathname.split("/");
   const isApp = breadcrumb.includes("app");
@@ -18,23 +14,16 @@ export const DashboardHeader = () => {
   }
 
   return (
-    <>
-      <nav className="flex h-12 max-h-12 items-center justify-between py-2 px-5 header-border z-10 bg-canvas">
-        <Space className="w-full">
-          <TraceoLogo
-            name={true}
-            size="small"
-            className="cursor-pointer"
-            onClick={() => navigate("/dashboard/overview")}
-          />
-        </Space>
-        <Space></Space>
-      </nav>
-      <style>{`
-        .header-border {
-          border-bottom: 1px solid var(--color-bg-secondary) !important;
-        }
-      `}</style>
-    </>
+    <nav className="flex h-12 max-h-12 items-center justify-between py-2 px-5 border-l-0 border-t-0 border-r-0 border-b border-solid border-secondary z-10 bg-canvas">
+      <Space className="w-full">
+        <TraceoLogo
+          name={true}
+          size="small"
+          className="cursor-pointer"
+          onClick={() => navigate("/dashboard/overview")}
+        />
+      </Space>
+      <Space></Space>
+    </nav>
   );
 };

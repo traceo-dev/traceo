@@ -1,4 +1,4 @@
-import { Space, Modal } from "antd";
+import { Modal } from "antd";
 import { useState } from "react";
 import { dispatch } from "../../../store/store";
 import { addServerAccount } from "../../../features/management/state/accounts/actions";
@@ -10,6 +10,7 @@ import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Button } from "core/ui-components/Button/Button";
 import { clearObject } from "core/utils/object";
+import { Space } from "core/ui-components/Space/Space";
 
 export const NewAccountModal = ({ isOpen, onCancel }) => {
   const [loading, setLoading] = useState<boolean>(false);

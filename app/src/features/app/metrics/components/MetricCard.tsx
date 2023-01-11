@@ -1,5 +1,5 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { Space, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import { MetricPlot } from "../../../../core/components/Plots/components/Metrics/MetricPlot";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { FC } from "react";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { IMetric } from "../../../../types/metrics";
 import { StoreState } from "../../../../types/store";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Space } from "core/ui-components/Space/Space";
 
 interface MetricCardProps {
   metric: IMetric;

@@ -20,6 +20,8 @@ import { metricsApi } from "./api";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
 import { Button } from "core/ui-components/Button/Button";
 import { Card } from "core/ui-components/Card/Card";
+import { DataNotFound } from "core/components/DataNotFound";
+import { EmptyMetricsList } from "./components/EmptyMetricsList";
 
 const MetricsPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
@@ -43,6 +45,8 @@ const MetricsPage = () => {
   const isConnectedSuccessfully =
     application?.influxDS?.connStatus === CONNECTION_STATUS.CONNECTED;
 
+  const filteredMetrics = searchMetric(search, metrics) || [];
+
   const renderContent = () => {
     if (!isConnectedTSDB) {
       return <NotConnectedTSDB />;
@@ -65,9 +69,13 @@ const MetricsPage = () => {
             Refresh metrics
           </Button>
         </SearchWrapper>
-        <ConditionalWrapper isLoading={!hasFetched}>
+        <ConditionalWrapper
+          isEmpty={filteredMetrics?.length === 0}
+          emptyView={<EmptyMetricsList constraints={search} />}
+          isLoading={!hasFetched}
+        >
           <Row className="gap-0" gutter={[8, 24]}>
-            {searchMetric(search, metrics).map((metric, index) => (
+            {filteredMetrics?.map((metric, index) => (
               <Col span={8} key={index}>
                 <MetricCard metric={metric} hrCount={timeLimit} />
               </Col>

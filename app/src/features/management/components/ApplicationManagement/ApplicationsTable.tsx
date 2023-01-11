@@ -2,9 +2,9 @@ import { BugOutlined, TeamOutlined, WarningOutlined } from "@ant-design/icons";
 import dateUtils from "../../../../core/utils/date";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { Avatar } from "../../../../core/components/Avatar";
 import { PaginatedTable } from "../../../../core/components/PaginatedTable";
 import { Application } from "../../../../types/application";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
 
 interface Props {
   applications: Application[];
@@ -16,7 +16,9 @@ export const ApplicationsTable: FC<Props> = ({ applications, hasFetched }) => {
   const columns = [
     {
       width: 50,
-      render: (app: Application) => <Avatar name={app.name} url={app?.gravatar} />
+      render: (app: Application) => (
+        <Avatar size="sm" alt={app.name} src={app?.gravatar} />
+      )
     },
     {
       title: "Name",

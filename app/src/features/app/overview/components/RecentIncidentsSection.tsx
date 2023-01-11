@@ -1,5 +1,5 @@
 import { RightOutlined } from "@ant-design/icons";
-import { List, Space } from "antd";
+import { List } from "antd";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import { useApi } from "../../../../core/lib/useApi";
 import {
@@ -18,6 +18,7 @@ import { Link } from "core/ui-components/Link/Link";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
 import { ListCard } from "core/ui-components/Card/ListCard";
+import { Space } from "core/ui-components/Space/Space";
 
 export const RecentIncidentsSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);

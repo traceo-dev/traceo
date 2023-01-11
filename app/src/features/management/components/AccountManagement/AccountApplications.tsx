@@ -1,4 +1,3 @@
-import { Space } from "antd";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
@@ -13,6 +12,7 @@ import { TraceoTable } from "../../../../core/components/Table/TraceoTable";
 import { MemberTableRow } from "../../../../core/components/Table/rows/MemberTableRow";
 import { Button } from "core/ui-components/Button/Button";
 import { Card } from "core/ui-components/Card/Card";
+import { Space } from "core/ui-components/Space/Space";
 
 export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);

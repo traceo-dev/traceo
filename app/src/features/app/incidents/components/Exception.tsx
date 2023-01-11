@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { Card } from "core/ui-components/Card/Card";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { useSelector } from "react-redux";

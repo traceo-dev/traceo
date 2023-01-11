@@ -3,13 +3,14 @@ import {
   LockFilled,
   SafetyCertificateFilled
 } from "@ant-design/icons";
-import { Space, Tooltip } from "antd";
+import { Tooltip } from "antd";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Space } from "core/ui-components/Space/Space";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AccountStatusTag } from "../../../../core/components/AccountStatusTag";
-import { Avatar } from "../../../../core/components/Avatar";
 import { PaginatedTable } from "../../../../core/components/PaginatedTable";
 import { Account, AccountStatus } from "../../../../types/accounts";
 import { StoreState } from "../../../../types/store";
@@ -26,12 +27,7 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
     {
       width: 50,
       render: (account: Account) => (
-        <Avatar
-          shape="circle"
-          size="small"
-          url={account?.gravatar}
-          name={account?.username}
-        />
+        <Avatar size="sm" src={account?.gravatar} alt={account?.username} />
       )
     },
     {

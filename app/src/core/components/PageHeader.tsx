@@ -1,5 +1,6 @@
-import { PageHeader as AntdPageHeader, Space } from "antd";
+import { PageHeader as AntdPageHeader } from "antd";
 import { PageHeaderProps } from "antd/es/page-header";
+import { Space } from "core/ui-components/Space/Space";
 import { FC } from "react";
 
 interface PanelHeaderProps extends PageHeaderProps {

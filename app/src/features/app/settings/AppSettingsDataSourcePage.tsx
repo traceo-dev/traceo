@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";

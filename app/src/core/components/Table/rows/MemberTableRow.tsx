@@ -1,5 +1,4 @@
 import { Row } from "antd";
-import { Avatar } from "../../../../core/components/Avatar";
 import api from "../../../../core/lib/api";
 import { FC, useState } from "react";
 import { ApplicationMember, MemberRole } from "../../../../types/application";
@@ -9,6 +8,7 @@ import { StoreState } from "../../../../types/store";
 import { useNavigate } from "react-router-dom";
 import { Button } from "core/ui-components/Button/Button";
 import { Select } from "core/ui-components/Select/Select";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
 
 interface MemberRowProps {
   item: ApplicationMember;
@@ -75,11 +75,10 @@ export const MemberTableRow: FC<MemberRowProps> = ({
         <td className="w-64">
           <Row className="w-full items-center">
             <Avatar
-              shape="circle"
-              size="small"
+              size="sm"
               className="mr-3"
-              url={item[type]?.gravatar}
-              name={item[type]?.name}
+              src={item[type]?.gravatar}
+              alt={item[type]?.name}
             />
             {item[type].name}
           </Row>

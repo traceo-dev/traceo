@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { FC } from "react";
 
@@ -17,23 +17,25 @@ export const ColumnSection: FC<Props> = ({
   className,
   hidden = false
 }) => {
+  if (hidden) {
+    return null;
+  }
+
   return (
-    !hidden && (
-      <div className={className}>
-        <div className="grid grid-cols-12">
-          <div className="col-span-6">
-            <div className="flex flex-col">
-              <Typography size="xl" weight="semibold">
-                {title}
-              </Typography>
-              <Space className="w-3/4 pt-3">
-                <Typography size="sm">{subtitle}</Typography>
-              </Space>
-            </div>
+    <div className={className}>
+      <div className="grid grid-cols-12">
+        <div className="col-span-6">
+          <div className="flex flex-col">
+            <Typography size="lg" weight="semibold">
+              {title}
+            </Typography>
+            <Space className="w-3/4 pt-2">
+              <Typography size="sm">{subtitle}</Typography>
+            </Space>
           </div>
-          <div className="col-span-6">{children}</div>
         </div>
+        <div className="col-span-6">{children}</div>
       </div>
-    )
+    </div>
   );
 };

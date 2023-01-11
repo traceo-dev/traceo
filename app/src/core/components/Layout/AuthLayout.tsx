@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { VERSION } from "../../../core/utils/constants";
 import { FC } from "react";
 import { TraceoLogo } from "../Icons/TraceoLogo";

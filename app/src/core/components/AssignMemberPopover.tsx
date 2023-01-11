@@ -1,14 +1,15 @@
 import { DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Divider, Space } from "antd";
+import { Divider } from "antd";
 import { useEffect, useState } from "react";
 import { useApi } from "../../core/lib/useApi";
-import { Avatar } from "./Avatar";
 import { dispatch } from "../../store/store";
 import { updateIncident } from "../../features/app/incidents/state/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../types/store";
 import { ApplicationMember } from "../../types/application";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Space } from "core/ui-components/Space/Space";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
 
 export const AssignMemberPopover = ({ setVisible }) => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -45,13 +46,10 @@ export const AssignMemberPopover = ({ setVisible }) => {
         key={index}
         className="w-full main-hover p-2 rounded-md cursor-pointer"
       >
-        <Avatar
-          shape="circle"
-          size="small"
-          url={member?.account?.gravatar}
-          name={member?.account?.name}
-        />
-        <Typography size="xs">{member?.account?.name}</Typography>
+        <Avatar size="sm" src={member?.account?.gravatar} alt={member?.account?.name} />
+        <Typography size="xs" className="pl-1">
+          {member?.account?.name}
+        </Typography>
       </Space>
     ))
   ) : (

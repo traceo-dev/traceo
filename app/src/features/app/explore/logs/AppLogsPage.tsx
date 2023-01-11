@@ -4,13 +4,14 @@ import { LogLevel } from "../../../../types/logs";
 import { StoreState } from "../../../../types/store";
 import AppExploreNavigationPage from "../AppExploreNavigation";
 
-import { Divider, Space, Tag } from "antd";
+import { Divider, Tag } from "antd";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { LogsHistogram } from "./components/LogsHistogram";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { LogContainer, LogRow } from "./components/LogContainer";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
+import { Space } from "core/ui-components/Space/Space";
 
 const AppLogsPage = () => {
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);

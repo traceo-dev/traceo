@@ -4,21 +4,21 @@ import {
   UserOutlined,
   WarningOutlined
 } from "@ant-design/icons";
-import { Space, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import { ColumnsType, TableProps } from "antd/lib/table";
 import { FC } from "react";
 import { Table } from "antd";
 import { IncidentsListPlot } from "../../../../core/components/Plots/components/IncidentsListPlot";
 import { Incident } from "../../../../types/incidents";
-import { Avatar } from "../../../../core/components/Avatar";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StoreState } from "../../../../types/store";
 import { slugifyForUrl, wrapIncidentMessage } from "../../../../core/utils/stringUtils";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
-import { joinClasses } from "../../../../core/utils/classes";
 import dateUtils from "../../../../core/utils/date";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Space } from "core/ui-components/Space/Space";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
 
 interface Props {
   incidents: Incident[];
@@ -56,10 +56,9 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
             <Tooltip placement="bottom" title={record?.assigned?.name}>
               <Space>
                 <Avatar
-                  shape="circle"
-                  size="large"
-                  url={record?.assigned?.gravatar}
-                  name={record?.assigned?.name}
+                  size="md"
+                  src={record?.assigned?.gravatar}
+                  alt={record?.assigned?.name}
                 />
               </Space>
             </Tooltip>

@@ -1,9 +1,9 @@
-import { Space, Radio } from "antd";
-import { joinClasses } from "../../core/utils/classes";
+import { Radio } from "antd";
 import { FC, useState } from "react";
 import { Input } from "core/ui-components/Input/Input";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Space } from "core/ui-components/Space/Space";
 
 export const Descriptions = ({ children }) => {
   return (

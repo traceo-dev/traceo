@@ -6,7 +6,6 @@ import {
 } from "@ant-design/icons";
 import { Space, Tooltip, Button as AntButton, Popover, Dropdown, Menu } from "antd";
 import { AssignMemberPopover } from "../../../../core/components/AssignMemberPopover";
-import { Avatar } from "../../../../core/components/Avatar";
 import { FC, useState } from "react";
 import { dispatch } from "../../../../store/store";
 import {
@@ -22,6 +21,7 @@ import { joinClasses } from "../../../../core/utils/classes";
 import { useNavigate } from "react-router-dom";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
 
 export const IncidentHeader = ({ incident, onExecute }) => {
   const navigate = useNavigate();
@@ -111,10 +111,9 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
               <Button
                 icon={
                   <Avatar
-                    shape="circle"
-                    size="small"
-                    url={incident?.assigned?.gravatar}
-                    name={incident?.assigned?.name}
+                    size="sm"
+                    src={incident?.assigned?.gravatar}
+                    alt={incident?.assigned?.name}
                   />
                 }
                 variant="ghost"

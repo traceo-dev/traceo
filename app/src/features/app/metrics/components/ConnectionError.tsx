@@ -1,5 +1,5 @@
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ export const ConnectionError = () => {
       <Typography size="xxl" weight="bold">
         Connection Error
       </Typography>
-      <Typography>
+      <Typography className="pt-7">
         Please check your TSDB configuration to continue collecting metrics from your
         application.
       </Typography>
@@ -34,7 +34,7 @@ export const ConnectionError = () => {
         Click Reload button to check your connection health.
       </Typography>
       <Typography size="xs">Reason: {application?.influxDS?.connError}</Typography>
-      <Space className="mt-5">
+      <Space className="mt-7 w-full justify-center">
         <Button
           onClick={() =>
             navigate(

@@ -10,7 +10,7 @@ import { dispatch } from "../../../store/store";
 import { loadAccount } from "../../../features/auth/state/actions";
 import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
-import { Avatar } from "../../../core/components/Avatar";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
 
 export const DashboardSettingsNavigation = ({ children }) => {
   const { account } = useSelector((state: StoreState) => state.account);
@@ -35,16 +35,9 @@ export const DashboardSettingsNavigation = ({ children }) => {
   return (
     <DashboardPage>
       <PageHeader
-        icon={
-          <Avatar
-            className="w-16 h-16"
-            size="large"
-            url={account?.gravatar}
-            name={account.username}
-          />
-        }
-        title={"Account"}
-        subTitle={"Your account settings"}
+        icon={<Avatar size="lg" src={account?.gravatar} alt={account.username} />}
+        title="Account"
+        subTitle="Your account settings"
       />
       <Menu className="mt-5" routes={menu} />
       {children}

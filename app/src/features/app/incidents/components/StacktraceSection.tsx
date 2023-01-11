@@ -1,4 +1,4 @@
-import { Space, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import { CodePreview } from "../../../../core/components/CodePreview";
 import { ColumnDetail } from "../../../../core/components/ColumnDetail";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
@@ -8,6 +8,7 @@ import { Collapse } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
+import { Space } from "core/ui-components/Space/Space";
 
 const { Panel } = Collapse;
 

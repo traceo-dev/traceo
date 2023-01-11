@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Page } from "../../Page";
 

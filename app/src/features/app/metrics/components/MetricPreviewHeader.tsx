@@ -4,7 +4,7 @@ import {
   SyncOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import { Space, Tooltip } from "antd";
+import { Tooltip } from "antd";
 import { FormInstance } from "antd/es/form/Form";
 import PageHeader from "../../../../core/components/PageHeader";
 import api from "../../../../core/lib/api";
@@ -23,6 +23,7 @@ import { loadMetric } from "../state/actions";
 import { TimeLimitDropdown } from "./TimeLimitDropdown";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
+import { Space } from "core/ui-components/Space/Space";
 
 interface Props {
   form: FormInstance;

@@ -1,10 +1,9 @@
-import { Space, Modal } from "antd";
+import { Modal } from "antd";
 import { useEffect, useState, FormEvent } from "react";
 import { dispatch } from "../../../store/store";
 import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
-import { Avatar } from "../Avatar";
 import { ApplicationMember, MemberRole } from "../../../types/application";
 import api from "../../../core/lib/api";
 import { Account } from "../../../types/accounts";
@@ -12,6 +11,8 @@ import { Select } from "core/ui-components/Select/Select";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { Button } from "core/ui-components/Button/Button";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
+import { Space } from "core/ui-components/Space/Space";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { accounts, hasFetched } = useSelector(
@@ -58,7 +59,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
     );
 
   const accountOptions = filterAccounts().map((account) => ({
-    icon: <Avatar name={account.name} url={account.gravatar} />,
+    icon: <Avatar size="sm" alt={account.name} src={account.gravatar} />,
     label: account.name,
     value: account.id,
     description: account?.email

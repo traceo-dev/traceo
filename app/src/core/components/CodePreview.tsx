@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { FC } from "react";
 import { Trace } from "../../types/incidents";
 

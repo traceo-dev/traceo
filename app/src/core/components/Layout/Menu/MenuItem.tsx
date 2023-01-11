@@ -4,7 +4,7 @@ import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { MenuRoute } from "../../../../types/navigation";
 import { StoreState } from "../../../../types/store";
 import { NavLink } from "react-router-dom";
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 
 interface Props {

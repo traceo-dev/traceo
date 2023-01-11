@@ -1,4 +1,4 @@
-import { Space, Modal } from "antd";
+import { Modal } from "antd";
 import { FC, useState, FormEvent } from "react";
 import { useApi } from "../../lib/useApi";
 import { Application, MemberRole } from "../../../types/application";
@@ -9,7 +9,8 @@ import { Select } from "core/ui-components/Select/Select";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Button } from "core/ui-components/Button/Button";
-import { Avatar } from "../Avatar";
+import { Space } from "core/ui-components/Space/Space";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
 
 const roleOptions = Object.values(MemberRole).map((role) => ({
   label: role,
@@ -82,7 +83,7 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
                 options={applications?.map((app) => ({
                   label: app.name,
                   value: app.id,
-                  icon: <Avatar url={app?.gravatar} name={app.name} />
+                  icon: <Avatar size="sm" src={app?.gravatar} alt={app.name} />
                 }))}
                 onChange={(opt) => setApplication(opt?.value)}
               />

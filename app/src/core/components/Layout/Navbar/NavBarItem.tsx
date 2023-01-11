@@ -1,4 +1,4 @@
-import { Space } from "antd";
+import { Space } from "core/ui-components/Space/Space";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { FC } from "react";

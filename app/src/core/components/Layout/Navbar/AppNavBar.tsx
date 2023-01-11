@@ -5,16 +5,17 @@ import {
   BarChartOutlined,
   SettingOutlined,
   UserOutlined,
-  LogoutOutlined
+  LogoutOutlined,
+  LoadingOutlined
 } from "@ant-design/icons";
 import { Divider } from "antd";
 import { logout } from "../.../../../../../core/utils/logout";
 import { useSelector } from "react-redux";
 import { MenuRoute } from "../.../../../../../types/navigation";
 import { StoreState } from "../.../../../../../types/store";
-import { AppSwitcher } from "../Header/components/AppSwitcher";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
 
 export const AppNavBar = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -73,8 +74,7 @@ export const AppNavBar = () => {
     },
     {
       label: application.name,
-      // href: "/app/:id/:slug/overview",
-      icon: <AppSwitcher />
+      icon: <Avatar size="sm" alt={application.name} src={application.gravatar} />
     }
   ];
 

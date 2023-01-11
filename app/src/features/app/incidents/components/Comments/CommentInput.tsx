@@ -1,5 +1,5 @@
 import { FileMarkdownFilled } from "@ant-design/icons";
-import { Col, Row, Space, Tabs } from "antd";
+import { Col, Row, Tabs } from "antd";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
@@ -7,11 +7,12 @@ import api from "../../../../../core/lib/api";
 import { loadIncidentComments } from "../../state/actions";
 import { dispatch } from "../../../../../store/store";
 import { StoreState } from "../../../../../types/store";
-import { Avatar } from "../../../../../core/components/Avatar";
 import { InputArea } from "core/ui-components/Input/InputArea";
 import { Button } from "core/ui-components/Button/Button";
 import { Link } from "core/ui-components/Link/Link";
 import { Card } from "core/ui-components/Card/Card";
+import { Space } from "core/ui-components/Space/Space";
+import { Avatar } from "core/ui-components/Avatar/Avatar";
 
 const { TabPane } = Tabs;
 
@@ -53,12 +54,7 @@ export const CommentInput = () => {
     <Card className="w-full mb-5">
       <Row gutter={24} className="w-full">
         <Col span={1}>
-          <Avatar
-            name={account?.name}
-            url={account?.gravatar}
-            shape="circle"
-            size="large"
-          />
+          <Avatar alt={account?.name} src={account?.gravatar} size="md" />
         </Col>
         <Col span={23}>
           <Tabs
