@@ -110,7 +110,7 @@ export const Select: FC<SelectProps> = (props: SelectProps) => {
     options,
     value,
     defaultValue,
-    width,
+    width = 150,
     ...restProps
   } = props;
 

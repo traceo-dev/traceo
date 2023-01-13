@@ -44,17 +44,17 @@ export const AppsTable = () => {
   const [search, setSearch] = useState<string>("");
   const [sortBy, setSortBy] = useState<AppsSortBy>(AppsSortBy.LAST_ERROR);
 
-  const queryParams: SearchApplicationQueryParams = {
-    order,
-    sortBy,
-    search: search,
-    accountId: account?.id
-  };
-
-  useEffect(() => fetchApplications(), []);
   useEffect(() => fetchApplications(), [order, sortBy, search]);
 
-  const fetchApplications = () => dispatch(loadApplications(queryParams));
+  const fetchApplications = () => {
+    const queryParams: SearchApplicationQueryParams = {
+      order,
+      sortBy,
+      search: search,
+      accountId: account?.id
+    };
+    dispatch(loadApplications(queryParams));
+  };
 
   const renderSearch = () => (
     <SearchWrapper>

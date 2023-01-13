@@ -18,10 +18,12 @@ export class AuthController {
   }
 
   @Post('check')
+  @AuthRequired()
   async check(
     @Body() creds: AccountCredentialsDto,
+    @AuthAccount() account: RequestUser,
   ): Promise<ApiResponse<unknown>> {
-    return this.authService.checkUserCredentials(creds);
+    return this.authService.checkUserCredentials(account, creds);
   }
 
   @Post('update-password')

@@ -6,7 +6,6 @@ import { StoreState } from "../../../types/store";
 import { isEmptyObject } from "../../../core/utils/object";
 import NotFound from "../../../core/components/Layout/Pages/NotFound";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
-import { isSlugCorrect } from "../../../core/utils/url";
 import { PageCenter } from "../../../core/components/PageCenter";
 import { loadApplication } from "../state/application/actions";
 
@@ -20,7 +19,6 @@ export const AppPage = ({ children }) => {
   }, []);
 
   const hasMemberRole = application?.member?.role;
-  const isCorrectClug = isSlugCorrect(application?.name);
 
   if (isEmptyObject(application)) {
     return (
@@ -30,7 +28,7 @@ export const AppPage = ({ children }) => {
     );
   }
 
-  if (!hasMemberRole || !isCorrectClug) {
+  if (!hasMemberRole) {
     return (
       <PageCenter>
         <NotFound />

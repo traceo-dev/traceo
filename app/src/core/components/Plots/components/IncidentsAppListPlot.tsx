@@ -1,5 +1,3 @@
-import { LoadingOutlined } from "@ant-design/icons";
-import { Space } from "core/ui-components/Space/Space";
 import { FC, useEffect } from "react";
 import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
 import { useApi } from "../../../lib/useApi";
@@ -13,11 +11,7 @@ interface Props {
   id: string;
 }
 export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
-  const {
-    data: stats,
-    isLoading,
-    execute
-  } = useApi<TotalOverviewType>({
+  const { data: stats, execute } = useApi<TotalOverviewType>({
     url: "/api/statistics/total",
     params: {
       id
@@ -27,14 +21,6 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
   useEffect(() => {
     execute();
   }, [id]);
-
-  if (!stats || isLoading) {
-    return (
-      <Space className="w-full justify-center">
-        <LoadingOutlined />
-      </Space>
-    );
-  }
 
   const plotData = statisticUtils.parseIncidentsTablePlotData(stats?.errors);
   const options: EChartsOption = {

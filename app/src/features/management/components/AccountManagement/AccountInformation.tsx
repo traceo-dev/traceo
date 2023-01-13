@@ -17,19 +17,31 @@ import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
 import { Alert } from "core/ui-components/Alert/Alert";
 import { Space } from "core/ui-components/Space/Space";
+import { Form } from "core/ui-components/Form/Form";
+import { FormItem } from "core/ui-components/Form/FormItem";
+import { Input } from "core/ui-components/Input/Input";
+import { ColumnSection } from "core/components/ColumnSection";
+import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
+
+interface AccountProps {
+  email: string;
+  name: string;
+  username: string;
+}
 
 export const AccountInformation = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
   const navigate = useNavigate();
 
-  const onUpdateName = (newValue: string) =>
-    dispatch(updateServerAccount({ id: account.id, name: newValue }));
-  const onUpdateEmail = (newValue: string) =>
-    dispatch(updateServerAccount({ id: account.id, email: newValue }));
-  const onUpdateUsername = (newValue: string) =>
-    dispatch(updateServerAccount({ id: account.id, username: newValue }));
+  const defaultValues: AccountProps = {
+    ...account
+  };
 
   const isAdmin = account.email === ADMIN_EMAIL;
+
+  const onFinish = (props: AccountProps) => {
+    dispatch(updateServerAccount({ id: account.id, ...props }));
+  };
 
   const onChangeAccountStatus = () => {
     const status =
@@ -58,7 +70,7 @@ export const AccountInformation = () => {
       <Space className="w-full justify-end">
         {isDisableUserBtn && (
           <Confirm
-            onOk={() => onChangeAccountStatus()}
+            onOk={onChangeAccountStatus}
             description={
               <Typography>
                 Are you sure that you want to suspend <b>{account.name}</b>? After this
@@ -107,21 +119,51 @@ export const AccountInformation = () => {
       )}
 
       <Card title="Personal Information" extra={<OperationButtons />}>
-        <Descriptions>
-          <DescriptionInputRow label="Name" onUpdate={onUpdateName} editable={!isAdmin}>
-            {account.name}
-          </DescriptionInputRow>
-          <DescriptionInputRow
-            label="Username"
-            onUpdate={onUpdateUsername}
-            editable={!isAdmin}
+        <ColumnSection subtitle="You can edit user details if needed. Remember to do it responsibly and only as a last resort.">
+          <Form
+            id="edit-user-form"
+            className="w-2/3"
+            defaultValues={defaultValues}
+            onSubmit={onFinish}
           >
-            {account.username}
-          </DescriptionInputRow>
-          <DescriptionInputRow label="Email" onUpdate={onUpdateEmail} editable={!isAdmin}>
-            {account.email}
-          </DescriptionInputRow>
-        </Descriptions>
+            {({ register, errors }) => (
+              <>
+                <FormItem disabled={isAdmin} label="Name" error={errors.name}>
+                  <Input
+                    {...register("name", {
+                      required: false
+                    })}
+                  />
+                </FormItem>
+                <FormItem disabled={isAdmin} label="Username" error={errors.username}>
+                  <Input
+                    {...register("username", {
+                      required: true
+                    })}
+                  />
+                </FormItem>
+                <FormItem disabled={isAdmin} label="Email" error={errors.email}>
+                  <Input
+                    {...register("email", {
+                      required: false,
+                      pattern: {
+                        value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        message: "Invalid email"
+                      }
+                    })}
+                  />
+                </FormItem>
+              </>
+            )}
+          </Form>
+          {!isAdmin && (
+            <ButtonContainer className="pt-5" justify="start">
+              <Button form="edit-user-form" type="submit">
+                Save changes
+              </Button>
+            </ButtonContainer>
+          )}
+        </ColumnSection>
       </Card>
     </>
   );

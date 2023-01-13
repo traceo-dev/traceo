@@ -21,6 +21,7 @@ export class IncidentCommentsQueryService extends BaseQueryService<
 
     builder
       .where("comment.incident = :incidentId", { incidentId })
+      .andWhere("comment.removed = false")
       .leftJoin("comment.sender", "sender")
       .addSelect(["sender.name", "sender.email", "sender.id", "sender.gravatar"]);
 

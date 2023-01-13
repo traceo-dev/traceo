@@ -11,12 +11,11 @@ interface Props {
   execute: () => void;
 }
 export const ApplicationMembersTable: FC<Props> = ({ members, execute }) => {
-  const { isViewer } = useMemberRole();
+  const { isAdmin, isMaintainer } = useMemberRole();
 
   const isServerAdmin = (account: Account) => account.email === ADMIN_EMAIL;
-
   const isEditable = (account: Account) =>
-    isServerAdmin(account) || isViewer ? false : true;
+    (isAdmin || isMaintainer) && isServerAdmin(account);
 
   return (
     <TraceoTable columns={["Name", "Email", "Role"]}>
@@ -25,7 +24,7 @@ export const ApplicationMembersTable: FC<Props> = ({ members, execute }) => {
           key={index}
           type="account"
           item={member}
-          editable={isEditable(member["account"])}
+          editable={isEditable(member.account)}
           postExecute={() => execute()}
         />
       ))}

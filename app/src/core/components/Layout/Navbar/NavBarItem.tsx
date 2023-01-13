@@ -1,6 +1,5 @@
 import { Space } from "core/ui-components/Space/Space";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
-import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -26,10 +25,7 @@ export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
   };
 
   const handlePath = (link: string) =>
-    link
-      .replace(":id", String(application.id))
-      .replace(":slug", slugifyForUrl(application?.name))
-      .replace(":iid", incident.id);
+    link.replace(":id", String(application.id)).replace(":iid", incident.id);
 
   const NavItem = () => (
     <li

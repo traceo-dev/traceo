@@ -5,7 +5,6 @@ import { MenuRoute } from "../../../../types/navigation";
 import { StoreState } from "../../../../types/store";
 import { NavLink } from "react-router-dom";
 import { Space } from "core/ui-components/Space/Space";
-import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 
 interface Props {
   menu: MenuRoute;
@@ -20,10 +19,7 @@ export const MenuItem: FC<Props> = ({ menu }) => {
   };
 
   const handlePath = (link: string) =>
-    link
-      .replace(":id", String(application.id))
-      .replace(":slug", slugifyForUrl(application?.name))
-      .replace(":iid", incident.id);
+    link.replace(":id", String(application.id)).replace(":iid", incident.id);
 
   return (
     <>

@@ -2,7 +2,7 @@ import { RefCallback } from "react";
 
 export interface SelectOptionProps {
     label: string;
-    value: string | number;
+    value: string | number | boolean;
     description?: string;
     icon?: JSX.Element;
     // [key: string]: any;

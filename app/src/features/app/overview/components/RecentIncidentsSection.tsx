@@ -9,7 +9,6 @@ import {
 } from "../../../../types/incidents";
 import dateUtils from "../../../../core/utils/date";
 import { useNavigate } from "react-router-dom";
-import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
@@ -43,11 +42,7 @@ export const RecentIncidentsSection = () => {
         title="Recent Incidents"
         extra={
           <Link
-            onClick={() =>
-              navigate(
-                `/app/${application.id}/${slugifyForUrl(application.name)}/incidents`
-              )
-            }
+            onClick={() => navigate(`/app/${application.id}/incidents`)}
             className="text-xs font-semibold color-primary"
           >
             View
@@ -66,11 +61,7 @@ export const RecentIncidentsSection = () => {
             renderItem={(item: Incident) => (
               <ListCard
                 onClick={() =>
-                  navigate(
-                    `/app/${application.id}/${slugifyForUrl(
-                      application.name
-                    )}/incidents/${item.id}/details`
-                  )
+                  navigate(`/app/${application.id}/incidents/${item.id}/details`)
                 }
               >
                 <Space className="w-full justify-between py-2">

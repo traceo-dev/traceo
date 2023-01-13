@@ -66,12 +66,14 @@ export class AuthService {
     });
   }
 
-  public async checkUserCredentials(credentials: AccountCredentialsDto): Promise<ApiResponse<unknown>> {
-    const response = await this.checkCredentials(credentials);
-    const status = response.isCorrect ? "success" : "error";
-    const message = !response.isCorrect ? "Wrong password" : null;
-
-    return new ApiResponse(status, message);
+  public async checkUserCredentials(account: RequestUser, credentials: AccountCredentialsDto): Promise<ApiResponse<unknown>> {
+    const response = await this.checkCredentials({
+      username: account.name,
+      password: credentials.password
+    });
+    return new ApiResponse("success", undefined, {
+      isCorrect: response.isCorrect
+    });
   }
 
   public async checkCredentials(

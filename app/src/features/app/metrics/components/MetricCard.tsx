@@ -1,7 +1,6 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import { MetricPlot } from "../../../../core/components/Plots/components/Metrics/MetricPlot";
-import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -19,11 +18,7 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, hrCount }) => {
   const { application } = useSelector((state: StoreState) => state.application);
 
   const onClick = () => {
-    navigate(
-      `/app/${application.id}/${slugifyForUrl(application.name)}/metrics/preview/${
-        metric.id
-      }?name=${slugifyForUrl(metric.name)}`
-    );
+    navigate(`/app/${application.id}/metrics/preview/${metric.id}?name=${metric.name}`);
   };
 
   return (

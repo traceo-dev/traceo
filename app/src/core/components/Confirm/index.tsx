@@ -6,11 +6,10 @@ import { ApiResponse } from "../../../types/api";
 import { StoreState } from "../../../types/store";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { Button } from "core/ui-components/Button/Button";
-import { Form } from "core/ui-components/Form/Form";
-import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Space } from "core/ui-components/Space/Space";
+import { Alert } from "core/ui-components/Alert/Alert";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;
@@ -30,27 +29,35 @@ export const Confirm: FC<Props> = ({
   auth = false
 }) => {
   const [isOpen, setOpen] = useState<boolean>(false);
-  const { account } = useSelector((state: StoreState) => state.account);
+  const [isError, setError] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>(null);
 
-  const confirm = async ({ password }: { password: string }) => {
+  const confirm = async () => {
     if (auth) {
       const props = {
-        username: account.username,
         password
       };
 
+      console.log("props: ", props);
       const resp: ApiResponse<CheckCredentialsResponse> = await api.post(
         "/api/auth/check",
         props
       );
 
-      if (resp.status === "error") {
+      if (!resp.data.isCorrect) {
+        setError(true);
         return;
       }
     }
 
     onOk();
     setOpen(false);
+  };
+
+  const onCancel = () => {
+    setOpen(false);
+    setPassword(null);
+    setError(false);
   };
 
   return (
@@ -64,26 +71,26 @@ export const Confirm: FC<Props> = ({
               <Typography>
                 To perform this operation, please enter the password below and confirm.
               </Typography>
-              <Form onSubmit={confirm} id="confirm-password-form">
-                {({ register, errors }) => (
-                  <FormItem error={errors?.password}>
-                    <InputSecret
-                      {...register("password", {
-                        required: true
-                      })}
-                      placeholder="Password"
-                    />
-                  </FormItem>
-                )}
-              </Form>
+              <InputSecret
+                className="mt-5"
+                onChange={(e) => setPassword(e.currentTarget.value)}
+                placeholder="Password"
+              />
             </Space>
           )}
         </Space>
-        <ButtonContainer>
-          <Button type="submit" form="confirm-password-form">
+        {isError && (
+          <Alert
+            className="mt-5"
+            type="error"
+            title="Bad password. Please provide the correct one to perform this operation."
+          />
+        )}
+        <ButtonContainer className="mt-5">
+          <Button disabled={auth && !password} type="submit" onClick={confirm}>
             OK
           </Button>
-          <Button variant="ghost" onClick={() => setOpen(false)}>
+          <Button variant="ghost" onClick={onCancel}>
             Cancel
           </Button>
         </ButtonContainer>

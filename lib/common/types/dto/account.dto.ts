@@ -62,9 +62,9 @@ export class AccountCredentialsDto {
         this.password = password;
     }
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    @ApiProperty({ type: String, description: 'username' })
+    @ApiPropertyOptional({ type: String, description: 'username' })
     readonly username: string;
 
     @IsNotEmpty()

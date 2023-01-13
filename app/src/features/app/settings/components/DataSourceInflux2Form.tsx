@@ -24,7 +24,7 @@ export const DataSourceInflux2Form = () => {
   const [isDeletLoading, setDeleteLoading] = useState<boolean>(false);
   const { isViewer } = useMemberRole();
 
-  const isDeleteDSBtn = !!application.connectedTSDB;
+  const isDeleteBtn = !!application.connectedTSDB;
   const isFailedConnection =
     application.influxDS?.connStatus === CONNECTION_STATUS.FAILED;
 
@@ -70,7 +70,7 @@ export const DataSourceInflux2Form = () => {
       >
         {({ register, errors }) => (
           <>
-            <FormItem error={errors.url} label="URL">
+            <FormItem error={errors.url} label="URL" disabled={isViewer}>
               <Input
                 {...register("url", {
                   required: true,
@@ -82,7 +82,7 @@ export const DataSourceInflux2Form = () => {
                 placeholder="http://localhost:8086/"
               />
             </FormItem>
-            <FormItem error={errors.token} label="Token">
+            <FormItem error={errors.token} label="Token" disabled={isViewer}>
               <InputSecret
                 {...register("token", {
                   required: true
@@ -90,14 +90,14 @@ export const DataSourceInflux2Form = () => {
               />
             </FormItem>
             <div className="w-full flex flex-row justify-between gap-2">
-              <FormItem error={errors.org} label="Organization">
+              <FormItem error={errors.org} label="Organization" disabled={isViewer}>
                 <Input
                   {...register("org", {
                     required: true
                   })}
                 />
               </FormItem>
-              <FormItem error={errors.bucket} label="Bucket name">
+              <FormItem error={errors.bucket} label="Bucket name" disabled={isViewer}>
                 <Input
                   {...register("bucket", {
                     required: true
@@ -108,21 +108,24 @@ export const DataSourceInflux2Form = () => {
           </>
         )}
       </Form>
-      <ButtonContainer justify="start" hidden={isViewer}>
-        <Button loading={isLoading} type="submit" form="inlfux-provider-form">
-          Save & Test
-        </Button>
-        {isDeleteDSBtn && (
-          <Confirm
-            description="Are you sure that you want to remove InfluxDB configuration?"
-            onOk={remove}
-          >
-            <Button loading={isDeletLoading} variant="danger">
-              Remove
-            </Button>
-          </Confirm>
-        )}
-      </ButtonContainer>
+      {!isViewer && (
+        <ButtonContainer justify="start">
+          <Button loading={isLoading} type="submit" form="inlfux-provider-form">
+            Save & Test
+          </Button>
+          {isDeleteBtn && (
+            <Confirm
+              description="Are you sure that you want to remove InfluxDB configuration?"
+              onOk={remove}
+            >
+              <Button loading={isDeletLoading} variant="danger">
+                Remove
+              </Button>
+            </Confirm>
+          )}
+        </ButtonContainer>
+      )}
+
       <Alert
         showIcon={true}
         type="info"

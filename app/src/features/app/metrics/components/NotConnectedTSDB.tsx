@@ -1,6 +1,5 @@
 import { DatabaseOutlined } from "@ant-design/icons";
 import { Space } from "core/ui-components/Space/Space";
-import { slugifyForUrl } from "../../../../core/utils/stringUtils";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StoreState } from "../../../../types/store";
@@ -21,13 +20,7 @@ export const NotConnectedTSDB = () => {
         Configure a connection to the time series database to enable metrics collection.
       </Typography>
       <Button
-        onClick={() =>
-          navigate(
-            `/app/${application.id}/${slugifyForUrl(
-              application.name
-            )}/settings/datasource`
-          )
-        }
+        onClick={() => navigate(`/app/${application.id}/metric.name/settings/datasource`)}
         className="mt-5"
       >
         Configure

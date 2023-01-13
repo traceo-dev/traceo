@@ -18,19 +18,19 @@ export const AppIncidentNavigationPage = ({ children }) => {
 
   const menu: MenuRoute[] = [
     {
-      href: "/app/:id/:slug/incidents/:iid/details",
+      href: "/app/:id/incidents/:iid/details",
       label: "Details",
       key: "details",
       icon: <InfoCircleOutlined />
     },
     {
-      href: "/app/:id/:slug/incidents/:iid/analytics",
+      href: "/app/:id/incidents/:iid/analytics",
       label: "Analytics",
       key: "analytics",
       icon: <StockOutlined />
     },
     {
-      href: "/app/:id/:slug/incidents/:iid/conversation",
+      href: "/app/:id/incidents/:iid/conversation",
       label: "Conversation",
       key: "conversation",
       icon: <CommentOutlined />

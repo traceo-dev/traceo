@@ -7,12 +7,12 @@ const NotFound = () => {
   const navigate = useNavigate();
   return (
     <>
-      <Space direction="vertical" className="w-full gap-0 text-center">
+      <Space direction="vertical" className="gap-0 text-center items-center">
         <Typography size="xxxl">404</Typography>
-        <Typography>
+        <Typography className="pt-5">
           This page doesn&apos;t exist or you have no permission to be here.
         </Typography>
-        <Button className="mt-12" onClick={() => navigate(-1)}>
+        <Button className="mt-12 max-w-min" onClick={() => navigate(-1)}>
           GO BACK
         </Button>
       </Space>

@@ -8,9 +8,7 @@
     "build:prod": "webpack --progress --color --config scripts/webpack/webpack.prod.js",
     "test": "react-scripts test",
     "lint": "eslint . --ext .js,.ts,.tsx",
-    "lint:fix": "eslint . --fix",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",

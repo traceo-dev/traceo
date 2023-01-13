@@ -11,13 +11,13 @@ import { MenuRoute } from "../../../types/navigation";
 export const AppExploreNavigationPage = ({ children }) => {
   const menu: MenuRoute[] = [
     {
-      href: "/app/:id/:slug/explore/logs",
+      href: "/app/:id/explore/logs",
       label: "Logs",
       key: "logs",
       icon: <AlignLeftOutlined />
     },
     {
-      href: "/app/:id/:slug/explore/runtime",
+      href: "/app/:id/explore/runtime",
       label: "Runtime configuration",
       key: "runtime",
       icon: <DeploymentUnitOutlined />

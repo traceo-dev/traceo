@@ -7,7 +7,7 @@ interface FieldLabelProps {
 }
 export const FieldLabel: FC<FieldLabelProps> = ({ label, children, className }) => {
   return (
-    <div className={joinClasses("flex flex-col w-full", className)}>
+    <div className={joinClasses("flex flex-col mb-5", className)}>
       <span className="text-md font-semibold mb-2">{label}</span>
       {children}
     </div>

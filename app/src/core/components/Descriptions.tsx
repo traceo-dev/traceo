@@ -61,11 +61,11 @@ export const DescriptionRow: FC<DescriptionRowProps> = ({
     <>
       <tr>
         <td className="details-table-label">
-          <Typography className={className}>{label}</Typography>
+          <span className={className}>{label}</span>
         </td>
         <td className="w-32" />
         <td className="details-table-value" colSpan={2}>
-          <Typography>{children}</Typography>
+          <span>{children}</span>
         </td>
       </tr>
     </>

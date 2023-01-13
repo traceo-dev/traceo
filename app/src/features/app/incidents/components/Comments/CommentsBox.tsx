@@ -6,11 +6,20 @@ import { StoreState } from "../../../../../types/store";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
 import { Space } from "core/ui-components/Space/Space";
 import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { useEffect } from "react";
+import { loadIncidentComments } from "../../state/actions";
+import { dispatch } from "store/store";
 
 export const CommentsBox = () => {
+  const { account } = useSelector((state: StoreState) => state.account);
   const { incident, comments, hasCommentsFetched } = useSelector(
     (state: StoreState) => state.incident
   );
+
+  useEffect(() => {
+    dispatch(loadIncidentComments());
+  }, []);
+
   return (
     <>
       <Space id="messagesBox" className="messagesBox" direction="vertical">
@@ -33,7 +42,11 @@ export const CommentsBox = () => {
                   />
                 }
               >
-                <CommentItem comment={comment} incidentId={incident.id} />
+                <CommentItem
+                  account={account}
+                  comment={comment}
+                  incidentId={incident.id}
+                />
               </Timeline.Item>
             ))}
           </Timeline>

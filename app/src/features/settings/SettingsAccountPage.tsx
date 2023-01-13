@@ -52,7 +52,7 @@ const SettingsAccountPage = () => {
                 email: account?.email
               }}
               id="basic-info-form"
-              className="w-1/2"
+              className="w-2/3"
             >
               {({ register, errors }) => (
                 <>
@@ -108,7 +108,7 @@ const SettingsAccountPage = () => {
             <Form
               onSubmit={onFinishUpdatePassword}
               id="update-password-form"
-              className="w-1/2"
+              className="w-2/3"
             >
               {({ register, errors }) => (
                 <>

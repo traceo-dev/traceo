@@ -1,5 +1,5 @@
 import { conditionClass, joinClasses } from "core/utils/classes";
-import { FC, HTMLProps } from "react";
+import { forwardRef, HTMLProps } from "react";
 
 export type TagColorType =
   | "slate"
@@ -30,26 +30,24 @@ interface TagProps extends Omit<HTMLProps<HTMLSpanElement>, "label"> {
   color?: TagColorType;
   className?: string;
 }
-export const Tag: FC<TagProps> = ({
-  children,
-  icon,
-  color = "blue",
-  className,
-  ...restProps
-}) => {
-  const tagStyle = joinClasses(
-    "border-box m-0 px-2 font-semibold text-xs leading-5 inline-flex border-none rounded-sm text-white flex flex-row",
-    `bg-${color}-700`,
-    conditionClass(!!restProps?.onClick, "cursor-pointer"),
-    className
-  );
-
-  return (
-    <span className={tagStyle} {...restProps}>
-      {icon && <div className="pr-1">{icon}</div>}
-      {children}
-    </span>
-  );
-};
+export const Tag = forwardRef<HTMLSpanElement, TagProps>(
+  ({ children, icon, color = "blue", className, ...restProps }, ref) => {
+    return (
+      <span
+        ref={ref}
+        className={joinClasses(
+          conditionClass(!!restProps?.onClick, "cursor-pointer"),
+          "border-box m-0 px-2 font-semibold text-xs leading-5 inline-flex border-none rounded-sm text-white flex flex-row",
+          `bg-${color}-700`,
+          className
+        )}
+        {...restProps}
+      >
+        {icon && <div className="pr-1">{icon}</div>}
+        {children}
+      </span>
+    );
+  }
+);
 
 Tag.displayName = "Tag";

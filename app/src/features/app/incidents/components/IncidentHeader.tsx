@@ -23,7 +23,11 @@ import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Avatar } from "core/ui-components/Avatar/Avatar";
 
-export const IncidentHeader = ({ incident, onExecute }) => {
+interface Props {
+  incident: Incident;
+  onExecute: () => void;
+}
+export const IncidentHeader: FC<Props> = ({ incident, onExecute }) => {
   const navigate = useNavigate();
 
   const refresh = () => {
@@ -36,15 +40,20 @@ export const IncidentHeader = ({ incident, onExecute }) => {
       title={
         <Space direction="vertical" className="gap-0 w-full">
           <Space
-            className="text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 hover:text-white"
+            className="text-2xs cursor-pointer font-semibold py-0 hover:text-white"
             onClick={() => navigate(-1)}
           >
             <ArrowLeftOutlined />
-            <Typography size="xxs" weight="semibold">
-              INCIDENTS
+            <Typography size="xxs" weight="semibold" className="uppercase">
+              incidents
             </Typography>
           </Space>
-          <Typography size="xxl">{incident?.type}</Typography>
+          <div className="flex flex-col gap-2 pt-2 pb-5">
+            <Typography size="xxl" weight="semibold">
+              {incident?.type}
+            </Typography>
+            <Typography>{incident?.message}</Typography>
+          </div>
         </Space>
       }
       subTitle={<ButtonsSection incident={incident} />}
@@ -76,7 +85,7 @@ const ButtonsSection: FC<ButtonsProps> = ({ incident }) => {
   //     `/api/incidents/${incident.id}`
   //   );
   //   if (response.status === "success") {
-  //     navigate(`/app/${application.id}/${slugifyForUrl(application.name)}/incidents`);
+  //     navigate(`/app/${application.id}/incidents`);
   //   }
   // };
 

@@ -1,5 +1,5 @@
 import { Space } from "core/ui-components/Space/Space";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
@@ -11,8 +11,6 @@ import { MemberRole } from "../../../types/application";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";
 import { Permissions } from "../../../core/components/Permissions";
-import { DescriptionInputRow, Descriptions } from "../../../core/components/Descriptions";
-import { slugifyForUrl } from "../../../core/utils/stringUtils";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { notify } from "../../../core/utils/notify";
 import { ApiKeySection } from "./components/ApiKeySection";
@@ -20,28 +18,33 @@ import { updateAplication } from "../state/application/actions";
 import { Button } from "core/ui-components/Button/Button";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
+import { FieldLabel } from "core/ui-components/Form/FieldLabel";
+import { Input } from "core/ui-components/Input/Input";
+import { InputGroup } from "core/ui-components/Input/InputGroup";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
   const { isViewer } = useMemberRole();
   const { application } = useSelector((state: StoreState) => state.application);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
+  const [isNameEdit, setNameEdit] = useState<boolean>(false);
+  const ref = useRef<HTMLInputElement>();
 
   if (!application) {
     return null;
   }
 
-  const onUpdateName = (name: string) => {
+  const onUpdateName = () => {
+    const name = ref.current.value;
     if (!name) {
       notify.error("Application name cannot be empty.");
       return;
     }
 
     dispatch(updateAplication({ name }));
+    setNameEdit(false);
 
-    window.location.href = `/app/${application.id}/${slugifyForUrl(
-      name
-    )}/settings/details`;
+    // window.location.href = `/app/${application.id}/settings/details`;
   };
 
   const remove = async () => {
@@ -58,10 +61,56 @@ export const AppSettingsDetailsPage = () => {
       });
   };
 
+  const renderEditNameButtons = () => {
+    if (isViewer) {
+      return null;
+    }
+
+    if (!isNameEdit) {
+      return (
+        <Button size="xs" onClick={() => setNameEdit(true)}>
+          Edit
+        </Button>
+      );
+    }
+
+    return (
+      <>
+        <Button size="xs" onClick={onUpdateName}>
+          Save
+        </Button>
+        <Button size="xs" variant="ghost" onClick={() => setNameEdit(false)}>
+          Cancel
+        </Button>
+      </>
+    );
+  };
+
   return (
     <AppSettingsNavigationPage>
       <Card title="Basic Informations">
-        <Descriptions>
+        <ColumnSection subtitle="Basic information about the application. Only users managing the application have the ability to edit its resources.">
+          <div className="w-2/3 flex flex-col">
+            <FieldLabel label="Application ID">
+              <Input defaultValue={application?.id} disabled={true} />
+            </FieldLabel>
+            <FieldLabel label="Name">
+              <InputGroup className="w-full gap-2">
+                <Input
+                  ref={ref}
+                  className="w-full"
+                  defaultValue={application?.name}
+                  disabled={!isNameEdit}
+                />
+                {renderEditNameButtons()}
+              </InputGroup>
+            </FieldLabel>
+            <FieldLabel label="Created by">
+              <Input defaultValue={application?.owner?.name} disabled={true} />
+            </FieldLabel>
+          </div>
+        </ColumnSection>
+        {/* <Descriptions>
           <DescriptionInputRow label="ID" editable={false}>
             <Typography>{application?.id}</Typography>
           </DescriptionInputRow>
@@ -74,7 +123,7 @@ export const AppSettingsDetailsPage = () => {
               {application?.owner?.email && application?.owner?.email}
             </span>
           </DescriptionInputRow>
-        </Descriptions>
+        </Descriptions> */}
       </Card>
       <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
         <ApiKeySection />

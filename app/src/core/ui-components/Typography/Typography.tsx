@@ -35,13 +35,13 @@ export const Typography = forwardRef<HTMLLabelElement, TypographyProps>(
     const fontWeight = `font-${weight}`;
 
     return (
-      <label
+      <span
         ref={ref}
-        className={joinClasses("leading-5", fontWeight, fontSize, className)}
+        className={joinClasses("leading-5 text-primary", fontWeight, fontSize, className)}
         {...restProps}
       >
         {children}
-      </label>
+      </span>
     );
   }
 );

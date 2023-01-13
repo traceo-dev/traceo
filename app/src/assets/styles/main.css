@@ -162,6 +162,7 @@ body {
 .code-container {
   display: block;
   overflow-x: auto;
+  font-family: monospace;
 }
 
 .bg-light-gray {

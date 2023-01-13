@@ -1,17 +1,14 @@
 import { Segmented } from "antd";
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
-import { slugifyForUrl } from "../../../../../core/utils/stringUtils";
 import ReactECharts from "echarts-for-react";
 import { FC, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   handleIncidentStatus,
   IncidentStatusSearch
 } from "../../../../../types/incidents";
 import { PieData } from "../../../../../types/statistics";
-import { StoreState } from "../../../../../types/store";
 import {
   getPiePlotOptions,
   handleIncidentStatusPieColor,
@@ -54,7 +51,7 @@ export const IncidentsPie: FC<Props> = ({ data }) => {
 
   //   if (seriesName === "Errors" && params.data.id) {
   //     navigate(
-  //       `/app/${application.id}/${slugifyForUrl(application.name)}/incidents/${
+  //       `/app/${application.id}/incidents/${
   //         params.data.id
   //       }/details`
   //     );

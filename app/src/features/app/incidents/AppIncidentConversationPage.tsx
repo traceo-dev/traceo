@@ -12,12 +12,14 @@ import { loadIncidentComments } from "./state/actions";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Space } from "core/ui-components/Space/Space";
 import { Card } from "core/ui-components/Card/Card";
+import { loadAccount } from "features/auth/state/actions";
 
 export const AppIncidentConversationPage = () => {
   const { socket } = useContext(SocketContext);
   const { incident, hasFetched } = useSelector((state: StoreState) => state.incident);
 
   useEffect(() => {
+    dispatch(loadAccount());
     fetchComments();
   }, []);
 

@@ -60,53 +60,53 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
 const getApplicationRoutes = (): RouteDescriptor[] => {
   return [
     {
-      path: "/app/:id/:slug/overview",
+      path: "/app/:id/overview",
       component: lazy(() => import("../features/app/overview/AppOverviewPage"))
     },
     {
-      path: "/app/:id/:slug/incidents",
+      path: "/app/:id/incidents",
       component: lazy(() => import("../features/app/incidents/AppIncidentsListPage"))
     },
     {
-      path: "/app/:id/:slug/incidents/:iid/details",
+      path: "/app/:id/incidents/:iid/details",
       component: lazy(() => import("../features/app/incidents/AppIncidentDetailsPage"))
     },
     {
-      path: "/app/:id/:slug/incidents/:iid/analytics",
+      path: "/app/:id/incidents/:iid/analytics",
       component: lazy(() => import("../features/app/incidents/AppIncidentAnalyticsPage"))
     },
     {
-      path: "/app/:id/:slug/incidents/:iid/conversation",
+      path: "/app/:id/incidents/:iid/conversation",
       component: lazy(
         () => import("../features/app/incidents/AppIncidentConversationPage")
       )
     },
     {
-      path: "/app/:id/:slug/explore/runtime",
+      path: "/app/:id/explore/runtime",
       component: lazy(() => import("../features/app/explore/runtime/AppRuntimePage"))
     },
     {
-      path: "/app/:id/:slug/explore/logs",
+      path: "/app/:id/explore/logs",
       component: lazy(() => import("../features/app/explore/logs/AppLogsPage"))
     },
     {
-      path: "/app/:id/:slug/metrics",
+      path: "/app/:id/metrics",
       component: lazy(() => import("../features/app/metrics/MetricsPage"))
     },
     {
-      path: "/app/:id/:slug/metrics/preview/:metricId",
+      path: "/app/:id/metrics/preview/:metricId",
       component: lazy(() => import("../features/app/metrics/MetricPreviewPage"))
     },
     {
-      path: "/app/:id/:slug/settings/access",
+      path: "/app/:id/settings/access",
       component: lazy(() => import("../features/app/settings/AppMembersListPage"))
     },
     {
-      path: "/app/:id/:slug/settings/details",
+      path: "/app/:id/settings/details",
       component: lazy(() => import("../features/app/settings/AppSettingsDetailsPage"))
     },
     {
-      path: "/app/:id/:slug/settings/datasource",
+      path: "/app/:id/settings/datasource",
       component: lazy(() => import("../features/app/settings/AppSettingsDataSourcePage"))
     }
   ];

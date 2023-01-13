@@ -16,15 +16,24 @@ import { StoreState } from "../.../../../../../types/store";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { isEmptyObject } from "core/utils/object";
 
 export const AppNavBar = () => {
   const { application } = useSelector((state: StoreState) => state.application);
   const { account } = useSelector((state: StoreState) => state.account);
 
+  const renderAppIcon = () => {
+    if (!application || isEmptyObject(application)) {
+      return <LoadingOutlined />;
+    }
+
+    return <Avatar size="sm" alt={application.name} src={application.gravatar} />;
+  };
+
   const topRoutes: MenuRoute[] = [
     {
       key: "overview",
-      href: "/app/:id/:slug/overview",
+      href: "/app/:id/overview",
       label: "Overview",
       icon: <HomeOutlined />
     }
@@ -33,19 +42,19 @@ export const AppNavBar = () => {
   const mainRoutes: MenuRoute[] = [
     {
       key: "incidents",
-      href: "/app/:id/:slug/incidents",
+      href: "/app/:id/incidents",
       label: "Incidents",
       icon: <BugOutlined />
     },
     {
       key: "explore",
-      href: "/app/:id/:slug/explore/logs",
+      href: "/app/:id/explore/logs",
       label: "Explore",
       icon: <CompassOutlined />
     },
     {
       key: "metrics",
-      href: "/app/:id/:slug/metrics",
+      href: "/app/:id/metrics",
       label: "Metrics",
       icon: <BarChartOutlined />
     }
@@ -54,7 +63,7 @@ export const AppNavBar = () => {
   const settingsRoutes: MenuRoute[] = [
     {
       key: "settings",
-      href: "/app/:id/:slug/settings/details",
+      href: "/app/:id/settings/details",
       label: "Settings",
       icon: <SettingOutlined />
     }
@@ -74,7 +83,7 @@ export const AppNavBar = () => {
     },
     {
       label: application.name,
-      icon: <Avatar size="sm" alt={application.name} src={application.gravatar} />
+      icon: renderAppIcon()
     }
   ];
 

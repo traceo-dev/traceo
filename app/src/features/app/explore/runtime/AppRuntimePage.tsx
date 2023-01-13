@@ -32,9 +32,7 @@ const AppRuntimePage = () => {
                     key={index}
                     className="text-yellow-500 font-semibold"
                     label={settingName}
-                  >
-                    {""}
-                  </DescriptionRow>
+                  />
 
                   {Object.entries(settingValue).map(([childName, childValue]) => (
                     <DescriptionRow key={index} className="ml-5" label={childName}>

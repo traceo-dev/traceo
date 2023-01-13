@@ -1,9 +1,4 @@
-import {
-  LoadingOutlined,
-  MessageOutlined,
-  UserOutlined,
-  WarningOutlined
-} from "@ant-design/icons";
+import { LoadingOutlined, UserOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import { ColumnsType, TableProps } from "antd/lib/table";
 import { FC } from "react";
@@ -11,9 +6,9 @@ import { Table } from "antd";
 import { IncidentsListPlot } from "../../../../core/components/Plots/components/IncidentsListPlot";
 import { Incident } from "../../../../types/incidents";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { StoreState } from "../../../../types/store";
-import { slugifyForUrl, wrapIncidentMessage } from "../../../../core/utils/stringUtils";
+import { wrapIncidentMessage } from "../../../../core/utils/stringUtils";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import dateUtils from "../../../../core/utils/date";
 import { Typography } from "core/ui-components/Typography/Typography";
@@ -25,27 +20,24 @@ interface Props {
   isLoading: boolean;
 }
 export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
-  const { application } = useSelector((state: StoreState) => state.application);
-  const navigate = useNavigate();
-
-  const openIncident = (incidentId: string) => {
-    navigate(
-      `/app/${application.id}/${slugifyForUrl(
-        application.name
-      )}/incidents/${incidentId}/details`
-    );
-  };
-
   const columns: ColumnsType<Incident> = [
     {
       title: "Details",
-      width: 750,
+      width: 650,
       render: (record: Incident) => <IncidentMainColumn incident={record} />
     },
     {
       width: 150,
       title: "Graph",
       render: (record: Incident) => <IncidentsListPlot errors={record?.errorsDetails} />
+    },
+    {
+      width: 100,
+      title: "Errors",
+      className: "text-end",
+      render: (record: Incident) => (
+        <Typography size="lg">{record?.errorsCount}</Typography>
+      )
     },
     {
       width: 100,
@@ -76,18 +68,10 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
 
   const tableConfig: Partial<TableProps<any>> = {
     id: "incidentsTable",
-    className: "cursor-pointer",
     rowKey: "id",
     loading: {
       spinning: isLoading,
       indicator: <LoadingOutlined className="text-white" />
-    },
-    onRow: (record) => {
-      return {
-        onClick: () => {
-          openIncident(record.id);
-        }
-      };
     },
     dataSource: incidents,
     columns,
@@ -115,30 +99,21 @@ interface MainColumnProps {
   incident: Incident;
 }
 const IncidentMainColumn: FC<MainColumnProps> = ({ incident }) => {
+  const { application } = useSelector((state: StoreState) => state.application);
   return (
-    <Space direction="vertical" className="gap-0">
-      <Typography size="lg" weight="semibold" className="text-primary">
-        {incident?.type}
-      </Typography>
-      <Typography size="xs">{wrapIncidentMessage(incident?.message)}</Typography>
-      <Space className="pt-2">
-        <IncidentStatusTag status={incident?.status} className="mr-2" />
-        <Typography size="xs" weight="semibold" className="text-primary pipe">
-          Last: {dateUtils.fromNow(incident?.lastError)}
+    <Link to={`/app/${application.id}/incidents/${incident.id}/details`}>
+      <Space direction="vertical" className="gap-0">
+        <Typography size="lg" weight="semibold">
+          {incident?.type}
         </Typography>
-        <Tooltip title="Errors count">
-          <Typography size="xs" weight="semibold" className="text-primary pipe">
-            <WarningOutlined className="pr-2" />
-            {incident?.errorsCount}
+        <Typography size="xs">{wrapIncidentMessage(incident?.message)}</Typography>
+        <Space className="pt-2">
+          <IncidentStatusTag status={incident?.status} className="mr-2" />
+          <Typography size="xs" weight="semibold">
+            Last: {dateUtils.fromNow(incident?.lastError)}
           </Typography>
-        </Tooltip>
-        <Tooltip title="Comments count">
-          <Typography size="xs" weight="semibold" className="text-primary">
-            <MessageOutlined className="pr-2" />
-            {incident?.commentsCount || 0}
-          </Typography>
-        </Tooltip>
+        </Space>
       </Space>
-    </Space>
+    </Link>
   );
 };

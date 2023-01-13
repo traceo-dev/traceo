@@ -9,8 +9,8 @@ interface Props {
 export const CodePreview: FC<Props> = ({ trace }) => {
   return (
     <>
-      <Space className="code-container rounded-md p-3 mb-5 bg-secondary text-white">
-        <ol start={trace?.lineNo - 5} className="ml-2">
+      <Space className="code-container rounded-md p-3 mb-5 bg-secondary text-white w-full">
+        <ol start={trace?.lineNo - 5} className="ml-2 w-full">
           {trace.preCode?.map((code, index) => (
             <li className="code-line" key={index}>
               {code}

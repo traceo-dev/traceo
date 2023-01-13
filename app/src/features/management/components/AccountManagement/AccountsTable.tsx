@@ -45,7 +45,7 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
     {
       title: "Status",
       dataIndex: "status",
-      render: (role: AccountStatus) => <AccountStatusTag status={role} />
+      render: (status: AccountStatus) => <AccountStatusTag status={status} />
     }
   ];
 

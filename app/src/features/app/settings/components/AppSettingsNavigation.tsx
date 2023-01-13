@@ -19,19 +19,19 @@ export const AppSettingsNavigationPage: FC<Props> = ({ children }) => {
 
   const menu: MenuRoute[] = [
     {
-      href: "/app/:id/:slug/settings/details",
+      href: "/app/:id/settings/details",
       label: "Details",
       key: "details",
       icon: <InfoCircleOutlined />
     },
     {
-      href: "/app/:id/:slug/settings/access",
+      href: "/app/:id/settings/access",
       label: "Access",
       key: "access",
       icon: <TeamOutlined />
     },
     {
-      href: "/app/:id/:slug/settings/datasource",
+      href: "/app/:id/settings/datasource",
       label: "Data source",
       key: "datasource",
       icon: <DatabaseOutlined />,

@@ -12,11 +12,8 @@ import { StoreState } from "../.../../../../../types/store";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { GH_REPO_LINK } from "../.../../../../../core/utils/constants";
-import { useNavigate } from "react-router-dom";
 
 export const DashboardNavBar = () => {
-  const navigate = useNavigate();
-
   const { account } = useSelector((state: StoreState) => state.account);
 
   const filterRoutes = (routes: MenuRoute[]) =>
@@ -70,22 +67,22 @@ export const DashboardNavBar = () => {
   return (
     <NavbarWrapper>
       <ul className="p-0 h-full pt-5">
-        {topRoutes.map((route) => (
-          <NavBarItem route={route} />
+        {topRoutes.map((route, index) => (
+          <NavBarItem key={index} route={route} />
         ))}
 
-        {manageRoutes.map((route) => (
-          <NavBarItem route={route} />
+        {manageRoutes.map((route, index) => (
+          <NavBarItem key={index} route={route} />
         ))}
 
-        {userRoutes.map((route) => (
-          <NavBarItem route={route} />
+        {userRoutes.map((route, index) => (
+          <NavBarItem key={index} route={route} />
         ))}
       </ul>
 
       <ul className="p-0">
-        {bottomRoutes.map((route) => (
-          <NavBarItem route={route} />
+        {bottomRoutes.map((route, index) => (
+          <NavBarItem key={index} route={route} />
         ))}
       </ul>
     </NavbarWrapper>

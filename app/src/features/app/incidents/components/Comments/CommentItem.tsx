@@ -1,9 +1,7 @@
-import { Space, Popover, List } from "antd";
 import { FC, useRef, useState } from "react";
 import { Comment } from "../../../../../types/comments";
 import dateUtils from "../../../../../core/utils/date";
 import ReactMarkdown from "react-markdown";
-import { EllipsisOutlined } from "@ant-design/icons";
 import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
 import api from "../../../../../core/lib/api";
 import { useSelector } from "react-redux";
@@ -13,20 +11,21 @@ import { Button } from "core/ui-components/Button/Button";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
-import { Tag } from "core/ui-components/Tag/Tag";
+import { Account } from "types/accounts";
+import { Space } from "core/ui-components/Space/Space";
 
 interface Props {
+  account: Account;
   comment: Comment;
   incidentId: string;
 }
 
-export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
+export const CommentItem: FC<Props> = ({ account, comment, incidentId }) => {
   const { message, sender, createdAt, lastUpdateAt, removed } = comment;
 
   const [isEditMode, setEditMode] = useState<boolean>(false);
 
   const { application } = useSelector((state: StoreState) => state.application);
-  const { account } = useSelector((state: StoreState) => state.account);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const shortcut = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -53,24 +52,7 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
     await api.comment.remove(comment.id, application.id, incidentId);
   };
 
-  const popoverContent = () => (
-    <List>
-      <List.Item
-        className="py-1 hover:text-gray-400 cursor-pointer"
-        onClick={() => edit()}
-      >
-        Edit
-      </List.Item>
-      <List.Item
-        className="py-1 hover:text-red-500 cursor-pointer"
-        onClick={() => remove()}
-      >
-        Remove
-      </List.Item>
-    </List>
-  );
-
-  const isEdit = account?.id === sender?.id && !isEditMode && !removed;
+  const editable = account?.id === sender?.id && !isEditMode && !removed;
 
   return (
     <>
@@ -84,19 +66,31 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
               <Typography size="xs" className="text-primary">
                 commented {dateUtils.fromNow(createdAt)}
               </Typography>
-              {removed && <Tag color="purple">Removed</Tag>}
             </Space>
-            {isEdit && (
-              <Popover placement="bottom" content={popoverContent}>
-                <EllipsisOutlined className="cursor-pointer" />
-              </Popover>
+            {editable && (
+              <div className="flex flex-row gap-5 items-center">
+                <Typography
+                  onClick={() => edit()}
+                  size="xs"
+                  className="cursor-pointer hover:text-blue-500 transition duration-2 min-w-max"
+                >
+                  Edit
+                </Typography>
+                <Typography
+                  onClick={() => remove()}
+                  size="xs"
+                  className="cursor-pointer hover:text-red-500 transition duration-2 min-w-max"
+                >
+                  Remove
+                </Typography>
+              </div>
             )}
           </Space>
         }
         className="border border-solid border-[#303030] rounded-lg"
         bodyClassName={joinClasses("bg-canvas", conditionClass(removed, "hidden"))}
       >
-        {!isEditMode ? (
+        {!isEditMode && (
           <Space direction="vertical" className="w-full">
             <ReactMarkdown>{message}</ReactMarkdown>
             <Space className="w-full justify-end">
@@ -107,7 +101,9 @@ export const CommentItem: FC<Props> = ({ comment, incidentId }) => {
               )}
             </Space>
           </Space>
-        ) : (
+        )}
+
+        {isEditMode && (
           <Space direction="vertical" className="w-full">
             <InputArea
               placeholder="Leave a comment"

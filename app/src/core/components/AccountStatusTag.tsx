@@ -5,21 +5,15 @@ import { AccountStatus } from "../../types/accounts";
 
 interface Props {
   status: AccountStatus;
-  className?: string;
 }
-export const AccountStatusTag: FC<Props> = ({ status, className }) => {
-  const accountStatusColor: Record<AccountStatus, TagColorType> = {
-    [AccountStatus.ACTIVE]: "green",
-    [AccountStatus.INACTIVE]: "blue",
-    [AccountStatus.DISABLED]: "gray"
+export const AccountStatusTag: FC<Props> = ({ status }) => {
+  const accountStatusColor: Record<AccountStatus, string> = {
+    [AccountStatus.ACTIVE]: "bg-green-700",
+    [AccountStatus.INACTIVE]: "bg-blue-700",
+    [AccountStatus.DISABLED]: "bg-gray-700"
   };
 
   return (
-    <Tag
-      color={accountStatusColor[status]}
-      className={joinClasses("capitalize", className)}
-    >
-      {status}
-    </Tag>
+    <Tag className={joinClasses("capitalize", accountStatusColor[status])}>{status}</Tag>
   );
 };
