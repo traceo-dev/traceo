@@ -1,4 +1,3 @@
-import { Modal } from "antd";
 import { FC, useState, FormEvent } from "react";
 import { useApi } from "../../lib/useApi";
 import { Application, MemberRole } from "../../../types/application";
@@ -11,6 +10,7 @@ import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Button } from "core/ui-components/Button";
 import { Space } from "core/ui-components/Space";
 import { Avatar } from "core/ui-components/Avatar";
+import { Modal } from "core/ui-components/Modal";
 
 const roleOptions = Object.values(MemberRole).map((role) => ({
   label: role,
@@ -60,17 +60,9 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
     onCancel();
   };
 
-  // const onChangeApplication =
-
   return (
     <>
-      <Modal
-        title="Add to application"
-        open={isOpen}
-        closable={false}
-        onCancel={onCancel}
-        footer={null}
-      >
+      <Modal title="Add to application" isOpen={isOpen} onClose={onCancel}>
         <Space
           direction="vertical"
           className="pt-0 px-4 w-full h-full justify-between text-center"

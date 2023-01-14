@@ -2,7 +2,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { SearchWrapper } from "../../core/components/SearchWrapper";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { CreateApplicationModal } from "../../core/components/Modals/CreateApplicationModal";
+import { NewApplicationModal } from "../../core/components/Modals/NewApplicationModal";
 import { ApiQueryParams } from "../../core/lib/api";
 import { dispatch } from "../../store/store";
 import { StoreState } from "../../types/store";
@@ -62,7 +62,7 @@ export const ManagementApplicationsPage = () => {
         </ConditionalWrapper>
       </Card>
 
-      <CreateApplicationModal
+      <NewApplicationModal
         isOpen={openNewAppDrawer}
         onCancel={() => setOpenNewAppDrawer(false)}
         isAdmin={true}

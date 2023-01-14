@@ -1,4 +1,3 @@
-import { Modal } from "antd";
 import { FC, useState } from "react";
 import { CreateApplicationProps } from "../../../types/application";
 import { dispatch } from "../../../store/store";
@@ -6,15 +5,14 @@ import { createApplication } from "../../../features/app/state/application/actio
 import { Input } from "core/ui-components/Input";
 import { Form } from "core/ui-components/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
-import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Button } from "core/ui-components/Button";
+import { Modal } from "core/ui-components/Modal";
 
 interface Props {
   isOpen: boolean;
   onCancel: () => void;
   isAdmin?: boolean;
 }
-export const CreateApplicationModal: FC<Props> = ({ isOpen, onCancel, isAdmin }) => {
+export const NewApplicationModal: FC<Props> = ({ isOpen, onCancel, isAdmin }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = (form: CreateApplicationProps) => {
@@ -26,7 +24,13 @@ export const CreateApplicationModal: FC<Props> = ({ isOpen, onCancel, isAdmin })
 
   return (
     <>
-      <Modal title="New application" open={isOpen} closable={false} footer={null}>
+      <Modal
+        title="New application"
+        isOpen={isOpen}
+        onClose={onCancel}
+        formId="create-app-form"
+        loading={loading}
+      >
         <Form onSubmit={onFinish} id="create-app-form">
           {({ register, errors }) => (
             <FormItem label="Name" error={errors.name}>
@@ -38,14 +42,6 @@ export const CreateApplicationModal: FC<Props> = ({ isOpen, onCancel, isAdmin })
             </FormItem>
           )}
         </Form>
-        <ButtonContainer>
-          <Button loading={loading} form="create-app-form" type="submit">
-            OK
-          </Button>
-          <Button variant="ghost" onClick={onCancel}>
-            Cancel
-          </Button>
-        </ButtonContainer>
       </Modal>
     </>
   );

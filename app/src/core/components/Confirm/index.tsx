@@ -1,4 +1,3 @@
-import { Modal } from "antd";
 import api from "../../../core/lib/api";
 import { FC, useState } from "react";
 import { ApiResponse } from "../../../types/api";
@@ -8,6 +7,7 @@ import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Typography } from "core/ui-components/Typography";
 import { Space } from "core/ui-components/Space";
 import { Alert } from "core/ui-components/Alert";
+import { Modal } from "core/ui-components/Modal";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;
@@ -60,37 +60,40 @@ export const Confirm: FC<Props> = ({
   return (
     <>
       <Space onClick={() => setOpen(true)}>{children}</Space>
-      <Modal open={isOpen} title={title} closable={false} footer={null}>
-        <Space className="w-full" direction="vertical">
-          <Space className="w-full text-md">{description}</Space>
-          {auth && (
-            <Space className="w-full pt-5" direction="vertical">
-              <Typography>
-                To perform this operation, please enter the password below and confirm.
-              </Typography>
-              <InputSecret
-                className="mt-5"
-                onChange={(e) => setPassword(e.currentTarget.value)}
-                placeholder="Password"
-              />
-            </Space>
+      <Modal isOpen={isOpen} title={title} onClose={() => setOpen(false)}>
+        <>
+          {" "}
+          <Space className="w-full" direction="vertical">
+            <Space className="w-full text-md">{description}</Space>
+            {auth && (
+              <Space className="w-full pt-5" direction="vertical">
+                <Typography>
+                  To perform this operation, please enter the password below and confirm.
+                </Typography>
+                <InputSecret
+                  className="mt-5"
+                  onChange={(e) => setPassword(e.currentTarget.value)}
+                  placeholder="Password"
+                />
+              </Space>
+            )}
+          </Space>
+          {isError && (
+            <Alert
+              className="mt-5"
+              type="error"
+              title="Bad password. Please provide the correct one to perform this operation."
+            />
           )}
-        </Space>
-        {isError && (
-          <Alert
-            className="mt-5"
-            type="error"
-            title="Bad password. Please provide the correct one to perform this operation."
-          />
-        )}
-        <ButtonContainer className="mt-5">
-          <Button disabled={auth && !password} type="submit" onClick={confirm}>
-            OK
-          </Button>
-          <Button variant="ghost" onClick={onCancel}>
-            Cancel
-          </Button>
-        </ButtonContainer>
+          <ButtonContainer className="mt-5">
+            <Button disabled={auth && !password} type="submit" onClick={confirm}>
+              OK
+            </Button>
+            <Button variant="ghost" onClick={onCancel}>
+              Cancel
+            </Button>
+          </ButtonContainer>
+        </>
       </Modal>
     </>
   );

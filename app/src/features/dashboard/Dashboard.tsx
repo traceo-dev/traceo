@@ -4,7 +4,7 @@ import { useAppStoreClean } from "../../core/hooks/useCleanup";
 import { AppsTable } from "./components/AppsTable";
 import { PlusOutlined } from "@ant-design/icons";
 import ServerPermissions from "../../core/components/ServerPermissions";
-import { CreateApplicationModal } from "../../core/components/Modals/CreateApplicationModal";
+import { NewApplicationModal } from "../../core/components/Modals/NewApplicationModal";
 import { Button } from "core/ui-components/Button";
 import { Card } from "core/ui-components/Card";
 
@@ -31,7 +31,7 @@ export const Dashboard = () => {
           <AppsTable />
         </Card>
       </DashboardPage>
-      <CreateApplicationModal
+      <NewApplicationModal
         isOpen={openApplicationModal}
         onCancel={() => setOpenApplicationModal(false)}
       />

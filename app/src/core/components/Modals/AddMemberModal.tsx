@@ -1,4 +1,3 @@
-import { Modal } from "antd";
 import { useEffect, useState, FormEvent } from "react";
 import { dispatch } from "../../../store/store";
 import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
@@ -13,6 +12,7 @@ import { Button } from "core/ui-components/Button";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Space } from "core/ui-components/Space";
 import { Avatar } from "core/ui-components/Avatar";
+import { Modal } from "core/ui-components/Modal";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { accounts, hasFetched } = useSelector(
@@ -74,14 +74,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
 
   return (
     <>
-      <Modal
-        title="Add member"
-        onCancel={onClose}
-        open={isOpen}
-        closable={false}
-        confirmLoading={loading}
-        footer={null}
-      >
+      <Modal title="Add member" onClose={onClose} isOpen={isOpen}>
         <Space direction="vertical" className="w-full">
           <form id="add-member-form" onSubmit={onFinish}>
             <FormItem label="Server account">
@@ -114,36 +107,6 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
               Cancel
             </Button>
           </ButtonContainer>
-
-          {/* <Form id="add-member-form" onSubmit={onFinish}>
-            {({ register, errors }) => (
-              <>
-                <FormItem
-                  label="Server account"
-                  error={errors?.accountId}
-                  required={true}
-                >
-                  <Select
-                    {...register("accountId", {
-                      required: true
-                    })}
-                    onChange={(opt) => onChangeAccount(opt?.value)}
-                    isLoading={!hasFetched}
-                    options={accountOptions}
-                  />
-                </FormItem>
-                <FormItem label="Role" error={errors?.role} required={true}>
-                  <Select
-                    {...register("role", {
-                      required: true
-                    })}
-                    onChange={(opt) => onChangeRole(opt?.value)}
-                    options={roleOptions}
-                  />
-                </FormItem>
-              </>
-            )}
-          </Form> */}
         </Space>
       </Modal>
     </>
