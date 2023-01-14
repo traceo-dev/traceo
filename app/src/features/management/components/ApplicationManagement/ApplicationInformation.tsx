@@ -4,10 +4,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
-import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
 import { StoreState } from "../../../../types/store";
-import { updateServerApplication } from "../../state/applications/actions";
 import dateUtils from "../../../../core/utils/date";
 import { Button } from "core/ui-components/Button/Button";
 import { Card } from "core/ui-components/Card/Card";
@@ -20,9 +18,9 @@ export const ApplicationInformation = () => {
   const { application } = useSelector((state: StoreState) => state.serverApplications);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
 
-  const onUpdate = (name: string) => {
-    dispatch(updateServerApplication(name));
-  };
+  // const onUpdate = (name: string) => {
+  //   dispatch(updateServerApplication(name));
+  // };
 
   const onRemove = async () => {
     setLoadingDelete(true);

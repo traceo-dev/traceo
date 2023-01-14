@@ -57,6 +57,7 @@ export const loginAccount = createAsyncThunk(
         credentials
       );
 
+      console.log("res: ", res);
       if (res.status === "success") {
         const token = res.data.accessToken;
         localStorage.setItem("session", token);

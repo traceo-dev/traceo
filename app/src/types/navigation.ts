@@ -17,9 +17,6 @@ export interface RouteDescriptor {
   component: RouteComponent<any>;
   wrapper?: RouteComponent<any>;
   roles?: () => string[];
-  pageClass?: string;
-  routeName?: string;
-  exact?: boolean;
 }
 
 export interface MenuRoute {

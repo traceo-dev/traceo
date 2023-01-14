@@ -1,3 +1,4 @@
+import PublicPageWrapper from "core/components/Layout/Wrappers/PublicPageWrapper";
 import { lazy } from "react";
 import NotFound from "../core/components/Layout/Pages/NotFound";
 import Login from "../features/auth/login";
@@ -7,7 +8,8 @@ const getPublicRoutes = (): RouteDescriptor[] => {
   return [
     {
       path: "/",
-      component: Login
+      component: Login,
+      wrapper: PublicPageWrapper
     },
     {
       path: "*",

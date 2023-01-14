@@ -9,7 +9,7 @@ import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { PageCenter } from "../../../core/components/PageCenter";
 import { loadApplication } from "../state/application/actions";
 
-export const AppPage = ({ children }) => {
+const AppPage = ({ children }) => {
   const { id } = useParams();
 
   const { application } = useSelector((state: StoreState) => state.application);
