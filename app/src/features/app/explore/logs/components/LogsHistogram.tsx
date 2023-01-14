@@ -15,9 +15,9 @@ import {
 } from "../../../../../core/utils/localStorage";
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 import { LogsFilterPanel } from "./LogsFilterPanel";
-import { Button } from "core/ui-components/Button/Button";
-import { Card } from "core/ui-components/Card/Card";
-import { Space } from "core/ui-components/Space/Space";
+import { Button } from "core/ui-components/Button";
+import { Card } from "core/ui-components/Card";
+import { Space } from "core/ui-components/Space";
 
 export const LogsHistogram = () => {
   const { id } = useParams();

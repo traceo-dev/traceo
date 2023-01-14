@@ -1,10 +1,10 @@
 import { DatabaseOutlined } from "@ant-design/icons";
-import { Space } from "core/ui-components/Space/Space";
+import { Space } from "core/ui-components/Space";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StoreState } from "../../../../types/store";
-import { Button } from "core/ui-components/Button/Button";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Button } from "core/ui-components/Button";
+import { Typography } from "core/ui-components/Typography";
 
 export const NotConnectedTSDB = () => {
   const { application } = useSelector((state: StoreState) => state.application);

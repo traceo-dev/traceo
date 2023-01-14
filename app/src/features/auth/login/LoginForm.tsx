@@ -1,9 +1,9 @@
-import { Alert } from "core/ui-components/Alert/Alert";
-import { Button } from "core/ui-components/Button/Button";
+import { Alert } from "core/ui-components/Alert";
+import { Button } from "core/ui-components/Button";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Form } from "core/ui-components/Form/Form";
+import { Form } from "core/ui-components/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
-import { Input } from "core/ui-components/Input/Input";
+import { Input } from "core/ui-components/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 
 type FormType = {

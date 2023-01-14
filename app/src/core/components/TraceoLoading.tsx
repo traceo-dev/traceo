@@ -1,7 +1,7 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Space } from "core/ui-components/Space/Space";
-import { Button } from "core/ui-components/Button/Button";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Space } from "core/ui-components/Space";
+import { Button } from "core/ui-components/Button";
+import { Typography } from "core/ui-components/Typography";
 import { useNavigate } from "react-router-dom";
 import { PageCenter } from "./PageCenter";
 

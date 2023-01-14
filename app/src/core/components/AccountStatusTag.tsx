@@ -1,4 +1,4 @@
-import { Tag, TagColorType } from "core/ui-components/Tag/Tag";
+import { Tag, TagColorType } from "core/ui-components/Tag";
 import { joinClasses } from "core/utils/classes";
 import { FC } from "react";
 import { AccountStatus } from "../../types/accounts";

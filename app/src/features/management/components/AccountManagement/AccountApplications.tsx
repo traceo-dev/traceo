@@ -8,9 +8,9 @@ import { StoreState } from "../../../../types/store";
 import { AddToApplicationModal } from "../../../../core/components/Modals/AddToApplicationModal";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
-import { Button } from "core/ui-components/Button/Button";
-import { Card } from "core/ui-components/Card/Card";
-import { Space } from "core/ui-components/Space/Space";
+import { Button } from "core/ui-components/Button";
+import { Card } from "core/ui-components/Card";
+import { Space } from "core/ui-components/Space";
 import { ApplicationTableRow } from "core/components/Table/rows/ApplicationTableRow";
 
 export const AccountApplications = () => {

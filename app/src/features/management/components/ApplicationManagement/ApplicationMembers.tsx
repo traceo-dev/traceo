@@ -1,10 +1,10 @@
-import { Space } from "core/ui-components/Space/Space";
+import { Space } from "core/ui-components/Space";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useApi } from "../../../../core/lib/useApi";
 import { ApplicationMember } from "../../../../types/application";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
 import { MemberTableRow } from "core/components/Table/rows/MemberTableRow";
 
 export const ApplicationMembers = () => {

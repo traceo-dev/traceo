@@ -5,7 +5,7 @@ import {
   DescriptionInputRow,
   Descriptions
 } from "../../../../core/components/Descriptions";
-import { Card } from "core/ui-components/Card/Card";
+import { Card } from "core/ui-components/Card";
 
 export const InfoSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);

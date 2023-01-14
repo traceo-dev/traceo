@@ -1,4 +1,4 @@
-import { Space } from "core/ui-components/Space/Space";
+import { Space } from "core/ui-components/Space";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
@@ -15,11 +15,11 @@ import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { notify } from "../../../core/utils/notify";
 import { ApiKeySection } from "./components/ApiKeySection";
 import { updateAplication } from "../state/application/actions";
-import { Button } from "core/ui-components/Button/Button";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
+import { Button } from "core/ui-components/Button";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
 import { FieldLabel } from "core/ui-components/Form/FieldLabel";
-import { Input } from "core/ui-components/Input/Input";
+import { Input } from "core/ui-components/Input";
 import { InputGroup } from "core/ui-components/Input/InputGroup";
 
 export const AppSettingsDetailsPage = () => {

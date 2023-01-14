@@ -20,10 +20,9 @@ import { IMetric } from "../../../../types/metrics";
 import { StoreState } from "../../../../types/store";
 import { DraftFunction } from "use-immer";
 import { loadMetric } from "../state/actions";
-import { TimeLimitDropdown } from "./TimeLimitDropdown";
-import { Button } from "core/ui-components/Button/Button";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Space } from "core/ui-components/Space/Space";
+import { Button } from "core/ui-components/Button";
+import { Typography } from "core/ui-components/Typography";
+import { Space } from "core/ui-components/Space";
 
 interface Props {
   form: FormInstance;

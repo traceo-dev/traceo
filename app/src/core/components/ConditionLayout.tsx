@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Space } from "core/ui-components/Space/Space";
+import { Space } from "core/ui-components/Space";
 import { FC } from "react";
 import { joinClasses } from "../../core/utils/classes";
 

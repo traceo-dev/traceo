@@ -4,7 +4,7 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { PaginatedTable } from "../../../../core/components/PaginatedTable";
 import { Application } from "../../../../types/application";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Avatar } from "core/ui-components/Avatar";
 
 interface Props {
   applications: Application[];

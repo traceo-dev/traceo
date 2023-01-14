@@ -1,15 +1,13 @@
 import { Modal } from "antd";
 import api from "../../../core/lib/api";
 import { FC, useState } from "react";
-import { useSelector } from "react-redux";
 import { ApiResponse } from "../../../types/api";
-import { StoreState } from "../../../types/store";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
-import { Button } from "core/ui-components/Button/Button";
+import { Button } from "core/ui-components/Button";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Space } from "core/ui-components/Space/Space";
-import { Alert } from "core/ui-components/Alert/Alert";
+import { Typography } from "core/ui-components/Typography";
+import { Space } from "core/ui-components/Space";
+import { Alert } from "core/ui-components/Alert";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;

@@ -21,8 +21,8 @@ import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
 import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
 import { DeepPartial } from "../../../types/partials";
 import ReactMarkdown from "react-markdown";
-import { Card } from "core/ui-components/Card/Card";
-import { Space } from "core/ui-components/Space/Space";
+import { Card } from "core/ui-components/Card";
+import { Space } from "core/ui-components/Space";
 
 export const MetricPreviewPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;

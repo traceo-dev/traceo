@@ -1,13 +1,13 @@
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Space } from "core/ui-components/Space/Space";
+import { Space } from "core/ui-components/Space";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StoreState } from "../../../../types/store";
 import { notify } from "../../../../core/utils/notify";
 import { useState } from "react";
 import { metricsApi } from "../api";
-import { Button } from "core/ui-components/Button/Button";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Button } from "core/ui-components/Button";
+import { Typography } from "core/ui-components/Typography";
 
 export const ConnectionError = () => {
   const { application } = useSelector((state: StoreState) => state.application);

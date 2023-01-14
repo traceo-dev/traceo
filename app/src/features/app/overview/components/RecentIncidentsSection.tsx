@@ -12,12 +12,12 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { Link } from "core/ui-components/Link/Link";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
+import { Link } from "core/ui-components/Link";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
 import { ListCard } from "core/ui-components/Card/ListCard";
-import { Space } from "core/ui-components/Space/Space";
-import { List } from "core/ui-components/List/List";
+import { Space } from "core/ui-components/Space";
+import { List } from "core/ui-components/List";
 
 export const RecentIncidentsSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);

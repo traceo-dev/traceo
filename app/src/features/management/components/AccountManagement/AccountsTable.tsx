@@ -4,9 +4,9 @@ import {
   SafetyCertificateFilled
 } from "@ant-design/icons";
 import { Tooltip } from "antd";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
-import { Space } from "core/ui-components/Space/Space";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Avatar } from "core/ui-components/Avatar";
+import { Space } from "core/ui-components/Space";
+import { Typography } from "core/ui-components/Typography";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

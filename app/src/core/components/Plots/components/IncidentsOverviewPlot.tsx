@@ -1,4 +1,4 @@
-import { Space } from "core/ui-components/Space/Space";
+import { Space } from "core/ui-components/Space";
 import dateUtils from "../../../utils/date";
 import { statisticUtils } from "../../../utils/statistics";
 import { normalizePlotData, toolboxOptions, tooltipOptions } from "../utils";

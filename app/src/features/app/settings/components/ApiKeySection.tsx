@@ -10,9 +10,9 @@ import { StoreState } from "../../../../types/store";
 import { loadApplication } from "../../../app/state/application/actions";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { InputGroup } from "core/ui-components/Input/InputGroup";
-import { Button } from "core/ui-components/Button/Button";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
+import { Button } from "core/ui-components/Button";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
 
 export const ApiKeySection = () => {
   const { application } = useSelector((state: StoreState) => state.application);

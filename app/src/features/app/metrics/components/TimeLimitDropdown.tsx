@@ -2,7 +2,7 @@ import { ClockCircleOutlined } from "@ant-design/icons";
 import { setLocalStorageTimeLimit } from "../../../../core/utils/localStorage";
 import { FC } from "react";
 import { timeLimitOptions, handleTimeLimitLabel } from "../../../../types/metrics";
-import { Select } from "core/ui-components/Select/Select";
+import { Select } from "core/ui-components/Select";
 
 interface Props {
   setTimeLimit: (val: number) => void;

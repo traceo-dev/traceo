@@ -6,10 +6,10 @@ import { StoreState } from "../../../../types/store";
 import { IMetric, METRIC_UNIT } from "../../../../types/metrics";
 import { DeepPartial } from "../../../../types/partials";
 import { DraftFunction } from "use-immer";
-import { Input } from "core/ui-components/Input/Input";
+import { Input } from "core/ui-components/Input";
 import { InputArea } from "core/ui-components/Input/InputArea";
-import { Select } from "core/ui-components/Select/Select";
-import { Card } from "core/ui-components/Card/Card";
+import { Select } from "core/ui-components/Select";
+import { Card } from "core/ui-components/Card";
 
 const { Panel } = Collapse;
 

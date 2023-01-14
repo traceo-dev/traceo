@@ -8,11 +8,11 @@ import { loadIncidentComments } from "../../state/actions";
 import { dispatch } from "../../../../../store/store";
 import { StoreState } from "../../../../../types/store";
 import { InputArea } from "core/ui-components/Input/InputArea";
-import { Button } from "core/ui-components/Button/Button";
-import { Link } from "core/ui-components/Link/Link";
-import { Card } from "core/ui-components/Card/Card";
-import { Space } from "core/ui-components/Space/Space";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Button } from "core/ui-components/Button";
+import { Link } from "core/ui-components/Link";
+import { Card } from "core/ui-components/Card";
+import { Space } from "core/ui-components/Space";
+import { Avatar } from "core/ui-components/Avatar";
 
 const { TabPane } = Tabs;
 

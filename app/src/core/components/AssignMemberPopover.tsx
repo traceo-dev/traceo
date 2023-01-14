@@ -7,9 +7,9 @@ import { updateIncident } from "../../features/app/incidents/state/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../types/store";
 import { ApplicationMember } from "../../types/application";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Space } from "core/ui-components/Space/Space";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Typography } from "core/ui-components/Typography";
+import { Space } from "core/ui-components/Space";
+import { Avatar } from "core/ui-components/Avatar";
 
 export const AssignMemberPopover = ({ setVisible }) => {
   const { application } = useSelector((state: StoreState) => state.application);

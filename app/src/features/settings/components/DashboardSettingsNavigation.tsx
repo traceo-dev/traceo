@@ -10,7 +10,7 @@ import { dispatch } from "../../../store/store";
 import { loadAccount } from "../../../features/auth/state/actions";
 import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Avatar } from "core/ui-components/Avatar";
 
 export const DashboardSettingsNavigation = ({ children }) => {
   const { account } = useSelector((state: StoreState) => state.account);

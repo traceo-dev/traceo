@@ -1,7 +1,7 @@
 import { Badge, Table } from "antd";
 import { ColumnsType } from "antd/lib/table";
-import { Card } from "core/ui-components/Card/Card";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Card } from "core/ui-components/Card";
+import { Typography } from "core/ui-components/Typography";
 import { useSelector } from "react-redux";
 import dateUtils from "../../../../core/utils/date";
 import { ErrorDetails } from "../../../../types/incidents";

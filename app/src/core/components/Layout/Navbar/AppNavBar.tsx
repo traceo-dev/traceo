@@ -15,7 +15,7 @@ import { MenuRoute } from "../.../../../../../types/navigation";
 import { StoreState } from "../.../../../../../types/store";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Avatar } from "core/ui-components/Avatar";
 import { isEmptyObject } from "core/utils/object";
 
 export const AppNavBar = () => {

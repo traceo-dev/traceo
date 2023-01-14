@@ -10,8 +10,8 @@ import { AccountsTable } from "./components/AccountManagement/AccountsTable";
 import { ManagementNavigation } from "./components/ManagementNavigation";
 import { loadServerAccounts } from "./state/accounts/actions";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
-import { Button } from "core/ui-components/Button/Button";
-import { Card } from "core/ui-components/Card/Card";
+import { Button } from "core/ui-components/Button";
+import { Card } from "core/ui-components/Card";
 
 const ManagementUsersPage = () => {
   const { accounts, hasFetched } = useSelector(

@@ -19,9 +19,9 @@ import { notify } from "../../../../core/utils/notify";
 import { updateIncident } from "../state/actions";
 import { joinClasses } from "../../../../core/utils/classes";
 import { useNavigate } from "react-router-dom";
-import { Button } from "core/ui-components/Button/Button";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Button } from "core/ui-components/Button";
+import { Typography } from "core/ui-components/Typography";
+import { Avatar } from "core/ui-components/Avatar";
 
 interface Props {
   incident: Incident;

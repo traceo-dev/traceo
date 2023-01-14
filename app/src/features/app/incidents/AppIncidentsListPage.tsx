@@ -27,8 +27,8 @@ import {
 } from "../../../core/utils/localStorage";
 import { INCIDENT_PLOT_TYPE } from "../../../types/metrics";
 import { InputSearch } from "../../../core/ui-components/Input/InputSearch";
-import { Select } from "core/ui-components/Select/Select";
-import { Card } from "core/ui-components/Card/Card";
+import { Select } from "core/ui-components/Select";
+import { Card } from "core/ui-components/Card";
 
 const handlIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.FIRST_SEEN]: "First seen",

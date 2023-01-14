@@ -1,4 +1,4 @@
-import { Space } from "core/ui-components/Space/Space";
+import { Space } from "core/ui-components/Space";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -10,9 +10,9 @@ import { StoreState } from "../../../types/store";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { loadApplication } from "../state/application/actions";
-import { Select } from "core/ui-components/Select/Select";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
+import { Select } from "core/ui-components/Select";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
 
 const dataSourceOptions = [
   {

@@ -7,10 +7,10 @@ import { IncidentsAppListPlot } from "../../../core/components/Plots/components/
 import dateUtils from "../../../core/utils/date";
 import { dispatch } from "../../../store/store";
 import { Application, MemberApplication } from "../../../types/application";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Typography } from "core/ui-components/Typography";
 import { ListCard } from "core/ui-components/Card/ListCard";
-import { Space } from "core/ui-components/Space/Space";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Space } from "core/ui-components/Space";
+import { Avatar } from "core/ui-components/Avatar";
 
 interface Props {
   app: MemberApplication;

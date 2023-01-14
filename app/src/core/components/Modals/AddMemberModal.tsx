@@ -7,12 +7,12 @@ import { StoreState } from "../../../types/store";
 import { ApplicationMember, MemberRole } from "../../../types/application";
 import api from "../../../core/lib/api";
 import { Account } from "../../../types/accounts";
-import { Select } from "core/ui-components/Select/Select";
+import { Select } from "core/ui-components/Select";
 import { FormItem } from "core/ui-components/Form/FormItem";
-import { Button } from "core/ui-components/Button/Button";
+import { Button } from "core/ui-components/Button";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Space } from "core/ui-components/Space/Space";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Space } from "core/ui-components/Space";
+import { Avatar } from "core/ui-components/Avatar";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { accounts, hasFetched } = useSelector(

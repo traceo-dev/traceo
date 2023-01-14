@@ -1,6 +1,6 @@
 import { joinClasses } from "core/utils/classes";
 import { FC, PropsWithChildren, HTMLProps } from "react";
-import { Typography } from "../Typography/Typography";
+import { Typography } from "../Typography";
 
 export interface CardProps extends Omit<HTMLProps<HTMLElement>, "title" | "ref"> {
   icon?: JSX.Element;

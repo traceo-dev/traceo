@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IMetric } from "../../../../types/metrics";
 import { StoreState } from "../../../../types/store";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Space } from "core/ui-components/Space/Space";
+import { Typography } from "core/ui-components/Typography";
+import { Space } from "core/ui-components/Space";
 
 interface MetricCardProps {
   metric: IMetric;

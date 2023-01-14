@@ -1,5 +1,5 @@
-import { Space } from "core/ui-components/Space/Space";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Space } from "core/ui-components/Space";
+import { Typography } from "core/ui-components/Typography";
 import { Page } from "../../Page";
 
 const Maintenance = () => {

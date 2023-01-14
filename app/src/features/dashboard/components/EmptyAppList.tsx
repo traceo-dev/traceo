@@ -1,6 +1,6 @@
 import { DataNotFound } from "../../../core/components/DataNotFound";
 import { FC } from "react";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Typography } from "core/ui-components/Typography";
 
 interface Props {
   constraints?: string;

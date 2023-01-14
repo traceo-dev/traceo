@@ -1,4 +1,4 @@
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Typography } from "core/ui-components/Typography";
 import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";

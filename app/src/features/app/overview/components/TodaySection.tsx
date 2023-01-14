@@ -8,8 +8,8 @@ import { ConditionalWrapper } from "../../../../core/components/ConditionLayout"
 import dateUtils from "../../../../core/utils/date";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
 
 export const TodaySection = () => {
   const { id } = useParams();

@@ -5,12 +5,12 @@ import { Application, MemberRole } from "../../../types/application";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import api from "../../lib/api";
-import { Select } from "core/ui-components/Select/Select";
+import { Select } from "core/ui-components/Select";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Button } from "core/ui-components/Button/Button";
-import { Space } from "core/ui-components/Space/Space";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Button } from "core/ui-components/Button";
+import { Space } from "core/ui-components/Space";
+import { Avatar } from "core/ui-components/Avatar";
 
 const roleOptions = Object.values(MemberRole).map((role) => ({
   label: role,

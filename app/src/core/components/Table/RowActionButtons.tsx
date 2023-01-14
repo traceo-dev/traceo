@@ -1,5 +1,5 @@
-import { Space } from "core/ui-components/Space/Space";
-import { Button } from "core/ui-components/Button/Button";
+import { Space } from "core/ui-components/Space";
+import { Button } from "core/ui-components/Button";
 import { FC } from "react";
 
 interface ActionButtonsProps {

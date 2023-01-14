@@ -11,9 +11,9 @@ import { StoreState } from "../../../../types/store";
 import { wrapIncidentMessage } from "../../../../core/utils/stringUtils";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import dateUtils from "../../../../core/utils/date";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Space } from "core/ui-components/Space/Space";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Typography } from "core/ui-components/Typography";
+import { Space } from "core/ui-components/Space";
+import { Avatar } from "core/ui-components/Avatar";
 
 interface Props {
   incidents: Incident[];

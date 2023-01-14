@@ -1,9 +1,5 @@
 import { useSelector } from "react-redux";
 import { Confirm } from "../../../../core/components/Confirm";
-import {
-  DescriptionInputRow,
-  Descriptions
-} from "../../../../core/components/Descriptions";
 import { dispatch } from "../../../../store/store";
 import { AccountStatus } from "../../../../types/accounts";
 import { StoreState } from "../../../../types/store";
@@ -12,14 +8,14 @@ import api from "../../../../core/lib/api";
 import { ApiResponse } from "../../../../types/api";
 import { useNavigate } from "react-router-dom";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
-import { Button } from "core/ui-components/Button/Button";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
-import { Alert } from "core/ui-components/Alert/Alert";
-import { Space } from "core/ui-components/Space/Space";
-import { Form } from "core/ui-components/Form/Form";
+import { Button } from "core/ui-components/Button";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
+import { Alert } from "core/ui-components/Alert";
+import { Space } from "core/ui-components/Space";
+import { Form } from "core/ui-components/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
-import { Input } from "core/ui-components/Input/Input";
+import { Input } from "core/ui-components/Input";
 import { ColumnSection } from "core/components/ColumnSection";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 

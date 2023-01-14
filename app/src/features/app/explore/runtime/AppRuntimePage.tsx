@@ -4,7 +4,7 @@ import { DescriptionRow, Descriptions } from "../../../../core/components/Descri
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import AppExploreNavigationPage from "../AppExploreNavigation";
-import { Card } from "core/ui-components/Card/Card";
+import { Card } from "core/ui-components/Card";
 
 const AppRuntimePage = () => {
   const { application, hasFetched } = useSelector(

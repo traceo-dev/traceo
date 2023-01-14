@@ -3,14 +3,14 @@ import { useState } from "react";
 import { dispatch } from "../../../store/store";
 import { addServerAccount } from "../../../features/management/state/accounts/actions";
 import { AddAccountProps } from "../../../types/accounts";
-import { Input } from "core/ui-components/Input/Input";
+import { Input } from "core/ui-components/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
-import { Form } from "core/ui-components/Form/Form";
+import { Form } from "core/ui-components/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Button } from "core/ui-components/Button/Button";
+import { Button } from "core/ui-components/Button";
 import { clearObject } from "core/utils/object";
-import { Space } from "core/ui-components/Space/Space";
+import { Space } from "core/ui-components/Space";
 
 export const NewAccountModal = ({ isOpen, onCancel }) => {
   const [loading, setLoading] = useState<boolean>(false);

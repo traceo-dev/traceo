@@ -6,9 +6,9 @@ import { RowActionButtons } from "../RowActionButtons";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { useNavigate } from "react-router-dom";
-import { Button } from "core/ui-components/Button/Button";
-import { Select } from "core/ui-components/Select/Select";
-import { Avatar } from "core/ui-components/Avatar/Avatar";
+import { Button } from "core/ui-components/Button";
+import { Select } from "core/ui-components/Select";
+import { Avatar } from "core/ui-components/Avatar";
 
 interface ApplicationRowProps {
   item: MemberApplication;

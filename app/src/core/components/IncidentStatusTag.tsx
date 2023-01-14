@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { handleIncidentStatus, IncidentStatus } from "../../types/incidents";
-import { Tag } from "core/ui-components/Tag/Tag";
+import { Tag } from "core/ui-components/Tag";
 import { joinClasses } from "core/utils/classes";
 
 interface Props {

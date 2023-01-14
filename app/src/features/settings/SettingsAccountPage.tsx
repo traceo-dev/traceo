@@ -9,13 +9,13 @@ import {
   updateAccountPassword
 } from "../../features/app/settings/state/settings/actions";
 import { ADMIN_EMAIL } from "../../core/utils/constants";
-import { Input } from "core/ui-components/Input/Input";
+import { Input } from "core/ui-components/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
-import { Button } from "core/ui-components/Button/Button";
-import { Form } from "core/ui-components/Form/Form";
+import { Button } from "core/ui-components/Button";
+import { Form } from "core/ui-components/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Card } from "core/ui-components/Card/Card";
+import { Card } from "core/ui-components/Card";
 
 const SettingsAccountPage = () => {
   const { account } = useSelector((state: StoreState) => state.account);

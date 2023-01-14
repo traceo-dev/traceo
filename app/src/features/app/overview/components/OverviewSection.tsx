@@ -9,7 +9,7 @@ import { StatCards } from "./StatCards";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { loadApplication } from "../../../../features/app/state/application/actions";
-import { Card } from "core/ui-components/Card/Card";
+import { Card } from "core/ui-components/Card";
 
 export interface TotalOverviewType {
   errors: ErrorDetails[];

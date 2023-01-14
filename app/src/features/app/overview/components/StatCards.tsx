@@ -3,7 +3,7 @@ import { AppIncidentsStats } from "../../../../types/statistics";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Typography } from "core/ui-components/Typography";
 
 interface Props {
   stats: AppIncidentsStats;

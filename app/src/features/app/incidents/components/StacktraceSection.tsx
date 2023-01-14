@@ -6,9 +6,9 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { Collapse } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
-import { Space } from "core/ui-components/Space/Space";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
+import { Space } from "core/ui-components/Space";
 
 const { Panel } = Collapse;
 

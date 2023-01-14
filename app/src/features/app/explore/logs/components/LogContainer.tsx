@@ -6,11 +6,11 @@ import {
   DownOutlined,
   RightOutlined
 } from "@ant-design/icons";
-import { Space } from "core/ui-components/Space/Space";
+import { Space } from "core/ui-components/Space";
 import { joinClasses, conditionClass } from "../../../../../core/utils/classes";
 import { FC, useState } from "react";
 import { LogLevel, TraceoLog } from "../../../../../types/logs";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Typography } from "core/ui-components/Typography";
 
 export const handleLogIcon: Record<LogLevel, JSX.Element> = {
   [LogLevel.Info]: <InfoCircleOutlined className="text-blue-500" />,

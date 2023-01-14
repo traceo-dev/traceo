@@ -18,9 +18,8 @@ import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
 import { searchMetric } from "./utils/searchUtil";
 import { metricsApi } from "./api";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
-import { Button } from "core/ui-components/Button/Button";
-import { Card } from "core/ui-components/Card/Card";
-import { DataNotFound } from "core/components/DataNotFound";
+import { Button } from "core/ui-components/Button";
+import { Card } from "core/ui-components/Card";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
 
 const MetricsPage = () => {

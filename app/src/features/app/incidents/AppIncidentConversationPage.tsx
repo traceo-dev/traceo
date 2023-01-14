@@ -9,9 +9,9 @@ import { dispatch } from "../../../store/store";
 import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
 import { loadIncidentComments } from "./state/actions";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Space } from "core/ui-components/Space/Space";
-import { Card } from "core/ui-components/Card/Card";
+import { Typography } from "core/ui-components/Typography";
+import { Space } from "core/ui-components/Space";
+import { Card } from "core/ui-components/Card";
 import { loadAccount } from "features/auth/state/actions";
 
 export const AppIncidentConversationPage = () => {

@@ -9,14 +9,14 @@ import { INFLUX2_DOCS } from "../../../../core/utils/constants";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
 import { ApiResponse } from "../../../../types/api";
 import { loadApplication } from "../../../../features/app/state/application/actions";
-import { Input } from "core/ui-components/Input/Input";
+import { Input } from "core/ui-components/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
-import { Button } from "core/ui-components/Button/Button";
-import { Form } from "core/ui-components/Form/Form";
+import { Button } from "core/ui-components/Button";
+import { Form } from "core/ui-components/Form";
 import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Link } from "core/ui-components/Link/Link";
-import { Alert } from "core/ui-components/Alert/Alert";
+import { Link } from "core/ui-components/Link";
+import { Alert } from "core/ui-components/Alert";
 
 export const DataSourceInflux2Form = () => {
   const { application } = useSelector((state: StoreState) => state.application);

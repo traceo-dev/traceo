@@ -1,4 +1,4 @@
-import { Card, CardProps } from "./Card";
+import { Card, CardProps } from ".";
 import { FC, PropsWithChildren, HTMLProps } from "react";
 import { joinClasses } from "core/utils/classes";
 

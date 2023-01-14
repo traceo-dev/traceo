@@ -9,9 +9,9 @@ import { ConditionalWrapper } from "../../../../core/components/ConditionLayout"
 import { LogsHistogram } from "./components/LogsHistogram";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { LogContainer, LogRow } from "./components/LogContainer";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
-import { Space } from "core/ui-components/Space/Space";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
+import { Space } from "core/ui-components/Space";
 
 const AppLogsPage = () => {
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);

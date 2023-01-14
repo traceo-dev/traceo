@@ -1,4 +1,4 @@
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Typography } from "core/ui-components/Typography";
 import { FC } from "react";
 import { joinClasses } from "../../core/utils/classes";
 

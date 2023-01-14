@@ -8,9 +8,9 @@ import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
 import { Tooltip } from "antd";
 import dateUtils from "../../../core/utils/date";
 import { StatPercent } from "../../../core/components/StatPercent";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
-import { Space } from "core/ui-components/Space/Space";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
+import { Space } from "core/ui-components/Space";
 
 export const AppIncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);

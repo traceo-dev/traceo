@@ -1,7 +1,7 @@
 import { Layout, Row } from "antd";
 import dateUtils from "../../../core/utils/date";
 import { CONTACT_EMAIL, VERSION } from "../../../core/utils/constants";
-import { Typography } from "core/ui-components/Typography/Typography";
+import { Typography } from "core/ui-components/Typography";
 
 export const Footer = () => {
   const { Footer: AntFooter } = Layout;

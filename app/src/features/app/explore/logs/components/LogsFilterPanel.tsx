@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 import { LogLevel } from "../../../../../types/logs";
 import { StoreState } from "../../../../../types/store";
 import { handleLogIcon } from "./LogContainer";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
-import { Space } from "core/ui-components/Space/Space";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
+import { Space } from "core/ui-components/Space";
 
 interface Props {
   checkedLevels: LogLevel[];

@@ -7,7 +7,7 @@ import {
   PictureOutlined,
   UnorderedListOutlined
 } from "@ant-design/icons";
-import { Space } from "core/ui-components/Space/Space";
+import { Space } from "core/ui-components/Space";
 import { joinClasses } from "../../../../../core/utils/classes";
 
 export const MarkdownHeader = ({ form, className = "" }) => {

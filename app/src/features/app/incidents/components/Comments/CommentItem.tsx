@@ -7,12 +7,12 @@ import api from "../../../../../core/lib/api";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../../types/store";
 import { InputArea } from "core/ui-components/Input/InputArea";
-import { Button } from "core/ui-components/Button/Button";
+import { Button } from "core/ui-components/Button";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
 import { Account } from "types/accounts";
-import { Space } from "core/ui-components/Space/Space";
+import { Space } from "core/ui-components/Space";
 
 interface Props {
   account: Account;

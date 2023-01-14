@@ -5,9 +5,9 @@ import { FC, useState } from "react";
 import { IMetric, MetricsResponse } from "../../../../types/metrics";
 import { DeepPartial } from "../../../../types/partials";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { Typography } from "core/ui-components/Typography/Typography";
-import { Card } from "core/ui-components/Card/Card";
-import { Space } from "core/ui-components/Space/Space";
+import { Typography } from "core/ui-components/Typography";
+import { Card } from "core/ui-components/Card";
+import { Space } from "core/ui-components/Space";
 
 interface Props {
   metric: DeepPartial<IMetric>;
