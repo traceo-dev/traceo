@@ -1,11 +1,10 @@
-import { List } from "antd";
 import { useEffect, useState } from "react";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { EmptyAppList } from "./EmptyAppList";
 import { SortIcons } from "../../../core/components/SortIcons";
 import { SortOrder } from "../../../types/api";
 import {
-  ApplicationMember,
+  MemberApplication,
   SearchApplicationQueryParams
 } from "../../../types/application";
 import { dispatch } from "../../../store/store";
@@ -16,6 +15,7 @@ import { loadApplications } from "../state/actions";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
 import { Select } from "core/ui-components/Select/Select";
+import { List } from "core/ui-components/List/List";
 
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",
@@ -79,12 +79,9 @@ export const AppsTable = () => {
         emptyView={<EmptyAppList constraints={search} />}
       >
         <List
+          className="pt-5"
           dataSource={applications}
-          renderItem={({ application, role }: ApplicationMember) => (
-            <List.Item>
-              <AppCard app={{ ...application, role }} />
-            </List.Item>
-          )}
+          renderItem={(app: MemberApplication) => <AppCard app={app} />}
         />
       </ConditionalWrapper>
     </>

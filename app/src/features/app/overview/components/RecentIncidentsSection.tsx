@@ -1,5 +1,4 @@
 import { RightOutlined } from "@ant-design/icons";
-import { List } from "antd";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import { useApi } from "../../../../core/lib/useApi";
 import {
@@ -18,6 +17,7 @@ import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
 import { ListCard } from "core/ui-components/Card/ListCard";
 import { Space } from "core/ui-components/Space/Space";
+import { List } from "core/ui-components/List/List";
 
 export const RecentIncidentsSection = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -56,8 +56,8 @@ export const RecentIncidentsSection = () => {
         >
           <List
             loading={isLoading}
-            dataSource={incidents || []}
             className="pt-2"
+            dataSource={incidents || []}
             renderItem={(item: Incident) => (
               <ListCard
                 onClick={() =>

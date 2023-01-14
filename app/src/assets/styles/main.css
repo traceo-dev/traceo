@@ -287,3 +287,8 @@ body {
   min-height: 24px;
   white-space: pre;
 }
+
+.details-table-thead tr th {
+  text-align: left;
+  font-weight: 400;
+}

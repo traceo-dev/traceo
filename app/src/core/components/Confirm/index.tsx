@@ -38,7 +38,6 @@ export const Confirm: FC<Props> = ({
         password
       };
 
-      console.log("props: ", props);
       const resp: ApiResponse<CheckCredentialsResponse> = await api.post(
         "/api/auth/check",
         props

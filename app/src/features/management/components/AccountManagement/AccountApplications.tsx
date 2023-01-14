@@ -2,17 +2,16 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useApi } from "../../../../core/lib/useApi";
-import { ApplicationMember } from "../../../../types/application";
+import { MemberApplication } from "../../../../types/application";
 import { StoreState } from "../../../../types/store";
 
 import { AddToApplicationModal } from "../../../../core/components/Modals/AddToApplicationModal";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
-import { TraceoTable } from "../../../../core/components/Table/TraceoTable";
-import { MemberTableRow } from "../../../../core/components/Table/rows/MemberTableRow";
 import { Button } from "core/ui-components/Button/Button";
 import { Card } from "core/ui-components/Card/Card";
 import { Space } from "core/ui-components/Space/Space";
+import { ApplicationTableRow } from "core/components/Table/rows/ApplicationTableRow";
 
 export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -24,7 +23,7 @@ export const AccountApplications = () => {
     data: applications = [],
     execute: postExecute,
     isLoading
-  } = useApi<ApplicationMember[]>({
+  } = useApi<MemberApplication[]>({
     url: "/api/amr/applications",
     params: {
       accountId: account.id
@@ -50,17 +49,24 @@ export const AccountApplications = () => {
           isEmpty={applications?.length === 0}
           isLoading={isLoading}
         >
-          <TraceoTable columns={["Name", "Role"]}>
-            {applications?.map((member, index) => (
-              <MemberTableRow
-                key={index}
-                item={member}
-                postExecute={postExecute}
-                editable={!isAdmin}
-                type="application"
-              />
-            ))}
-          </TraceoTable>
+          <table className="details-table">
+            <thead className="details-table-thead">
+              <tr>
+                <th>Name</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              {applications?.map((member, index) => (
+                <ApplicationTableRow
+                  key={index}
+                  item={member}
+                  postExecute={postExecute}
+                  editable={!isAdmin}
+                />
+              ))}
+            </tbody>
+          </table>
         </ConditionalWrapper>
 
         <AddToApplicationModal

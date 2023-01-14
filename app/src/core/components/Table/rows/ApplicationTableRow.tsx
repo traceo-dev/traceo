@@ -1,7 +1,7 @@
 import { Row } from "antd";
 import api from "../../../../core/lib/api";
 import { FC, useState } from "react";
-import { ApplicationMember, MemberRole } from "../../../../types/application";
+import { MemberApplication, MemberRole } from "../../../../types/application";
 import { RowActionButtons } from "../RowActionButtons";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
@@ -10,12 +10,12 @@ import { Button } from "core/ui-components/Button/Button";
 import { Select } from "core/ui-components/Select/Select";
 import { Avatar } from "core/ui-components/Avatar/Avatar";
 
-interface MemberRowProps {
-  item: ApplicationMember;
+interface ApplicationRowProps {
+  item: MemberApplication;
   postExecute?: () => void;
   editable?: boolean;
 }
-export const MemberTableRow: FC<MemberRowProps> = ({
+export const ApplicationTableRow: FC<ApplicationRowProps> = ({
   item,
   postExecute,
   editable = true
@@ -123,25 +123,22 @@ export const MemberTableRow: FC<MemberRowProps> = ({
   };
 
   return (
-    <>
-      <tr>
-        <td className="w-64">
-          <Row className="w-full items-center">
-            <Avatar size="sm" className="mr-3" src={item?.gravatar} alt={item?.name} />
-            {item.name}
-          </Row>
-        </td>
-        <td className="w-64">{item?.email} </td>
-        <td className="w-64" colSpan={2}>
-          {renderRoleCell()}
-        </td>
-        <td className="float-right" colSpan={1}>
-          {renderRemoveFromAppCell()}
-        </td>
-        <td className="float-left" colSpan={1}>
-          {renderChangeRoleCell()}
-        </td>
-      </tr>
-    </>
+    <tr>
+      <td className="w-64">
+        <Row className="w-full items-center">
+          <Avatar size="sm" className="mr-3" src={item?.gravatar} alt={item?.name} />
+          {item.name}
+        </Row>
+      </td>
+      <td className="w-64" colSpan={2}>
+        {renderRoleCell()}
+      </td>
+      <td className="float-right" colSpan={1}>
+        {renderRemoveFromAppCell()}
+      </td>
+      <td className="float-left" colSpan={1}>
+        {renderChangeRoleCell()}
+      </td>
+    </tr>
   );
 };

@@ -50,7 +50,7 @@ export class AmrService {
   ): Promise<ApiResponse<unknown>> {
     const { applicationId, accountId, role } = body;
     return this.entityManager.transaction(async (manager) => {
-      const exists = await this.awrQueryService.awrExists(
+      const exists = await this.awrQueryService.amrExists(
         { accountId, applicationId },
         manager,
       );

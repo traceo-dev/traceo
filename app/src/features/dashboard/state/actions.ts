@@ -2,6 +2,7 @@ import api from "../../../core/lib/api";
 import { ThunkResult } from "../../../types/store";
 import {
   ApplicationMember,
+  MemberApplication,
   SearchApplicationQueryParams
 } from "../../../types/application";
 import { applicationsLoaded } from "./reducers";
@@ -19,7 +20,7 @@ export const loadApplications = (
       };
     }
 
-    const { data } = await api.get<ApiResponse<ApplicationMember[]>>("/api/amr/applications", {
+    const { data } = await api.get<ApiResponse<MemberApplication[]>>("/api/amr/applications", {
       accountId: query?.accountId || account?.id,
       ...query
     });

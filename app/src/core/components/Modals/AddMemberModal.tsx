@@ -54,8 +54,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
 
   const filterAccounts = () =>
     accounts.filter(
-      (acc: Account) =>
-        !members.find(({ account }: ApplicationMember) => account.id === acc.id)
+      (acc: Account) => !members.find((member: ApplicationMember) => member.id === acc.id)
     );
 
   const accountOptions = filterAccounts().map((account) => ({

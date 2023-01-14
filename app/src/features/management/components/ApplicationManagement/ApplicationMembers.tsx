@@ -1,11 +1,11 @@
 import { Space } from "core/ui-components/Space/Space";
-import { ApplicationMembersTable } from "../../../../core/components/Table/ApplicationMembersTable";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useApi } from "../../../../core/lib/useApi";
 import { ApplicationMember } from "../../../../types/application";
 import { Typography } from "core/ui-components/Typography/Typography";
 import { Card } from "core/ui-components/Card/Card";
+import { MemberTableRow } from "core/components/Table/rows/MemberTableRow";
 
 export const ApplicationMembers = () => {
   const { id } = useParams();
@@ -32,7 +32,20 @@ export const ApplicationMembers = () => {
           }
           isLoading={isLoading}
         >
-          <ApplicationMembersTable members={members} execute={postExecute} />
+          <table className="details-table">
+            <thead className="details-table-thead">
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              {members?.map((member, key) => (
+                <MemberTableRow key={key} item={member} postExecute={postExecute} />
+              ))}
+            </tbody>
+          </table>
         </ConditionalWrapper>
       </Card>
     </>

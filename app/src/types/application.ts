@@ -63,12 +63,17 @@ export interface ApplicationMemberUpdateProps {
   role: MemberRole;
 }
 
-export interface ApplicationMember {
+export type ApplicationMember = {
   id: string;
+  accountId: string;
   role: MemberRole;
-  application: Application;
-  account: Account;
-}
+} & Account;
+
+export type MemberApplication = {
+  id: string;
+  appId: string;
+  role: MemberRole
+} & Application;
 
 export type CreateApplicationProps = Pick<Application, "name">;
 export type UpdateApplicationProps = Pick<Application, "name">;

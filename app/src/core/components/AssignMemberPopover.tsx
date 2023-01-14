@@ -42,13 +42,13 @@ export const AssignMemberPopover = ({ setVisible }) => {
   ) : members?.length > 0 ? (
     members?.map((member, index) => (
       <Space
-        onClick={() => handleIncidentMember({ assignedId: member.account.id })}
+        onClick={() => handleIncidentMember({ assignedId: member.id })}
         key={index}
         className="w-full main-hover p-2 rounded-md cursor-pointer"
       >
-        <Avatar size="sm" src={member?.account?.gravatar} alt={member?.account?.name} />
+        <Avatar size="sm" src={member?.gravatar} alt={member?.name} />
         <Typography size="xs" className="pl-1">
-          {member?.account?.name}
+          {member?.name}
         </Typography>
       </Space>
     ))

@@ -45,6 +45,7 @@ export class AmrQueryService {
       queryBuilder
         .addSelect([
           "account.name",
+          "account.username",
           "account.email",
           "account.id",
           "account.gravatar",
@@ -53,7 +54,9 @@ export class AmrQueryService {
         .skip((page - 1) * take)
         .take(take);
 
-      const response = await queryBuilder.getMany();
+      const members = await queryBuilder.getMany();
+      const response = members.map(({ id, role, account }) => ({ ...account, id, accountId: account.id, role, }));
+
       return new ApiResponse("success", undefined, response);
     } catch (error) {
       this.logger.error(`[${this.getApplicationMembers.name}] Caused by: ${error}`);
@@ -94,12 +97,19 @@ export class AmrQueryService {
           });
       }
 
-      const response = await queryBuilder
+      const apps = await queryBuilder
         .addSelect(["owner.name", "owner.email", "owner.id", "owner.gravatar"])
         .orderBy(`application.${sortBy || "lastIncidentAt"}`, order, "NULLS LAST")
         .skip((page - 1) * take)
         .limit(take)
         .getMany();
+
+      const response = apps.map((app) => ({
+        ...app.application,
+        id: app.id,
+        appId: app.application.id,
+        role: app.role,
+      }))
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {
@@ -108,7 +118,7 @@ export class AmrQueryService {
     }
   }
 
-  public async awrExists(
+  public async amrExists(
     { accountId, applicationId }: { accountId: string; applicationId: string },
     manager: EntityManager = this.entityManager,
   ): Promise<boolean> {

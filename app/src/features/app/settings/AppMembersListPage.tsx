@@ -12,17 +12,24 @@ import { Permissions } from "../../../core/components/Permissions";
 import AppSettingsNavigationPage from "./components/AppSettingsNavigation";
 import { AddMemberModal } from "../../../core/components/Modals/AddMemberModal";
 import { DataNotFound } from "../../../core/components/DataNotFound";
-import { ApplicationMembersTable } from "../../../core/components/Table/ApplicationMembersTable";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
 import { Button } from "core/ui-components/Button/Button";
 import { Card } from "core/ui-components/Card/Card";
+import { MemberTableRow } from "core/components/Table/rows/MemberTableRow";
+import { useMemberRole } from "core/hooks/useMemberRole";
+import { ADMIN_EMAIL } from "core/utils/constants";
+import { Account } from "types/accounts";
 
 export const AppMembersListPage = () => {
   const { id } = useParams();
   const { members, hasFetched } = useSelector((state: StoreState) => state.members);
+  const { isAdmin, isMaintainer } = useMemberRole();
 
   const [search, setSearch] = useState<string>(null);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
+
+  const isEditable = (account: Account) =>
+    (isAdmin || isMaintainer) && account.email === ADMIN_EMAIL;
 
   const queryParams: ApiQueryParams = {
     id,
@@ -62,7 +69,25 @@ export const AppMembersListPage = () => {
             isLoading={!hasFetched}
             emptyView={<DataNotFound label="Members not found" />}
           >
-            <ApplicationMembersTable members={members} execute={() => fetchMembers()} />
+            <table className="details-table mt-5">
+              <thead className="details-table-thead">
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                </tr>
+              </thead>
+              <tbody>
+                {members?.map((member, key) => (
+                  <MemberTableRow
+                    key={key}
+                    item={member}
+                    editable={isEditable(member)}
+                    postExecute={() => fetchMembers()}
+                  />
+                ))}
+              </tbody>
+            </table>
           </ConditionalWrapper>
         </Card>
       </AppSettingsNavigationPage>

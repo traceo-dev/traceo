@@ -1,18 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ApplicationMember } from "../../../types/application";
+import { ApplicationMember, MemberApplication } from "../../../types/application";
 
 export interface ApplicationsState {
-  applications: ApplicationMember[];
-  starredApplications: ApplicationMember[];
+  applications: MemberApplication[];
   hasFetched: boolean;
-  hasStarredFetched: boolean;
 }
 
 const initialState = {
   applications: [],
-  starredApplications: [],
-  hasFetched: false,
-  hasStarredFetched: false
+  hasFetched: false
 };
 
 const applicationsSlice = createSlice({
@@ -21,7 +17,7 @@ const applicationsSlice = createSlice({
   reducers: {
     applicationsLoaded: (
       state,
-      action: PayloadAction<ApplicationMember[]>
+      action: PayloadAction<MemberApplication[]>
     ): ApplicationsState => {
       return { ...state, hasFetched: true, applications: action.payload };
     }
