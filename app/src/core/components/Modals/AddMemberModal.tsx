@@ -74,7 +74,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
 
   return (
     <>
-      <Modal title="Add member" onClose={onClose} isOpen={isOpen}>
+      <Modal title="Add member" onCancel={onClose} open={isOpen}>
         <Space direction="vertical" className="w-full">
           <form id="add-member-form" onSubmit={onFinish}>
             <FormItem label="Server account">

@@ -62,7 +62,7 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
 
   return (
     <>
-      <Modal title="Add to application" isOpen={isOpen} onClose={onCancel}>
+      <Modal title="Add to application" open={isOpen} onCancel={onCancel}>
         <Space
           direction="vertical"
           className="pt-0 px-4 w-full h-full justify-between text-center"

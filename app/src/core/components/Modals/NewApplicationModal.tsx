@@ -26,8 +26,8 @@ export const NewApplicationModal: FC<Props> = ({ isOpen, onCancel, isAdmin }) =>
     <>
       <Modal
         title="New application"
-        isOpen={isOpen}
-        onClose={onCancel}
+        open={isOpen}
+        onCancel={onCancel}
         formId="create-app-form"
         loading={loading}
       >

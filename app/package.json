@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
-    "@headlessui/react": "^1.7.7",
     "@popperjs/core": "^2.11.6",
     "@reduxjs/toolkit": "1.8.1",
     "@types/history": "^5.0.0",

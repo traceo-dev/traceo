@@ -1,71 +1,75 @@
-import { Dialog, Transition } from "@headlessui/react";
-import { FC, Fragment } from "react";
+import { FC } from "react";
 import { ModalButtons, ModalButtonsProps } from "./ModalButtons";
+import Dialog from "rc-dialog";
+import "rc-dialog/assets/index.css";
+
+type ModalSizeType = "md" | "lg" | "xl";
+
+const mapModalSize: Record<ModalSizeType, number> = {
+  md: 540,
+  lg: 780,
+  xl: 1020
+};
 
 interface ModalProps extends Omit<ModalButtonsProps, "onCancel"> {
-  isOpen: boolean;
+  open: boolean;
   title?: string;
-  onClose: () => void;
+  size?: ModalSizeType;
+  onCancel?: () => void;
   children: JSX.Element;
 }
 export const Modal: FC<ModalProps> = (props: ModalProps) => {
-  const { isOpen, title, onClose, children, formId, loading, onOk } = props;
+  const {
+    open,
+    title,
+    children,
+    size = "md",
+    formId,
+    loading = false,
+    onOk,
+    onCancel
+  } = props;
+
+  const bodyStyle = {
+    backgroundColor: "#181b1f",
+    padding: 0
+  };
+
+  const maskStyle = {
+    zIndex: 1000,
+    backgroundColor: "rgba(0,0,0,.45)"
+  };
+
   return (
-    <>
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={onClose}>
-          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+    <Dialog
+      visible={open}
+      onClose={onCancel}
+      width={mapModalSize[size]}
+      bodyStyle={bodyStyle}
+      animation="zoom"
+      maskAnimation="fade"
+      maskStyle={maskStyle}
+      closable={false}
+      focusTriggerAfterClose={false}
+      height="auto"
+    >
+      {title && (
+        <div className="px-6 py-4 border-b border-solid border-t-0 border-r-0 border-l-0 border-light-secondary">
+          <span className="font-semibold">{title}</span>
+        </div>
+      )}
 
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex pt-[5%] justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel
-                  style={{ minWidth: "520px" }}
-                  className="bg-primary w-full max-w-md transform overflow-hidden rounded-md text-left align-middle shadow-xl transition-all"
-                >
-                  {title && (
-                    <Dialog.Title className="py-2 px-5 border-l-0 border-r-0 border-t-0 border border-solid border-b-light-secondary">
-                      <span className="text-[16px] font-semibold">{title}</span>
-                    </Dialog.Title>
-                  )}
-
-                  <div className="py-5 px-8 text-md">
-                    {children}
-                    {(formId || onOk) && (
-                      <ModalButtons
-                        formId={formId}
-                        onCancel={onClose}
-                        onOk={onOk}
-                        loading={loading}
-                      />
-                    )}
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
-    </>
+      <div className="p-6 text-md">
+        {children}
+        {(formId || onOk) && (
+          <ModalButtons
+            formId={formId}
+            onCancel={onCancel}
+            onOk={onOk}
+            loading={loading}
+          />
+        )}
+      </div>
+    </Dialog>
   );
 };

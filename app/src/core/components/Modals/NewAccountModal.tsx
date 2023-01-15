@@ -30,8 +30,8 @@ export const NewAccountModal = ({ isOpen, onCancel }) => {
   return (
     <Modal
       title="New account"
-      isOpen={isOpen}
-      onClose={onCancel}
+      open={isOpen}
+      onCancel={onCancel}
       formId="add-account-form"
       loading={loading}
     >

@@ -60,9 +60,8 @@ export const Confirm: FC<Props> = ({
   return (
     <>
       <Space onClick={() => setOpen(true)}>{children}</Space>
-      <Modal isOpen={isOpen} title={title} onClose={() => setOpen(false)}>
+      <Modal open={isOpen} title={title} onCancel={onCancel}>
         <>
-          {" "}
           <Space className="w-full" direction="vertical">
             <Space className="w-full text-md">{description}</Space>
             {auth && (
