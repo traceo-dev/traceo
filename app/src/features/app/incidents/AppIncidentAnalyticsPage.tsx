@@ -6,11 +6,8 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
 import dateUtils from "../../../core/utils/date";
-import { StatPercent } from "../../../core/components/StatPercent";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
-import { Space } from "core/ui-components/Space";
-import { Tooltip } from "core/ui-components/Tooltip";
 
 export const AppIncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
@@ -35,19 +32,9 @@ export const AppIncidentAnalyticsPage = () => {
           <div className="flex flex-col items-stretch h-full">
             <div className="h-full mb-1">
               <Card title="Errors count">
-                <Space className="w-full font-semibold">
-                  <Typography size="xxl">{todayStats?.count}</Typography>
-                  <Tooltip title="Day-to-day difference">
-                    <div>
-                      <StatPercent
-                        type={todayStats?.diff?.isMore ? "warning" : "success"}
-                      >
-                        {todayStats?.diff?.isMore ? "+" : ""}
-                        {todayStats?.diff?.value}
-                      </StatPercent>
-                    </div>
-                  </Tooltip>
-                </Space>
+                <Typography size="xxl" weight="semibold">
+                  {todayStats?.count}
+                </Typography>
               </Card>
             </div>
             <div className="h-full">

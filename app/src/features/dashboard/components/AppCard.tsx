@@ -29,8 +29,10 @@ export const AppCard: FC<Props> = ({ app }) => {
         <Space>
           <Avatar alt={app.name} src={app?.gravatar} />
           <Space className="w-full pl-2 gap-0" direction="vertical">
-            <div>
-              <Typography className="cursor-pointer">{app.name}</Typography>
+            <div className="w-full flex flex-row">
+              <Typography className="cursor-pointer" weight="semibold">
+                {app.name}
+              </Typography>
               {!app.isIntegrated && (
                 <Tooltip title="Not integrated with Traceo SDK">
                   <WarningFilled className="ml-2 text-red-500" />

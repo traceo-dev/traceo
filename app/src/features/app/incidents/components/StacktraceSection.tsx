@@ -1,16 +1,15 @@
 import { CodePreview } from "../../../../core/components/CodePreview";
-import { ColumnDetail } from "../../../../core/components/ColumnDetail";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
-import { Collapse } from "antd";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
 import { Tooltip } from "core/ui-components/Tooltip";
-
-const { Panel } = Collapse;
+import { Collapse } from "core/ui-components/Collapse";
+import { CollapseItem } from "core/ui-components/Collapse/CollapseItem";
+import { FieldLabel } from "core/ui-components/Form/FieldLabel";
 
 export const StacktraceSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
@@ -29,46 +28,52 @@ export const StacktraceSection = () => {
           </Typography>
           <Typography className="font-mono">{incident?.message}</Typography>
         </Space>
-        <Collapse
-          expandIconPosition="end"
-          defaultActiveKey={["0"]}
-          ghost
-          className="my-12"
-        >
+        <Collapse className="my-5" defaultActiveKey={"0"}>
           {incident?.traces?.map((trace, index) => (
-            <Panel
+            <CollapseItem
+              panelKey={`${index}`}
               header={
-                <Space className="w-full">
-                  <Tooltip
-                    title={
-                      trace.internal
-                        ? "This exception has been thrown in your code"
-                        : "This exception has been thrown in third-party external library"
-                    }
-                  >
-                    <ExclamationCircleOutlined
-                      className={joinClasses(
-                        "mr-2",
-                        conditionClass(trace.internal, "text-amber-500", "text-cyan-500")
-                      )}
-                    />
-                  </Tooltip>
-
-                  <Typography>
-                    {trace.absPath}:{trace.lineNo}:{trace.columnNo}
-                  </Typography>
-                </Space>
+                <Typography>
+                  {trace.absPath}:{trace.lineNo}:{trace.columnNo}
+                </Typography>
+              }
+              startIcon={
+                <Tooltip
+                  title={
+                    trace.internal
+                      ? "This exception has been thrown in your code"
+                      : "This exception has been thrown in third-party external library"
+                  }
+                >
+                  <ExclamationCircleOutlined
+                    className={joinClasses(
+                      "mr-2",
+                      conditionClass(trace.internal, "text-amber-500", "text-cyan-500")
+                    )}
+                  />
+                </Tooltip>
               }
               key={index}
               className={joinClasses(conditionClass(!trace.code, "pointer-events-none"))}
             >
-              <Space className="w-full p-5">
-                <ColumnDetail label="Function" value={trace?.function} />
-                <ColumnDetail label="Line No." value={trace?.lineNo} />
-                <ColumnDetail label="Column No." value={trace?.columnNo} />
-              </Space>
-              <CodePreview trace={trace} />
-            </Panel>
+              <>
+                <div className="w-full flex flex-row justify-between p-5">
+                  <FieldLabel label="Function">
+                    <span className="text-link">{trace?.function}</span>
+                  </FieldLabel>
+                  <FieldLabel label="Extension">
+                    <span className="text-link">{trace?.extension}</span>
+                  </FieldLabel>
+                  <FieldLabel label="Line No.">
+                    <span className="text-link">{trace?.lineNo}</span>
+                  </FieldLabel>
+                  <FieldLabel label="Column No.">
+                    <span className="text-link">{trace?.columnNo}</span>
+                  </FieldLabel>
+                </div>
+                <CodePreview trace={trace} />
+              </>
+            </CollapseItem>
           ))}
         </Collapse>
       </Card>

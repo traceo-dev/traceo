@@ -43,11 +43,7 @@ const Control = (props: any) => {
   const selectProps = props.selectProps as SelectProps;
 
   return (
-    <div
-      style={{ maxHeight: "30px" }}
-      className="bg-canvas px-2 flex rounded-md items-center"
-      {...innerProps}
-    >
+    <div className="h-[30px] bg-canvas px-2 flex rounded-md items-center" {...innerProps}>
       {(selectProps.prefix || selectProps.value?.icon) && (
         <div className="px-1">{selectProps.value?.icon || selectProps.prefix}</div>
       )}
@@ -108,7 +104,7 @@ const Option: FC<SelectMenuOptionProps> = ({
 export const Select: FC<SelectProps> = (props: SelectProps) => {
   const {
     loadingMessage = "Loading ...",
-    emptyMessage = "No data",
+    emptyMessage = "No options",
     options,
     value,
     defaultValue,

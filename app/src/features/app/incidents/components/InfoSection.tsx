@@ -27,6 +27,7 @@ export const InfoSection = () => {
     <Card title="Info" className="h-min">
       <FieldLabel label="Status">
         <Select
+          isSearchable={false}
           onChange={(opt) =>
             onChangeIncidentProps({
               status: opt?.value

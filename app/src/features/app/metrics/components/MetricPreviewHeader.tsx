@@ -22,7 +22,6 @@ import { loadMetric } from "../state/actions";
 import { Button } from "core/ui-components/Button";
 import { Typography } from "core/ui-components/Typography";
 import { Space } from "core/ui-components/Space";
-import { Tooltip } from "core/ui-components/Tooltip";
 
 interface Props {
   form: FormInstance;
@@ -131,11 +130,9 @@ export const MetricPreviewHeader: FC<Props> = ({
                 >
                   Customize
                 </Button>
-                <Tooltip title="Refresh">
-                  <Button icon={<SyncOutlined />} onClick={() => reloadMetric()}>
-                    Refresh
-                  </Button>
-                </Tooltip>
+                <Button icon={<SyncOutlined />} onClick={() => reloadMetric()}>
+                  Refresh
+                </Button>
               </>
             )}
           </Space>

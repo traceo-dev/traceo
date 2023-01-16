@@ -13,7 +13,18 @@ export const AccountStatusTag: FC<Props> = ({ status }) => {
     [AccountStatus.DISABLED]: "bg-gray-700"
   };
 
+  const tagColor: Record<AccountStatus, TagColorType> = {
+    [AccountStatus.ACTIVE]: "green",
+    [AccountStatus.INACTIVE]: "blue",
+    [AccountStatus.DISABLED]: "gray"
+  };
+
   return (
-    <Tag className={joinClasses("capitalize", accountStatusColor[status])}>{status}</Tag>
+    <Tag
+      color={tagColor[status]}
+      className={joinClasses("capitalize", accountStatusColor[status])}
+    >
+      {status}
+    </Tag>
   );
 };
