@@ -56,7 +56,7 @@ export const AppIncidentNavigationPage = ({ children }) => {
   return (
     <AppPage>
       <IncidentHeader incident={incident} onExecute={fetchIncident} />
-      <Menu className="mt-5" routes={menu} />
+      <Menu routes={menu} />
       {children}
     </AppPage>
   );

@@ -1,5 +1,4 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { Tooltip } from "antd";
 import { MetricPlot } from "../../../../core/components/Plots/components/Metrics/MetricPlot";
 import { FC } from "react";
 import { useSelector } from "react-redux";
@@ -8,6 +7,7 @@ import { IMetric } from "../../../../types/metrics";
 import { StoreState } from "../../../../types/store";
 import { Typography } from "core/ui-components/Typography";
 import { Space } from "core/ui-components/Space";
+import { Tooltip } from "core/ui-components/Tooltip";
 
 interface MetricCardProps {
   metric: IMetric;

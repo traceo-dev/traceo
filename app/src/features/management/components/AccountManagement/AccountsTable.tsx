@@ -3,9 +3,9 @@ import {
   LockFilled,
   SafetyCertificateFilled
 } from "@ant-design/icons";
-import { Tooltip } from "antd";
 import { Avatar } from "core/ui-components/Avatar";
 import { Space } from "core/ui-components/Space";
+import { Tooltip } from "core/ui-components/Tooltip";
 import { Typography } from "core/ui-components/Typography";
 import { FC } from "react";
 import { useSelector } from "react-redux";
@@ -54,17 +54,17 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
       <Space>
         <Typography className="text-primary">{currentAccount?.username}</Typography>
         {currentAccount?.id === account?.id && (
-          <Tooltip title="It's you!">
+          <Tooltip placement="left" title="It's you!">
             <CheckCircleFilled className="p-1 text-amber-600" />
           </Tooltip>
         )}
         {currentAccount.isAdmin && (
-          <Tooltip title="Server admin">
+          <Tooltip placement="top" title="Server admin">
             <SafetyCertificateFilled />
           </Tooltip>
         )}
         {currentAccount?.status === AccountStatus.DISABLED && (
-          <Tooltip title="Account disabled">
+          <Tooltip placement="top" title="Account disabled">
             <LockFilled />
           </Tooltip>
         )}

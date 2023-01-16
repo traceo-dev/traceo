@@ -2,7 +2,6 @@ import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import AppPage from "../components/AppPage";
-import { Tooltip } from "antd";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -23,6 +22,7 @@ import { DeepPartial } from "../../../types/partials";
 import ReactMarkdown from "react-markdown";
 import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
+import { Tooltip } from "core/ui-components/Tooltip";
 
 export const MetricPreviewPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;

@@ -1,5 +1,4 @@
 import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
-import { Tooltip } from "antd";
 import { loadApplication } from "../../../features/app/state/application/actions";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +10,7 @@ import { Typography } from "core/ui-components/Typography";
 import { ListCard } from "core/ui-components/Card/ListCard";
 import { Space } from "core/ui-components/Space";
 import { Avatar } from "core/ui-components/Avatar";
+import { Tooltip } from "core/ui-components/Tooltip";
 
 interface Props {
   app: MemberApplication;

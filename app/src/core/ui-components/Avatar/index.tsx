@@ -13,7 +13,7 @@ interface AvatarProps {
 }
 
 const handleSize: Record<AvatarSize, string> = {
-  sm: "w-6 h-6",
+  sm: "w-5 h-5",
   md: "w-10 h-10",
   lg: "w-20 h-20"
 };

@@ -1,4 +1,3 @@
-import { Tooltip } from "antd";
 import { CodePreview } from "../../../../core/components/CodePreview";
 import { ColumnDetail } from "../../../../core/components/ColumnDetail";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
@@ -9,6 +8,7 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
+import { Tooltip } from "core/ui-components/Tooltip";
 
 const { Panel } = Collapse;
 
@@ -22,12 +22,12 @@ export const StacktraceSection = () => {
 
   return (
     <>
-      <Card title="Stacktrace">
-        <Space className="w-full py-5 gap-0" direction="vertical">
-          <Typography size="xl" weight="semibold">
+      <Card title="Stacktrace" className="h-min">
+        <Space className="w-full py-3 gap-0" direction="vertical">
+          <Typography size="xl" weight="semibold" className="font-mono">
             {incident?.type}
           </Typography>
-          <Typography>{incident?.message}</Typography>
+          <Typography className="font-mono">{incident?.message}</Typography>
         </Space>
         <Collapse
           expandIconPosition="end"
@@ -47,10 +47,9 @@ export const StacktraceSection = () => {
                     }
                   >
                     <ExclamationCircleOutlined
-                      className={conditionClass(
-                        trace.internal,
-                        "text-amber-500",
-                        "text-cyan-500"
+                      className={joinClasses(
+                        "mr-2",
+                        conditionClass(trace.internal, "text-amber-500", "text-cyan-500")
                       )}
                     />
                   </Tooltip>

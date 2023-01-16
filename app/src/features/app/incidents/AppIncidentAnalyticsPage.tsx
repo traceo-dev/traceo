@@ -5,12 +5,12 @@ import { statisticUtils } from "../../../core/utils/statistics";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
-import { Tooltip } from "antd";
 import dateUtils from "../../../core/utils/date";
 import { StatPercent } from "../../../core/components/StatPercent";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
+import { Tooltip } from "core/ui-components/Tooltip";
 
 export const AppIncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);

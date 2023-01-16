@@ -7,11 +7,7 @@ import { IncidentTable } from "../../../features/app/incidents/components/Incide
 import { useCleanup } from "../../../core/hooks/useCleanup";
 import { ApiQueryParams } from "../../../core/lib/api";
 import { dispatch } from "../../../store/store";
-import {
-  handleIncidentStatus,
-  IncidentSortBy,
-  IncidentStatusSearch
-} from "../../../types/incidents";
+import { IncidentSortBy, IncidentStatusSearch } from "../../../types/incidents";
 import { StoreState } from "../../../types/store";
 import { loadIncidents } from "../../../features/app/incidents/state/actions";
 import { useParams } from "react-router-dom";
@@ -20,7 +16,7 @@ import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
 import PageHeader from "../../../core/components/PageHeader";
-import { BarChartOutlined, BugOutlined, LineChartOutlined } from "@ant-design/icons";
+import { BugOutlined } from "@ant-design/icons";
 import {
   getLocalStorageIncidentPlotType,
   setLocalStorageIncidentPlotType
@@ -29,34 +25,7 @@ import { INCIDENT_PLOT_TYPE } from "../../../types/metrics";
 import { InputSearch } from "../../../core/ui-components/Input/InputSearch";
 import { Select } from "core/ui-components/Select";
 import { Card } from "core/ui-components/Card";
-
-const handlIncidentSortName: Record<IncidentSortBy, string> = {
-  [IncidentSortBy.FIRST_SEEN]: "First seen",
-  [IncidentSortBy.LAST_SEEN]: "Last seen",
-  [IncidentSortBy.ERRORS_COUNT]: "Errors count",
-  [IncidentSortBy.STATUS]: "Status"
-};
-
-const statusOptions = Object.values(IncidentStatusSearch).map((status) => ({
-  label: handleIncidentStatus[status],
-  value: status
-}));
-
-const sortOptions = Object.values(IncidentSortBy).map((sort) => ({
-  label: handlIncidentSortName[sort],
-  value: sort
-}));
-
-const changeBarOptions = [
-  {
-    icon: <BarChartOutlined />,
-    value: "bar"
-  },
-  {
-    icon: <LineChartOutlined />,
-    value: "line"
-  }
-];
+import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
 
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
@@ -110,7 +79,7 @@ export const AppIncidentsListPage = () => {
           <Select
             placeholder="Select status"
             width={150}
-            options={statusOptions}
+            options={searchStatusOptions}
             value={status}
             onChange={(opt) => setStatus(opt?.value)}
             isClearable

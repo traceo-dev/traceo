@@ -4,7 +4,6 @@ import {
   SyncOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import { Tooltip } from "antd";
 import { FormInstance } from "antd/es/form/Form";
 import PageHeader from "../../../../core/components/PageHeader";
 import api from "../../../../core/lib/api";
@@ -23,6 +22,7 @@ import { loadMetric } from "../state/actions";
 import { Button } from "core/ui-components/Button";
 import { Typography } from "core/ui-components/Typography";
 import { Space } from "core/ui-components/Space";
+import { Tooltip } from "core/ui-components/Tooltip";
 
 interface Props {
   form: FormInstance;

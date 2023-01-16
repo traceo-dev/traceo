@@ -1,5 +1,4 @@
 import { LoadingOutlined, UserOutlined } from "@ant-design/icons";
-import { Tooltip } from "antd";
 import { ColumnsType, TableProps } from "antd/lib/table";
 import { FC } from "react";
 import { Table } from "antd";
@@ -14,6 +13,7 @@ import dateUtils from "../../../../core/utils/date";
 import { Typography } from "core/ui-components/Typography";
 import { Space } from "core/ui-components/Space";
 import { Avatar } from "core/ui-components/Avatar";
+import { Tooltip } from "core/ui-components/Tooltip";
 
 interface Props {
   incidents: Incident[];
@@ -45,21 +45,17 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
       render: (record: Incident) => (
         <Space className="w-full justify-center">
           {record?.assigned ? (
-            <Tooltip placement="bottom" title={record?.assigned?.name}>
-              <Space>
-                <Avatar
-                  size="md"
-                  src={record?.assigned?.gravatar}
-                  alt={record?.assigned?.name}
-                />
-              </Space>
+            <Tooltip placement="top" title={record?.assigned?.name}>
+              <Avatar
+                size="md"
+                src={record?.assigned?.gravatar}
+                alt={record?.assigned?.name}
+              />
             </Tooltip>
           ) : (
-            <>
-              <Tooltip placement="bottom" title="Not assigned">
-                <UserOutlined className="text-2xl" />
-              </Tooltip>
-            </>
+            <Tooltip title="N/A">
+              <UserOutlined className="text-2xl" />
+            </Tooltip>
           )}
         </Space>
       )

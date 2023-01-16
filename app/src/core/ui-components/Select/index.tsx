@@ -48,7 +48,9 @@ const Control = (props: any) => {
       className="bg-canvas px-2 flex rounded-md items-center"
       {...innerProps}
     >
-      {selectProps.prefix && <div className="px-1">{selectProps.prefix}</div>}
+      {(selectProps.prefix || selectProps.value?.icon) && (
+        <div className="px-1">{selectProps.value?.icon || selectProps.prefix}</div>
+      )}
       {children}
       {selectProps.suffix && <div className="pr-1 pl-2">{selectProps.suffix}</div>}
     </div>
@@ -116,9 +118,9 @@ export const Select: FC<SelectProps> = (props: SelectProps) => {
 
   const ref = useRef(null);
   const selectStyles = defaultStyles(width);
-  const selectedValue = options.find((opt) => opt.value === value) || value;
+  const selectedValue = options?.find((opt) => opt.value === value) || value;
   const selectedDefaultValue =
-    options.find((opt) => opt.value === defaultValue) || defaultValue;
+    options?.find((opt) => opt.value === defaultValue) || defaultValue;
 
   return (
     <ReactSelect
