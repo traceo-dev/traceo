@@ -8,7 +8,6 @@ import {
   LogoutOutlined,
   LoadingOutlined
 } from "@ant-design/icons";
-import { Divider } from "antd";
 import { logout } from "../.../../../../../core/utils/logout";
 import { useSelector } from "react-redux";
 import { MenuRoute } from "../.../../../../../types/navigation";
@@ -17,6 +16,7 @@ import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { Avatar } from "core/ui-components/Avatar";
 import { isEmptyObject } from "core/utils/object";
+import { Divider } from "core/ui-components/Divider";
 
 export const AppNavBar = () => {
   const { application } = useSelector((state: StoreState) => state.application);
@@ -97,13 +97,13 @@ export const AppNavBar = () => {
           <NavBarItem key={index} route={route} />
         ))}
 
-        <Divider />
+        <Divider className="my-5" />
 
         {filterRoutes(mainRoutes).map((route, index) => (
           <NavBarItem key={index} route={route} />
         ))}
 
-        <Divider />
+        <Divider className="my-5" />
 
         {filterRoutes(settingsRoutes).map((route, index) => (
           <NavBarItem key={index} route={route} />

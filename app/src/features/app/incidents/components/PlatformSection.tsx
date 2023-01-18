@@ -8,7 +8,7 @@ export const PlatformSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
 
   return (
-    <Card title="Platform" className="h-min">
+    <Card title="Platform" className="h-max">
       <FieldLabel label="Version">
         <Typography>{incident?.platform.version}</Typography>
       </FieldLabel>

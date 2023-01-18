@@ -22,28 +22,19 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, hrCount }) => {
   };
 
   return (
-    <>
-      <div className="metric-panel p-2 cursor-pointer mb-2 rounded-md hover:bg-secondary">
-        <Space className="w-full" direction="vertical" onClick={onClick}>
-          <Space className="w-full pb-5 pt-1 justify-center">
-            <Typography>{metric?.name}</Typography>
-            {metric?.description && (
-              <Tooltip title={metric?.description}>
-                <QuestionCircleOutlined className="text-xs" />
-              </Tooltip>
-            )}
-          </Space>
-
-          <MetricPlot metric={metric} hrCount={hrCount} />
+    <div className="h-60 border border-solid border-secondary p-2 cursor-pointer rounded-md hover:bg-secondary">
+      <Space className="w-full" direction="vertical" onClick={onClick}>
+        <Space className="w-full pb-5 pt-1 justify-center">
+          <Typography>{metric?.name}</Typography>
+          {metric?.description && (
+            <Tooltip title={metric?.description}>
+              <QuestionCircleOutlined className="text-xs" />
+            </Tooltip>
+          )}
         </Space>
-      </div>
 
-      <style>{`
-          .metric-panel {
-            border: 1px solid var(--color-bg-secondary);
-            height: 240px;
-          }
-        `}</style>
-    </>
+        <MetricPlot metric={metric} hrCount={hrCount} />
+      </Space>
+    </div>
   );
 };

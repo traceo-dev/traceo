@@ -1,4 +1,4 @@
-import { Checkbox, Col, Row } from "antd";
+import { Checkbox } from "antd";
 import { handleLogName } from "../../../../../core/components/Plots/components/Logs/util";
 import { FC } from "react";
 import { useSelector } from "react-redux";
@@ -8,6 +8,8 @@ import { handleLogIcon } from "./LogContainer";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
+import { Row } from "core/ui-components/Row";
+import { Col } from "core/ui-components/Col";
 
 interface Props {
   checkedLevels: LogLevel[];

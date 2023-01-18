@@ -1,4 +1,3 @@
-import { Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
@@ -21,6 +20,8 @@ import { InputSearch } from "core/ui-components/Input/InputSearch";
 import { Button } from "core/ui-components/Button";
 import { Card } from "core/ui-components/Card";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
+import { Row } from "core/ui-components/Row";
+import { Col } from "core/ui-components/Col";
 
 const MetricsPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
@@ -73,9 +74,9 @@ const MetricsPage = () => {
           emptyView={<EmptyMetricsList constraints={search} />}
           isLoading={!hasFetched}
         >
-          <Row className="gap-0" gutter={[8, 24]}>
+          <Row gap="2" cols={12}>
             {filteredMetrics?.map((metric, index) => (
-              <Col span={8} key={index}>
+              <Col span={4} key={index}>
                 <MetricCard metric={metric} hrCount={timeLimit} />
               </Col>
             ))}

@@ -29,7 +29,7 @@ export const Errors = () => {
           Errors <Badge count={incident?.errorsDetails?.length} />
         </Typography>
       }
-      className="h-min"
+      className="h-max"
     >
       <Table
         pagination={{ pageSize: 150 }}

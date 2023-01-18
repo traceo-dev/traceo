@@ -21,7 +21,7 @@ export const StacktraceSection = () => {
 
   return (
     <>
-      <Card title="Stacktrace" className="h-min">
+      <Card title="Stacktrace" className="h-max">
         <Space className="w-full py-3 gap-0" direction="vertical">
           <Typography size="xl" weight="semibold" className="font-mono">
             {incident?.type}

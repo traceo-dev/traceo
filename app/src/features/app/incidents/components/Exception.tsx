@@ -11,7 +11,7 @@ export const Exception = () => {
     return null;
   }
   return (
-    <Card title="Exception" className="h-min">
+    <Card title="Exception" className="h-max">
       <Space className="code-container whitespace-pre p-5 bg-secondary whitespace-pre-wrap">
         <Typography size="xs">{incident?.stack}</Typography>
       </Space>

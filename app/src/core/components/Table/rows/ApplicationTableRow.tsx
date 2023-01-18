@@ -1,4 +1,3 @@
-import { Row } from "antd";
 import api from "../../../../core/lib/api";
 import { FC, useState } from "react";
 import { MemberApplication, MemberRole } from "../../../../types/application";
@@ -125,10 +124,10 @@ export const ApplicationTableRow: FC<ApplicationRowProps> = ({
   return (
     <tr>
       <td className="w-64">
-        <Row className="w-full items-center">
+        <div className="flex flex-row w-full items-center">
           <Avatar size="sm" className="mr-3" src={item?.gravatar} alt={item?.name} />
           {item.name}
-        </Row>
+        </div>
       </td>
       <td className="w-64" colSpan={2}>
         {renderRoleCell()}

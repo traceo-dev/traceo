@@ -1,7 +1,5 @@
 import { FileMarkdownFilled } from "@ant-design/icons";
-import { Col, Row, Tabs } from "antd";
 import { useEffect, useRef, useState } from "react";
-import ReactMarkdown from "react-markdown";
 import { useSelector } from "react-redux";
 import api from "../../../../../core/lib/api";
 import { loadIncidentComments } from "../../state/actions";
@@ -13,8 +11,8 @@ import { Link } from "core/ui-components/Link";
 import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
 import { Avatar } from "core/ui-components/Avatar";
-
-const { TabPane } = Tabs;
+import { Row } from "core/ui-components/Row";
+import { Col } from "core/ui-components/Col";
 
 export const CommentInput = () => {
   const { account } = useSelector((state: StoreState) => state.account);
@@ -52,11 +50,9 @@ export const CommentInput = () => {
 
   return (
     <Card className="w-full mb-5">
-      <Row gutter={24} className="w-full">
-        <Col span={1}>
-          <Avatar alt={account?.name} src={account?.gravatar} size="md" />
-        </Col>
-        <Col span={23}>
+      <div className="w-full flex flex-row">
+        <Avatar alt={account?.name} src={account?.gravatar} size="md" />
+        <div className="w-full">
           <InputArea
             className="ml-2"
             placeholder="Leave a comment"
@@ -86,8 +82,8 @@ export const CommentInput = () => {
               Comment
             </Button>
           </Space>
-        </Col>
-      </Row>
+        </div>
+      </div>
     </Card>
   );
 };

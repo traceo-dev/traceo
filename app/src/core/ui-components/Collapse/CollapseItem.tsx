@@ -1,7 +1,7 @@
 import { DownOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
-import { Typography } from "antd";
 import { conditionClass, joinClasses } from "core/utils/classes";
 import { FC, useEffect, useState } from "react";
+import { Typography } from "../Typography";
 
 interface CollapseItemProps {
   header?: string | JSX.Element;
