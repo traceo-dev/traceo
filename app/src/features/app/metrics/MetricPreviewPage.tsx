@@ -68,65 +68,58 @@ export const MetricPreviewPage = () => {
   };
 
   return (
-    <>
-      <AppPage>
-        <ConditionalWrapper isLoading={!hasFetchedMetric}>
-          <MetricPreviewHeader
-            form={form}
-            isCustomizeMode={isCustomizeMode}
-            isExpandMode={isExpandMode}
-            setCustomizeMode={setCustomizeMode}
-            setOptions={setOptions}
-            timeLimit={timeLimit}
-            setTimeLimit={setTimeLimit}
-          />
+    <AppPage>
+      <ConditionalWrapper isLoading={!hasFetchedMetric}>
+        <MetricPreviewHeader
+          form={form}
+          isCustomizeMode={isCustomizeMode}
+          isExpandMode={isExpandMode}
+          setCustomizeMode={setCustomizeMode}
+          setOptions={setOptions}
+          timeLimit={timeLimit}
+          setTimeLimit={setTimeLimit}
+        />
 
-          <div className="w-full grid grid-cols-12">
-            <div className={conditionClass(isCustomizeMode, "col-span-9", "col-span-12")}>
-              {isDescriptionVisible && !isExpandMode && (
-                <Card title="Description" className="h-min">
-                  <ReactMarkdown>{metric?.options?.description}</ReactMarkdown>
-                </Card>
-              )}
-
-              <Card
-                title="Graph"
-                className="h-min"
-                extra={
-                  <Space>
-                    {!isExpandMode && !isCustomizeMode && (
-                      <Tooltip title="Expand view">
-                        <ExpandOutlined onClick={onExpand} />
-                      </Tooltip>
-                    )}
-
-                    {isExpandMode && (
-                      <Tooltip title="Compress view">
-                        <CompressOutlined onClick={onCompress} />
-                      </Tooltip>
-                    )}
-                  </Space>
-                }
-              >
-                <MetricPreviewPlot isExpandMode={isExpandMode} options={options} />
+        <div className="w-full grid grid-cols-12">
+          <div className={conditionClass(isCustomizeMode, "col-span-9", "col-span-12")}>
+            {isDescriptionVisible && !isExpandMode && (
+              <Card title="Description" className="h-min">
+                <ReactMarkdown>{metric?.options?.description}</ReactMarkdown>
               </Card>
+            )}
 
-              {!isExpandMode && (
-                <MetricTableWrapper metric={options} metricData={metric?.datasource} />
-              )}
-            </div>
-            {isCustomizeMode && (
-              <MetricPreviewCustomizeForm setOptions={setOptions} form={form} />
+            <Card
+              title="Graph"
+              className="h-min"
+              extra={
+                <Space>
+                  {!isExpandMode && !isCustomizeMode && (
+                    <Tooltip title="Expand view">
+                      <ExpandOutlined onClick={onExpand} />
+                    </Tooltip>
+                  )}
+
+                  {isExpandMode && (
+                    <Tooltip title="Compress view">
+                      <CompressOutlined onClick={onCompress} />
+                    </Tooltip>
+                  )}
+                </Space>
+              }
+            >
+              <MetricPreviewPlot isExpandMode={isExpandMode} options={options} />
+            </Card>
+
+            {!isExpandMode && (
+              <MetricTableWrapper metric={options} metricData={metric?.datasource} />
             )}
           </div>
-        </ConditionalWrapper>
-      </AppPage>
-      <style>{`
-        .ant-collapse > .ant-collapse-item > .ant-collapse-header {
-          padding-left: 0px !important;
-        }
-    `}</style>
-    </>
+          {isCustomizeMode && (
+            <MetricPreviewCustomizeForm setOptions={setOptions} form={form} />
+          )}
+        </div>
+      </ConditionalWrapper>
+    </AppPage>
   );
 };
 

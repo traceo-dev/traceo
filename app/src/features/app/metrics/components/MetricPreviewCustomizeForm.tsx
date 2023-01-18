@@ -83,96 +83,89 @@ export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {
   };
 
   return (
-    <>
-      <div className="col-span-3">
-        <Card title="Customize metric" className="ml-1 h-fit">
-          <Form form={form} layout="vertical">
-            <Collapse ghost collapseIconPosition="start" defaultActiveKey="basic">
-              <CollapseItem className="pl-0" header="Basic options" panelKey="basic">
-                <>
-                  <Form.Item label="Name" name="name">
-                    <Input maxLength={40} />
-                  </Form.Item>
-                  <Form.Item name="description">
-                    <InputArea maxLength={1000} label="Description" />
-                  </Form.Item>
-                  <Form.Item label="Unit" name="unit">
-                    <Select
-                      options={unitOptions}
-                      onChange={(opt) => onChangeUnit(opt?.value)}
-                    />
-                  </Form.Item>
-                  <Form.Item name="showDescription" valuePropName="checked">
-                    <Checkbox onChange={(v) => onChangeDescription(v.target.checked)}>
-                      Show description
-                    </Checkbox>
-                  </Form.Item>
-                </>
-              </CollapseItem>
-              <CollapseItem className="pl-0" header="Graph options" key={"graph"}>
-                <>
-                  <Form.Item label="Line width" name={["config", "line", "width"]}>
-                    <Slider
-                      marks={{
-                        1: 1,
-                        10: 10
-                      }}
-                      min={1}
-                      max={10}
-                      onChange={(v) => onChangeLineWidth(v)}
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name={["config", "line", "marker", "show"]}
-                    valuePropName="checked"
-                  >
-                    <Checkbox onChange={(v) => onChangeMarkers(v.target.checked)}>
-                      Show markers
-                    </Checkbox>
-                  </Form.Item>
-                  <Form.Item name={["config", "tooltip", "show"]} valuePropName="checked">
-                    <Checkbox onChange={(v) => onChangeTooltip(v.target.checked)}>
-                      Show tooltip
-                    </Checkbox>
-                  </Form.Item>
-                  <Form.Item name={["config", "legend", "show"]} valuePropName="checked">
-                    <Checkbox onChange={(v) => onChangeLegend(v.target.checked)}>
-                      Show legend
-                    </Checkbox>
-                  </Form.Item>
-                  <Form.Item name={["config", "area", "show"]} valuePropName="checked">
-                    <Checkbox onChange={(v) => onChangeArea(v.target.checked)}>
-                      Show area
-                    </Checkbox>
-                  </Form.Item>
+    <div className="col-span-3">
+      <Card title="Customize metric" className="ml-1 h-fit">
+        <Form form={form} layout="vertical">
+          <Collapse ghost collapseIconPosition="start" defaultActiveKey="basic">
+            <CollapseItem className="pl-0" header="Basic options" panelKey="basic">
+              <>
+                <Form.Item label="Name" name="name">
+                  <Input maxLength={40} />
+                </Form.Item>
+                <Form.Item name="description">
+                  <InputArea maxLength={1000} label="Description" />
+                </Form.Item>
+                <Form.Item label="Unit" name="unit">
+                  <Select
+                    options={unitOptions}
+                    onChange={(opt) => onChangeUnit(opt?.value)}
+                  />
+                </Form.Item>
+                <Form.Item name="showDescription" valuePropName="checked">
+                  <Checkbox onChange={(v) => onChangeDescription(v.target.checked)}>
+                    Show description
+                  </Checkbox>
+                </Form.Item>
+              </>
+            </CollapseItem>
+            <CollapseItem className="pl-0" header="Graph options" key={"graph"}>
+              <>
+                <Form.Item label="Line width" name={["config", "line", "width"]}>
+                  <Slider
+                    marks={{
+                      1: 1,
+                      10: 10
+                    }}
+                    min={1}
+                    max={10}
+                    onChange={(v) => onChangeLineWidth(v)}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name={["config", "line", "marker", "show"]}
+                  valuePropName="checked"
+                >
+                  <Checkbox onChange={(v) => onChangeMarkers(v.target.checked)}>
+                    Show markers
+                  </Checkbox>
+                </Form.Item>
+                <Form.Item name={["config", "tooltip", "show"]} valuePropName="checked">
+                  <Checkbox onChange={(v) => onChangeTooltip(v.target.checked)}>
+                    Show tooltip
+                  </Checkbox>
+                </Form.Item>
+                <Form.Item name={["config", "legend", "show"]} valuePropName="checked">
+                  <Checkbox onChange={(v) => onChangeLegend(v.target.checked)}>
+                    Show legend
+                  </Checkbox>
+                </Form.Item>
+                <Form.Item name={["config", "area", "show"]} valuePropName="checked">
+                  <Checkbox onChange={(v) => onChangeArea(v.target.checked)}>
+                    Show area
+                  </Checkbox>
+                </Form.Item>
 
-                  {isArea && (
-                    <Form.Item label="Area opacity" name={["config", "area", "opacity"]}>
-                      <Slider
-                        tooltip={{
-                          formatter: (val: number) => val / 100
-                        }}
-                        marks={{
-                          0: 0,
-                          100: 1
-                        }}
-                        min={0}
-                        max={100}
-                        onChange={(v) => onChangeAreaOpacity(v)}
-                      />
-                    </Form.Item>
-                  )}
-                </>
-              </CollapseItem>
-            </Collapse>
-          </Form>
-        </Card>
-      </div>
-      <style>{`
-        .customize-body > .ant-card-body {
-            padding: 8px;
-        }
-      `}</style>
-    </>
+                {isArea && (
+                  <Form.Item label="Area opacity" name={["config", "area", "opacity"]}>
+                    <Slider
+                      tooltip={{
+                        formatter: (val: number) => val / 100
+                      }}
+                      marks={{
+                        0: 0,
+                        100: 1
+                      }}
+                      min={0}
+                      max={100}
+                      onChange={(v) => onChangeAreaOpacity(v)}
+                    />
+                  </Form.Item>
+                )}
+              </>
+            </CollapseItem>
+          </Collapse>
+        </Form>
+      </Card>
+    </div>
   );
 };
