@@ -2,10 +2,6 @@
   background-color: transparent !important;
 }
 
-.ant-divider-vertical {
-  height: unset !important;
-}
-
 .ant-page-header-heading-left,
 .ant-page-header-heading-title {
   width: 100% !important;
@@ -67,15 +63,6 @@
   color: white !important;
 }
 
-.ant-btn {
-  font-size: 13px;
-  line-height: 22px;
-  height: 32px;
-  padding: 4px 15px;
-  font-weight: 600;
-  border-radius: 2px;
-}
-
 .ant-table-row.ant-table-row-level-0:hover {
   background-color: var(--color-secondary) !important;
 }
@@ -99,8 +86,4 @@
 
 .rc-virtual-list-holder {
   background-color: var(--color-bg-canvas);
-}
-
-.ant-statistic-title {
-  color: var(--text-primary);
 }

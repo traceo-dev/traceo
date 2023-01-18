@@ -93,28 +93,6 @@ body {
   font-size: 11px;
 }
 
-.submit-button {
-  width: 100%;
-  background-color: var(--color-primary);
-  height: 53px !important;
-  font-weight: 500 !important;
-  font-size: 14px !important;
-  color: #ffffff !important;
-  transition: 0.2s;
-}
-
-.submit-button:focus {
-  transition: 0.2s;
-  color: #ffffff !important;
-  background-color: var(--color-secondary);
-}
-
-.submit-button:hover {
-  transition: 0.2s;
-  color: #ffffff !important;
-  background-color: var(--color-secondary);
-}
-
 .center-div {
   position: absolute;
   top: 40%;
@@ -133,113 +111,14 @@ body {
   padding-inline: 24%;
 }
 
-.primary-btn {
-  background-color: var(--color-primary) !important;
-  color: #fff !important;
-  border-radius: 4px;
-}
-
-.primary-btn:hover,
-.primary-btn:focus {
-  border-color: var(--color-primary) !important;
-  background-color: transparent !important;
-  color: var(--color-primary) !important;
-}
-
-.secondary-btn {
-  border-color: var(--color-primary) !important;
-  background-color: transparent !important;
-  color: var(--color-primary) !important;
-  border-radius: 4px;
-}
-
-.secondary-btn:hover,
-.secondary-btn:focus {
-  background-color: var(--color-primary) !important;
-  color: #fff !important;
-}
-
 .code-container {
   display: block;
   overflow-x: auto;
   font-family: monospace;
 }
 
-.bg-light-gray {
-  background-color: var(--color-light-gray) !important;
-}
-
-.bg-comment-body {
-  background-color: transparent !important;
-}
-
 .main-border {
   border: 1px solid var(--color-border) !important;
-}
-
-.main-hover:hover {
-  background-color: var(--color-bg-secondary) !important;
-}
-
-.info-label {
-  min-width: 180px;
-  max-width: 220px;
-}
-
-.default-card {
-  width: 100%;
-  cursor: pointer;
-  transition: 0.2s;
-  background-color: var(--color-card) !important;
-  margin-bottom: 3px;
-}
-
-.default-card:hover {
-  background-color: var(--color-card-hover) !important;
-  transition: 0.2s;
-}
-
-.default-card-body > .ant-card-body {
-  padding: 15px !important;
-}
-
-.incident-card-body > .ant-card-body {
-  padding: 3px;
-  padding-inline: 15px;
-}
-
-.small-pd-card .ant-card-body {
-  padding: 16px;
-}
-
-.delete-icon {
-  padding: 4px;
-  background-color: #a61d24;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: 0.2s;
-  margin-right: 10px;
-  font-weight: 500;
-  text-align: end;
-}
-
-.delete-icon:hover {
-  transition: 0.2s;
-  opacity: 0.9;
-}
-
-.icon-small {
-  padding: 8px;
-  border-radius: 100%;
-  cursor: pointer;
-  transition: 0.2s;
-  margin-right: 10px;
-  font-weight: 500;
-}
-
-.icon-small:hover {
-  background-color: var(--color-bg-canvas);
-  transition: 0.2s;
 }
 
 .action-icon {
