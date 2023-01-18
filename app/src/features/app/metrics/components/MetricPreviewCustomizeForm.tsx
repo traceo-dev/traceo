@@ -1,5 +1,4 @@
 import { Form, Checkbox, Slider } from "antd";
-import { FormInstance } from "antd/es/form/Form";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
@@ -19,7 +18,7 @@ const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
 }));
 
 interface Props {
-  form: FormInstance;
+  form: any;
   setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
 }
 export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {

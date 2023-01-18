@@ -4,7 +4,6 @@ import {
   SyncOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import { FormInstance } from "antd/es/form/Form";
 import PageHeader from "../../../../core/components/PageHeader";
 import api from "../../../../core/lib/api";
 import { getLocalStorageTimeLimit } from "../../../../core/utils/localStorage";
@@ -24,7 +23,7 @@ import { Typography } from "core/ui-components/Typography";
 import { Space } from "core/ui-components/Space";
 
 interface Props {
-  form: FormInstance;
+  form: any;
   isCustomizeMode: boolean;
   isExpandMode: boolean;
   setCustomizeMode: (val: boolean) => void;

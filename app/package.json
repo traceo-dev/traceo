@@ -23,6 +23,7 @@
     "antd-img-crop": "^4.1.0",
     "axios": "^0.24.0",
     "babel-eslint": "^10.1.0",
+    "classnames": "^2.3.2",
     "dayjs": "1.11.6",
     "echarts": "^5.4.0",
     "echarts-for-react": "^3.0.2",

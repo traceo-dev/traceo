@@ -57,25 +57,14 @@ export const CommentInput = () => {
           <Avatar alt={account?.name} src={account?.gravatar} size="md" />
         </Col>
         <Col span={23}>
-          <Tabs
-            type="card"
-            className="customized-tab customized-tab-active customized-tab-header customized-tab-body"
-          >
-            <TabPane key={1} tab="Write">
-              <InputArea
-                placeholder="Leave a comment"
-                onKeyDown={(val) => shortcut(val)}
-                onChange={(val) => setComment(val.currentTarget.value)}
-                ref={textAreaRef}
-                rows={6}
-              />
-            </TabPane>
-            <TabPane key={2} tab="Preview">
-              <Space className="w-full p-3 pb-34 mb-2 bg-secondary">
-                <ReactMarkdown className="pb-24">{comment}</ReactMarkdown>
-              </Space>
-            </TabPane>
-          </Tabs>
+          <InputArea
+            className="ml-2"
+            placeholder="Leave a comment"
+            onKeyDown={(val) => shortcut(val)}
+            onChange={(val) => setComment(val.currentTarget.value)}
+            ref={textAreaRef}
+            rows={6}
+          />
 
           <Space className="w-full justify-between pt-0 mt-0">
             <Link
