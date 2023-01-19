@@ -1,5 +1,4 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import "antd/dist/antd.min.css";
 import "./assets/styles/main.css";
 import { Provider } from "react-redux";
 import { SocketContext, socket } from "./core/hooks/SocketContextProvider";
@@ -51,35 +50,21 @@ export const App = () => {
   };
 
   return (
-    <>
-      <div className="App">
-        <Provider store={store}>
-          <SocketContext.Provider value={{ socket }}>
-            <BrowserRouter>
-              <div className="flex flex-col">
-                <DashboardHeader />
-                <div className="traceo-app">
-                  <NavBar />
-                  <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
-                </div>
+    <div className="App">
+      <Provider store={store}>
+        <SocketContext.Provider value={{ socket }}>
+          <BrowserRouter>
+            <div className="flex flex-col">
+              <DashboardHeader />
+              <div className="flex items-strech absolute w-full h-full top-0 left-0">
+                <NavBar />
+                <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
               </div>
-            </BrowserRouter>
-          </SocketContext.Provider>
-        </Provider>
-      </div>
-      <style>{`
-      .traceo-app {
-        display: flex;
-        -webkit-box-align: stretch;
-        align-items: stretch;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0px;
-        left: 0px;
-      }
-    `}</style>
-    </>
+            </div>
+          </BrowserRouter>
+        </SocketContext.Provider>
+      </Provider>
+    </div>
   );
 };
 

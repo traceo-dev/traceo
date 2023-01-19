@@ -1,4 +1,3 @@
-import { Checkbox } from "antd";
 import { handleLogName } from "../../../../../core/components/Plots/components/Logs/util";
 import { FC } from "react";
 import { useSelector } from "react-redux";
@@ -10,6 +9,7 @@ import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
 import { Row } from "core/ui-components/Row";
 import { Col } from "core/ui-components/Col";
+import { Checkbox } from "core/ui-components/Checkbox";
 
 interface Props {
   checkedLevels: LogLevel[];
@@ -25,25 +25,28 @@ export const LogsFilterPanel: FC<Props> = ({ checkedLevels, setCheckedLevels }) 
 
   return (
     <Card title="Filters">
-      <Checkbox.Group
-        className="w-full"
-        defaultValue={checkedLevels}
-        onChange={(val) => setCheckedLevels(val as LogLevel[])}
-      >
+      <div className="flex flex-col gap-3">
         <Col className="mt-2">
           {Object.values(LogLevel).map((level, index) => (
-            <Row className="w-full mb-2 justify-between" key={index}>
+            <Row className="mb-2 justify-between items-center" key={index}>
               <Space>
                 <Typography className="mr-1">{handleLogIcon[level]}</Typography>
                 <Typography>
                   {handleLogName[level]} ({calculateCountByLevel(level)})
                 </Typography>
               </Space>
-              <Checkbox value={level} />
+              <Checkbox
+                value={checkedLevels.includes(level)}
+                onChange={(a) =>
+                  a.currentTarget.checked
+                    ? setCheckedLevels([level, ...checkedLevels])
+                    : setCheckedLevels([...checkedLevels.filter((l) => l !== level)])
+                }
+              />
             </Row>
           ))}
         </Col>
-      </Checkbox.Group>
+      </div>
     </Card>
   );
 };
