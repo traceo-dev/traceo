@@ -73,11 +73,11 @@ export const sortOptions = Object.values(IncidentSortBy).map((sort) => ({
 
 export const changeBarOptions = [
   {
-    icon: <BarChartOutlined />,
+    label: <BarChartOutlined />,
     value: "bar"
   },
   {
-    icon: <LineChartOutlined />,
+    label: <LineChartOutlined />,
     value: "line"
   }
 ];

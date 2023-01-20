@@ -12,28 +12,28 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
         <input
           ref={ref}
           checked={value}
-          className="react-switch-checkbox"
-          id="react-switch-new"
+          className="traceo-switch-checkbox"
+          id="traceo-switch-new"
           type="checkbox"
           {...restProps}
         />
         <label
           className={joinClasses(
-            "react-switch-label",
+            "traceo-switch-label",
             conditionClass(!!value, "bg-blue-500")
           )}
-          htmlFor="react-switch-new"
+          htmlFor="traceo-switch-new"
         >
-          <span className="react-switch-button" />
+          <span className="traceo-switch-button" />
         </label>
         <style>{`
-          .react-switch-checkbox {
+          .traceo-switch-checkbox {
             height: 0;
             width: 0;
             visibility: hidden;
           }
           
-          .react-switch-label {
+          .traceo-switch-label {
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -46,7 +46,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
             transition: background-color .1s;
           }
           
-          .react-switch-label .react-switch-button {
+          .traceo-switch-label .traceo-switch-button {
             content: '';
             position: absolute;
             top: 2px;
@@ -59,12 +59,12 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
             box-shadow: 0 0 2px 0 rgba(10, 10, 10, 0.29);
           }
           
-          .react-switch-checkbox:checked + .react-switch-label .react-switch-button {
+          .traceo-switch-checkbox:checked + .traceo-switch-label .traceo-switch-button {
             left: calc(100% - 2px);
             transform: translateX(-100%);
           }
           
-          .react-switch-label:active .react-switch-button {
+          .traceo-switch-label:active .traceo-switch-button {
             width: 20px;
           }
         `}</style>

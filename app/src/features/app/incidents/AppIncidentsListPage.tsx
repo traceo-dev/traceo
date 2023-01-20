@@ -1,4 +1,3 @@
-import { Segmented } from "antd";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import AppPage from "../components/AppPage";
@@ -26,6 +25,7 @@ import { InputSearch } from "../../../core/ui-components/Input/InputSearch";
 import { Select } from "core/ui-components/Select";
 import { Card } from "core/ui-components/Card";
 import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
+import { RadioButtonGroup } from "core/ui-components/RadioButton/RadioButtonGroup";
 
 export const AppIncidentsListPage = () => {
   useCleanup((state: StoreState) => state.incident);
@@ -92,12 +92,11 @@ export const AppIncidentsListPage = () => {
             onChange={(opt) => setSortBy(opt?.value)}
             isClearable
           />
-          <Segmented
-            onResize={undefined}
-            onResizeCapture={undefined}
+          <RadioButtonGroup
+            onChange={onChangePlotType}
             value={plotType}
-            onChange={(v) => onChangePlotType(v as INCIDENT_PLOT_TYPE)}
             options={changeBarOptions}
+            size="sm"
           />
           <SortIcons order={order} setOrder={setOrder} />
         </SearchWrapper>
