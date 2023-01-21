@@ -4,7 +4,7 @@ import {
   SyncOutlined,
   SettingOutlined
 } from "@ant-design/icons";
-import PageHeader from "../../../../core/components/PageHeader";
+import { PageHeader } from "core/ui-components/PageHeader";
 import api from "../../../../core/lib/api";
 import { getLocalStorageTimeLimit } from "../../../../core/utils/localStorage";
 import { toggleNavbar } from "../../../../features/app/state/navbar/actions";

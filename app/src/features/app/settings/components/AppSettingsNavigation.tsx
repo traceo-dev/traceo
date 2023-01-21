@@ -1,5 +1,5 @@
 import AppPage from "../../components/AppPage";
-import PageHeader from "../../../../core/components/PageHeader";
+import { PageHeader } from "core/ui-components/PageHeader";
 import {
   DatabaseOutlined,
   InfoCircleOutlined,
@@ -45,7 +45,7 @@ export const AppSettingsNavigationPage: FC<Props> = ({ children }) => {
         <PageHeader
           icon={<SettingOutlined />}
           title="Settings"
-          subTitle="Management of this application"
+          description="Management of this application"
         />
         <Menu className=" mt-5" routes={menu} />
         {children}

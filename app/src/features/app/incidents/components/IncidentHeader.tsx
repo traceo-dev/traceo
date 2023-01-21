@@ -1,13 +1,13 @@
 import { ArrowLeftOutlined, SyncOutlined } from "@ant-design/icons";
 import { FC } from "react";
 import { Incident } from "../../../../types/incidents";
-import PageHeader from "../../../../core/components/PageHeader";
 import { notify } from "../../../../core/utils/notify";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "core/ui-components/Typography";
 import { Tooltip } from "core/ui-components/Tooltip";
 import { Space } from "core/ui-components/Space";
 import { IncidentStatusTag } from "core/components/IncidentStatusTag";
+import { PageHeader } from "core/ui-components/PageHeader";
 
 interface Props {
   incident: Incident;

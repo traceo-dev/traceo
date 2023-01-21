@@ -4,7 +4,7 @@ import {
   SettingOutlined,
   TeamOutlined
 } from "@ant-design/icons";
-import PageHeader from "../../../core/components/PageHeader";
+import { PageHeader } from "core/ui-components/PageHeader";
 import { MenuRoute } from "../../../types/navigation";
 import { Menu } from "../../../core/components/Layout/Menu";
 import { DashboardPage } from "../../dashboard/components/DashboardPage";
@@ -61,7 +61,7 @@ export const ManagementNavigation = ({ children }) => {
       <PageHeader
         icon={<SettingOutlined />}
         title={"Management"}
-        subTitle={"Manage your server resources"}
+        description={"Manage your server resources"}
       />
       <Menu className="mt-5" routes={menu} />
       {children}

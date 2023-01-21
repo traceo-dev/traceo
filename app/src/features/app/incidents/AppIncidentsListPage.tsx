@@ -14,7 +14,7 @@ import { SortOrder } from "../../../types/api";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
-import PageHeader from "../../../core/components/PageHeader";
+import { PageHeader } from "core/ui-components/PageHeader";
 import { BugOutlined } from "@ant-design/icons";
 import {
   getLocalStorageIncidentPlotType,
@@ -67,7 +67,7 @@ export const AppIncidentsListPage = () => {
       <PageHeader
         icon={<BugOutlined />}
         title="Incidents"
-        subTitle="List of incidents catched by Traceo SDK"
+        description="List of incidents catched by Traceo SDK"
       />
       <Card>
         <SearchWrapper className="pt-2 pb-12">

@@ -1,5 +1,5 @@
 import { SettingOutlined } from "@ant-design/icons";
-import PageHeader from "../../../core/components/PageHeader";
+import { PageHeader } from "core/ui-components/PageHeader";
 import { MenuRoute } from "../../../types/navigation";
 import { Menu } from "../../../core/components/Layout/Menu";
 import { DashboardPage } from "../../dashboard/components/DashboardPage";
@@ -37,7 +37,7 @@ export const DashboardSettingsNavigation = ({ children }) => {
       <PageHeader
         icon={<Avatar size="lg" src={account?.gravatar} alt={account.username} />}
         title="Account"
-        subTitle="Your account settings"
+        description="Your account settings"
       />
       <Menu className="mt-5" routes={menu} />
       {children}

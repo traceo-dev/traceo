@@ -5,7 +5,7 @@ import {
 } from "@ant-design/icons";
 import { Menu } from "../../../core/components/Layout/Menu";
 import AppPage from "../components/AppPage";
-import PageHeader from "../../../core/components/PageHeader";
+import { PageHeader } from "core/ui-components/PageHeader";
 import { MenuRoute } from "../../../types/navigation";
 
 export const AppExploreNavigationPage = ({ children }) => {
@@ -30,7 +30,7 @@ export const AppExploreNavigationPage = ({ children }) => {
         <PageHeader
           icon={<CompassOutlined />}
           title={"Explore"}
-          subTitle={"Explore informations about this app"}
+          description={"Explore informations about this app"}
         />
 
         <Menu className=" mt-5" routes={menu} />

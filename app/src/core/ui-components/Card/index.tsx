@@ -21,7 +21,7 @@ export const Card: FC<PropsWithChildren<CardProps>> = ({
 }) => {
   const cardTitle =
     typeof title === "string" ? (
-      <Typography className="text-[15px] tracking-wider" weight="semibold">
+      <Typography className="text-[14px]" weight="semibold">
         {title}
       </Typography>
     ) : (
@@ -37,7 +37,7 @@ export const Card: FC<PropsWithChildren<CardProps>> = ({
       {...rest}
     >
       {(title || icon) && (
-        <div className="flex flex-row w-full px-6 py-5 items-center justify-between border-t-0 border-l-0 border-r-0 border-b border-solid border-[#303030]">
+        <div className="flex flex-row w-full px-6 py-4 items-center justify-between border-t-0 border-l-0 border-r-0 border-b border-solid border-[#303030]">
           <div className="flex flex-row w-full">
             {icon && <div className="mr-2">{icon}</div>}
             {cardTitle}
