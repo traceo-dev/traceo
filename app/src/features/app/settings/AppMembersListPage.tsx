@@ -1,4 +1,4 @@
-import { PlusOutlined } from "@ant-design/icons";
+import { CloseOutlined, PlusOutlined, SettingOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { ApiQueryParams } from "../../../core/lib/api";
@@ -15,10 +15,15 @@ import { DataNotFound } from "../../../core/components/DataNotFound";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
 import { Button } from "core/ui-components/Button";
 import { Card } from "core/ui-components/Card";
-import { MemberTableRow } from "core/components/Table/rows/MemberTableRow";
 import { useMemberRole } from "core/hooks/useMemberRole";
 import { ADMIN_EMAIL } from "core/utils/constants";
 import { Account } from "types/accounts";
+import { Table } from "core/ui-components/Table";
+import { Avatar } from "core/ui-components/Avatar";
+import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
+import { RadioButtonGroup } from "core/ui-components/RadioButton/RadioButtonGroup";
+import { Select } from "core/ui-components/Select";
+import { TableColumn } from "core/ui-components/Table/TableColumn";
 
 export const AppMembersListPage = () => {
   const { id } = useParams();
@@ -46,6 +51,15 @@ export const AppMembersListPage = () => {
 
   const fetchMembers = () => dispatch(loadMembers(queryParams));
 
+  const [changeRoleMode, setChangeRoleMode] = useState<boolean>(false);
+  const [removeFromAppMode, setRemoveFromAppMode] = useState<boolean>(false);
+
+  const options = [
+    { label: "Administrator", value: MemberRole.ADMINISTRATOR },
+    { label: "Maintainer", value: MemberRole.MAINTAINER },
+    { label: "Viewer", value: MemberRole.VIEWER }
+  ];
+
   return (
     <>
       <AppSettingsNavigationPage>
@@ -69,25 +83,15 @@ export const AppMembersListPage = () => {
             isLoading={!hasFetched}
             emptyView={<DataNotFound label="Members not found" />}
           >
-            <table className="details-table mt-5">
-              <thead className="details-table-thead">
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Role</th>
-                </tr>
-              </thead>
-              <tbody>
-                {members?.map((member, key) => (
-                  <MemberTableRow
-                    key={key}
-                    item={member}
-                    editable={isEditable(member)}
-                    postExecute={() => fetchMembers()}
-                  />
-                ))}
-              </tbody>
-            </table>
+            <Table className="mt-5" collection={members} striped>
+              <TableColumn width={5}>
+                {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.name} />}
+              </TableColumn>
+              <TableColumn name="Name" value="name" />
+              <TableColumn name="Email" value="email" />
+              <TableColumn name="Role" value="role" />
+              {/* <TableColumn width={15}>{() => <SettingOutlined />}</TableColumn> */}
+            </Table>
           </ConditionalWrapper>
         </Card>
       </AppSettingsNavigationPage>

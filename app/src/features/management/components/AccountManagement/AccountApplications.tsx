@@ -11,7 +11,9 @@ import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { Button } from "core/ui-components/Button";
 import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
-import { ApplicationTableRow } from "core/components/Table/rows/ApplicationTableRow";
+import { Table } from "core/ui-components/Table";
+import { Avatar } from "core/ui-components/Avatar";
+import { TableColumn } from "core/ui-components/Table/TableColumn";
 
 export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -49,24 +51,13 @@ export const AccountApplications = () => {
           isEmpty={applications?.length === 0}
           isLoading={isLoading}
         >
-          <table className="details-table">
-            <thead className="details-table-thead">
-              <tr>
-                <th>Name</th>
-                <th>Role</th>
-              </tr>
-            </thead>
-            <tbody>
-              {applications?.map((member, index) => (
-                <ApplicationTableRow
-                  key={index}
-                  item={member}
-                  postExecute={postExecute}
-                  editable={!isAdmin}
-                />
-              ))}
-            </tbody>
-          </table>
+          <Table collection={applications} striped>
+            <TableColumn width={15}>
+              {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.name} />}
+            </TableColumn>
+            <TableColumn name="Name" value="name" />
+            <TableColumn name="Role" value="role" />
+          </Table>
         </ConditionalWrapper>
 
         <AddToApplicationModal

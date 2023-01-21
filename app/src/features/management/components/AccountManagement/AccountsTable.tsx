@@ -5,13 +5,14 @@ import {
 } from "@ant-design/icons";
 import { Avatar } from "core/ui-components/Avatar";
 import { Space } from "core/ui-components/Space";
+import { Table } from "core/ui-components/Table";
+import { TableColumn } from "core/ui-components/Table/TableColumn";
 import { Tooltip } from "core/ui-components/Tooltip";
 import { Typography } from "core/ui-components/Typography";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AccountStatusTag } from "../../../../core/components/AccountStatusTag";
-import { PaginatedTable } from "../../../../core/components/PaginatedTable";
 import { Account, AccountStatus } from "../../../../types/accounts";
 import { StoreState } from "../../../../types/store";
 
@@ -19,35 +20,9 @@ interface Props {
   accounts: Account[];
   hasFetched?: boolean;
 }
-export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
+export const AccountsTable: FC<Props> = ({ accounts }) => {
   const { account } = useSelector((state: StoreState) => state.account);
   const navigate = useNavigate();
-
-  const columns = [
-    {
-      width: 50,
-      render: (account: Account) => (
-        <Avatar size="sm" src={account?.gravatar} alt={account?.username} />
-      )
-    },
-    {
-      title: "Username",
-      render: (account: Account) => <RenderProfile {...account} />
-    },
-    {
-      title: "Name",
-      dataIndex: "name"
-    },
-    {
-      title: "Email",
-      dataIndex: "email"
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      render: (status: AccountStatus) => <AccountStatusTag status={status} />
-    }
-  ];
 
   const RenderProfile = (currentAccount: Account) => {
     return (
@@ -73,15 +48,22 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
   };
 
   return (
-    <>
-      <PaginatedTable
-        onRowClick={(account) => navigate(`/dashboard/management/accounts/${account.id}`)}
-        loading={!hasFetched}
-        columns={columns}
-        pageSize={15}
-        dataSource={accounts}
-        className="cursor-pointer"
-      />
-    </>
+    <Table
+      collection={accounts}
+      striped
+      onRowClick={(item) => navigate(`/dashboard/management/accounts/${item.id}`)}
+    >
+      <TableColumn width={15}>
+        {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.username} />}
+      </TableColumn>
+      <TableColumn name="Username">
+        {({ item }) => <RenderProfile {...item} />}
+      </TableColumn>
+      <TableColumn name="Name" value="name" />
+      <TableColumn name="Email" value="email" />
+      <TableColumn name="Status">
+        {({ item }) => <AccountStatusTag status={item.status} />}
+      </TableColumn>
+    </Table>
   );
 };

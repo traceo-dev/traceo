@@ -1,26 +1,14 @@
-import { Badge, Table } from "antd";
-import { ColumnsType } from "antd/lib/table";
+import { Badge } from "antd";
 import { Card } from "core/ui-components/Card";
+import { Table } from "core/ui-components/Table";
+import { TableColumn } from "core/ui-components/Table/TableColumn";
 import { Typography } from "core/ui-components/Typography";
 import { useSelector } from "react-redux";
 import dateUtils from "../../../../core/utils/date";
-import { ErrorDetails } from "../../../../types/incidents";
 import { StoreState } from "../../../../types/store";
-
-interface ErrorDetailsTable extends ErrorDetails {
-  number?: string;
-}
 
 export const Errors = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
-
-  const columns: ColumnsType<ErrorDetailsTable> = [
-    {
-      title: "Time",
-      render: (record: ErrorDetails) =>
-        dateUtils.formatDate(record?.date, "DD MMM YYYY HH:mm")
-    }
-  ];
 
   return (
     <Card
@@ -31,12 +19,13 @@ export const Errors = () => {
       }
       className="h-max"
     >
-      <Table
-        pagination={{ pageSize: 150 }}
-        scroll={{ y: 440 }}
-        dataSource={incident?.errorsDetails}
-        columns={columns}
-      />
+      <div className="h-64 overflow-y-scroll">
+        <Table collection={incident?.errorsDetails} hovered>
+          <TableColumn name="Time" className="py-5">
+            {({ item }) => dateUtils.formatDate(item?.date, "DD MMM YYYY HH:mm")}
+          </TableColumn>
+        </Table>
+      </div>
     </Card>
   );
 };

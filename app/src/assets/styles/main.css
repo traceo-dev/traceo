@@ -135,15 +135,8 @@ body {
   border-spacing: 0;
 }
 
-.details-table td,
-.details-table th {
-  height: 30px;
-  line-height: 30px;
-  padding: 6px 8px;
-}
-
 .details-table tbody tr:nth-child(odd) {
-  background: var(--color-bg-secondary);
+  /* background: var(--color-bg-secondary); */
 }
 
 .details-table-label {

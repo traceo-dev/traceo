@@ -122,25 +122,23 @@ export const MemberTableRow: FC<MemberRowProps> = ({
   };
 
   return (
-    <>
-      <tr>
-        <td className="w-64">
-          <div className="flex flex-row w-full items-center">
-            <Avatar size="sm" className="mr-3" src={item?.gravatar} alt={item?.name} />
-            {item.name}
-          </div>
-        </td>
-        <td className="w-64">{item?.email} </td>
-        <td className="w-64" colSpan={2}>
-          {renderRoleCell()}
-        </td>
-        <td className="float-right" colSpan={1}>
-          {renderRemoveFromAppCell()}
-        </td>
-        <td className="float-left" colSpan={1}>
-          {renderChangeRoleCell()}
-        </td>
-      </tr>
-    </>
+    <tr>
+      <td className="w-64">
+        <div className="flex flex-row w-full items-center">
+          <Avatar size="sm" className="mr-3" src={item?.gravatar} alt={item?.name} />
+          {item.name}
+        </div>
+      </td>
+      <td className="w-64">{item?.email} </td>
+      <td className="w-64" colSpan={2}>
+        {renderRoleCell()}
+      </td>
+      <td className="float-right" colSpan={1}>
+        {renderRemoveFromAppCell()}
+      </td>
+      <td className="float-left" colSpan={1}>
+        {renderChangeRoleCell()}
+      </td>
+    </tr>
   );
 };

@@ -55,7 +55,7 @@ export class AmrQueryService {
         .take(take);
 
       const members = await queryBuilder.getMany();
-      const response = members.map(({ id, role, account }) => ({ ...account, id, accountId: account.id, role, }));
+      const response = members.map(({ id, role, account, createdAt }) => ({ createdAt, ...account, id, accountId: account.id, role, }));
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {
