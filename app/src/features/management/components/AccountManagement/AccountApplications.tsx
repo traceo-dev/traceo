@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useApi } from "../../../../core/lib/useApi";
-import { MemberApplication } from "../../../../types/application";
+import {
+  ApplicationMember,
+  MemberApplication,
+  MemberRole
+} from "../../../../types/application";
 import { StoreState } from "../../../../types/store";
 
 import { AddToApplicationModal } from "../../../../core/components/Modals/AddToApplicationModal";
@@ -14,6 +18,9 @@ import { Space } from "core/ui-components/Space";
 import { Table } from "core/ui-components/Table";
 import { Avatar } from "core/ui-components/Avatar";
 import { TableColumn } from "core/ui-components/Table/TableColumn";
+import { Select } from "core/ui-components/Select";
+import { Confirm } from "core/components/Confirm";
+import { membersAction } from "core/lib/api/actions/members";
 
 export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
@@ -31,6 +38,20 @@ export const AccountApplications = () => {
       accountId: account.id
     }
   });
+
+  const options = [
+    { label: "Administrator", value: MemberRole.ADMINISTRATOR },
+    { label: "Maintainer", value: MemberRole.MAINTAINER },
+    { label: "Viewer", value: MemberRole.VIEWER }
+  ];
+
+  const onUpdateRole = async (member: ApplicationMember, role: MemberRole) => {
+    await membersAction.onUpdateRole(member, role, () => postExecute());
+  };
+
+  const onRemoveFromApp = async (member: ApplicationMember) => {
+    await membersAction.onRemoveFromApp(member, () => postExecute());
+  };
 
   return (
     <>
@@ -56,7 +77,42 @@ export const AccountApplications = () => {
               {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.name} />}
             </TableColumn>
             <TableColumn name="Name" value="name" />
-            <TableColumn name="Role" value="role" />
+            <TableColumn name="Role" className="py-0">
+              {({ item }) => {
+                if (account.email === ADMIN_EMAIL) {
+                  return <span>{item.role}</span>;
+                }
+
+                return (
+                  <div className="max-w-min">
+                    <Select
+                      isDisabled={item.email === ADMIN_EMAIL}
+                      onChange={(opt) => onUpdateRole(item, opt?.value)}
+                      defaultValue={item.role}
+                      options={options}
+                      menuPlacement="auto"
+                    />
+                  </div>
+                );
+              }}
+            </TableColumn>
+            <TableColumn width={100} />
+            <TableColumn width={50}>
+              {({ item }) => {
+                if (account.email !== ADMIN_EMAIL) {
+                  return (
+                    <Confirm
+                      description="Are you sure you want to remove this user from app?"
+                      onOk={() => onRemoveFromApp(item)}
+                    >
+                      <Button size="xs" variant="danger">
+                        Remove
+                      </Button>
+                    </Confirm>
+                  );
+                }
+              }}
+            </TableColumn>
           </Table>
         </ConditionalWrapper>
 

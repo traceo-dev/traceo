@@ -20,7 +20,7 @@ interface Props {
   auth?: boolean;
 }
 export const Confirm: FC<Props> = ({
-  title = "",
+  title = "Confirm",
   description,
   children,
   onOk,

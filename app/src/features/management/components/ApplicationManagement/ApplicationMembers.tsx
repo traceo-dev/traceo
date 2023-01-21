@@ -5,10 +5,7 @@ import { useApi } from "../../../../core/lib/useApi";
 import { ApplicationMember } from "../../../../types/application";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
-import { Table } from "core/ui-components/Table";
-import { Avatar } from "core/ui-components/Avatar";
-import dateUtils from "core/utils/date";
-import { TableColumn } from "core/ui-components/Table/TableColumn";
+import { ApplicationMembersTable } from "core/components/ApplicationMembersTable";
 
 export const ApplicationMembers = () => {
   const { id } = useParams();
@@ -35,17 +32,10 @@ export const ApplicationMembers = () => {
           }
           isLoading={isLoading}
         >
-          <Table collection={members} striped showPagination pageSize={5}>
-            <TableColumn width={15}>
-              {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.name} />}
-            </TableColumn>
-            <TableColumn name="Name" value="name" />
-            <TableColumn name="Email" value="email" />
-            <TableColumn name="Role" value="role" />
-            <TableColumn name="Invited">
-              {({ item }) => dateUtils.fromNow(item.createdAt)}
-            </TableColumn>
-          </Table>
+          <ApplicationMembersTable
+            collection={members}
+            postExecute={() => postExecute()}
+          />
         </ConditionalWrapper>
       </Card>
     </>

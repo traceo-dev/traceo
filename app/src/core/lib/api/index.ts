@@ -1,6 +1,6 @@
 import Axios, { AxiosRequestConfig } from "axios";
 import { notify } from "../../../core/utils/notify";
-import { comment } from "./actions/comment";
+import { commentAction } from "./actions/comment";
 import { SortOrder } from "../../../types/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 
@@ -83,5 +83,5 @@ export default {
   put,
   patch,
   delete: _delete,
-  comment
+  comment: commentAction
 };

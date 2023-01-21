@@ -68,7 +68,7 @@ const SelectContainer = <
       className={joinClasses(
         "border border-secondary rounded-md block",
         conditionClass(isFocused, "ring-2 ring-blue-400"),
-        conditionClass(isDisabled, "opacity-50 cursor-not-allowed")
+        conditionClass(isDisabled, "opacity-75 cursor-not-allowed")
       )}
     >
       {children}

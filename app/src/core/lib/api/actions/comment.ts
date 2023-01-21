@@ -28,7 +28,7 @@ const remove = async (commentId: string, applicationId: string, incidentId: stri
   });
 };
 
-export const comment = {
+export const commentAction = {
   send,
   update,
   remove
