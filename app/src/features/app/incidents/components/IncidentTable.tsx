@@ -3,7 +3,7 @@ import { FC } from "react";
 import { IncidentsListPlot } from "../../../../core/components/Plots/components/IncidentsListPlot";
 import { Incident } from "../../../../types/incidents";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { StoreState } from "../../../../types/store";
 import { wrapIncidentMessage } from "../../../../core/utils/stringUtils";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
@@ -19,16 +19,30 @@ interface Props {
   incidents: Incident[];
   isLoading: boolean;
 }
-export const IncidentTable: FC<Props> = ({ incidents }) => {
+export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
+  const navigate = useNavigate();
+  const { application } = useSelector((state: StoreState) => state.application);
+
+  const handleOnRowClick = (incident: Incident) => {
+    navigate(`/app/${application.id}/incidents/${incident.id}/details`);
+  };
+
   return (
-    <Table collection={incidents} rowSize="lg" hovered>
-      <TableColumn name="Details">
+    <Table
+      onRowClick={(item) => handleOnRowClick(item)}
+      collection={incidents}
+      rowSize="lg"
+      showPagination
+      hovered
+      loading={isLoading}
+    >
+      <TableColumn width={600} name="Details">
         {({ item }) => <IncidentMainColumn incident={item} />}
       </TableColumn>
       <TableColumn name="Graph">
         {({ item }) => <IncidentsListPlot errors={item?.errorsDetails} />}
       </TableColumn>
-      <TableColumn name="Errors" value="errorsCount" />
+      <TableColumn width={25} name="Errors" value="errorsCount" />
       <TableColumn width={25} name="Assigned">
         {({ item }) => (
           <Space className="w-full justify-center">

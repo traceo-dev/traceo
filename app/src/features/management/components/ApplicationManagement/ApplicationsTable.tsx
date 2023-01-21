@@ -13,61 +13,13 @@ interface Props {
 }
 export const ApplicationsTable: FC<Props> = ({ applications }) => {
   const navigate = useNavigate();
-
-  const columns = [
-    {
-      width: 50,
-      render: (app: Application) => (
-        <Avatar size="sm" alt={app.name} src={app?.gravatar} />
-      )
-    },
-    {
-      title: "Name",
-      dataIndex: "name"
-    },
-    {
-      title: "ID",
-      dataIndex: "id"
-    },
-    {
-      title: "Last error",
-      dataIndex: "lastIncidentAt",
-      render: (val: number) => dateUtils.fromNow(val)
-    },
-    {
-      title: "Incidents count",
-      dataIndex: "incidentsCount",
-      render: (val: number) => (
-        <>
-          <BugOutlined className="pr-2" /> {val}
-        </>
-      )
-    },
-    {
-      title: "Errors count",
-      dataIndex: "errorsCount",
-      render: (val: number) => (
-        <>
-          <WarningOutlined className="pr-2" /> {val}
-        </>
-      )
-    },
-    {
-      title: "Members",
-      render: (app: Application) => (
-        <>
-          <TeamOutlined className="pr-2" /> {app.membersCount}
-        </>
-      )
-    }
-  ];
-
   return (
     // hasFetched
     <Table
       collection={applications}
       onRowClick={(item) => navigate(`/dashboard/management/apps/${item.id}`)}
       striped
+      showPagination
     >
       <TableColumn width={15}>
         {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.name} />}

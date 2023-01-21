@@ -1,15 +1,20 @@
 import { joinClasses, conditionClass } from "core/utils/classes";
 import React, { FC } from "react";
+import { TableRowSize } from "./types";
 import { getTraversValue } from "./utils";
 
-export type TableRowSize = "md" | "lg";
+const mapRowSizeStyle: Record<TableRowSize, string> = {
+  md: "py-3 px-3 leading-6 h-7 text-[13px]",
+  lg: "py-4 px-3 leading-7 h-8 text-[16px]"
+};
+
 interface TableRowProps {
   item: any;
   childrens: React.ReactNode[];
   striped?: boolean;
   hovered?: boolean;
   size?: TableRowSize;
-  onRowClick?: () => void;
+  onRowClick?: (item: any) => void;
 }
 export const TableRow: FC<TableRowProps> = ({
   item,
@@ -19,20 +24,21 @@ export const TableRow: FC<TableRowProps> = ({
   size,
   onRowClick
 }) => {
-  const mapRowSizeStyle: Record<TableRowSize, string> = {
-    md: "py-2 px-3 leading-6 h-7 text-[13px]",
-    lg: "py-4 px-3 leading-7 h-8 text-[16px]"
+  const handleOnClick = (e) => {
+    e.preventDefault();
+    onRowClick(item);
   };
+
   return (
     <tr
-      onClick={onRowClick}
+      onClick={handleOnClick}
       className={joinClasses(
         conditionClass(
           striped,
           "odd:bg-secondary",
           "border-t border-b-0 border-l-0 border-r-0 border-solid border-light-secondary"
         ),
-        conditionClass(hovered, "hover:bg-light-secondary duration-200"),
+        conditionClass(hovered, "hover:bg-secondary duration-200"),
         conditionClass(!!onRowClick, "cursor-pointer")
       )}
     >

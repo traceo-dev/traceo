@@ -35,7 +35,7 @@ export const ApplicationMembers = () => {
           }
           isLoading={isLoading}
         >
-          <Table collection={members} striped>
+          <Table collection={members} striped showPagination pageSize={5}>
             <TableColumn width={15}>
               {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.name} />}
             </TableColumn>
