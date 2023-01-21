@@ -1,14 +1,13 @@
-import { Timeline } from "antd";
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 import { CommentItem } from "./CommentItem";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../../types/store";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
 import { Space } from "core/ui-components/Space";
-import { Avatar } from "core/ui-components/Avatar";
 import { useEffect } from "react";
 import { loadIncidentComments } from "../../state/actions";
 import { dispatch } from "store/store";
+import { List } from "core/ui-components/List";
 
 export const CommentsBox = () => {
   const { account } = useSelector((state: StoreState) => state.account);
@@ -29,27 +28,12 @@ export const CommentsBox = () => {
           isEmpty={comments?.length === 0 && hasCommentsFetched}
           emptyView={<DataNotFound label="No comments yet" />}
         >
-          <Timeline className="h-full pl-5 pt-5">
-            {comments?.map((comment, index) => (
-              <Timeline.Item
-                className="pb-0 mb-5 pl-5"
-                key={index}
-                dot={
-                  <Avatar
-                    shape="circle"
-                    alt={comment.sender.name}
-                    src={comment.sender?.gravatar}
-                  />
-                }
-              >
-                <CommentItem
-                  account={account}
-                  comment={comment}
-                  incidentId={incident.id}
-                />
-              </Timeline.Item>
-            ))}
-          </Timeline>
+          <List
+            dataSource={comments}
+            renderItem={(item) => (
+              <CommentItem account={account} comment={item} incidentId={incident.id} />
+            )}
+          />
         </ConditionalWrapper>
       </Space>
       <style>{`

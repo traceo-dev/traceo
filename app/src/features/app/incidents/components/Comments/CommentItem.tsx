@@ -13,6 +13,7 @@ import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
 import { Account } from "types/accounts";
 import { Space } from "core/ui-components/Space";
+import { Avatar } from "core/ui-components/Avatar";
 
 interface Props {
   account: Account;
@@ -54,40 +55,45 @@ export const CommentItem: FC<Props> = ({ account, comment, incidentId }) => {
 
   const editable = account?.id === sender?.id && !isEditMode && !removed;
 
+  const cardHeader = () => {
+    return (
+      <Space className="w-full py-0 justify-between">
+        <Space className="w-full items-center">
+          <Typography size="md" weight="semibold">
+            {sender?.name}
+          </Typography>
+          <Typography size="xxs" className="text-primary">
+            commented {dateUtils.fromNow(createdAt)}
+          </Typography>
+        </Space>
+        {editable && (
+          <div className="flex flex-row gap-5 items-center">
+            <Typography
+              onClick={() => edit()}
+              size="xs"
+              className="cursor-pointer hover:text-blue-500 transition duration-2 min-w-max"
+            >
+              Edit
+            </Typography>
+            <Typography
+              onClick={() => remove()}
+              size="xs"
+              className="cursor-pointer hover:text-red-500 transition duration-2 min-w-max"
+            >
+              Remove
+            </Typography>
+          </div>
+        )}
+      </Space>
+    );
+  };
+
   return (
-    <>
+    <div className="flex flex-row items-start">
+      <Avatar className="mr-3" alt={sender?.name} src={sender?.gravatar} size="md" />
       <Card
-        title={
-          <Space className="w-full py-0 justify-between">
-            <Space className="w-full">
-              <Typography size="xs" weight="semibold">
-                {sender?.name}
-              </Typography>
-              <Typography size="xs" className="text-primary">
-                commented {dateUtils.fromNow(createdAt)}
-              </Typography>
-            </Space>
-            {editable && (
-              <div className="flex flex-row gap-5 items-center">
-                <Typography
-                  onClick={() => edit()}
-                  size="xs"
-                  className="cursor-pointer hover:text-blue-500 transition duration-2 min-w-max"
-                >
-                  Edit
-                </Typography>
-                <Typography
-                  onClick={() => remove()}
-                  size="xs"
-                  className="cursor-pointer hover:text-red-500 transition duration-2 min-w-max"
-                >
-                  Remove
-                </Typography>
-              </div>
-            )}
-          </Space>
-        }
-        className="border border-solid border-[#303030] rounded-lg"
+        title={cardHeader()}
+        className="border border-solid border-[#303030] rounded mb-5"
         bodyClassName={joinClasses("bg-canvas", conditionClass(removed, "hidden"))}
       >
         {!isEditMode && (
@@ -121,6 +127,6 @@ export const CommentItem: FC<Props> = ({ account, comment, incidentId }) => {
           </Space>
         )}
       </Card>
-    </>
+    </div>
   );
 };
