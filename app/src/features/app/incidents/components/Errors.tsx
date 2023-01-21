@@ -1,4 +1,4 @@
-import { Badge } from "antd";
+import { Badge } from "core/ui-components/Badge";
 import { Card } from "core/ui-components/Card";
 import { Table } from "core/ui-components/Table";
 import { TableColumn } from "core/ui-components/Table/TableColumn";
@@ -13,9 +13,10 @@ export const Errors = () => {
   return (
     <Card
       title={
-        <Typography>
-          Errors <Badge count={incident?.errorsDetails?.length} />
-        </Typography>
+        <div className="flex flex-row">
+          <Typography>Errors</Typography>
+          <Badge className="ml-2" count={incident?.errorsDetails?.length} />
+        </div>
       }
       className="h-max"
     >
