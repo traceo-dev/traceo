@@ -47,12 +47,12 @@ export const FormItem: FC<FormItemProps> = (props: FormItemProps) => {
     ) : null,
     isFocusable: !error,
     disabled,
-    className: "text-md"
+    className: "text-sm"
   });
 
   return (
     <div className={joinClasses("flex flex-col text-start mb-5", className)}>
-      {label && <span className="mb-2 font-semibold text-md">{formLabel}</span>}
+      {label && <span className="mb-2 font-semibold text-sm">{formLabel}</span>}
       <div className={conditionClass(!!error, "ring-2 ring-red-500 rounded-md")}>
         {React.cloneElement(children, childrenProps)}
       </div>

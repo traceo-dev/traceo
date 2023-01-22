@@ -18,11 +18,11 @@ interface TypographyProps extends Omit<HTMLProps<HTMLLabelElement>, "size"> {
   weight?: FontWeightType;
 }
 
-const handleTypographyFontSize: Record<FontSizeType, string> = {
+const mapTypographyFontSize: Record<FontSizeType, string> = {
   xxs: "text-2xs",
   xs: "text-xs",
   sm: "text-sm",
-  md: "text-md",
+  md: "text-sm",
   lg: "text-lg",
   xl: "text-xl",
   xxl: "text-2xl",
@@ -31,7 +31,7 @@ const handleTypographyFontSize: Record<FontSizeType, string> = {
 
 export const Typography = forwardRef<HTMLLabelElement, TypographyProps>(
   ({ children, className, size = "md", weight = "normal", ...restProps }, ref) => {
-    const fontSize = handleTypographyFontSize[size];
+    const fontSize = mapTypographyFontSize[size];
     const fontWeight = `font-${weight}`;
 
     return (

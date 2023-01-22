@@ -9,22 +9,12 @@ interface Props {
 }
 export const Menu: FC<Props> = ({ routes, className }) => {
   return (
-    <>
-      <nav className={joinClasses("menu", className)}>
-        {routes
-          .filter((route) => !route.private)
-          .map((menu, index) => (
-            <MenuItem menu={menu} key={index} />
-          ))}
-      </nav>
-      <style>{`
-        .menu {
-          position: relative;
-          display: flex;
-          height: 41px;
-          border-bottom: 1px solid var(--color-border);
-        }        
-      `}</style>
-    </>
+    <nav className={joinClasses("relative flex h-10", className)}>
+      {routes
+        .filter((route) => !route.private)
+        .map((menu, index) => (
+          <MenuItem menu={menu} key={index} />
+        ))}
+    </nav>
   );
 };

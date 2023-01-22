@@ -1,7 +1,7 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { conditionClass, joinClasses } from "core/utils/classes";
 import { ButtonHTMLAttributes, forwardRef } from "react";
-import { handleButtonVariantStyle, handleButtonSize } from "./styles";
+import { mapButtonVariantStyle, mapButtonSize } from "./styles";
 import { ButtonVariant, ButtonSize } from "./types";
 
 interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size"> {
@@ -23,11 +23,11 @@ export const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
     ...restProps
   } = props;
 
-  const buttonVariantStyle = handleButtonVariantStyle[variant];
-  const buttonSizeStyle = handleButtonSize[size];
+  const buttonVariantStyle = mapButtonVariantStyle[variant];
+  const buttonSizeStyle = mapButtonSize[size];
 
   const classNames = joinClasses(
-    "relative flex inline-flex border-2 items-center font-semibold text-white whitespace-nowrap text-center cursor-pointer transition-all duration-300 ease-in-out rounded-sm border-solid",
+    "max-w-min relative flex inline-flex border-2 items-center font-semibold text-white whitespace-nowrap text-center cursor-pointer transition-all duration-300 ease-in-out rounded-sm border-solid",
     buttonVariantStyle,
     buttonSizeStyle,
     conditionClass(disabled, "opacity-50 cursor-not-allowed"),

@@ -5,8 +5,8 @@ import ReactECharts from "echarts-for-react";
 import {
   commonSeriesOptions,
   getLogExploreOptions,
-  handleLogColor,
-  handleLogName
+  mapLogColor,
+  mapLogName
 } from "./util";
 
 interface Props {
@@ -24,8 +24,8 @@ export const LogsExplorePlot: FC<Props> = ({ logs, startDate, endDate }) => {
   const series = Object.values(LogLevel).reduce((acc, level) => {
     acc.push({
       data: data.level[level],
-      color: handleLogColor[level],
-      name: handleLogName[level],
+      color: mapLogColor[level],
+      name: mapLogName[level],
       ...commonSeriesOptions
     });
 

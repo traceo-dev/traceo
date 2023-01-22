@@ -23,7 +23,7 @@ export enum AppsSortBy {
   LAST_ERROR = "lastIncidentAt"
 }
 
-export const handleAppSortLabel: Record<AppsSortBy, string> = {
+export const mapAppSortLabel: Record<AppsSortBy, string> = {
   [AppsSortBy.CREATED_AT]: "Created at",
   [AppsSortBy.LAST_UPDATE]: "Last update",
   [AppsSortBy.LAST_ERROR]: "Last error"
@@ -31,7 +31,7 @@ export const handleAppSortLabel: Record<AppsSortBy, string> = {
 
 const sortOptions = Object.values(AppsSortBy).map((sort) => ({
   value: sort,
-  label: handleAppSortLabel[sort]
+  label: mapAppSortLabel[sort]
 }));
 
 export const AppsTable = () => {

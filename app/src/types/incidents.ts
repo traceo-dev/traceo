@@ -14,7 +14,7 @@ export enum IncidentStatusSearch {
   ALL = "all"
 }
 
-export const handleIncidentStatus: Record<IncidentStatusSearch, string> =
+export const mapIncidentStatus: Record<IncidentStatusSearch, string> =
 {
   [IncidentStatusSearch.RESOLVED]: "Resolved",
   [IncidentStatusSearch.UNRESOLVED]: "Unresolved",
@@ -29,7 +29,7 @@ export enum IncidentSortBy {
   ERRORS_COUNT = "errors_count"
 }
 
-export const handleIncidentSort: Record<IncidentSortBy, string> = {
+export const mapIncidentSort: Record<IncidentSortBy, string> = {
   [IncidentSortBy.LAST_SEEN]: "Last seen",
   [IncidentSortBy.FIRST_SEEN]: "First seen",
   [IncidentSortBy.STATUS]: "Status",

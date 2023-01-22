@@ -24,7 +24,7 @@ export const PageHeader: FC<PanelHeaderProps> = ({
 
         <div className="inline-grid gap-0">
           <span className="pt-2 text-2xl">{title}</span>
-          <span className="font-normal text-md">{description}</span>
+          <span className="font-normal text-sm">{description}</span>
         </div>
       </Space>
       {suffix}

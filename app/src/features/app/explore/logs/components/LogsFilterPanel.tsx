@@ -1,9 +1,9 @@
-import { handleLogName } from "../../../../../core/components/Plots/components/Logs/util";
+import { mapLogName } from "../../../../../core/components/Plots/components/Logs/util";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { LogLevel } from "../../../../../types/logs";
 import { StoreState } from "../../../../../types/store";
-import { handleLogIcon } from "./LogContainer";
+import { mapLogIcon } from "./LogContainer";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
@@ -30,9 +30,9 @@ export const LogsFilterPanel: FC<Props> = ({ checkedLevels, setCheckedLevels }) 
           {Object.values(LogLevel).map((level, index) => (
             <Row className="mb-2 justify-between items-center" key={index}>
               <Space>
-                <Typography className="mr-1">{handleLogIcon[level]}</Typography>
+                <Typography className="mr-1">{mapLogIcon[level]}</Typography>
                 <Typography>
-                  {handleLogName[level]} ({calculateCountByLevel(level)})
+                  {mapLogName[level]} ({calculateCountByLevel(level)})
                 </Typography>
               </Space>
               <Checkbox

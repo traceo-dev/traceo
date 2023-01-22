@@ -12,7 +12,7 @@ interface Props {
 }
 
 export const TraceoLogo: FC<Props> = ({ size, onClick, name = false, className }) => {
-  const handleLogoSize: Record<Size, string> = {
+  const mapLogoSize: Record<Size, string> = {
     medium: "w-12 h-12",
     small: "w-6 h-6"
   };
@@ -23,7 +23,7 @@ export const TraceoLogo: FC<Props> = ({ size, onClick, name = false, className }
   };
 
   const typographyNameSize: Record<Size, string> = {
-    medium: "text-md",
+    medium: "text-sm",
     small: "text-sm"
   };
 
@@ -31,7 +31,7 @@ export const TraceoLogo: FC<Props> = ({ size, onClick, name = false, className }
     <Space className={joinClasses(className)} onClick={() => onClick()}>
       <div
         className={joinClasses(
-          handleLogoSize[size],
+          mapLogoSize[size],
           "bg-yellow-500 flex justify-center items-center rounded-sm"
         )}
       >

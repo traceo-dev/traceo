@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { handleIncidentStatus, IncidentStatus } from "../../types/incidents";
+import { mapIncidentStatus, IncidentStatus } from "../../types/incidents";
 import { Tag, TagColorType } from "core/ui-components/Tag";
 import { joinClasses } from "core/utils/classes";
 import {
-  handleIncidentStatusIcon,
-  handleIncidentTwBgColor
+  mapIncidentStatusIcon,
+  mapIncidentTwBgColor
 } from "features/app/incidents/components/utils";
 
 interface Props {
@@ -21,11 +21,11 @@ const tagColor: Record<IncidentStatus, TagColorType> = {
 export const IncidentStatusTag: FC<Props> = ({ status, className }) => {
   return (
     <Tag
-      icon={handleIncidentStatusIcon[status]}
+      icon={mapIncidentStatusIcon[status]}
       color={tagColor[status]}
-      className={joinClasses(handleIncidentTwBgColor[status], className)}
+      className={joinClasses(mapIncidentTwBgColor[status], className)}
     >
-      {handleIncidentStatus[status]}
+      {mapIncidentStatus[status]}
     </Tag>
   );
 };

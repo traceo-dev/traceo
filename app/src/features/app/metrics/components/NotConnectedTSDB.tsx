@@ -11,7 +11,7 @@ export const NotConnectedTSDB = () => {
   const navigate = useNavigate();
 
   return (
-    <Space className="w-full justify-center text-center" direction="vertical">
+    <Space className="w-full justify-center text-center py-12" direction="vertical">
       <DatabaseOutlined className="text-5xl" />
       <Typography size="xxl" weight="bold">
         Metrics are not available
@@ -19,12 +19,14 @@ export const NotConnectedTSDB = () => {
       <Typography>
         Configure a connection to the time series database to enable metrics collection.
       </Typography>
-      <Button
-        onClick={() => navigate(`/app/${application.id}/metric.name/settings/datasource`)}
-        className="mt-5"
-      >
-        Configure
-      </Button>
+      <Space className="w-full justify-center">
+        <Button
+          onClick={() => navigate(`/app/${application.id}/settings/datasource`)}
+          className="mt-5"
+        >
+          Configure
+        </Button>
+      </Space>
     </Space>
   );
 };

@@ -10,7 +10,12 @@ module.exports = {
         primary: "#181b1f",
         secondary: "#22252b",
         "light-secondary": "#2d3139",
-        canvas: "#111217"
+        canvas: "#111217",
+        link: "#6e9fff",
+        contrast: "#ffffff"
+      },
+      fontSize: {
+        "2xs": "11px"
       }
     }
   },

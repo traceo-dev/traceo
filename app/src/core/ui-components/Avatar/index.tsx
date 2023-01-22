@@ -12,13 +12,13 @@ interface AvatarProps {
   className?: string;
 }
 
-const handleSize: Record<AvatarSize, string> = {
+const mapSize: Record<AvatarSize, string> = {
   sm: "w-5 h-5",
   md: "w-10 h-10",
   lg: "w-20 h-20"
 };
 
-const handleShape: Record<AvatarShape, string> = {
+const mapShape: Record<AvatarShape, string> = {
   circle: "rounded-full",
   square: "rounded"
 };
@@ -32,8 +32,8 @@ export const Avatar: FC<AvatarProps> = ({
 }) => {
   const initials = alt?.substring(0, 1).toUpperCase();
 
-  const sizeStyle = handleSize[size];
-  const shapeStyle = handleShape[shape];
+  const sizeStyle = mapSize[size];
+  const shapeStyle = mapShape[shape];
 
   return (
     <img

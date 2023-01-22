@@ -63,7 +63,7 @@ export const Confirm: FC<Props> = ({
       <Modal open={isOpen} title={title} onCancel={onCancel}>
         <>
           <Space className="w-full" direction="vertical">
-            <Space className="w-full text-md">{description}</Space>
+            <Space className="w-full text-sm">{description}</Space>
             {auth && (
               <Space className="w-full pt-5" direction="vertical">
                 <Typography>

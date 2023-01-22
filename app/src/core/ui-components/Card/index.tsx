@@ -31,7 +31,7 @@ export const Card: FC<PropsWithChildren<CardProps>> = ({
   return (
     <div
       className={joinClasses(
-        "w-full p-0 m-0 mb-1 text-md leading-5 relative bg-primary h-full",
+        "w-full p-0 m-0 mb-1 text-sm leading-5 relative bg-primary h-full",
         className
       )}
       {...rest}

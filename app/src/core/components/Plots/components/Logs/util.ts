@@ -3,7 +3,7 @@ import { EChartsOption, SeriesOption } from "echarts";
 import { LogLevel } from "../../../../../types/logs";
 import { tooltipOptions } from "../../utils";
 
-export const handleLogName: Record<LogLevel, string> = {
+export const mapLogName: Record<LogLevel, string> = {
     [LogLevel.Log]: "Log",
     [LogLevel.Debug]: "Debug",
     [LogLevel.Info]: "Info",
@@ -11,7 +11,7 @@ export const handleLogName: Record<LogLevel, string> = {
     [LogLevel.Warn]: "Warning"
 };
 
-export const handleLogColor: Record<LogLevel, string> = {
+export const mapLogColor: Record<LogLevel, string> = {
     [LogLevel.Log]: "#2b6cb0",
     [LogLevel.Debug]: "#f6993f",
     [LogLevel.Info]: "#176537",

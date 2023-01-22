@@ -108,7 +108,7 @@ export enum MetricValueEnum {
     INT_FIELD = "intField"
 };
 
-export const handleTimeLimitLabel: Record<number, string> = {
+export const mapTimeLimitLabel: Record<number, string> = {
     1: "Last 1 hour",
     2: "Last 2 hours",
     3: "Last 3 hours",

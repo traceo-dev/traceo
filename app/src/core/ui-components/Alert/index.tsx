@@ -21,14 +21,14 @@ interface AlertProps {
   showIcon?: boolean;
 }
 
-const handleAlertStyle: Record<AlertType, string> = {
+const mapAlertStyle: Record<AlertType, string> = {
   error: "bg-red-900 text-red-100",
   info: "bg-blue-900 text-blue-100",
   success: "bg-green-900 text-green-100",
   warning: "bg-orange-900 text-orange-100"
 };
 
-const handleAlertIcon: Record<AlertType, JSX.Element> = {
+const mapAlertIcon: Record<AlertType, JSX.Element> = {
   error: <CloseCircleFilled />,
   info: <InfoCircleFilled />,
   success: <CheckCircleFilled />,
@@ -52,21 +52,21 @@ export const Alert: FC<AlertProps> = (props: AlertProps) => {
     return null;
   }
 
-  const alertTypeStyle = handleAlertStyle[type];
+  const alertTypeStyle = mapAlertStyle[type];
 
   const handleClose = (e?: React.MouseEvent<HTMLButtonElement>) => {
     setClosed(true);
     onClose(e);
   };
 
-  const alertIcon = !icon ? handleAlertIcon[type] : icon;
+  const alertIcon = !icon ? mapAlertIcon[type] : icon;
 
   const alertMessage =
     typeof message === "string" ? <span className="text-xs">{message}</span> : message;
 
   const alertTitle =
     typeof title === "string" ? (
-      <span className="text-md tracking-wide">{title}</span>
+      <span className="text-sm tracking-wide">{title}</span>
     ) : (
       title
     );

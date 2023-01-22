@@ -10,7 +10,7 @@ export const InputArea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => 
 
   return (
     <div className={joinClasses(className, "grid grid-cols")}>
-      {label && <span className="text-start font-semibold text-md mb-2">{label}</span>}
+      {label && <span className="text-start font-semibold text-sm mb-2">{label}</span>}
       <div className="relative">
         <textarea
           ref={ref}

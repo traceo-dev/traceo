@@ -14,14 +14,14 @@ interface NotificationItemProps {
   notification: NotifyItem;
 }
 
-const handleNotifyIcon: Record<NotifyType, JSX.Element> = {
+const mapNotifyIcon: Record<NotifyType, JSX.Element> = {
   error: <CloseCircleFilled />,
   info: <InfoCircleFilled />,
   success: <CheckCircleFilled />,
   warning: <ExclamationCircleFilled />
 };
 
-const handleNotifyStyle: Record<NotifyType, string> = {
+const mapNotifyStyle: Record<NotifyType, string> = {
   error: "bg-red-900",
   info: "bg-blue-900",
   success: "bg-green-900",
@@ -50,10 +50,10 @@ export const NotificationItem: FC<NotificationItemProps> = ({ notification }) =>
       className={joinClasses(
         "rounded-md w-full py-3 px-5 flex flex-row items-center cursor-pointer w-[320px]",
         "transition duration-300 ease-in-out transform",
-        handleNotifyStyle[type]
+        mapNotifyStyle[type]
       )}
     >
-      <span className="pr-3">{handleNotifyIcon[type]}</span>
+      <span className="pr-3">{mapNotifyIcon[type]}</span>
       <div className="flex flex-col text-xs gap-y-1">
         <span className="font-semibold">{title}</span>
         {description && <span className="font-normal">{description}</span>}

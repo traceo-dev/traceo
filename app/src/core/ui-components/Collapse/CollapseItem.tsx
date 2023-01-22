@@ -53,7 +53,7 @@ export const CollapseItem: FC<CollapseItemProps> = ({
       <div
         onClick={() => setCollapsed(!collapsed)}
         className={joinClasses(
-          "text-md items-center w-full flex flex-row justify-between p-3 cursor-pointer",
+          "text-sm items-center w-full flex flex-row justify-between p-3 cursor-pointer",
           conditionClass(
             !ghost,
             "rounded bg-secondary border border-solid border-light-secondary"

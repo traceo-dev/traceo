@@ -17,7 +17,7 @@ export const AppSettingsCredentialsPage = () => {
         <Typography
           // copyable
           size="xs"
-          className="bg-canvas p-3 main-border rounded-md"
+          className="bg-canvas p-3 rounded-md"
         >
           {application?.dsn}
         </Typography>

@@ -36,7 +36,7 @@ export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
         conditionClass(!disabled, "duration-200 hover:text-white hover:bg-primary")
       )}
     >
-      <Space className="w-full px-3 text-md">
+      <Space className="w-full px-3 text-sm">
         {icon}
         <Typography className="pl-2 cursor-pointer">{label}</Typography>
       </Space>

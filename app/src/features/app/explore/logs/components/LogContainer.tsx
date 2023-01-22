@@ -12,7 +12,7 @@ import { FC, useState } from "react";
 import { LogLevel, TraceoLog } from "../../../../../types/logs";
 import { Typography } from "core/ui-components/Typography";
 
-export const handleLogIcon: Record<LogLevel, JSX.Element> = {
+export const mapLogIcon: Record<LogLevel, JSX.Element> = {
   [LogLevel.Info]: <InfoCircleOutlined className="text-blue-500" />,
   [LogLevel.Debug]: <BugOutlined className="text-amber-500" />,
   [LogLevel.Error]: <ExclamationCircleOutlined className="text-red-500" />,
@@ -45,7 +45,7 @@ export const LogRow: FC<LogProps> = ({ log }) => {
       >
         <td className="col-span-1">
           {isSelected ? <DownOutlined /> : <RightOutlined />}
-          <Typography className="ml-4">{handleLogIcon[log.level]}</Typography>
+          <Typography className="ml-4">{mapLogIcon[log.level]}</Typography>
         </td>
         <td className="col-span-2">{log.timestamp}</td>
         <td className="col-span-7">

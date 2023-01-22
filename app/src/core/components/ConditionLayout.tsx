@@ -1,7 +1,7 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Space } from "core/ui-components/Space";
 import { FC } from "react";
-import { joinClasses } from "../../core/utils/classes";
+import styled from "styled-components";
 
 interface Props {
   isLoading?: boolean;
@@ -14,8 +14,7 @@ export const ConditionalWrapper: FC<Props> = ({
   isLoading = false,
   isEmpty = false,
   emptyView = null,
-  children,
-  className = ""
+  children
 }) => {
   if (isLoading) {
     return (
@@ -26,8 +25,17 @@ export const ConditionalWrapper: FC<Props> = ({
   }
 
   if (isEmpty) {
-    return <Space className={joinClasses("positoned-div", className)}>{emptyView}</Space>;
+    return <PositionedWrapper>{emptyView}</PositionedWrapper>;
   }
 
   return <>{children}</>;
 };
+
+const PositionedWrapper = styled.div`
+  position: relative;
+  margin-block: 25px;
+  width: 100% !important;
+  justify-content: center !important;
+  text-align: center;
+  padding-inline: 24%;
+`;

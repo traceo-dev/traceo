@@ -43,7 +43,7 @@ export const RecentIncidentsSection = () => {
         extra={
           <Link
             onClick={() => navigate(`/app/${application.id}/incidents`)}
-            className="text-xs font-semibold color-primary"
+            className="text-xs font-semibold text-primary"
           >
             View
           </Link>

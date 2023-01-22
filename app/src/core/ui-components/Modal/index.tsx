@@ -59,7 +59,7 @@ export const Modal: FC<ModalProps> = (props: ModalProps) => {
         </div>
       )}
 
-      <div className="p-6 text-md">
+      <div className="p-6 text-sm">
         {children}
         {(formId || onOk) && (
           <ModalButtons

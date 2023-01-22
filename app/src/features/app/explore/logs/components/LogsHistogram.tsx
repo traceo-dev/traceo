@@ -76,7 +76,7 @@ export const LogsHistogram = () => {
           <Space className="w-full justify-end">
             <Tooltip title="- 0.5h">
               <Button variant="ghost" onClick={onClickLeft} disabled={isActiveLeftButton}>
-                <LeftOutlined className="text-md" />
+                <LeftOutlined className="text-sm" />
               </Button>
             </Tooltip>
 
@@ -86,7 +86,7 @@ export const LogsHistogram = () => {
                 onClick={onClickRight}
                 disabled={isActiveRightButton}
               >
-                <RightOutlined className="text-md" />
+                <RightOutlined className="text-sm" />
               </Button>
             </Tooltip>
           </Space>

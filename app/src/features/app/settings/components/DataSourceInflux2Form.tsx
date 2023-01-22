@@ -67,6 +67,7 @@ export const DataSourceInflux2Form = () => {
         disabled={isViewer}
         onSubmit={update}
         defaultValues={defaultValues}
+        className="mt-3"
       >
         {({ register, errors }) => (
           <>
@@ -131,11 +132,7 @@ export const DataSourceInflux2Form = () => {
         type="info"
         className="mt-12"
         message={
-          <Link
-            href={INFLUX2_DOCS}
-            target="_blank"
-            className="text-white hover:text-gray-200"
-          >
+          <Link href={INFLUX2_DOCS} target="_blank" className="hover:text-gray-200">
             Official documentation
           </Link>
         }

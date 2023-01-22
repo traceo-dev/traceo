@@ -9,7 +9,7 @@ export const Link = forwardRef<
     <a
       ref={ref}
       {...restProps}
-      className={joinClasses(className, "text-link cursor-pointer hover:text-blue-500")}
+      className={joinClasses("text-white cursor-pointer hover:text-blue-500", className)}
     >
       {children}
     </a>
