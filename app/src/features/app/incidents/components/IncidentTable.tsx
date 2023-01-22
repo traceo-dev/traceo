@@ -1,6 +1,5 @@
 import { UserOutlined } from "@ant-design/icons";
 import { FC } from "react";
-import { IncidentsListPlot } from "../../../../core/components/Plots/components/IncidentsListPlot";
 import { Incident } from "../../../../types/incidents";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -14,6 +13,7 @@ import { Avatar } from "core/ui-components/Avatar";
 import { Tooltip } from "core/ui-components/Tooltip";
 import { Table } from "core/ui-components/Table";
 import { TableColumn } from "core/ui-components/Table/TableColumn";
+import { AppIncidentsListPlot } from "core/components/Plots";
 
 interface Props {
   incidents: Incident[];
@@ -40,7 +40,7 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
         {({ item }) => <IncidentMainColumn incident={item} />}
       </TableColumn>
       <TableColumn name="Graph">
-        {({ item }) => <IncidentsListPlot errors={item?.errorsDetails} />}
+        {({ item }) => <AppIncidentsListPlot errors={item?.errorsDetails} />}
       </TableColumn>
       <TableColumn width={25} name="Errors" value="errorsCount" />
       <TableColumn width={25} name="Assigned">

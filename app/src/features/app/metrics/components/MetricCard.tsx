@@ -1,5 +1,4 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { MetricPlot } from "../../../../core/components/Plots/components/Metrics/MetricPlot";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +7,7 @@ import { StoreState } from "../../../../types/store";
 import { Typography } from "core/ui-components/Typography";
 import { Space } from "core/ui-components/Space";
 import { Tooltip } from "core/ui-components/Tooltip";
+import { MetricCardPlot } from "core/components/Plots";
 
 interface MetricCardProps {
   metric: IMetric;
@@ -33,7 +33,7 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, hrCount }) => {
           )}
         </Space>
 
-        <MetricPlot metric={metric} hrCount={hrCount} />
+        <MetricCardPlot metric={metric} hrCount={hrCount} />
       </Space>
     </div>
   );

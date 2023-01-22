@@ -1,7 +1,6 @@
-import { FC, useEffect } from "react";
+import { FC, lazy, useEffect } from "react";
 import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
 import { useApi } from "../../../lib/useApi";
-import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 import dateUtils from "../../../../core/utils/date";
 import { statisticUtils } from "../../../../core/utils/statistics";
@@ -10,7 +9,8 @@ import { TotalOverviewType } from "../../../../features/app/overview/components/
 interface Props {
   id: string;
 }
-export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
+const ReactECharts = lazy(() => import("echarts-for-react"));
+const IncidentsAppListPlot: FC<Props> = ({ id }) => {
   const { data: stats, execute } = useApi<TotalOverviewType>({
     url: "/api/statistics/total",
     params: {
@@ -85,3 +85,5 @@ export const IncidentsAppListPlot: FC<Props> = ({ id }) => {
     />
   );
 };
+
+export default IncidentsAppListPlot;

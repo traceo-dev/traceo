@@ -1,25 +1,23 @@
 import { useApi } from "../../../../core/lib/useApi";
 import { SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
-import { IncidentsOverviewPlot } from "../../../../core/components/Plots/components/IncidentsOverviewPlot";
-import { PieData } from "../../../../types/statistics";
 import { dispatch } from "../../../../store/store";
 import { ErrorDetails } from "../../../../types/incidents";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { loadApplication } from "../../../../features/app/state/application/actions";
 import { Card } from "core/ui-components/Card";
+import { AppOverviewPlot } from "core/components/Plots";
 
 export interface TotalOverviewType {
   errors: ErrorDetails[];
-  pie: PieData[];
 }
 
 export const OverviewSection = () => {
   const { id } = useParams();
 
   const {
-    data: stats,
+    data: dataSource,
     isLoading,
     execute: get
   } = useApi<TotalOverviewType>({
@@ -42,10 +40,10 @@ export const OverviewSection = () => {
       >
         <ConditionalWrapper
           emptyView={<DataNotFound />}
-          isEmpty={stats?.pie?.length === 0}
+          isEmpty={dataSource?.errors?.length === 0}
           isLoading={isLoading}
         >
-          <IncidentsOverviewPlot stats={stats?.errors} />
+          <AppOverviewPlot stats={dataSource?.errors} />
         </ConditionalWrapper>
       </Card>
     </div>

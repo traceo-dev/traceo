@@ -1,21 +1,22 @@
 import { Space } from "core/ui-components/Space";
 import dateUtils from "../../../utils/date";
 import { statisticUtils } from "../../../utils/statistics";
-import { normalizePlotData, toolboxOptions, tooltipOptions } from "../utils";
-import ReactECharts from "echarts-for-react";
+import { normalizePlotData, tooltipOptions } from "../utils";
 import { EChartsOption, graphic } from "echarts";
 import { ErrorDetails } from "../../../../types/incidents";
-import { useMemo } from "react";
+import { lazy, useMemo } from "react";
 
-export const IncidentsOverviewPlot = ({ stats }: { stats: ErrorDetails[] }) => {
-  const plotData = useMemo(
-    () => statisticUtils.parseIncidentsTablePlotData(stats),
+const ReactECharts = lazy(() => import("echarts-for-react"));
+
+const IncidentsOverviewPlot = ({ stats }: { stats: ErrorDetails[] }) => {
+  const dataSource = useMemo(
+    () => normalizePlotData(statisticUtils.parseIncidentsTablePlotData(stats)),
     [stats]
   );
 
   const option: EChartsOption = {
     dataset: {
-      source: normalizePlotData(plotData)
+      source: dataSource
     },
     animation: false,
     toolbox: {
@@ -100,3 +101,5 @@ export const IncidentsOverviewPlot = ({ stats }: { stats: ErrorDetails[] }) => {
     </Space>
   );
 };
+
+export default IncidentsOverviewPlot;

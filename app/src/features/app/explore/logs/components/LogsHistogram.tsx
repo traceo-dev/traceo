@@ -1,8 +1,7 @@
 import { LeftOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
 import dayjs from "dayjs";
-import { LogsExplorePlot } from "../../../../../core/components/Plots/components/Logs/LogsExplorePlot";
 import { loadApplicationLogs } from "../state/actions";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { dispatch } from "../../../../../store/store";
@@ -18,6 +17,8 @@ import { Button } from "core/ui-components/Button";
 import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
 import { Tooltip } from "core/ui-components/Tooltip";
+import { statisticUtils } from "core/utils/statistics";
+import { LogsPlot } from "core/components/Plots";
 
 export const LogsHistogram = () => {
   const { id } = useParams();
@@ -59,6 +60,10 @@ export const LogsHistogram = () => {
   );
   const isActiveLeftButton = dayjs(startDate).isBefore(dayjs().subtract(3, "d").unix());
 
+  const dataSource = useMemo(() => {
+    return statisticUtils.parseExploreLogsPlotData(startDate, endDate, logs);
+  }, [logs]);
+
   return (
     <div className="grid grid-cols-12 w-full mb-1">
       <div className="col-span-2 h-full mr-1">
@@ -92,7 +97,7 @@ export const LogsHistogram = () => {
           </Space>
 
           <ConditionalWrapper isLoading={!hasFetched && !logs}>
-            <LogsExplorePlot logs={logs} startDate={startDate} endDate={endDate} />
+            <LogsPlot logs={dataSource} />
           </ConditionalWrapper>
         </Card>
       </div>

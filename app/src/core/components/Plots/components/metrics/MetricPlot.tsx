@@ -1,11 +1,9 @@
-import { FC, useEffect } from "react";
-import ReactECharts from "echarts-for-react";
+import { FC, lazy, useEffect } from "react";
 import { IMetric, MetricsResponse, METRIC_UNIT } from "../../../../../types/metrics";
 import { MetricLoading } from "../../../../../core/components/MetricLoading";
 import { useApi } from "../../../../../core/lib/useApi";
 import { StoreState } from "../../../../../types/store";
 import { useSelector } from "react-redux";
-import { EChartsOption } from "echarts";
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 import { buildDatasource, buildSeries, commonOptions } from "./utils";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
@@ -14,8 +12,13 @@ interface Props {
   metric: IMetric;
   hrCount: number;
 }
-export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
+const ReactECharts = lazy(() => import("echarts-for-react"));
+const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
   const { application } = useSelector((state: StoreState) => state.application);
+
+  useEffect(() => {
+    execute();
+  }, [hrCount, metric]);
 
   const seriesFields =
     metric?.series?.reduce<string[]>((acc, serie) => {
@@ -26,7 +29,7 @@ export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
 
   const {
     data: datasource,
-    isLoading,
+    // isLoading,
     execute
   } = useApi<MetricsResponse[]>({
     url: `/api/metrics/${application.id}/datasource`,
@@ -36,15 +39,11 @@ export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
     }
   });
 
-  useEffect(() => {
-    execute();
-  }, [hrCount, metric]);
-
   if (!datasource) {
     return <MetricLoading />;
   }
 
-  const options: EChartsOption = {
+  const options = {
     ...commonOptions({
       unit: metric.unit as METRIC_UNIT,
       xAxisInterval: 50
@@ -64,7 +63,7 @@ export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
 
   return (
     <ConditionalWrapper
-      isLoading={isLoading}
+      // isLoading={isLoading}
       isEmpty={datasource.length === 0}
       emptyView={<DataNotFound className="text-2xs" label="Data not found" />}
     >
@@ -77,3 +76,5 @@ export const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
     </ConditionalWrapper>
   );
 };
+
+export default MetricPlot;

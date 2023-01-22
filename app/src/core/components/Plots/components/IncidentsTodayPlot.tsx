@@ -1,14 +1,15 @@
 import dayjs from "dayjs";
-import { FC } from "react";
+import { FC, lazy } from "react";
 import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
-import ReactECharts from "echarts-for-react";
 import { EChartsOption, graphic } from "echarts";
 import { PlotData } from "../../../../core/utils/statistics";
+
+const ReactECharts = lazy(() => import("echarts-for-react"));
 
 interface Props {
   stats: PlotData[];
 }
-export const IncidentsTodayPlot: FC<Props> = ({ stats }) => {
+const IncidentsTodayPlot: FC<Props> = ({ stats }) => {
   const plotData = normalizePlotData(stats);
 
   const option: EChartsOption = {
@@ -123,3 +124,5 @@ export const IncidentsTodayPlot: FC<Props> = ({ stats }) => {
     />
   );
 };
+
+export default IncidentsTodayPlot;

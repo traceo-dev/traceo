@@ -1,7 +1,6 @@
 import { SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import { useApi } from "../../../../core/lib/useApi";
-import { IncidentsTodayPlot } from "../../../../core/components/Plots/components/IncidentsTodayPlot";
 import { ErrorDetails } from "../../../../types/incidents";
 import { statisticUtils } from "../../../../core/utils/statistics";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
@@ -10,25 +9,22 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
+import { AppIncidentsTodayPlot } from "core/components/Plots";
 
 export const TodaySection = () => {
   const { id } = useParams();
   const { application } = useSelector((state: StoreState) => state.application);
 
   const {
-    data: stats,
+    data: dataSource,
     isLoading,
-    execute: get
+    execute: reloadDailyStats
   } = useApi<ErrorDetails[]>({
     url: "/api/statistics/daily",
     params: {
       id
     }
   });
-
-  const reloadDailyStats = () => {
-    get();
-  };
 
   const lastIncidentAt =
     application?.lastIncidentAt && dateUtils.isTodayDate(application?.lastIncidentAt)
@@ -40,8 +36,8 @@ export const TodaySection = () => {
       <div className="col-span-4 h-full">
         <Card title="Today">
           <ConditionalWrapper isLoading={isLoading}>
-            <IncidentsTodayPlot
-              stats={statisticUtils.parseErrorsToTodayPlotSource(stats).data}
+            <AppIncidentsTodayPlot
+              stats={statisticUtils.parseErrorsToTodayPlotSource(dataSource).data}
             />
           </ConditionalWrapper>
         </Card>
@@ -57,7 +53,7 @@ export const TodaySection = () => {
             >
               <ConditionalWrapper isLoading={isLoading}>
                 <Typography size="xxl" weight="semibold">
-                  {statisticUtils.parseErrorsToTodayPlotSource(stats).count}
+                  {statisticUtils.parseErrorsToTodayPlotSource(dataSource).count}
                 </Typography>
               </ConditionalWrapper>
             </Card>

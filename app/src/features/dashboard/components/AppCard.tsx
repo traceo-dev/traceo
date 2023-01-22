@@ -1,8 +1,7 @@
 import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
 import { loadApplication } from "../../../features/app/state/application/actions";
-import { FC } from "react";
+import { FC, lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
-import { IncidentsAppListPlot } from "../../../core/components/Plots/components/IncidentsAppListPlot";
 import dateUtils from "../../../core/utils/date";
 import { dispatch } from "../../../store/store";
 import { Application, MemberApplication } from "../../../types/application";
@@ -11,6 +10,7 @@ import { ListCard } from "core/ui-components/Card/ListCard";
 import { Space } from "core/ui-components/Space";
 import { Avatar } from "core/ui-components/Avatar";
 import { Tooltip } from "core/ui-components/Tooltip";
+import { SmallAppIncidentsPlot } from "core/components/Plots";
 
 interface Props {
   app: MemberApplication;
@@ -42,7 +42,7 @@ export const AppCard: FC<Props> = ({ app }) => {
             <AppDetails {...app} />
           </Space>
         </Space>
-        <IncidentsAppListPlot id={app.appId} />
+        <SmallAppIncidentsPlot id={app.appId} />
       </Space>
     </ListCard>
   );

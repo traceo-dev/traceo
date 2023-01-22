@@ -1,7 +1,5 @@
-import { statisticUtils } from "../../../../utils/statistics";
-import { FC, useMemo } from "react";
-import { LogLevel, TraceoLog } from "../../../../../types/logs";
-import ReactECharts from "echarts-for-react";
+import { FC, lazy } from "react";
+import { LogLevel } from "../../../../../types/logs";
 import {
   commonSeriesOptions,
   getLogExploreOptions,
@@ -10,20 +8,16 @@ import {
 } from "./util";
 
 interface Props {
-  logs: TraceoLog[];
-  startDate: number;
-  endDate: number;
+  logs: {
+    level: Record<LogLevel, number[]>;
+    xAxis: number[];
+  };
 }
-
-export const LogsExplorePlot: FC<Props> = ({ logs, startDate, endDate }) => {
-  const data = useMemo(
-    () => statisticUtils.parseExploreLogsPlotData(startDate, endDate, logs),
-    [startDate, endDate, logs]
-  );
-
+const ReactECharts = lazy(() => import("echarts-for-react"));
+const LogsExplorePlot: FC<Props> = ({ logs }) => {
   const series = Object.values(LogLevel).reduce((acc, level) => {
     acc.push({
-      data: data.level[level],
+      data: logs.level[level],
       color: mapLogColor[level],
       name: mapLogName[level],
       ...commonSeriesOptions
@@ -35,7 +29,9 @@ export const LogsExplorePlot: FC<Props> = ({ logs, startDate, endDate }) => {
   return (
     <ReactECharts
       style={{ height: "150px" }}
-      option={getLogExploreOptions(data.xAxis, series)}
+      option={getLogExploreOptions(logs.xAxis, series)}
     />
   );
 };
+
+export default LogsExplorePlot;

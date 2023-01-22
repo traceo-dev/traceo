@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { dispatch } from "../../../store/store";
 import { loadMetric } from "./state/actions";
-import { MetricPreviewPlot } from "../../../core/components/Plots/components/Metrics/MetricPreviewPlot";
 import { conditionClass } from "../../../core/utils/classes";
 import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
 import { MetricPreviewCustomizeForm } from "./components/MetricPreviewCustomizeForm";
@@ -23,6 +22,7 @@ import ReactMarkdown from "react-markdown";
 import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
 import { Tooltip } from "core/ui-components/Tooltip";
+import { MetricPreviewPlot } from "core/components/Plots";
 
 export const MetricPreviewPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;

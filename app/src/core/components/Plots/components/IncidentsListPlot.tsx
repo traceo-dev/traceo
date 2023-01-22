@@ -1,25 +1,28 @@
-import { FC } from "react";
+import { FC, lazy, useMemo } from "react";
 import { statisticUtils } from "../../../utils/statistics";
 import { ErrorDetails } from "../../../../types/incidents";
 import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
-import ReactECharts from "echarts-for-react";
 import { EChartsOption } from "echarts";
 import dateUtils from "../../../../core/utils/date";
 import { getLocalStorageIncidentPlotType } from "../../../../core/utils/localStorage";
 
+const ReactECharts = lazy(() => import("echarts-for-react"));
 interface Props {
   errors: ErrorDetails[];
 }
 
 const PLOT_COLOR = "#04785A";
 
-export const IncidentsListPlot: FC<Props> = ({ errors }) => {
-  const plotData = statisticUtils.parseIncidentsTablePlotData(errors);
+const IncidentsListPlot: FC<Props> = ({ errors }) => {
   const plotType = getLocalStorageIncidentPlotType();
+
+  const dataSource = useMemo(() => {
+    return normalizePlotData(statisticUtils.parseIncidentsTablePlotData(errors));
+  }, [errors]);
 
   const options: EChartsOption = {
     dataset: {
-      source: normalizePlotData(plotData)
+      source: dataSource
     },
     animation: false,
     tooltip: {
@@ -86,3 +89,5 @@ export const IncidentsListPlot: FC<Props> = ({ errors }) => {
     />
   );
 };
+
+export default IncidentsListPlot;
