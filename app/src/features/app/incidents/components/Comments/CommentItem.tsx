@@ -89,7 +89,7 @@ export const CommentItem: FC<Props> = ({ account, comment, incidentId }) => {
   };
 
   return (
-    <div className="flex flex-row items-start">
+    <div className="flex flex-row items-start mb-5">
       <Avatar className="mr-3" alt={sender?.name} src={sender?.gravatar} size="md" />
       <Card
         title={cardHeader()}

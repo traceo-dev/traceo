@@ -1,43 +1,44 @@
-import { notification } from "antd";
+import { dispatch } from "store/store";
+import { notify as appNotify } from "store/internal/reducers/notifyReducer";
 
-const success = (message: string, description = "") => {
-  notification.success({
-    description,
-    message,
-    className: "bg-green-600",
-    duration: 6,
-    placement: "topRight"
-  });
+const success = (message: string, description?: string) => {
+  dispatch(
+    appNotify({
+      title: message,
+      description,
+      type: "success"
+    })
+  );
 };
 
-const error = (message: string | unknown, description = "") => {
-  notification.error({
-    description,
-    message,
-    className: "bg-red-600",
-    duration: 6,
-    placement: "topRight"
-  });
+const error = (message: string, description?: string) => {
+  dispatch(
+    appNotify({
+      title: message,
+      description,
+      type: "error"
+    })
+  );
 };
 
-const warning = (message: string, description = "") => {
-  notification.info({
-    description,
-    message,
-    className: "bg-blue-600",
-    duration: 6,
-    placement: "topRight"
-  });
+const warning = (message: string, description?: string) => {
+  dispatch(
+    appNotify({
+      title: message,
+      description,
+      type: "warning"
+    })
+  );
 };
 
-const info = (message: string, description = "") => {
-  notification.info({
-    description,
-    message,
-    className: "bg-orange-600",
-    duration: 6,
-    placement: "topRight"
-  });
+const info = (message: string, description?: string) => {
+  dispatch(
+    appNotify({
+      title: message,
+      description,
+      type: "info"
+    })
+  );
 };
 
 export const notify = {

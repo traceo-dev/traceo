@@ -31,7 +31,7 @@ export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
     <li
       onClick={onClick && (() => onClick())}
       className={joinClasses(
-        "py-2 mx-3 flex cursor-pointer mb-3 rounded-lg",
+        "py-2 mx-3 flex cursor-pointer mb-2 rounded-lg",
         conditionClass(key && isActive(key), "text-white bg-primary"),
         conditionClass(!disabled, "duration-200 hover:text-white hover:bg-primary")
       )}

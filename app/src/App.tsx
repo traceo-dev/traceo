@@ -13,6 +13,7 @@ import { TraceoLoading } from "./core/components/TraceoLoading";
 import { DashboardHeader } from "./core/components/Layout/DashboardHeader";
 import { Page } from "core/components/Page";
 import { MainViewWrapper } from "core/components/Layout/Wrappers/MainViewWrapper";
+import { NotificationContainer } from "core/components/Notification/NotificationContainer";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
@@ -56,6 +57,7 @@ export const App = () => {
           <BrowserRouter>
             <div className="flex flex-col">
               <DashboardHeader />
+              <NotificationContainer />
               <div className="flex items-strech absolute w-full h-full top-0 left-0">
                 <NavBar />
                 <MainViewWrapper>{renderRoutes()}</MainViewWrapper>

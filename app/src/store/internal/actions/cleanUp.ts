@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
-import { StoreState } from "../../types/store";
+import { StoreState } from "../../../types/store";
 
 export type StateSelector<T> = (state: StoreState) => T;
 
