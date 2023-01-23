@@ -1,6 +1,6 @@
+import { store } from "store";
 import api from "../../../../core/lib/api";
 import { loadApplication } from "../../../../features/app/state/application/actions";
-import { dispatch } from "../../../../store/store";
 import { ApiResponse } from "../../../../types/api";
 import { DataSourceConnStatus, CONNECTION_STATUS } from "../../../../types/tsdb";
 import { loadMetrics } from "../state/actions";
@@ -15,10 +15,10 @@ const reload = async (
         .then((resp) => {
             const status = resp.data.status;
             if (status === CONNECTION_STATUS.CONNECTED) {
-                dispatch(loadMetrics());
+                store.dispatch(loadMetrics());
             }
 
-            dispatch(loadApplication());
+            store.dispatch(loadApplication());
         })
         .finally(() => setLoading && setLoading(false));
 };

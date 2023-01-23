@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { dispatch } from "../../../store/store";
+import { useAppDispatch } from "../../../store";
 import { addServerAccount } from "../../../features/management/state/accounts/actions";
 import { AddAccountProps } from "../../../types/accounts";
 import { Input } from "core/ui-components/Input";
@@ -11,6 +11,7 @@ import { Space } from "core/ui-components/Space";
 import { Modal } from "core/ui-components/Modal";
 
 export const NewAccountModal = ({ isOpen, onCancel }) => {
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = (props: AddAccountProps) => {

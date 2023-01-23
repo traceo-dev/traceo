@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { loadIncident } from "../../../../features/app/incidents/state/actions";
 import { useSelector } from "react-redux";
-import { dispatch } from "../../../../store/store";
+import { useAppDispatch } from "../../../../store";
 import { StoreState } from "../../../../types/store";
 import { IncidentHeader } from "../../../../features/app/incidents/components/IncidentHeader";
 import AppPage from "../../components/AppPage";
@@ -14,6 +14,7 @@ import { TraceoLoading } from "../../../../core/components/TraceoLoading";
 
 export const AppIncidentNavigationPage = ({ children }) => {
   const { iid } = useParams();
+  const dispatch = useAppDispatch();
   const { incident, hasFetched } = useSelector((state: StoreState) => state.incident);
 
   const menu: MenuRoute[] = [

@@ -5,21 +5,20 @@ import { CommentInput } from "./components/Comments/CommentInput";
 import { CommentsBox } from "./components/Comments/CommentsBox";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SocketContext } from "../../../core/hooks/SocketContextProvider";
-import { dispatch } from "../../../store/store";
+import { useAppDispatch } from "../../../store";
 import { StoreState } from "../../../types/store";
 import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
 import { loadIncidentComments } from "./state/actions";
 import { Typography } from "core/ui-components/Typography";
 import { Space } from "core/ui-components/Space";
 import { Card } from "core/ui-components/Card";
-import { loadAccount } from "features/auth/state/actions";
 
 export const AppIncidentConversationPage = () => {
   const { socket } = useContext(SocketContext);
+  const dispatch = useAppDispatch();
   const { incident, hasFetched } = useSelector((state: StoreState) => state.incident);
 
   useEffect(() => {
-    dispatch(loadAccount());
     fetchComments();
   }, []);
 
@@ -35,25 +34,23 @@ export const AppIncidentConversationPage = () => {
   socket.off("update_comment").on("update_comment", () => fetchComments());
 
   return (
-    <>
-      <AppIncidentNavigationPage>
-        <ConditionalWrapper isLoading={!hasFetched}>
-          <Card className="w-full p-1 rounded-md mb-5 bg-primary">
-            <Space className="w-full">
-              <AlertOutlined className="text-3xl pr-2 text-red-700" />
-              <Space className="w-full gap-0" direction="vertical">
-                <Typography size="xxl" weight="normal">
-                  {incident?.type}
-                </Typography>
-                <Typography weight="normal">{incident?.message}</Typography>
-              </Space>
+    <AppIncidentNavigationPage>
+      <ConditionalWrapper isLoading={!hasFetched}>
+        <Card className="w-full p-1 rounded-md mb-5 bg-primary">
+          <Space className="w-full">
+            <AlertOutlined className="text-3xl pr-2 text-red-700" />
+            <Space className="w-full gap-0" direction="vertical">
+              <Typography size="xxl" weight="normal">
+                {incident?.type}
+              </Typography>
+              <Typography weight="normal">{incident?.message}</Typography>
             </Space>
-          </Card>
-          <CommentsBox />
-          <CommentInput />
-        </ConditionalWrapper>
-      </AppIncidentNavigationPage>
-    </>
+          </Space>
+        </Card>
+        <CommentsBox />
+        <CommentInput />
+      </ConditionalWrapper>
+    </AppIncidentNavigationPage>
   );
 };
 

@@ -2,7 +2,7 @@ import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { dispatch } from "../../../../store/store";
+import { useAppDispatch } from "../../../../store";
 import { CONNECTION_STATUS, InfluxDS, TSDB_PROVIDER } from "../../../../types/tsdb";
 import { StoreState } from "../../../../types/store";
 import { INFLUX2_DOCS } from "../../../../core/utils/constants";
@@ -19,6 +19,7 @@ import { Link } from "core/ui-components/Link";
 import { Alert } from "core/ui-components/Alert";
 
 export const DataSourceInflux2Form = () => {
+  const dispatch = useAppDispatch();
   const { application } = useSelector((state: StoreState) => state.application);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isDeletLoading, setDeleteLoading] = useState<boolean>(false);

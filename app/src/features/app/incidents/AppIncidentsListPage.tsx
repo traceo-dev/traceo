@@ -3,9 +3,8 @@ import { useSelector } from "react-redux";
 import AppPage from "../components/AppPage";
 import { SortIcons } from "../../../core/components/SortIcons";
 import { IncidentTable } from "../../../features/app/incidents/components/IncidentTable";
-import { useCleanup } from "../../../core/hooks/useCleanup";
 import { ApiQueryParams } from "../../../core/lib/api";
-import { dispatch } from "../../../store/store";
+import { useAppDispatch } from "../../../store";
 import { IncidentSortBy, IncidentStatusSearch } from "../../../types/incidents";
 import { StoreState } from "../../../types/store";
 import { loadIncidents } from "../../../features/app/incidents/state/actions";
@@ -28,9 +27,8 @@ import { changeBarOptions, searchStatusOptions, sortOptions } from "./components
 import { RadioButtonGroup } from "core/ui-components/RadioButton/RadioButtonGroup";
 
 export const AppIncidentsListPage = () => {
-  useCleanup((state: StoreState) => state.incident);
-
   const { id } = useParams();
+  const dispatch = useAppDispatch();
   const { incidents, hasFetched } = useSelector((state: StoreState) => state.incidents);
 
   const [search, setSearch] = useState<string>(null);
@@ -49,13 +47,9 @@ export const AppIncidentsListPage = () => {
     status
   };
 
-  useEffect(() => fetchIncidents(), []);
-
   useEffect(() => {
-    fetchIncidents();
+    dispatch(loadIncidents(queryParams));
   }, [order, sortBy, status, search]);
-
-  const fetchIncidents = () => dispatch(loadIncidents(queryParams));
 
   const onChangePlotType = (type: INCIDENT_PLOT_TYPE) => {
     setPlotType(type);

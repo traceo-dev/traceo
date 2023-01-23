@@ -25,18 +25,16 @@ export const AppExploreNavigationPage = ({ children }) => {
   ];
 
   return (
-    <>
-      <AppPage>
-        <PageHeader
-          icon={<CompassOutlined />}
-          title={"Explore"}
-          description={"Explore informations about this app"}
-        />
+    <AppPage>
+      <PageHeader
+        icon={<CompassOutlined />}
+        title={"Explore"}
+        description={"Explore informations about this app"}
+      />
 
-        <Menu className=" mt-5" routes={menu} />
-        {children}
-      </AppPage>
-    </>
+      <Menu className=" mt-5" routes={menu} />
+      {children}
+    </AppPage>
   );
 };
 

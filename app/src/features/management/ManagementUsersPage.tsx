@@ -3,8 +3,7 @@ import { SearchWrapper } from "../../core/components/SearchWrapper";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NewAccountModal } from "../../core/components/Modals/NewAccountModal";
-import { ApiQueryParams } from "../../core/lib/api";
-import { dispatch } from "../../store/store";
+import { useAppDispatch } from "../../store";
 import { StoreState } from "../../types/store";
 import { AccountsTable } from "./components/AccountManagement/AccountsTable";
 import { ManagementNavigation } from "./components/ManagementNavigation";
@@ -14,23 +13,17 @@ import { Button } from "core/ui-components/Button";
 import { Card } from "core/ui-components/Card";
 
 const ManagementUsersPage = () => {
+  const dispatch = useAppDispatch();
+
   const { accounts, hasFetched } = useSelector(
     (state: StoreState) => state.serverAccounts
   );
   const [search, setSearch] = useState<string>(null);
   const [isOpenNewAccountDrawer, setOpenNewAccountDrawer] = useState<boolean>(false);
 
-  const queryParams: ApiQueryParams = { search };
-
   useEffect(() => {
-    fetchAccounts();
-  }, []);
-
-  useEffect(() => {
-    fetchAccounts();
+    dispatch(loadServerAccounts({ search }));
   }, [search]);
-
-  const fetchAccounts = () => dispatch(loadServerAccounts(queryParams));
 
   return (
     <ManagementNavigation>

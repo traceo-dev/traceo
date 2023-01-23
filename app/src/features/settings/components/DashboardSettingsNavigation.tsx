@@ -2,26 +2,12 @@ import { SettingOutlined } from "@ant-design/icons";
 import { PageHeader } from "core/ui-components/PageHeader";
 import { MenuRoute } from "../../../types/navigation";
 import { Menu } from "../../../core/components/Layout/Menu";
-import { DashboardPage } from "../../dashboard/components/DashboardPage";
-import { useSelector } from "react-redux";
-import { StoreState } from "../../../types/store";
-import { useEffect } from "react";
-import { dispatch } from "../../../store/store";
-import { loadAccount } from "../../../features/auth/state/actions";
-import { isEmptyObject } from "../../../core/utils/object";
-import { TraceoLoading } from "../../../core/components/TraceoLoading";
+import { DashboardWrapper } from "../../dashboard/components/DashboardPage";
 import { Avatar } from "core/ui-components/Avatar";
+import { useAccount } from "core/hooks/useAccount";
 
 export const DashboardSettingsNavigation = ({ children }) => {
-  const { account } = useSelector((state: StoreState) => state.account);
-
-  useEffect(() => {
-    dispatch(loadAccount());
-  }, []);
-
-  if (isEmptyObject(account)) {
-    return <TraceoLoading />;
-  }
+  const account = useAccount();
 
   const menu: MenuRoute[] = [
     {
@@ -33,7 +19,7 @@ export const DashboardSettingsNavigation = ({ children }) => {
   ];
 
   return (
-    <DashboardPage>
+    <DashboardWrapper>
       <PageHeader
         icon={<Avatar size="lg" src={account?.gravatar} alt={account.username} />}
         title="Account"
@@ -41,6 +27,6 @@ export const DashboardSettingsNavigation = ({ children }) => {
       />
       <Menu className="mt-5" routes={menu} />
       {children}
-    </DashboardPage>
+    </DashboardWrapper>
   );
 };

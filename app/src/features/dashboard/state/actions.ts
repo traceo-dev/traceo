@@ -1,7 +1,6 @@
 import api from "../../../core/lib/api";
 import { ThunkResult } from "../../../types/store";
 import {
-  ApplicationMember,
   MemberApplication,
   SearchApplicationQueryParams
 } from "../../../types/application";

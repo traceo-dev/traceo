@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
 import api from "../../../core/lib/api";
-import { dispatch } from "../../../store/store";
+import { useAppDispatch } from "../../../store";
 import { ApiResponse } from "../../../types/api";
 import { StoreState } from "../../../types/store";
 import { MemberRole } from "../../../types/application";
@@ -24,15 +24,12 @@ import { InputGroup } from "core/ui-components/Input/InputGroup";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { isViewer } = useMemberRole();
   const { application } = useSelector((state: StoreState) => state.application);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
   const [isNameEdit, setNameEdit] = useState<boolean>(false);
   const ref = useRef<HTMLInputElement>();
-
-  if (!application) {
-    return null;
-  }
 
   const onUpdateName = () => {
     const name = ref.current.value;
@@ -110,20 +107,6 @@ export const AppSettingsDetailsPage = () => {
             </FieldLabel>
           </div>
         </ColumnSection>
-        {/* <Descriptions>
-          <DescriptionInputRow label="ID" editable={false}>
-            <Typography>{application?.id}</Typography>
-          </DescriptionInputRow>
-          <DescriptionInputRow label="Name" onUpdate={onUpdateName} editable={!isViewer}>
-            {application?.name}
-          </DescriptionInputRow>
-          <DescriptionInputRow label="Created by" editable={false}>
-            <span>
-              {application?.owner?.name}
-              {application?.owner?.email && application?.owner?.email}
-            </span>
-          </DescriptionInputRow>
-        </Descriptions> */}
       </Card>
       <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
         <ApiKeySection />

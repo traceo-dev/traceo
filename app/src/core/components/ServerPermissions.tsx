@@ -1,13 +1,12 @@
+import { useAccount } from "core/hooks/useAccount";
 import { FC, ReactNode } from "react";
-import { useSelector } from "react-redux";
-import { StoreState } from "../../types/store";
 
 interface PermissionsProps {
   children: ReactNode;
 }
 
 const ServerPermissions: FC<PermissionsProps> = ({ children }) => {
-  const { account } = useSelector((state: StoreState) => state.account);
+  const account = useAccount();
 
   const isAdmin = account.isAdmin;
   if (isAdmin) {

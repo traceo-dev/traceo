@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ApplicationMember, MemberApplication } from "../../../types/application";
+import { MemberApplication } from "../../../types/application";
 
 export interface ApplicationsState {
   applications: MemberApplication[];
@@ -18,9 +18,7 @@ const applicationsSlice = createSlice({
     applicationsLoaded: (
       state,
       action: PayloadAction<MemberApplication[]>
-    ): ApplicationsState => {
-      return { ...state, hasFetched: true, applications: action.payload };
-    }
+    ): ApplicationsState => ({ ...state, hasFetched: true, applications: action.payload })
   }
 });
 

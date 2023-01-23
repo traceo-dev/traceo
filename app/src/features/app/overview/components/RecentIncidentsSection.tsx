@@ -37,53 +37,51 @@ export const RecentIncidentsSection = () => {
   });
 
   return (
-    <>
-      <Card
-        title="Recent Incidents"
-        extra={
-          <Link
-            onClick={() => navigate(`/app/${application.id}/incidents`)}
-            className="text-xs font-semibold text-primary"
-          >
-            View
-          </Link>
-        }
-      >
-        <ConditionalWrapper
-          isLoading={isLoading}
-          isEmpty={incidents && incidents.length === 0}
-          emptyView={<DataNotFound label="Incidents not found" />}
+    <Card
+      title="Recent Incidents"
+      extra={
+        <Link
+          onClick={() => navigate(`/app/${application.id}/incidents`)}
+          className="text-xs font-semibold text-primary"
         >
-          <List
-            loading={isLoading}
-            className="pt-2"
-            dataSource={incidents || []}
-            renderItem={(item: Incident) => (
-              <ListCard
-                onClick={() =>
-                  navigate(`/app/${application.id}/incidents/${item.id}/details`)
-                }
-              >
-                <Space className="w-full justify-between py-2">
-                  <Space direction="vertical" className="gap-0">
-                    <Space>
-                      <Typography weight="semibold" className="text-primary">
-                        {item.type}
-                      </Typography>
-                      <IncidentStatusTag className="ml-2" status={item.status} />
-                    </Space>
-                    <Typography size="xs">{item.message}</Typography>
-                  </Space>
+          View
+        </Link>
+      }
+    >
+      <ConditionalWrapper
+        isLoading={isLoading}
+        isEmpty={incidents && incidents.length === 0}
+        emptyView={<DataNotFound label="Incidents not found" />}
+      >
+        <List
+          loading={isLoading}
+          className="pt-2"
+          dataSource={incidents || []}
+          renderItem={(item: Incident) => (
+            <ListCard
+              onClick={() =>
+                navigate(`/app/${application.id}/incidents/${item.id}/details`)
+              }
+            >
+              <Space className="w-full justify-between py-2">
+                <Space direction="vertical" className="gap-0">
                   <Space>
-                    <Typography size="xs">{dateUtils.fromNow(item.lastError)}</Typography>
-                    <RightOutlined className="cursor-pointer text-gray-800" />
+                    <Typography weight="semibold" className="text-primary">
+                      {item.type}
+                    </Typography>
+                    <IncidentStatusTag className="ml-2" status={item.status} />
                   </Space>
+                  <Typography size="xs">{item.message}</Typography>
                 </Space>
-              </ListCard>
-            )}
-          />
-        </ConditionalWrapper>
-      </Card>
-    </>
+                <Space>
+                  <Typography size="xs">{dateUtils.fromNow(item.lastError)}</Typography>
+                  <RightOutlined className="cursor-pointer text-gray-800" />
+                </Space>
+              </Space>
+            </ListCard>
+          )}
+        />
+      </ConditionalWrapper>
+    </Card>
   );
 };

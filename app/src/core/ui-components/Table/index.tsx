@@ -1,6 +1,8 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { joinClasses } from "core/utils/classes";
 import React, { FC, useEffect, useMemo, useState } from "react";
+import { Space } from "../Space";
+import { Typography } from "../Typography";
 import { TablePagination } from "./TablePagination";
 import { TableRow } from "./TableRow";
 import { PaginationPositionType, PageSizeType, TableRowSize } from "./types";
@@ -83,10 +85,10 @@ export const Table: FC<TableProps> = (props: TableProps) => {
         )}
       </table>
       {loading && (
-        <div className="w-full flex flex-col text-center mt-12">
+        <Space className="py-12 justify-center w-full">
+          <Typography className="pr-2">Loading</Typography>
           <LoadingOutlined />
-          <span className="pt-3">Loading...</span>
-        </div>
+        </Space>
       )}
       {showPagination && (
         <TablePagination

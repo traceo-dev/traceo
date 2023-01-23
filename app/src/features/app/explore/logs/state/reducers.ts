@@ -15,12 +15,8 @@ const logsSlice = createSlice({
     name: "logs",
     initialState: initialState,
     reducers: {
-        logsLoaded: (state, action: PayloadAction<TraceoLog[]>): LogsState => {
-            return { ...state, hasFetched: true, logs: action.payload };
-        },
-        resetState: (state): LogsState => {
-            return { ...state, hasFetched: false };
-        },
+        logsLoaded: (state, action: PayloadAction<TraceoLog[]>): LogsState => ({ ...state, hasFetched: true, logs: action.payload }),
+        resetState: (state): LogsState => ({ ...state, hasFetched: false }),
     }
 });
 

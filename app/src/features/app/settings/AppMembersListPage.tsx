@@ -2,7 +2,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { ApiQueryParams } from "../../../core/lib/api";
-import { dispatch } from "../../../store/store";
+import { useAppDispatch } from "../../../store";
 import { StoreState } from "../../../types/store";
 import { MemberRole } from "../../../types/application";
 import { loadMembers } from "./state/members/actions";
@@ -19,6 +19,7 @@ import { ApplicationMembersTable } from "core/components/ApplicationMembersTable
 
 export const AppMembersListPage = () => {
   const { id } = useParams();
+  const dispatch = useAppDispatch();
   const { members, hasFetched } = useSelector((state: StoreState) => state.members);
 
   const [search, setSearch] = useState<string>(null);
@@ -30,14 +31,8 @@ export const AppMembersListPage = () => {
   };
 
   useEffect(() => {
-    fetchMembers();
-  }, []);
-
-  useEffect(() => {
-    fetchMembers();
+    dispatch(loadMembers(queryParams));
   }, [search]);
-
-  const fetchMembers = () => dispatch(loadMembers(queryParams));
 
   return (
     <>
@@ -65,7 +60,7 @@ export const AppMembersListPage = () => {
             <ApplicationMembersTable
               className="mt-5"
               collection={members}
-              postExecute={() => fetchMembers()}
+              postExecute={() => dispatch(loadMembers(queryParams))}
             />
           </ConditionalWrapper>
         </Card>
@@ -74,7 +69,7 @@ export const AppMembersListPage = () => {
         isOpen={isModalOpen}
         onCancel={() => {
           setModalOpen(false);
-          fetchMembers();
+          dispatch(loadMembers(queryParams));
         }}
       />
     </>

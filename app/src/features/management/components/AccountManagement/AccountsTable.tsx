@@ -3,6 +3,7 @@ import {
   LockFilled,
   SafetyCertificateFilled
 } from "@ant-design/icons";
+import { useAccount } from "core/hooks/useAccount";
 import { Avatar } from "core/ui-components/Avatar";
 import { Space } from "core/ui-components/Space";
 import { Table } from "core/ui-components/Table";
@@ -11,18 +12,16 @@ import { Tooltip } from "core/ui-components/Tooltip";
 import { Typography } from "core/ui-components/Typography";
 import dateUtils from "core/utils/date";
 import { FC } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { AccountStatusTag } from "../../../../core/components/AccountStatusTag";
 import { Account, AccountStatus } from "../../../../types/accounts";
-import { StoreState } from "../../../../types/store";
 
 interface Props {
   accounts: Account[];
   hasFetched?: boolean;
 }
-export const AccountsTable: FC<Props> = ({ accounts }) => {
-  const { account } = useSelector((state: StoreState) => state.account);
+export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
+  const account = useAccount();
   const navigate = useNavigate();
 
   const RenderProfile = (currentAccount: Account) => {
@@ -52,7 +51,8 @@ export const AccountsTable: FC<Props> = ({ accounts }) => {
     <Table
       collection={accounts}
       striped
-      onRowClick={(item) => navigate(`/dashboard/management/accounts/${item.id}`)}
+      loading={!hasFetched}
+      onRowClick={({ id }) => navigate(`/dashboard/management/accounts/${id}`)}
       showPagination
       pageSize={15}
     >

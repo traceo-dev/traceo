@@ -14,25 +14,25 @@ const initialState = {
 };
 
 const applicationsSlice = createSlice({
-  name: "applications",
+  name: "serverApplications",
   initialState: initialState,
   reducers: {
     serverApplicationsLoaded: (
       state,
       action: PayloadAction<Application[]>
-    ): AccountsState => {
-      return { ...state, hasFetched: true, applications: action.payload };
-    },
+    ): AccountsState => ({ ...state, hasFetched: true, applications: action.payload }),
     serverApplicationLoaded: (
       state,
       action: PayloadAction<Application>
-    ): AccountsState => {
-      return { ...state, hasFetched: true, application: action.payload };
-    }
+    ): AccountsState => ({ ...state, hasFetched: true, application: action.payload }),
+    serverAppLoadedAction: (state, action: PayloadAction<boolean>): AccountsState => ({
+      ...state,
+      hasFetched: action.payload
+    }),
   }
 });
 
-export const { serverApplicationsLoaded, serverApplicationLoaded } =
+export const { serverApplicationsLoaded, serverApplicationLoaded, serverAppLoadedAction } =
   applicationsSlice.actions;
 export const accountsReducer = applicationsSlice.reducer;
 

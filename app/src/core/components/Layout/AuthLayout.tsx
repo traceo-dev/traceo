@@ -15,10 +15,7 @@ export const AuthLayout: FC<Props> = ({ children, title }) => {
       <div className="col-span-1"></div>
       <div className="col-span-1 bg-primary">
         <div className="flex h-screen justify-center items-center">
-          <div
-            style={{ width: "calc(100% - 2rem)" }}
-            className="text-white p-12 max-w-md"
-          >
+          <div className="text-white p-12 max-w-md w-full">
             <Space
               direction="vertical"
               className="justify-center w-full items-center pb-12"

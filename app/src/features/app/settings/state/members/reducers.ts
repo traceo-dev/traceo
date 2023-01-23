@@ -15,9 +15,7 @@ const membersSlice = createSlice({
   name: "members",
   initialState: initialState,
   reducers: {
-    membersLoaded: (state, action: PayloadAction<ApplicationMember[]>): MembersState => {
-      return { ...state, hasFetched: true, members: action.payload };
-    }
+    membersLoaded: (state, action: PayloadAction<ApplicationMember[]>): MembersState => ({ ...state, hasFetched: true, members: action.payload })
   }
 });
 

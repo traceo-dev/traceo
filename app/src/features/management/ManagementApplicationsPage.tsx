@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { NewApplicationModal } from "../../core/components/Modals/NewApplicationModal";
 import { ApiQueryParams } from "../../core/lib/api";
-import { dispatch } from "../../store/store";
+import { useAppDispatch } from "../../store";
 import { StoreState } from "../../types/store";
 import { ApplicationsTable } from "./components/ApplicationManagement/ApplicationsTable";
 import { ManagementNavigation } from "./components/ManagementNavigation";
@@ -16,6 +16,7 @@ import { Button } from "core/ui-components/Button";
 import { Card } from "core/ui-components/Card";
 
 export const ManagementApplicationsPage = () => {
+  const dispatch = useAppDispatch();
   const { applications, hasFetched } = useSelector(
     (state: StoreState) => state.serverApplications
   );

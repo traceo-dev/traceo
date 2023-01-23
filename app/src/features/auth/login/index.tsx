@@ -1,54 +1,47 @@
 import AuthLayout from "../../../core/components/Layout/AuthLayout";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { LoginForm } from "./LoginForm";
-import { useSelector } from "react-redux";
-import { dispatch } from "../../../store/store";
-import { StoreState } from "../../../types/store";
-import { clearState } from "../state/reducers";
-import { loginAccount } from "../state/actions";
+import { useAppDispatch } from "../../../store";
+import { loadAccount } from "../state/actions";
 import { LoginProps } from "../../../types/auth";
+import { ApiResponse } from "types/api";
+import api from "core/lib/api";
 
 const Login = () => {
-  const { isError, isSuccess } = useSelector((state: StoreState) => state.account);
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const [invalid, setInvalid] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (isError) {
-      dispatch(clearState());
-      setLoading(false);
-      setInvalid(true);
-    }
+  const goToTraceo = () => {
+    dispatch(loadAccount());
+    window.location.href = "/dashboard/overview";
+  };
 
-    if (isSuccess) {
-      window.location.href = "/dashboard/overview";
-      setLoading(false);
-    }
-  }, [isError, isSuccess]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearState());
-    };
-  }, []);
-
-  const onFinish = (credentials: LoginProps) => {
+  const onFinish = async (credentials: LoginProps) => {
     if (!credentials.username || !credentials.password) {
       return;
     }
 
     setLoading(true);
-    dispatch(loginAccount(credentials));
+
+    await api
+      .post<ApiResponse<{ accessToken: string }>>("/api/auth/login", credentials)
+      .then((res) => {
+        const token = res.data.accessToken;
+        localStorage.setItem("session", token);
+
+        goToTraceo();
+      })
+      .catch(() => setInvalid(true))
+      .finally(() => setLoading(false));
+
+    setLoading(false);
   };
 
   return (
-    <>
-      <div className="w-full">
-        <AuthLayout title="Welcome to Traceo">
-          <LoginForm invalid={invalid} loading={loading} onFinish={onFinish} />
-        </AuthLayout>
-      </div>
-    </>
+    <AuthLayout title="Welcome to Traceo">
+      <LoginForm invalid={invalid} loading={loading} onFinish={onFinish} />
+    </AuthLayout>
   );
 };
 

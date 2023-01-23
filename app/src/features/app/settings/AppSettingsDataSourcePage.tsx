@@ -2,14 +2,11 @@ import { Space } from "core/ui-components/Space";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { dispatch } from "../../../store/store";
 import { TSDB } from "../../../types/application";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
 import { StoreState } from "../../../types/store";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
-import { loadApplication } from "../state/application/actions";
 import { Select } from "core/ui-components/Select";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
@@ -23,15 +20,10 @@ const dataSourceOptions = [
 ];
 
 export const AppSettingsDataSourcePage = () => {
-  const { id } = useParams();
   const { application } = useSelector((state: StoreState) => state.application);
   const { isViewer } = useMemberRole();
 
   const [selectedDS, setSelectedDS] = useState<TSDB>(null);
-
-  useEffect(() => {
-    dispatch(loadApplication(id));
-  }, []);
 
   useEffect(() => {
     setSelectedDS(application?.connectedTSDB);

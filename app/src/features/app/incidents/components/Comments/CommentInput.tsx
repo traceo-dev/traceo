@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import api from "../../../../../core/lib/api";
 import { loadIncidentComments } from "../../state/actions";
-import { dispatch } from "../../../../../store/store";
+import { useAppDispatch } from "../../../../../store";
 import { StoreState } from "../../../../../types/store";
 import { InputArea } from "core/ui-components/Input/InputArea";
 import { Button } from "core/ui-components/Button";
@@ -11,11 +11,11 @@ import { Link } from "core/ui-components/Link";
 import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
 import { Avatar } from "core/ui-components/Avatar";
-import { Row } from "core/ui-components/Row";
-import { Col } from "core/ui-components/Col";
+import { useAccount } from "core/hooks/useAccount";
 
 export const CommentInput = () => {
-  const { account } = useSelector((state: StoreState) => state.account);
+  const dispatch = useAppDispatch();
+  const account = useAccount();
   const { application } = useSelector((state: StoreState) => state.application);
   const { incident } = useSelector((state: StoreState) => state.incident);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);

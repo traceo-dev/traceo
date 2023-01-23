@@ -4,7 +4,7 @@ import { loadApplicationLogs } from "../state/actions";
 import { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { dispatch } from "../../../../../store/store";
+import { useAppDispatch } from "../../../../../store";
 import { StoreState } from "../../../../../types/store";
 import { LogLevel } from "../../../../../types/logs";
 import {
@@ -21,6 +21,7 @@ import { statisticUtils } from "core/utils/statistics";
 import { LogsPlot } from "core/components/Plots";
 
 export const LogsHistogram = () => {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);
 

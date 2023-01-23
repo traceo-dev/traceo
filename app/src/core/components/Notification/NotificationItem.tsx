@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { joinClasses } from "core/utils/classes";
 import { hideNotify } from "store/internal/reducers/notifyReducer";
-import { dispatch } from "store/store";
+import { useAppDispatch } from "store";
 import { NotifyItem, NotifyType } from "types/notifications";
 import {
   CheckCircleFilled,
@@ -36,6 +36,8 @@ const durationMap: Record<NotifyType, number> = {
 };
 
 export const NotificationItem: FC<NotificationItemProps> = ({ notification }) => {
+  const dispatch = useAppDispatch();
+
   const { title, type, description } = notification;
 
   useEffect(() => {

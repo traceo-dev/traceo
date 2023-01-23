@@ -20,24 +20,20 @@ export const ApplicationMembers = () => {
       id
     }
   });
+
   return (
-    <>
-      <Card title="Application members">
-        <ConditionalWrapper
-          isEmpty={members?.length === 0}
-          emptyView={
-            <Space className="w-full justify-center">
-              <Typography className="w-full justify-center">No members</Typography>
-            </Space>
-          }
-          isLoading={isLoading}
-        >
-          <ApplicationMembersTable
-            collection={members}
-            postExecute={() => postExecute()}
-          />
-        </ConditionalWrapper>
-      </Card>
-    </>
+    <Card title="Application members">
+      <ConditionalWrapper
+        isEmpty={members?.length === 0}
+        emptyView={
+          <Space className="w-full justify-center">
+            <Typography className="w-full justify-center">No members</Typography>
+          </Space>
+        }
+        isLoading={isLoading}
+      >
+        <ApplicationMembersTable collection={members} postExecute={() => postExecute()} />
+      </ConditionalWrapper>
+    </Card>
   );
 };

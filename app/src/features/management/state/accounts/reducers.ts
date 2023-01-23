@@ -14,7 +14,7 @@ const initialState = {
 };
 
 const accountsSlice = createSlice({
-  name: "accounts",
+  name: "serverAccounts",
   initialState: initialState,
   reducers: {
     serverAccountsLoaded: (state, action: PayloadAction<Account[]>): AccountsState => {
@@ -22,11 +22,17 @@ const accountsSlice = createSlice({
     },
     serverAccountLoaded: (state, action: PayloadAction<Account>): AccountsState => {
       return { ...state, hasFetched: true, account: action.payload };
+    },
+    serverAccountLoadedAction: (state, action: PayloadAction<boolean>): AccountsState => {
+      return {
+        ...state,
+        hasFetched: action.payload
+      }
     }
   }
 });
 
-export const { serverAccountsLoaded, serverAccountLoaded } = accountsSlice.actions;
+export const { serverAccountsLoaded, serverAccountLoaded, serverAccountLoadedAction } = accountsSlice.actions;
 export const accountsReducer = accountsSlice.reducer;
 
 export default {

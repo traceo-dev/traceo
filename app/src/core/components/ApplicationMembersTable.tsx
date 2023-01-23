@@ -1,3 +1,4 @@
+import { useAccount } from "core/hooks/useAccount";
 import { membersAction } from "core/lib/api/actions/members";
 import { Avatar } from "core/ui-components/Avatar";
 import { Button } from "core/ui-components/Button";
@@ -22,7 +23,7 @@ export const ApplicationMembersTable: FC<Props> = ({
   postExecute,
   className
 }) => {
-  const { account } = useSelector((state: StoreState) => state.account);
+  const account = useAccount();
   const navigate = useNavigate();
 
   const options = [

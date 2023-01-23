@@ -12,9 +12,7 @@ const navbarSlice = createSlice({
     name: "navbar",
     initialState: initialState,
     reducers: {
-        navbarState: (state, action: PayloadAction<NavbarState>): NavbarState => {
-            return { ...state, hidden: action.payload.hidden };
-        }
+        navbarState: (state, action: PayloadAction<NavbarState>): NavbarState => ({ ...state, hidden: action.payload.hidden })
     }
 });
 

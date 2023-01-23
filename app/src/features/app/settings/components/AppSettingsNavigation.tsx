@@ -40,17 +40,15 @@ export const AppSettingsNavigationPage: FC<Props> = ({ children }) => {
   ];
 
   return (
-    <>
-      <AppPage>
-        <PageHeader
-          icon={<SettingOutlined />}
-          title="Settings"
-          description="Management of this application"
-        />
-        <Menu className=" mt-5" routes={menu} />
-        {children}
-      </AppPage>
-    </>
+    <AppPage>
+      <PageHeader
+        icon={<SettingOutlined />}
+        title="Settings"
+        description="Management of this application"
+      />
+      <Menu className=" mt-5" routes={menu} />
+      {children}
+    </AppPage>
   );
 };
 

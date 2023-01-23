@@ -1,6 +1,6 @@
 import api, { ApiQueryParams } from "../../../../core/lib/api";
 import { ThunkResult } from "../../../../types/store";
-import { serverApplicationLoaded, serverApplicationsLoaded } from "./reducers";
+import { serverApplicationLoaded, serverApplicationsLoaded, serverAppLoadedAction } from "./reducers";
 import { Application } from "../../../../types/application";
 import { ApiResponse } from "../../../../types/api";
 
@@ -19,8 +19,11 @@ export const loadServerApplications = (query?: ApiQueryParams): ThunkResult<void
 
 export const loadServerApplication = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
+
+    dispatch(serverAppLoadedAction(false))
     const { data } = await api.get<ApiResponse<Application>>("/api/application", { id });
     dispatch(serverApplicationLoaded(data));
+    dispatch(serverAppLoadedAction(true))
   };
 };
 

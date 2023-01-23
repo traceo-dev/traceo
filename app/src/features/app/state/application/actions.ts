@@ -7,22 +7,12 @@ import { ThunkResult } from "../../../../types/store";
 import { applicationLoaded } from "./reducers";
 
 
-export const loadApplication = (applicationId?: any): ThunkResult<void> => {
+export const loadApplication = (applicationId?: string): ThunkResult<void> => {
   return async (dispatch, getStore) => {
     if (!applicationId) {
       const application = getStore().application.application;
-
-      if (!application) {
-        return;
-      }
-
       applicationId = application.id;
     }
-
-    if (!applicationId) {
-      return;
-    }
-
     const { data } = await api.get<ApiResponse<Application>>("/api/amr/application", {
       id: applicationId
     });
@@ -35,6 +25,7 @@ export const createApplication = (
   isAdmin?: boolean
 ): ThunkResult<void> => {
   return async (dispatch) => {
+    // TODO: split this logic
     await api.post("/api/application", body);
     if (isAdmin) {
       dispatch(loadServerApplications());

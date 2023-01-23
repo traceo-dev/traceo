@@ -4,7 +4,7 @@ import { Select } from "core/ui-components/Select";
 import { useSelector } from "react-redux";
 import { StoreState } from "types/store";
 import { useEffect } from "react";
-import { dispatch } from "store/store";
+import { useAppDispatch } from "store";
 import { loadMembers } from "features/app/settings/state/members/actions";
 import { updateIncident } from "../state/actions";
 import dateUtils from "core/utils/date";
@@ -12,6 +12,7 @@ import { Typography } from "core/ui-components/Typography";
 import { assignOptions, statusOptions } from "./utils";
 
 export const InfoSection = () => {
+  const dispatch = useAppDispatch();
   const { incident } = useSelector((state: StoreState) => state.incident);
   const { members } = useSelector((state: StoreState) => state.members);
 

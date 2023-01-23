@@ -6,15 +6,14 @@ import {
   LinkOutlined
 } from "@ant-design/icons";
 import { logout } from "../.../../../../../core/utils/logout";
-import { useSelector } from "react-redux";
 import { MenuRoute } from "../.../../../../../types/navigation";
-import { StoreState } from "../.../../../../../types/store";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { GH_REPO_LINK } from "../.../../../../../core/utils/constants";
+import { useAccount } from "core/hooks/useAccount";
 
 export const DashboardNavBar = () => {
-  const { account } = useSelector((state: StoreState) => state.account);
+  const account = useAccount();
 
   const filterRoutes = (routes: MenuRoute[]) =>
     !account.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;

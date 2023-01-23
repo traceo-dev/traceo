@@ -1,8 +1,8 @@
-import { dispatch } from "store/store";
 import { notify as appNotify } from "store/internal/reducers/notifyReducer";
+import { store } from "store";
 
 const success = (message: string, description?: string) => {
-  dispatch(
+  store.dispatch(
     appNotify({
       title: message,
       description,
@@ -12,7 +12,7 @@ const success = (message: string, description?: string) => {
 };
 
 const error = (message: string, description?: string) => {
-  dispatch(
+  store.dispatch(
     appNotify({
       title: message,
       description,
@@ -22,7 +22,7 @@ const error = (message: string, description?: string) => {
 };
 
 const warning = (message: string, description?: string) => {
-  dispatch(
+  store.dispatch(
     appNotify({
       title: message,
       description,
@@ -32,7 +32,7 @@ const warning = (message: string, description?: string) => {
 };
 
 const info = (message: string, description?: string) => {
-  dispatch(
+  store.dispatch(
     appNotify({
       title: message,
       description,

@@ -7,27 +7,15 @@ import {
 import { PageHeader } from "core/ui-components/PageHeader";
 import { MenuRoute } from "../../../types/navigation";
 import { Menu } from "../../../core/components/Layout/Menu";
-import { DashboardPage } from "../../dashboard/components/DashboardPage";
-import { useSelector } from "react-redux";
-import { StoreState } from "../../../types/store";
-import { useEffect } from "react";
-import { dispatch } from "../../../store/store";
-import { loadAccount } from "../../../features/auth/state/actions";
-import { isEmptyObject } from "../../../core/utils/object";
-import { TraceoLoading } from "../../../core/components/TraceoLoading";
+import { DashboardWrapper } from "../../dashboard/components/DashboardPage";
 import { PageCenter } from "../../../core/components/PageCenter";
 import NotFound from "../../../core/components/Layout/Pages/NotFound";
+import { useAccount } from "core/hooks/useAccount";
 
 export const ManagementNavigation = ({ children }) => {
-  const { account } = useSelector((state: StoreState) => state.account);
+  const account = useAccount();
 
-  useEffect(() => {
-    dispatch(loadAccount());
-  }, []);
-
-  if (isEmptyObject(account)) {
-    return <TraceoLoading />;
-  } else if (!account.isAdmin) {
+  if (!account.isAdmin) {
     return (
       <PageCenter>
         <NotFound />
@@ -57,7 +45,7 @@ export const ManagementNavigation = ({ children }) => {
   ];
 
   return (
-    <DashboardPage>
+    <DashboardWrapper>
       <PageHeader
         icon={<SettingOutlined />}
         title={"Management"}
@@ -65,6 +53,6 @@ export const ManagementNavigation = ({ children }) => {
       />
       <Menu className="mt-5" routes={menu} />
       {children}
-    </DashboardPage>
+    </DashboardWrapper>
   );
 };

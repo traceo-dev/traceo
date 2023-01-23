@@ -15,9 +15,7 @@ const applicationSlice = createSlice({
   name: "application",
   initialState: initialState,
   reducers: {
-    applicationLoaded: (state, action: PayloadAction<Application>): ApplicationState => {
-      return { ...state, hasFetched: true, application: action.payload };
-    }
+    applicationLoaded: (state, action: PayloadAction<Application>): ApplicationState => ({ ...state, hasFetched: true, application: action.payload }),
   }
 });
 

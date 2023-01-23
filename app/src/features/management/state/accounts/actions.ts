@@ -1,6 +1,6 @@
 import api, { ApiQueryParams } from "../../../../core/lib/api";
 import { ThunkResult } from "../../../../types/store";
-import { serverAccountLoaded, serverAccountsLoaded } from "./reducers";
+import { serverAccountLoaded, serverAccountLoadedAction, serverAccountsLoaded } from "./reducers";
 import { Account, AddAccountProps } from "../../../../types/accounts";
 import { ApiResponse } from "../../../../types/api";
 
@@ -13,8 +13,10 @@ export const loadServerAccounts = (query?: ApiQueryParams): ThunkResult<void> =>
 
 export const loadServerAccount = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
+    dispatch(serverAccountLoadedAction(false))
     const { data } = await api.get<ApiResponse<Account>>("/api/account", { id });
     dispatch(serverAccountLoaded(data));
+    dispatch(serverAccountLoadedAction(true))
   };
 };
 

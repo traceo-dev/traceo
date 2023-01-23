@@ -6,7 +6,7 @@ import AppMetricsNavigationPage from "./components/AppMetricsNavigationPage";
 import { ConnectionError } from "./components/ConnectionError";
 import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
-import { dispatch } from "../../../store/store";
+import { useAppDispatch } from "../../../store";
 import { loadMetrics } from "./state/actions";
 import { SyncOutlined } from "@ant-design/icons";
 import { MetricCard } from "./components/MetricCard";
@@ -25,6 +25,7 @@ import { Col } from "core/ui-components/Col";
 
 const MetricsPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
+  const dispatch = useAppDispatch();
 
   const { application } = useSelector((state: StoreState) => state.application);
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);

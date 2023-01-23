@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Confirm } from "../../../../core/components/Confirm";
-import { dispatch } from "../../../../store/store";
+import { useAppDispatch } from "../../../../store";
 import { AccountStatus } from "../../../../types/accounts";
 import { StoreState } from "../../../../types/store";
 import { updateServerAccount } from "../../state/accounts/actions";
@@ -26,6 +26,7 @@ interface AccountProps {
 }
 
 export const AccountInformation = () => {
+  const dispatch = useAppDispatch();
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
   const navigate = useNavigate();
 
@@ -57,7 +58,7 @@ export const AccountInformation = () => {
       });
   };
 
-  const OperationButtons = () => {
+  const renderButtons = () => {
     const isDisableUserBtn = [AccountStatus.ACTIVE, AccountStatus.INACTIVE].includes(
       account.status
     );
@@ -114,7 +115,7 @@ export const AccountInformation = () => {
         />
       )}
 
-      <Card title="Personal Information" extra={<OperationButtons />}>
+      <Card title="Personal Information" extra={renderButtons()}>
         <ColumnSection subtitle="You can edit user details if needed. Remember to do it responsibly and only as a last resort.">
           <Form
             id="edit-user-form"

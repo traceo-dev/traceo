@@ -11,12 +11,12 @@ interface Props {
   applications: Application[];
   hasFetched?: boolean;
 }
-export const ApplicationsTable: FC<Props> = ({ applications }) => {
+export const ApplicationsTable: FC<Props> = ({ applications, hasFetched }) => {
   const navigate = useNavigate();
   return (
-    // hasFetched
     <Table
       collection={applications}
+      loading={!hasFetched}
       onRowClick={(item) => navigate(`/dashboard/management/apps/${item.id}`)}
       striped
       showPagination

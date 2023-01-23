@@ -5,7 +5,7 @@ import AppPage from "../components/AppPage";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { dispatch } from "../../../store/store";
+import { useAppDispatch } from "../../../store";
 import { loadMetric } from "./state/actions";
 import { conditionClass } from "../../../core/utils/classes";
 import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
@@ -28,6 +28,7 @@ export const MetricPreviewPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
 
   const { metricId, id } = useParams();
+  const dispatch = useAppDispatch();
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
   const [options, setOptions] = useImmer<DeepPartial<IMetric>>(metric?.options);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);

@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { CreateApplicationProps } from "../../../types/application";
-import { dispatch } from "../../../store/store";
+import { useAppDispatch } from "../../../store";
 import { createApplication } from "../../../features/app/state/application/actions";
 import { Input } from "core/ui-components/Input";
 import { Form } from "core/ui-components/Form";
@@ -13,6 +13,8 @@ interface Props {
   isAdmin?: boolean;
 }
 export const NewApplicationModal: FC<Props> = ({ isOpen, onCancel, isAdmin }) => {
+  const dispatch = useAppDispatch();
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const onFinish = (form: CreateApplicationProps) => {

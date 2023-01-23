@@ -17,10 +17,11 @@ import { NavbarWrapper } from "./NavbarWrapper";
 import { Avatar } from "core/ui-components/Avatar";
 import { isEmptyObject } from "core/utils/object";
 import { Divider } from "core/ui-components/Divider";
+import { useAccount } from "core/hooks/useAccount";
 
 export const AppNavBar = () => {
   const { application } = useSelector((state: StoreState) => state.application);
-  const { account } = useSelector((state: StoreState) => state.account);
+  const account = useAccount();
 
   const renderAppIcon = () => {
     if (!application || isEmptyObject(application)) {

@@ -12,7 +12,7 @@ import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { DeepPartial } from "redux";
-import { dispatch } from "../../../../store/store";
+import { useAppDispatch } from "../../../../store";
 import { ApiResponse } from "../../../../types/api";
 import { IMetric } from "../../../../types/metrics";
 import { StoreState } from "../../../../types/store";
@@ -40,6 +40,7 @@ export const MetricPreviewHeader: FC<Props> = ({
   // timeLimit,
   // setTimeLimit
 }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
   const { metric } = useSelector((state: StoreState) => state.metrics);

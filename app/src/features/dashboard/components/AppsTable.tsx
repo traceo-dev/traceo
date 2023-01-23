@@ -7,7 +7,7 @@ import {
   MemberApplication,
   SearchApplicationQueryParams
 } from "../../../types/application";
-import { dispatch } from "../../../store/store";
+import { useAppDispatch } from "../../../store";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import { AppCard } from "./AppCard";
@@ -16,6 +16,7 @@ import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
 import { Select } from "core/ui-components/Select";
 import { List } from "core/ui-components/List";
+import { useAccount } from "core/hooks/useAccount";
 
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",
@@ -35,10 +36,11 @@ const sortOptions = Object.values(AppsSortBy).map((sort) => ({
 }));
 
 export const AppsTable = () => {
+  const dispatch = useAppDispatch();
   const { applications, hasFetched } = useSelector(
     (state: StoreState) => state.applications
   );
-  const { account } = useSelector((state: StoreState) => state.account);
+  const account = useAccount();
 
   const [order, setOrder] = useState<SortOrder>("DESC");
   const [search, setSearch] = useState<string>("");

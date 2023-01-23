@@ -29,7 +29,7 @@ export const LoginForm = ({ invalid, loading, onFinish }) => {
           </>
         )}
       </Form>
-      <ButtonContainer className="pt-12" justify="center">
+      <ButtonContainer className="pt-12 w-full" justify="center">
         <Button
           className="justify-center py-5 w-full"
           form="login-form"

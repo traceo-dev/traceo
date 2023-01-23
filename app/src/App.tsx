@@ -1,8 +1,8 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./assets/styles/main.css";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import { SocketContext, socket } from "./core/hooks/SocketContextProvider";
-import { store } from "./store/store";
 import { RouteDescriptor } from "./types/navigation";
 import { getAppRoutes } from "./routes/routes";
 import { Suspense } from "react";
@@ -14,6 +14,7 @@ import { DashboardHeader } from "./core/components/Layout/DashboardHeader";
 import { Page } from "core/components/Page";
 import { MainViewWrapper } from "core/components/Layout/Wrappers/MainViewWrapper";
 import { NotificationContainer } from "core/components/Notification/NotificationContainer";
+import { persistedRedux, store } from "store";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
@@ -53,18 +54,20 @@ export const App = () => {
   return (
     <div className="App">
       <Provider store={store}>
-        <SocketContext.Provider value={{ socket }}>
-          <BrowserRouter>
-            <div className="flex flex-col">
-              <DashboardHeader />
-              <NotificationContainer />
-              <div className="flex items-strech absolute w-full h-full top-0 left-0">
-                <NavBar />
-                <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
+        <PersistGate loading={null} persistor={persistedRedux}>
+          <SocketContext.Provider value={{ socket }}>
+            <BrowserRouter>
+              <div className="flex flex-col">
+                <DashboardHeader />
+                <NotificationContainer />
+                <div className="flex items-strech absolute w-full h-full top-0 left-0">
+                  <NavBar />
+                  <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
+                </div>
               </div>
-            </div>
-          </BrowserRouter>
-        </SocketContext.Provider>
+            </BrowserRouter>
+          </SocketContext.Provider>
+        </PersistGate>
       </Provider>
     </div>
   );

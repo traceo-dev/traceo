@@ -1,5 +1,5 @@
 import { mapLogName } from "../../../../../core/components/Plots/components/Logs/util";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { LogLevel } from "../../../../../types/logs";
 import { StoreState } from "../../../../../types/store";
@@ -18,10 +18,17 @@ interface Props {
 export const LogsFilterPanel: FC<Props> = ({ checkedLevels, setCheckedLevels }) => {
   const { logs } = useSelector((state: StoreState) => state.logs);
 
-  const calculateCountByLevel = (level: LogLevel) => {
-    const logsByLevel = logs.filter((log) => log.level === level);
-    return logsByLevel?.length || 0;
-  };
+  // const calculateCountByLevel = (level: LogLevel) => {
+  //   const logsByLevel = logs.filter((log) => log.level === level);
+  //   return logsByLevel?.length || 0;
+  // };
+
+  const counts = useMemo(() => {
+    return logs.reduce((acc, log) => {
+      acc[log.level] = logs.filter(({ level }) => level === log.level);
+      return acc;
+    }, {});
+  }, [logs]);
 
   return (
     <Card title="Filters">
@@ -32,7 +39,7 @@ export const LogsFilterPanel: FC<Props> = ({ checkedLevels, setCheckedLevels }) 
               <Space>
                 <Typography className="mr-1">{mapLogIcon[level]}</Typography>
                 <Typography>
-                  {mapLogName[level]} ({calculateCountByLevel(level)})
+                  {mapLogName[level]} ({counts[level]})
                 </Typography>
               </Space>
               <Checkbox

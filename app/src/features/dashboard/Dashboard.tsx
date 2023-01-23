@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { DashboardPage } from "./components/DashboardPage";
-import { useAppStoreClean } from "../../core/hooks/useCleanup";
+import { DashboardWrapper } from "./components/DashboardPage";
 import { AppsTable } from "./components/AppsTable";
 import { PlusOutlined } from "@ant-design/icons";
 import ServerPermissions from "../../core/components/ServerPermissions";
@@ -10,32 +9,29 @@ import { Card } from "core/ui-components/Card";
 
 export const Dashboard = () => {
   const [openApplicationModal, setOpenApplicationModal] = useState<boolean>(false);
-  useAppStoreClean();
-
   return (
-    <>
-      <DashboardPage>
-        <Card
-          title="Applications"
-          extra={
-            <ServerPermissions>
+    <DashboardWrapper>
+      <Card
+        title="Applications"
+        extra={
+          <ServerPermissions>
+            <NewApplicationModal
+              isOpen={openApplicationModal}
+              onCancel={() => setOpenApplicationModal(false)}
+            >
               <Button
                 icon={<PlusOutlined />}
                 onClick={() => setOpenApplicationModal(true)}
               >
                 New application
               </Button>
-            </ServerPermissions>
-          }
-        >
-          <AppsTable />
-        </Card>
-      </DashboardPage>
-      <NewApplicationModal
-        isOpen={openApplicationModal}
-        onCancel={() => setOpenApplicationModal(false)}
-      />
-    </>
+            </NewApplicationModal>
+          </ServerPermissions>
+        }
+      >
+        <AppsTable />
+      </Card>
+    </DashboardWrapper>
   );
 };
 

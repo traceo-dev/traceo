@@ -1,5 +1,5 @@
 import { useEffect, useState, FormEvent } from "react";
-import { dispatch } from "../../../store/store";
+import { useAppDispatch } from "../../../store";
 import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
@@ -15,6 +15,8 @@ import { Avatar } from "core/ui-components/Avatar";
 import { Modal } from "core/ui-components/Modal";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
+  const dispatch = useAppDispatch();
+
   const { accounts, hasFetched } = useSelector(
     (state: StoreState) => state.serverAccounts
   );

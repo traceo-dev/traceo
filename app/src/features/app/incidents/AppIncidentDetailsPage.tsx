@@ -7,21 +7,19 @@ import { InfoSection } from "./components/InfoSection";
 
 export const AppIncidentDetailsPage = () => {
   return (
-    <>
-      <AppIncidentNavigationPage>
-        <div className="w-full grid grid-cols-12">
-          <div className="col-span-9">
-            <StacktraceSection />
-            <Exception />
-            <Errors />
-          </div>
-          <div className="col-span-3 ml-1">
-            <InfoSection />
-            <PlatformSection />
-          </div>
+    <AppIncidentNavigationPage>
+      <div className="w-full grid grid-cols-12">
+        <div className="col-span-9">
+          <StacktraceSection />
+          <Exception />
+          <Errors />
         </div>
-      </AppIncidentNavigationPage>
-    </>
+        <div className="col-span-3 ml-1">
+          <InfoSection />
+          <PlatformSection />
+        </div>
+      </div>
+    </AppIncidentNavigationPage>
   );
 };
 

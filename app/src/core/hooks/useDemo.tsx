@@ -1,8 +1,7 @@
-import { useSelector } from "react-redux";
-import { StoreState } from "../../types/store";
+import { useAccount } from "./useAccount";
 
 export const useDemo = () => {
-  const { account } = useSelector((state: StoreState) => state.account);
+  const account = useAccount();
 
   const isDemoEnv = process.env.REACT_APP_DEMO === "true";
   const isAdmin = account.isAdmin;
