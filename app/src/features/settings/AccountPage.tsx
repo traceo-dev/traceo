@@ -1,10 +1,10 @@
 import { ColumnSection } from "../../core/components/ColumnSection";
 import { useAppDispatch } from "../../store";
-import { DashboardSettingsNavigation } from "../../features/settings/components/DashboardSettingsNavigation";
+import { AccountSettingsPageWrapper } from "./components/AccountSettingsPageWrapper";
 import {
   updateAccount,
   updateAccountPassword
-} from "../../features/app/settings/state/settings/actions";
+} from "../app/settings/state/settings/actions";
 import { Input } from "core/ui-components/Input";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { Button } from "core/ui-components/Button";
@@ -26,7 +26,7 @@ type UpdatePasswordForm = {
   newPassword: string;
 };
 
-const SettingsAccountPage = () => {
+const AccountPage = () => {
   const dispatch = useAppDispatch();
   const account = useAccount();
   const { isAdmin } = useMemberRole();
@@ -39,7 +39,7 @@ const SettingsAccountPage = () => {
     dispatch(updateAccountPassword(form));
 
   return (
-    <DashboardSettingsNavigation>
+    <AccountSettingsPageWrapper>
       <Card title="Basic Information">
         <ColumnSection
           title="Personal information"
@@ -133,8 +133,8 @@ const SettingsAccountPage = () => {
           </ButtonContainer>
         </ColumnSection>
       </Card>
-    </DashboardSettingsNavigation>
+    </AccountSettingsPageWrapper>
   );
 };
 
-export default SettingsAccountPage;
+export default AccountPage;

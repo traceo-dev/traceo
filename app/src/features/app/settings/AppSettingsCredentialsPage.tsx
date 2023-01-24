@@ -1,13 +1,13 @@
 import { useApplication } from "core/hooks/useApplication";
 import { Typography } from "core/ui-components/Typography";
 import { ColumnSection } from "../../../core/components/ColumnSection";
-import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
+import SettingsPageWrapper from "./components/SettingsPageWrapper";
 
 export const AppSettingsCredentialsPage = () => {
   const { application } = useApplication();
 
   return (
-    <AppSettingsNavigationPage>
+    <SettingsPageWrapper>
       <ColumnSection
         marginTop={0}
         title="DSN"
@@ -21,7 +21,7 @@ export const AppSettingsCredentialsPage = () => {
           {application?.dsn}
         </Typography>
       </ColumnSection>
-    </AppSettingsNavigationPage>
+    </SettingsPageWrapper>
   );
 };
 

@@ -3,11 +3,11 @@ import { Card } from "core/ui-components/Card";
 import { DescriptionRow, Descriptions } from "../../core/components/Descriptions";
 import { CONTACT_EMAIL, VERSION } from "../../core/utils/constants";
 import dateUtils from "../../core/utils/date";
-import { ManagementNavigation } from "./components/ManagementNavigation";
+import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 
-const ManagementInstancePage = () => {
+const InstancePage = () => {
   return (
-    <ManagementNavigation>
+    <DashboardPageWrapper>
       <Card title="Basic Informations">
         <Descriptions>
           <DescriptionRow label="Name">
@@ -23,8 +23,8 @@ const ManagementInstancePage = () => {
           </DescriptionRow>
         </Descriptions>
       </Card>
-    </ManagementNavigation>
+    </DashboardPageWrapper>
   );
 };
 
-export default ManagementInstancePage;
+export default InstancePage;

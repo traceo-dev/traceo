@@ -2,7 +2,7 @@ import { Space } from "core/ui-components/Space";
 import { joinClasses } from "core/utils/classes";
 import { FC } from "react";
 
-interface PanelHeaderProps {
+export interface PageHeaderProps {
   title: string | JSX.Element;
   description?: string | JSX.Element;
   suffix?: string | JSX.Element;
@@ -10,7 +10,7 @@ interface PanelHeaderProps {
   className?: string;
 }
 
-export const PageHeader: FC<PanelHeaderProps> = ({
+export const PageHeader: FC<PageHeaderProps> = ({
   title,
   description,
   suffix,

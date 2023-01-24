@@ -1,8 +1,8 @@
-import { mapLogName } from "../../../../../core/components/Plots/components/Logs/util";
+import { mapLogName } from "../../../../core/components/Plots/components/Logs/util";
 import { FC, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { LogLevel } from "../../../../../types/logs";
-import { StoreState } from "../../../../../types/store";
+import { LogLevel } from "../../../../types/logs";
+import { StoreState } from "../../../../types/store";
 import { mapLogIcon } from "./LogContainer";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";

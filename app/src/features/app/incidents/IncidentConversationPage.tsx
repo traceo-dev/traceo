@@ -7,13 +7,13 @@ import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SocketContext } from "../../../core/hooks/SocketContextProvider";
 import { useAppDispatch } from "../../../store";
 import { StoreState } from "../../../types/store";
-import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
+import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { loadIncidentComments } from "./state/actions";
 import { Typography } from "core/ui-components/Typography";
 import { Space } from "core/ui-components/Space";
 import { Card } from "core/ui-components/Card";
 
-export const AppIncidentConversationPage = () => {
+export const IncidentConversationPage = () => {
   const { socket } = useContext(SocketContext);
   const dispatch = useAppDispatch();
   const { incident, hasFetched } = useSelector((state: StoreState) => state.incident);
@@ -34,7 +34,7 @@ export const AppIncidentConversationPage = () => {
   socket.off("update_comment").on("update_comment", () => fetchComments());
 
   return (
-    <AppIncidentNavigationPage>
+    <IncidentPageWrapper>
       <ConditionalWrapper isLoading={!hasFetched}>
         <Card className="w-full p-1 rounded-md mb-5 bg-primary">
           <Space className="w-full">
@@ -50,8 +50,8 @@ export const AppIncidentConversationPage = () => {
         <CommentsBox />
         <CommentInput />
       </ConditionalWrapper>
-    </AppIncidentNavigationPage>
+    </IncidentPageWrapper>
   );
 };
 
-export default AppIncidentConversationPage;
+export default IncidentConversationPage;

@@ -1,18 +1,18 @@
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../../types/store";
-import AppExploreNavigationPage from "../AppExploreNavigation";
+import { StoreState } from "../../../types/store";
+import ExplorePageWrapper from "./ExplorePageWrapper";
 
-import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { LogsHistogram } from "./components/LogsHistogram";
-import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { DataNotFound } from "../../../core/components/DataNotFound";
 import { LogContainer, LogRow } from "./components/LogContainer";
 import { Card } from "core/ui-components/Card";
 
-const AppLogsPage = () => {
+const LogsPage = () => {
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);
 
   return (
-    <AppExploreNavigationPage>
+    <ExplorePageWrapper>
       <LogsHistogram />
       <Card title="Logs list">
         <ConditionalWrapper
@@ -27,8 +27,8 @@ const AppLogsPage = () => {
           </LogContainer>
         </ConditionalWrapper>
       </Card>
-    </AppExploreNavigationPage>
+    </ExplorePageWrapper>
   );
 };
 
-export default AppLogsPage;
+export default LogsPage;

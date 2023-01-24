@@ -1,15 +1,15 @@
-import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { DescriptionRow, Descriptions } from "../../../../core/components/Descriptions";
-import AppExploreNavigationPage from "../AppExploreNavigation";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
+import { DataNotFound } from "../../../core/components/DataNotFound";
+import { DescriptionRow, Descriptions } from "../../../core/components/Descriptions";
+import ExplorePageWrapper from "./ExplorePageWrapper";
 import { Card } from "core/ui-components/Card";
 import { useApplication } from "core/hooks/useApplication";
 
-const AppRuntimePage = () => {
+const RuntimePage = () => {
   const { application } = useApplication();
 
   return (
-    <AppExploreNavigationPage>
+    <ExplorePageWrapper>
       <Card title="Runtime configuration">
         <ConditionalWrapper
           isEmpty={!application?.runtimeConfig}
@@ -41,8 +41,8 @@ const AppRuntimePage = () => {
           </Descriptions>
         </ConditionalWrapper>
       </Card>
-    </AppExploreNavigationPage>
+    </ExplorePageWrapper>
   );
 };
 
-export default AppRuntimePage;
+export default RuntimePage;

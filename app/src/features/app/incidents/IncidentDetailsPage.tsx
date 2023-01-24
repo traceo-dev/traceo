@@ -1,13 +1,13 @@
-import AppIncidentNavigationPage from "../../../features/app/incidents/components/AppIncidentNavigationPage";
+import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { Errors } from "./components/Errors";
 import { StacktraceSection } from "./components/StacktraceSection";
 import { Exception } from "./components/Exception";
 import { PlatformSection } from "./components/PlatformSection";
 import { InfoSection } from "./components/InfoSection";
 
-export const AppIncidentDetailsPage = () => {
+export const IncidentDetailsPage = () => {
   return (
-    <AppIncidentNavigationPage>
+    <IncidentPageWrapper>
       <div className="w-full grid grid-cols-12">
         <div className="col-span-9">
           <StacktraceSection />
@@ -19,8 +19,8 @@ export const AppIncidentDetailsPage = () => {
           <PlatformSection />
         </div>
       </div>
-    </AppIncidentNavigationPage>
+    </IncidentPageWrapper>
   );
 };
 
-export default AppIncidentDetailsPage;
+export default IncidentDetailsPage;

@@ -1,4 +1,3 @@
-import { PageContentLoading } from "core/components/PageContentLoading";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -6,10 +5,10 @@ import { useAppDispatch } from "../../store";
 import { StoreState } from "../../types/store";
 import { ApplicationInformation } from "./components/ApplicationManagement/ApplicationInformation";
 import { ApplicationMembers } from "./components/ApplicationManagement/ApplicationMembers";
-import { ManagementNavigation } from "./components/ManagementNavigation";
+import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { loadServerApplication } from "./state/applications/actions";
 
-export const ManagementApplicationPage = () => {
+export const ApplicationPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const { hasFetched } = useSelector((state: StoreState) => state.serverApplications);
@@ -19,13 +18,11 @@ export const ManagementApplicationPage = () => {
   }, []);
 
   return (
-    <ManagementNavigation>
-      <PageContentLoading isLoading={!hasFetched}>
-        <ApplicationInformation />
-        <ApplicationMembers />
-      </PageContentLoading>
-    </ManagementNavigation>
+    <DashboardPageWrapper isLoading={!hasFetched}>
+      <ApplicationInformation />
+      <ApplicationMembers />
+    </DashboardPageWrapper>
   );
 };
 
-export default ManagementApplicationPage;
+export default ApplicationPage;

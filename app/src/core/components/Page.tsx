@@ -1,5 +1,10 @@
+import { PageHeader, PageHeaderProps } from "core/ui-components/PageHeader";
 import { FC } from "react";
 import styled from "styled-components";
+import { MenuRoute } from "types/navigation";
+import { Menu } from "./Layout/Menu";
+import { PageContent } from "./PageContent";
+import { TraceoLoading } from "./TraceoLoading";
 
 const ScrollbarView = styled.div`
   position: relative;
@@ -18,14 +23,34 @@ const ScrollbarContent = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 48px;
-  padding-top: 20px;
 `;
 
-export const Page: FC = ({ children }) => {
+interface PageProps {
+  menuRoutes?: MenuRoute[];
+  header?: PageHeaderProps;
+  isLoading?: boolean;
+}
+
+interface PageType extends FC<PageProps> {
+  Content: typeof PageContent;
+}
+
+export const Page: PageType = ({ children, menuRoutes, header, isLoading }) => {
   return (
     <ScrollbarView>
-      <ScrollbarContent>{children}</ScrollbarContent>
+      <ScrollbarContent>
+        {!isLoading && (
+          <div className="px-6 py-9">
+            {header && <PageHeader {...header} />}
+            {menuRoutes && <Menu routes={menuRoutes} />}
+            {children}
+          </div>
+        )}
+
+        {isLoading && <TraceoLoading />}
+      </ScrollbarContent>
     </ScrollbarView>
   );
 };
+
+Page.Content = PageContent;

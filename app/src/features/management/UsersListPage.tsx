@@ -6,13 +6,13 @@ import { NewAccountModal } from "../../core/components/Modals/NewAccountModal";
 import { useAppDispatch } from "../../store";
 import { StoreState } from "../../types/store";
 import { AccountsTable } from "./components/AccountManagement/AccountsTable";
-import { ManagementNavigation } from "./components/ManagementNavigation";
+import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { loadServerAccounts } from "./state/accounts/actions";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
 import { Button } from "core/ui-components/Button";
 import { Card } from "core/ui-components/Card";
 
-const ManagementUsersPage = () => {
+const UsersListPage = () => {
   const dispatch = useAppDispatch();
 
   const { accounts, hasFetched } = useSelector(
@@ -26,7 +26,7 @@ const ManagementUsersPage = () => {
   }, [search]);
 
   return (
-    <ManagementNavigation>
+    <DashboardPageWrapper>
       <Card
         title="Accounts list"
         extra={
@@ -48,8 +48,8 @@ const ManagementUsersPage = () => {
         isOpen={isOpenNewAccountDrawer}
         onCancel={() => setOpenNewAccountDrawer(false)}
       />
-    </ManagementNavigation>
+    </DashboardPageWrapper>
   );
 };
 
-export default ManagementUsersPage;
+export default UsersListPage;

@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { DashboardWrapper } from "./components/DashboardPage";
 import { AppsTable } from "./components/AppsTable";
 import { PlusOutlined } from "@ant-design/icons";
 import ServerPermissions from "../../core/components/ServerPermissions";
 import { NewApplicationModal } from "../../core/components/Modals/NewApplicationModal";
 import { Button } from "core/ui-components/Button";
 import { Card } from "core/ui-components/Card";
+import { Page } from "core/components/Page";
 
-export const Dashboard = () => {
+export const DashboardPage = () => {
   const [openApplicationModal, setOpenApplicationModal] = useState<boolean>(false);
   return (
-    <DashboardWrapper>
+    <Page>
       <Card
         title="Applications"
+        className="mt-5"
         extra={
           <ServerPermissions>
             <NewApplicationModal
@@ -31,8 +32,8 @@ export const Dashboard = () => {
       >
         <AppsTable />
       </Card>
-    </DashboardWrapper>
+    </Page>
   );
 };
 
-export default Dashboard;
+export default DashboardPage;

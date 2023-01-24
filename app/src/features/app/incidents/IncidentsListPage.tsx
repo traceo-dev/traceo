@@ -1,19 +1,17 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import AppPage from "../components/AppPage";
 import { SortIcons } from "../../../core/components/SortIcons";
-import { IncidentTable } from "../../../features/app/incidents/components/IncidentTable";
+import { IncidentTable } from "./components/IncidentTable";
 import { ApiQueryParams } from "../../../core/lib/api";
 import { useAppDispatch } from "../../../store";
 import { IncidentSortBy, IncidentStatusSearch } from "../../../types/incidents";
 import { StoreState } from "../../../types/store";
-import { loadIncidents } from "../../../features/app/incidents/state/actions";
+import { loadIncidents } from "./state/actions";
 import { useParams } from "react-router-dom";
 import { SortOrder } from "../../../types/api";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
-import { PageHeader } from "core/ui-components/PageHeader";
 import { BugOutlined } from "@ant-design/icons";
 import {
   getLocalStorageIncidentPlotType,
@@ -26,8 +24,9 @@ import { Card } from "core/ui-components/Card";
 import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
 import { RadioButtonGroup } from "core/ui-components/RadioButton/RadioButtonGroup";
 import { resetIncidentState } from "./state/reducers";
+import { Page } from "core/components/Page";
 
-export const AppIncidentsListPage = () => {
+export const IncidentsListPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
   const { incidents, hasFetched } = useSelector((state: StoreState) => state.incidents);
@@ -62,54 +61,57 @@ export const AppIncidentsListPage = () => {
   };
 
   return (
-    <AppPage>
-      <PageHeader
-        icon={<BugOutlined />}
-        title="Incidents"
-        description="List of incidents catched by Traceo SDK"
-      />
-      <Card>
-        <SearchWrapper className="pt-2 pb-12">
-          <InputSearch
-            placeholder="Search incidents by type, message, status or assigned user"
-            value={search}
-            onChange={setSearch}
-          />
-          <Select
-            placeholder="Select status"
-            width={150}
-            options={searchStatusOptions}
-            value={status}
-            onChange={(opt) => setStatus(opt?.value)}
-            isClearable
-          />
-          <Select
-            placeholder="Sort by"
-            width={150}
-            options={sortOptions}
-            value={sortBy}
-            onChange={(opt) => setSortBy(opt?.value)}
-            isClearable
-          />
-          <RadioButtonGroup
-            onChange={onChangePlotType}
-            value={plotType}
-            options={changeBarOptions}
-            size="sm"
-          />
-          <SortIcons order={order} setOrder={setOrder} />
-        </SearchWrapper>
+    <Page
+      header={{
+        icon: <BugOutlined />,
+        title: "Incidents",
+        description: "List of incidents catched by Traceo SDK"
+      }}
+    >
+      <Page.Content>
+        <Card>
+          <SearchWrapper className="pt-2 pb-12">
+            <InputSearch
+              placeholder="Search incidents by type, message, status or assigned user"
+              value={search}
+              onChange={setSearch}
+            />
+            <Select
+              placeholder="Select status"
+              width={150}
+              options={searchStatusOptions}
+              value={status}
+              onChange={(opt) => setStatus(opt?.value)}
+              isClearable
+            />
+            <Select
+              placeholder="Sort by"
+              width={150}
+              options={sortOptions}
+              value={sortBy}
+              onChange={(opt) => setSortBy(opt?.value)}
+              isClearable
+            />
+            <RadioButtonGroup
+              onChange={onChangePlotType}
+              value={plotType}
+              options={changeBarOptions}
+              size="sm"
+            />
+            <SortIcons order={order} setOrder={setOrder} />
+          </SearchWrapper>
 
-        <ConditionalWrapper
-          isEmpty={incidents?.length === 0}
-          isLoading={!hasFetched}
-          emptyView={<EmptyIncidentsList constraints={search} />}
-        >
-          <IncidentTable isLoading={!hasFetched} incidents={incidents} />
-        </ConditionalWrapper>
-      </Card>
-    </AppPage>
+          <ConditionalWrapper
+            isEmpty={incidents?.length === 0}
+            isLoading={!hasFetched}
+            emptyView={<EmptyIncidentsList constraints={search} />}
+          >
+            <IncidentTable isLoading={!hasFetched} incidents={incidents} />
+          </ConditionalWrapper>
+        </Card>
+      </Page.Content>
+    </Page>
   );
 };
 
-export default AppIncidentsListPage;
+export default IncidentsListPage;

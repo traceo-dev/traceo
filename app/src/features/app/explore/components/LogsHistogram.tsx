@@ -4,14 +4,14 @@ import { loadApplicationLogs } from "../state/actions";
 import { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../../../store";
-import { StoreState } from "../../../../../types/store";
-import { LogLevel } from "../../../../../types/logs";
+import { useAppDispatch } from "../../../../store";
+import { StoreState } from "../../../../types/store";
+import { LogLevel } from "../../../../types/logs";
 import {
   getLocalStorageLogLevels,
   setLocalStorageLogLevels
-} from "../../../../../core/utils/localStorage";
-import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
+} from "../../../../core/utils/localStorage";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { LogsFilterPanel } from "./LogsFilterPanel";
 import { Button } from "core/ui-components/Button";
 import { Card } from "core/ui-components/Card";

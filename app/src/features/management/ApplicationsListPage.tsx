@@ -7,7 +7,7 @@ import { ApiQueryParams } from "../../core/lib/api";
 import { useAppDispatch } from "../../store";
 import { StoreState } from "../../types/store";
 import { ApplicationsTable } from "./components/ApplicationManagement/ApplicationsTable";
-import { ManagementNavigation } from "./components/ManagementNavigation";
+import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { loadServerApplications } from "./state/applications/actions";
 import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 import { DataNotFound } from "../../core/components/DataNotFound";
@@ -15,7 +15,7 @@ import { InputSearch } from "core/ui-components/Input/InputSearch";
 import { Button } from "core/ui-components/Button";
 import { Card } from "core/ui-components/Card";
 
-export const ManagementApplicationsPage = () => {
+export const ApplicationsListPage = () => {
   const dispatch = useAppDispatch();
   const { applications, hasFetched } = useSelector(
     (state: StoreState) => state.serverApplications
@@ -27,10 +27,6 @@ export const ManagementApplicationsPage = () => {
 
   useEffect(() => {
     fetchApplications();
-  }, []);
-
-  useEffect(() => {
-    fetchApplications();
   }, [search]);
 
   const fetchApplications = () => {
@@ -38,7 +34,7 @@ export const ManagementApplicationsPage = () => {
   };
 
   return (
-    <ManagementNavigation>
+    <DashboardPageWrapper>
       <Card
         title="Applications list"
         extra={
@@ -68,8 +64,8 @@ export const ManagementApplicationsPage = () => {
         onCancel={() => setOpenNewAppDrawer(false)}
         isAdmin={true}
       />
-    </ManagementNavigation>
+    </DashboardPageWrapper>
   );
 };
 
-export default ManagementApplicationsPage;
+export default ApplicationsListPage;

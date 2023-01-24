@@ -1,7 +1,7 @@
 import { Space } from "core/ui-components/Space";
 import { useRef, useState } from "react";
 import { ColumnSection } from "../../../core/components/ColumnSection";
-import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
+import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import api from "../../../core/lib/api";
 import { useAppDispatch } from "../../../store";
 import { ApiResponse } from "../../../types/api";
@@ -83,7 +83,7 @@ export const AppSettingsDetailsPage = () => {
   };
 
   return (
-    <AppSettingsNavigationPage>
+    <SettingsPageWrapper>
       <Card title="Basic Informations">
         <ColumnSection subtitle="Basic information about the application. Only users managing the application have the ability to edit its resources.">
           <div className="w-2/3 flex flex-col">
@@ -134,7 +134,7 @@ export const AppSettingsDetailsPage = () => {
           </ColumnSection>
         </Card>
       </Permissions>
-    </AppSettingsNavigationPage>
+    </SettingsPageWrapper>
   );
 };
 

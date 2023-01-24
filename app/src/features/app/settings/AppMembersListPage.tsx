@@ -9,7 +9,7 @@ import { loadMembers } from "./state/members/actions";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { Permissions } from "../../../core/components/Permissions";
-import AppSettingsNavigationPage from "./components/AppSettingsNavigation";
+import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import { AddMemberModal } from "../../../core/components/Modals/AddMemberModal";
 import { DataNotFound } from "../../../core/components/DataNotFound";
 import { InputSearch } from "core/ui-components/Input/InputSearch";
@@ -36,7 +36,7 @@ export const AppMembersListPage = () => {
 
   return (
     <>
-      <AppSettingsNavigationPage>
+      <SettingsPageWrapper>
         <Card
           title="Collaborators"
           extra={
@@ -64,7 +64,7 @@ export const AppMembersListPage = () => {
             />
           </ConditionalWrapper>
         </Card>
-      </AppSettingsNavigationPage>
+      </SettingsPageWrapper>
       <AddMemberModal
         isOpen={isModalOpen}
         onCancel={() => {

@@ -2,7 +2,7 @@ import { Space } from "core/ui-components/Space";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { useEffect, useState } from "react";
 import { TSDB } from "../../../types/application";
-import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
+import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { Select } from "core/ui-components/Select";
@@ -40,7 +40,7 @@ export const AppSettingsDataSourcePage = () => {
   };
 
   return (
-    <AppSettingsNavigationPage>
+    <SettingsPageWrapper>
       <Card title="Metrics Data Source">
         <ColumnSection
           subtitle="Configure a connection to the time series database to enable metrics
@@ -59,7 +59,7 @@ export const AppSettingsDataSourcePage = () => {
           </Space>
         </ColumnSection>
       </Card>
-    </AppSettingsNavigationPage>
+    </SettingsPageWrapper>
   );
 };
 

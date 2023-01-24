@@ -1,8 +1,6 @@
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
-import AppPage from "../components/AppPage";
-import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../../store";
@@ -12,7 +10,6 @@ import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
 import { MetricPreviewCustomizeForm } from "./components/MetricPreviewCustomizeForm";
 import { useForm } from "antd/es/form/Form";
 import { IMetric } from "../../../types/metrics";
-import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { useImmer } from "use-immer";
 import { toggleNavbar } from "../state/navbar/actions";
 import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
@@ -23,6 +20,7 @@ import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
 import { Tooltip } from "core/ui-components/Tooltip";
 import { MetricPreviewPlot } from "core/components/Plots";
+import { Page } from "core/components/Page";
 
 export const MetricPreviewPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
@@ -52,10 +50,6 @@ export const MetricPreviewPage = () => {
     }
   }, [metric]);
 
-  if (!metric?.options) {
-    return <TraceoLoading />;
-  }
-
   const isDescriptionVisible = options?.showDescription;
 
   const onExpand = () => {
@@ -69,8 +63,8 @@ export const MetricPreviewPage = () => {
   };
 
   return (
-    <AppPage>
-      <ConditionalWrapper isLoading={!hasFetchedMetric}>
+    <Page isLoading={!hasFetchedMetric || !metric?.options}>
+      <Page.Content>
         <MetricPreviewHeader
           form={form}
           isCustomizeMode={isCustomizeMode}
@@ -119,8 +113,8 @@ export const MetricPreviewPage = () => {
             <MetricPreviewCustomizeForm setOptions={setOptions} form={form} />
           )}
         </div>
-      </ConditionalWrapper>
-    </AppPage>
+      </Page.Content>
+    </Page>
   );
 };
 

@@ -4,15 +4,17 @@ import {
   SettingOutlined,
   TeamOutlined
 } from "@ant-design/icons";
-import { PageHeader } from "core/ui-components/PageHeader";
 import { MenuRoute } from "../../../types/navigation";
-import { Menu } from "../../../core/components/Layout/Menu";
-import { DashboardWrapper } from "../../dashboard/components/DashboardPage";
 import { PageCenter } from "../../../core/components/PageCenter";
 import NotFound from "../../../core/components/Layout/Pages/NotFound";
 import { useAccount } from "core/hooks/useAccount";
+import { Page } from "core/components/Page";
+import { FC } from "react";
 
-export const ManagementNavigation = ({ children }) => {
+interface Props {
+  isLoading?: boolean;
+}
+export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
   const account = useAccount();
 
   if (!account.isAdmin) {
@@ -45,14 +47,16 @@ export const ManagementNavigation = ({ children }) => {
   ];
 
   return (
-    <DashboardWrapper>
-      <PageHeader
-        icon={<SettingOutlined />}
-        title={"Management"}
-        description={"Manage your server resources"}
-      />
-      <Menu className="mt-5" routes={menu} />
-      {children}
-    </DashboardWrapper>
+    <Page
+      header={{
+        icon: <SettingOutlined />,
+        title: "Management",
+        description: "Manage your server resources"
+      }}
+      isLoading={isLoading}
+      menuRoutes={menu}
+    >
+      <Page.Content>{children}</Page.Content>
+    </Page>
   );
 };

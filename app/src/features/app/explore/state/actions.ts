@@ -1,7 +1,7 @@
-import { ApiResponse } from "../../../../../types/api";
-import api from "../../../../../core/lib/api";
-import { LogLevel, TraceoLog } from "../../../../../types/logs";
-import { ThunkResult } from "../../../../../types/store";
+import { ApiResponse } from "../../../../types/api";
+import api from "../../../../core/lib/api";
+import { LogLevel, TraceoLog } from "../../../../types/logs";
+import { ThunkResult } from "../../../../types/store";
 import { logsLoaded, resetState } from "./reducers";
 
 interface LogsProps {

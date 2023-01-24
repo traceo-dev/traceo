@@ -7,9 +7,9 @@ import {
   RightOutlined
 } from "@ant-design/icons";
 import { Space } from "core/ui-components/Space";
-import { joinClasses, conditionClass } from "../../../../../core/utils/classes";
+import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { FC, useState } from "react";
-import { LogLevel, TraceoLog } from "../../../../../types/logs";
+import { LogLevel, TraceoLog } from "../../../../types/logs";
 import { Typography } from "core/ui-components/Typography";
 
 export const mapLogIcon: Record<LogLevel, JSX.Element> = {

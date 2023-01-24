@@ -1,16 +1,21 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { loadIncident } from "../../../../features/app/incidents/state/actions";
+import { loadIncident } from "../state/actions";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../../store";
 import { StoreState } from "../../../../types/store";
-import { IncidentHeader } from "../../../../features/app/incidents/components/IncidentHeader";
-import AppPage from "../../components/AppPage";
 import { MenuRoute } from "../../../../types/navigation";
-import { Menu } from "../../../../core/components/Layout/Menu";
-import { CommentOutlined, InfoCircleOutlined, StockOutlined } from "@ant-design/icons";
+import {
+  BugOutlined,
+  CommentOutlined,
+  InfoCircleOutlined,
+  StockOutlined,
+  SyncOutlined
+} from "@ant-design/icons";
+import { Page } from "core/components/Page";
+import { IncidentStatusTag } from "core/components/IncidentStatusTag";
 
-export const AppIncidentNavigationPage = ({ children }) => {
+export const IncidentPageWrapper = ({ children }) => {
   const { iid } = useParams();
   const dispatch = useAppDispatch();
   const { incident, hasFetched } = useSelector((state: StoreState) => state.incident);
@@ -41,12 +46,30 @@ export const AppIncidentNavigationPage = ({ children }) => {
   }, []);
 
   return (
-    <AppPage isLoading={!hasFetched}>
-      <IncidentHeader incident={incident} onExecute={() => dispatch(loadIncident(iid))} />
-      <Menu routes={menu} />
-      {children}
-    </AppPage>
+    <Page
+      header={{
+        title: (
+          <div>
+            <span>{incident.type}</span>
+            <IncidentStatusTag className="ml-3" status={incident.status} />
+          </div>
+        ),
+        description: incident?.message,
+        icon: <BugOutlined />,
+        suffix: (
+          <SyncOutlined
+            onClick={() => dispatch(loadIncident(iid))}
+            className="text-xs cursor-pointer"
+          />
+        ),
+        className: "my-5"
+      }}
+      menuRoutes={menu}
+      isLoading={!hasFetched}
+    >
+      <Page.Content>{children}</Page.Content>
+    </Page>
   );
 };
 
-export default AppIncidentNavigationPage;
+export default IncidentPageWrapper;

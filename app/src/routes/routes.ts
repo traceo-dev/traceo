@@ -22,39 +22,31 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
   return [
     {
       path: "/dashboard/overview",
-      component: lazy(() => import("../features/dashboard/Dashboard"))
+      component: lazy(() => import("../features/dashboard/DashboardPage"))
     },
     {
       path: "/dashboard/management/accounts",
-      component: lazy(() => import("../features/management/ManagementUsersPage"))
+      component: lazy(() => import("../features/management/UsersListPage"))
     },
     {
       path: "/dashboard/management/accounts/:id",
-      component: lazy(() => import("../features/management/ManagementUserPage"))
+      component: lazy(() => import("../features/management/UserPage"))
     },
     {
       path: "/dashboard/management/apps",
-      component: lazy(() => import("../features/management/ManagementApplicationsPage"))
+      component: lazy(() => import("../features/management/ApplicationsListPage"))
     },
     {
       path: "/dashboard/management/apps/:id",
-      component: lazy(() => import("../features/management/ManagementApplicationPage"))
+      component: lazy(() => import("../features/management/ApplicationPage"))
     },
     {
       path: "/dashboard/management/instance",
-      component: lazy(() => import("../features/management/ManagementInstancePage"))
-    },
-    {
-      path: "/dashboard/updates",
-      component: lazy(() => import("../features/updates/UpdatePage"))
+      component: lazy(() => import("../features/management/InstancePage"))
     },
     {
       path: "/dashboard/account/settings",
-      component: lazy(() => import("../features/settings/SettingsAccountPage"))
-    },
-    {
-      path: "/dashboard/account/notifications",
-      component: lazy(() => import("../features/settings/SettingsNotificationsPage"))
+      component: lazy(() => import("../features/settings/AccountPage"))
     }
   ];
 };
@@ -67,29 +59,29 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
     },
     {
       path: "/app/:id/incidents",
-      component: lazy(() => import("../features/app/incidents/AppIncidentsListPage"))
+      component: lazy(() => import("../features/app/incidents/IncidentsListPage"))
     },
     {
       path: "/app/:id/incidents/:iid/details",
-      component: lazy(() => import("../features/app/incidents/AppIncidentDetailsPage"))
+      component: lazy(() => import("../features/app/incidents/IncidentDetailsPage"))
     },
     {
       path: "/app/:id/incidents/:iid/analytics",
-      component: lazy(() => import("../features/app/incidents/AppIncidentAnalyticsPage"))
+      component: lazy(() => import("../features/app/incidents/IncidentAnalyticsPage"))
     },
     {
       path: "/app/:id/incidents/:iid/conversation",
       component: lazy(
-        () => import("../features/app/incidents/AppIncidentConversationPage")
+        () => import("../features/app/incidents/IncidentConversationPage")
       )
     },
     {
       path: "/app/:id/explore/runtime",
-      component: lazy(() => import("../features/app/explore/runtime/AppRuntimePage"))
+      component: lazy(() => import("../features/app/explore/RuntimePage"))
     },
     {
       path: "/app/:id/explore/logs",
-      component: lazy(() => import("../features/app/explore/logs/AppLogsPage"))
+      component: lazy(() => import("../features/app/explore/LogsPage"))
     },
     {
       path: "/app/:id/metrics",

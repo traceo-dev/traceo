@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import { CONNECTION_STATUS } from "../../../types/tsdb";
-import AppMetricsNavigationPage from "./components/AppMetricsNavigationPage";
 import { ConnectionError } from "./components/ConnectionError";
 import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useAppDispatch } from "../../../store";
 import { loadMetrics } from "./state/actions";
-import { SyncOutlined } from "@ant-design/icons";
+import { BarChartOutlined, SyncOutlined } from "@ant-design/icons";
 import { MetricCard } from "./components/MetricCard";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { notify } from "../../../core/utils/notify";
@@ -23,6 +22,7 @@ import { EmptyMetricsList } from "./components/EmptyMetricsList";
 import { Row } from "core/ui-components/Row";
 import { Col } from "core/ui-components/Col";
 import { useApplication } from "core/hooks/useApplication";
+import { Page } from "core/components/Page";
 
 const MetricsPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
@@ -89,9 +89,17 @@ const MetricsPage = () => {
   };
 
   return (
-    <AppMetricsNavigationPage>
-      <Card>{renderContent()}</Card>
-    </AppMetricsNavigationPage>
+    <Page
+      header={{
+        icon: <BarChartOutlined />,
+        title: "Metrics",
+        description: "View metrics from your app after connecting and configuring the SDK"
+      }}
+    >
+      <Page.Content>
+        <Card>{renderContent()}</Card>
+      </Page.Content>
+    </Page>
   );
 };
 

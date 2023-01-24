@@ -1,14 +1,14 @@
 import { statisticUtils } from "../../../core/utils/statistics";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
-import AppIncidentNavigationPage from "./components/AppIncidentNavigationPage";
+import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import dateUtils from "../../../core/utils/date";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
 import { AppIncidentsTodayPlot, AppOverviewPlot } from "core/components/Plots";
 import { useMemo } from "react";
 
-export const AppIncidentAnalyticsPage = () => {
+export const IncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
 
   const dataSource = useMemo(() => {
@@ -18,7 +18,7 @@ export const AppIncidentAnalyticsPage = () => {
   }, [incident?.errorsDetails]);
 
   return (
-    <AppIncidentNavigationPage>
+    <IncidentPageWrapper>
       <div className="grid grid-cols-5 w-full mb-1">
         <div className="col-span-4 h-full">
           <Card title="Today">
@@ -47,8 +47,8 @@ export const AppIncidentAnalyticsPage = () => {
       <Card title="Total overview">
         <AppOverviewPlot stats={incident.errorsDetails} />
       </Card>
-    </AppIncidentNavigationPage>
+    </IncidentPageWrapper>
   );
 };
 
-export default AppIncidentAnalyticsPage;
+export default IncidentAnalyticsPage;
