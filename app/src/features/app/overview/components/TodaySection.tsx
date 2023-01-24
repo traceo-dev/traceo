@@ -1,25 +1,24 @@
 import { SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
-import { useApi } from "../../../../core/lib/useApi";
+import { useRequest } from "../../../../core/hooks/useRequest";
 import { ErrorDetails } from "../../../../types/incidents";
 import { statisticUtils } from "../../../../core/utils/statistics";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import dateUtils from "../../../../core/utils/date";
-import { useSelector } from "react-redux";
-import { StoreState } from "../../../../types/store";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
 import { AppIncidentsTodayPlot } from "core/components/Plots";
+import { useApplication } from "core/hooks/useApplication";
 
 export const TodaySection = () => {
   const { id } = useParams();
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
 
   const {
     data: dataSource,
     isLoading,
     execute: reloadDailyStats
-  } = useApi<ErrorDetails[]>({
+  } = useRequest<ErrorDetails[]>({
     url: "/api/statistics/daily",
     params: {
       id

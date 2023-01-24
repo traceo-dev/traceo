@@ -1,5 +1,5 @@
 import { FC, useState, FormEvent } from "react";
-import { useApi } from "../../lib/useApi";
+import { useRequest } from "../../hooks/useRequest";
 import { Application, MemberRole } from "../../../types/application";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
@@ -29,7 +29,7 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { data: applications = [], isLoading } = useApi<Application[]>({
+  const { data: applications = [], isLoading } = useRequest<Application[]>({
     url: "/api/application/all",
     params: {
       order: "DESC",

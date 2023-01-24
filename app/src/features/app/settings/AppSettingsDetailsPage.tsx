@@ -1,12 +1,10 @@
 import { Space } from "core/ui-components/Space";
 import { useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
 import api from "../../../core/lib/api";
 import { useAppDispatch } from "../../../store";
 import { ApiResponse } from "../../../types/api";
-import { StoreState } from "../../../types/store";
 import { MemberRole } from "../../../types/application";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";
@@ -21,12 +19,13 @@ import { Card } from "core/ui-components/Card";
 import { FieldLabel } from "core/ui-components/Form/FieldLabel";
 import { Input } from "core/ui-components/Input";
 import { InputGroup } from "core/ui-components/Input/InputGroup";
+import { useApplication } from "core/hooks/useApplication";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isViewer } = useMemberRole();
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
   const [isNameEdit, setNameEdit] = useState<boolean>(false);
   const ref = useRef<HTMLInputElement>();

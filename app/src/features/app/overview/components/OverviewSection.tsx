@@ -1,4 +1,4 @@
-import { useApi } from "../../../../core/lib/useApi";
+import { useRequest } from "../../../../core/hooks/useRequest";
 import { SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../../../store";
@@ -19,7 +19,7 @@ export const OverviewSection = () => {
     data: dataSource,
     isLoading,
     execute: reload
-  } = useApi<TotalOverviewType>({
+  } = useRequest<TotalOverviewType>({
     url: "/api/statistics/total",
     params: {
       id

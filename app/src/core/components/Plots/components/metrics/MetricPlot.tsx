@@ -1,12 +1,13 @@
 import { FC, lazy, useEffect } from "react";
 import { IMetric, MetricsResponse, METRIC_UNIT } from "../../../../../types/metrics";
 import { MetricLoading } from "../../../../../core/components/MetricLoading";
-import { useApi } from "../../../../../core/lib/useApi";
+import { useRequest } from "../../../../hooks/useRequest";
 import { StoreState } from "../../../../../types/store";
 import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 import { buildDatasource, buildSeries, commonOptions } from "./utils";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
+import { useApplication } from "core/hooks/useApplication";
 
 interface Props {
   metric: IMetric;
@@ -14,7 +15,7 @@ interface Props {
 }
 const ReactECharts = lazy(() => import("echarts-for-react"));
 const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
 
   useEffect(() => {
     execute();
@@ -31,7 +32,7 @@ const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
     data: datasource,
     // isLoading,
     execute
-  } = useApi<MetricsResponse[]>({
+  } = useRequest<MetricsResponse[]>({
     url: `/api/metrics/${application.id}/datasource`,
     params: {
       fields: seriesFields,

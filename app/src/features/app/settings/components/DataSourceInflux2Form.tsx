@@ -1,10 +1,8 @@
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { useState, useMemo } from "react";
-import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../../store";
 import { CONNECTION_STATUS, InfluxDS, TSDB_PROVIDER } from "../../../../types/tsdb";
-import { StoreState } from "../../../../types/store";
 import { INFLUX2_DOCS } from "../../../../core/utils/constants";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
 import { ApiResponse } from "../../../../types/api";
@@ -17,10 +15,11 @@ import { FormItem } from "core/ui-components/Form/FormItem";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Link } from "core/ui-components/Link";
 import { Alert } from "core/ui-components/Alert";
+import { useApplication } from "core/hooks/useApplication";
 
 export const DataSourceInflux2Form = () => {
   const dispatch = useAppDispatch();
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const [isLoading, setLoading] = useState<boolean>(false);
   const [isDeletLoading, setDeleteLoading] = useState<boolean>(false);
   const { isViewer } = useMemberRole();

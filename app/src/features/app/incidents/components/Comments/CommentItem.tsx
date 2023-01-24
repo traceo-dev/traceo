@@ -4,8 +4,6 @@ import dateUtils from "../../../../../core/utils/date";
 import ReactMarkdown from "react-markdown";
 import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
 import api from "../../../../../core/lib/api";
-import { useSelector } from "react-redux";
-import { StoreState } from "../../../../../types/store";
 import { InputArea } from "core/ui-components/Input/InputArea";
 import { Button } from "core/ui-components/Button";
 import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
@@ -14,6 +12,7 @@ import { Card } from "core/ui-components/Card";
 import { Account } from "types/accounts";
 import { Space } from "core/ui-components/Space";
 import { Avatar } from "core/ui-components/Avatar";
+import { useApplication } from "core/hooks/useApplication";
 
 interface Props {
   account: Account;
@@ -26,7 +25,7 @@ export const CommentItem: FC<Props> = ({ account, comment, incidentId }) => {
 
   const [isEditMode, setEditMode] = useState<boolean>(false);
 
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const shortcut = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {

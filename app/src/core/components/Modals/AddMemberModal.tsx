@@ -13,6 +13,7 @@ import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
 import { Space } from "core/ui-components/Space";
 import { Avatar } from "core/ui-components/Avatar";
 import { Modal } from "core/ui-components/Modal";
+import { useApplication } from "core/hooks/useApplication";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
   const dispatch = useAppDispatch();
@@ -20,7 +21,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { accounts, hasFetched } = useSelector(
     (state: StoreState) => state.serverAccounts
   );
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const { members } = useSelector((state: StoreState) => state.members);
 
   const [role, setRole] = useState<MemberRole>(null);

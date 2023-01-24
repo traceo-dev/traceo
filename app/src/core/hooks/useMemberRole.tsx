@@ -1,9 +1,8 @@
-import { useSelector } from "react-redux";
 import { MemberRole } from "../../types/application";
-import { StoreState } from "../../types/store";
+import { useApplication } from "./useApplication";
 
 export const useMemberRole = () => {
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
 
   const initialState = {
     isViewer: true,

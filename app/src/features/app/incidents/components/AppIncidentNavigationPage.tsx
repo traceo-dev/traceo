@@ -9,8 +9,6 @@ import AppPage from "../../components/AppPage";
 import { MenuRoute } from "../../../../types/navigation";
 import { Menu } from "../../../../core/components/Layout/Menu";
 import { CommentOutlined, InfoCircleOutlined, StockOutlined } from "@ant-design/icons";
-import { PageCenter } from "../../../../core/components/PageCenter";
-import { TraceoLoading } from "../../../../core/components/TraceoLoading";
 
 export const AppIncidentNavigationPage = ({ children }) => {
   const { iid } = useParams();
@@ -39,24 +37,12 @@ export const AppIncidentNavigationPage = ({ children }) => {
   ];
 
   useEffect(() => {
-    fetchIncident();
+    dispatch(loadIncident(iid));
   }, []);
 
-  const fetchIncident = () => {
-    dispatch(loadIncident(iid));
-  };
-
-  if (!hasFetched) {
-    return (
-      <PageCenter>
-        <TraceoLoading />
-      </PageCenter>
-    );
-  }
-
   return (
-    <AppPage>
-      <IncidentHeader incident={incident} onExecute={fetchIncident} />
+    <AppPage isLoading={!hasFetched}>
+      <IncidentHeader incident={incident} onExecute={() => dispatch(loadIncident(iid))} />
       <Menu routes={menu} />
       {children}
     </AppPage>

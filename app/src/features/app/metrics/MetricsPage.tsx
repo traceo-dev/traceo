@@ -22,12 +22,13 @@ import { Card } from "core/ui-components/Card";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
 import { Row } from "core/ui-components/Row";
 import { Col } from "core/ui-components/Col";
+import { useApplication } from "core/hooks/useApplication";
 
 const MetricsPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
   const dispatch = useAppDispatch();
 
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
   const [timeLimit, setTimeLimit] = useState<number>(DEFAULT_TIME_LIMIT);
   const [search, setSearch] = useState<string>(null);

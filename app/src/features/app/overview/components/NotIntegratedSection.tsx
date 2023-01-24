@@ -1,14 +1,13 @@
 import { Space } from "core/ui-components/Space";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { GH_SDK_REPO_LINK } from "../../../../core/utils/constants";
-import { useSelector } from "react-redux";
-import { StoreState } from "../../../../types/store";
 import { Button } from "core/ui-components/Button";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
+import { useApplication } from "core/hooks/useApplication";
 
 export const NotIntegratedSection = () => {
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
 
   const appIdLine = `  appId: '${application.id}',`;
 

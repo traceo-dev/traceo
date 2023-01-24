@@ -8,6 +8,7 @@ import { Tooltip } from "core/ui-components/Tooltip";
 import { Space } from "core/ui-components/Space";
 import { IncidentStatusTag } from "core/components/IncidentStatusTag";
 import { PageHeader } from "core/ui-components/PageHeader";
+import { useApplication } from "core/hooks/useApplication";
 
 interface Props {
   incident: Incident;
@@ -15,6 +16,7 @@ interface Props {
 }
 export const IncidentHeader: FC<Props> = ({ incident, onExecute }) => {
   const navigate = useNavigate();
+  const { application } = useApplication();
 
   const refresh = () => {
     onExecute();
@@ -27,7 +29,7 @@ export const IncidentHeader: FC<Props> = ({ incident, onExecute }) => {
         <Space direction="vertical" className="gap-0 w-full">
           <Space
             className="text-2xs cursor-pointer font-semibold py-0 hover:text-white"
-            onClick={() => navigate(-1)}
+            onClick={() => navigate(`/app/${application.id}/incidents`)}
           >
             <ArrowLeftOutlined />
             <Typography size="xxs" weight="semibold" className="uppercase">

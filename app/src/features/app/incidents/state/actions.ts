@@ -3,7 +3,7 @@ import api, { ApiQueryParams } from "../../../../core/lib/api";
 import { Comment } from "../../../../types/comments";
 import { Incident } from "../../../../types/incidents";
 import { ThunkResult } from "../../../../types/store";
-import { incidentCommentsLoaded, incidentLoaded, incidentsLoaded } from "./reducers";
+import { incidentCommentsLoaded, incidentLoaded, incidentsLoaded, resetIncidentState } from "./reducers";
 
 export const loadIncidents = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch, getStore) => {

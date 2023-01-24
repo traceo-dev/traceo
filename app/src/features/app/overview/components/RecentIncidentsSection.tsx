@@ -1,6 +1,6 @@
 import { RightOutlined } from "@ant-design/icons";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
-import { useApi } from "../../../../core/lib/useApi";
+import { useRequest } from "../../../../core/hooks/useRequest";
 import {
   Incident,
   IncidentSortBy,
@@ -8,8 +8,6 @@ import {
 } from "../../../../types/incidents";
 import dateUtils from "../../../../core/utils/date";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { StoreState } from "../../../../types/store";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { Link } from "core/ui-components/Link";
@@ -18,9 +16,10 @@ import { Card } from "core/ui-components/Card";
 import { ListCard } from "core/ui-components/Card/ListCard";
 import { Space } from "core/ui-components/Space";
 import { List } from "core/ui-components/List";
+import { useApplication } from "core/hooks/useApplication";
 
 export const RecentIncidentsSection = () => {
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const navigate = useNavigate();
 
   const queryParams = {
@@ -31,7 +30,7 @@ export const RecentIncidentsSection = () => {
     take: 5
   };
 
-  const { data: incidents = [], isLoading } = useApi<Incident[]>({
+  const { data: incidents = [], isLoading } = useRequest<Incident[]>({
     url: "/api/incidents",
     params: queryParams
   });

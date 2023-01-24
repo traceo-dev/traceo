@@ -5,12 +5,13 @@ import { MenuRoute } from "../../../../types/navigation";
 import { StoreState } from "../../../../types/store";
 import { NavLink } from "react-router-dom";
 import { Space } from "core/ui-components/Space";
+import { useApplication } from "core/hooks/useApplication";
 
 interface Props {
   menu: MenuRoute;
 }
 export const MenuItem: FC<Props> = ({ menu }) => {
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const { incident } = useSelector((state: StoreState) => state.incident);
 
   const isActive = (currentKey: string) => {

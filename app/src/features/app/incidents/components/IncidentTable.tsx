@@ -1,9 +1,7 @@
 import { UserOutlined } from "@ant-design/icons";
 import { FC } from "react";
 import { Incident } from "../../../../types/incidents";
-import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { StoreState } from "../../../../types/store";
 import { wrapIncidentMessage } from "../../../../core/utils/stringUtils";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import dateUtils from "../../../../core/utils/date";
@@ -14,6 +12,7 @@ import { Tooltip } from "core/ui-components/Tooltip";
 import { Table } from "core/ui-components/Table";
 import { TableColumn } from "core/ui-components/Table/TableColumn";
 import { AppIncidentsListPlot } from "core/components/Plots";
+import { useApplication } from "core/hooks/useApplication";
 
 interface Props {
   incidents: Incident[];
@@ -21,7 +20,7 @@ interface Props {
 }
 export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
   const navigate = useNavigate();
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
 
   const handleOnRowClick = (incident: Incident) => {
     navigate(`/app/${application.id}/incidents/${incident.id}/details`);
@@ -70,7 +69,7 @@ interface MainColumnProps {
   incident: Incident;
 }
 const IncidentMainColumn: FC<MainColumnProps> = ({ incident }) => {
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   return (
     <Link to={`/app/${application.id}/incidents/${incident.id}/details`}>
       <Space direction="vertical" className="gap-0">

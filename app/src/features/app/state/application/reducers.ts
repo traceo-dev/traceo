@@ -16,10 +16,11 @@ const applicationSlice = createSlice({
   initialState: initialState,
   reducers: {
     applicationLoaded: (state, action: PayloadAction<Application>): ApplicationState => ({ ...state, hasFetched: true, application: action.payload }),
+    resetApplicationState: (): ApplicationState => ({ ...initialState })
   }
 });
 
-export const { applicationLoaded } = applicationSlice.actions;
+export const { applicationLoaded, resetApplicationState } = applicationSlice.actions;
 export const applicationReducer = applicationSlice.reducer;
 
 export default {

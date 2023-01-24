@@ -1,4 +1,3 @@
-import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { statisticUtils } from "../../../core/utils/statistics";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
@@ -7,24 +6,23 @@ import dateUtils from "../../../core/utils/date";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
 import { AppIncidentsTodayPlot, AppOverviewPlot } from "core/components/Plots";
+import { useMemo } from "react";
 
 export const AppIncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
 
-  const todayStats = statisticUtils.parseIncidentsAnalyticsTodayPlotData(
-    incident?.errorsDetails || []
-  );
-
-  if (!incident?.errorsDetails) {
-    return <TraceoLoading />;
-  }
+  const dataSource = useMemo(() => {
+    return statisticUtils.parseIncidentsAnalyticsTodayPlotData(
+      incident?.errorsDetails || []
+    );
+  }, [incident?.errorsDetails]);
 
   return (
     <AppIncidentNavigationPage>
       <div className="grid grid-cols-5 w-full mb-1">
         <div className="col-span-4 h-full">
           <Card title="Today">
-            <AppIncidentsTodayPlot stats={todayStats?.data} />
+            <AppIncidentsTodayPlot stats={dataSource?.data} />
           </Card>
         </div>
         <div className="col-span-1 ml-1">
@@ -32,14 +30,14 @@ export const AppIncidentAnalyticsPage = () => {
             <div className="h-full mb-1">
               <Card title="Errors count">
                 <Typography size="xxl" weight="semibold">
-                  {todayStats?.count}
+                  {dataSource?.count}
                 </Typography>
               </Card>
             </div>
             <div className="h-full">
               <Card className="h-full" title="Last seen">
                 <Typography size="xxl" weight="semibold">
-                  {dateUtils.formatDate(todayStats?.last, "HH:mm")}
+                  {dateUtils.formatDate(dataSource?.last, "HH:mm")}
                 </Typography>
               </Card>
             </div>

@@ -6,12 +6,13 @@ import { NavLink } from "react-router-dom";
 import { MenuRoute } from "../../../../types/navigation";
 import { StoreState } from "../../../../types/store";
 import { Typography } from "core/ui-components/Typography";
+import { useApplication } from "core/hooks/useApplication";
 
 interface NavBarItemProps {
   route: MenuRoute;
 }
 export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const { incident } = useSelector((state: StoreState) => state.incident);
 
   const { label, disabled, icon, onClick, href, key } = route;
@@ -25,7 +26,7 @@ export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
   };
 
   const handlePath = (link: string) =>
-    link.replace(":id", String(application.id)).replace(":iid", incident.id);
+    link.replace(":id", String(application?.id)).replace(":iid", incident?.id);
 
   const NavItem = () => (
     <li

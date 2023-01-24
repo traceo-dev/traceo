@@ -1,15 +1,14 @@
 import { Space } from "core/ui-components/Space";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { TSDB } from "../../../types/application";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
-import { StoreState } from "../../../types/store";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { Select } from "core/ui-components/Select";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
+import { useApplication } from "core/hooks/useApplication";
 
 const dataSourceOptions = [
   {
@@ -20,7 +19,7 @@ const dataSourceOptions = [
 ];
 
 export const AppSettingsDataSourcePage = () => {
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const { isViewer } = useMemberRole();
 
   const [selectedDS, setSelectedDS] = useState<TSDB>(null);

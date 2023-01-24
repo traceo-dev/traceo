@@ -12,11 +12,12 @@ import { Card } from "core/ui-components/Card";
 import { Space } from "core/ui-components/Space";
 import { Avatar } from "core/ui-components/Avatar";
 import { useAccount } from "core/hooks/useAccount";
+import { useApplication } from "core/hooks/useApplication";
 
 export const CommentInput = () => {
   const dispatch = useAppDispatch();
   const account = useAccount();
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const { incident } = useSelector((state: StoreState) => state.incident);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [comment, setComment] = useState<string>(null);

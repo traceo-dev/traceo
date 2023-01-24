@@ -1,13 +1,12 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { FC } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { IMetric } from "../../../../types/metrics";
-import { StoreState } from "../../../../types/store";
 import { Typography } from "core/ui-components/Typography";
 import { Space } from "core/ui-components/Space";
 import { Tooltip } from "core/ui-components/Tooltip";
 import { MetricCardPlot } from "core/components/Plots";
+import { useApplication } from "core/hooks/useApplication";
 
 interface MetricCardProps {
   metric: IMetric;
@@ -15,7 +14,7 @@ interface MetricCardProps {
 }
 export const MetricCard: FC<MetricCardProps> = ({ metric, hrCount }) => {
   const navigate = useNavigate();
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
 
   const onClick = () => {
     navigate(`/app/${application.id}/metrics/preview/${metric.id}?name=${metric.name}`);

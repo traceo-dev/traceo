@@ -18,9 +18,10 @@ import { Avatar } from "core/ui-components/Avatar";
 import { isEmptyObject } from "core/utils/object";
 import { Divider } from "core/ui-components/Divider";
 import { useAccount } from "core/hooks/useAccount";
+import { useApplication } from "core/hooks/useApplication";
 
 export const AppNavBar = () => {
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const account = useAccount();
 
   const renderAppIcon = () => {

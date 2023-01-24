@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { ApiResponse } from "../../types/api";
-import api from "./api";
+import api from "../lib/api";
 
-export const useApi = <T>({
+export const useRequest = <T>({
   method = "get",
   url,
   params = {},

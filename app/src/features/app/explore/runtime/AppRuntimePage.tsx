@@ -1,21 +1,17 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { DescriptionRow, Descriptions } from "../../../../core/components/Descriptions";
-import { useSelector } from "react-redux";
-import { StoreState } from "../../../../types/store";
 import AppExploreNavigationPage from "../AppExploreNavigation";
 import { Card } from "core/ui-components/Card";
+import { useApplication } from "core/hooks/useApplication";
 
 const AppRuntimePage = () => {
-  const { application, hasFetched } = useSelector(
-    (state: StoreState) => state.application
-  );
+  const { application } = useApplication();
 
   return (
     <AppExploreNavigationPage>
       <Card title="Runtime configuration">
         <ConditionalWrapper
-          isLoading={!hasFetched}
           isEmpty={!application?.runtimeConfig}
           emptyView={
             <DataNotFound

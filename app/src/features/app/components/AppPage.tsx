@@ -1,16 +1,18 @@
-import { useSelector } from "react-redux";
-import { StoreState } from "../../../types/store";
 import NotFound from "../../../core/components/Layout/Pages/NotFound";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { PageCenter } from "../../../core/components/PageCenter";
+import React, { FC } from "react";
+import { useApplication } from "core/hooks/useApplication";
 
-const AppPage = ({ children }) => {
-  const { application, hasFetched } = useSelector(
-    (state: StoreState) => state.application
-  );
+interface Props {
+  children: React.ReactNode;
+  isLoading?: boolean;
+}
+const AppPage: FC<Props> = ({ children, isLoading }) => {
+  const { application, hasFetched } = useApplication();
   const hasMemberRole = application?.member?.role;
 
-  if (hasFetched) {
+  if (!application || !hasFetched || isLoading) {
     return (
       <PageCenter>
         <TraceoLoading />
@@ -18,7 +20,7 @@ const AppPage = ({ children }) => {
     );
   }
 
-  if (!hasMemberRole) {
+  if (application && !hasMemberRole) {
     return (
       <PageCenter>
         <NotFound />

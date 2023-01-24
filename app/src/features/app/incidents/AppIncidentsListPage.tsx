@@ -25,6 +25,7 @@ import { Select } from "core/ui-components/Select";
 import { Card } from "core/ui-components/Card";
 import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
 import { RadioButtonGroup } from "core/ui-components/RadioButton/RadioButtonGroup";
+import { resetIncidentState } from "./state/reducers";
 
 export const AppIncidentsListPage = () => {
   const { id } = useParams();
@@ -46,6 +47,10 @@ export const AppIncidentsListPage = () => {
     sortBy,
     status
   };
+
+  useEffect(() => {
+    dispatch(resetIncidentState());
+  }, []);
 
   useEffect(() => {
     dispatch(loadIncidents(queryParams));

@@ -1,11 +1,10 @@
+import { useApplication } from "core/hooks/useApplication";
 import { Typography } from "core/ui-components/Typography";
-import { useSelector } from "react-redux";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import AppSettingsNavigationPage from "../../../features/app/settings/components/AppSettingsNavigation";
-import { StoreState } from "../../../types/store";
 
 export const AppSettingsCredentialsPage = () => {
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
 
   return (
     <AppSettingsNavigationPage>

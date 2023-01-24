@@ -16,9 +16,7 @@ const incidentsSlice = createSlice({
   name: "incidents",
   initialState: initialState,
   reducers: {
-    incidentsLoaded: (state, action: PayloadAction<Incident[]>): IncidentsState => {
-      return { ...state, hasFetched: true, incidents: action.payload };
-    }
+    incidentsLoaded: (state, action: PayloadAction<Incident[]>): IncidentsState => ({ ...state, hasFetched: true, incidents: action.payload })
   }
 });
 
@@ -43,16 +41,13 @@ const incidentSlice = createSlice({
   name: "incident",
   initialState: initialIncidentState,
   reducers: {
-    incidentLoaded: (state, action: PayloadAction<Incident>): IncidentState => {
-      return { ...state, hasFetched: true, incident: action.payload };
-    },
-    incidentCommentsLoaded: (state, action: PayloadAction<Comment[]>): IncidentState => {
-      return { ...state, hasCommentsFetched: true, comments: action.payload };
-    }
+    incidentLoaded: (state, action: PayloadAction<Incident>): IncidentState => ({ ...state, hasFetched: true, incident: action.payload }),
+    incidentCommentsLoaded: (state, action: PayloadAction<Comment[]>): IncidentState => ({ ...state, hasCommentsFetched: true, comments: action.payload }),
+    resetIncidentState: (): IncidentState => ({ ...initialIncidentState })
   }
 });
 
-export const { incidentLoaded, incidentCommentsLoaded } = incidentSlice.actions;
+export const { incidentLoaded, incidentCommentsLoaded, resetIncidentState } = incidentSlice.actions;
 export const incidentReducer = incidentSlice.reducer;
 
 export default {

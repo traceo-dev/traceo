@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { useApi } from "../../../../core/lib/useApi";
+import { useRequest } from "../../../../core/hooks/useRequest";
 import {
   ApplicationMember,
   MemberApplication,
@@ -32,7 +32,7 @@ export const AccountApplications = () => {
     data: applications = [],
     execute: postExecute,
     isLoading
-  } = useApi<MemberApplication[]>({
+  } = useRequest<MemberApplication[]>({
     url: "/api/amr/applications",
     params: {
       accountId: account.id

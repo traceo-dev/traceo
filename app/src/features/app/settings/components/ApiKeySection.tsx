@@ -3,20 +3,19 @@ import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import dateUtils from "../../../../core/utils/date";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../../store";
 import { ApiResponse } from "../../../../types/api";
-import { StoreState } from "../../../../types/store";
 import { loadApplication } from "../../../app/state/application/actions";
 import { InputSecret } from "core/ui-components/Input/InputSecret";
 import { InputGroup } from "core/ui-components/Input/InputGroup";
 import { Button } from "core/ui-components/Button";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
+import { useApplication } from "core/hooks/useApplication";
 
 export const ApiKeySection = () => {
   const dispatch = useAppDispatch();
-  const { application } = useSelector((state: StoreState) => state.application);
+  const { application } = useApplication();
   const [loading, setLoading] = useState<boolean>(false);
 
   const hasApiKey = !!application?.security?.apiKey;

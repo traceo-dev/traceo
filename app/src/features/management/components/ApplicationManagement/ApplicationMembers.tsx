@@ -1,7 +1,7 @@
 import { Space } from "core/ui-components/Space";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { useApi } from "../../../../core/lib/useApi";
+import { useRequest } from "../../../../core/hooks/useRequest";
 import { ApplicationMember } from "../../../../types/application";
 import { Typography } from "core/ui-components/Typography";
 import { Card } from "core/ui-components/Card";
@@ -14,7 +14,7 @@ export const ApplicationMembers = () => {
     data: members = [],
     isLoading,
     execute: postExecute
-  } = useApi<ApplicationMember[]>({
+  } = useRequest<ApplicationMember[]>({
     url: "/api/amr/members",
     params: {
       id
