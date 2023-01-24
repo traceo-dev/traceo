@@ -15,7 +15,6 @@ import { Page } from "core/components/Page";
 import { MainViewWrapper } from "core/components/Layout/Wrappers/MainViewWrapper";
 import { NotificationContainer } from "core/components/Notification/NotificationContainer";
 import { persistedRedux, store } from "store";
-import { LoadingOutlined } from "@ant-design/icons";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {

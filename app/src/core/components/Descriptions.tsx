@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-export const Descriptions = ({ children }) => {
+export const Descriptions: FC = ({ children }) => {
   return (
     <table className="details-table">
       <tbody>{children}</tbody>

@@ -1,11 +1,7 @@
 import { useAccount } from "core/hooks/useAccount";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
-interface PermissionsProps {
-  children: ReactNode;
-}
-
-const ServerPermissions: FC<PermissionsProps> = ({ children }) => {
+const ServerPermissions: FC = ({ children }) => {
   const account = useAccount();
 
   const isAdmin = account.isAdmin;
