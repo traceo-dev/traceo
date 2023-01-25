@@ -3,7 +3,7 @@ import { Manager, Reference, Popper } from "react-popper";
 import { Transition } from "react-transition-group";
 import { BasePlacement } from "@popperjs/core";
 import { joinClasses } from "core/utils/classes";
-import { defaultTransitionStyles, transitionStyles, Arrow, mapMargin } from "./style";
+import { defaultTransitionStyles, transitionStyles, Arrow } from "./style";
 
 interface PopoverCoreProps {
   visible?: boolean;
@@ -24,7 +24,7 @@ export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
     showArrow = true
   } = props;
 
-  const margin = mapMargin[placement];
+  // const margin = mapMargin[placement];
 
   return (
     <Manager ref={ref}>
@@ -42,7 +42,7 @@ export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
                   ...transitionStyles[state]
                 }}
                 data-placement={placement}
-                className={joinClasses("popper", className, margin)}
+                className={joinClasses("popper", className)}
               >
                 {content}
                 {showArrow && (
