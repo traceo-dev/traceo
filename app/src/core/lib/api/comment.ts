@@ -1,4 +1,4 @@
-import api from "../../../../core/lib/api";
+import api from ".";
 
 const send = async (incidentId: string, applicationId: string, message: string) => {
   await api.post("/api/comments/send", {

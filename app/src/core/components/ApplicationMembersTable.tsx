@@ -1,5 +1,5 @@
 import { useAccount } from "core/hooks/useAccount";
-import { membersAction } from "core/lib/api/actions/members";
+import { membersAction } from "core/lib/api/members";
 import { Avatar } from "core/ui-components/Avatar";
 import { Button } from "core/ui-components/Button";
 import { Select } from "core/ui-components/Select";

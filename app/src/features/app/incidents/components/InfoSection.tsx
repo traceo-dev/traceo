@@ -25,7 +25,7 @@ export const InfoSection = () => {
   };
 
   return (
-    <Card title="Info" className="h-max">
+    <Card title="Info" className="h-auto">
       <FieldLabel label="Status">
         <Select
           isSearchable={false}

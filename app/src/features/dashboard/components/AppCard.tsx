@@ -1,9 +1,7 @@
 import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
-import { loadApplication } from "../../../features/app/state/application/actions";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import dateUtils from "../../../core/utils/date";
-import { useAppDispatch } from "../../../store";
 import { Application, MemberApplication } from "../../../types/application";
 import { Typography } from "core/ui-components/Typography";
 import { ListCard } from "core/ui-components/Card/ListCard";
@@ -16,11 +14,9 @@ interface Props {
   app: MemberApplication;
 }
 export const AppCard: FC<Props> = ({ app }) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const openApplication = () => {
-    dispatch(loadApplication(app.appId));
     navigate(`/app/${app.appId}/overview`);
   };
 

@@ -3,27 +3,9 @@ import { FC } from "react";
 import styled from "styled-components";
 import { MenuRoute } from "types/navigation";
 import { Menu } from "./Layout/Menu";
+import { PageCenter } from "./PageCenter";
 import { PageContent } from "./PageContent";
 import { TraceoLoading } from "./TraceoLoading";
-
-const ScrollbarView = styled.div`
-  position: relative;
-  overflow: scroll;
-  overflow-x: hidden;
-  display: flex;
-  -webkit-box-flex: 1;
-  flex-grow: 1;
-  flex-direction: column;
-  height: 100%;
-`;
-
-const ScrollbarContent = styled.div`
-  display: block;
-  min-height: 100%;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-`;
 
 interface PageProps {
   menuRoutes?: MenuRoute[];
@@ -36,20 +18,19 @@ interface PageType extends FC<PageProps> {
 }
 
 export const Page: PageType = ({ children, menuRoutes, header, isLoading }) => {
+  if (isLoading) {
+    return (
+      <PageCenter>
+        <TraceoLoading />
+      </PageCenter>
+    );
+  }
   return (
-    <ScrollbarView>
-      <ScrollbarContent>
-        {!isLoading && (
-          <div className="px-6 py-9">
-            {header && <PageHeader {...header} />}
-            {menuRoutes && <Menu routes={menuRoutes} />}
-            {children}
-          </div>
-        )}
-
-        {isLoading && <TraceoLoading />}
-      </ScrollbarContent>
-    </ScrollbarView>
+    <div className="px-6 py-9">
+      {header && <PageHeader {...header} />}
+      {menuRoutes && <Menu routes={menuRoutes} />}
+      {children}
+    </div>
   );
 };
 

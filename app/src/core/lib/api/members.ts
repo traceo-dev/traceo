@@ -1,5 +1,5 @@
 import { ApplicationMember, MemberRole } from "types/application";
-import api from "..";
+import api from ".";
 
 const onUpdateRole = async (member: ApplicationMember, role: MemberRole, postExecute: () => void) => {
     await api

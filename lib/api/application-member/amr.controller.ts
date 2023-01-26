@@ -29,13 +29,13 @@ export class AmrController {
     private readonly amrQueryService: AmrQueryService,
   ) { }
 
-  @Get('/application')
+  @Get('/permission')
   @AuthRequired()
   async getApplication(
     @Query('id') id: string,
     @AuthAccount() user: RequestUser,
   ): Promise<ApiResponse<IApplicationResponse>> {
-    return await this.amrQueryService.getApplication(id, user);
+    return await this.amrQueryService.getPermission(id, user);
   }
 
   @Get('/members')

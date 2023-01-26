@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import dateUtils from "../../../../core/utils/date";
 import { StoreState } from "../../../../types/store";
 
-export const Errors = () => {
+export const ErrorsSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
 
   return (
@@ -18,7 +18,7 @@ export const Errors = () => {
           <Badge className="ml-2" count={incident?.errorsDetails?.length} />
         </div>
       }
-      className="h-max"
+      className="h-auto"
     >
       <div className="h-64 overflow-y-scroll">
         <Table collection={incident?.errorsDetails} hovered>

@@ -7,6 +7,7 @@ import { RequestUser } from '../../../common/types/interfaces/account.interface'
 import { IApplicationResponse } from '../../../common/types/interfaces/application.interface';
 import { AccountMemberRelationship } from '../../../db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
+import { deprecate } from 'util';
 
 
 @Injectable()
@@ -130,10 +131,7 @@ export class AmrQueryService {
     return count > 0;
   }
 
-  public async getApplication(
-    appId: string,
-    user: RequestUser,
-  ): Promise<ApiResponse<IApplicationResponse>> {
+  public async getPermission(appId: string, user: RequestUser): Promise<any> {
     const { id } = user;
 
     try {
@@ -142,38 +140,18 @@ export class AmrQueryService {
         .createQueryBuilder("amr")
         .where('amr.application = :appId', { appId })
         .innerJoin("amr.account", "account", "account.id = :id", { id })
-        .innerJoinAndSelect("amr.application", "application")
-        .innerJoinAndSelect("application.owner", "owner")
         .getOne();
 
       if (!applicationQuery) {
-        return new ApiResponse("success", undefined, []);
+        return new ApiResponse("error", undefined, "No permissions for this application!");
       }
 
-      const response = this.mapApplicationResponse(applicationQuery);
-      return new ApiResponse("success", undefined, response);
+      return new ApiResponse("success", undefined, {
+        role: applicationQuery.role
+      });
     } catch (error) {
-      this.logger.error(`[${this.getApplication.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.getPermission.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
-    }
-  }
-
-  private mapApplicationResponse({ application, role }: AccountMemberRelationship): IApplicationResponse {
-    const { influxDS } = application;
-
-    return {
-      ...application,
-      influxDS: {
-        ...influxDS,
-        connStatus: influxDS?.connStatus,
-        connError: influxDS?.connError
-      },
-      member: {
-        role
-      },
-      owner: {
-        name: application.owner.name
-      }
     }
   }
 }

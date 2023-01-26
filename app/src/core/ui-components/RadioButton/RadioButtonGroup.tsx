@@ -26,8 +26,9 @@ export const RadioButtonGroup: FC<RadioButtonGroupProps> = (
         className
       )}
     >
-      {options.map((option) => (
+      {options.map((option, index) => (
         <RadioButton
+          key={index}
           size={size}
           isSelected={option.value === value}
           label={option.label}

@@ -1,7 +1,7 @@
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
-import { Errors } from "./components/Errors";
+import { ErrorsSection } from "./components/ErrorsSection";
 import { StacktraceSection } from "./components/StacktraceSection";
-import { Exception } from "./components/Exception";
+import { ExceptionSection } from "./components/ExceptionSection";
 import { PlatformSection } from "./components/PlatformSection";
 import { InfoSection } from "./components/InfoSection";
 
@@ -11,8 +11,8 @@ export const IncidentDetailsPage = () => {
       <div className="w-full grid grid-cols-12">
         <div className="col-span-9">
           <StacktraceSection />
-          <Exception />
-          <Errors />
+          <ExceptionSection />
+          <ErrorsSection />
         </div>
         <div className="col-span-3 ml-1">
           <InfoSection />

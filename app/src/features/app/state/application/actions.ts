@@ -2,23 +2,54 @@ import api from "../../../../core/lib/api";
 import { loadApplications } from "../../../../features/dashboard/state/actions";
 import { loadServerApplications } from "../../../../features/management/state/applications/actions";
 import { ApiResponse } from "../../../../types/api";
-import { Application, CreateApplicationProps, UpdateApplicationProps } from "../../../../types/application";
+import { Application, CreateApplicationProps, MemberRole, UpdateApplicationProps } from "../../../../types/application";
 import { ThunkResult } from "../../../../types/store";
-import { applicationLoaded } from "./reducers";
+import { navbarState } from "../navbar/reducers";
+import { applicationLoaded, applicationPermission, resetApplicationState } from "./reducers";
 
+export type LoadApplicationType = {
+  id?: string
+}
 
-export const loadApplication = (applicationId?: string): ThunkResult<void> => {
+export const initApplication = (props: LoadApplicationType): ThunkResult<void> => {
   return async (dispatch, getStore) => {
-    if (!applicationId) {
-      const application = getStore().application.application;
-      applicationId = application.id;
+    if (!getStore().application.application) {
+      dispatch(resetApplicationState());
     }
-    const { data } = await api.get<ApiResponse<Application>>("/api/amr/application", {
-      id: applicationId
+    dispatch(loadPermission({ id: props.id }));
+    dispatch(navbarState({ hidden: false }));
+    dispatch(loadApplication({ id: props.id }));
+  }
+}
+
+export const loadApplication = (props?: LoadApplicationType): ThunkResult<void> => {
+  return async (dispatch, getStore) => {
+    let currId = props.id;
+    if (!props.id) {
+      currId = getStore().application.application.id
+    };
+
+    const { data } = await api.get<ApiResponse<Application>>("/api/application", {
+      id: currId
     });
     dispatch(applicationLoaded(data));
   };
 };
+
+export const loadPermission = (props?: LoadApplicationType): ThunkResult<void> => {
+  return async (dispatch) => {
+    try {
+      const { data } = await api.get<ApiResponse<{
+        role: MemberRole
+      }>>("/api/amr/permission", {
+        id: props.id
+      });
+      dispatch(applicationPermission(data.role));
+    } catch (err) {
+      //
+    }
+  }
+}
 
 export const createApplication = (
   body: CreateApplicationProps,
@@ -47,6 +78,8 @@ export const updateAplication = (body: UpdateApplicationProps): ThunkResult<void
       id: application.id,
       ...body
     });
-    dispatch(loadApplication());
+    dispatch(loadApplication({
+      id: application.id
+    }));
   };
 };

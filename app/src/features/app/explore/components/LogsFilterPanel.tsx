@@ -39,7 +39,7 @@ export const LogsFilterPanel: FC<Props> = ({ checkedLevels, setCheckedLevels }) 
               <Space>
                 <Typography className="mr-1">{mapLogIcon[level]}</Typography>
                 <Typography>
-                  {mapLogName[level]} ({counts[level]})
+                  {mapLogName[level]} ({counts[level] || 0})
                 </Typography>
               </Space>
               <Checkbox

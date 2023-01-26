@@ -32,9 +32,6 @@ export interface Application {
   membersCount: number;
   createdAt: number;
   updatedAt: number;
-  member: {
-    role: MemberRole;
-  };
   connectedTSDB?: TSDB;
   influxDS: InfluxDS;
   isIntegrated: boolean;

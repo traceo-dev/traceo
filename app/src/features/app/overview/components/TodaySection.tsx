@@ -52,7 +52,7 @@ export const TodaySection = () => {
             >
               <ConditionalWrapper isLoading={isLoading}>
                 <Typography size="xxl" weight="semibold">
-                  {statisticUtils.parseErrorsToTodayPlotSource(dataSource).count}
+                  {statisticUtils.parseErrorsToTodayPlotSource(dataSource).count || 0}
                 </Typography>
               </ConditionalWrapper>
             </Card>

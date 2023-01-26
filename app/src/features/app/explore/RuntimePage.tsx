@@ -4,6 +4,7 @@ import { DescriptionRow, Descriptions } from "../../../core/components/Descripti
 import ExplorePageWrapper from "./ExplorePageWrapper";
 import { Card } from "core/ui-components/Card";
 import { useApplication } from "core/hooks/useApplication";
+import dateUtils from "core/utils/date";
 
 const RuntimePage = () => {
   const { application } = useApplication();
@@ -30,8 +31,8 @@ const RuntimePage = () => {
                     label={settingName}
                   />
 
-                  {Object.entries(settingValue).map(([childName, childValue]) => (
-                    <DescriptionRow key={index} className="ml-5" label={childName}>
+                  {Object.entries(settingValue).map(([childName, childValue], index2) => (
+                    <DescriptionRow key={index2} className="ml-5" label={childName}>
                       {childValue}
                     </DescriptionRow>
                   ))}

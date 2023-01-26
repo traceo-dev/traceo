@@ -1,10 +1,10 @@
 import { joinClasses } from "core/utils/classes";
-import { FC } from "react";
+import { FC, forwardRef, HTMLProps } from "react";
 
 type AvatarShape = "circle" | "square";
 type AvatarSize = "sm" | "md" | "lg";
 
-interface AvatarProps {
+interface AvatarProps extends Omit<HTMLProps<HTMLImageElement>, "src" | "size"> {
   alt: string;
   src?: string;
   size?: AvatarSize;
@@ -23,13 +23,8 @@ const mapShape: Record<AvatarShape, string> = {
   square: "rounded"
 };
 
-export const Avatar: FC<AvatarProps> = ({
-  alt,
-  src,
-  size = "md",
-  shape = "circle",
-  className
-}) => {
+export const Avatar = forwardRef<HTMLImageElement, AvatarProps>((props, _ref) => {
+  const { alt, src, size = "md", shape = "circle", className } = props;
   const initials = alt?.substring(0, 1).toUpperCase();
 
   const sizeStyle = mapSize[size];
@@ -42,6 +37,6 @@ export const Avatar: FC<AvatarProps> = ({
       src={src}
     />
   );
-};
+});
 
 Avatar.displayName = "Avatar";

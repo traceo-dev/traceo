@@ -45,7 +45,13 @@ export const App = () => {
     }
 
     return (
-      <Suspense fallback={<TraceoLoading />}>
+      <Suspense
+        fallback={
+          <PageCenter>
+            <TraceoLoading />
+          </PageCenter>
+        }
+      >
         <Routes>{getAppRoutes().map((r) => renderRoute(r))}</Routes>
       </Suspense>
     );

@@ -20,7 +20,7 @@ import { Avatar } from "core/ui-components/Avatar";
 import { TableColumn } from "core/ui-components/Table/TableColumn";
 import { Select } from "core/ui-components/Select";
 import { Confirm } from "core/components/Confirm";
-import { membersAction } from "core/lib/api/actions/members";
+import { membersAction } from "core/lib/api/members";
 
 export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);

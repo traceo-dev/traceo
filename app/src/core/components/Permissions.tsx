@@ -8,10 +8,9 @@ interface PermissionsProps {
 }
 
 export const Permissions: FC<PermissionsProps> = ({ statuses, children }) => {
-  const { application } = useApplication();
+  const { permission } = useApplication();
 
-  const status = application.member.role;
-  if (status && statuses.includes(status)) {
+  if (permission && statuses.includes(permission)) {
     return <>{children}</>;
   }
 

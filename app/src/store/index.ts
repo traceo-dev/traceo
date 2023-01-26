@@ -8,7 +8,7 @@ import {
 } from "redux-persist";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 
-const slicesToPersist = ["account", "application"];
+const slicesToPersist = ["account"];
 
 const encryptionTransform = encryptTransform({
     secretKey: process.env.REACT_APP_PERSIST_KEY

@@ -13,7 +13,7 @@ export const ApplicationMembers = () => {
   const {
     data: members = [],
     isLoading,
-    execute: postExecute
+    execute
   } = useRequest<ApplicationMember[]>({
     url: "/api/amr/members",
     params: {
@@ -32,7 +32,7 @@ export const ApplicationMembers = () => {
         }
         isLoading={isLoading}
       >
-        <ApplicationMembersTable collection={members} postExecute={() => postExecute()} />
+        <ApplicationMembersTable collection={members} postExecute={() => execute()} />
       </ConditionalWrapper>
     </Card>
   );

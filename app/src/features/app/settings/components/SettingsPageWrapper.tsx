@@ -31,6 +31,7 @@ export const SettingsPageWrapper: FC = ({ children }) => {
   ];
 
   return (
+    // <AppDashboardPage>
     <Page
       header={{
         icon: <SettingOutlined />,
@@ -41,6 +42,7 @@ export const SettingsPageWrapper: FC = ({ children }) => {
     >
       <Page.Content>{children}</Page.Content>
     </Page>
+    // </AppDashboardPage>
   );
 };
 

@@ -46,17 +46,13 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
         {({ item }) => (
           <Space className="w-full justify-center">
             {item?.assigned ? (
-              <Tooltip placement="top" title={item?.assigned?.name}>
-                <Avatar
-                  size="md"
-                  src={item?.assigned?.gravatar}
-                  alt={item?.assigned?.name}
-                />
-              </Tooltip>
+              <Avatar
+                size="md"
+                src={item?.assigned?.gravatar}
+                alt={item?.assigned?.name}
+              />
             ) : (
-              <Tooltip title="N/A">
-                <UserOutlined className="text-2xl" />
-              </Tooltip>
+              <UserOutlined className="text-2xl" />
             )}
           </Space>
         )}

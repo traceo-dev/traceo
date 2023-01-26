@@ -2,7 +2,7 @@ import { MemberRole } from "../../types/application";
 import { useApplication } from "./useApplication";
 
 export const useMemberRole = () => {
-  const { application } = useApplication();
+  const { application, permission } = useApplication();
 
   const initialState = {
     isViewer: true,
@@ -10,13 +10,13 @@ export const useMemberRole = () => {
     isMaintainer: true
   };
 
-  if (!application || !application?.member) {
+  if (!application || !permission) {
     return initialState;
   }
 
-  const isViewer = application.member.role === MemberRole.VIEWER;
-  const isAdmin = application.member.role === MemberRole.ADMINISTRATOR;
-  const isMaintainer = application.member.role === MemberRole.MAINTAINER;
+  const isViewer = permission === MemberRole.VIEWER;
+  const isAdmin = permission === MemberRole.ADMINISTRATOR;
+  const isMaintainer = permission === MemberRole.MAINTAINER;
 
   return {
     isViewer,

@@ -1,6 +1,6 @@
 import Axios, { AxiosRequestConfig } from "axios";
 import { notify } from "../../../core/utils/notify";
-import { commentAction } from "./actions/comment";
+import { commentAction } from "./comment";
 import { SortOrder } from "../../../types/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 

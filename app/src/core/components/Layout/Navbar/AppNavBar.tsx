@@ -9,9 +9,7 @@ import {
   LoadingOutlined
 } from "@ant-design/icons";
 import { logout } from "../.../../../../../core/utils/logout";
-import { useSelector } from "react-redux";
 import { MenuRoute } from "../.../../../../../types/navigation";
-import { StoreState } from "../.../../../../../types/store";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { Avatar } from "core/ui-components/Avatar";
@@ -25,7 +23,7 @@ export const AppNavBar = () => {
   const account = useAccount();
 
   const renderAppIcon = () => {
-    if (!application || isEmptyObject(application)) {
+    if (!application) {
       return <LoadingOutlined />;
     }
 
@@ -84,7 +82,7 @@ export const AppNavBar = () => {
       onClick: () => logout()
     },
     {
-      label: application.name,
+      label: application?.name,
       icon: renderAppIcon()
     }
   ];
