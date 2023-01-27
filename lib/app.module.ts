@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -10,6 +10,7 @@ import { join } from 'path';
 import { CommonModule } from './common/common.module';
 import { ApiModule } from './api/api.module';
 import { ProvidersModule } from './providers/providers.module';
+import { AuthMiddleware } from './common/middlewares/auth.middleware';
 
 @Module({
   imports: [
@@ -32,4 +33,14 @@ import { ProvidersModule } from './providers/providers.module';
   controllers: [AppController],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude('auth/(.*)')
+      .forRoutes({
+        path: "*",
+        method: RequestMethod.ALL
+      })
+  }
+}

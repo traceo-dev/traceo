@@ -1,5 +1,6 @@
+import { logoutAccount } from "features/auth/state/actions";
+import { store } from "store";
+
 export const logout = () => {
-  localStorage.clear();
-  sessionStorage.clear();
-  window.location.href = "/";
+  store.dispatch(logoutAccount());
 };

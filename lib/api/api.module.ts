@@ -1,5 +1,5 @@
 import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod, UseGuards } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { AuthModule } from '../auth/auth.module';
 import { GuardsModule } from '../common/guards/guards.module';
@@ -41,6 +41,7 @@ import { WorkerIncidentsService } from './worker/services/worker-incidents.servi
 import { WorkerRuntimeService } from './worker/services/worker-runtime.service';
 import { WorkerController } from './worker/worker.controller';
 import { WorkerModule } from './worker/worker.module';
+import { AccountsController } from './account/accounts.controller';
 
 /**
  * TODO: instead of import every service and controller, use only Modules in imports and
@@ -63,6 +64,7 @@ import { WorkerModule } from './worker/worker.module';
     ],
     controllers: [
         AccountController,
+        AccountsController,
         ApplicationController,
         AmrController,
         DataSourceController,

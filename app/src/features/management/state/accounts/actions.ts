@@ -6,7 +6,7 @@ import { ApiResponse } from "../../../../types/api";
 
 export const loadServerAccounts = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {
-    const { data } = await api.get<ApiResponse<Account[]>>("/api/account/all", query);
+    const { data } = await api.get<ApiResponse<Account[]>>("/api/accounts/search", query);
     dispatch(serverAccountsLoaded(data));
   };
 };
@@ -14,7 +14,7 @@ export const loadServerAccounts = (query?: ApiQueryParams): ThunkResult<void> =>
 export const loadServerAccount = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
     dispatch(serverAccountLoadedAction(false))
-    const { data } = await api.get<ApiResponse<Account>>("/api/account", { id });
+    const { data } = await api.get<ApiResponse<Account>>("/api/accounts", { id });
     dispatch(serverAccountLoaded(data));
     dispatch(serverAccountLoadedAction(true))
   };

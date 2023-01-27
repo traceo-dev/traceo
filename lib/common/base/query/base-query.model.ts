@@ -12,10 +12,6 @@ export class BaseDtoQuery {
   @IsOptional()
   readonly appId?: string;
 
-  @IsString()
-  @IsOptional()
-  readonly incidentId?: string;
-
   @ApiPropertyOptional({ enum: Order, default: Order.ASC })
   @IsEnum(Order)
   @IsOptional()

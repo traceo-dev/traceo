@@ -6,7 +6,8 @@ import {
   Param,
   Patch,
   Post,
-  Query
+  Query,
+  UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GuardsService } from '../../common/guards/guards.service';
@@ -18,10 +19,12 @@ import { RequestUser } from '../../common/types/interfaces/account.interface';
 import { IIncident } from '../../common/types/interfaces/incident.interface';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsService } from './incidents.service';
+import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
 
 
 @ApiTags('incidents')
 @Controller('incidents')
+@UseGuards(new AuthGuard())
 export class IncidentsController {
   constructor(
     private readonly incidentsQueryService: IncidentsQueryService,
@@ -30,13 +33,11 @@ export class IncidentsController {
   ) { }
 
   @Get('/:id')
-  @AuthRequired()
   public async getIncident(@Param("id") id: string): Promise<ApiResponse<IIncident>> {
     return await this.incidentsQueryService.getApiDto(id);
   }
 
   @Get()
-  @AuthRequired()
   public async getIncidents(
     @Query("id") id: string,
     @Query() query: IncidentQueryDto
@@ -48,7 +49,6 @@ export class IncidentsController {
   }
 
   @Patch('/:id')
-  @AuthRequired()
   public async updateIncident(
     @Param("id") id: string,
     @Body() body: IncidentUpdateDto,
@@ -57,7 +57,6 @@ export class IncidentsController {
   }
 
   @Delete('/:id')
-  @AuthRequired()
   public async deleteIncident(
     @Param("id") id: string,
     @AuthAccount() account: RequestUser
@@ -68,7 +67,6 @@ export class IncidentsController {
   }
 
   @Post('/batch')
-  @AuthRequired()
   public async updateBatchIncidents(
     @Body() body: IncidentBatchUpdateDto,
   ): Promise<ApiResponse<unknown>> {

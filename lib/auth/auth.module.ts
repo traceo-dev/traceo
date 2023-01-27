@@ -11,6 +11,7 @@ import { AmrQueryService } from '../api/application-member/amr-query/amr-query.s
 import { AmrService } from '../api/application-member/amr.service';
 import { ApplicationQueryService } from '../api/application/application-query/application-query.service';
 import { JwtStrategy } from './jwt/jwt.strategy';
+import { AuthTokenService } from './auth-token.service';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JwtStrategy } from './jwt/jwt.strategy';
   ],
   providers: [
     AuthService,
+    AuthTokenService,
     AccountService,
     JwtStrategy,
     AccountQueryService,

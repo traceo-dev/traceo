@@ -26,12 +26,7 @@ const Login = () => {
 
     await api
       .post<ApiResponse<{ accessToken: string }>>("/api/auth/login", credentials)
-      .then((res) => {
-        const token = res.data.accessToken;
-        localStorage.setItem("session", token);
-
-        goToTraceo();
-      })
+      .then(() => goToTraceo())
       .catch(() => setInvalid(true))
       .finally(() => setLoading(false));
 

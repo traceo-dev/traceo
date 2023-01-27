@@ -3,7 +3,8 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import morgan from "morgan";
-import compression from 'compression';
+import compression from "compression";
+import cookieParser from "cookie-parser";
 
 const cors = require("cors");
 
@@ -25,7 +26,7 @@ async function bootstrap() {
   }
 
   app.setGlobalPrefix('api');
-
+  app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.use(cors({ credentials: true, origin: true }));
 

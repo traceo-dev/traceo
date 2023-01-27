@@ -6,11 +6,12 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
-  Query
+  Query,
+  UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
 import { BaseDtoQuery } from '../../common/base/query/base-query.model';
-import { AuthRequired } from '../../common/decorators/auth-required.decorator';
 import { AuthAccount } from '../../common/decorators/auth-user.decorator';
 import { AddAccountToApplicationDto, UpdateAmrDto } from '../../common/types/dto/amr.dto';
 import { ApplicationDtoQuery } from '../../common/types/dto/application.dto';
@@ -23,6 +24,7 @@ import { AmrService } from './amr.service';
 
 @ApiTags('application-member-relationship')
 @Controller('amr')
+@UseGuards(new AuthGuard())
 export class AmrController {
   constructor(
     private readonly amrService: AmrService,
@@ -30,8 +32,7 @@ export class AmrController {
   ) { }
 
   @Get('/permission')
-  @AuthRequired()
-  async getApplication(
+  async getPermission(
     @Query('id') id: string,
     @AuthAccount() user: RequestUser,
   ): Promise<ApiResponse<IApplicationResponse>> {
@@ -39,7 +40,6 @@ export class AmrController {
   }
 
   @Get('/members')
-  @AuthRequired()
   public async getApplicationMembers(
     @Query("id") id: string,
     @Query() query: BaseDtoQuery,
@@ -48,7 +48,6 @@ export class AmrController {
   }
 
   @Get('/applications')
-  @AuthRequired()
   public async getAccountApplications(
     @Query() pageOptionsDto: ApplicationDtoQuery,
     @Query("accountId") accountId: string,
@@ -61,7 +60,6 @@ export class AmrController {
   }
 
   @Post('/application/add')
-  @AuthRequired()
   public async addAccountToApplication(
     @Body() body: AddAccountToApplicationDto,
   ): Promise<ApiResponse<unknown>> {
@@ -69,7 +67,6 @@ export class AmrController {
   }
 
   @Patch('/application/member')
-  @AuthRequired()
   public async updateApplicationAccount(
     @Body() body: UpdateAmrDto,
   ): Promise<ApiResponse<unknown>> {
@@ -77,7 +74,6 @@ export class AmrController {
   }
 
   @Delete('/application/member')
-  @AuthRequired()
   public async removeAccountFromApplication(
     @Query("id", new ParseUUIDPipe()) id: string,
   ): Promise<ApiResponse<unknown>> {

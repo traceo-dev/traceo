@@ -6,12 +6,12 @@ import {
   Param,
   Patch,
   Post,
-  Query
+  Query,
+  UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BaseDtoQuery } from '../../common/base/query/base-query.model';
 import { GuardsService } from '../../common/guards/guards.service';
-import { AuthRequired } from '../../common/decorators/auth-required.decorator';
 import { AuthAccount } from '../../common/decorators/auth-user.decorator';
 import { CreateApplicationDto, ApplicationDto } from '../../common/types/dto/application.dto';
 import { ApiResponse } from '../../common/types/dto/response.dto';
@@ -20,10 +20,12 @@ import { IApplication } from '../../common/types/interfaces/application.interfac
 import { ApplicationLogsQuery, ILog } from '../../common/types/interfaces/log.interface';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { ApplicationService } from './application.service';
+import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
 
 
 @ApiTags('application')
 @Controller('application')
+@UseGuards(new AuthGuard())
 export class ApplicationController {
   constructor(
     readonly applicationService: ApplicationService,
@@ -32,19 +34,16 @@ export class ApplicationController {
   ) { }
 
   @Get()
-  @AuthRequired()
   async getApplication(@Query("id") id: string): Promise<ApiResponse<IApplication>> {
     return await this.applicationQueryService.getApiDto(id);
   }
 
   @Get('/all')
-  @AuthRequired()
   async getApplications(@Query() query: BaseDtoQuery): Promise<ApiResponse<IApplication[]>> {
     return await this.applicationQueryService.getApiListDto(query);
   }
 
   @Get('/logs')
-  @AuthRequired()
   async getApplicationLogs(
     @Query() query: ApplicationLogsQuery,
   ): Promise<ApiResponse<ILog[]>> {
@@ -52,7 +51,6 @@ export class ApplicationController {
   }
 
   @Post()
-  @AuthRequired()
   async createApplication(
     @Body() body: CreateApplicationDto,
     @AuthAccount() account: RequestUser,
@@ -63,7 +61,6 @@ export class ApplicationController {
   }
 
   @Patch()
-  @AuthRequired()
   async updateApplication(
     @Body() body: ApplicationDto,
     @AuthAccount() account: RequestUser,
@@ -74,7 +71,6 @@ export class ApplicationController {
   }
 
   @Post('/api-key/generate/:id')
-  @AuthRequired()
   async generateApiKey(
     @Param("id") id: string,
     @AuthAccount() account: RequestUser,
@@ -85,7 +81,6 @@ export class ApplicationController {
   }
 
   @Delete('/api-key/remove/:id')
-  @AuthRequired()
   async removeApiKey(
     @Param("id") id: string,
     @AuthAccount() account: RequestUser,
@@ -96,7 +91,6 @@ export class ApplicationController {
   }
 
   @Delete('/:id')
-  @AuthRequired()
   public async deleteApplication(
     @Param("id") id: string,
     @AuthAccount() account: RequestUser,

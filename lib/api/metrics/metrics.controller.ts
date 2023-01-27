@@ -1,8 +1,8 @@
 import { Query } from "@nestjs/common";
 import { Controller, Get, Param } from "@nestjs/common";
-import { Body, Patch } from "@nestjs/common/decorators";
+import { Body, Patch, UseGuards } from "@nestjs/common/decorators";
 import { ApiTags } from "@nestjs/swagger";
-import { AuthRequired } from "../../common/decorators/auth-required.decorator";
+import { AuthGuard } from "lib/common/decorators/auth-guard.decorator";
 import { MetricQueryDto, UpdateMetricDto } from "../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../common/types/dto/response.dto";
 import { IMetric, MetricPreviewType, MetricsResponse } from "../../common/types/interfaces/metrics.interface";
@@ -11,6 +11,7 @@ import { MetricsQueryService } from "./query/metrics-query.service";
 
 @ApiTags('metrics')
 @Controller('metrics')
+@UseGuards(new AuthGuard())
 export class MetricsController {
     constructor(
         private readonly metricsService: MetricsService,
@@ -18,7 +19,6 @@ export class MetricsController {
     ) { }
 
     @Get('/:id')
-    @AuthRequired()
     async getMetrics(
         @Param('id') id: string
     ): Promise<ApiResponse<IMetric[]>> {
@@ -26,7 +26,6 @@ export class MetricsController {
     }
 
     @Get('/:id/preview/:metricId')
-    @AuthRequired()
     async getApplicationMetricPreviewData(
         @Param('id') id: string,
         @Param('metricId') metricId: string,
@@ -36,7 +35,6 @@ export class MetricsController {
     }
 
     @Get('/:id/datasource')
-    @AuthRequired()
     async getMetricValues(
         @Param("id") id: string,
         @Query() query: MetricQueryDto
@@ -45,7 +43,6 @@ export class MetricsController {
     }
 
     @Patch("/:metricId/update")
-    @AuthRequired()
     async updateMetric(
         @Param('metricId') metricId: string,
         @Body() body: UpdateMetricDto

@@ -3,6 +3,7 @@ import { notify } from "../../../core/utils/notify";
 import { commentAction } from "./comment";
 import { SortOrder } from "../../../types/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
+import { cookie } from "core/utils/cookie";
 
 export interface ApiQueryParams {
   id?: string;
@@ -36,8 +37,13 @@ export function configureApi() {
       if (error.response?.status === 401) {
         localStorage.clear();
         sessionStorage.clear();
-        notify.error("Your session timed out. Please log in again");
+
+        if (!cookie.get("traceo_session")) {
+          notify.error("Your session timed out. Please log in again");
+        }
+
         window.location.href = "/";
+
         return error.response?.data;
       }
 
@@ -62,7 +68,6 @@ export function configureApi() {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${localStorage.getItem("session")}`
       }
     };
   });

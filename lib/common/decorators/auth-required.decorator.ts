@@ -1,8 +1,7 @@
 import { Expose, ExposeOptions } from 'class-transformer';
-import { ApiBearerAuth } from '@nestjs/swagger';
 import { Controller } from '@nestjs/common/interfaces';
 import { UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from './auth-guard.decorator';
 
 export function AuthRequired(
   exposeOptions?: ExposeOptions,
@@ -12,15 +11,13 @@ export function AuthRequired(
   arg3: TypedPropertyDescriptor<unknown>,
 ) => void {
   const exposeFn = Expose(exposeOptions);
-  const apiBearerAuthFn = ApiBearerAuth();
-  const guardFn = UseGuards(AuthGuard());
+  const guardFn = UseGuards(new AuthGuard());
 
   return function (
     target: Controller,
     key: string,
     descriptor: TypedPropertyDescriptor<unknown>,
   ): void {
-    apiBearerAuthFn(target, key, descriptor);
     guardFn(target, key, descriptor);
     exposeFn(target, key);
   };

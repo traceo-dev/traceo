@@ -12,7 +12,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { BaseDtoQuery } from '../../../common/base/query/base-query.model';
 import { AuthRequired } from '../../../common/decorators/auth-required.decorator';
 import { AuthAccount } from '../../../common/decorators/auth-user.decorator';
-import { PatchCommentDto } from '../../../common/types/dto/comment.dto';
+import { GetCommentsDto, PatchCommentDto } from '../../../common/types/dto/comment.dto';
 import { ApiResponse } from '../../../common/types/dto/response.dto';
 import { RequestUser } from '../../../common/types/interfaces/account.interface';
 import { IComment } from '../../../common/types/interfaces/comment.interface';
@@ -58,7 +58,7 @@ export class IncidentCommentsController {
   @AuthRequired()
   public async getComments(
     @Query("id") id: string,
-    @Query() query: BaseDtoQuery,
+    @Query() query: GetCommentsDto,
   ): Promise<ApiResponse<IComment[]>> {
     return await this.commentsQueryService.getApiListDto({
       incidentId: id,

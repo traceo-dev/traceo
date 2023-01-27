@@ -39,7 +39,7 @@ export class ApplicationService {
     data: CreateApplicationDto,
     user: RequestUser,
   ): Promise<ApiResponse<Application>> {
-    const { id, name } = user;
+    const { id, username } = user;
 
     return this.entityManager.transaction(async (manager) => {
       const app = await this.applicationQueryService.getDtoBy({ name: data.name });
@@ -69,7 +69,7 @@ export class ApplicationService {
         .getRepository(Application)
         .save(applicationPayload);
 
-      if (name !== ADMIN_NAME) {
+      if (username !== ADMIN_NAME) {
         const admin = await this.accountQueryService.getDtoBy({ email: ADMIN_EMAIL });
         await this.awrService.createAmr(
           admin,
@@ -102,7 +102,7 @@ export class ApplicationService {
         security: {
           apiKey,
           lastUpdate: dateUtils.toUnix(),
-          generatedBy: user.name
+          generatedBy: user.username
         }
       });
       return new ApiResponse("success", "API Key Generated.", apiKey);

@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
 import { IsString } from "class-validator";
+import { BaseDtoQuery } from "lib/common/base/query/base-query.model";
 
 export class CommentDto {
     @Type(() => String)
@@ -15,4 +16,10 @@ export class PatchCommentDto extends CommentDto {
     @Type(() => String)
     @IsString()
     readonly message: string;
+}
+
+export class GetCommentsDto extends BaseDtoQuery {
+    @Type(() => String)
+    @IsString()
+    readonly incidentId: string;
 }

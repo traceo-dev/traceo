@@ -3,6 +3,7 @@ import { BaseQueryService } from "../../../../common/base/query/base-query.servi
 import { BaseDtoQuery } from "../../../../common/base/query/base-query.model";
 import { Comment } from "../../../../db/entities/comment.entity";
 import { EntityManager, SelectQueryBuilder } from "typeorm";
+import { GetCommentsDto } from "lib/common/types/dto/comment.dto";
 
 @Injectable()
 export class IncidentCommentsQueryService extends BaseQueryService<
@@ -15,7 +16,7 @@ export class IncidentCommentsQueryService extends BaseQueryService<
 
   public extendQueryBuilder(
     builder: SelectQueryBuilder<Comment>,
-    query: BaseDtoQuery,
+    query: GetCommentsDto,
   ): SelectQueryBuilder<Comment> {
     const { incidentId } = query;
 
