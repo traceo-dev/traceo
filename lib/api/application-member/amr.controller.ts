@@ -12,11 +12,9 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
 import { BaseDtoQuery } from '../../common/base/query/base-query.model';
-import { AuthAccount } from '../../common/decorators/auth-user.decorator';
 import { AddAccountToApplicationDto, UpdateAmrDto } from '../../common/types/dto/amr.dto';
 import { ApplicationDtoQuery } from '../../common/types/dto/application.dto';
 import { ApiResponse } from '../../common/types/dto/response.dto';
-import { RequestUser } from '../../common/types/interfaces/account.interface';
 import { IAmr } from '../../common/types/interfaces/amr.interface';
 import { IApplicationResponse } from '../../common/types/interfaces/application.interface';
 import { AmrQueryService } from './amr-query/amr-query.service';
@@ -34,9 +32,8 @@ export class AmrController {
   @Get('/permission')
   async getPermission(
     @Query('id') id: string,
-    @AuthAccount() user: RequestUser,
   ): Promise<ApiResponse<IApplicationResponse>> {
-    return await this.amrQueryService.getPermission(id, user);
+    return await this.amrQueryService.getPermission(id);
   }
 
   @Get('/members')
@@ -51,11 +48,9 @@ export class AmrController {
   public async getAccountApplications(
     @Query() pageOptionsDto: ApplicationDtoQuery,
     @Query("accountId") accountId: string,
-    @AuthAccount() user: RequestUser,
   ): Promise<ApiResponse<IAmr[]>> {
     return await this.amrQueryService.getApplicationsForAccount(
-      accountId || user.id,
-      pageOptionsDto
+      accountId, pageOptionsDto
     );
   }
 

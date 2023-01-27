@@ -17,7 +17,6 @@ import { ApiResponse } from '../../common/types/dto/response.dto';
 import { IAccount, RequestUser } from '../../common/types/interfaces/account.interface';
 import { AccountQueryService } from './account-query/account-query.service';
 import { AccountService } from './account.service';
-import { Request } from "express";
 import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
 
 @ApiTags('account')
@@ -31,8 +30,8 @@ export class AccountController {
   ) { }
 
   @Get()
-  async getSignedInAccount(@Req() req: Request): Promise<ApiResponse<IAccount>> {
-    return await this.accountQueryService.getSignedInAccount(req);
+  async getSignedInAccount(): Promise<ApiResponse<IAccount>> {
+    return await this.accountQueryService.getSignedInAccount();
   }
 
   @Post('/new')
@@ -46,11 +45,8 @@ export class AccountController {
   }
 
   @Patch()
-  async updateAccount(
-    @Body() accountDto: AccountDto,
-    @AuthAccount() account: RequestUser,
-  ): Promise<ApiResponse<unknown>> {
-    return await this.accountService.updateAccountApi(account.id, accountDto);
+  async updateAccount(@Body() accountDto: AccountDto): Promise<ApiResponse<unknown>> {
+    return await this.accountService.updateAccountApi(accountDto);
   }
 
   @Delete('/:id')
@@ -60,6 +56,6 @@ export class AccountController {
   ): Promise<ApiResponse<unknown>> {
     await this.permission.can('DELETE ACCOUNT', account);
 
-    return await this.accountService.deleteAccount(id, account);
+    return await this.accountService.deleteAccount(id);
   }
 }

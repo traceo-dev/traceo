@@ -10,10 +10,11 @@ import { AccountService } from '../api/account/account.service';
 import { INTERNAL_SERVER_ERROR, SESSION_EXPIRY_TIME, SESSION_NAME } from '../common/helpers/constants';
 import { AccountNotExistsError } from '../common/helpers/errors';
 import { AccountCredentialsDto, UpdatePasswordDto } from '../common/types/dto/account.dto';
-import { IAccount, RequestUser } from '../common/types/interfaces/account.interface';
+import { IAccount } from '../common/types/interfaces/account.interface';
 import { ApiResponse } from '../common/types/dto/response.dto';
 import { AccountStatus } from '../common/types/enums/account.enum';
 import { AuthTokenService } from './auth-token.service';
+import { RequestContext } from 'lib/common/middlewares/request-context/request-context.model';
 
 export type LoginResponseType = { accessToken: string };
 export type CheckCredentialsType = { isCorrect: boolean; account?: IAccount };
@@ -91,9 +92,10 @@ export class AuthService {
     }
   }
 
-  public async checkUserCredentials(account: RequestUser, credentials: AccountCredentialsDto): Promise<ApiResponse<unknown>> {
+  public async checkUserCredentials(credentials: AccountCredentialsDto): Promise<ApiResponse<unknown>> {
+    const { username } = RequestContext.user;
     const response = await this.checkCredentials({
-      username: account.username,
+      username,
       password: credentials.password
     });
     return new ApiResponse("success", undefined, {
@@ -127,10 +129,9 @@ export class AuthService {
   }
 
   public async updateUserPassword(
-    currentUser: RequestUser,
-    passwords: UpdatePasswordDto,
+    passwords: UpdatePasswordDto
   ): Promise<ApiResponse<unknown>> {
-    const { id } = currentUser;
+    const { id } = RequestContext.user;
     const { newPassword, password } = passwords;
 
     return this.entityManager.transaction(async (manager) => {

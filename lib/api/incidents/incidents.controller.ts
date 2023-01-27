@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GuardsService } from '../../common/guards/guards.service';
-import { AuthRequired } from '../../common/decorators/auth-required.decorator';
 import { AuthAccount } from '../../common/decorators/auth-user.decorator';
 import { IncidentQueryDto, IncidentUpdateDto, IncidentBatchUpdateDto } from '../../common/types/dto/incident.dto';
 import { ApiResponse } from '../../common/types/dto/response.dto';

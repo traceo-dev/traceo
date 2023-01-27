@@ -10,7 +10,7 @@ import { join } from 'path';
 import { CommonModule } from './common/common.module';
 import { ApiModule } from './api/api.module';
 import { ProvidersModule } from './providers/providers.module';
-import { AuthMiddleware } from './common/middlewares/auth.middleware';
+import { RequestContextMiddleware } from './common/middlewares/request-context/request-context.middleware';
 
 @Module({
   imports: [
@@ -36,11 +36,11 @@ import { AuthMiddleware } from './common/middlewares/auth.middleware';
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(AuthMiddleware)
+      .apply(RequestContextMiddleware)
       .exclude('auth/(.*)')
       .forRoutes({
         path: "*",
         method: RequestMethod.ALL
-      })
+      });
   }
 }

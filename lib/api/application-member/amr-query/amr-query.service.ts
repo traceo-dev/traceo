@@ -3,11 +3,9 @@ import { BaseDtoQuery } from '../../../common/base/query/base-query.model';
 import { INTERNAL_SERVER_ERROR } from '../../../common/helpers/constants';
 import { ApplicationDtoQuery } from '../../../common/types/dto/application.dto';
 import { ApiResponse } from '../../../common/types/dto/response.dto';
-import { RequestUser } from '../../../common/types/interfaces/account.interface';
-import { IApplicationResponse } from '../../../common/types/interfaces/application.interface';
 import { AccountMemberRelationship } from '../../../db/entities/account-member-relationship.entity';
 import { EntityManager } from 'typeorm';
-import { deprecate } from 'util';
+import { RequestContext } from 'lib/common/middlewares/request-context/request-context.model';
 
 
 @Injectable()
@@ -79,11 +77,16 @@ export class AmrQueryService {
   ): Promise<ApiResponse<AccountMemberRelationship[]>> {
     const { page, take, order, search, sortBy } = pageOptionsDto;
 
+    let id = accountId;
+    if (!accountId) {
+      id = RequestContext.user.id;
+    }
+
     try {
       const queryBuilder = this.entityManager
         .getRepository(AccountMemberRelationship)
         .createQueryBuilder("amr")
-        .innerJoin("amr.account", "account", "account.id = :accountId", { accountId })
+        .innerJoin("amr.account", "account", "account.id = :accountId", { accountId: id })
         .leftJoinAndSelect("amr.application", "application")
         .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
         .leftJoin("application.owner", "owner");
@@ -131,9 +134,8 @@ export class AmrQueryService {
     return count > 0;
   }
 
-  public async getPermission(appId: string, user: RequestUser): Promise<any> {
-    const { id } = user;
-
+  public async getPermission(appId: string): Promise<any> {
+    const { id } = RequestContext.user;
     try {
       const applicationQuery = await this.entityManager
         .getRepository(AccountMemberRelationship)

@@ -6,21 +6,20 @@ import {
   Param,
   Patch,
   Post,
-  Query
+  Query,
+  UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { BaseDtoQuery } from '../../../common/base/query/base-query.model';
-import { AuthRequired } from '../../../common/decorators/auth-required.decorator';
-import { AuthAccount } from '../../../common/decorators/auth-user.decorator';
+import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
 import { GetCommentsDto, PatchCommentDto } from '../../../common/types/dto/comment.dto';
 import { ApiResponse } from '../../../common/types/dto/response.dto';
-import { RequestUser } from '../../../common/types/interfaces/account.interface';
 import { IComment } from '../../../common/types/interfaces/comment.interface';
 import { IncidentCommentsService } from './incident-comments.service';
 import { IncidentCommentsQueryService } from './query/incident-comments-query.service';
 
 @ApiTags('comments')
 @Controller('comments')
+@UseGuards(new AuthGuard())
 export class IncidentCommentsController {
   constructor(
     private commentsService: IncidentCommentsService,
@@ -28,16 +27,13 @@ export class IncidentCommentsController {
   ) { }
 
   @Post('/send')
-  @AuthRequired()
   async sendComment(
-    @Body() comment: PatchCommentDto,
-    @AuthAccount() account: RequestUser,
+    @Body() comment: PatchCommentDto
   ): Promise<ApiResponse<unknown>> {
-    return await this.commentsService.saveComment(comment, account);
+    return await this.commentsService.saveComment(comment);
   }
 
   @Patch('/update/:id')
-  @AuthRequired()
   async updateComment(
     @Param('id') commentId: string,
     @Body() comment: PatchCommentDto,
@@ -46,7 +42,6 @@ export class IncidentCommentsController {
   }
 
   @Delete('/remove/:id')
-  @AuthRequired()
   async removeComment(
     @Param('id') commentId: string,
     @Query("incidentId") incidentId: string,
@@ -55,7 +50,6 @@ export class IncidentCommentsController {
   }
 
   @Get()
-  @AuthRequired()
   public async getComments(
     @Query("id") id: string,
     @Query() query: GetCommentsDto,

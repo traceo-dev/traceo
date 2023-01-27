@@ -51,13 +51,9 @@ export class ApplicationController {
   }
 
   @Post()
-  async createApplication(
-    @Body() body: CreateApplicationDto,
-    @AuthAccount() account: RequestUser,
-  ): Promise<ApiResponse<IApplication>> {
-    await this.permission.can('CREATE_APP', account);
-
-    return await this.applicationService.create(body, account);
+  async createApplication(@Body() body: CreateApplicationDto): Promise<ApiResponse<IApplication>> {
+    // await this.permission.can('CREATE_APP', account);
+    return await this.applicationService.create(body);
   }
 
   @Patch()
@@ -76,8 +72,7 @@ export class ApplicationController {
     @AuthAccount() account: RequestUser,
   ): Promise<ApiResponse<unknown>> {
     await this.permission.can('GENERATE_API_KEY', account, id);
-
-    return await this.applicationService.generateApiKey(id, account);
+    return await this.applicationService.generateApiKey(id);
   }
 
   @Delete('/api-key/remove/:id')
@@ -86,7 +81,6 @@ export class ApplicationController {
     @AuthAccount() account: RequestUser,
   ): Promise<ApiResponse<unknown>> {
     await this.permission.can('REMOVE_API_KEY', account, id);
-
     return await this.applicationService.removeApiKey(id);
   }
 
@@ -96,7 +90,6 @@ export class ApplicationController {
     @AuthAccount() account: RequestUser,
   ): Promise<ApiResponse<unknown>> {
     await this.permission.can('DELETE_APP', account);
-
     return await this.applicationService.delete(id);
   }
 }

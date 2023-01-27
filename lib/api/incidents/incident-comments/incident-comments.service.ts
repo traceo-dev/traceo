@@ -3,10 +3,10 @@ import { INTERNAL_SERVER_ERROR, REMOVED_MESSAGE_TEXT } from '../../../common/hel
 import dateUtils from '../../../common/helpers/dateUtils';
 import { PatchCommentDto } from '../../../common/types/dto/comment.dto';
 import { ApiResponse } from '../../../common/types/dto/response.dto';
-import { RequestUser } from '../../../common/types/interfaces/account.interface';
 import { CommentsGateway } from '../../../common/websockets/comments.gateway';
 import { EntityManager } from 'typeorm';
 import { Comment } from "../../../db/entities/comment.entity";
+import { RequestContext } from 'lib/common/middlewares/request-context/request-context.model';
 
 @Injectable()
 export class IncidentCommentsService {
@@ -20,10 +20,9 @@ export class IncidentCommentsService {
 
   public async saveComment(
     comment: PatchCommentDto,
-    account: RequestUser,
   ): Promise<ApiResponse<unknown>> {
     const { message, incidentId } = comment;
-    const { id } = account;
+    const { id } = RequestContext.user;
 
     try {
       await this.entityManager.getRepository(Comment).save({

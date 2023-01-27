@@ -36,17 +36,15 @@ export class AuthController {
   @AuthRequired()
   async check(
     @Body() creds: AccountCredentialsDto,
-    @AuthAccount() account: RequestUser,
   ): Promise<ApiResponse<unknown>> {
-    return this.authService.checkUserCredentials(account, creds);
+    return this.authService.checkUserCredentials(creds);
   }
 
   @Post('update-password')
   @AuthRequired()
   async updatePassword(
-    @Body() userPassword: UpdatePasswordDto,
-    @AuthAccount() account: RequestUser,
+    @Body() userPassword: UpdatePasswordDto
   ): Promise<ApiResponse<unknown>> {
-    return await this.authService.updateUserPassword(account, userPassword);
+    return await this.authService.updateUserPassword(userPassword);
   }
 }

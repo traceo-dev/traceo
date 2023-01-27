@@ -11,12 +11,12 @@ import dateUtils from '../../common/helpers/dateUtils';
 import { gravatar } from '../../common/helpers/gravatar';
 import { uuidService } from '../../common/helpers/uuid';
 import { CreateApplicationDto, ApplicationDto } from '../../common/types/dto/application.dto';
-import { RequestUser } from '../../common/types/interfaces/account.interface';
 import { Application } from '../../db/entities/application.entity';
 import { ApiResponse } from '../../common/types/dto/response.dto';
 import { Log } from '../../db/entities/log.entity';
 import { MemberRole } from '../../common/types/enums/amr.enum';
 import { MetricsService } from '../metrics/metrics.service';
+import { RequestContext } from 'lib/common/middlewares/request-context/request-context.model';
 
 
 const MAX_RETENTION_LOGS = 3;
@@ -36,10 +36,9 @@ export class ApplicationService {
   }
 
   public async create(
-    data: CreateApplicationDto,
-    user: RequestUser,
+    data: CreateApplicationDto
   ): Promise<ApiResponse<Application>> {
-    const { id, username } = user;
+    const { id, username } = RequestContext.user;
 
     return this.entityManager.transaction(async (manager) => {
       const app = await this.applicationQueryService.getDtoBy({ name: data.name });
@@ -95,7 +94,8 @@ export class ApplicationService {
     });
   }
 
-  public async generateApiKey(id: string, user: RequestUser): Promise<ApiResponse<string>> {
+  public async generateApiKey(id: string): Promise<ApiResponse<string>> {
+    const user = RequestContext.user;
     const apiKey = crypto.randomUUID();
     try {
       await this.update(id, {

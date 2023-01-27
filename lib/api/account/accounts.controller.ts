@@ -21,13 +21,11 @@ export class AccountsController {
     ) { }
 
     @Get()
-    @AuthRequired()
     async getApplication(@Query("id") id: string): Promise<ApiResponse<IAccount>> {
         return await this.accountQueryService.getApiDto(id);
     }
 
     @Get('/search')
-    @AuthRequired()
     async getAccounts(@Query() query: BaseDtoQuery): Promise<ApiResponse<IAccount[]>> {
         return await this.accountQueryService.getApiListDto(query);
     }

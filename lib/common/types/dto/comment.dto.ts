@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import { IsString } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 import { BaseDtoQuery } from "lib/common/base/query/base-query.model";
 
 export class CommentDto {
@@ -19,7 +19,7 @@ export class PatchCommentDto extends CommentDto {
 }
 
 export class GetCommentsDto extends BaseDtoQuery {
-    @Type(() => String)
     @IsString()
+    @IsOptional()
     readonly incidentId: string;
 }

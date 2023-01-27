@@ -11,11 +11,11 @@ import { AccountWithUsernameAlreadyExistsError, AccountEmailAlreadyExistsError }
 import { gravatar } from '../../../lib/common/helpers/gravatar';
 import tokenService from '../../../lib/common/helpers/tokens';
 import { CreateAccountDto, AccountDto } from '../../common/types/dto/account.dto';
-import { RequestUser } from '../../../lib/common/types/interfaces/account.interface';
 import { Account } from '../../../lib/db/entities/account.entity';
 import { EntityManager } from 'typeorm';
 import { AccountStatus } from '../../../lib/common/types/enums/account.enum';
 import { ApiResponse } from '../../../lib/common/types/dto/response.dto';
+import { RequestContext } from 'lib/common/middlewares/request-context/request-context.model';
 
 
 @Injectable()
@@ -77,9 +77,9 @@ export class AccountService {
   }
 
   public async updateAccountApi(
-    accountId: string,
     accountDto: AccountDto,
   ): Promise<ApiResponse<unknown>> {
+    const accountId = RequestContext.user.id;
     const { id, ...rest } = accountDto;
 
     if (rest.email === ADMIN_EMAIL) {
@@ -108,11 +108,12 @@ export class AccountService {
     await this.entityManager.getRepository(Account).update({ id: accountDto.id }, accountDto);
   }
 
-  public async deleteAccount(id: string, user: RequestUser): Promise<ApiResponse<unknown>> {
+  public async deleteAccount(id: string): Promise<ApiResponse<unknown>> {
+    const userId = RequestContext.user.id;
     return this.entityManager.transaction(async (manager) => {
       const account = await manager
         .getRepository(Account)
-        .findOneBy({ id: user.id });
+        .findOneBy({ id: userId });
 
       if (!account.isAdmin) {
         return new ApiResponse("error", "Only users with admin role can remove account")
