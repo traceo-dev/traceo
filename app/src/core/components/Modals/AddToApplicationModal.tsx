@@ -30,7 +30,7 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
   const [loading, setLoading] = useState<boolean>(false);
 
   const { data: applications = [], isLoading } = useRequest<Application[]>({
-    url: "/api/application/all",
+    url: "/api/applications/search",
     params: {
       order: "DESC",
       sortBy: "createdAt"

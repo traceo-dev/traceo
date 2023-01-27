@@ -12,7 +12,7 @@ export const loadServerApplications = (query?: ApiQueryParams): ThunkResult<void
         order: "DESC"
       };
     }
-    const { data } = await api.get<ApiResponse<Application[]>>("/api/application/all", query);
+    const { data } = await api.get<ApiResponse<Application[]>>("/api/applications/search", query);
     dispatch(serverApplicationsLoaded(data));
   };
 };
@@ -21,7 +21,7 @@ export const loadServerApplication = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
 
     dispatch(serverAppLoadedAction(false))
-    const { data } = await api.get<ApiResponse<Application>>("/api/application", { id });
+    const { data } = await api.get<ApiResponse<Application>>("/api/applications", { id });
     dispatch(serverApplicationLoaded(data));
     dispatch(serverAppLoadedAction(true))
   };

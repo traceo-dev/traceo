@@ -25,7 +25,13 @@ import { AccountsController } from './accounts.controller';
     AmrQueryService,
     GuardsService
   ],
-  controllers: [AccountController, AccountsController],
-  exports: [AccountService]
+  controllers: [
+    AccountController, 
+    AccountsController
+  ],
+  exports: [
+    AccountService,
+    AccountQueryService
+  ]
 })
 export class AccountModule { }

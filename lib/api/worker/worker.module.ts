@@ -17,6 +17,12 @@ import { WorkerController } from './worker.controller';
     InfluxService,
     ApplicationQueryService
   ],
-  controllers: [WorkerController]
+  controllers: [WorkerController],
+  exports: [
+    WorkerIncidentsService,
+    WorkerMetricsService,
+    WorkerRuntimeService,
+    WorkerLogsService
+  ]
 })
 export class WorkerModule { }

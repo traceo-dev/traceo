@@ -16,6 +16,10 @@ import { MetricsQueryService } from './query/metrics-query.service';
         InfluxService,
         DataSourceService
     ],
-    controllers: [MetricsController]
+    controllers: [MetricsController],
+    exports: [
+        MetricsService,
+        MetricsQueryService
+    ]
 })
 export class MetricsModule { }

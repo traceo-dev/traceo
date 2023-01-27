@@ -8,18 +8,26 @@ import { AmrQueryService } from '../application-member/amr-query/amr-query.servi
 import { AccountQueryService } from '../account/account-query/account-query.service';
 import { GuardsService } from '../../common/guards/guards.service';
 import { MetricsService } from '../metrics/metrics.service';
+import { ApplicationsController } from './applications.controller';
 
 @Module({
   imports: [PassportModule.register({ defaultStrategy: "jwt" })],
   providers: [
     ApplicationService,
+    ApplicationQueryService,
     AmrService,
     AmrQueryService,
     AccountQueryService,
-    ApplicationQueryService,
     GuardsService,
     MetricsService
   ],
-  controllers: [ApplicationController]
+  controllers: [
+    ApplicationsController,
+    ApplicationController
+  ],
+  exports: [
+    ApplicationService,
+    ApplicationQueryService
+  ]
 })
 export class ApplicationModule { }

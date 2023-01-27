@@ -12,10 +12,11 @@ import { DataSourceService } from './dataSource.service';
         PassportModule.register({ defaultStrategy: 'jwt' })
     ],
     providers: [
-        DataSourceService, InfluxService, GuardsService
+        DataSourceService, 
+        InfluxService, 
+        GuardsService
     ],
-    controllers: [
-        DataSourceController
-    ]
+    controllers: [DataSourceController],
+    exports: [DataSourceService]
 })
 export class DataSourceModule { }

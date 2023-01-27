@@ -3,6 +3,7 @@ import { AccountQueryService } from '../../api/account/account-query/account-que
 import { GuardsService } from './guards.service';
 
 @Module({
-  providers: [GuardsService, AccountQueryService]
+  providers: [GuardsService, AccountQueryService],
+  exports: [GuardsService]
 })
 export class GuardsModule { }

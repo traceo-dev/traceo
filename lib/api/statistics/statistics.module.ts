@@ -6,6 +6,7 @@ import { StatisticsController } from './statistics.controller';
 @Module({
   imports: [PassportModule.register({ defaultStrategy: "jwt" })],
   providers: [StatisticsQueryService],
-  controllers: [StatisticsController]
+  controllers: [StatisticsController],
+  exports: [StatisticsQueryService]
 })
 export class StatisticsModule {}

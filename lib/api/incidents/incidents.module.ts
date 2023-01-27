@@ -18,6 +18,10 @@ import { IncidentsService } from './incidents.service';
     AccountQueryService,
     GuardsService
   ],
-  controllers: [IncidentsController]
+  controllers: [IncidentsController],
+  exports: [
+    IncidentsQueryService,
+    IncidentsService
+  ]
 })
 export class IncidentsModule { }

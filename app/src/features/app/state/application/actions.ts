@@ -12,10 +12,8 @@ export type LoadApplicationType = {
 }
 
 export const initApplication = (props: LoadApplicationType): ThunkResult<void> => {
-  return async (dispatch, getStore) => {
-    if (!getStore().application.application) {
-      dispatch(resetApplicationState());
-    }
+  return async (dispatch) => {
+    dispatch(resetApplicationState());
     dispatch(loadPermission({ id: props.id }));
     dispatch(navbarState({ hidden: false }));
     dispatch(loadApplication({ id: props.id }));
@@ -29,7 +27,7 @@ export const loadApplication = (props?: LoadApplicationType): ThunkResult<void> 
       currId = getStore().application.application.id
     };
 
-    const { data } = await api.get<ApiResponse<Application>>("/api/application", {
+    const { data } = await api.get<ApiResponse<Application>>("/api/applications", {
       id: currId
     });
     dispatch(applicationLoaded(data));

@@ -11,7 +11,15 @@ import { WebsocketsModule } from '../../../common/websockets/websockets.module';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     WebsocketsModule
   ],
-  providers: [IncidentCommentsService, IncidentCommentsQueryService, CommentsGateway],
-  controllers: [IncidentCommentsController]
+  providers: [
+    IncidentCommentsService,
+    IncidentCommentsQueryService,
+    CommentsGateway
+  ],
+  controllers: [IncidentCommentsController],
+  exports: [
+    IncidentCommentsService,
+    IncidentCommentsQueryService
+  ]
 })
 export class IncidentCommentsModule { }
