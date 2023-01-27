@@ -37,6 +37,7 @@ export function configureApi() {
       if (error.response?.status === 401) {
         localStorage.clear();
         sessionStorage.clear();
+        cookie.clear();
 
         if (!cookie.get("traceo_session")) {
           notify.error("Your session timed out. Please log in again");
