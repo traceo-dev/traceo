@@ -1,4 +1,3 @@
-import { Form, Checkbox, Slider } from "antd";
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
@@ -85,7 +84,8 @@ export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {
   return (
     <div className="col-span-3">
       <Card title="Customize metric" className="ml-1 h-fit">
-        <Form form={form} layout="vertical">
+        {/* TODO:  */}
+        {/* <Form form={form} layout="vertical">
           <Collapse ghost collapseIconPosition="start" defaultActiveKey="basic">
             <CollapseItem className="pl-0" header="Basic options" panelKey="basic">
               <>
@@ -164,7 +164,7 @@ export const MetricPreviewCustomizeForm: FC<Props> = ({ form, setOptions }) => {
               </>
             </CollapseItem>
           </Collapse>
-        </Form>
+        </Form> */}
       </Card>
     </div>
   );

@@ -16,11 +16,12 @@ const incidentsSlice = createSlice({
   name: "incidents",
   initialState: initialState,
   reducers: {
-    incidentsLoaded: (state, action: PayloadAction<Incident[]>): IncidentsState => ({ ...state, hasFetched: true, incidents: action.payload })
+    incidentsLoaded: (state, action: PayloadAction<Incident[]>): IncidentsState => ({ ...state, hasFetched: true, incidents: action.payload }),
+    resetIncidentsState: (): IncidentsState => ({ ...initialState })
   }
 });
 
-export const { incidentsLoaded } = incidentsSlice.actions;
+export const { incidentsLoaded, resetIncidentsState } = incidentsSlice.actions;
 export const incidentsReducer = incidentsSlice.reducer;
 
 export interface IncidentState {

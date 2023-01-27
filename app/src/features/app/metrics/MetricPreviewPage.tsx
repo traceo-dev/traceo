@@ -8,7 +8,6 @@ import { loadMetric } from "./state/actions";
 import { conditionClass } from "../../../core/utils/classes";
 import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
 import { MetricPreviewCustomizeForm } from "./components/MetricPreviewCustomizeForm";
-import { useForm } from "antd/es/form/Form";
 import { IMetric } from "../../../types/metrics";
 import { useImmer } from "use-immer";
 import { toggleNavbar } from "../state/navbar/actions";
@@ -32,7 +31,8 @@ export const MetricPreviewPage = () => {
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
   const [isExpandMode, setExpandMode] = useState<boolean>(false);
   const [timeLimit, setTimeLimit] = useState<number>(DEFAULT_TIME_LIMIT);
-  const [form] = useForm();
+
+  const form: any = {};
 
   useEffect(() => {
     dispatch(

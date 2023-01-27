@@ -8,6 +8,11 @@ import { Card } from "core/ui-components/Card";
 import { Page } from "core/components/Page";
 import { loadAccount } from "features/auth/state/actions";
 import { useAppDispatch } from "store";
+import {
+  resetIncidentsState,
+  resetIncidentState
+} from "features/app/incidents/state/reducers";
+import { resetApplicationState } from "features/app/state/application/reducers";
 
 export const DashboardPage = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +20,11 @@ export const DashboardPage = () => {
 
   useEffect(() => {
     dispatch(loadAccount());
+
+    // Cleaning application stores
+    dispatch(resetIncidentState());
+    dispatch(resetIncidentsState());
+    dispatch(resetApplicationState());
   }, []);
 
   return (
