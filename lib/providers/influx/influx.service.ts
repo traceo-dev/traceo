@@ -62,27 +62,16 @@ export class InfluxService {
         config?: T,
         manager: EntityManager = this.entityManager
     ): Promise<DataSourceConnStatus> {
-        let state: DataSourceConnStatus;
+        const app = await manager.getRepository(Application).findOneBy({ id: appId });
+        const dataSource = config ? { ...config } : { ...app.influxDS };
+        const state: DataSourceConnStatus = await this.connectionTest(dataSource);
 
-        // TODO: trash here
-        if (!config) {
-            const app = await manager.getRepository(Application).findOneBy({ id: appId });
-            state = await this.connectionTest({ ...app.influxDS });
-            await manager.getRepository(Application).update({ id: appId }, {
-                influxDS: { ...app.influxDS, connError: state.error, connStatus: state.status },
-                connectedTSDB: TSDB_PROVIDER.INFLUX2
-            });
-        } else {
-            state = await this.connectionTest({ ...config });
-            await manager.getRepository(Application).update({ id: appId }, {
-                influxDS: { ...config, connError: state.error, connStatus: state.status },
-                connectedTSDB: TSDB_PROVIDER.INFLUX2
-            });
-        }
+        await manager.getRepository(Application).update({ id: appId }, {
+            influxDS: { ...dataSource, connError: state.error, connStatus: state.status },
+            connectedTSDB: TSDB_PROVIDER.INFLUX2
+        });
 
-        return {
-            ...state
-        }
+        return state;
     }
 
     public async writeData(appId: string, config: Partial<IInfluxDs>, data: ISDKMetrics): Promise<void> {

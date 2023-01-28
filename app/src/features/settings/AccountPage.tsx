@@ -33,7 +33,12 @@ const AccountPage = () => {
   const { isDemo } = useDemo();
 
   const onFinishUpdateAccount = (form: UpdateAccountForm) =>
-    dispatch(updateAccount(form));
+    dispatch(
+      updateAccount({
+        id: account.id,
+        ...form
+      })
+    );
 
   const onFinishUpdatePassword = (form: UpdatePasswordForm) =>
     dispatch(updateAccountPassword(form));

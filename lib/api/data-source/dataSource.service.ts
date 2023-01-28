@@ -29,7 +29,9 @@ export class DataSourceService {
 
         switch (app.connectedTSDB) {
             case TSDB_PROVIDER.INFLUX2: {
-                //TODO: if no datasource configuration stop function here
+                if (!app.influxDS) {
+                    return;
+                }
                 return await this.influxService.checkConnection(appId);
             }
             default:

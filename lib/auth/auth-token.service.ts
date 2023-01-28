@@ -57,6 +57,16 @@ export class AuthTokenService {
         }
     }
 
+    public async revokeAllUserTokens(accountID: string, manager: EntityManager = this.entityManager) {
+        try {
+            await manager.getRepository(Session).delete({ accountID });
+            this.logger.log(`[${this.revokeAllUserTokens.name}] Sessions revoked for user: ${accountID}`)
+        } catch (err) {
+            this.logger.error(`[${this.revokeAllUserTokens.name}] Caused by: ${err}`);
+            throw new Error(err);
+        }
+    }
+
     private hashToken() {
         return crypto.randomBytes(32).toString("hex");
     }

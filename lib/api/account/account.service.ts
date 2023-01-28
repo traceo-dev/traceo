@@ -16,6 +16,7 @@ import { EntityManager } from 'typeorm';
 import { AccountStatus } from "@common/types/enums/account.enum";
 import { ApiResponse } from "@common/types/dto/response.dto";
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
+import { AuthTokenService } from 'lib/auth/auth-token.service';
 
 
 @Injectable()
@@ -28,25 +29,10 @@ export class AccountService {
     readonly applicationQueryService: ApplicationQueryService,
     readonly awrService: AmrService,
     readonly httpService: HttpService,
-    readonly accountPermission: GuardsService
+    readonly accountPermission: GuardsService,
+    readonly tokenService: AuthTokenService
   ) {
     this.logger = new Logger(AccountService.name);
-  }
-
-  private async checkDuplicate(username: string, email: string) {
-    const account = await this.accountQueryService.getDtoBy({
-      username: username && username.toLowerCase()
-    });
-    if (account) {
-      throw new AccountWithUsernameAlreadyExistsError();
-    }
-
-    if (email) {
-      const account = await this.accountQueryService.getDtoBy({ email });
-      if (account) {
-        throw new AccountEmailAlreadyExistsError();
-      }
-    }
   }
 
   public async createAccount(accountDto: CreateAccountDto): Promise<any> {
@@ -79,33 +65,24 @@ export class AccountService {
   public async updateAccountApi(
     accountDto: AccountDto,
   ): Promise<ApiResponse<unknown>> {
-    const accountId = RequestContext.user.id;
-    const { id, ...rest } = accountDto;
+    const { email } = accountDto;
 
-    if (rest.email === ADMIN_EMAIL) {
+    if (email === ADMIN_EMAIL) {
       return new ApiResponse("error", "The administrator account cannot be modified")
     }
 
     try {
-      if (!accountDto.id) {
-        await this.updateAccount(accountId, accountDto);
-        return new ApiResponse("success", "Account updated")
-      }
-
-      await this.updateServerAccount(accountDto);
-      return new ApiResponse("success", "Account updated");
+      await this.updateAccount(accountDto);
+      return new ApiResponse("success", "Account updated")
     } catch (err) {
       this.logger.error(`[${this.updateAccountApi.name}] Caused by: ${err}`)
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     }
   }
 
-  public async updateAccount(accountId: string, accountDto: AccountDto) {
-    await this.entityManager.getRepository(Account).update({ id: accountId }, accountDto);
-  }
-
-  private async updateServerAccount(accountDto: AccountDto) {
-    await this.entityManager.getRepository(Account).update({ id: accountDto.id }, accountDto);
+  public async updateAccount(accountDto: AccountDto) {
+    const { id, ...rest } = accountDto;
+    await this.entityManager.getRepository(Account).update({ id: accountDto.id }, { ...rest });
   }
 
   public async deleteAccount(id: string): Promise<ApiResponse<unknown>> {
@@ -119,6 +96,8 @@ export class AccountService {
         return new ApiResponse("error", "Only users with admin role can remove account")
       }
 
+      await this.tokenService.revokeAllUserTokens(id, manager);
+
       await manager
         .getRepository(Account)
         .createQueryBuilder('account')
@@ -126,10 +105,27 @@ export class AccountService {
         .delete()
         .execute();
 
+
       return new ApiResponse("success", "Account successfully removed");
     }).catch((err: Error) => {
       this.logger.error(`[${this.deleteAccount.name}] Caused by: ${err}`)
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     });
+  }
+
+  private async checkDuplicate(username: string, email: string) {
+    const account = await this.accountQueryService.getDtoBy({
+      username: username && username.toLowerCase()
+    });
+    if (account) {
+      throw new AccountWithUsernameAlreadyExistsError();
+    }
+
+    if (email) {
+      const account = await this.accountQueryService.getDtoBy({ email });
+      if (account) {
+        throw new AccountEmailAlreadyExistsError();
+      }
+    }
   }
 }

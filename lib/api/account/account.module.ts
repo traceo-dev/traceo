@@ -10,6 +10,7 @@ import { HttpModule } from "@nestjs/axios";
 import { AuthModule } from '../../../lib/auth/auth.module';
 import { GuardsService } from "@common/guards/guards.service";
 import { AccountsController } from './accounts.controller';
+import { AuthTokenService } from 'lib/auth/auth-token.service';
 
 @Module({
   imports: [
@@ -23,10 +24,11 @@ import { AccountsController } from './accounts.controller';
     ApplicationQueryService,
     AmrService,
     AmrQueryService,
-    GuardsService
+    GuardsService,
+    AuthTokenService
   ],
   controllers: [
-    AccountController, 
+    AccountController,
     AccountsController
   ],
   exports: [

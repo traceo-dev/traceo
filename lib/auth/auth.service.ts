@@ -48,7 +48,8 @@ export class AuthService {
       }
 
       if (!account?.lastActiveAt) {
-        await this.accountService.updateAccount(account.id, {
+        await this.accountService.updateAccountApi({
+          id: account.id,
           status: AccountStatus.ACTIVE
         });
       }
