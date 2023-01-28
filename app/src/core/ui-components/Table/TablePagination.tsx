@@ -1,5 +1,5 @@
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 import { FC } from "react";
 import styled from "styled-components";
 import { PaginationPositionType } from "./types";

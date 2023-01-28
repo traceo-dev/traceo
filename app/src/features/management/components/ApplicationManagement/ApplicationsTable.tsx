@@ -3,9 +3,9 @@ import dateUtils from "../../../../core/utils/date";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Application } from "../../../../types/application";
-import { Avatar } from "core/ui-components/Avatar";
-import { Table } from "core/ui-components/Table";
-import { TableColumn } from "core/ui-components/Table/TableColumn";
+import { Avatar } from "../../../../core/ui-components/Avatar";
+import { Table } from "../../../../core/ui-components/Table";
+import { TableColumn } from "../../../../core/ui-components/Table/TableColumn";
 
 interface Props {
   applications: Application[];

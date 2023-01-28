@@ -1,5 +1,5 @@
-import { notify as appNotify } from "store/internal/reducers/notifyReducer";
-import { store } from "store";
+import { notify as appNotify } from "../../store/internal/reducers/notifyReducer";
+import { store } from "../../store";
 
 const success = (message: string, description?: string) => {
   store.dispatch(

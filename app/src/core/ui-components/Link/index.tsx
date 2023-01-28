@@ -1,4 +1,4 @@
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 import { forwardRef, AnchorHTMLAttributes } from "react";
 
 export const Link = forwardRef<

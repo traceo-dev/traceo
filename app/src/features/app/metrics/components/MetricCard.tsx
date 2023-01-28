@@ -2,11 +2,11 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { IMetric } from "../../../../types/metrics";
-import { Typography } from "core/ui-components/Typography";
-import { Space } from "core/ui-components/Space";
-import { Tooltip } from "core/ui-components/Tooltip";
-import { MetricCardPlot } from "core/components/Plots";
-import { useApplication } from "core/hooks/useApplication";
+import { Typography } from "../../../../core/ui-components/Typography";
+import { Space } from "../../../../core/ui-components/Space";
+import { Tooltip } from "../../../../core/ui-components/Tooltip";
+import { MetricCardPlot } from "../../../../core/components/Plots";
+import { useApplication } from "../../../../core/hooks/useApplication";
 
 interface MetricCardProps {
   metric: IMetric;

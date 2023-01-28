@@ -1,5 +1,5 @@
-import { Space } from "core/ui-components/Space";
-import { joinClasses } from "core/utils/classes";
+import { Space } from "../../../core/ui-components/Space";
+import { joinClasses } from "../../../core/utils/classes";
 import { FC } from "react";
 
 export interface PageHeaderProps {

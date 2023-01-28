@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 import { buildDatasource, buildSeries, commonOptions } from "./utils";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
-import { useApplication } from "core/hooks/useApplication";
+import { useApplication } from "../../../../../core/hooks/useApplication";
 
 interface Props {
   metric: IMetric;

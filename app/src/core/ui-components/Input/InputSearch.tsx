@@ -1,6 +1,6 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Input } from "core/ui-components/Input";
-import { joinClasses } from "core/utils/classes";
+import { Input } from "../../../core/ui-components/Input";
+import { joinClasses } from "../../../core/utils/classes";
 import { ChangeEvent, forwardRef, HTMLProps } from "react";
 
 interface Props extends Omit<HTMLProps<HTMLInputElement>, "onChange"> {

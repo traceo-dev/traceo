@@ -1,4 +1,4 @@
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 import { forwardRef, HTMLProps } from "react";
 
 type FontSizeType = "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";

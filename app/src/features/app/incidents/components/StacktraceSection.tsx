@@ -3,13 +3,13 @@ import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { Typography } from "core/ui-components/Typography";
-import { Card } from "core/ui-components/Card";
-import { Space } from "core/ui-components/Space";
-import { Tooltip } from "core/ui-components/Tooltip";
-import { Collapse } from "core/ui-components/Collapse";
-import { CollapseItem } from "core/ui-components/Collapse/CollapseItem";
-import { FieldLabel } from "core/ui-components/Form/FieldLabel";
+import { Typography } from "../../../../core/ui-components/Typography";
+import { Card } from "../../../../core/ui-components/Card";
+import { Space } from "../../../../core/ui-components/Space";
+import { Tooltip } from "../../../../core/ui-components/Tooltip";
+import { Collapse } from "../../../../core/ui-components/Collapse";
+import { CollapseItem } from "../../../../core/ui-components/Collapse/CollapseItem";
+import { FieldLabel } from "../../../../core/ui-components/Form/FieldLabel";
 
 export const StacktraceSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);

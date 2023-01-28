@@ -1,5 +1,5 @@
 import { DownOutlined, LoadingOutlined, SearchOutlined } from "@ant-design/icons";
-import { conditionClass, joinClasses } from "core/utils/classes";
+import { conditionClass, joinClasses } from "../../../core/utils/classes";
 import { FC, useRef } from "react";
 import {
   ActionMeta,

@@ -3,14 +3,14 @@ import {
   LockFilled,
   SafetyCertificateFilled
 } from "@ant-design/icons";
-import { useAccount } from "core/hooks/useAccount";
-import { Avatar } from "core/ui-components/Avatar";
-import { Space } from "core/ui-components/Space";
-import { Table } from "core/ui-components/Table";
-import { TableColumn } from "core/ui-components/Table/TableColumn";
-import { Tooltip } from "core/ui-components/Tooltip";
-import { Typography } from "core/ui-components/Typography";
-import dateUtils from "core/utils/date";
+import { useAccount } from "../../../../core/hooks/useAccount";
+import { Avatar } from "../../../../core/ui-components/Avatar";
+import { Space } from "../../../../core/ui-components/Space";
+import { Table } from "../../../../core/ui-components/Table";
+import { TableColumn } from "../../../../core/ui-components/Table/TableColumn";
+import { Tooltip } from "../../../../core/ui-components/Tooltip";
+import { Typography } from "../../../../core/ui-components/Typography";
+import dateUtils from "../../../../core/utils/date";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { AccountStatusTag } from "../../../../core/components/AccountStatusTag";

@@ -3,7 +3,7 @@ import { notify } from "../../../core/utils/notify";
 import { commentAction } from "./comment";
 import { SortOrder } from "../../../types/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
-import { cookie } from "core/utils/cookie";
+import { cookie } from "../../../core/utils/cookie";
 
 export interface ApiQueryParams {
   id?: string;

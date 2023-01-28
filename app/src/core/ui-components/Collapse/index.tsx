@@ -1,4 +1,4 @@
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 import React, { FC } from "react";
 
 interface CollapseProps {

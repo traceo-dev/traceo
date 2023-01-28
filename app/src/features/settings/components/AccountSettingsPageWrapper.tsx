@@ -1,8 +1,8 @@
 import { SettingOutlined } from "@ant-design/icons";
 import { MenuRoute } from "../../../types/navigation";
-import { Avatar } from "core/ui-components/Avatar";
-import { useAccount } from "core/hooks/useAccount";
-import { Page } from "core/components/Page";
+import { Avatar } from "../../../core/ui-components/Avatar";
+import { useAccount } from "../../../core/hooks/useAccount";
+import { Page } from "../../../core/components/Page";
 
 export const AccountSettingsPageWrapper = ({ children }) => {
   const account = useAccount();

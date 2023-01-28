@@ -1,10 +1,10 @@
-import { Space } from "core/ui-components/Space";
+import { Space } from "../../../../core/ui-components/Space";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { GH_SDK_REPO_LINK } from "../../../../core/utils/constants";
-import { Button } from "core/ui-components/Button";
-import { Typography } from "core/ui-components/Typography";
-import { Card } from "core/ui-components/Card";
-import { useApplication } from "core/hooks/useApplication";
+import { Button } from "../../../../core/ui-components/Button";
+import { Typography } from "../../../../core/ui-components/Typography";
+import { Card } from "../../../../core/ui-components/Card";
+import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const NotIntegratedSection = () => {
   const { application } = useApplication();

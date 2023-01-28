@@ -1,8 +1,8 @@
 import { SearchOutlined } from "@ant-design/icons";
-import { Space } from "core/ui-components/Space";
+import { Space } from "../../core/ui-components/Space";
 import { joinClasses } from "../../core/utils/classes";
 import { FC } from "react";
-import { Typography } from "core/ui-components/Typography";
+import { Typography } from "../../core/ui-components/Typography";
 
 interface Props {
   label?: string;

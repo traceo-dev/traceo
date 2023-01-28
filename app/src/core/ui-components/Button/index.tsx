@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { conditionClass, joinClasses } from "core/utils/classes";
+import { conditionClass, joinClasses } from "../../../core/utils/classes";
 import { ButtonHTMLAttributes, forwardRef } from "react";
 import { mapButtonVariantStyle, mapButtonSize } from "./styles";
 import { ButtonVariant, ButtonSize } from "./types";

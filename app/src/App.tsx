@@ -11,10 +11,10 @@ import Maintenance from "./core/components/Layout/Pages/Maintenance";
 import { NavBar } from "./core/components/Layout/Navbar";
 import { TraceoLoading } from "./core/components/TraceoLoading";
 import { DashboardHeader } from "./core/components/Layout/DashboardHeader";
-import { Page } from "core/components/Page";
-import { MainViewWrapper } from "core/components/Layout/Wrappers/MainViewWrapper";
-import { NotificationContainer } from "core/components/Notification/NotificationContainer";
-import { persistedRedux, store } from "store";
+import { Page } from "./core/components/Page";
+import { MainViewWrapper } from "./core/components/Layout/Wrappers/MainViewWrapper";
+import { NotificationContainer } from "./core/components/Notification/NotificationContainer";
+import { persistedRedux, store } from "./store";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {

@@ -1,4 +1,4 @@
-import { useApplication } from "core/hooks/useApplication";
+import { useApplication } from "../../core/hooks/useApplication";
 import { FC, ReactNode } from "react";
 import { MemberRole } from "../../types/application";
 

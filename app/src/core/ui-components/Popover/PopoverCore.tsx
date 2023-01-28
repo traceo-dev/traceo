@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import { Manager, Reference, Popper } from "react-popper";
 import { Transition } from "react-transition-group";
 import { BasePlacement } from "@popperjs/core";
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 import { defaultTransitionStyles, transitionStyles, Arrow } from "./style";
 
 interface PopoverCoreProps {

@@ -1,8 +1,8 @@
 import { FC, useEffect } from "react";
-import { joinClasses } from "core/utils/classes";
-import { hideNotify } from "store/internal/reducers/notifyReducer";
-import { useAppDispatch } from "store";
-import { NotifyItem, NotifyType } from "types/notifications";
+import { joinClasses } from "../../../core/utils/classes";
+import { hideNotify } from "../../../store/internal/reducers/notifyReducer";
+import { useAppDispatch } from "../../../store";
+import { NotifyItem, NotifyType } from "../../../types/notifications";
 import {
   CheckCircleFilled,
   CloseCircleFilled,

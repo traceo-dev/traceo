@@ -1,5 +1,5 @@
 import { ContactsOutlined } from "@ant-design/icons";
-import { Card } from "core/ui-components/Card";
+import { Card } from "../../core/ui-components/Card";
 import { DescriptionRow, Descriptions } from "../../core/components/Descriptions";
 import { CONTACT_EMAIL, VERSION } from "../../core/utils/constants";
 import dateUtils from "../../core/utils/date";

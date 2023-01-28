@@ -2,9 +2,8 @@ import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../core/components/DataNotFound";
 import { DescriptionRow, Descriptions } from "../../../core/components/Descriptions";
 import ExplorePageWrapper from "./ExplorePageWrapper";
-import { Card } from "core/ui-components/Card";
-import { useApplication } from "core/hooks/useApplication";
-import dateUtils from "core/utils/date";
+import { Card } from "../../../core/ui-components/Card";
+import { useApplication } from "../../../core/hooks/useApplication";
 
 const RuntimePage = () => {
   const { application } = useApplication();

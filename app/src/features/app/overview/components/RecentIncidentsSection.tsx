@@ -10,13 +10,13 @@ import dateUtils from "../../../../core/utils/date";
 import { useNavigate } from "react-router-dom";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { Link } from "core/ui-components/Link";
-import { Typography } from "core/ui-components/Typography";
-import { Card } from "core/ui-components/Card";
-import { ListCard } from "core/ui-components/Card/ListCard";
-import { Space } from "core/ui-components/Space";
-import { List } from "core/ui-components/List";
-import { useApplication } from "core/hooks/useApplication";
+import { Link } from "../../../../core/ui-components/Link";
+import { Typography } from "../../../../core/ui-components/Typography";
+import { Card } from "../../../../core/ui-components/Card";
+import { ListCard } from "../../../../core/ui-components/Card/ListCard";
+import { Space } from "../../../../core/ui-components/Space";
+import { List } from "../../../../core/ui-components/List";
+import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const RecentIncidentsSection = () => {
   const { application } = useApplication();

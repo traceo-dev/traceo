@@ -1,5 +1,5 @@
-import { joinClasses } from "core/utils/classes";
-import { FC, forwardRef, HTMLProps } from "react";
+import { joinClasses } from "../../../core/utils/classes";
+import { forwardRef, HTMLProps } from "react";
 
 type AvatarShape = "circle" | "square";
 type AvatarSize = "sm" | "md" | "lg";

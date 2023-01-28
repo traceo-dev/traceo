@@ -2,7 +2,7 @@ import { TodaySection } from "../../../features/app/overview/components/TodaySec
 import { OverviewSection } from "./components/OverviewSection";
 import { RecentIncidentsSection } from "./components/RecentIncidentsSection";
 import { NotIntegratedSection } from "./components/NotIntegratedSection";
-import { Page } from "core/components/Page";
+import { Page } from "../../../core/components/Page";
 
 export const AppOverviewPage = () => {
   return (

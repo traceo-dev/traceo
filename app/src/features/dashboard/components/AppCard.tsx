@@ -3,12 +3,12 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import dateUtils from "../../../core/utils/date";
 import { Application, MemberApplication } from "../../../types/application";
-import { Typography } from "core/ui-components/Typography";
-import { ListCard } from "core/ui-components/Card/ListCard";
-import { Space } from "core/ui-components/Space";
-import { Avatar } from "core/ui-components/Avatar";
-import { Tooltip } from "core/ui-components/Tooltip";
-import { SmallAppIncidentsPlot } from "core/components/Plots";
+import { Typography } from "../../../core/ui-components/Typography";
+import { ListCard } from "../../../core/ui-components/Card/ListCard";
+import { Space } from "../../../core/ui-components/Space";
+import { Avatar } from "../../../core/ui-components/Avatar";
+import { Tooltip } from "../../../core/ui-components/Tooltip";
+import { SmallAppIncidentsPlot } from "../../../core/components/Plots";
 
 interface Props {
   app: MemberApplication;

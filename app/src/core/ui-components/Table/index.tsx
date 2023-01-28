@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { Space } from "../Space";
 import { Typography } from "../Typography";

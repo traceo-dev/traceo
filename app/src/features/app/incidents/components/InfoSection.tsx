@@ -1,14 +1,14 @@
-import { Card } from "core/ui-components/Card";
-import { FieldLabel } from "core/ui-components/Form/FieldLabel";
-import { Select } from "core/ui-components/Select";
+import { Card } from "../../../../core/ui-components/Card";
+import { FieldLabel } from "../../../../core/ui-components/Form/FieldLabel";
+import { Select } from "../../../../core/ui-components/Select";
 import { useSelector } from "react-redux";
-import { StoreState } from "types/store";
+import { StoreState } from "../../../../types/store";
 import { useEffect } from "react";
-import { useAppDispatch } from "store";
-import { loadMembers } from "features/app/settings/state/members/actions";
+import { useAppDispatch } from "../../../../store";
+import { loadMembers } from "../../../../features/app/settings/state/members/actions";
 import { updateIncident } from "../state/actions";
-import dateUtils from "core/utils/date";
-import { Typography } from "core/ui-components/Typography";
+import dateUtils from "../../../../core/utils/date";
+import { Typography } from "../../../../core/ui-components/Typography";
 import { assignOptions, statusOptions } from "./utils";
 
 export const InfoSection = () => {

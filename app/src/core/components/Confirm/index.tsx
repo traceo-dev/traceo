@@ -1,13 +1,13 @@
 import api from "../../../core/lib/api";
 import { FC, useState } from "react";
 import { ApiResponse } from "../../../types/api";
-import { InputSecret } from "core/ui-components/Input/InputSecret";
-import { Button } from "core/ui-components/Button";
-import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Typography } from "core/ui-components/Typography";
-import { Space } from "core/ui-components/Space";
-import { Alert } from "core/ui-components/Alert";
-import { Modal } from "core/ui-components/Modal";
+import { InputSecret } from "../../../core/ui-components/Input/InputSecret";
+import { Button } from "../../../core/ui-components/Button";
+import { ButtonContainer } from "../../../core/ui-components/Button/ButtonContainer";
+import { Typography } from "../../../core/ui-components/Typography";
+import { Space } from "../../../core/ui-components/Space";
+import { Alert } from "../../../core/ui-components/Alert";
+import { Modal } from "../../../core/ui-components/Modal";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;

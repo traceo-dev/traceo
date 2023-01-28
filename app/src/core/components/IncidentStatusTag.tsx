@@ -1,11 +1,11 @@
 import { FC } from "react";
 import { mapIncidentStatus, IncidentStatus } from "../../types/incidents";
-import { Tag, TagColorType } from "core/ui-components/Tag";
-import { joinClasses } from "core/utils/classes";
+import { Tag, TagColorType } from "../../core/ui-components/Tag";
+import { joinClasses } from "../../core/utils/classes";
 import {
   mapIncidentStatusIcon,
   mapIncidentTwBgColor
-} from "features/app/incidents/components/utils";
+} from "../../features/app/incidents/components/utils";
 
 interface Props {
   status: IncidentStatus;

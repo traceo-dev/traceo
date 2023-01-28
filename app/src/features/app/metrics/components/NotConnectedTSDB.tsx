@@ -1,9 +1,9 @@
 import { DatabaseOutlined } from "@ant-design/icons";
-import { Space } from "core/ui-components/Space";
+import { Space } from "../../../../core/ui-components/Space";
 import { useNavigate } from "react-router-dom";
-import { Button } from "core/ui-components/Button";
-import { Typography } from "core/ui-components/Typography";
-import { useApplication } from "core/hooks/useApplication";
+import { Button } from "../../../../core/ui-components/Button";
+import { Typography } from "../../../../core/ui-components/Typography";
+import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const NotConnectedTSDB = () => {
   const { application } = useApplication();

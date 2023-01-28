@@ -13,10 +13,10 @@ import { StoreState } from "../../../types/store";
 import { AppCard } from "./AppCard";
 import { loadApplications } from "../state/actions";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
-import { InputSearch } from "core/ui-components/Input/InputSearch";
-import { Select } from "core/ui-components/Select";
-import { List } from "core/ui-components/List";
-import { useAccount } from "core/hooks/useAccount";
+import { InputSearch } from "../../../core/ui-components/Input/InputSearch";
+import { Select } from "../../../core/ui-components/Select";
+import { List } from "../../../core/ui-components/List";
+import { useAccount } from "../../../core/hooks/useAccount";
 
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",

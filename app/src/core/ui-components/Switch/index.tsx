@@ -1,5 +1,5 @@
 import { forwardRef, HTMLProps } from "react";
-import { conditionClass, joinClasses } from "core/utils/classes";
+import { conditionClass, joinClasses } from "../../../core/utils/classes";
 
 interface SwitchProps extends Omit<HTMLProps<HTMLInputElement>, "value"> {
   value?: boolean;

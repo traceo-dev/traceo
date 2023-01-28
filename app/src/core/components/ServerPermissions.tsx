@@ -1,4 +1,4 @@
-import { useAccount } from "core/hooks/useAccount";
+import { useAccount } from "../../core/hooks/useAccount";
 import { FC } from "react";
 
 const ServerPermissions: FC = ({ children }) => {

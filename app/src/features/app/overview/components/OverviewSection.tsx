@@ -1,12 +1,11 @@
 import { useRequest } from "../../../../core/hooks/useRequest";
 import { SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../../store";
 import { ErrorDetails } from "../../../../types/incidents";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { Card } from "core/ui-components/Card";
-import { AppOverviewPlot } from "core/components/Plots";
+import { Card } from "../../../../core/ui-components/Card";
+import { AppOverviewPlot } from "../../../../core/components/Plots";
 
 export interface TotalOverviewType {
   errors: ErrorDetails[];

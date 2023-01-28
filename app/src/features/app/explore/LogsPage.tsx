@@ -6,7 +6,7 @@ import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { LogsHistogram } from "./components/LogsHistogram";
 import { DataNotFound } from "../../../core/components/DataNotFound";
 import { LogContainer, LogRow } from "./components/LogContainer";
-import { Card } from "core/ui-components/Card";
+import { Card } from "../../../core/ui-components/Card";
 
 const LogsPage = () => {
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);

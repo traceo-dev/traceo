@@ -1,6 +1,6 @@
 import { Card, CardProps } from ".";
 import { FC, PropsWithChildren, HTMLProps } from "react";
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 
 interface ListCardProps extends Omit<HTMLProps<HTMLElement>, "ref"> {
   className?: string;

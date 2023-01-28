@@ -1,14 +1,14 @@
-import { Space } from "core/ui-components/Space";
+import { Space } from "../../../core/ui-components/Space";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { useEffect, useState } from "react";
 import { TSDB } from "../../../types/application";
 import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
-import { Select } from "core/ui-components/Select";
-import { Typography } from "core/ui-components/Typography";
-import { Card } from "core/ui-components/Card";
-import { useApplication } from "core/hooks/useApplication";
+import { Select } from "../../../core/ui-components/Select";
+import { Typography } from "../../../core/ui-components/Typography";
+import { Card } from "../../../core/ui-components/Card";
+import { useApplication } from "../../../core/hooks/useApplication";
 
 const dataSourceOptions = [
   {

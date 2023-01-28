@@ -5,16 +5,16 @@ import {
   BarChartOutlined,
   LineChartOutlined
 } from "@ant-design/icons";
-import { Avatar } from "core/ui-components/Avatar";
-import { SelectOptionProps } from "core/ui-components/Select/types";
+import { Avatar } from "../../../../core/ui-components/Avatar";
+import { SelectOptionProps } from "../../../../core/ui-components/Select/types";
 import React from "react";
-import { ApplicationMember } from "types/application";
+import { ApplicationMember } from "../../../../types/application";
 import {
   IncidentStatus,
   mapIncidentStatus,
   IncidentSortBy,
   IncidentStatusSearch
-} from "types/incidents";
+} from "../../../../types/incidents";
 
 export const assignOptions = (members: ApplicationMember[]) =>
   members?.map((member: ApplicationMember) => ({

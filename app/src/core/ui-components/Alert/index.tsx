@@ -5,7 +5,7 @@ import {
   ExclamationCircleFilled,
   InfoCircleFilled
 } from "@ant-design/icons";
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 import { FC, useState } from "react";
 
 type AlertType = "success" | "info" | "warning" | "error";

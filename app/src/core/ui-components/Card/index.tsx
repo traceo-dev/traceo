@@ -1,4 +1,4 @@
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 import { FC, PropsWithChildren, HTMLProps } from "react";
 import { Typography } from "../Typography";
 

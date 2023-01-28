@@ -4,15 +4,15 @@ import dateUtils from "../../../../../core/utils/date";
 import ReactMarkdown from "react-markdown";
 import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
 import api from "../../../../../core/lib/api";
-import { InputArea } from "core/ui-components/Input/InputArea";
-import { Button } from "core/ui-components/Button";
-import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Typography } from "core/ui-components/Typography";
-import { Card } from "core/ui-components/Card";
-import { Account } from "types/accounts";
-import { Space } from "core/ui-components/Space";
-import { Avatar } from "core/ui-components/Avatar";
-import { useApplication } from "core/hooks/useApplication";
+import { InputArea } from "../../../../../core/ui-components/Input/InputArea";
+import { Button } from "../../../../../core/ui-components/Button";
+import { ButtonContainer } from "../../../../../core/ui-components/Button/ButtonContainer";
+import { Typography } from "../../../../../core/ui-components/Typography";
+import { Card } from "../../../../../core/ui-components/Card";
+import { Account } from "../../../../../types/accounts";
+import { Space } from "../../../../../core/ui-components/Space";
+import { Avatar } from "../../../../../core/ui-components/Avatar";
+import { useApplication } from "../../../../../core/hooks/useApplication";
 
 interface Props {
   account: Account;

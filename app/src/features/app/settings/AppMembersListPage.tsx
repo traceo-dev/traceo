@@ -12,10 +12,10 @@ import { Permissions } from "../../../core/components/Permissions";
 import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import { AddMemberModal } from "../../../core/components/Modals/AddMemberModal";
 import { DataNotFound } from "../../../core/components/DataNotFound";
-import { InputSearch } from "core/ui-components/Input/InputSearch";
-import { Button } from "core/ui-components/Button";
-import { Card } from "core/ui-components/Card";
-import { ApplicationMembersTable } from "core/components/ApplicationMembersTable";
+import { InputSearch } from "../../../core/ui-components/Input/InputSearch";
+import { Button } from "../../../core/ui-components/Button";
+import { Card } from "../../../core/ui-components/Card";
+import { ApplicationMembersTable } from "../../../core/components/ApplicationMembersTable";
 
 export const AppMembersListPage = () => {
   const { id } = useParams();

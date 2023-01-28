@@ -12,10 +12,10 @@ import { logout } from "../.../../../../../core/utils/logout";
 import { MenuRoute } from "../.../../../../../types/navigation";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
-import { Avatar } from "core/ui-components/Avatar";
-import { Divider } from "core/ui-components/Divider";
-import { useAccount } from "core/hooks/useAccount";
-import { useApplication } from "core/hooks/useApplication";
+import { Avatar } from "../../../../core/ui-components/Avatar";
+import { Divider } from "../../../../core/ui-components/Divider";
+import { useAccount } from "../../../../core/hooks/useAccount";
+import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const AppNavBar = () => {
   const { application, hasFetched } = useApplication();

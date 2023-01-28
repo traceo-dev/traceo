@@ -1,4 +1,4 @@
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 import { forwardRef, HTMLProps } from "react";
 
 export interface Props extends Omit<HTMLProps<HTMLTextAreaElement>, "prefix" | "size"> {

@@ -10,7 +10,7 @@ import { MenuRoute } from "../.../../../../../types/navigation";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { GH_REPO_LINK } from "../.../../../../../core/utils/constants";
-import { useAccount } from "core/hooks/useAccount";
+import { useAccount } from "../../../../core/hooks/useAccount";
 
 export const DashboardNavBar = () => {
   const account = useAccount();

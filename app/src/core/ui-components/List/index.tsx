@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { joinClasses } from "core/utils/classes";
+import { joinClasses } from "../../../core/utils/classes";
 
 interface ListProps<T> {
   dataSource: T[];

@@ -1,5 +1,5 @@
 import { DownOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
-import { conditionClass, joinClasses } from "core/utils/classes";
+import { conditionClass, joinClasses } from "../../../core/utils/classes";
 import { FC, useEffect, useState } from "react";
 import { Typography } from "../Typography";
 

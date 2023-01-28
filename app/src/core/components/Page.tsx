@@ -1,7 +1,7 @@
-import { PageHeader, PageHeaderProps } from "core/ui-components/PageHeader";
+import { PageHeader, PageHeaderProps } from "../../core/ui-components/PageHeader";
 import { FC } from "react";
 import styled from "styled-components";
-import { MenuRoute } from "types/navigation";
+import { MenuRoute } from "../../types/navigation";
 import { Menu } from "./Layout/Menu";
 import { PageCenter } from "./PageCenter";
 import { PageContent } from "./PageContent";

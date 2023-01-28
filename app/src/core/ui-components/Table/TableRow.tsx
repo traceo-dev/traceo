@@ -1,4 +1,4 @@
-import { joinClasses, conditionClass } from "core/utils/classes";
+import { joinClasses, conditionClass } from "../../../core/utils/classes";
 import React, { FC } from "react";
 import { TableRowSize } from "./types";
 import { getTraversValue } from "./utils";

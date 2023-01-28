@@ -1,8 +1,8 @@
-import { Badge } from "core/ui-components/Badge";
-import { Card } from "core/ui-components/Card";
-import { Table } from "core/ui-components/Table";
-import { TableColumn } from "core/ui-components/Table/TableColumn";
-import { Typography } from "core/ui-components/Typography";
+import { Badge } from "../../../../core/ui-components/Badge";
+import { Card } from "../../../../core/ui-components/Card";
+import { Table } from "../../../../core/ui-components/Table";
+import { TableColumn } from "../../../../core/ui-components/Table/TableColumn";
+import { Typography } from "../../../../core/ui-components/Typography";
 import { useSelector } from "react-redux";
 import dateUtils from "../../../../core/utils/date";
 import { StoreState } from "../../../../types/store";

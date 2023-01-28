@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { StoreState } from "types/store";
+import { StoreState } from "../../../types/store";
 import { NotificationItem } from "./NotificationItem";
 
 export const NotificationContainer = () => {

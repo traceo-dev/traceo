@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { conditionClass, joinClasses } from "core/utils/classes";
+import { conditionClass, joinClasses } from "../../../core/utils/classes";
 import { forwardRef, HTMLProps } from "react";
 
 export interface Props extends Omit<HTMLProps<HTMLInputElement>, "prefix" | "size"> {

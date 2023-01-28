@@ -1,11 +1,11 @@
-import { Space } from "core/ui-components/Space";
+import { Space } from "../../../../core/ui-components/Space";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useRequest } from "../../../../core/hooks/useRequest";
 import { ApplicationMember } from "../../../../types/application";
-import { Typography } from "core/ui-components/Typography";
-import { Card } from "core/ui-components/Card";
-import { ApplicationMembersTable } from "core/components/ApplicationMembersTable";
+import { Typography } from "../../../../core/ui-components/Typography";
+import { Card } from "../../../../core/ui-components/Card";
+import { ApplicationMembersTable } from "../../../../core/components/ApplicationMembersTable";
 
 export const ApplicationMembers = () => {
   const { id } = useParams();

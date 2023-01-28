@@ -5,16 +5,16 @@ import {
   updateAccount,
   updateAccountPassword
 } from "../app/settings/state/settings/actions";
-import { Input } from "core/ui-components/Input";
-import { InputSecret } from "core/ui-components/Input/InputSecret";
-import { Button } from "core/ui-components/Button";
-import { Form } from "core/ui-components/Form";
-import { FormItem } from "core/ui-components/Form/FormItem";
-import { ButtonContainer } from "core/ui-components/Button/ButtonContainer";
-import { Card } from "core/ui-components/Card";
-import { useMemberRole } from "core/hooks/useMemberRole";
-import { useDemo } from "core/hooks/useDemo";
-import { useAccount } from "core/hooks/useAccount";
+import { Input } from "../../core/ui-components/Input";
+import { InputSecret } from "../../core/ui-components/Input/InputSecret";
+import { Button } from "../../core/ui-components/Button";
+import { Form } from "../../core/ui-components/Form";
+import { FormItem } from "../../core/ui-components/Form/FormItem";
+import { ButtonContainer } from "../../core/ui-components/Button/ButtonContainer";
+import { Card } from "../../core/ui-components/Card";
+import { useMemberRole } from "../../core/hooks/useMemberRole";
+import { useDemo } from "../../core/hooks/useDemo";
+import { useAccount } from "../../core/hooks/useAccount";
 
 type UpdateAccountForm = {
   name: string;

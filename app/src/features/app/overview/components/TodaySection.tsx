@@ -5,10 +5,10 @@ import { ErrorDetails } from "../../../../types/incidents";
 import { statisticUtils } from "../../../../core/utils/statistics";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import dateUtils from "../../../../core/utils/date";
-import { Typography } from "core/ui-components/Typography";
-import { Card } from "core/ui-components/Card";
-import { AppIncidentsTodayPlot } from "core/components/Plots";
-import { useApplication } from "core/hooks/useApplication";
+import { Typography } from "../../../../core/ui-components/Typography";
+import { Card } from "../../../../core/ui-components/Card";
+import { AppIncidentsTodayPlot } from "../../../../core/components/Plots";
+import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const TodaySection = () => {
   const { id } = useParams();

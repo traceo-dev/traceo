@@ -12,8 +12,8 @@ import {
   StockOutlined,
   SyncOutlined
 } from "@ant-design/icons";
-import { Page } from "core/components/Page";
-import { IncidentStatusTag } from "core/components/IncidentStatusTag";
+import { Page } from "../../../../core/components/Page";
+import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 
 export const IncidentPageWrapper = ({ children }) => {
   const { iid } = useParams();

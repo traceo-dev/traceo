@@ -1,6 +1,6 @@
-import { Space } from "core/ui-components/Space";
-import { Card } from "core/ui-components/Card";
-import { Typography } from "core/ui-components/Typography";
+import { Space } from "../../../../core/ui-components/Space";
+import { Card } from "../../../../core/ui-components/Card";
+import { Typography } from "../../../../core/ui-components/Typography";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
 

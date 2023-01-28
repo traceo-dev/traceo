@@ -7,8 +7,8 @@ import {
 import { MenuRoute } from "../../../types/navigation";
 import { PageCenter } from "../../../core/components/PageCenter";
 import NotFound from "../../../core/components/Layout/Pages/NotFound";
-import { useAccount } from "core/hooks/useAccount";
-import { Page } from "core/components/Page";
+import { useAccount } from "../../../core/hooks/useAccount";
+import { Page } from "../../../core/components/Page";
 import { FC } from "react";
 
 interface Props {

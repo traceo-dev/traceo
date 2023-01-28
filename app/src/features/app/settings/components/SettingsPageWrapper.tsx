@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import { MenuRoute } from "../../../../types/navigation";
 import { FC } from "react";
-import { Page } from "core/components/Page";
+import { Page } from "../../../../core/components/Page";
 
 export const SettingsPageWrapper: FC = ({ children }) => {
   const menu: MenuRoute[] = [

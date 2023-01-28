@@ -1,5 +1,5 @@
-import { Space } from "core/ui-components/Space";
-import { Typography } from "core/ui-components/Typography";
+import { Space } from "../../core/ui-components/Space";
+import { Typography } from "../../core/ui-components/Typography";
 import { FC } from "react";
 
 interface Props {

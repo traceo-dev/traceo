@@ -9,9 +9,9 @@ import { useAppDispatch } from "../../../store";
 import { StoreState } from "../../../types/store";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { loadIncidentComments } from "./state/actions";
-import { Typography } from "core/ui-components/Typography";
-import { Space } from "core/ui-components/Space";
-import { Card } from "core/ui-components/Card";
+import { Typography } from "../../../core/ui-components/Typography";
+import { Space } from "../../../core/ui-components/Space";
+import { Card } from "../../../core/ui-components/Card";
 
 export const IncidentConversationPage = () => {
   const { socket } = useContext(SocketContext);

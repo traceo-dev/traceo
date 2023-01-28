@@ -4,12 +4,12 @@ import { useSelector } from "react-redux";
 import { LogLevel } from "../../../../types/logs";
 import { StoreState } from "../../../../types/store";
 import { mapLogIcon } from "./LogContainer";
-import { Typography } from "core/ui-components/Typography";
-import { Card } from "core/ui-components/Card";
-import { Space } from "core/ui-components/Space";
-import { Row } from "core/ui-components/Row";
-import { Col } from "core/ui-components/Col";
-import { Checkbox } from "core/ui-components/Checkbox";
+import { Typography } from "../../../../core/ui-components/Typography";
+import { Card } from "../../../../core/ui-components/Card";
+import { Space } from "../../../../core/ui-components/Space";
+import { Row } from "../../../../core/ui-components/Row";
+import { Col } from "../../../../core/ui-components/Col";
+import { Checkbox } from "../../../../core/ui-components/Checkbox";
 
 interface Props {
   checkedLevels: LogLevel[];

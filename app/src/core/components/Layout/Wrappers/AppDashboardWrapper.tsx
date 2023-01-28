@@ -1,11 +1,11 @@
-import NotFound from "core/components/Layout/Pages/NotFound";
-import { Page } from "core/components/Page";
-import { useApplication } from "core/hooks/useApplication";
-import { isEmptyObject } from "core/utils/object";
-import { initApplication } from "features/app/state/application/actions";
+import NotFound from "../../../../core/components/Layout/Pages/NotFound";
+import { Page } from "../../../../core/components/Page";
+import { useApplication } from "../../../../core/hooks/useApplication";
+import { isEmptyObject } from "../../../../core/utils/object";
+import { initApplication } from "../../../../features/app/state/application/actions";
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch } from "store";
+import { useAppDispatch } from "../../../../store";
 
 const AppDashboardPage: FC = ({ children }) => {
   const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
-import { cookie } from "core/utils/cookie";
+import { cookie } from "../../core/utils/cookie";
 import { useSelector } from "react-redux";
-import { StoreState } from "types/store";
+import { StoreState } from "../../types/store";
 
 export const useAccount = () => {
   const { account } = useSelector((state: StoreState) => state.account);

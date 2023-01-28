@@ -12,15 +12,15 @@ import { StoreState } from "../../../../types/store";
 import { AddToApplicationModal } from "../../../../core/components/Modals/AddToApplicationModal";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
-import { Button } from "core/ui-components/Button";
-import { Card } from "core/ui-components/Card";
-import { Space } from "core/ui-components/Space";
-import { Table } from "core/ui-components/Table";
-import { Avatar } from "core/ui-components/Avatar";
-import { TableColumn } from "core/ui-components/Table/TableColumn";
-import { Select } from "core/ui-components/Select";
-import { Confirm } from "core/components/Confirm";
-import { membersAction } from "core/lib/api/members";
+import { Button } from "../../../../core/ui-components/Button";
+import { Card } from "../../../../core/ui-components/Card";
+import { Space } from "../../../../core/ui-components/Space";
+import { Table } from "../../../../core/ui-components/Table";
+import { Avatar } from "../../../../core/ui-components/Avatar";
+import { TableColumn } from "../../../../core/ui-components/Table/TableColumn";
+import { Select } from "../../../../core/ui-components/Select";
+import { Confirm } from "../../../../core/components/Confirm";
+import { membersAction } from "../../../../core/lib/api/members";
 
 export const AccountApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);

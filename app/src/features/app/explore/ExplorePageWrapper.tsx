@@ -4,7 +4,7 @@ import {
   CompassOutlined
 } from "@ant-design/icons";
 import { MenuRoute } from "../../../types/navigation";
-import { Page } from "core/components/Page";
+import { Page } from "../../../core/components/Page";
 import { FC } from "react";
 
 export const ExplorePageWrapper: FC = ({ children }) => {

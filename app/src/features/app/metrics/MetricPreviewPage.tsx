@@ -15,11 +15,11 @@ import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
 import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
 import { DeepPartial } from "../../../types/partials";
 import ReactMarkdown from "react-markdown";
-import { Card } from "core/ui-components/Card";
-import { Space } from "core/ui-components/Space";
-import { Tooltip } from "core/ui-components/Tooltip";
-import { MetricPreviewPlot } from "core/components/Plots";
-import { Page } from "core/components/Page";
+import { Card } from "../../../core/ui-components/Card";
+import { Space } from "../../../core/ui-components/Space";
+import { Tooltip } from "../../../core/ui-components/Tooltip";
+import { MetricPreviewPlot } from "../../../core/components/Plots";
+import { Page } from "../../../core/components/Page";
 
 export const MetricPreviewPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;

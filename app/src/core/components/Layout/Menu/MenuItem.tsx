@@ -4,8 +4,8 @@ import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { MenuRoute } from "../../../../types/navigation";
 import { StoreState } from "../../../../types/store";
 import { NavLink } from "react-router-dom";
-import { Space } from "core/ui-components/Space";
-import { useApplication } from "core/hooks/useApplication";
+import { Space } from "../../../../core/ui-components/Space";
+import { useApplication } from "../../../../core/hooks/useApplication";
 
 interface Props {
   menu: MenuRoute;

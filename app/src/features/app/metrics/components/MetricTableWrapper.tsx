@@ -4,12 +4,12 @@ import { FC, useState } from "react";
 import { IMetric, MetricsResponse } from "../../../../types/metrics";
 import { DeepPartial } from "../../../../types/partials";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { Typography } from "core/ui-components/Typography";
-import { Card } from "core/ui-components/Card";
-import { Space } from "core/ui-components/Space";
-import { Switch } from "core/ui-components/Switch";
-import { Table } from "core/ui-components/Table";
-import { TableColumn } from "core/ui-components/Table/TableColumn";
+import { Typography } from "../../../../core/ui-components/Typography";
+import { Card } from "../../../../core/ui-components/Card";
+import { Space } from "../../../../core/ui-components/Space";
+import { Switch } from "../../../../core/ui-components/Switch";
+import { Table } from "../../../../core/ui-components/Table";
+import { TableColumn } from "../../../../core/ui-components/Table/TableColumn";
 
 interface Props {
   metric: DeepPartial<IMetric>;

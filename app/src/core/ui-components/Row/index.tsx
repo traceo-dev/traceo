@@ -1,4 +1,4 @@
-import { conditionClass, joinClasses } from "core/utils/classes";
+import { conditionClass, joinClasses } from "../../../core/utils/classes";
 import React, { FC } from "react";
 
 interface RowProps {

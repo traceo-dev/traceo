@@ -15,14 +15,14 @@ import { TimeLimitDropdown } from "./components/TimeLimitDropdown";
 import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
 import { searchMetric } from "./utils/searchUtil";
 import { metricsApi } from "./api";
-import { InputSearch } from "core/ui-components/Input/InputSearch";
-import { Button } from "core/ui-components/Button";
-import { Card } from "core/ui-components/Card";
+import { InputSearch } from "../../../core/ui-components/Input/InputSearch";
+import { Button } from "../../../core/ui-components/Button";
+import { Card } from "../../../core/ui-components/Card";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
-import { Row } from "core/ui-components/Row";
-import { Col } from "core/ui-components/Col";
-import { useApplication } from "core/hooks/useApplication";
-import { Page } from "core/components/Page";
+import { Row } from "../../../core/ui-components/Row";
+import { Col } from "../../../core/ui-components/Col";
+import { useApplication } from "../../../core/hooks/useApplication";
+import { Page } from "../../../core/components/Page";
 
 const MetricsPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;

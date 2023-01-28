@@ -1,4 +1,4 @@
-import { conditionClass, joinClasses } from "core/utils/classes";
+import { conditionClass, joinClasses } from "../../../core/utils/classes";
 import { FC } from "react";
 
 interface DividerProps {

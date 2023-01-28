@@ -13,12 +13,12 @@ import {
 } from "../../../../core/utils/localStorage";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { LogsFilterPanel } from "./LogsFilterPanel";
-import { Button } from "core/ui-components/Button";
-import { Card } from "core/ui-components/Card";
-import { Space } from "core/ui-components/Space";
-import { Tooltip } from "core/ui-components/Tooltip";
-import { statisticUtils } from "core/utils/statistics";
-import { LogsPlot } from "core/components/Plots";
+import { Button } from "../../../../core/ui-components/Button";
+import { Card } from "../../../../core/ui-components/Card";
+import { Space } from "../../../../core/ui-components/Space";
+import { Tooltip } from "../../../../core/ui-components/Tooltip";
+import { statisticUtils } from "../../../../core/utils/statistics";
+import { LogsPlot } from "../../../../core/components/Plots";
 
 export const LogsHistogram = () => {
   const dispatch = useAppDispatch();

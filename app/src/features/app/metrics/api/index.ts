@@ -1,4 +1,4 @@
-import { store } from "store";
+import { store } from "../../../../store";
 import api from "../../../../core/lib/api";
 import { loadApplication } from "../../../../features/app/state/application/actions";
 import { ApiResponse } from "../../../../types/api";
