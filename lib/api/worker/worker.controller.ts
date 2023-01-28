@@ -1,9 +1,9 @@
 import { Body, Controller, Param, Post, Headers } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { TraceoIncidentModel } from '../../common/types/interfaces/incident.interface';
-import { TraceoLog } from '../../common/types/interfaces/log.interface';
-import { ISDKMetrics } from '../../common/types/interfaces/metrics.interface';
-import { IRuntime } from '../../common/types/interfaces/runtime.interface';
+import { TraceoIncidentModel } from '@common/types/interfaces/incident.interface';
+import { TraceoLog } from '@common/types/interfaces/log.interface';
+import { ISDKMetrics } from '@common/types/interfaces/metrics.interface';
+import { IRuntime } from '@common/types/interfaces/runtime.interface';
 import { WorkerLogsService } from './services/worker-logs.service';
 import { WorkerMetricsService } from './services/worker-metrics.service';
 import { WorkerIncidentsService } from './services/worker-incidents.service';

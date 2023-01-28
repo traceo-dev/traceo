@@ -10,10 +10,10 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
-import { GetCommentsDto, PatchCommentDto } from '../../../common/types/dto/comment.dto';
-import { ApiResponse } from '../../../common/types/dto/response.dto';
-import { IComment } from '../../../common/types/interfaces/comment.interface';
+import { AuthGuard } from '@common/decorators/auth-guard.decorator';
+import { GetCommentsDto, PatchCommentDto } from '@common/types/dto/comment.dto';
+import { ApiResponse } from '@common/types/dto/response.dto';
+import { IComment } from '@common/types/interfaces/comment.interface';
 import { IncidentCommentsService } from './incident-comments.service';
 import { IncidentCommentsQueryService } from './query/incident-comments-query.service';
 

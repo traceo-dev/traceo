@@ -1,5 +1,5 @@
 import { AsyncLocalStorage } from 'async_hooks';
-import { RequestUser } from 'lib/common/types/interfaces/account.interface';
+import { RequestUser } from '@common/types/interfaces/account.interface';
 
 export class RequestContext<TRequest = any, TResponse = any> {
     constructor(public readonly req: TRequest, public readonly res: TResponse) { }

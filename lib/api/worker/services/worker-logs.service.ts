@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { TraceoLog } from "../../../common/types/interfaces/log.interface";
-import { BaseWorkerService } from "../../../common/base/worker/base-worker.service";
-import { Application } from "../../../db/entities/application.entity";
-import { Log } from "../../../db/entities/log.entity";
+import { TraceoLog } from "@common/types/interfaces/log.interface";
+import { BaseWorkerService } from "@common/base/worker/base-worker.service";
+import { Application } from "@db/entities/application.entity";
+import { Log } from "@db/entities/log.entity";
 import { EntityManager } from "typeorm";
 
 

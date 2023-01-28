@@ -14,7 +14,7 @@ import { IAccount } from '../common/types/interfaces/account.interface';
 import { ApiResponse } from '../common/types/dto/response.dto';
 import { AccountStatus } from '../common/types/enums/account.enum';
 import { AuthTokenService } from './auth-token.service';
-import { RequestContext } from 'lib/common/middlewares/request-context/request-context.model';
+import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 
 export type LoginResponseType = { accessToken: string };
 export type CheckCredentialsType = { isCorrect: boolean; account?: IAccount };

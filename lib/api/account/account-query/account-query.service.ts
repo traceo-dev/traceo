@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { BaseQueryService } from '../../../common/base/query/base-query.service';
-import { BaseDtoQuery } from '../../../common/base/query/base-query.model';
-import { Account } from '../../../db/entities/account.entity';
+import { BaseQueryService } from '@common/base/query/base-query.service';
+import { BaseDtoQuery } from '@common/base/query/base-query.model';
+import { Account } from '@db/entities/account.entity';
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
-import { ApiResponse } from 'lib/common/types/dto/response.dto';
-import { IAccount } from 'lib/common/types/interfaces/account.interface';
-import { RequestContext } from 'lib/common/middlewares/request-context/request-context.model';
+import { ApiResponse } from '@common/types/dto/response.dto';
+import { IAccount } from '@common/types/interfaces/account.interface';
+import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 
 @Injectable()
 export class AccountQueryService extends BaseQueryService<

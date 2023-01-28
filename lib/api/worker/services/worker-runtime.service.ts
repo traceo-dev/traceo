@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
-import { BaseWorkerService } from "../../../common/base/worker/base-worker.service";
-import { Application } from "../../../db/entities/application.entity";
+import { BaseWorkerService } from "@common/base/worker/base-worker.service";
+import { Application } from "@db/entities/application.entity";
 import { EntityManager } from "typeorm";
 
 @Injectable()

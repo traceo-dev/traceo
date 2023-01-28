@@ -8,8 +8,8 @@ import {
 } from 'typeorm';
 import { BaseDtoQuery } from './base-query.model';
 import { BaseEntity } from '../base.entity';
-import { ApiResponse } from '../../../common/types/dto/response.dto';
-import { InternalServerError } from '../../../common/helpers/errors';
+import { ApiResponse } from '@common/types/dto/response.dto';
+import { InternalServerError } from '@common/helpers/errors';
 
 @Injectable()
 export abstract class BaseQueryService<

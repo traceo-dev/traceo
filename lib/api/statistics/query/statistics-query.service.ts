@@ -2,11 +2,11 @@ import { Injectable, Logger } from "@nestjs/common";
 
 import { EntityManager } from "typeorm";
 import dayjs from "dayjs";
-import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
-import { Incident, IncidentStatus } from "../../../db/entities/incident.entity";
-import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { AppIncidentsStats, PieData } from "../../../common/types/interfaces/statistics.interface";
-import { ErrorDetails } from "../../../common/types/interfaces/incident.interface";
+import { INTERNAL_SERVER_ERROR } from "@common/helpers/constants";
+import { Incident } from "@db/entities/incident.entity";
+import { ApiResponse } from "@common/types/dto/response.dto";
+import { AppIncidentsStats, PieData } from "@common/types/interfaces/statistics.interface";
+import { ErrorDetails } from "@common/types/interfaces/incident.interface";
 
 @Injectable()
 export class StatisticsQueryService {

@@ -8,7 +8,7 @@ import { AmrService } from '../application-member/amr.service';
 import { AmrQueryService } from '../application-member/amr-query/amr-query.service';
 import { HttpModule } from "@nestjs/axios";
 import { AuthModule } from '../../../lib/auth/auth.module';
-import { GuardsService } from '../../../lib/common/guards/guards.service';
+import { GuardsService } from "@common/guards/guards.service";
 import { AccountsController } from './accounts.controller';
 
 @Module({

@@ -6,7 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { AmrQueryService } from '../application-member/amr-query/amr-query.service';
 import { AccountQueryService } from '../account/account-query/account-query.service';
-import { GuardsService } from '../../common/guards/guards.service';
+import { GuardsService } from '@common/guards/guards.service';
 import { MetricsService } from '../metrics/metrics.service';
 import { ApplicationsController } from './applications.controller';
 

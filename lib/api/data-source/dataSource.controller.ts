@@ -1,14 +1,14 @@
 import { Body, Controller, Delete, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthAccount } from '../../common/decorators/auth-user.decorator';
-import { ApiResponse } from '../../common/types/dto/response.dto';
-import { RequestUser } from '../../common/types/interfaces/account.interface';
-import { IInfluxDs } from '../../common/types/interfaces/influxds.interface';
-import { GuardsService } from '../../common/guards/guards.service';
+import { AuthAccount } from '@common/decorators/auth-user.decorator';
+import { ApiResponse } from '@common/types/dto/response.dto';
+import { RequestUser } from '@common/types/interfaces/account.interface';
+import { IInfluxDs } from '@common/types/interfaces/influxds.interface';
+import { GuardsService } from '@common/guards/guards.service';
 import { DataSourceService } from './dataSource.service';
-import { InfluxConfigurationDto } from '../../common/types/dto/influx.dto';
-import { DataSourceConnStatus } from '../../common/types/interfaces/tsdb.interface';
-import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
+import { InfluxConfigurationDto } from '@common/types/dto/influx.dto';
+import { DataSourceConnStatus } from '@common/types/interfaces/tsdb.interface';
+import { AuthGuard } from '@common/decorators/auth-guard.decorator';
 
 @ApiTags('datasource')
 @Controller('datasource')

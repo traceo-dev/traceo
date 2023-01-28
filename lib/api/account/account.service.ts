@@ -4,18 +4,18 @@ import { AccountQueryService } from './account-query/account-query.service';
 import { AmrService } from '../application-member/amr.service';
 import { ApplicationQueryService } from '../application/application-query/application-query.service';
 import { HttpService } from "@nestjs/axios";
-import { GuardsService } from '../../../lib/common/guards/guards.service';
-import { INTERNAL_SERVER_ERROR, ADMIN_EMAIL } from '../../../lib/common/helpers/constants';
-import dateUtils from '../../../lib/common/helpers/dateUtils';
-import { AccountWithUsernameAlreadyExistsError, AccountEmailAlreadyExistsError } from '../../../lib/common/helpers/errors';
-import { gravatar } from '../../../lib/common/helpers/gravatar';
-import tokenService from '../../../lib/common/helpers/tokens';
-import { CreateAccountDto, AccountDto } from '../../common/types/dto/account.dto';
+import { GuardsService } from "@common/guards/guards.service";
+import { INTERNAL_SERVER_ERROR, ADMIN_EMAIL } from "@common/helpers/constants";
+import dateUtils from "@common/helpers/dateUtils";
+import { AccountWithUsernameAlreadyExistsError, AccountEmailAlreadyExistsError } from "@common/helpers/errors";
+import { gravatar } from "@common/helpers/gravatar";
+import tokenService from "@common/helpers/tokens";
+import { CreateAccountDto, AccountDto } from '@common/types/dto/account.dto';
 import { Account } from '../../../lib/db/entities/account.entity';
 import { EntityManager } from 'typeorm';
-import { AccountStatus } from '../../../lib/common/types/enums/account.enum';
-import { ApiResponse } from '../../../lib/common/types/dto/response.dto';
-import { RequestContext } from 'lib/common/middlewares/request-context/request-context.model';
+import { AccountStatus } from "@common/types/enums/account.enum";
+import { ApiResponse } from "@common/types/dto/response.dto";
+import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 
 
 @Injectable()

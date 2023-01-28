@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
-import { ISDKMetrics } from "../../../common/types/interfaces/metrics.interface";
-import { BaseWorkerService } from "../../../common/base/worker/base-worker.service";
-import { Application } from "../../../db/entities/application.entity";
+import { ISDKMetrics } from "@common/types/interfaces/metrics.interface";
+import { BaseWorkerService } from "@common/base/worker/base-worker.service";
+import { Application } from "@db/entities/application.entity";
 import { InfluxService } from "../../../providers/influx/influx.service";
 import { EntityManager } from "typeorm";
-import { TSDB_PROVIDER } from "../../../common/types/enums/tsdb.enum";
+import { TSDB_PROVIDER } from "@common/types/enums/tsdb.enum";
 
 @Injectable()
 export class WorkerMetricsService extends BaseWorkerService<ISDKMetrics> {

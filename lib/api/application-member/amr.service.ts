@@ -3,14 +3,14 @@ import { EntityManager } from 'typeorm';
 import { AmrQueryService } from './amr-query/amr-query.service';
 import { ApplicationQueryService } from '../application/application-query/application-query.service';
 import { AccountQueryService } from '../account/account-query/account-query.service';
-import { INTERNAL_SERVER_ERROR } from '../../common/helpers/constants';
-import dateUtils from '../../common/helpers/dateUtils';
-import { AddAccountToApplicationDto, UpdateAmrDto } from '../../common/types/dto/amr.dto';
-import { AccountMemberRelationship } from '../../db/entities/account-member-relationship.entity';
-import { ApiResponse } from '../../common/types/dto/response.dto';
-import { MemberRole } from '../../common/types/enums/amr.enum';
-import { Application } from '../../db/entities/application.entity';
-import { Account } from '../../db/entities/account.entity';
+import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
+import dateUtils from '@common/helpers/dateUtils';
+import { AddAccountToApplicationDto, UpdateAmrDto } from '@common/types/dto/amr.dto';
+import { AccountMemberRelationship } from '@db/entities/account-member-relationship.entity';
+import { ApiResponse } from '@common/types/dto/response.dto';
+import { MemberRole } from '@common/types/enums/amr.enum';
+import { Application } from '@db/entities/application.entity';
+import { Account } from '@db/entities/account.entity';
 
 
 /**

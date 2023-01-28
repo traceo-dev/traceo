@@ -1,16 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { InfluxDB, Point } from '@influxdata/influxdb-client'
-import { Application } from '../../db/entities/application.entity';
-import { INTERNAL_SERVER_ERROR } from '../../common/helpers/constants';
-import { InfluxConfigurationDto } from '../../common/types/dto/influx.dto';
-import { IInfluxDs } from '../../common/types/interfaces/influxds.interface';
-import { IDefaultSDKMetrics, ISDKMetrics, MetricsResponse } from '../../common/types/interfaces/metrics.interface';
-import { ApiResponse } from '../../common/types/dto/response.dto';
-import { CONNECTION_STATUS, TSDB_PROVIDER } from '../../common/types/enums/tsdb.enum';
-import { DataSourceConnStatus } from '../../common/types/interfaces/tsdb.interface';
-import { MetricQueryDto } from '../../common/types/dto/metrics.dto';
-import { BaseDataSourceDto } from '../../common/types/dto/data-source';
+import { Application } from '@db/entities/application.entity';
+import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
+import { InfluxConfigurationDto } from '@common/types/dto/influx.dto';
+import { IInfluxDs } from '@common/types/interfaces/influxds.interface';
+import { IDefaultSDKMetrics, ISDKMetrics, MetricsResponse } from '@common/types/interfaces/metrics.interface';
+import { ApiResponse } from '@common/types/dto/response.dto';
+import { CONNECTION_STATUS, TSDB_PROVIDER } from '@common/types/enums/tsdb.enum';
+import { DataSourceConnStatus } from '@common/types/interfaces/tsdb.interface';
+import { MetricQueryDto } from '@common/types/dto/metrics.dto';
+import { BaseDataSourceDto } from '@common/types/dto/data-source';
 
 
 /**

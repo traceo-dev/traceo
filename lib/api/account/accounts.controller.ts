@@ -5,11 +5,11 @@ import {
     UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
-import { BaseDtoQuery } from '../../common/base/query/base-query.model';
-import { AuthRequired } from '../../common/decorators/auth-required.decorator';
-import { ApiResponse } from '../../common/types/dto/response.dto';
-import { IAccount } from '../../common/types/interfaces/account.interface';
+import { AuthGuard } from '@common/decorators/auth-guard.decorator';
+import { BaseDtoQuery } from '@common/base/query/base-query.model';
+import { AuthRequired } from '@common/decorators/auth-required.decorator';
+import { ApiResponse } from '@common/types/dto/response.dto';
+import { IAccount } from '@common/types/interfaces/account.interface';
 import { AccountQueryService } from './account-query/account-query.service';
 
 @ApiTags('accounts')

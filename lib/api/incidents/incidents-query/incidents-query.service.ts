@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { BaseQueryService } from "../../../common/base/query/base-query.service";
-import { IncidentQueryDto } from "../../../common/types/dto/incident.dto";
+import { BaseQueryService } from "@common/base/query/base-query.service";
+import { IncidentQueryDto } from "@common/types/dto/incident.dto";
 import { IncidentStatusSearch } from "../../..//common/types/enums/incident.enum";
-import { Incident } from "../../../db/entities/incident.entity";
+import { Incident } from "@db/entities/incident.entity";
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 
 

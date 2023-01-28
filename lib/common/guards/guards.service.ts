@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
-import { AccountMemberRelationship } from '../../db/entities/account-member-relationship.entity';
-import { Account } from '../../db/entities/account.entity';
+import { AccountMemberRelationship } from '@db/entities/account-member-relationship.entity';
+import { Account } from '@db/entities/account.entity';
 import { UnauthorizedError } from '../helpers/errors';
 import { MemberRole } from '../types/enums/amr.enum';
 import { RequestUser } from '../types/interfaces/account.interface';

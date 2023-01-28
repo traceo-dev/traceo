@@ -10,14 +10,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { GuardsService } from '../../common/guards/guards.service';
-import { AuthAccount } from '../../common/decorators/auth-user.decorator';
-import { CreateAccountDto, AccountDto } from '../../common/types/dto/account.dto';
-import { ApiResponse } from '../../common/types/dto/response.dto';
-import { IAccount, RequestUser } from '../../common/types/interfaces/account.interface';
+import { GuardsService } from '@common/guards/guards.service';
+import { AuthAccount } from '@common/decorators/auth-user.decorator';
+import { CreateAccountDto, AccountDto } from '@common/types/dto/account.dto';
+import { ApiResponse } from '@common/types/dto/response.dto';
+import { IAccount, RequestUser } from '@common/types/interfaces/account.interface';
 import { AccountQueryService } from './account-query/account-query.service';
 import { AccountService } from './account.service';
-import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
+import { AuthGuard } from '@common/decorators/auth-guard.decorator';
 
 @ApiTags('account')
 @Controller('account')

@@ -1,10 +1,10 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AppIncidentsStats } from '../../common/types/interfaces/statistics.interface';
-import { ApiResponse } from '../../common/types/dto/response.dto';
-import { ErrorDetails } from '../../common/types/interfaces/incident.interface';
+import { AppIncidentsStats } from '@common/types/interfaces/statistics.interface';
+import { ApiResponse } from '@common/types/dto/response.dto';
+import { ErrorDetails } from '@common/types/interfaces/incident.interface';
 import { StatisticsQueryService } from './query/statistics-query.service';
-import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
+import { AuthGuard } from '@common/decorators/auth-guard.decorator';
 
 @ApiTags('statistics')
 @Controller('statistics')

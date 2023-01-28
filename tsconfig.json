@@ -13,6 +13,10 @@
     "baseUrl": "./",
     "incremental": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "@common/*": ["./lib/common/*"],
+      "@db/*": ["./lib/db/*"]
+    }
   }
 }

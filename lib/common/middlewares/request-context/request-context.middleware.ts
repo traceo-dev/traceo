@@ -2,9 +2,9 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { RequestContext } from './request-context.model';
 import { Request, Response } from 'express';
 import { EntityManager } from 'typeorm';
-import { SESSION_NAME } from 'lib/common/helpers/constants';
-import { Session } from 'lib/db/entities/session.entity';
-import { RequestUser } from 'lib/common/types/interfaces/account.interface';
+import { SESSION_NAME } from '@common/helpers/constants';
+import { Session } from '@db/entities/session.entity';
+import { RequestUser } from '@common/types/interfaces/account.interface';
 
 interface ExtendedRequest extends Request {
     user: RequestUser

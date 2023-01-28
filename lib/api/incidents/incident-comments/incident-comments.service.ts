@@ -1,12 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { INTERNAL_SERVER_ERROR, REMOVED_MESSAGE_TEXT } from '../../../common/helpers/constants';
-import dateUtils from '../../../common/helpers/dateUtils';
-import { PatchCommentDto } from '../../../common/types/dto/comment.dto';
-import { ApiResponse } from '../../../common/types/dto/response.dto';
-import { CommentsGateway } from '../../../common/websockets/comments.gateway';
+import { INTERNAL_SERVER_ERROR, REMOVED_MESSAGE_TEXT } from '@common/helpers/constants';
+import dateUtils from '@common/helpers/dateUtils';
+import { PatchCommentDto } from '@common/types/dto/comment.dto';
+import { ApiResponse } from '@common/types/dto/response.dto';
+import { CommentsGateway } from '@common/websockets/comments.gateway';
 import { EntityManager } from 'typeorm';
-import { Comment } from "../../../db/entities/comment.entity";
-import { RequestContext } from 'lib/common/middlewares/request-context/request-context.model';
+import { Comment } from "@db/entities/comment.entity";
+import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 
 @Injectable()
 export class IncidentCommentsService {

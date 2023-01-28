@@ -1,11 +1,11 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { BaseQueryService } from "../../../common/base/query/base-query.service";
-import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
-import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
-import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { ApplicationLogsQuery, ILog } from "../../../common/types/interfaces/log.interface";
-import { Application } from "../../../db/entities/application.entity";
-import { Log } from "../../../db/entities/log.entity";
+import { BaseQueryService } from "@common/base/query/base-query.service";
+import { BaseDtoQuery } from "@common/base/query/base-query.model";
+import { INTERNAL_SERVER_ERROR } from "@common/helpers/constants";
+import { ApiResponse } from "@common/types/dto/response.dto";
+import { ApplicationLogsQuery, ILog } from "@common/types/interfaces/log.interface";
+import { Application } from "@db/entities/application.entity";
+import { Log } from "@db/entities/log.entity";
 import { EntityManager, SelectQueryBuilder } from "typeorm";
 
 

@@ -10,13 +10,13 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'lib/common/decorators/auth-guard.decorator';
-import { BaseDtoQuery } from '../../common/base/query/base-query.model';
-import { AddAccountToApplicationDto, UpdateAmrDto } from '../../common/types/dto/amr.dto';
-import { ApplicationDtoQuery } from '../../common/types/dto/application.dto';
-import { ApiResponse } from '../../common/types/dto/response.dto';
-import { IAmr } from '../../common/types/interfaces/amr.interface';
-import { IApplicationResponse } from '../../common/types/interfaces/application.interface';
+import { AuthGuard } from '@common/decorators/auth-guard.decorator';
+import { BaseDtoQuery } from '@common/base/query/base-query.model';
+import { AddAccountToApplicationDto, UpdateAmrDto } from '@common/types/dto/amr.dto';
+import { ApplicationDtoQuery } from '@common/types/dto/application.dto';
+import { ApiResponse } from '@common/types/dto/response.dto';
+import { IAmr } from '@common/types/interfaces/amr.interface';
+import { IApplicationResponse } from '@common/types/interfaces/application.interface';
 import { AmrQueryService } from './amr-query/amr-query.service';
 import { AmrService } from './amr.service';
 
