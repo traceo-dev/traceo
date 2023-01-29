@@ -18,11 +18,8 @@ import {
   setLocalStorageIncidentPlotType
 } from "../../../core/utils/localStorage";
 import { INCIDENT_PLOT_TYPE } from "../../../types/metrics";
-import { InputSearch } from "../../../core/ui-components/Input/InputSearch";
-import { Select } from "../../../core/ui-components/Select";
-import { Card } from "../../../core/ui-components/Card";
+import { InputSearch, Select, Card, RadioButtonGroup } from "@traceo/ui";
 import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
-import { RadioButtonGroup } from "../../../core/ui-components/RadioButton/RadioButtonGroup";
 import { resetIncidentState } from "./state/reducers";
 import { Page } from "../../../core/components/Page";
 

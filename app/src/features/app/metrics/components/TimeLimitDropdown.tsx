@@ -2,7 +2,7 @@ import { ClockCircleOutlined } from "@ant-design/icons";
 import { setLocalStorageTimeLimit } from "../../../../core/utils/localStorage";
 import { FC } from "react";
 import { timeLimitOptions, mapTimeLimitLabel } from "../../../../types/metrics";
-import { Select } from "../../../../core/ui-components/Select";
+import { Select } from "@traceo/ui";
 
 interface Props {
   setTimeLimit: (val: number) => void;

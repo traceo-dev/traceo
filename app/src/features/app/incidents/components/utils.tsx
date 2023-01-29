@@ -5,8 +5,7 @@ import {
   BarChartOutlined,
   LineChartOutlined
 } from "@ant-design/icons";
-import { Avatar } from "../../../../core/ui-components/Avatar";
-import { SelectOptionProps } from "../../../../core/ui-components/Select/types";
+import { Avatar, SelectOptionProps } from "@traceo/ui";
 import React from "react";
 import { ApplicationMember } from "../../../../types/application";
 import {

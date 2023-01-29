@@ -3,8 +3,7 @@ import { useSelector } from "react-redux";
 import { StoreState } from "../../../types/store";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import dateUtils from "../../../core/utils/date";
-import { Typography } from "../../../core/ui-components/Typography";
-import { Card } from "../../../core/ui-components/Card";
+import { Typography, Card } from "@traceo/ui";
 import { AppIncidentsTodayPlot, AppOverviewPlot } from "../../../core/components/Plots";
 import { useMemo } from "react";
 

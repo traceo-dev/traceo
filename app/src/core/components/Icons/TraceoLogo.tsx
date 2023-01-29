@@ -1,4 +1,4 @@
-import { Space } from "../../../core/ui-components/Space";
+import { Space } from "@traceo/ui";
 import { FC } from "react";
 import { joinClasses } from "../../../core/utils/classes";
 

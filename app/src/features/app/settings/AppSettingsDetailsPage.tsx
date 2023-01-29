@@ -1,4 +1,12 @@
-import { Space } from "../../../core/ui-components/Space";
+import {
+  Space,
+  Button,
+  Typography,
+  Card,
+  FieldLabel,
+  Input,
+  InputGroup
+} from "@traceo/ui";
 import { useRef, useState } from "react";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import SettingsPageWrapper from "./components/SettingsPageWrapper";
@@ -13,12 +21,6 @@ import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { notify } from "../../../core/utils/notify";
 import { ApiKeySection } from "./components/ApiKeySection";
 import { updateAplication } from "../state/application/actions";
-import { Button } from "../../../core/ui-components/Button";
-import { Typography } from "../../../core/ui-components/Typography";
-import { Card } from "../../../core/ui-components/Card";
-import { FieldLabel } from "../../../core/ui-components/Form/FieldLabel";
-import { Input } from "../../../core/ui-components/Input";
-import { InputGroup } from "../../../core/ui-components/Input/InputGroup";
 import { useApplication } from "../../../core/hooks/useApplication";
 
 export const AppSettingsDetailsPage = () => {

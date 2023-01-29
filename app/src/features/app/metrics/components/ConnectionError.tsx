@@ -1,11 +1,9 @@
 import { ExclamationCircleFilled } from "@ant-design/icons";
-import { Space } from "../../../../core/ui-components/Space";
+import { Space, Button, Typography } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
 import { notify } from "../../../../core/utils/notify";
 import { useState } from "react";
 import { metricsApi } from "../api";
-import { Button } from "../../../../core/ui-components/Button";
-import { Typography } from "../../../../core/ui-components/Typography";
 import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const ConnectionError = () => {

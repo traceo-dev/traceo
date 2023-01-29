@@ -1,5 +1,4 @@
-import { Space } from "../../../../core/ui-components/Space";
-import { Typography } from "../../../../core/ui-components/Typography";
+import { Space, Typography } from "@traceo/ui";
 import { Page } from "../../Page";
 
 const Maintenance = () => {

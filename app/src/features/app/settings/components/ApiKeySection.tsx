@@ -6,11 +6,7 @@ import { useState } from "react";
 import { useAppDispatch } from "../../../../store";
 import { ApiResponse } from "../../../../types/api";
 import { loadApplication } from "../../../app/state/application/actions";
-import { InputSecret } from "../../../../core/ui-components/Input/InputSecret";
-import { InputGroup } from "../../../../core/ui-components/Input/InputGroup";
-import { Button } from "../../../../core/ui-components/Button";
-import { Typography } from "../../../../core/ui-components/Typography";
-import { Card } from "../../../../core/ui-components/Card";
+import { InputSecret, InputGroup, Button, Typography, Card } from "@traceo/ui";
 import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const ApiKeySection = () => {

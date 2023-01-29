@@ -1,9 +1,6 @@
-import { Space } from "../../../../core/ui-components/Space";
+import { Space, Button, Typography, Card } from "@traceo/ui";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { GH_SDK_REPO_LINK } from "../../../../core/utils/constants";
-import { Button } from "../../../../core/ui-components/Button";
-import { Typography } from "../../../../core/ui-components/Typography";
-import { Card } from "../../../../core/ui-components/Card";
 import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const NotIntegratedSection = () => {

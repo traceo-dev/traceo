@@ -1,6 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Space } from "../../core/ui-components/Space";
-import { Typography } from "../../core/ui-components/Typography";
+import { Space, Typography } from "@traceo/ui";
 
 export const MetricLoading = () => (
   <Space direction="vertical" className="w-full items-center text-xs pb-5">

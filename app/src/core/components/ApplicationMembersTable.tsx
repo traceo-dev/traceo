@@ -1,10 +1,6 @@
 import { useAccount } from "../../core/hooks/useAccount";
 import { membersAction } from "../../core/lib/api/members";
-import { Avatar } from "../../core/ui-components/Avatar";
-import { Button } from "../../core/ui-components/Button";
-import { Select } from "../../core/ui-components/Select";
-import { Table } from "../../core/ui-components/Table";
-import { TableColumn } from "../../core/ui-components/Table/TableColumn";
+import { Avatar, Button, Select, Table, TableColumn } from "@traceo/ui";
 import { ADMIN_EMAIL } from "../../core/utils/constants";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";

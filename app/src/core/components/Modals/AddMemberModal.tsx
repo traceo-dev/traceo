@@ -6,13 +6,15 @@ import { StoreState } from "../../../types/store";
 import { ApplicationMember, MemberRole } from "../../../types/application";
 import api from "../../../core/lib/api";
 import { Account } from "../../../types/accounts";
-import { Select } from "../../../core/ui-components/Select";
-import { FormItem } from "../../../core/ui-components/Form/FormItem";
-import { Button } from "../../../core/ui-components/Button";
-import { ButtonContainer } from "../../../core/ui-components/Button/ButtonContainer";
-import { Space } from "../../../core/ui-components/Space";
-import { Avatar } from "../../../core/ui-components/Avatar";
-import { Modal } from "../../../core/ui-components/Modal";
+import {
+  Select,
+  FormItem,
+  Button,
+  ButtonContainer,
+  Space,
+  Avatar,
+  Modal
+} from "@traceo/ui";
 import { useApplication } from "../../../core/hooks/useApplication";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {

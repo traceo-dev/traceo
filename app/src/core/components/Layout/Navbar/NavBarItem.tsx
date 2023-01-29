@@ -1,11 +1,10 @@
-import { Space } from "../../../../core/ui-components/Space";
+import { Space, Typography } from "@traceo/ui";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { MenuRoute } from "../../../../types/navigation";
 import { StoreState } from "../../../../types/store";
-import { Typography } from "../../../../core/ui-components/Typography";
 import { useApplication } from "../../../../core/hooks/useApplication";
 
 interface NavBarItemProps {

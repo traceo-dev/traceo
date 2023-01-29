@@ -1,10 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { TraceoLogo } from "../Icons/TraceoLogo";
-import { Space } from "../../../core/ui-components/Space";
+import { Space, Link, Typography } from "@traceo/ui";
 import { GH_REPO_LINK, VERSION } from "../../../core/utils/constants";
-import { Typography } from "../../../core/ui-components/Typography";
 import { GithubOutlined } from "@ant-design/icons";
-import { Link } from "../../../core/ui-components/Link";
 
 export const DashboardHeader = () => {
   const navigate = useNavigate();

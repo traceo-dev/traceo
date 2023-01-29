@@ -6,11 +6,10 @@ import {
   DownOutlined,
   RightOutlined
 } from "@ant-design/icons";
-import { Space } from "../../../../core/ui-components/Space";
+import { Space, Typography } from "@traceo/ui";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { FC, useState } from "react";
 import { LogLevel, TraceoLog } from "../../../../types/logs";
-import { Typography } from "../../../../core/ui-components/Typography";
 
 export const mapLogIcon: Record<LogLevel, JSX.Element> = {
   [LogLevel.Info]: <InfoCircleOutlined className="text-blue-500" />,

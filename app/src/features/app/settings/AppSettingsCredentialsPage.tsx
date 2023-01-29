@@ -1,5 +1,5 @@
 import { useApplication } from "../../../core/hooks/useApplication";
-import { Typography } from "../../../core/ui-components/Typography";
+import { Typography } from "@traceo/ui";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import SettingsPageWrapper from "./components/SettingsPageWrapper";
 

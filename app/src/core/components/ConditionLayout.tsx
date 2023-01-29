@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { Space } from "../../core/ui-components/Space";
+import { Space } from "@traceo/ui";
 import { FC } from "react";
 import styled from "styled-components";
 

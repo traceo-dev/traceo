@@ -1,5 +1,6 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./assets/styles/main.css";
+import "@traceo/ui/dist/styles.css";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { SocketContext, socket } from "./core/hooks/SocketContextProvider";

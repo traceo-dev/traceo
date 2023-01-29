@@ -11,9 +11,7 @@ import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { loadServerApplications } from "./state/applications/actions";
 import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 import { DataNotFound } from "../../core/components/DataNotFound";
-import { InputSearch } from "../../core/ui-components/Input/InputSearch";
-import { Button } from "../../core/ui-components/Button";
-import { Card } from "../../core/ui-components/Card";
+import { InputSearch, Button, Card } from "@traceo/ui";
 
 export const ApplicationsListPage = () => {
   const dispatch = useAppDispatch();

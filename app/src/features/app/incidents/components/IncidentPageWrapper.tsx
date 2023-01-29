@@ -51,7 +51,7 @@ export const IncidentPageWrapper = ({ children }) => {
         title: (
           <div>
             <span>{incident.type}</span>
-            <IncidentStatusTag className="ml-3" status={incident.status} />
+            <IncidentStatusTag className="ml-5" status={incident.status} />
           </div>
         ),
         description: incident?.message,

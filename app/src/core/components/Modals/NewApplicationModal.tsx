@@ -2,11 +2,7 @@ import { FC, useState } from "react";
 import { CreateApplicationProps } from "../../../types/application";
 import { useAppDispatch } from "../../../store";
 import { createApplication } from "../../../features/app/state/application/actions";
-import { Input } from "../../../core/ui-components/Input";
-import { Form } from "../../../core/ui-components/Form";
-import { FormItem } from "../../../core/ui-components/Form/FormItem";
-import { Modal } from "../../../core/ui-components/Modal";
-
+import { Input, Form, FormItem, Modal } from "@traceo/ui";
 interface Props {
   isOpen: boolean;
   onCancel: () => void;

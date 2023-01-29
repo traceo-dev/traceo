@@ -1,8 +1,6 @@
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../types/store";
-import { Card } from "../../../../core/ui-components/Card";
-import { FieldLabel } from "../../../../core/ui-components/Form/FieldLabel";
-import { Typography } from "../../../../core/ui-components/Typography";
+import { Card, FieldLabel, Typography } from "@traceo/ui";
 
 export const PlatformSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);

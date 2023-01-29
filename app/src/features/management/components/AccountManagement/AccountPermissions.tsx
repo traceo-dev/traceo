@@ -3,10 +3,8 @@ import { useAppDispatch } from "../../../../store";
 import { StoreState } from "../../../../types/store";
 import { updateServerAccount } from "../../state/accounts/actions";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
-import { Card } from "../../../../core/ui-components/Card";
+import { Card, Select, FieldLabel } from "@traceo/ui";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
-import { Select } from "../../../../core/ui-components/Select";
-import { FieldLabel } from "../../../../core/ui-components/Form/FieldLabel";
 
 export const AccountPermissions = () => {
   const dispatch = useAppDispatch();

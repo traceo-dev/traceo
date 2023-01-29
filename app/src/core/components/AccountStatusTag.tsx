@@ -1,4 +1,4 @@
-import { Tag, TagColorType } from "../../core/ui-components/Tag";
+import { Tag, TagColorType } from "@traceo/ui";
 import { joinClasses } from "../../core/utils/classes";
 import { FC } from "react";
 import { AccountStatus } from "../../types/accounts";

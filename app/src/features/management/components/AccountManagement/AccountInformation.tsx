@@ -8,16 +8,18 @@ import api from "../../../../core/lib/api";
 import { ApiResponse } from "../../../../types/api";
 import { useNavigate } from "react-router-dom";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
-import { Button } from "../../../../core/ui-components/Button";
-import { Typography } from "../../../../core/ui-components/Typography";
-import { Card } from "../../../../core/ui-components/Card";
-import { Alert } from "../../../../core/ui-components/Alert";
-import { Space } from "../../../../core/ui-components/Space";
-import { Form } from "../../../../core/ui-components/Form";
-import { FormItem } from "../../../../core/ui-components/Form/FormItem";
-import { Input } from "../../../../core/ui-components/Input";
+import {
+  Button,
+  Typography,
+  Card,
+  Space,
+  Alert,
+  Form,
+  FormItem,
+  Input,
+  ButtonContainer
+} from "@traceo/ui";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
-import { ButtonContainer } from "../../../../core/ui-components/Button/ButtonContainer";
 
 interface AccountProps {
   email: string;

@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { mapIncidentStatus, IncidentStatus } from "../../types/incidents";
-import { Tag, TagColorType } from "../../core/ui-components/Tag";
+import { Tag, TagColorType } from "@traceo/ui";
 import { joinClasses } from "../../core/utils/classes";
 import {
   mapIncidentStatusIcon,

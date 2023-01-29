@@ -3,11 +3,10 @@ import { CommentItem } from "./CommentItem";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../../types/store";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
-import { Space } from "../../../../../core/ui-components/Space";
+import { Space, List } from "@traceo/ui";
 import { useEffect } from "react";
 import { loadIncidentComments } from "../../state/actions";
 import { useAppDispatch } from "../../../../../store";
-import { List } from "../../../../../core/ui-components/List";
 import { useAccount } from "../../../../../core/hooks/useAccount";
 
 export const CommentsBox = () => {

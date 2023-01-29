@@ -1,4 +1,4 @@
-import { Space } from "../../../../core/ui-components/Space";
+import { Space, Button, Card, FieldLabel, Input } from "@traceo/ui";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,11 +7,7 @@ import api from "../../../../core/lib/api";
 import { ApiResponse } from "../../../../types/api";
 import { StoreState } from "../../../../types/store";
 import dateUtils from "../../../../core/utils/date";
-import { Button } from "../../../../core/ui-components/Button";
-import { Card } from "../../../../core/ui-components/Card";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
-import { FieldLabel } from "../../../../core/ui-components/Form/FieldLabel";
-import { Input } from "../../../../core/ui-components/Input";
 
 export const ApplicationInformation = () => {
   const navigate = useNavigate();

@@ -12,8 +12,7 @@ import { logout } from "../.../../../../../core/utils/logout";
 import { MenuRoute } from "../.../../../../../types/navigation";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
-import { Avatar } from "../../../../core/ui-components/Avatar";
-import { Divider } from "../../../../core/ui-components/Divider";
+import { Avatar, Divider } from "@traceo/ui";
 import { useAccount } from "../../../../core/hooks/useAccount";
 import { useApplication } from "../../../../core/hooks/useApplication";
 

@@ -1,9 +1,7 @@
-import { Button } from "../../../../core/ui-components/Button";
-import { Typography } from "../../../../core/ui-components/Typography";
+import { Button, Col, Typography } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
 import { useAccount } from "../../../../core/hooks/useAccount";
 import { PageCenter } from "../../../../core/components/PageCenter";
-import { Col } from "../../../../core/ui-components/Col";
 
 const NotFound = () => {
   const navigate = useNavigate();

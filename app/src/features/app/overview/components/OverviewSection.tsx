@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { ErrorDetails } from "../../../../types/incidents";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { Card } from "../../../../core/ui-components/Card";
+import { Card } from "@traceo/ui";
 import { AppOverviewPlot } from "../../../../core/components/Plots";
 
 export interface TotalOverviewType {

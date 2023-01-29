@@ -1,8 +1,7 @@
-import { Space } from "../../../core/ui-components/Space";
+import { Space, Typography } from "@traceo/ui";
 import { VERSION } from "../../../core/utils/constants";
 import { FC } from "react";
 import { TraceoLogo } from "../Icons/TraceoLogo";
-import { Typography } from "../../../core/ui-components/Typography";
 
 interface Props {
   children: JSX.Element;
