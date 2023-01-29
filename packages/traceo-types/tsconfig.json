@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "declarationDir": "dist",
+    "outDir": "traceo-types-dist"
+  },
+  "exclude": ["dist", "node_modules"],
+  "include": ["src/**/*.ts*"]
+}
