@@ -12,12 +12,8 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { BaseDtoQuery } from '@common/base/query/base-query.model';
 import { GuardsService } from '@common/guards/guards.service';
-import { AuthAccount } from '@common/decorators/auth-user.decorator';
-import { CreateApplicationDto, ApplicationDto } from '@common/types/dto/application.dto';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { RequestUser } from '@shared/interfaces/account.interface';
-import { IApplication } from '@shared/interfaces/application.interface';
-import { ApplicationLogsQuery, ILog } from '@shared/interfaces/log.interface';
+import { IApplication } from '@traceo/types';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { ApplicationService } from './application.service';
 import { AuthGuard } from '@common/decorators/auth-guard.decorator';

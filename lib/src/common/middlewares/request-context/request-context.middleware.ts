@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import { EntityManager } from 'typeorm';
 import { SESSION_NAME } from '@common/helpers/constants';
 import { Session } from '@db/entities/session.entity';
-import { RequestUser } from '@shared/interfaces/account.interface';
+import { RequestUser } from '@traceo/types';
 
 interface ExtendedRequest extends Request {
     user: RequestUser

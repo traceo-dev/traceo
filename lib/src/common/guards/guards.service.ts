@@ -3,8 +3,7 @@ import { EntityManager } from 'typeorm';
 import { AccountMemberRelationship } from '@db/entities/account-member-relationship.entity';
 import { Account } from '@db/entities/account.entity';
 import { UnauthorizedError } from '../helpers/errors';
-import { MemberRole } from '@shared/enums/amr.enum';
-import { RequestUser } from '@shared/interfaces/account.interface';
+import { MemberRole, RequestUser } from '@traceo/types';
 
 
 type Action = "CREATE_APP" |

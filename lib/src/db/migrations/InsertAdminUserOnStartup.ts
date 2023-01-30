@@ -4,7 +4,7 @@ import { gravatar } from "../../common/helpers/gravatar";
 import tokenService from "../../common/helpers/tokens";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { Account } from "../entities/account.entity";
-import { AccountStatus } from "../../enums/account.enum";
+import { AccountStatus } from "@traceo/types"
 
 export class InsertAdminUserOnStartup implements MigrationInterface {
     name?: string;

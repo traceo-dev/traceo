@@ -15,8 +15,7 @@ import { BaseDtoQuery } from '@common/base/query/base-query.model';
 import { AddAccountToApplicationDto, UpdateAmrDto } from '@common/types/dto/amr.dto';
 import { ApplicationDtoQuery } from '@common/types/dto/application.dto';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { IAmr } from '@shared/interfaces/amr.interface';
-import { IApplicationResponse } from '@shared/interfaces/application.interface';
+import { IAmr, IApplicationResponse } from '@traceo/types';
 import { AmrQueryService } from './amr-query/amr-query.service';
 import { AmrService } from './amr.service';
 

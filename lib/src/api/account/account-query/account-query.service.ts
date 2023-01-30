@@ -4,7 +4,7 @@ import { BaseDtoQuery } from '@common/base/query/base-query.model';
 import { Account } from '@db/entities/account.entity';
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { IAccount } from '@shared/interfaces/account.interface';
+import { IAccount } from '@traceo/types';
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 
 @Injectable()

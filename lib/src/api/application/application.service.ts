@@ -14,7 +14,7 @@ import { CreateApplicationDto, ApplicationDto } from '@common/types/dto/applicat
 import { Application } from '@db/entities/application.entity';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { Log } from '@db/entities/log.entity';
-import { MemberRole } from '@shared/enums/amr.enum';
+import { MemberRole } from '@traceo/types';
 import { MetricsService } from '../metrics/metrics.service';
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 

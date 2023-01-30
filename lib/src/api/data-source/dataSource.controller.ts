@@ -2,12 +2,10 @@ import { Body, Controller, Delete, Get, Post, Query, UseGuards } from '@nestjs/c
 import { ApiTags } from '@nestjs/swagger';
 import { AuthAccount } from '@common/decorators/auth-user.decorator';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { RequestUser } from '@shared/interfaces/account.interface';
-import { IInfluxDs } from '@shared/interfaces/influxds.interface';
+import { RequestUser, IInfluxDs, DataSourceConnStatus } from '@traceo/types';
 import { GuardsService } from '@common/guards/guards.service';
 import { DataSourceService } from './dataSource.service';
 import { InfluxConfigurationDto } from '@common/types/dto/influx.dto';
-import { DataSourceConnStatus } from '@shared/interfaces/tsdb.interface';
 import { AuthGuard } from '@common/decorators/auth-guard.decorator';
 
 @ApiTags('datasource')

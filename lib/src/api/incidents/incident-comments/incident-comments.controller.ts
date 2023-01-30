@@ -13,7 +13,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@common/decorators/auth-guard.decorator';
 import { GetCommentsDto, PatchCommentDto } from '@common/types/dto/comment.dto';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { IComment } from '@shared/interfaces/comment.interface';
+import { IComment } from '@traceo/types';
 import { IncidentCommentsService } from './incident-comments.service';
 import { IncidentCommentsQueryService } from './query/incident-comments-query.service';
 

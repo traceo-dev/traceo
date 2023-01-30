@@ -2,13 +2,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
 import { ApplicationNotExistsError } from '@common/helpers/errors';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { TSDB_PROVIDER } from '@shared/enums/tsdb.enum';
-import { IInfluxDs } from '@shared/interfaces/influxds.interface';
+import { TSDB_PROVIDER, IInfluxDs, DataSourceConnStatus } from '@traceo/types';
 import { Application } from '@db/entities/application.entity';
 import { EntityManager } from 'typeorm';
 import { BaseDataSourceDto } from '@common/types/dto/data-source';
 import { InfluxService } from '../../providers/influx/influx.service';
-import { DataSourceConnStatus } from '@shared/interfaces/tsdb.interface';
 
 @Injectable()
 export class DataSourceService {

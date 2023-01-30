@@ -7,9 +7,8 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@common/decorators/auth-guard.decorator';
 import { BaseDtoQuery } from '@common/base/query/base-query.model';
-import { AuthRequired } from '@common/decorators/auth-required.decorator';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { IAccount } from '@shared/interfaces/account.interface';
+import { IAccount } from '@traceo/types';
 import { AccountQueryService } from './account-query/account-query.service';
 
 @ApiTags('accounts')

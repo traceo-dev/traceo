@@ -4,11 +4,8 @@ import { InfluxDB, Point } from '@influxdata/influxdb-client'
 import { Application } from '@db/entities/application.entity';
 import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
 import { InfluxConfigurationDto } from '@common/types/dto/influx.dto';
-import { IInfluxDs } from '@shared/interfaces/influxds.interface';
-import { IDefaultSDKMetrics, ISDKMetrics, MetricsResponse } from '@shared/interfaces/metrics.interface';
+import { IDefaultSDKMetrics, ISDKMetrics, MetricsResponse, IInfluxDs, CONNECTION_STATUS, TSDB_PROVIDER, DataSourceConnStatus } from '@traceo/types';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { CONNECTION_STATUS, TSDB_PROVIDER } from '@shared/enums/tsdb.enum';
-import { DataSourceConnStatus } from '@shared/interfaces/tsdb.interface';
 import { MetricQueryDto } from '@common/types/dto/metrics.dto';
 import { BaseDataSourceDto } from '@common/types/dto/data-source';
 

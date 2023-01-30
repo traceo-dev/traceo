@@ -69,6 +69,8 @@ export abstract class BaseQueryService<
   public async listDto(query: QUERY): Promise<ENTITY[]> {
     const { sortBy, order, take, page } = query;
 
+    console.log("HERE: ", query);
+
     const queryBuilder: SelectQueryBuilder<ENTITY> =
       this.createQueryBuilder(query);
     this.addSelectToQueryBuilder(queryBuilder, this.selectedColumns());

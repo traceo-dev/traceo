@@ -18,7 +18,7 @@
     "node": "16"
   },
   "workspaces": [
-    "../public/packages/traceo-types"
+    "../public/packages/shared/traceo-types"
   ],
   "dependencies": {
     "@traceo/types": "0.0.0",

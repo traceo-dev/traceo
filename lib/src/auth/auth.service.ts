@@ -10,9 +10,8 @@ import { AccountService } from '../api/account/account.service';
 import { INTERNAL_SERVER_ERROR, SESSION_EXPIRY_TIME, SESSION_NAME } from '@common/helpers/constants';
 import { AccountNotExistsError } from '@common/helpers/errors';
 import { AccountCredentialsDto, UpdatePasswordDto } from '@common/types/dto/account.dto';
-import { IAccount } from '@shared/interfaces/account.interface';
+import { IAccount, AccountStatus } from '@traceo/types';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { AccountStatus } from '@shared/enums/account.enum';
 import { AuthTokenService } from './auth-token.service';
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 

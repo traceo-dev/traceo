@@ -1,5 +1,5 @@
 import { AsyncLocalStorage } from 'async_hooks';
-import { RequestUser } from '@shared/interfaces/account.interface';
+import { RequestUser } from '@traceo/types';
 
 export class RequestContext<TRequest = any, TResponse = any> {
     constructor(public readonly req: TRequest, public readonly res: TResponse) { }

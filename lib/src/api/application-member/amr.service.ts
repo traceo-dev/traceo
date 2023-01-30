@@ -8,7 +8,7 @@ import dateUtils from '@common/helpers/dateUtils';
 import { AddAccountToApplicationDto, UpdateAmrDto } from '@common/types/dto/amr.dto';
 import { AccountMemberRelationship } from '@db/entities/account-member-relationship.entity';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { MemberRole } from '@shared/enums/amr.enum';
+import { MemberRole } from '@traceo/types';
 import { Application } from '@db/entities/application.entity';
 import { Account } from '@db/entities/account.entity';
 
