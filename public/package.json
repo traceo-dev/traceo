@@ -10,7 +10,8 @@
         "build": "lerna run build"
     },
     "workspaces": [
-        "packages/*"
+        "packages/shared/*",
+        "packages/app"
     ],
     "dependencies": {
         "react": "17.0.2",

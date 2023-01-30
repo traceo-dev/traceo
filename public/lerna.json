@@ -3,6 +3,6 @@
   "npmClient": "yarn",
   "useWorkspaces": true,
   "packages": [
-    "packages/*"
+    "packages/shared/*"
   ]
 }
