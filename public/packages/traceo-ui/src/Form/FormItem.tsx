@@ -1,9 +1,9 @@
-import { conditionClass, joinClasses } from "..//utils/classes";
-import { REQUIRED_FIELD_ERROR } from "..//utils/constants";
+import { conditionClass, joinClasses } from "../utils/classes";
+import { REQUIRED_FIELD_ERROR } from "../utils/constants";
 import React, { FC } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { clearObject } from "..//utils/object";
+import { clearObject } from "../utils/object";
 
 interface FormItemProps {
   label?: string;

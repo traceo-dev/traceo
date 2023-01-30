@@ -1,4 +1,4 @@
-import { joinClasses } from "..//utils/classes";
+import { joinClasses } from "../utils/classes";
 import { FC, PropsWithChildren } from "react";
 
 interface FieldLabelProps {

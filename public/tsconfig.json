@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "strict": true,
+    "isolatedModules": true,
+    "baseUrl": "."
+  },
+  "exclude": ["node_modules", "dist"],
+  "ts-node": {
+    "esm": true,
+    "compilerOptions": {
+      "target": "es2020",
+      "module": "es2020"
+    }
+  },
+  "include": ["./packages/**/*"]
+}

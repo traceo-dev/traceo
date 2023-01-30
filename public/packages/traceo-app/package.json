@@ -1,5 +1,6 @@
 {
-  "name": "traceo-application",
+  "name": "@traceo/app",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "react-scripts --max-http-header-size 16000 start",
@@ -14,7 +15,7 @@
     "@ant-design/icons": "^4.6.2",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@reduxjs/toolkit": "1.8.1",
-    "@traceo/ui": "^0.0.5",
+    "@traceo/ui": "0.0.0",
     "@types/history": "^5.0.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^17.0.8",
@@ -87,13 +88,6 @@
     "webpack-dev-server": "4.11.1",
     "webpack-merge": "^5.8.0"
   },
-  "resolutions": {
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
-  },
-  "workspaces": [
-    "../packages/*"
-  ],
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "npm run prettier",

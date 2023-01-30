@@ -24,7 +24,7 @@ import { RequestContextMiddleware } from './common/middlewares/request-context/r
     ScheduleModule.forRoot(),
     HttpModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../app'),
+      rootPath: join(__dirname, '../../ui/packages/traceo-web'),
       serveStaticOptions: {
         cacheControl: true
       }
