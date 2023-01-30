@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsNotEmpty, IsEnum } from "class-validator";
-import { TSDB_PROVIDER } from "@shared/enums/tsdb.enum";
+import { TSDB_PROVIDER } from "@traceo/types";
 
 export class BaseDataSourceDto {
     @IsString()

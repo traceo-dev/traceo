@@ -13,7 +13,7 @@ import tokenService from "@common/helpers/tokens";
 import { CreateAccountDto, AccountDto } from '@common/types/dto/account.dto';
 import { Account } from '@db/entities/account.entity';
 import { EntityManager } from 'typeorm';
-import { AccountStatus } from "@shared/enums/account.enum";
+import { AccountStatus } from "@traceo/types";
 import { ApiResponse } from "@common/types/dto/response.dto";
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 import { AuthTokenService } from 'src/auth/auth-token.service';

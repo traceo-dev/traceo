@@ -1,7 +1,6 @@
 import { IsBoolean, IsEmail } from "class-validator";
 import { BaseEntity } from "../../common/base/base.entity";
-import { AccountStatus } from "../../enums/account.enum";
-import { IAccount } from "@shared/interfaces/account.interface";
+import { IAccount, AccountStatus } from "@traceo/types";
 import {
   Column,
   Entity,
@@ -52,11 +51,11 @@ export class Account extends BaseEntity implements IAccount {
   @OneToMany(() => Incident, (incident) => incident.assigned)
   incidents: Incident[];
 
-  @Column({ 
-    nullable: false, 
-    type: "boolean", 
-    default: false, 
-    name: "is_password_updated" 
+  @Column({
+    nullable: false,
+    type: "boolean",
+    default: false,
+    name: "is_password_updated"
   })
   isPasswordUpdated: boolean;
 

@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import { IsArray, IsBoolean, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, ValidateNested } from "class-validator";
-import { METRIC_UNIT, TOOLTIP_POSITION } from "@shared/interfaces/metrics.interface";
+import { METRIC_UNIT, TOOLTIP_POSITION } from "@traceo/types";
 
 export class MetricQueryDto {
     @IsArray()

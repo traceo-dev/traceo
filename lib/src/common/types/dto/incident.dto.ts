@@ -2,7 +2,7 @@ import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsEnum, IsOptional, IsString, ValidateNested } from "class-validator";
 import { BaseDtoQuery } from "../../base/query/base-query.model";
-import { IncidentStatus, IncidentStatusSearch } from "@shared/enums/incident.enum";
+import { IncidentStatus, IncidentStatusSearch } from "@traceo/types";
 
 export class IncidentQueryDto extends BaseDtoQuery {
     @ApiPropertyOptional()

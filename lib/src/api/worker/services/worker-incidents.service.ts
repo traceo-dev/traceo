@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import dateUtils from "@common/helpers/dateUtils";
-import { IncidentStatus } from "@shared/enums/incident.enum";
-import { TraceoIncidentModel } from "@shared/interfaces/incident.interface";
+import { IncidentStatus, TraceoIncidentModel } from "@traceo/types";
 import { BaseWorkerService } from "@common/base/worker/base-worker.service";
 import { Application } from "@db/entities/application.entity";
 import { Incident } from "@db/entities/incident.entity";

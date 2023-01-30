@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsNotEmpty, IsEnum, IsOptional } from "class-validator";
-import { MemberRole } from "@shared/enums/amr.enum";
+import { MemberRole } from "@traceo/types";
 
 export class AddAccountToApplicationDto {
     @IsString()

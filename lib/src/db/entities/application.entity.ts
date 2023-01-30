@@ -10,10 +10,7 @@ import { Account } from "./account.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IApplication, ISecurity } from "@shared//interfaces/application.interface";
-import { IInfluxDs } from "@shared//interfaces/influxds.interface";
-import { IRuntime } from "@shared/interfaces/runtime.interface";
-import { TSDB_PROVIDER } from "../../enums/tsdb.enum";
+import { IApplication, ISecurity, IInfluxDs, IRuntime, TSDB_PROVIDER } from "@traceo/types";
 import { Metric } from "./metric.entity";
 
 @Entity()

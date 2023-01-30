@@ -5,8 +5,7 @@ import dayjs from "dayjs";
 import { INTERNAL_SERVER_ERROR } from "@common/helpers/constants";
 import { Incident } from "@db/entities/incident.entity";
 import { ApiResponse } from "@common/types/dto/response.dto";
-import { AppIncidentsStats, PieData } from "@shared/interfaces/statistics.interface";
-import { ErrorDetails } from "@shared/interfaces/incident.interface";
+import { AppIncidentsStats, PieData, ErrorDetails } from "@traceo/types";
 
 @Injectable()
 export class StatisticsQueryService {

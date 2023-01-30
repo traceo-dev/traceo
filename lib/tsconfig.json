@@ -15,9 +15,9 @@
     "resolveJsonModule": true,
     "rootDirs": ["./src", "../shared"],
     "paths": {
-      "@shared/*": ["../shared/*"],
       "@common/*": ["./src/common/*"],
       "@db/*": ["./src/db/*"]
     }
-  }
+  },
+  "include": ["./src"]
 }

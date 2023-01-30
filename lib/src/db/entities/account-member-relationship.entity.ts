@@ -8,8 +8,7 @@ import {
 } from "typeorm";
 import { Account } from "./account.entity";
 import { Application } from "./application.entity";
-import { MemberRole } from "../../enums/amr.enum";
-import { IAmr } from "@shared/interfaces/amr.interface";
+import { IAmr, MemberRole } from "@traceo/types";
 
 @Entity()
 export class AccountMemberRelationship extends BaseEntity implements IAmr {

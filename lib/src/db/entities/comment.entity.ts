@@ -1,4 +1,4 @@
-import { IComment } from "@shared//interfaces/comment.interface";
+import { IComment } from "@traceo/types";
 import {
   Column,
   Entity,

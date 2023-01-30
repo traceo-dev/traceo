@@ -7,8 +7,7 @@ import {
     PrimaryGeneratedColumn
 } from "typeorm";
 import { Application } from "./application.entity";
-import { ILog } from "@shared/interfaces/log.interface";
-import { LogLevel } from "../../enums/log.enum";
+import { ILog, LogLevel } from "@traceo/types";
 
 
 @Entity()

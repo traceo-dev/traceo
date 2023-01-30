@@ -10,7 +10,7 @@ import { Account } from "./account.entity";
 import { Comment } from "./comment.entity";
 import { Application } from "./application.entity";
 import { BaseEntity } from "@common/base/base.entity";
-import { ErrorDetails, IIncident, Platform, Trace } from "@shared/interfaces/incident.interface";
+import { ErrorDetails, IIncident, Platform, Trace } from "@traceo/types";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",

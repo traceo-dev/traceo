@@ -1,5 +1,5 @@
 import { BaseEntity } from "@common/base/base.entity";
-import { ISession } from "@shared/interfaces/session.interface";
+import { ISession } from "@traceo/types";
 import {
     Column,
     Entity,

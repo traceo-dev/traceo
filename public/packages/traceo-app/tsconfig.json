@@ -2,42 +2,29 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "composite": true,
+    // "composite": true,
     "declaration": true,
     "allowJs": true,
     "jsx": "react-jsx",
     "moduleResolution": "node",
-    "noUnusedLocals": false,
-    "noUnusedParameters": true,
-    "removeComments": false,
-    "preserveConstEnums": true,
     "baseUrl": ".",
     "outDir": "./dist",
     "sourceMap": true,
-    "skipLibCheck": true,
     "noImplicitAny": false,
     "strictNullChecks": false,
     "strict": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "lib": [
-      "dom",
-      "dom.iterable"
-    ],
+    "typeRoots": ["./node_modules/@types"],
+    "lib": ["dom", "dom.iterable"],
     "isolatedModules": true,
     "incremental": true,
     "allowSyntheticDefaultImports": true,
-    "noFallthroughCasesInSwitch": true
+    "rootDirs": ["./src", "../../../shared"],
+    "paths": {
+      "@shared/*": ["../../../shared/*"]
+    }
   },
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "src/**/*"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["src/**/*", "../../../shared/*"]
 }

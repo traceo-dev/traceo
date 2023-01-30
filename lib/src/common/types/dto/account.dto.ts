@@ -1,6 +1,6 @@
 import { ApiPropertyOptional, ApiProperty } from "@nestjs/swagger";
 import { IsOptional, IsString, IsNotEmpty, IsEmail, IsBoolean, IsEnum } from "class-validator";
-import { AccountStatus } from "@shared/enums/account.enum";
+import { AccountStatus } from "@traceo/types";
 
 export class CreateAccountDto {
     @IsOptional()

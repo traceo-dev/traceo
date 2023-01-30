@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { TraceoLog } from "@shared/interfaces/log.interface";
+import { TraceoLog } from "@traceo/types";
 import { BaseWorkerService } from "@common/base/worker/base-worker.service";
 import { Application } from "@db/entities/application.entity";
 import { Log } from "@db/entities/log.entity";

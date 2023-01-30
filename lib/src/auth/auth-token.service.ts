@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import crypto from "crypto";
-import { ISession } from "@shared/interfaces/session.interface";
+import { ISession } from "@traceo/types";
 import { Session } from "@db/entities/session.entity";
 import { EntityManager } from "typeorm";
 import { Request } from "express";

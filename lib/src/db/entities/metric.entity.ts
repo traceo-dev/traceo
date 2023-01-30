@@ -1,5 +1,5 @@
 import { BaseEntity } from "../../common/base/base.entity";
-import { IMetric, IMetricConfiguration, IMetricSerie, METRIC_UNIT } from "@shared/interfaces/metrics.interface";
+import { IMetric, IMetricConfiguration, IMetricSerie, METRIC_UNIT } from "@traceo/types";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Application } from "./application.entity";
 

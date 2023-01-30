@@ -1,6 +1,6 @@
-import { Incident } from "@db/entities/incident.entity";
 import { AccountStatus } from "../enums/account.enum";
 import { IAmr } from "./amr.interface";
+import { IIncident } from "./incident.interface";
 
 export interface IAccount {
     id?: string;
@@ -12,7 +12,7 @@ export interface IAccount {
     status: AccountStatus;
     isAdmin: boolean;
     applications: IAmr[];
-    incidents: Incident[];
+    incidents: IIncident[];
     isPasswordUpdated: boolean;
     lastActiveAt?: number;
 }

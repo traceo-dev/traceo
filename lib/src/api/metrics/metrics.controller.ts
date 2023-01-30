@@ -5,7 +5,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@common/decorators/auth-guard.decorator";
 import { MetricQueryDto, UpdateMetricDto } from "@common/types/dto/metrics.dto";
 import { ApiResponse } from "@common/types/dto/response.dto";
-import { IMetric, MetricPreviewType, MetricsResponse } from "@shared/interfaces/metrics.interface";
+import { IMetric, MetricPreviewType, MetricsResponse } from "@traceo/types";
 import { MetricsService } from "./metrics.service";
 import { MetricsQueryService } from "./query/metrics-query.service";
 
