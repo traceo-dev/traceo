@@ -3,8 +3,6 @@ import { BaseQueryService } from "@common/base/query/base-query.service";
 import { IncidentQueryDto } from "@common/types/dto/incident.dto";
 import { Incident } from "@db/entities/incident.entity";
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
-import { IncidentStatusSearch } from "@traceo/types";
-import * as dfkgsndkjfg from "@traceo/types";
 
 @Injectable()
 export class IncidentsQueryService extends BaseQueryService<
