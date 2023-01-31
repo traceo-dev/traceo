@@ -2,7 +2,7 @@ import { FC, useState, FormEvent } from "react";
 import { useRequest } from "../../hooks/useRequest";
 import { Application, MemberRole } from "@traceo/types";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../store/types";
+import { StoreState } from "@store/types";
 import api from "../../lib/api";
 import {
   Select,

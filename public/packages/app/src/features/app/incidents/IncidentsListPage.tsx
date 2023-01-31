@@ -10,7 +10,7 @@ import {
   SortOrder,
   INCIDENT_PLOT_TYPE
 } from "@traceo/types";
-import { StoreState } from "../../../store/types";
+import { StoreState } from "@store/types";
 import { loadIncidents } from "./state/actions";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";

@@ -1,6 +1,6 @@
 import { ApiResponse, TraceoLog } from "@traceo/types";
 import api from "../../../../core/lib/api";
-import { ThunkResult } from "../../../../store/types";
+import { ThunkResult } from "@store/types";
 import { logsLoaded, resetState } from "./reducers";
 
 interface LogsProps {

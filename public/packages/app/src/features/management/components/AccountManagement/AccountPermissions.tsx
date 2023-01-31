@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../../store";
-import { StoreState } from "../../../../store/types";
+import { StoreState } from "@store/types";
 import { updateServerAccount } from "../../state/accounts/actions";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { Card, Select, FieldLabel } from "@traceo/ui";

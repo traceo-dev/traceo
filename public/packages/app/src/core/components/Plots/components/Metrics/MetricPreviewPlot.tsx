@@ -1,4 +1,4 @@
-import { StoreState } from "../../../../../store/types";
+import { StoreState } from "@store/types";
 import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../ConditionLayout";
 import { buildDatasource, buildSeries, commonOptions } from "./utils";

@@ -1,5 +1,5 @@
 import api, { ApiQueryParams } from "../../../../../core/lib/api";
-import { ThunkResult } from "../../../../../store/types";
+import { ThunkResult } from "@store/types";
 import {
   AddAccountToApplication,
   ApplicationMember,

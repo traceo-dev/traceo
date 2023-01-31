@@ -2,7 +2,7 @@ import api from "../../../../../core/lib/api";
 import { logout } from "../../../../../core/utils/logout";
 import { loadAccount } from "../../../../auth/state/actions";
 import { IAccount, ApiResponse } from "@traceo/types";
-import { ThunkResult } from "../../../../../store/types";
+import { ThunkResult } from "@store/types";
 
 export const updateAccount = (update: Partial<IAccount>): ThunkResult<void> => {
   return async (dispatch) => {

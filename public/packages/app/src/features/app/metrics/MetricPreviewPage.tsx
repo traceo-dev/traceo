@@ -1,6 +1,6 @@
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../store/types";
+import { StoreState } from "@store/types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../../store";

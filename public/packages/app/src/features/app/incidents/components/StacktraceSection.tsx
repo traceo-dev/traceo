@@ -1,7 +1,7 @@
 import { CodePreview } from "../../../../core/components/CodePreview";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../../store/types";
+import { StoreState } from "@store/types";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import {
   Typography,

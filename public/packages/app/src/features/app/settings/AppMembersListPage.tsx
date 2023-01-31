@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { ApiQueryParams } from "../../../core/lib/api";
 import { useAppDispatch } from "../../../store";
-import { StoreState } from "../../../store/types";
+import { StoreState } from "@store/types";
 import { MemberRole } from "@traceo/types";
 import { loadMembers } from "./state/members/actions";
 import { useParams } from "react-router-dom";

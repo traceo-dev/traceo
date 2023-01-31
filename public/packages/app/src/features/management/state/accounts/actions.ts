@@ -1,5 +1,5 @@
 import api, { ApiQueryParams } from "../../../../core/lib/api";
-import { ThunkResult } from "../../../../store/types";
+import { ThunkResult } from "@store/types";
 import { serverAccountLoaded, serverAccountLoadedAction, serverAccountsLoaded } from "./reducers";
 import { IAccount, AddAccountProps, ApiResponse } from "@traceo/types";
 

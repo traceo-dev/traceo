@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Confirm } from "../../../../core/components/Confirm";
 import { useAppDispatch } from "../../../../store";
 import { AccountStatus, ApiResponse } from "@traceo/types";
-import { StoreState } from "../../../../store/types";
+import { StoreState } from "@store/types";
 import { updateServerAccount } from "../../state/accounts/actions";
 import api from "../../../../core/lib/api";
 import { useNavigate } from "react-router-dom";

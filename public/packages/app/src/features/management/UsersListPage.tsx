@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { NewAccountModal } from "../../core/components/Modals/NewAccountModal";
 import { useAppDispatch } from "../../store";
-import { StoreState } from "../../store/types";
+import { StoreState } from "@store/types";
 import { AccountsTable } from "./components/AccountManagement/AccountsTable";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { loadServerAccounts } from "./state/accounts/actions";

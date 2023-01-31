@@ -1,6 +1,6 @@
 import { Card, FieldLabel, Select, Typography } from "@traceo/ui";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../../store/types";
+import { StoreState } from "@store/types";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../../../store";
 import { loadMembers } from "../../settings/state/members/actions";

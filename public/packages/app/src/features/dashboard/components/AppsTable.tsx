@@ -9,7 +9,7 @@ import {
 } from "@traceo/types";
 import { useAppDispatch } from "../../../store";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../store/types";
+import { StoreState } from "@store/types";
 import { AppCard } from "./AppCard";
 import { loadApplications } from "../state/actions";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";

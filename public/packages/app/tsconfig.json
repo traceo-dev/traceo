@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    // "composite": true,
     "declaration": true,
     "allowJs": true,
     "jsx": "react-jsx",
@@ -15,16 +14,14 @@
     "strict": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types"],
     "lib": ["dom", "dom.iterable"],
     "isolatedModules": true,
     "incremental": true,
     "allowSyntheticDefaultImports": true,
     "rootDirs": ["./src", "../../../shared"],
     "paths": {
-      "@shared/*": ["../../../shared/*"]
+      "@store/*": ["./src/store/*"]
     }
   },
-  "exclude": ["node_modules"],
-  "include": ["src/**/*", "../../../shared/*"]
+  "exclude": ["node_modules", "dist"]
 }

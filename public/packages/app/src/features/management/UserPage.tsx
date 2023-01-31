@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../store";
-import { StoreState } from "../../store/types";
+import { StoreState } from "@store/types";
 import { AccountApplications } from "./components/AccountManagement/AccountApplications";
 import { AccountInformation } from "./components/AccountManagement/AccountInformation";
 import { AccountPermissions } from "./components/AccountManagement/AccountPermissions";

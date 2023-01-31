@@ -5,7 +5,7 @@ import { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../../../store";
-import { StoreState } from "../../../../store/types";
+import { StoreState } from "@store/types";
 import { LogLevel } from "@traceo/types";
 import {
   getLocalStorageLogLevels,

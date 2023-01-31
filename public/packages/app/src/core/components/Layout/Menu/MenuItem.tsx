@@ -5,7 +5,7 @@ import { MenuRoute } from "@traceo/types";
 import { NavLink } from "react-router-dom";
 import { Space } from "@traceo/ui";
 import { useApplication } from "../../../hooks/useApplication";
-import { StoreState } from "../../../../store/types";
+import { StoreState } from "@store/types";
 
 interface Props {
   menu: MenuRoute;

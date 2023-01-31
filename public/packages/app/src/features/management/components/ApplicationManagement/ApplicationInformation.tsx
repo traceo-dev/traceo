@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { ApiResponse } from "@traceo/types";
-import { StoreState } from "../../../../store/types";
+import { StoreState } from "@store/types";
 import dateUtils from "../../../../core/utils/date";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 

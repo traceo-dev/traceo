@@ -4,7 +4,7 @@ import { DashboardNavBar } from "./DashboardNavBar";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { conditionClass } from "../../../utils/classes";
-import { StoreState } from "../../../../store/types";
+import { StoreState } from "@store/types";
 
 type NavType = "app" | "dashboard";
 

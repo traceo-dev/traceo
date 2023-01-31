@@ -1,6 +1,6 @@
 import { Space, Card, Typography } from "@traceo/ui";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../../store/types";
+import { StoreState } from "@store/types";
 
 export const ExceptionSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);

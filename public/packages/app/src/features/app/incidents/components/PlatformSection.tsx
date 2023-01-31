@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../../store/types";
+import { StoreState } from "@store/types";
 import { Card, FieldLabel, Typography } from "@traceo/ui";
 
 export const PlatformSection = () => {

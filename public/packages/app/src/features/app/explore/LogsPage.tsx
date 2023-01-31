@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../store/types";
+import { StoreState } from "@store/types";
 import ExplorePageWrapper from "./ExplorePageWrapper";
 
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";

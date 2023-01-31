@@ -1,7 +1,7 @@
 import api from "../../../core/lib/api";
 import { ApiResponse, IAccount } from "@traceo/types";
 import { accountLoaded } from "./reducers";
-import { ThunkResult } from "../../../store/types";
+import { ThunkResult } from "@store/types";
 
 export const loadAccount = (): ThunkResult<void> => {
   return async (dispatch) => {

@@ -2,7 +2,7 @@ import { useEffect, useState, FormEvent } from "react";
 import { useAppDispatch } from "../../../store";
 import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../store/types";
+import { StoreState } from "@store/types";
 import { ApplicationMember, MemberRole, IAccount } from "@traceo/types";
 import api from "../../lib/api";
 import {

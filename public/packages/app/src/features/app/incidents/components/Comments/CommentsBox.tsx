@@ -1,7 +1,7 @@
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
 import { CommentItem } from "./CommentItem";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../../../store/types";
+import { StoreState } from "@store/types";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
 import { Space, List } from "@traceo/ui";
 import { useEffect } from "react";
