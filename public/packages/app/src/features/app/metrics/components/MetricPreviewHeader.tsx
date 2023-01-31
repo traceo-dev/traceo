@@ -13,9 +13,8 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { DeepPartial } from "redux";
 import { useAppDispatch } from "../../../../store";
-import { ApiResponse } from "../../../../types/api";
-import { IMetric } from "../../../../types/metrics";
-import { StoreState } from "../../../../types/store";
+import { ApiResponse, IMetric } from "@traceo/types";
+import { StoreState } from "../../../../store/types";
 import { DraftFunction } from "use-immer";
 import { loadMetric } from "../state/actions";
 

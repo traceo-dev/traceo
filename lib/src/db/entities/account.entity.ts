@@ -1,6 +1,6 @@
 import { IsBoolean, IsEmail } from "class-validator";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IAccount, AccountStatus } from "@traceo/types";
+import { IAccount, AccountStatus, IAmr } from "@traceo/types";
 import {
   Column,
   Entity,
@@ -46,7 +46,7 @@ export class Account extends BaseEntity implements IAccount {
       cascade: true,
     },
   )
-  applications: AccountMemberRelationship[];
+  applications: IAmr[];
 
   @OneToMany(() => Incident, (incident) => incident.assigned)
   incidents: Incident[];

@@ -1,9 +1,7 @@
 import { FC, lazy, useEffect } from "react";
-import { IMetric, MetricsResponse, METRIC_UNIT } from "../../../../../types/metrics";
+import { IMetric, MetricsResponse, METRIC_UNIT } from "@traceo/types";
 import { MetricLoading } from "../../../MetricLoading";
 import { useRequest } from "../../../../hooks/useRequest";
-import { StoreState } from "../../../../../types/store";
-import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../ConditionLayout";
 import { buildDatasource, buildSeries, commonOptions } from "./utils";
 import { DataNotFound } from "../../../DataNotFound";

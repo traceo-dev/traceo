@@ -1,8 +1,7 @@
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
-import { IMetric, MetricsResponse } from "../../../../types/metrics";
-import { DeepPartial } from "../../../../types/partials";
+import { IMetric, MetricsResponse, DeepPartial } from "@traceo/types";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { Typography, Card, Space, Switch, Table, TableColumn } from "@traceo/ui";
 

@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { CreateApplicationProps } from "../../../types/application";
+import { CreateApplicationProps } from"@traceo/types";
 import { useAppDispatch } from "../../../store";
 import { createApplication } from "../../../features/app/state/application/actions";
 import { Input, Form, FormItem, Modal } from "@traceo/ui";

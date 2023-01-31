@@ -1,7 +1,7 @@
 import { Tag, TagColorType } from "@traceo/ui";
 import { joinClasses } from "../utils/classes";
 import { FC } from "react";
-import { AccountStatus } from "../../types/accounts";
+import { AccountStatus } from "@traceo/types";
 
 interface Props {
   status: AccountStatus;

@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
-import { ApiResponse } from "../../../../types/api";
-import { StoreState } from "../../../../types/store";
+import { ApiResponse } from "@traceo/types";
+import { StoreState } from "../../../../store/types";
 import dateUtils from "../../../../core/utils/date";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 

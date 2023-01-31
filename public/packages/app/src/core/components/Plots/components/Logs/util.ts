@@ -1,6 +1,6 @@
 import dateUtils from "../../../../utils/date";
 import { EChartsOption, SeriesOption } from "echarts";
-import { LogLevel } from "../../../../../types/logs";
+import { LogLevel } from "@traceo/types";
 import { tooltipOptions } from "../../utils";
 
 export const mapLogName: Record<LogLevel, string> = {

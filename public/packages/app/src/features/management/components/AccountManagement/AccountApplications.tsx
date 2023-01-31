@@ -6,8 +6,8 @@ import {
   ApplicationMember,
   MemberApplication,
   MemberRole
-} from "../../../../types/application";
-import { StoreState } from "../../../../types/store";
+} from "@traceo/types";
+import { StoreState } from "../../../../store/types";
 
 import { AddToApplicationModal } from "../../../../core/components/Modals/AddToApplicationModal";
 import { DataNotFound } from "../../../../core/components/DataNotFound";

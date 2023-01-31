@@ -9,7 +9,7 @@ import {
 import { Space, Typography } from "@traceo/ui";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { FC, useState } from "react";
-import { LogLevel, TraceoLog } from "../../../../types/logs";
+import { LogLevel, TraceoLog } from "@traceo/types";
 
 export const mapLogIcon: Record<LogLevel, JSX.Element> = {
   [LogLevel.Info]: <InfoCircleOutlined className="text-blue-500" />,

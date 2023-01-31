@@ -1,11 +1,10 @@
 import api from "../../../../../core/lib/api";
 import { logout } from "../../../../../core/utils/logout";
 import { loadAccount } from "../../../../auth/state/actions";
-import { Account } from "../../../../../types/accounts";
-import { ApiResponse } from "../../../../../types/api";
-import { ThunkResult } from "../../../../../types/store";
+import { IAccount, ApiResponse } from "@traceo/types";
+import { ThunkResult } from "../../../../../store/types";
 
-export const updateAccount = (update: Partial<Account>): ThunkResult<void> => {
+export const updateAccount = (update: Partial<IAccount>): ThunkResult<void> => {
   return async (dispatch) => {
     if (!update) {
       return;

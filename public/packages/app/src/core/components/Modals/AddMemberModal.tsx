@@ -2,10 +2,9 @@ import { useEffect, useState, FormEvent } from "react";
 import { useAppDispatch } from "../../../store";
 import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../types/store";
-import { ApplicationMember, MemberRole } from "../../../types/application";
+import { StoreState } from "../../../store/types";
+import { ApplicationMember, MemberRole, IAccount } from "@traceo/types";
 import api from "../../lib/api";
-import { Account } from "../../../types/accounts";
 import {
   Select,
   FormItem,
@@ -59,7 +58,8 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
 
   const filterAccounts = () =>
     accounts.filter(
-      (acc: Account) => !members.find((member: ApplicationMember) => member.id === acc.id)
+      (acc: IAccount) =>
+        !members.find((member: ApplicationMember) => member.id === acc.id)
     );
 
   const accountOptions = filterAccounts().map((account) => ({

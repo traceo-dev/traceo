@@ -1,5 +1,5 @@
 import { FC, lazy } from "react";
-import { LogLevel } from "../../../../../types/logs";
+import { LogLevel } from "@traceo/types";
 import {
   commonSeriesOptions,
   getLogExploreOptions,

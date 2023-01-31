@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import { StoreState } from "../../types/store";
+import { StoreState } from "../../store/types";
 
 export const useApplication = () => {
   const state = useSelector((state: StoreState) => state.application);

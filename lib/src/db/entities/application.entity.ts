@@ -10,7 +10,7 @@ import { Account } from "./account.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IApplication, ISecurity, IInfluxDs, IRuntime, TSDB_PROVIDER } from "@traceo/types";
+import { IApplication, ISecurity, IInfluxDs, IRuntime, TSDB_PROVIDER, IAccount, IAmr, IIncident } from "@traceo/types";
 import { Metric } from "./metric.entity";
 
 @Entity()
@@ -34,7 +34,7 @@ export class Application extends BaseEntity implements IApplication {
   @JoinColumn({
     name: 'owner_id',
   })
-  owner: Account;
+  owner: IAccount;
 
   @Column({ nullable: true })
   gravatar?: string;
@@ -60,14 +60,14 @@ export class Application extends BaseEntity implements IApplication {
       onDelete: "CASCADE",
     },
   )
-  members?: AccountMemberRelationship[];
+  members?: IAmr[];
   membersCount?: number;
 
   @OneToMany(() => Incident, (incident) => incident.application, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE",
   })
-  incidents?: Incident[];
+  incidents?: IIncident[];
 
   @Column({
     type: "bigint",

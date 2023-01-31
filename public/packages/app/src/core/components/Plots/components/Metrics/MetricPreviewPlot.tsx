@@ -1,11 +1,10 @@
-import { StoreState } from "../../../../../types/store";
+import { StoreState } from "../../../../../store/types";
 import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../ConditionLayout";
 import { buildDatasource, buildSeries, commonOptions } from "./utils";
 import { tooltipOptions } from "../../utils";
 import { FC, lazy, useMemo } from "react";
-import { IMetric, METRIC_UNIT } from "../../../../../types/metrics";
-import { DeepPartial } from "../../../../../types/partials";
+import { IMetric, METRIC_UNIT, DeepPartial } from "@traceo/types";
 import { DataNotFound } from "../../../DataNotFound";
 
 interface Props {

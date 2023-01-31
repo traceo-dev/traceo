@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TraceoLog } from "../../../../types/logs";
+import { TraceoLog } from "@traceo/types";
 
 export interface LogsState {
     logs: TraceoLog[];

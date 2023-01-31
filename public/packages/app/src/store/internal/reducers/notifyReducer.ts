@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NotifyItem } from '../../../types/notifications';
+import { NotifyItem } from "@traceo/types";
 import { v4 } from 'uuid';
 
 

@@ -1,8 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../../types/store";
-import { IMetric, METRIC_UNIT } from "../../../../types/metrics";
-import { DeepPartial } from "../../../../types/partials";
+import { StoreState } from "../../../../store/types";
+import { IMetric, METRIC_UNIT, DeepPartial } from "@traceo/types";
 import { DraftFunction } from "use-immer";
 import { Input, InputArea, Select, Card, Collapse, CollapseItem } from "@traceo/ui";
 

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { EChartsOption, SeriesOption } from "echarts";
-import { IMetric, IMetricSerie, MetricsResponse, METRIC_UNIT } from "../../../../../types/metrics";
+import { IMetric, IMetricSerie, MetricsResponse, METRIC_UNIT } from "@traceo/types";
 import { tooltipOptions, splitLine } from "../../utils";
 
 export type SerieType = "bar" | "line" | "scatter";

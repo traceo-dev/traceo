@@ -1,8 +1,7 @@
 import { store } from "../../../../store";
 import api from "../../../../core/lib/api";
 import { loadApplication } from "../../state/application/actions";
-import { ApiResponse } from "../../../../types/api";
-import { DataSourceConnStatus, CONNECTION_STATUS } from "../../../../types/tsdb";
+import { ApiResponse, DataSourceConnStatus, CONNECTION_STATUS  } from "@traceo/types";
 import { loadMetrics } from "../state/actions";
 
 const reload = async (

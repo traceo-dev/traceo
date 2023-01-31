@@ -1,12 +1,12 @@
 import api, { ApiQueryParams } from "../../../../../core/lib/api";
-import { ThunkResult } from "../../../../../types/store";
+import { ThunkResult } from "../../../../../store/types";
 import {
   AddAccountToApplication,
   ApplicationMember,
-  ApplicationMemberUpdateProps
-} from "../../../../../types/application";
+  ApplicationMemberUpdateProps,
+  ApiResponse
+} from "@traceo/types";
 import { membersLoaded } from "./reducers";
-import { ApiResponse } from "../../../../../types/api";
 
 export const loadMembers = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch, getStore) => {

@@ -1,7 +1,7 @@
 import { useRequest } from "../../../../core/hooks/useRequest";
 import { SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
-import { ErrorDetails } from "../../../../types/incidents";
+import { ErrorDetails } from "@traceo/types";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { Card } from "@traceo/ui";

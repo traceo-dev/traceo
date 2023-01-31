@@ -6,7 +6,7 @@ import { CommentsBox } from "./components/Comments/CommentsBox";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SocketContext } from "../../../core/hooks/SocketContextProvider";
 import { useAppDispatch } from "../../../store";
-import { StoreState } from "../../../types/store";
+import { StoreState } from "../../../store/types";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { loadIncidentComments } from "./state/actions";
 import { Typography, Space, Card } from "@traceo/ui";

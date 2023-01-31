@@ -1,6 +1,6 @@
 import { Space } from "@traceo/ui";
 import { FC } from "react";
-import { Trace } from "../../types/incidents";
+import { Trace } from "@traceo/types";
 
 interface Props {
   trace: Trace;

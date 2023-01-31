@@ -9,7 +9,7 @@ import {
   LoadingOutlined
 } from "@ant-design/icons";
 import { logout } from "../../../utils/logout";
-import { MenuRoute } from "../../../../types/navigation";
+import { MenuRoute } from "@traceo/types";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { Avatar, Divider } from "@traceo/ui";

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { MenuRoute } from "../../../../types/navigation";
+import { MenuRoute } from "@traceo/types";
 import { MenuItem } from "./MenuItem";
 import { joinClasses } from "../../../utils/classes";
 

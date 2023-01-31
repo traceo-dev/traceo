@@ -4,7 +4,7 @@ import {
   SettingOutlined,
   TeamOutlined
 } from "@ant-design/icons";
-import { MenuRoute } from "../../../../types/navigation";
+import { MenuRoute } from "@traceo/types";
 import { FC } from "react";
 import { Page } from "../../../../core/components/Page";
 

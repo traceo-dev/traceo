@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAppDispatch } from "../../../store";
 import { addServerAccount } from "../../../features/management/state/accounts/actions";
-import { AddAccountProps } from "../../../types/accounts";
+import { AddAccountProps } from "@traceo/types";
 import { Input, InputSecret, Form, FormItem, Space, Modal } from "@traceo/ui";
 import { clearObject } from "../../utils/object";
 

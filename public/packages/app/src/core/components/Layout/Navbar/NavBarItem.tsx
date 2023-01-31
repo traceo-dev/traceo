@@ -3,8 +3,8 @@ import { joinClasses, conditionClass } from "../../../utils/classes";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { MenuRoute } from "../../../../types/navigation";
-import { StoreState } from "../../../../types/store";
+import { MenuRoute } from "@traceo/types";
+import { StoreState } from "../../../../store/types";
 import { useApplication } from "../../../hooks/useApplication";
 
 interface NavBarItemProps {

@@ -1,7 +1,7 @@
 import { SyncOutlined } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 import { useRequest } from "../../../../core/hooks/useRequest";
-import { ErrorDetails } from "../../../../types/incidents";
+import { ErrorDetails } from "@traceo/types";
 import { statisticUtils } from "../../../../core/utils/statistics";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import dateUtils from "../../../../core/utils/date";

@@ -1,11 +1,10 @@
 import { useSelector } from "react-redux";
 import { Confirm } from "../../../../core/components/Confirm";
 import { useAppDispatch } from "../../../../store";
-import { AccountStatus } from "../../../../types/accounts";
-import { StoreState } from "../../../../types/store";
+import { AccountStatus, ApiResponse } from "@traceo/types";
+import { StoreState } from "../../../../store/types";
 import { updateServerAccount } from "../../state/accounts/actions";
 import api from "../../../../core/lib/api";
-import { ApiResponse } from "../../../../types/api";
 import { useNavigate } from "react-router-dom";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import {

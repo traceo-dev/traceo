@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ApplicationMember } from "../../../../../types/application";
+import { ApplicationMember } from "@traceo/types";
 
 export interface MembersState {
   members: ApplicationMember[];

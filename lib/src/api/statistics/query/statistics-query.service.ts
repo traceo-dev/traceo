@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { INTERNAL_SERVER_ERROR } from "@common/helpers/constants";
 import { Incident } from "@db/entities/incident.entity";
 import { ApiResponse } from "@common/types/dto/response.dto";
-import { AppIncidentsStats, PieData, ErrorDetails } from "@traceo/types";
+import { AppIncidentsStats, ErrorDetails } from "@traceo/types";
 
 @Injectable()
 export class StatisticsQueryService {
@@ -76,8 +76,7 @@ export class StatisticsQueryService {
   public async getTotalOverview(
     appId: string
   ): Promise<ApiResponse<{
-    errors: ErrorDetails[],
-    pie: PieData[]
+    errors: ErrorDetails[]
   }>> {
     try {
       const incidents = await this.entityManger
@@ -88,26 +87,13 @@ export class StatisticsQueryService {
         .getMany();
 
       const errorsDetails: ErrorDetails[] = incidents.reduce((acc, curr) => acc.concat(curr.errorsDetails), []);
-      const pieData = this.parseIncidentsToPieChart(incidents);
 
       return new ApiResponse("success", undefined, {
-        errors: errorsDetails,
-        pie: pieData
+        errors: errorsDetails
       });
     } catch (error) {
       this.logger.error(`[${this.getTotalOverview.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
-  }
-
-  private parseIncidentsToPieChart(incidents: Incident[]): PieData[] {
-    const result = incidents.map(({ type, errorsDetails, status, id }) => ({
-      name: type,
-      value: errorsDetails ? errorsDetails.length : 0,
-      status,
-      id
-    }));
-
-    return result.sort((a, b) => b.value - a.value);
   }
 }

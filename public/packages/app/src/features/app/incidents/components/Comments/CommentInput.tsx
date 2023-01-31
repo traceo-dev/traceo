@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import api from "../../../../../core/lib/api";
 import { loadIncidentComments } from "../../state/actions";
 import { useAppDispatch } from "../../../../../store";
-import { StoreState } from "../../../../../types/store";
+import { StoreState } from "../../../../../store/types";
 import { InputArea, Button, Link, Card, Space, Avatar } from "@traceo/ui";
 import { useAccount } from "../../../../../core/hooks/useAccount";
 import { useApplication } from "../../../../../core/hooks/useApplication";

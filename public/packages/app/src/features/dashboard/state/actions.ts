@@ -1,11 +1,11 @@
 import api from "../../../core/lib/api";
-import { ThunkResult } from "../../../types/store";
+import { ThunkResult } from "../../../store/types";
 import {
   MemberApplication,
-  SearchApplicationQueryParams
-} from "../../../types/application";
+  SearchApplicationQueryParams,
+  ApiResponse
+} from "@traceo/types";
 import { applicationsLoaded } from "./reducers";
-import { ApiResponse } from "../../../types/api";
 
 export const loadApplications = (
   query?: SearchApplicationQueryParams

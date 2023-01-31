@@ -3,7 +3,7 @@ import dateUtils from "../../../utils/date";
 import { statisticUtils } from "../../../utils/statistics";
 import { normalizePlotData, tooltipOptions } from "../utils";
 import { EChartsOption, graphic } from "echarts";
-import { ErrorDetails } from "../../../../types/incidents";
+import { ErrorDetails } from "@traceo/types";
 import { lazy, useMemo } from "react";
 
 const ReactECharts = lazy(() => import("echarts-for-react"));

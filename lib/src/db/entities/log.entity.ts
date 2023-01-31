@@ -7,7 +7,7 @@ import {
     PrimaryGeneratedColumn
 } from "typeorm";
 import { Application } from "./application.entity";
-import { ILog, LogLevel } from "@traceo/types";
+import { IApplication, ILog, LogLevel } from "@traceo/types";
 
 
 @Entity()
@@ -49,5 +49,5 @@ export class Log extends BaseEntity implements ILog {
     @JoinColumn({
         name: "applicationId",
     })
-    application: Application;
+    application: IApplication;
 }

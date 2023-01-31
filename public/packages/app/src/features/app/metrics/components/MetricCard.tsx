@@ -1,7 +1,7 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { IMetric } from "../../../../types/metrics";
+import { IMetric } from "@traceo/types";
 import { Typography, Space, Tooltip } from "@traceo/ui";
 import { MetricCardPlot } from "../../../../core/components/Plots";
 import { useApplication } from "../../../../core/hooks/useApplication";

@@ -4,7 +4,7 @@ import {
   SettingOutlined,
   TeamOutlined
 } from "@ant-design/icons";
-import { MenuRoute } from "../../../types/navigation";
+import { MenuRoute } from "@traceo/types";
 import { PageCenter } from "../../../core/components/PageCenter";
 import NotFound from "../../../core/components/Layout/Pages/NotFound";
 import { useAccount } from "../../../core/hooks/useAccount";

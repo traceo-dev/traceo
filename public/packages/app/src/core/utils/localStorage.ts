@@ -1,5 +1,4 @@
-import { INCIDENT_PLOT_TYPE } from "../../types/metrics";
-import { LogLevel } from "../../types/logs"
+import { INCIDENT_PLOT_TYPE, LogLevel } from "@traceo/types";
 
 export const getLocalStorageLogLevels = () => {
     return localStorage.getItem("log_levels")?.split(",") as LogLevel[] || [LogLevel.Log, LogLevel.Error, LogLevel.Warn];

@@ -7,13 +7,13 @@ import {
 } from "@ant-design/icons";
 import { Avatar, SelectOptionProps } from "@traceo/ui";
 import React from "react";
-import { ApplicationMember } from "../../../../types/application";
 import {
+  ApplicationMember,
   IncidentStatus,
   mapIncidentStatus,
   IncidentSortBy,
   IncidentStatusSearch
-} from "../../../../types/incidents";
+} from "@traceo/types";
 
 export const assignOptions = (members: ApplicationMember[]) =>
   members?.map((member: ApplicationMember) => ({

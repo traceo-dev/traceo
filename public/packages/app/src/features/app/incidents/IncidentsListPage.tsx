@@ -4,11 +4,15 @@ import { SortIcons } from "../../../core/components/SortIcons";
 import { IncidentTable } from "./components/IncidentTable";
 import { ApiQueryParams } from "../../../core/lib/api";
 import { useAppDispatch } from "../../../store";
-import { IncidentSortBy, IncidentStatusSearch } from "../../../types/incidents";
-import { StoreState } from "../../../types/store";
+import {
+  IncidentSortBy,
+  IncidentStatusSearch,
+  SortOrder,
+  INCIDENT_PLOT_TYPE
+} from "@traceo/types";
+import { StoreState } from "../../../store/types";
 import { loadIncidents } from "./state/actions";
 import { useParams } from "react-router-dom";
-import { SortOrder } from "../../../types/api";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
@@ -17,7 +21,6 @@ import {
   getLocalStorageIncidentPlotType,
   setLocalStorageIncidentPlotType
 } from "../../../core/utils/localStorage";
-import { INCIDENT_PLOT_TYPE } from "../../../types/metrics";
 import { InputSearch, Select, Card, RadioButtonGroup } from "@traceo/ui";
 import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
 import { resetIncidentState } from "./state/reducers";

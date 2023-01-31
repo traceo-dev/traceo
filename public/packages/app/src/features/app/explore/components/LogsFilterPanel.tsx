@@ -1,8 +1,8 @@
 import { mapLogName } from "../../../../core/components/Plots/components/Logs/util";
 import { FC, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { LogLevel } from "../../../../types/logs";
-import { StoreState } from "../../../../types/store";
+import { LogLevel } from "@traceo/types";
+import { StoreState } from "../../../../store/types";
 import { mapLogIcon } from "./LogContainer";
 import { Typography, Card, Space, Row, Col, Checkbox } from "@traceo/ui";
 

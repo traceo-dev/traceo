@@ -1,11 +1,12 @@
-import { IAccount } from "./account.interface";
-import { IIncident } from "./incident.interface";
+import { IAccount } from "./account";
+import { IIncident } from "./incident";
 
 export interface IComment {
     id?: string;
     message: string;
-    sender: IAccount;
     lastUpdateAt?: number;
     removed: boolean;
     incident: IIncident;
+    createdAt?: number;
+    sender: IAccount;
 }

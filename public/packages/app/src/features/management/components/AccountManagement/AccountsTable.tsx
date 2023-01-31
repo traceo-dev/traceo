@@ -9,17 +9,17 @@ import dateUtils from "../../../../core/utils/date";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { AccountStatusTag } from "../../../../core/components/AccountStatusTag";
-import { Account, AccountStatus } from "../../../../types/accounts";
+import { IAccount, AccountStatus } from "@traceo/types";
 
 interface Props {
-  accounts: Account[];
+  accounts: IAccount[];
   hasFetched?: boolean;
 }
 export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
   const account = useAccount();
   const navigate = useNavigate();
 
-  const RenderProfile = (currentAccount: Account) => {
+  const RenderProfile = (currentAccount: IAccount) => {
     return (
       <Space>
         <Typography className="text-primary">{currentAccount?.username}</Typography>

@@ -1,4 +1,4 @@
-import { ApplicationMember, MemberRole } from "../../../types/application";
+import { ApplicationMember, MemberRole } from "@traceo/types";
 import api from "../api";
 
 const onUpdateRole = async (member: ApplicationMember, role: MemberRole, postExecute: () => void) => {

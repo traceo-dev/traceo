@@ -1,4 +1,4 @@
-import { IComment } from "@traceo/types";
+import { IAccount, IComment, IIncident } from "@traceo/types";
 import {
   Column,
   Entity,
@@ -24,7 +24,7 @@ export class Comment extends BaseEntity implements IComment {
   @JoinColumn({
     name: "sender_id",
   })
-  sender: Account;
+  sender: IAccount;
 
   @Column({
     type: "bigint",
@@ -47,5 +47,5 @@ export class Comment extends BaseEntity implements IComment {
   @JoinColumn({
     name: "incident_id",
   })
-  incident: Incident;
+  incident: IIncident;
 }

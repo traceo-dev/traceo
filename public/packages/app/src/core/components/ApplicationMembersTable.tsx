@@ -4,7 +4,7 @@ import { Avatar, Button, Select, Table, TableColumn } from "@traceo/ui";
 import { ADMIN_EMAIL } from "../utils/constants";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { MemberRole, ApplicationMember } from "../../types/application";
+import { MemberRole, ApplicationMember } from "@traceo/types";
 import { Confirm } from "./Confirm";
 
 interface Props {

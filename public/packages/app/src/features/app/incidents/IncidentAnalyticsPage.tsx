@@ -1,6 +1,6 @@
 import { statisticUtils } from "../../../core/utils/statistics";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../types/store";
+import { StoreState } from "../../../store/types";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import dateUtils from "../../../core/utils/date";
 import { Typography, Card } from "@traceo/ui";

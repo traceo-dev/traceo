@@ -1,8 +1,7 @@
 import api, { ApiQueryParams } from "../../../../core/lib/api";
-import { ThunkResult } from "../../../../types/store";
+import { ThunkResult } from "../../../../store/types";
 import { serverApplicationLoaded, serverApplicationsLoaded, serverAppLoadedAction } from "./reducers";
-import { Application } from "../../../../types/application";
-import { ApiResponse } from "../../../../types/api";
+import { Application, ApiResponse } from "@traceo/types";
 
 export const loadServerApplications = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {

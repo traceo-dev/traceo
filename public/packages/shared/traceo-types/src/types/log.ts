@@ -1,5 +1,12 @@
-import { LogLevel } from "../enums/log.enum";
-import { IApplication } from "./application.interface";
+import { IApplication } from "./application";
+
+export enum LogLevel {
+    Debug = "debug",
+    Log = "log",
+    Info = "info",
+    Warn = "warn",
+    Error = "error"
+}
 
 export interface ILog {
     id?: string;
@@ -13,6 +20,7 @@ export interface ILog {
 
 export interface TraceoLog {
     timestamp: string;
+    receiveTimestamp: number;
     message: string;
     level: LogLevel;
     unix: number;

@@ -3,8 +3,8 @@ import { AppNavBar } from "./AppNavBar";
 import { DashboardNavBar } from "./DashboardNavBar";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../../types/store";
 import { conditionClass } from "../../../utils/classes";
+import { StoreState } from "../../../../store/types";
 
 type NavType = "app" | "dashboard";
 

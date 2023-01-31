@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../types/store";
-import { CONNECTION_STATUS } from "../../../types/tsdb";
+import { StoreState } from "../../../store/types";
+import { CONNECTION_STATUS } from "@traceo/types";
 import { ConnectionError } from "./components/ConnectionError";
 import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";

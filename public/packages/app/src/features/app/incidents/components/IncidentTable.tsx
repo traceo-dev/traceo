@@ -1,6 +1,6 @@
 import { UserOutlined } from "@ant-design/icons";
 import { FC } from "react";
-import { Incident } from "../../../../types/incidents";
+import { IIncident } from "@traceo/types";
 import { Link, useNavigate } from "react-router-dom";
 import { wrapIncidentMessage } from "../../../../core/utils/stringUtils";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
@@ -10,14 +10,14 @@ import { AppIncidentsListPlot } from "../../../../core/components/Plots";
 import { useApplication } from "../../../../core/hooks/useApplication";
 
 interface Props {
-  incidents: Incident[];
+  incidents: IIncident[];
   isLoading: boolean;
 }
 export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
   const navigate = useNavigate();
   const { application } = useApplication();
 
-  const handleOnRowClick = (incident: Incident) => {
+  const handleOnRowClick = (incident: IIncident) => {
     navigate(`/app/${application.id}/incidents/${incident.id}/details`);
   };
 
@@ -57,7 +57,7 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
 };
 
 interface MainColumnProps {
-  incident: Incident;
+  incident: IIncident;
 }
 const IncidentMainColumn: FC<MainColumnProps> = ({ incident }) => {
   const { application } = useApplication();

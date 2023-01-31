@@ -1,7 +1,7 @@
 import Axios, { AxiosRequestConfig } from "axios";
 import { notify } from "../../utils/notify";
 import { commentAction } from "./comment";
-import { SortOrder } from "../../../types/api";
+import { SortOrder } from "@traceo/types";
 import { TRY_AGAIN_LATER_ERROR } from "../../utils/constants";
 import { cookie } from "../../utils/cookie";
 

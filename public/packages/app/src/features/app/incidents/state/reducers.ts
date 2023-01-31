@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Comment } from "../../../../types/comments";
-import { Incident } from "../../../../types/incidents";
+import { IComment, IIncident } from "@traceo/types";
 
 export interface IncidentsState {
-  incidents: Incident[];
+  incidents: IIncident[];
   hasFetched: boolean;
 }
 
@@ -16,7 +15,7 @@ const incidentsSlice = createSlice({
   name: "incidents",
   initialState: initialState,
   reducers: {
-    incidentsLoaded: (state, action: PayloadAction<Incident[]>): IncidentsState => ({ ...state, hasFetched: true, incidents: action.payload }),
+    incidentsLoaded: (state, action: PayloadAction<IIncident[]>): IncidentsState => ({ ...state, hasFetched: true, incidents: action.payload }),
     resetIncidentsState: (): IncidentsState => ({ ...initialState })
   }
 });
@@ -25,25 +24,25 @@ export const { incidentsLoaded, resetIncidentsState } = incidentsSlice.actions;
 export const incidentsReducer = incidentsSlice.reducer;
 
 export interface IncidentState {
-  incident: Incident;
+  incident: IIncident;
   hasFetched: boolean;
   hasCommentsFetched: boolean;
-  comments: Comment[];
+  comments: IComment[];
 }
 
 const initialIncidentState: IncidentState = {
-  incident: {} as Incident,
+  incident: {} as IIncident,
   hasFetched: false,
   hasCommentsFetched: false,
-  comments: [] as Comment[]
+  comments: [] as IComment[]
 };
 
 const incidentSlice = createSlice({
   name: "incident",
   initialState: initialIncidentState,
   reducers: {
-    incidentLoaded: (state, action: PayloadAction<Incident>): IncidentState => ({ ...state, hasFetched: true, incident: action.payload }),
-    incidentCommentsLoaded: (state, action: PayloadAction<Comment[]>): IncidentState => ({ ...state, hasCommentsFetched: true, comments: action.payload }),
+    incidentLoaded: (state, action: PayloadAction<IIncident>): IncidentState => ({ ...state, hasFetched: true, incident: action.payload }),
+    incidentCommentsLoaded: (state, action: PayloadAction<IComment[]>): IncidentState => ({ ...state, hasCommentsFetched: true, comments: action.payload }),
     resetIncidentState: (): IncidentState => ({ ...initialIncidentState })
   }
 });

@@ -1,4 +1,4 @@
-import { CONNECTION_STATUS } from "../enums/tsdb.enum";
+import { CONNECTION_STATUS } from "./tsdb";
 
 export interface BaseProviderDto {
     connStatus: CONNECTION_STATUS;

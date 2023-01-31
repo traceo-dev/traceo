@@ -2,10 +2,10 @@ import { RightOutlined } from "@ant-design/icons";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import { useRequest } from "../../../../core/hooks/useRequest";
 import {
-  Incident,
+  IIncident,
   IncidentSortBy,
   IncidentStatusSearch
-} from "../../../../types/incidents";
+} from "@traceo/types";
 import dateUtils from "../../../../core/utils/date";
 import { useNavigate } from "react-router-dom";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
@@ -25,7 +25,7 @@ export const RecentIncidentsSection = () => {
     take: 5
   };
 
-  const { data: incidents = [], isLoading } = useRequest<Incident[]>({
+  const { data: incidents = [], isLoading } = useRequest<IIncident[]>({
     url: "/api/incidents",
     params: queryParams
   });
@@ -51,7 +51,7 @@ export const RecentIncidentsSection = () => {
           loading={isLoading}
           className="pt-2"
           dataSource={incidents || []}
-          renderItem={(item: Incident) => (
+          renderItem={(item: IIncident) => (
             <ListCard
               onClick={() =>
                 navigate(`/app/${application.id}/incidents/${item.id}/details`)

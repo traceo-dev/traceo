@@ -1,5 +1,5 @@
 import { stringIncludes, arrayIncludes } from "../../../../core/utils/arrays";
-import { IMetric } from "../../../../types/metrics";
+import { IMetric } from "@traceo/types";
 
 export const searchMetric = (val: string, metrics: IMetric[]) => {
     if (!metrics) {

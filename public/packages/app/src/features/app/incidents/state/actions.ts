@@ -1,8 +1,6 @@
-import { ApiResponse } from "../../../../types/api";
+import { ApiResponse, IComment, IIncident } from "@traceo/types";
 import api, { ApiQueryParams } from "../../../../core/lib/api";
-import { Comment } from "../../../../types/comments";
-import { Incident } from "../../../../types/incidents";
-import { ThunkResult } from "../../../../types/store";
+import { ThunkResult } from "../../../../store/types";
 import { incidentCommentsLoaded, incidentLoaded, incidentsLoaded, resetIncidentState } from "./reducers";
 
 export const loadIncidents = (query?: ApiQueryParams): ThunkResult<void> => {
@@ -16,7 +14,7 @@ export const loadIncidents = (query?: ApiQueryParams): ThunkResult<void> => {
       };
     }
 
-    const { data } = await api.get<ApiResponse<Incident[]>>("/api/incidents", query);
+    const { data } = await api.get<ApiResponse<IIncident[]>>("/api/incidents", query);
     dispatch(incidentsLoaded(data));
   };
 };
@@ -27,7 +25,7 @@ export const loadIncident = (id: string): ThunkResult<void> => {
       return;
     }
 
-    const { data } = await api.get<ApiResponse<Incident>>(`/api/incidents/${id}`);
+    const { data } = await api.get<ApiResponse<IIncident>>(`/api/incidents/${id}`);
     dispatch(incidentLoaded(data));
   };
 };
@@ -39,7 +37,7 @@ export const loadIncidentComments = (): ThunkResult<void> => {
       return;
     }
 
-    const { data } = await api.get<ApiResponse<Comment[]>>("/api/comments", {
+    const { data } = await api.get<ApiResponse<IComment[]>>("/api/comments", {
       id: incident.id,
       sortBy: "createdAt",
       order: "ASC"

@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { loadIncident } from "../state/actions";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../../store";
-import { StoreState } from "../../../../types/store";
-import { MenuRoute } from "../../../../types/navigation";
+import { StoreState } from "../../../../store/types";
+import { MenuRoute } from "@traceo/types";
 import {
   BugOutlined,
   CommentOutlined,

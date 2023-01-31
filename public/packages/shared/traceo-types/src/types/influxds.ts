@@ -1,4 +1,4 @@
-import { BaseProviderDto } from "./provider.interface";
+import { BaseProviderDto } from "./provider";
 
 export interface IInfluxDs extends BaseProviderDto {
     url?: string;

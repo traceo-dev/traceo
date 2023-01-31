@@ -1,12 +1,11 @@
 import api from "../../../core/lib/api";
-import { ApiResponse } from "../../../types/api";
+import { ApiResponse, IAccount } from "@traceo/types";
 import { accountLoaded } from "./reducers";
-import { Account } from "../../../types/accounts";
-import { ThunkResult } from "../../../types/store";
+import { ThunkResult } from "../../../store/types";
 
 export const loadAccount = (): ThunkResult<void> => {
   return async (dispatch) => {
-    const { data } = await api.get<ApiResponse<Account>>("/api/account");
+    const { data } = await api.get<ApiResponse<IAccount>>("/api/account");
     dispatch(accountLoaded(data));
   };
 };

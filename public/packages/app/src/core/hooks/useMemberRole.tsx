@@ -1,4 +1,4 @@
-import { MemberRole } from "../../types/application";
+import { MemberRole } from "@traceo/types";
 import { useApplication } from "./useApplication";
 
 export const useMemberRole = () => {

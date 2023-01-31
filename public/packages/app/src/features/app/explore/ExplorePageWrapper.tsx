@@ -3,7 +3,7 @@ import {
   AlignLeftOutlined,
   CompassOutlined
 } from "@ant-design/icons";
-import { MenuRoute } from "../../../types/navigation";
+import { MenuRoute } from "@traceo/types";
 import { Page } from "../../../core/components/Page";
 import { FC } from "react";
 

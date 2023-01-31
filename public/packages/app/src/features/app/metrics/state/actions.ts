@@ -1,7 +1,6 @@
-import { ApiResponse } from "../../../../types/api";
+import { ApiResponse, IMetric, MetricsResponse } from "@traceo/types";
 import api from "../../../../core/lib/api";
-import { ThunkResult } from "../../../../types/store";
-import { IMetric, MetricsResponse } from "../../../../types/metrics";
+import { ThunkResult } from "../../../../store/types";
 import { metricLoaded, metricsLoaded } from "./reducers";
 
 export const loadMetrics = (): ThunkResult<void> => {

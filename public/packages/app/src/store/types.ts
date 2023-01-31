@@ -2,7 +2,7 @@ import {
   PayloadAction,
 } from "@reduxjs/toolkit";
 import { ThunkAction } from "redux-thunk";
-import { createRootReducer } from "../store/root";
+import { createRootReducer } from "./root";
 
 export type StoreState = ReturnType<ReturnType<typeof createRootReducer>>;
 

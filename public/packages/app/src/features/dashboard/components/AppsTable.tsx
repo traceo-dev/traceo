@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { EmptyAppList } from "./EmptyAppList";
 import { SortIcons } from "../../../core/components/SortIcons";
-import { SortOrder } from "../../../types/api";
 import {
+  SortOrder,
   MemberApplication,
   SearchApplicationQueryParams
-} from "../../../types/application";
+} from "@traceo/types";
 import { useAppDispatch } from "../../../store";
 import { useSelector } from "react-redux";
-import { StoreState } from "../../../types/store";
+import { StoreState } from "../../../store/types";
 import { AppCard } from "./AppCard";
 import { loadApplications } from "../state/actions";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";

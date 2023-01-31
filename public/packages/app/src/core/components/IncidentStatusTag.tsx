@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { mapIncidentStatus, IncidentStatus } from "../../types/incidents";
+import { mapIncidentStatus, IncidentStatus } from "@traceo/types";
 import { Tag, TagColorType } from "@traceo/ui";
 import { joinClasses } from "../utils/classes";
 import {

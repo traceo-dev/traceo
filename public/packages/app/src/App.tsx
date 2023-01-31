@@ -4,7 +4,7 @@ import "@traceo/ui/dist/styles.css";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { SocketContext, socket } from "./core/hooks/SocketContextProvider";
-import { RouteDescriptor } from "./types/navigation";
+import { RouteDescriptor } from "@traceo/types";
 import { getAppRoutes } from "./routes/routes";
 import { Suspense } from "react";
 import { PageCenter } from "./core/components/PageCenter";

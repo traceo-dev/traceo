@@ -1,6 +1,6 @@
 import api from "../../lib/api";
 import { FC, useState } from "react";
-import { ApiResponse } from "../../../types/api";
+import { ApiResponse } from "@traceo/types";
 import {
   InputSecret,
   Button,

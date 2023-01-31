@@ -10,7 +10,7 @@ import { Account } from "./account.entity";
 import { Comment } from "./comment.entity";
 import { Application } from "./application.entity";
 import { BaseEntity } from "@common/base/base.entity";
-import { ErrorDetails, IIncident, Platform, Trace } from "@traceo/types";
+import { ErrorDetails, IComment, IIncident, Platform, Trace } from "@traceo/types";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",
@@ -77,7 +77,7 @@ export class Incident extends BaseEntity implements IIncident {
   assigned: Account;
 
   @OneToMany(() => Comment, (comment) => comment.incident, { nullable: true })
-  comments: Comment[];
+  comments: IComment[];
   commentsCount: number;
 
   @Column({

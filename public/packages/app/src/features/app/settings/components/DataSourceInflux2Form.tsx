@@ -2,10 +2,9 @@ import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { useState, useMemo } from "react";
 import { useAppDispatch } from "../../../../store";
-import { CONNECTION_STATUS, InfluxDS, TSDB_PROVIDER } from "../../../../types/tsdb";
+import { CONNECTION_STATUS, InfluxDS, TSDB_PROVIDER, ApiResponse } from "@traceo/types";
 import { INFLUX2_DOCS } from "../../../../core/utils/constants";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
-import { ApiResponse } from "../../../../types/api";
 import { loadApplication } from "../../state/application/actions";
 import {
   Input,

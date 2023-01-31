@@ -4,15 +4,6 @@ export enum TSDB_PROVIDER {
     PROMETHEUS = "prometheus"
 }
 
-export interface InfluxDS {
-    url: string;
-    org: string;
-    bucket: string;
-    token: string;
-    connStatus: CONNECTION_STATUS;
-    connError: string;
-}
-
 export enum CONNECTION_STATUS {
     CONNECTED = "connected",
     FAILED = "failed"
@@ -20,5 +11,14 @@ export enum CONNECTION_STATUS {
 
 export interface DataSourceConnStatus {
     status: CONNECTION_STATUS;
-    error: string;
+    error?: string;
+}
+
+export interface InfluxDS {
+    url: string;
+    org: string;
+    bucket: string;
+    token: string;
+    connStatus: CONNECTION_STATUS;
+    connError: string;
 }

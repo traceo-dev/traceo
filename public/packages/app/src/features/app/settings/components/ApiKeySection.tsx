@@ -4,7 +4,7 @@ import api from "../../../../core/lib/api";
 import dateUtils from "../../../../core/utils/date";
 import { useState } from "react";
 import { useAppDispatch } from "../../../../store";
-import { ApiResponse } from "../../../../types/api";
+import { ApiResponse } from "@traceo/types";
 import { loadApplication } from "../../state/application/actions";
 import { InputSecret, InputGroup, Button, Typography, Card } from "@traceo/ui";
 import { useApplication } from "../../../../core/hooks/useApplication";

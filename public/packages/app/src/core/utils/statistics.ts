@@ -1,8 +1,5 @@
-import { normalizePlotData } from "../components/Plots/utils";
 import dayjs from "dayjs";
-import { LogLevel, TraceoLog } from "../../types/logs";
-import { ErrorDetails } from "../../types/incidents";
-import { DailyStats } from "../../types/statistics";
+import { LogLevel, TraceoLog, ErrorDetails, DailyStats } from "@traceo/types";
 import dateUtils from "./date";
 
 /**

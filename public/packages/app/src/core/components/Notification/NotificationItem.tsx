@@ -2,7 +2,7 @@ import { FC, useEffect } from "react";
 import { joinClasses } from "../../utils/classes";
 import { hideNotify } from "../../../store/internal/reducers/notifyReducer";
 import { useAppDispatch } from "../../../store";
-import { NotifyItem, NotifyType } from "../../../types/notifications";
+import { NotifyItem, NotifyType } from "@traceo/types";
 import {
   CheckCircleFilled,
   CloseCircleFilled,

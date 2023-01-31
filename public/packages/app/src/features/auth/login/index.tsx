@@ -3,8 +3,7 @@ import { useState } from "react";
 import { LoginForm } from "./LoginForm";
 import { useAppDispatch } from "../../../store";
 import { loadAccount } from "../state/actions";
-import { LoginProps } from "../../../types/auth";
-import { ApiResponse } from "../../../types/api";
+import { LoginProps, ApiResponse } from "@traceo/types";
 import api from "../../../core/lib/api";
 
 const Login = () => {

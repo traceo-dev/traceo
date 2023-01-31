@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { NewApplicationModal } from "../../core/components/Modals/NewApplicationModal";
 import { ApiQueryParams } from "../../core/lib/api";
 import { useAppDispatch } from "../../store";
-import { StoreState } from "../../types/store";
+import { StoreState } from "../../store/types";
 import { ApplicationsTable } from "./components/ApplicationManagement/ApplicationsTable";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { loadServerApplications } from "./state/applications/actions";

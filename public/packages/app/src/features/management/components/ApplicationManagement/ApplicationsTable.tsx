@@ -2,7 +2,7 @@ import { BugOutlined, TeamOutlined, WarningOutlined } from "@ant-design/icons";
 import dateUtils from "../../../../core/utils/date";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { Application } from "../../../../types/application";
+import { Application } from "@traceo/types";
 import { Avatar, Table, TableColumn } from "@traceo/ui";
 
 interface Props {

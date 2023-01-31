@@ -1,5 +1,5 @@
 import { FC, useRef, useState } from "react";
-import { Comment } from "../../../../../types/comments";
+import { IComment, IAccount } from "@traceo/types";
 import dateUtils from "../../../../../core/utils/date";
 import ReactMarkdown from "react-markdown";
 import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
@@ -13,12 +13,11 @@ import {
   Space,
   Avatar
 } from "@traceo/ui";
-import { Account } from "../../../../../types/accounts";
 import { useApplication } from "../../../../../core/hooks/useApplication";
 
 interface Props {
-  account: Account;
-  comment: Comment;
+  account: IAccount;
+  comment: IComment;
   incidentId: string;
 }
 
