@@ -3,6 +3,7 @@ import { BaseQueryService } from "@common/base/query/base-query.service";
 import { IncidentQueryDto } from "@common/types/dto/incident.dto";
 import { Incident } from "@db/entities/incident.entity";
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
+import { IncidentStatusSearch } from "@traceo/types";
 
 @Injectable()
 export class IncidentsQueryService extends BaseQueryService<
@@ -62,9 +63,7 @@ export class IncidentsQueryService extends BaseQueryService<
   ) {
     const { search, status, size } = query;
 
-    // TODO: Fix library because return undefined from enum value...
-    // if (status && status !== IncidentStatusSearch.ALL) {
-    if (status && status !== "all") {
+    if (status && status !== IncidentStatusSearch.ALL) {
       builder.andWhere("incident.status = :status", { status });
     }
 

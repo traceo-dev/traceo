@@ -7,6 +7,8 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "index.js",
     publicPath: "/dist/",
+    libraryTarget: "umd",
+    globalObject: "this",
   },
   resolve: {
     extensions: [".ts", ".js"],
