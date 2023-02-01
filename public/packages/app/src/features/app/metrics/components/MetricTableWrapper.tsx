@@ -15,7 +15,6 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
   return (
     <Card
       title="Raw data"
-      className="h-min"
       extra={
         <Space className="w-full justify-end">
           <Typography>Formatted time</Typography>

@@ -32,7 +32,7 @@ export const TodaySection = () => {
   return (
     <div className="grid grid-cols-5 w-full mb-1">
       <div className="col-span-4 h-full">
-        <Card title="Today">
+        <Card title="Today" className="h-full">
           <ConditionalWrapper isLoading={isLoading}>
             <AppIncidentsTodayPlot
               stats={statisticUtils.parseErrorsToTodayPlotSource(dataSource).data}
@@ -45,6 +45,7 @@ export const TodaySection = () => {
           <div className="h-full mb-1">
             <Card
               title="Errors count"
+              className="h-full"
               extra={
                 <SyncOutlined className="text-xs" onClick={() => reloadDailyStats()} />
               }

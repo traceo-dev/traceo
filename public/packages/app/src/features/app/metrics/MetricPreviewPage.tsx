@@ -75,14 +75,13 @@ export const MetricPreviewPage = () => {
         <div className="w-full grid grid-cols-12">
           <div className={conditionClass(isCustomizeMode, "col-span-9", "col-span-12")}>
             {isDescriptionVisible && !isExpandMode && (
-              <Card title="Description" className="h-min">
+              <Card title="Description">
                 <ReactMarkdown>{metric?.options?.description}</ReactMarkdown>
               </Card>
             )}
 
             <Card
               title="Graph"
-              className="h-min"
               extra={
                 <Space>
                   {!isExpandMode && !isCustomizeMode && (

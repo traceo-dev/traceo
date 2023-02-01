@@ -20,14 +20,14 @@ export const IncidentAnalyticsPage = () => {
     <IncidentPageWrapper>
       <div className="grid grid-cols-5 w-full mb-1">
         <div className="col-span-4 h-full">
-          <Card title="Today">
+          <Card title="Today" className="h-full">
             <AppIncidentsTodayPlot stats={dataSource?.data} />
           </Card>
         </div>
         <div className="col-span-1 ml-1">
           <div className="flex flex-col items-stretch h-full">
             <div className="h-full mb-1">
-              <Card title="Errors count">
+              <Card title="Errors count" className="h-full">
                 <Typography size="xxl" weight="semibold">
                   {dataSource?.count}
                 </Typography>
