@@ -29,11 +29,21 @@ export type IMetricSerie = {
     field: string;
     type: MetricValueEnum | string;
     config: {
+        lineWidth?: number;
+        barWidth?: number;
+        area: {
+            show?: boolean;
+            opacity?: number;
+        },
         type: PLOT_TYPE | string;
         color: string;
     }
 }
 
+/**
+ * If values like line.width/area.show/area.opacity is not empty 
+ * then it overrides fields from series
+ */
 export type IMetricConfiguration = {
     line?: {
         width?: number;

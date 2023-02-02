@@ -1,11 +1,11 @@
 import { FC } from "react";
-import { IMetric, DeepPartial } from "@traceo/types";
+import { IMetric, DeepPartial, IMetricSerie } from "@traceo/types";
 import { DraftFunction } from "use-immer";
 import { Card, Collapse, CollapseItem, FieldLabel } from "@traceo/ui";
 import { useMemo } from "react";
 import { editMetricBasicForm } from "./editMetricBasicForm";
 import { editMetricGraphForm } from "./editMetricGraphForm";
-import { editMetricSeriesForm } from "./editMetricSeriesForm";
+import { editMetricSeriesForm, editSerieForm222 } from "./editMetricSeriesForm";
 
 interface Props {
   options: DeepPartial<IMetric>;
@@ -49,39 +49,25 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
                   {opt.component}
                 </FieldLabel>
               ))}
-              {/* <FieldLabel label="Line width">
-                <Slider
-                  marks={{
-                    1: 1,
-                    10: 10
-                  }}
-                  min={1}
-                  max={10}
-                  onChange={(v) => onChangeLineWidth(v)}
-                />
-              </FieldLabel> */}
-
-              {/* {isArea && (
-                <FieldLabel label="Area opacity">
-                  <Slider
-                    tooltip={{
-                      formatter: (val: number) => val / 100
-                    }}
-                    marks={{
-                      0: 0,
-                      100: 1
-                    }}
-                    min={0}
-                    max={100}
-                    onChange={(v) => onChangeAreaOpacity(v)}
-                  />
-                </FieldLabel>
-              )} */}
             </>
           </CollapseItem>
-          <CollapseItem className="pl-0" header="Series options" key={"series"}>
-            <>{serieOptions.map((opt) => opt.component)}</>
-          </CollapseItem>
+          <>
+            {props.options.series.map((serie, index) => (
+              <CollapseItem collapseIconPosition="start" ghost header={serie.name}>
+                <>
+                  {editSerieForm222({
+                    index,
+                    serie: serie as IMetricSerie,
+                    setOptions: props.setOptions
+                  }).map((opt) => (
+                    <FieldLabel label={opt.label} labelPosition={opt?.labelPosition}>
+                      {opt.component}
+                    </FieldLabel>
+                  ))}
+                </>
+              </CollapseItem>
+            ))}
+          </>
         </Collapse>
       </Card>
     </div>

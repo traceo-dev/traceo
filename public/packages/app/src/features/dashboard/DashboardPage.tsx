@@ -7,10 +7,7 @@ import { NewApplicationModal } from "../../core/components/Modals/NewApplication
 import { Page } from "../../core/components/Page";
 import { loadAccount } from "../auth/state/actions";
 import { useAppDispatch } from "../../store";
-import {
-  resetIncidentsState,
-  resetIncidentState
-} from "../app/incidents/state/reducers";
+import { resetIncidentsState, resetIncidentState } from "../app/incidents/state/reducers";
 import { resetApplicationState } from "../app/state/application/reducers";
 
 export const DashboardPage = () => {
@@ -27,29 +24,30 @@ export const DashboardPage = () => {
   }, []);
 
   return (
-    <Page>
-      <Card
-        title="Applications"
-        className="mt-5"
-        extra={
-          <ServerPermissions>
-            <NewApplicationModal
-              isOpen={openApplicationModal}
-              onCancel={() => setOpenApplicationModal(false)}
-            >
+    <>
+      <Page>
+        <Card
+          title="Applications"
+          className="mt-5"
+          extra={
+            <ServerPermissions>
               <Button
                 icon={<PlusOutlined />}
                 onClick={() => setOpenApplicationModal(true)}
               >
                 New application
               </Button>
-            </NewApplicationModal>
-          </ServerPermissions>
-        }
-      >
-        <AppsTable />
-      </Card>
-    </Page>
+            </ServerPermissions>
+          }
+        >
+          <AppsTable />
+        </Card>
+      </Page>
+      <NewApplicationModal
+        isOpen={openApplicationModal}
+        onCancel={() => setOpenApplicationModal(false)}
+      />
+    </>
   );
 };
 

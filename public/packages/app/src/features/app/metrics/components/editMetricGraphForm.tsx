@@ -1,5 +1,5 @@
 import { IMetric } from "@traceo/types";
-import { LabelPosition, Switch } from "@traceo/ui";
+import { Input, LabelPosition, Switch } from "@traceo/ui";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
 
@@ -77,6 +77,27 @@ export const editMetricGraphForm = (props: Props) => {
       />
     )
   });
+
+  if (options.config.area.show) {
+    forms.push({
+      label: "Area opacity",
+      component: (
+        <Input
+          type="number"
+          min={0}
+          max={100}
+          value={options.config.area.opacity}
+          onChange={(e) => {
+            if (e.target["value"] <= 100) {
+              setOptions((opt) => {
+                opt.config.area.opacity = Number(e.target["value"]);
+              });
+            }
+          }}
+        />
+      )
+    });
+  }
 
   return forms;
 };

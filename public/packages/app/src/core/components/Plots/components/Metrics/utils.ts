@@ -32,7 +32,6 @@ export const buildSeries = (
     type: "card" | "preview" = "preview"
 ) => {
     const showSymbol = options.config.line.marker.show || false;
-    const lineWidth = type === "card" ? 1 : options?.config.line.width || 2;
     return series?.map((serie) => ({
         type: serie.config.type,
         name: serie.name,
@@ -40,11 +39,12 @@ export const buildSeries = (
         color: serie.config.color,
         lineStyle: {
             color: serie.config.color,
-            width: lineWidth
+            width: serie.config.lineWidth
         },
+        barWidth: serie.config.barWidth,
         areaStyle: {
             color: serie.config.color,
-            opacity: options?.config.area.show ? options?.config.area.opacity / 100 : 0
+            opacity: serie.config.area.show ? serie.config.area.opacity / 100 : 0
         }
     })) as SeriesOption[];
 }
