@@ -1,9 +1,4 @@
-import {
-  BarChartOutlined,
-  ArrowLeftOutlined,
-  SyncOutlined,
-  SettingOutlined
-} from "@ant-design/icons";
+import { ArrowLeftOutlined, SyncOutlined, SettingOutlined } from "@ant-design/icons";
 import { PageHeader, Button, Typography, Space } from "@traceo/ui";
 import api from "../../../../core/lib/api";
 import { getLocalStorageTimeLimit } from "../../../../core/utils/localStorage";
