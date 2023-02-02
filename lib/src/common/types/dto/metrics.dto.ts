@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import { IsArray, IsBoolean, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, ValidateNested } from "class-validator";
-import { METRIC_UNIT, TOOLTIP_POSITION } from "@traceo/types";
+import { METRIC_UNIT, PLOT_TYPE, TOOLTIP_POSITION } from "@traceo/types";
 
 export class MetricQueryDto {
     @IsArray()
@@ -12,7 +12,7 @@ export class MetricQueryDto {
     hrCount: number;
 }
 
-export class UpdateTooltipMetricDto {
+class UpdateTooltipMetricDto {
     @IsBoolean()
     @IsNotEmpty()
     show: boolean = false;
@@ -22,7 +22,7 @@ export class UpdateTooltipMetricDto {
     position: TOOLTIP_POSITION = "right";
 }
 
-export class UpdateLegendMetricDto {
+class UpdateLegendMetricDto {
     @IsBoolean()
     @IsNotEmpty()
     show: boolean = false;
@@ -32,7 +32,7 @@ export class UpdateLegendMetricDto {
     orient: string = "vertical";
 }
 
-export class UpdateAreaMetricDto {
+class UpdateAreaMetricDto {
     @IsBoolean()
     @IsNotEmpty()
     show: boolean = false;
@@ -42,12 +42,12 @@ export class UpdateAreaMetricDto {
     opacity: number = 50;
 }
 
-export class UpdateMarkerMetricDto {
+class UpdateMarkerMetricDto {
     @IsBoolean()
     @IsNotEmpty()
     show: boolean = false;
 }
-export class UpdateLineMetricDto {
+class UpdateLineMetricDto {
     @IsInt()
     @IsNotEmpty()
     width: number = 1;
@@ -57,7 +57,7 @@ export class UpdateLineMetricDto {
     marker: UpdateMarkerMetricDto;
 }
 
-export class UpdateConfigMetricDto {
+class UpdateConfigMetricDto {
     @ValidateNested()
     @Type(() => UpdateTooltipMetricDto)
     tooltip: UpdateTooltipMetricDto;
@@ -73,6 +73,34 @@ export class UpdateConfigMetricDto {
     @ValidateNested()
     @Type(() => UpdateLineMetricDto)
     line: UpdateLineMetricDto;
+}
+
+class UpdateSerieMetricConfigDto {
+    @IsString()
+    @IsNotEmpty()
+    type: PLOT_TYPE;
+
+    @IsString()
+    @IsNotEmpty()
+    color: string;
+}
+
+export class UpdateSerieMetricDto {
+    @IsString()
+    @IsNotEmpty()
+    name: string;
+
+    @IsString()
+    @IsNotEmpty()
+    field: string;
+
+    @IsString()
+    @IsOptional()
+    type: string;
+
+    @ValidateNested()
+    @Type(() => UpdateSerieMetricConfigDto)
+    config: UpdateSerieMetricConfigDto;
 }
 
 export class UpdateMetricDto {
@@ -91,6 +119,10 @@ export class UpdateMetricDto {
     // @IsBoolean()
     // @IsNotEmpty()
     // show: boolean;
+
+    @ValidateNested()
+    @Type(() => UpdateSerieMetricDto)
+    series: UpdateSerieMetricDto[];
 
     @IsEnum(METRIC_UNIT)
     @IsOptional()

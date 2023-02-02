@@ -42,6 +42,7 @@ export class MetricsService {
         manager: EntityManager = this.entityManager
     ): Promise<ApiResponse<string>> {
         try {
+            console.log("me: ", dto);
             await manager.getRepository(Metric).update({ id: metricId }, dto);
             return new ApiResponse("success", "Metric updated", undefined);
         } catch (error) {
