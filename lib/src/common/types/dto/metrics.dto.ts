@@ -83,6 +83,16 @@ class UpdateSerieMetricConfigDto {
     @IsString()
     @IsNotEmpty()
     color: string;
+
+    @IsNotEmpty()
+    lineWidth?: number;
+
+    @IsNotEmpty()
+    barWidth?: number;
+
+    @ValidateNested()
+    @Type(() => UpdateAreaMetricDto)
+    area: UpdateAreaMetricDto;
 }
 
 export class UpdateSerieMetricDto {

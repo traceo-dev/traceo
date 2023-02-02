@@ -13,6 +13,12 @@
                     "field": "cpu_usage",
                     "type": "floatField",
                     "config": {
+                        "lineWidth": 1,
+                        "barWidth": 20,
+                        "area": {
+                            "show": true,
+                            "opacity": 50
+                        },
                         "type": "line",
                         "color": "#0991B3"
                     }
@@ -52,6 +58,12 @@
                     "field": "memory_usage_percentage",
                     "type": "floatField",
                     "config": {
+                        "lineWidth": 1,
+                        "barWidth": 20,
+                        "area": {
+                            "show": true,
+                            "opacity": 50
+                        },
                         "type": "line",
                         "color": "#BD123C"
                     }
@@ -91,6 +103,12 @@
                     "field": "heap_rss",
                     "type": "floatField",
                     "config": {
+                        "lineWidth": 1,
+                        "barWidth": 20,
+                        "area": {
+                            "show": true,
+                            "opacity": 50
+                        },
                         "type": "line",
                         "color": "#C88A08"
                     }
@@ -130,6 +148,12 @@
                     "field": "heap_used",
                     "type": "floatField",
                     "config": {
+                        "lineWidth": 1,
+                        "barWidth": 20,
+                        "area": {
+                            "show": false,
+                            "opacity": 0
+                        },
                         "type": "line",
                         "color": "#0369A1"
                     }
@@ -139,6 +163,12 @@
                     "field": "heap_total",
                     "type": "floatField",
                     "config": {
+                        "lineWidth": 1,
+                        "barWidth": 20,
+                        "area": {
+                            "show": false,
+                            "opacity": 0
+                        },
                         "type": "line",
                         "color": "#1D50D8"
                     }
@@ -178,6 +208,12 @@
                     "field": "loop_min",
                     "type": "floatField",
                     "config": {
+                        "lineWidth": 1,
+                        "barWidth": 20,
+                        "area": {
+                            "show": false,
+                            "opacity": 0
+                        },
                         "type": "line",
                         "color": "#0A437C"
                     }
@@ -187,6 +223,12 @@
                     "field": "loop_max",
                     "type": "floatField",
                     "config": {
+                        "lineWidth": 1,
+                        "barWidth": 20,
+                        "area": {
+                            "show": false,
+                            "opacity": 0
+                        },
                         "type": "line",
                         "color": "#5195CE"
                     }
@@ -196,6 +238,12 @@
                     "field": "loop_mean",
                     "type": "floatField",
                     "config": {
+                        "lineWidth": 1,
+                        "barWidth": 20,
+                        "area": {
+                            "show": false,
+                            "opacity": 0
+                        },
                         "type": "line",
                         "color": "#70DBED"
                     }
@@ -235,6 +283,12 @@
                     "field": "heap_native_contexts",
                     "type": "intField",
                     "config": {
+                        "lineWidth": 1,
+                        "barWidth": 20,
+                        "area": {
+                            "show": false,
+                            "opacity": 0
+                        },
                         "type": "line",
                         "color": "#E24D42"
                     }
@@ -244,6 +298,12 @@
                     "field": "heap_detached_contexts",
                     "type": "intField",
                     "config": {
+                        "lineWidth": 1,
+                        "barWidth": 20,
+                        "area": {
+                            "show": false,
+                            "opacity": 0
+                        },
                         "type": "line",
                         "color": "#447EBC"
                     }
@@ -283,6 +343,12 @@
                     "field": "load_avg",
                     "type": "floatField",
                     "config": {
+                        "lineWidth": 1,
+                        "barWidth": 20,
+                        "area": {
+                            "show": false,
+                            "opacity": 0
+                        },
                         "type": "line",
                         "color": "#ffffff"
                     }
