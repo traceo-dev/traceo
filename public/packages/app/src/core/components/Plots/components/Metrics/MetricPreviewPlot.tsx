@@ -20,6 +20,13 @@ const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
   const unit = options?.unit;
 
   const echartOptions = useMemo(() => {
+    const seriesOptions = buildSeries(
+      options?.series || metric.options.series,
+      options || metric.options,
+      "preview"
+    );
+    const dataSourceOptions = buildDatasource(metric.datasource, metric.options.series);
+
     return {
       ...commonOptions({
         unit: unit as METRIC_UNIT,
@@ -47,12 +54,12 @@ const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
         bottom: 10,
         top: 10
       },
-      series: buildSeries(metric.options.series, metric.options, "preview"),
+      series: seriesOptions,
       dataset: {
-        source: buildDatasource(metric.datasource, metric.options.series)
+        source: dataSourceOptions
       }
     };
-  }, [metric]);
+  }, [metric, options]);
 
   return (
     <ConditionalWrapper

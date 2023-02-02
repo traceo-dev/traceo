@@ -15,40 +15,36 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
   return (
     <Card
       title="Raw data"
+      bodyClassName="h-64 overflow-y-auto"
       extra={
         <Space className="w-full justify-end">
           <Typography>Formatted time</Typography>
           <Switch
             value={isFormattedTime}
-            onClick={() => setFormattedTime(!isFormattedTime)}
+            onChange={() => setFormattedTime(!isFormattedTime)}
           />
         </Space>
       }
     >
       <ConditionalWrapper isEmpty={metricData?.length === 0} emptyView={<DataNotFound />}>
-        {/* TODO: temporary solution, in future should be scroll 
-                  implemented in Table component and thead 
-                  should be sticky to top */}
-        <div className="w-full overflow-auto h-64">
-          <Table collection={metricData} hovered>
-            <TableColumn name="Time">
-              {({ item }) =>
-                isFormattedTime
-                  ? dayjs(item._time).format("YYYY-MM-DD HH:mm:ss")
-                  : item._time
-              }
+        <Table collection={metricData} hovered>
+          <TableColumn name="Time">
+            {({ item }) =>
+              isFormattedTime
+                ? dayjs(item._time).format("YYYY-MM-DD HH:mm:ss")
+                : item._time
+            }
+          </TableColumn>
+          {metric?.series?.map((serie, index) => (
+            <TableColumn key={index} name={serie.name}>
+              {({ item }) => (
+                <span>
+                  {item[serie.field]} {metric.unit}
+                </span>
+              )}
             </TableColumn>
-            {metric?.series?.map((serie) => (
-              <TableColumn name={serie.name}>
-                {({ item }) => (
-                  <span>
-                    {item[serie.field]} {metric.unit}
-                  </span>
-                )}
-              </TableColumn>
-            ))}
-          </Table>
-        </div>
+          ))}
+        </Table>
       </ConditionalWrapper>
     </Card>
   );

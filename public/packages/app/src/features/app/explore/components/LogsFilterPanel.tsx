@@ -26,7 +26,7 @@ export const LogsFilterPanel: FC<Props> = ({ checkedLevels, setCheckedLevels }) 
   }, [logs]);
 
   return (
-    <Card title="Filters">
+    <Card title="Filters" className="h-full">
       <div className="flex flex-col gap-3">
         <Col className="mt-2">
           {Object.values(LogLevel).map((level, index) => (

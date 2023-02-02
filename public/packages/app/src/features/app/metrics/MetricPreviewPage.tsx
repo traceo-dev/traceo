@@ -7,13 +7,12 @@ import { useAppDispatch } from "../../../store";
 import { loadMetric } from "./state/actions";
 import { conditionClass } from "../../../core/utils/classes";
 import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
-import { MetricPreviewCustomizeForm } from "./components/MetricPreviewCustomizeForm";
+import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
 import { IMetric, DeepPartial } from "@traceo/types";
 import { useImmer } from "use-immer";
 import { toggleNavbar } from "../state/navbar/actions";
 import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
 import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
-import ReactMarkdown from "react-markdown";
 import { Card, Space, Tooltip } from "@traceo/ui";
 import { MetricPreviewPlot } from "../../../core/components/Plots";
 import { Page } from "../../../core/components/Page";
@@ -29,16 +28,13 @@ export const MetricPreviewPage = () => {
   const [isExpandMode, setExpandMode] = useState<boolean>(false);
   const [timeLimit, setTimeLimit] = useState<number>(DEFAULT_TIME_LIMIT);
 
-  const form: any = {};
-
   useEffect(() => {
-    dispatch(
-      loadMetric({
-        appId: id,
-        metricId,
-        hrCount: timeLimit
-      })
-    );
+    const payload = {
+      appId: id,
+      metricId,
+      hrCount: timeLimit
+    };
+    dispatch(loadMetric(payload));
   }, [timeLimit]);
 
   useEffect(() => {
@@ -46,8 +42,6 @@ export const MetricPreviewPage = () => {
       setOptions(metric.options);
     }
   }, [metric]);
-
-  const isDescriptionVisible = options?.showDescription;
 
   const onExpand = () => {
     dispatch(toggleNavbar(true));
@@ -61,29 +55,22 @@ export const MetricPreviewPage = () => {
 
   return (
     <Page isLoading={!hasFetchedMetric || !metric?.options}>
+      <MetricPreviewHeader
+        currentOptions={options}
+        isCustomizeMode={isCustomizeMode}
+        isExpandMode={isExpandMode}
+        setCustomizeMode={setCustomizeMode}
+        setOptions={setOptions}
+        timeLimit={timeLimit}
+        setTimeLimit={setTimeLimit}
+      />
       <Page.Content>
-        <MetricPreviewHeader
-          form={form}
-          isCustomizeMode={isCustomizeMode}
-          isExpandMode={isExpandMode}
-          setCustomizeMode={setCustomizeMode}
-          setOptions={setOptions}
-          timeLimit={timeLimit}
-          setTimeLimit={setTimeLimit}
-        />
-
         <div className="w-full grid grid-cols-12">
           <div className={conditionClass(isCustomizeMode, "col-span-9", "col-span-12")}>
-            {isDescriptionVisible && !isExpandMode && (
-              <Card title="Description">
-                <ReactMarkdown>{metric?.options?.description}</ReactMarkdown>
-              </Card>
-            )}
-
             <Card
               title="Graph"
               extra={
-                <Space>
+                <Space className="items-center">
                   {!isExpandMode && !isCustomizeMode && (
                     <Tooltip title="Expand view">
                       <ExpandOutlined onClick={onExpand} />
@@ -101,12 +88,12 @@ export const MetricPreviewPage = () => {
               <MetricPreviewPlot isExpandMode={isExpandMode} options={options} />
             </Card>
 
-            {!isExpandMode && (
+            {!isExpandMode && !isCustomizeMode && (
               <MetricTableWrapper metric={options} metricData={metric?.datasource} />
             )}
           </div>
           {isCustomizeMode && (
-            <MetricPreviewCustomizeForm setOptions={setOptions} form={form} />
+            <MetricCustomizeForm setOptions={setOptions} options={options} />
           )}
         </div>
       </Page.Content>

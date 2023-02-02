@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { EChartsOption, SeriesOption } from "echarts";
-import { IMetric, IMetricSerie, MetricsResponse, METRIC_UNIT } from "@traceo/types";
+import { DeepPartial, IMetric, IMetricSerie, MetricsResponse, METRIC_UNIT } from "@traceo/types";
 import { tooltipOptions, splitLine } from "../../utils";
 
 export type SerieType = "bar" | "line" | "scatter";
@@ -27,15 +27,16 @@ export const buildDatasource = (
 
 }
 export const buildSeries = (
-    series: IMetricSerie[],
-    options: IMetric,
+    series: DeepPartial<IMetricSerie[]>,
+    options: DeepPartial<IMetric>,
     type: "card" | "preview" = "preview"
 ) => {
+    const showSymbol = options.config.line.marker.show || false;
     const lineWidth = type === "card" ? 1 : options?.config.line.width || 2;
     return series?.map((serie) => ({
         type: serie.config.type,
         name: serie.name,
-        showSymbol: options?.config.line.marker.show || false,
+        showSymbol: showSymbol,
         color: serie.config.color,
         lineStyle: {
             color: serie.config.color,
@@ -100,5 +101,4 @@ export const commonOptions = ({
             splitLine
         },
     } as EChartsOption
-
 }

@@ -1,28 +1,37 @@
-import { forwardRef, HTMLProps } from "react";
+import { forwardRef, HTMLProps, useMemo } from "react";
 import { conditionClass, joinClasses } from "../utils/classes";
 
 interface SwitchProps extends Omit<HTMLProps<HTMLInputElement>, "value"> {
   value?: boolean;
 }
 
+const generateRandomId = (prefix: string) => {
+  const hash = Math.random().toString(36).substr(2, 10);
+  return prefix + "_" + hash;
+};
+
 export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
-  ({ value, ...restProps }, ref) => {
+  ({ value, id, ...restProps }, ref) => {
+    const switchId = useMemo(() => {
+      return !id ? generateRandomId("switch") : id;
+    }, [id]);
+
     return (
       <>
         <input
-          ref={ref}
+          type="checkbox"
           checked={value}
           className="traceo-switch-checkbox"
-          id="traceo-switch-new"
-          type="checkbox"
+          id={switchId}
           {...restProps}
+          ref={ref}
         />
         <label
           className={joinClasses(
             "traceo-switch-label",
             conditionClass(!!value, "bg-blue-500")
           )}
-          htmlFor="traceo-switch-new"
+          htmlFor={switchId}
         >
           <span className="traceo-switch-button" />
         </label>

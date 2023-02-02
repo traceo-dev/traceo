@@ -19,7 +19,7 @@ import { DraftFunction } from "use-immer";
 import { loadMetric } from "../state/actions";
 
 interface Props {
-  form: any;
+  currentOptions: DeepPartial<IMetric>;
   isCustomizeMode: boolean;
   isExpandMode: boolean;
   setCustomizeMode: (val: boolean) => void;
@@ -28,7 +28,7 @@ interface Props {
   setTimeLimit: (val: number) => void;
 }
 export const MetricPreviewHeader: FC<Props> = ({
-  form,
+  currentOptions,
   isCustomizeMode,
   isExpandMode,
   setCustomizeMode,
@@ -44,10 +44,11 @@ export const MetricPreviewHeader: FC<Props> = ({
 
   const onSave = async () => {
     setSaveLoading(true);
-
-    const update = form.getFieldsValue();
     await api
-      .patch<ApiResponse<string>>(`/api/metrics/${metric.options.id}/update`, update)
+      .patch<ApiResponse<string>>(
+        `/api/metrics/${metric.options.id}/update`,
+        currentOptions
+      )
       .then(() => reloadMetric())
       .finally(() => {
         setSaveLoading(false);
@@ -78,62 +79,59 @@ export const MetricPreviewHeader: FC<Props> = ({
   };
 
   return (
-    <>
-      <Space className="w-full justify-end"></Space>
-      <PageHeader
-        className="mb-5"
-        title={
-          <Space direction="vertical" className="gap-0 w-full">
-            <Space
-              onClick={() => {
-                navigate(-1);
-                dispatch(toggleNavbar(false));
-              }}
-              className="text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 hover:text-white"
-            >
-              <ArrowLeftOutlined />
-              <Typography size="xxs" weight="semibold">
-                METRICS
-              </Typography>
-            </Space>
-            <Space>
-              <BarChartOutlined />
-              <Typography size="xxl">{metric?.options?.name}</Typography>
-            </Space>
+    <PageHeader
+      className="mb-5"
+      title={
+        <Space direction="vertical" className="gap-0 w-full">
+          <Space
+            onClick={() => {
+              navigate(-1);
+              dispatch(toggleNavbar(false));
+            }}
+            className="text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 hover:text-white"
+          >
+            <ArrowLeftOutlined />
+            <Typography size="xxs" weight="semibold">
+              METRICS
+            </Typography>
           </Space>
-        }
-        suffix={
-          <Space>
-            {isCustomizeMode && (
-              <>
-                <Button loading={saveLoading} variant="ghost" onClick={() => onSave()}>
-                  Save
-                </Button>
-                <Button variant="danger" onClick={() => onDiscard()}>
-                  Discard
-                </Button>
-              </>
-            )}
+          <Typography className="text-white text-3xl" weight="semibold">
+            {metric?.options?.name}
+          </Typography>
+          <Typography className="pt-2">{metric?.options?.description}</Typography>
+        </Space>
+      }
+      suffix={
+        <Space>
+          {isCustomizeMode && (
+            <>
+              <Button loading={saveLoading} variant="ghost" onClick={() => onSave()}>
+                Save
+              </Button>
+              <Button variant="danger" onClick={() => onDiscard()}>
+                Discard
+              </Button>
+            </>
+          )}
 
-            {!isCustomizeMode && (
-              <>
-                {/* <TimeLimitDropdown setTimeLimit={setTimeLimit} timeLimit={timeLimit} /> */}
-                <Button
-                  hidden={isExpandMode}
-                  icon={<SettingOutlined />}
-                  variant="ghost"
-                  onClick={() => onCustomize()}
-                >
-                  Customize
-                </Button>
-                <Button icon={<SyncOutlined />} onClick={() => reloadMetric()}>
-                  Refresh
-                </Button>
-              </>
-            )}
-          </Space>
-        }
-      />
-    </>
+          {!isCustomizeMode && (
+            <>
+              {/* <TimeLimitDropdown setTimeLimit={setTimeLimit} timeLimit={timeLimit} /> */}
+              <Button
+                hidden={isExpandMode}
+                icon={<SettingOutlined />}
+                variant="ghost"
+                onClick={() => onCustomize()}
+              >
+                Customize
+              </Button>
+              <Button icon={<SyncOutlined />} onClick={() => reloadMetric()}>
+                Refresh
+              </Button>
+            </>
+          )}
+        </Space>
+      }
+    />
   );
 };

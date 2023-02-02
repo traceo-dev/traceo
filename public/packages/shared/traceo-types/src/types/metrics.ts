@@ -1,9 +1,23 @@
+import { deprecate } from "util";
+
 export type IMetric = {
     id?: string;
     name: string;
     description: string;
+
+    /**
+     * deprecated
+     */
     showDescription: boolean;
+
+    /**
+     * Is created by Traceo, if false then is created by user
+     */
     isDefault: boolean;
+
+    /**
+     * Is showed to users with viewer perms
+     */
     show: boolean;
     unit: string;
     series: IMetricSerie[],

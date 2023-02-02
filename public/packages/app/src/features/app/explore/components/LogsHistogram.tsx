@@ -72,7 +72,7 @@ export const LogsHistogram = () => {
       </div>
       <div className="col-span-10">
         <Card
-          className="mb-0"
+          className="mb-0 h-full"
           title="Histogram"
           extra={!hasFetched && <LoadingOutlined />}
         >

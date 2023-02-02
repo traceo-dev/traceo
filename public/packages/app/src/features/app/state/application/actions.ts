@@ -21,8 +21,8 @@ export const initApplication = (props: LoadApplicationType): ThunkResult<void> =
 
 export const loadApplication = (props?: LoadApplicationType): ThunkResult<void> => {
   return async (dispatch, getStore) => {
-    let currId = props.id;
-    if (!props.id) {
+    let currId = props?.id;
+    if (!props?.id) {
       currId = getStore().application.application.id
     };
 
