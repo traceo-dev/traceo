@@ -13,6 +13,7 @@ interface PopoverCoreProps {
   className?: string;
   showArrow?: boolean;
   chilren?: JSX.Element;
+  overrideStyles?: {};
 }
 
 export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
@@ -23,6 +24,7 @@ export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
     visible,
     className,
     showArrow = true,
+    overrideStyles
   } = props;
 
   // const margin = mapMargin[placement];
@@ -43,6 +45,7 @@ export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
                   ...style,
                   ...defaultTransitionStyles,
                   ...transitionStyles[state],
+                  ...overrideStyles
                 }}
                 data-placement={placement}
                 className={joinClasses("popper", className)}

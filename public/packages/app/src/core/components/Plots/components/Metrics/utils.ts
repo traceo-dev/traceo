@@ -39,12 +39,12 @@ export const buildSeries = (
         color: serie.config.color,
         lineStyle: {
             color: serie.config.color,
-            width: serie.config.lineWidth
+            width: type === "card" ? 1 : serie.config.lineWidth
         },
-        barWidth: serie.config.barWidth,
+        barWidth: type === "card" ? 5 : serie.config.barWidth,
         areaStyle: {
             color: serie.config.color,
-            opacity: serie.config.area.show ? serie.config.area.opacity / 100 : 0
+            opacity: serie.config.area?.show ? serie.config.area.opacity / 100 : 0
         }
     })) as SeriesOption[];
 }

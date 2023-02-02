@@ -17,6 +17,7 @@ const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
 
   const showTooltip = options?.config.tooltip.show;
   const showLegend = options?.config.legend.show;
+  const legendOrient = options?.config.legend.orient;
   const unit = options?.unit;
 
   const echartOptions = useMemo(() => {
@@ -38,9 +39,11 @@ const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
       },
       legend: {
         show: showLegend,
-        orient: "vertical",
-        right: 10,
-        top: "center",
+        orient: legendOrient,
+        right: legendOrient === "vertical" ? 10 : null,
+        bottom: legendOrient === "horizontal" ? null : 10,
+        top: legendOrient === "vertical" ? "center" : "bottom",
+        left: legendOrient === "horizontal" ? 40 : null,
         textStyle: {
           color: "#ffffff"
         },
@@ -49,9 +52,9 @@ const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
       },
       grid: {
         containLabel: true,
-        right: showLegend ? 120 : 10,
+        right: showLegend && legendOrient === "vertical" ? 120 : 10,
         left: 10,
-        bottom: 10,
+        bottom: legendOrient === "vertical" ? 10 : 50,
         top: 10
       },
       series: seriesOptions,

@@ -61,7 +61,7 @@ export type IMetricConfiguration = {
     };
     legend: {
         show: boolean;
-        orient: string;
+        orient: LegendOrientType;
     }
 }
 

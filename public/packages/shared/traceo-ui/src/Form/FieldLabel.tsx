@@ -5,12 +5,14 @@ export type LabelPosition = "vertical" | "horizontal";
 interface FieldLabelProps {
   label: string;
   className?: string;
+  labelSize?: "xs" | "sm" | "md";
   labelPosition?: LabelPosition;
 }
 export const FieldLabel: FC<PropsWithChildren<FieldLabelProps>> = ({
   label,
   children,
   className,
+  labelSize = "sm",
   labelPosition = "vertical",
 }) => {
   const mapStyle: Record<LabelPosition, string> = {
@@ -20,7 +22,9 @@ export const FieldLabel: FC<PropsWithChildren<FieldLabelProps>> = ({
 
   return (
     <div className={joinClasses("mb-5", mapStyle[labelPosition], className)}>
-      <span className="text-sm font-semibold mb-2">{label}</span>
+      <span className={joinClasses("font-semibold mb-2", `text-${labelSize}`)}>
+        {label}
+      </span>
       {children}
     </div>
   );

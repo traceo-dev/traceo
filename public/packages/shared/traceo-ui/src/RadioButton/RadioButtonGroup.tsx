@@ -22,7 +22,7 @@ export const RadioButtonGroup: FC<RadioButtonGroupProps> = (
   return (
     <div
       className={joinClasses(
-        "flex flex-row p-1 rounded-md bg-canvas max-w-min border border-solid border-secondary",
+        "flex flex-row p-0.5 rounded-sm bg-canvas max-w-min border border-solid border-secondary",
         className
       )}
     >

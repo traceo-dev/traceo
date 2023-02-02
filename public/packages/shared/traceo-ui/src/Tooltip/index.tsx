@@ -17,6 +17,10 @@ export const Tooltip = forwardRef<any, TooltipProps>(
       <span className="text-xs font-normal text-white">{title}</span>
     );
 
+    const overrideStyles = {
+      maxWidth: "250px",
+    };
+
     return (
       <div
         onMouseEnter={() => setVisible(true)}
@@ -28,6 +32,7 @@ export const Tooltip = forwardRef<any, TooltipProps>(
           visible={visible}
           content={tooltipTitle}
           placement={placement}
+          overrideStyles={overrideStyles}
         >
           {/* React.cloneElement(children, { onMouse... }) */}
           {children}
