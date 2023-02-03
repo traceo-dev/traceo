@@ -8,7 +8,7 @@ import { loadMetric } from "./state/actions";
 import { conditionClass } from "../../../core/utils/classes";
 import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
 import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
-import { IMetric, DeepPartial, IMetricSerie } from "@traceo/types";
+import { IMetric, DeepPartial } from "@traceo/types";
 import { useImmer } from "use-immer";
 import { toggleNavbar } from "../state/navbar/actions";
 import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";

@@ -24,7 +24,7 @@ export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
     visible,
     className,
     showArrow = true,
-    overrideStyles
+    overrideStyles,
   } = props;
 
   // const margin = mapMargin[placement];
@@ -35,17 +35,18 @@ export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
         {({ ref }) => React.cloneElement(children, { ref })}
       </Reference>
 
-      <Transition in={visible} timeout={200}>
+      <Transition in={visible} timeout={200} unmountOnExit={true}>
         {(state) => (
           <Popper placement={placement}>
             {({ ref, style, placement, arrowProps }) => (
               <div
+                id="popover-traceo"
                 ref={ref}
                 style={{
                   ...style,
                   ...defaultTransitionStyles,
                   ...transitionStyles[state],
-                  ...overrideStyles
+                  ...overrideStyles,
                 }}
                 data-placement={placement}
                 className={joinClasses("popper", className)}

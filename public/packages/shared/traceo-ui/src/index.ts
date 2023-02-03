@@ -18,6 +18,7 @@ export { Typography } from "./Typography";
 export * from "./Button";
 export * from "./Card";
 export * from "./Collapse";
+export * from "./ColorPicker";
 export * from "./Form";
 export * from "./Input";
 export * from "./Modal";

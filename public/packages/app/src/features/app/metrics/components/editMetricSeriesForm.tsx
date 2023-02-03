@@ -1,6 +1,13 @@
 import { BarChartOutlined, DotChartOutlined, LineChartOutlined } from "@ant-design/icons";
 import { DeepPartial, IMetric, IMetricSerie, PLOT_TYPE } from "@traceo/types";
-import { Input, LabelPosition, Select, Switch } from "@traceo/ui";
+import {
+  ColorPicker,
+  Input,
+  InputColor,
+  LabelPosition,
+  Select,
+  Switch
+} from "@traceo/ui";
 import { DraftFunction } from "use-immer";
 
 const mapPlotName: Record<PLOT_TYPE, string> = {
@@ -34,6 +41,21 @@ type SerieFormProps = {
 export const editSerieForm = (props: SerieFormProps) => {
   const { index, serie, setOptions, isDefault } = props;
   const forms: MetricEditOption[] = [];
+
+  forms.push({
+    label: "Color",
+    component: (
+      <InputColor
+        pickerPlacement="left"
+        color={serie.config.color}
+        onChange={(e) => {
+          setOptions((opt) => {
+            opt.series[index].config.color = e;
+          });
+        }}
+      />
+    )
+  });
 
   forms.push({
     label: "Name",
