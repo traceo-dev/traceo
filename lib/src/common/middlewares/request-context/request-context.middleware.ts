@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/common';
 import { RequestContext } from './request-context.model';
 import { Request, Response } from 'express';
 import { EntityManager } from 'typeorm';
@@ -18,22 +18,23 @@ export class RequestContextMiddleware implements NestMiddleware<Request, Respons
 
     async use(req: ExtendedRequest, res: Response, next: () => void) {
         const sessionID = req.cookies[SESSION_NAME];
-        const session = await this.entityManger.getRepository(Session).findOne({
-            where: { sessionID },
-        });
-        if (!session) {
-            this.run(req, res, next);
+
+        if (!sessionID) {
+            throw new UnauthorizedException();
+        } else {
+            const session = await this.entityManger.getRepository(Session).findOne({
+                where: { sessionID },
+            });
+            if (!session) {
+                throw new UnauthorizedException();
+            }
+
+            req.user = {
+                id: session.accountID,
+                username: session.accountName
+            };
+
+            RequestContext.cls.run(new RequestContext(req, res), next);
         }
-
-        req.user = {
-            id: session.accountID,
-            username: session.accountName
-        };
-
-        this.run(req, res, next);
-    }
-
-    private run(req: ExtendedRequest, res: Response, next: () => void): void {
-        RequestContext.cls.run(new RequestContext(req, res), next);
     }
 }

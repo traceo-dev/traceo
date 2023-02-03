@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { IMetric, DeepPartial, IMetricSerie } from "@traceo/types";
 import { DraftFunction } from "use-immer";
-import { Card, FieldLabel } from "@traceo/ui";
+import { Card, Divider, FieldLabel } from "@traceo/ui";
 import { useMemo } from "react";
 import { editMetricBasicForm } from "./editMetricBasicForm";
 import { editMetricGraphForm } from "./editMetricGraphForm";
@@ -19,8 +19,8 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
   );
 
   return (
-    <div className="col-span-3 ml-1">
-      <Card title="Customize graph" bodyClassName="max-h-screen overflow-y-auto">
+    <div className="col-span-4 ml-1">
+      <Card title="Customize graph">
         <CustomizeFormSection title="Basic options" defaultCollapsed={false}>
           {basicOptions.map((opt, index) => (
             <FieldLabel
@@ -32,8 +32,6 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
               {opt.component}
             </FieldLabel>
           ))}
-        </CustomizeFormSection>
-        <CustomizeFormSection title="Graph options">
           {graphOptions.map((opt, index) => (
             <FieldLabel
               key={index}
@@ -45,24 +43,30 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
             </FieldLabel>
           ))}
         </CustomizeFormSection>
+      </Card>
+      <Card title="Graph series" bodyClassName="max-h-[500px] overflow-y-auto">
         {props.options.series.map((serie, index) => (
-          <CustomizeFormSection title={serie.name}>
-            <>
-              {editSerieForm({
-                index,
-                serie: serie as IMetricSerie,
-                setOptions: props.setOptions
-              }).map((opt) => (
-                <FieldLabel
-                  label={opt.label}
-                  labelPosition={opt?.labelPosition}
-                  labelSize="xs"
-                >
-                  {opt.component}
-                </FieldLabel>
-              ))}
-            </>
-          </CustomizeFormSection>
+          <>
+            <CustomizeFormSection title={serie.name}>
+              <>
+                {editSerieForm({
+                  index,
+                  serie: serie as IMetricSerie,
+                  setOptions: props.setOptions,
+                  isDefault: props.options.isDefault
+                }).map((opt) => (
+                  <FieldLabel
+                    label={opt.label}
+                    labelPosition={opt?.labelPosition}
+                    labelSize="xs"
+                  >
+                    {opt.component}
+                  </FieldLabel>
+                ))}
+              </>
+            </CustomizeFormSection>
+            <Divider />
+          </>
         ))}
       </Card>
     </div>

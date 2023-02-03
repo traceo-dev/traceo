@@ -17,7 +17,7 @@ export const CustomizeFormSection: FC<Props> = ({
   const icon = collapsed ? <RightOutlined /> : <DownOutlined />;
 
   return (
-    <div className="border-b border-t-0 border-r-0 border-l-0 border-solid border-light-secondary">
+    <>
       <div
         onClick={() => setCollapsed(!collapsed)}
         className="items-center w-full flex flex-row justify-between px-1 py-2 cursor-pointer text-primary hover:bg-light-secondary hover:text-white duration-200"
@@ -31,6 +31,6 @@ export const CustomizeFormSection: FC<Props> = ({
         </div>
       </div>
       {!collapsed && <div className="pl-4 pr-2 pt-5">{children}</div>}
-    </div>
+    </>
   );
 };

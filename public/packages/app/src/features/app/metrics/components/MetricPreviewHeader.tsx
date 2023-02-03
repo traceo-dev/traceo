@@ -111,15 +111,16 @@ export const MetricPreviewHeader: FC<Props> = ({
 
           {!isCustomizeMode && (
             <>
-              {/* <TimeLimitDropdown setTimeLimit={setTimeLimit} timeLimit={timeLimit} /> */}
-              <Button
-                hidden={isExpandMode}
-                icon={<SettingOutlined />}
-                variant="ghost"
-                onClick={() => onCustomize()}
-              >
-                Customize
-              </Button>
+              {!isExpandMode && (
+                <Button
+                  icon={<SettingOutlined />}
+                  variant="ghost"
+                  onClick={() => onCustomize()}
+                >
+                  Edit
+                </Button>
+              )}
+
               <Button icon={<SyncOutlined />} onClick={() => reloadMetric()}>
                 Refresh
               </Button>

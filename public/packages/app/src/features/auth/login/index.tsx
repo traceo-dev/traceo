@@ -24,8 +24,12 @@ const Login = () => {
     setLoading(true);
 
     await api
-      .post<ApiResponse<{ accessToken: string }>>("/api/auth/login", credentials)
-      .then(() => goToTraceo())
+      .post<ApiResponse<undefined>>("/api/auth/login", credentials)
+      .then((res) => {
+        if (res.status === "success") {
+          goToTraceo();
+        }
+      })
       .catch(() => setInvalid(true))
       .finally(() => setLoading(false));
 

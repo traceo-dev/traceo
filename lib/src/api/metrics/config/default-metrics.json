@@ -26,14 +26,9 @@
             ],
             "config": {
                 "line": {
-                    "width": 2,
                     "marker": {
                         "show": false
                     }
-                },
-                "area": {
-                    "show": true,
-                    "opacity": 50
                 },
                 "tooltip": {
                     "show": false,
@@ -71,14 +66,9 @@
             ],
             "config": {
                 "line": {
-                    "width": 2,
                     "marker": {
                         "show": false
                     }
-                },
-                "area": {
-                    "show": true,
-                    "opacity": 50
                 },
                 "tooltip": {
                     "show": false,
@@ -116,14 +106,9 @@
             ],
             "config": {
                 "line": {
-                    "width": 2,
                     "marker": {
                         "show": false
                     }
-                },
-                "area": {
-                    "show": true,
-                    "opacity": 50
                 },
                 "tooltip": {
                     "show": false,
@@ -176,14 +161,9 @@
             ],
             "config": {
                 "line": {
-                    "width": 2,
                     "marker": {
                         "show": false
                     }
-                },
-                "area": {
-                    "show": false,
-                    "opacity": 0
                 },
                 "tooltip": {
                     "show": false,
@@ -251,14 +231,9 @@
             ],
             "config": {
                 "line": {
-                    "width": 2,
                     "marker": {
                         "show": false
                     }
-                },
-                "area": {
-                    "show": false,
-                    "opacity": 0
                 },
                 "tooltip": {
                     "show": false,
@@ -311,14 +286,9 @@
             ],
             "config": {
                 "line": {
-                    "width": 2,
                     "marker": {
                         "show": false
                     }
-                },
-                "area": {
-                    "show": false,
-                    "opacity": 0
                 },
                 "tooltip": {
                     "show": false,
@@ -356,14 +326,9 @@
             ],
             "config": {
                 "line": {
-                    "width": 2,
                     "marker": {
                         "show": false
                     }
-                },
-                "area": {
-                    "show": false,
-                    "opacity": 0
                 },
                 "tooltip": {
                     "show": false,

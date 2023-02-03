@@ -54,7 +54,7 @@ const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
         containLabel: true,
         right: showLegend && legendOrient === "vertical" ? 120 : 10,
         left: 10,
-        bottom: legendOrient === "vertical" ? 10 : 50,
+        bottom: showLegend ? (legendOrient === "vertical" ? 10 : 50) : 10,
         top: 10
       },
       series: seriesOptions,

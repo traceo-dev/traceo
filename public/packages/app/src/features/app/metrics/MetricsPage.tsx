@@ -64,7 +64,7 @@ const MetricsPage = () => {
           />
           <TimeLimitDropdown setTimeLimit={setTimeLimit} timeLimit={timeLimit} />
           <Button icon={<SyncOutlined />} onClick={reloadMetrics}>
-            Refresh metrics
+            Refresh
           </Button>
         </SearchWrapper>
         <ConditionalWrapper

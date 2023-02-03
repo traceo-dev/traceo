@@ -66,7 +66,7 @@ export const MetricPreviewPage = () => {
       />
       <Page.Content>
         <div className="w-full grid grid-cols-12">
-          <div className={conditionClass(isCustomizeMode, "col-span-9", "col-span-12")}>
+          <div className={conditionClass(isCustomizeMode, "col-span-8", "col-span-12")}>
             <Card
               title="Graph"
               extra={
@@ -88,7 +88,7 @@ export const MetricPreviewPage = () => {
               <MetricPreviewPlot isExpandMode={isExpandMode} options={options} />
             </Card>
 
-            {!isExpandMode && !isCustomizeMode && (
+            {!isExpandMode && (
               <MetricTableWrapper metric={options} metricData={metric?.datasource} />
             )}
           </div>

@@ -46,14 +46,9 @@ export type IMetricSerie = {
  */
 export type IMetricConfiguration = {
     line?: {
-        width?: number;
         marker?: {
             show?: boolean;
         };
-    },
-    area: {
-        show?: boolean;
-        opacity?: number;
     },
     tooltip: {
         show: boolean;
@@ -61,7 +56,7 @@ export type IMetricConfiguration = {
     };
     legend: {
         show: boolean;
-        orient: LegendOrientType;
+        orient: string;
     }
 }
 
@@ -69,7 +64,7 @@ export type TOOLTIP_POSITION = "bottom" | "inside" | "left" | "right" | "top";
 export enum PLOT_TYPE {
     BAR = "bar",
     LINE = "line",
-    POINTS = "points"
+    // POINTS = "points"
 }
 export enum METRIC_UNIT {
     PERCENTAGE = "%",

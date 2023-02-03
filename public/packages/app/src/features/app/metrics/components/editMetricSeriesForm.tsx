@@ -1,18 +1,16 @@
 import { BarChartOutlined, DotChartOutlined, LineChartOutlined } from "@ant-design/icons";
 import { DeepPartial, IMetric, IMetricSerie, PLOT_TYPE } from "@traceo/types";
-import { Divider, FieldLabel, Input, LabelPosition, Select, Switch } from "@traceo/ui";
+import { Input, LabelPosition, Select, Switch } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
 
 const mapPlotName: Record<PLOT_TYPE, string> = {
   bar: "Bar",
-  line: "Line",
-  points: "Points"
+  line: "Line"
 };
 
 const mapPlotIcon: Record<PLOT_TYPE, JSX.Element> = {
   bar: <BarChartOutlined />,
-  line: <LineChartOutlined />,
-  points: <DotChartOutlined />
+  line: <LineChartOutlined />
 };
 
 const plotOptions = Object.values(PLOT_TYPE).map((type) => ({
@@ -27,43 +25,14 @@ interface MetricEditOption {
   component: JSX.Element;
 }
 
-type EditMetricType = {
-  options: DeepPartial<IMetric>;
-  setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
-};
-export const editMetricSeriesForm = (props: EditMetricType) => {
-  const { options, setOptions } = props;
-  const forms: MetricEditOption[] = [];
-
-  options.series.forEach((serie, index) => {
-    forms.push({
-      label: serie.name,
-      component: (
-        <div className="w-full">
-          {editSerieForm({
-            index,
-            serie: serie as IMetricSerie,
-            setOptions
-          }).map((opt, index2) => (
-            <FieldLabel key={index2} label={opt.label} labelPosition={opt.labelPosition}>
-              {opt.component}
-            </FieldLabel>
-          ))}
-          <Divider />
-        </div>
-      )
-    });
-  });
-
-  return forms;
-};
-
 type SerieFormProps = {
   index: number;
   serie: IMetricSerie;
-} & Pick<EditMetricType, "setOptions">;
+  isDefault: boolean;
+  setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
+};
 export const editSerieForm = (props: SerieFormProps) => {
-  const { index, serie, setOptions } = props;
+  const { index, serie, setOptions, isDefault } = props;
   const forms: MetricEditOption[] = [];
 
   forms.push({
@@ -85,6 +54,7 @@ export const editSerieForm = (props: SerieFormProps) => {
     component: (
       <Input
         value={serie.field}
+        disabled={isDefault}
         onChange={(e) => {
           setOptions((opt) => {
             opt.series[index].field = e.target["value"];

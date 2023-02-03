@@ -58,6 +58,7 @@ export const editMetricBasicForm = (props: EditMetricType) => {
     label: "Unit",
     component: (
       <Select
+        isDisabled={options?.isDefault}
         options={unitOptions}
         defaultValue={options.unit}
         onChange={(a) => {
