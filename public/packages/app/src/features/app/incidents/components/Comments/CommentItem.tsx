@@ -11,9 +11,11 @@ import {
   Typography,
   Card,
   Space,
-  Avatar
+  Avatar,
+  Popover
 } from "@traceo/ui";
 import { useApplication } from "../../../../../core/hooks/useApplication";
+import { EllipsisOutlined } from "@ant-design/icons";
 
 interface Props {
   account: IAccount;
@@ -55,44 +57,62 @@ export const CommentItem: FC<Props> = ({ account, comment, incidentId }) => {
 
   const editable = account?.id === sender?.id && !isEditMode && !removed;
 
-  const cardHeader = () => {
+  const editOptions = () => {
+    const options = [
+      {
+        label: "Edit",
+        onClick: () => edit()
+      },
+      {
+        label: "Remove",
+        onClick: () => remove()
+      }
+    ];
+    return (
+      <ul className="list-none pl-0">
+        {options.map((opt) => (
+          <li
+            onClick={opt.onClick}
+            className="mt-1 px-2 text-[14px] py-1 hover:bg-secondary rounded cursor-pointer"
+          >
+            {opt.label}
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const renderCommentHeader = () => {
     return (
       <Space className="w-full py-0 justify-between">
-        <Space className="w-full items-center">
-          <Typography size="md" weight="semibold">
-            {sender?.name}
-          </Typography>
-          <Typography size="xxs" className="text-primary">
-            commented {dateUtils.fromNow(createdAt)}
-          </Typography>
-        </Space>
-        {editable && (
-          <div className="flex flex-row gap-5 items-center">
-            <Typography
-              onClick={() => edit()}
-              size="xs"
-              className="cursor-pointer hover:text-blue-500 transition duration-2 min-w-max"
-            >
-              Edit
-            </Typography>
-            <Typography
-              onClick={() => remove()}
-              size="xs"
-              className="cursor-pointer hover:text-red-500 transition duration-2 min-w-max"
-            >
-              Remove
-            </Typography>
+        <Space>
+          <Avatar
+            className="mr-1 w-7 h-7"
+            alt={sender?.name}
+            src={sender?.gravatar}
+            size="md"
+          />
+          <div className="flex flex-col w-full ml-2">
+            <span className="font-semibold text-sm self-start">{sender?.name}</span>
+            <span className="font-normal text-2xs">
+              commented {dateUtils.fromNow(createdAt)}
+            </span>
           </div>
+        </Space>
+
+        {editable && (
+          <Popover showArrow={false} content={editOptions()}>
+            <EllipsisOutlined className="p-2 hover:bg-secondary rounded-full cursor-pointer" />
+          </Popover>
         )}
       </Space>
     );
   };
 
   return (
-    <div className="flex flex-row items-start mb-5">
-      <Avatar className="mr-3" alt={sender?.name} src={sender?.gravatar} size="md" />
+    <div className="flex flex-row items-start mb-2">
       <Card
-        title={cardHeader()}
+        title={renderCommentHeader()}
         className="border border-solid border-[#303030] rounded mb-5"
         bodyClassName={joinClasses("bg-canvas", conditionClass(removed, "hidden"))}
       >
@@ -118,9 +138,9 @@ export const CommentItem: FC<Props> = ({ account, comment, incidentId }) => {
               ref={textAreaRef}
               onKeyDown={(val) => shortcut(val)}
             />
-            <ButtonContainer justify="start">
+            <ButtonContainer justify="end">
               <Button onClick={sendEdit}>Edit</Button>
-              <Button variant="ghost" onClick={() => setEditMode(false)}>
+              <Button variant="danger" onClick={() => setEditMode(false)}>
                 Cancel
               </Button>
             </ButtonContainer>

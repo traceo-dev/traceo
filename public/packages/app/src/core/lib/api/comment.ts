@@ -1,3 +1,5 @@
+import { store } from "../../../store/index";
+import { loadIncidentComments } from "src/features/app/incidents/state/actions";
 import api from "../api";
 
 const send = async (incidentId: string, applicationId: string, message: string) => {
@@ -25,6 +27,8 @@ const remove = async (commentId: string, applicationId: string, incidentId: stri
   await api.delete(`/api/comments/remove/${commentId}`, {
     applicationId,
     incidentId
+  }).then(() => {
+    store.dispatch(loadIncidentComments());
   });
 };
 

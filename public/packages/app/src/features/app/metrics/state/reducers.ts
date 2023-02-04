@@ -24,17 +24,8 @@ const metricsSlice = createSlice({
     name: "metrics",
     initialState: initialState,
     reducers: {
-        metricsLoaded: (state, action: PayloadAction<IMetric[]>): MetricsState => {
-            return { ...state, hasFetched: true, metrics: action.payload, metric: null };
-        },
-        metricLoaded: (state, action: PayloadAction<MetricType>): MetricsState => {
-            return {
-                ...state, hasFetchedMetric: true, metric: {
-                    datasource: action.payload.datasource,
-                    options: action.payload.options
-                }
-            }
-        }
+        metricsLoaded: (state, action: PayloadAction<IMetric[]>): MetricsState => ({ ...state, hasFetched: true, metrics: action.payload, metric: null }),
+        metricLoaded: (state, action: PayloadAction<MetricType>): MetricsState => ({ ...state, hasFetchedMetric: true, metric: { ...action.payload } })
     }
 });
 

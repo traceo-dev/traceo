@@ -24,7 +24,7 @@ export const CommentsBox = () => {
   return (
     <Space
       id="messagesBox"
-      className="overflow-y-hidden p-5 gap-x-2 overflow-auto w-full flex flex-col"
+      className="overflow-y-hidden gap-x-2 overflow-auto w-full flex flex-col"
       direction="vertical"
     >
       <ConditionalWrapper

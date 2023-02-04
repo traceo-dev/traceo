@@ -23,19 +23,15 @@ export const CommentInput = () => {
   }, [comment]);
 
   const sendMessage = async () => {
-    await api.comment.send(incident.id, application.id, comment);
+    await api.comment.send(incident.id, application.id, comment).finally(() => {
+      dispatch(loadIncidentComments());
+    });
 
     setComment(null);
     textAreaRef.current.value = null;
     setTimeout(() => {
       textAreaRef.current.focus();
     }, 10);
-
-    fetchComments();
-  };
-
-  const fetchComments = () => {
-    dispatch(loadIncidentComments());
   };
 
   const shortcut = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -45,12 +41,12 @@ export const CommentInput = () => {
   };
 
   return (
-    <Card className="w-full mb-5">
-      <div className="w-full flex flex-row">
+    <Card>
+      <div className="flex flex-row">
         <Avatar alt={account?.name} src={account?.gravatar} size="md" />
-        <div className="w-full">
+
+        <div className="w-full flex flex-col ml-3">
           <InputArea
-            className="ml-2"
             placeholder="Leave a comment"
             onKeyDown={(val) => shortcut(val)}
             onChange={(val) => setComment(val.currentTarget.value)}
@@ -58,7 +54,7 @@ export const CommentInput = () => {
             rows={6}
           />
 
-          <Space className="w-full justify-between pt-0 mt-0">
+          <Space className="w-full justify-between">
             <Link
               className="cursor-pointer"
               target="_blank"

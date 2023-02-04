@@ -11,11 +11,17 @@ import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
 import { IMetric, DeepPartial } from "@traceo/types";
 import { useImmer } from "use-immer";
 import { toggleNavbar } from "../state/navbar/actions";
-import { CompressOutlined, ExpandOutlined } from "@ant-design/icons";
+import {
+  CompressOutlined,
+  ExpandOutlined,
+  SettingOutlined,
+  SyncOutlined
+} from "@ant-design/icons";
 import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
-import { Card, Space, Tooltip } from "@traceo/ui";
+import { Card, Tooltip } from "@traceo/ui";
 import { MetricPreviewPlot } from "../../../core/components/Plots";
 import { Page } from "../../../core/components/Page";
+import { notify } from "src/core/utils/notify";
 
 export const MetricPreviewPage = () => {
   const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
@@ -28,20 +34,22 @@ export const MetricPreviewPage = () => {
   const [isExpandMode, setExpandMode] = useState<boolean>(false);
   const [timeLimit, setTimeLimit] = useState<number>(DEFAULT_TIME_LIMIT);
 
-  useEffect(() => {
-    const payload = {
-      appId: id,
-      metricId,
-      hrCount: timeLimit
-    };
-    dispatch(loadMetric(payload));
-  }, [timeLimit]);
+  useEffect(() => fetchMetric(), [timeLimit]);
 
   useEffect(() => {
     if (metric) {
       setOptions(metric.options);
     }
   }, [metric]);
+
+  const fetchMetric = () => {
+    const payload = {
+      appId: id,
+      metricId,
+      hrCount: timeLimit
+    };
+    dispatch(loadMetric(payload));
+  };
 
   const onExpand = () => {
     dispatch(toggleNavbar(true));
@@ -53,12 +61,58 @@ export const MetricPreviewPage = () => {
     setExpandMode(false);
   };
 
+  const onCustomize = () => {
+    setCustomizeMode(true);
+    dispatch(toggleNavbar(true));
+  };
+
+  const graphToolbarTools = () => {
+    const tools = [];
+
+    if (isCustomizeMode) {
+      return [];
+    }
+
+    tools.push({
+      title: "Refresh graph",
+      icon: <SyncOutlined />,
+      onClick: () => {
+        fetchMetric(), notify.success("Refreshed");
+      }
+    });
+
+    if (!isExpandMode) {
+      tools.push({
+        title: "Customize graph",
+        icon: <SettingOutlined />,
+        onClick: () => onCustomize()
+      });
+    }
+
+    if (isExpandMode) {
+      tools.push({
+        title: "Compress view",
+        icon: <CompressOutlined />,
+        onClick: () => onCompress()
+      });
+    }
+
+    if (!isExpandMode) {
+      tools.push({
+        title: "Expand view",
+        icon: <ExpandOutlined />,
+        onClick: () => onExpand()
+      });
+    }
+
+    return tools;
+  };
+
   return (
     <Page isLoading={!hasFetchedMetric || !metric?.options}>
       <MetricPreviewHeader
         currentOptions={options}
         isCustomizeMode={isCustomizeMode}
-        isExpandMode={isExpandMode}
         setCustomizeMode={setCustomizeMode}
         setOptions={setOptions}
         timeLimit={timeLimit}
@@ -70,19 +124,15 @@ export const MetricPreviewPage = () => {
             <Card
               title="Graph"
               extra={
-                <Space className="items-center">
-                  {!isExpandMode && !isCustomizeMode && (
-                    <Tooltip title="Expand view">
-                      <ExpandOutlined onClick={onExpand} />
+                <div className="flex flex-row items-center gap-x-5">
+                  {graphToolbarTools().map((tool, index) => (
+                    <Tooltip title={tool.title} key={index}>
+                      <div className="cursor-pointer" onClick={tool.onClick}>
+                        {tool.icon}
+                      </div>
                     </Tooltip>
-                  )}
-
-                  {isExpandMode && (
-                    <Tooltip title="Compress view">
-                      <CompressOutlined onClick={onCompress} />
-                    </Tooltip>
-                  )}
-                </Space>
+                  ))}
+                </div>
               }
             >
               <MetricPreviewPlot isExpandMode={isExpandMode} options={options} />

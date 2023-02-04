@@ -62,7 +62,7 @@ export const IncidentPageWrapper = ({ children }) => {
             className="text-xs cursor-pointer"
           />
         ),
-        className: "my-5"
+        className: "mb-5"
       }}
       menuRoutes={menu}
       isLoading={!hasFetched}

@@ -7,7 +7,7 @@ import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useAppDispatch } from "../../../store";
 import { loadMetrics } from "./state/actions";
-import { BarChartOutlined, SyncOutlined } from "@ant-design/icons";
+import { BarChartOutlined, LoadingOutlined } from "@ant-design/icons";
 import { MetricCard } from "./components/MetricCard";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { notify } from "../../../core/utils/notify";
@@ -15,7 +15,7 @@ import { TimeLimitDropdown } from "./components/TimeLimitDropdown";
 import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
 import { searchMetric } from "./utils/searchUtil";
 import { metricsApi } from "./api";
-import { InputSearch, Button, Card, Row, Col } from "@traceo/ui";
+import { InputSearch, Button, Card, Row, Col, Divider } from "@traceo/ui";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
 import { useApplication } from "../../../core/hooks/useApplication";
 import { Page } from "../../../core/components/Page";
@@ -28,13 +28,14 @@ const MetricsPage = () => {
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
   const [timeLimit, setTimeLimit] = useState<number>(DEFAULT_TIME_LIMIT);
   const [search, setSearch] = useState<string>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     dispatch(loadMetrics());
   }, [application]);
 
   const reloadMetrics = async () => {
-    await metricsApi.reload(application.id);
+    await metricsApi.reload(application.id, (e) => setLoading(e));
     notify.success("Refreshed");
   };
 
@@ -56,17 +57,18 @@ const MetricsPage = () => {
 
     return (
       <>
-        <SearchWrapper className="pt-2 pb-12 justify-end">
+        <SearchWrapper className="pt-2 justify-end">
           <InputSearch
             value={search}
             onChange={setSearch}
             placeholder="Search metric by name, description or series details"
           />
           <TimeLimitDropdown setTimeLimit={setTimeLimit} timeLimit={timeLimit} />
-          <Button icon={<SyncOutlined />} onClick={reloadMetrics}>
+          <Button icon={loading && <LoadingOutlined />} onClick={reloadMetrics}>
             Refresh
           </Button>
         </SearchWrapper>
+        <Divider className="my-5" />
         <ConditionalWrapper
           isEmpty={filteredMetrics?.length === 0}
           emptyView={<EmptyMetricsList constraints={search} />}

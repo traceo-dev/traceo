@@ -9,7 +9,7 @@ import { useAppDispatch } from "../../../store";
 import { StoreState } from "@store/types";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { loadIncidentComments } from "./state/actions";
-import { Typography, Space, Card } from "@traceo/ui";
+import { Typography, Space, Card, Divider } from "@traceo/ui";
 
 export const IncidentConversationPage = () => {
   const { socket } = useContext(SocketContext);
@@ -46,6 +46,7 @@ export const IncidentConversationPage = () => {
           </Space>
         </Card>
         <CommentsBox />
+        <Divider className="mb-5" />
         <CommentInput />
       </ConditionalWrapper>
     </IncidentPageWrapper>
