@@ -17,16 +17,12 @@ interface Props {
   isCustomizeMode: boolean;
   setCustomizeMode: (val: boolean) => void;
   setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
-  timeLimit: number;
-  setTimeLimit: (val: number) => void;
 }
 export const MetricPreviewHeader: FC<Props> = ({
   currentOptions,
   isCustomizeMode,
   setCustomizeMode,
-  setOptions,
-  timeLimit
-  // setTimeLimit
+  setOptions
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -42,12 +38,11 @@ export const MetricPreviewHeader: FC<Props> = ({
         currentOptions
       )
       .then(() => {
-        const payload = {
-          appId: id,
-          metricId: metric.options.id,
-          hrCount: timeLimit
-        };
-        dispatch(loadMetric(payload));
+        // const payload = {
+        //   appId: id,
+        //   metricId: metric.options.id
+        // };
+        // dispatch(loadMetric(payload));
       })
       .finally(() => {
         setSaveLoading(false);

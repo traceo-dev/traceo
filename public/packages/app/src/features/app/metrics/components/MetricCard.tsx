@@ -8,9 +8,9 @@ import { useApplication } from "../../../../core/hooks/useApplication";
 
 interface MetricCardProps {
   metric: IMetric;
-  hrCount: number;
+  ranges: [number, number];
 }
-export const MetricCard: FC<MetricCardProps> = ({ metric, hrCount }) => {
+export const MetricCard: FC<MetricCardProps> = ({ metric, ranges }) => {
   const navigate = useNavigate();
   const { application } = useApplication();
 
@@ -30,7 +30,7 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, hrCount }) => {
           )}
         </Space>
 
-        <MetricCardPlot metric={metric} hrCount={hrCount} />
+        <MetricCardPlot metric={metric} ranges={ranges} />
       </Space>
     </div>
   );

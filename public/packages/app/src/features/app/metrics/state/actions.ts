@@ -23,12 +23,19 @@ type MetricPreviewType = {
 type LoadMetricType = {
     appId: string;
     metricId: string;
-    hrCount: number;
+    from: number;
+    to: number;
 }
 export const loadMetric = (payload: LoadMetricType): ThunkResult<void> => {
     return async (dispatch) => {
+        console.log("payload: ", payload);
+        if (!payload?.from || !payload?.to) {
+            return;
+        }
+
         const { data } = await api.get<ApiResponse<MetricPreviewType>>(`/api/metrics/${payload.appId}/preview/${payload.metricId}`, {
-            hrCount: payload.hrCount
+            from: payload.from,
+            to: payload.to
         });
         dispatch(metricLoaded({ ...data }));
     }

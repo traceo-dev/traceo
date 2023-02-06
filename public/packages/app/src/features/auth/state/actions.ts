@@ -17,6 +17,7 @@ export const logoutAccount = (): ThunkResult<void> => {
   return async () => {
     const { data } = await api.get<ApiResponse<LogoutAccountType>>("/api/auth/logout");
     sessionStorage.clear();
+    localStorage.clear();
     window.location.href = !!data.redirectUrl ? data.redirectUrl : "/";
   }
 }

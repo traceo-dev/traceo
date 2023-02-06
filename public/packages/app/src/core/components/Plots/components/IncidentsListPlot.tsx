@@ -4,7 +4,8 @@ import { ErrorDetails } from "@traceo/types";
 import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
 import { EChartsOption } from "echarts";
 import dateUtils from "../../../utils/date";
-import { getLocalStorageIncidentPlotType } from "../../../utils/localStorage";
+import { localStorageService } from "src/core/lib/localStorage";
+import { LocalStorage } from "src/core/lib/localStorage/types";
 
 const ReactECharts = lazy(() => import("echarts-for-react"));
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 const PLOT_COLOR = "#04785A";
 
 const IncidentsListPlot: FC<Props> = ({ errors }) => {
-  const plotType = getLocalStorageIncidentPlotType();
+  const plotType = localStorageService.get<any>(LocalStorage.PlotType);
 
   const dataSource = useMemo(() => {
     return normalizePlotData(statisticUtils.parseIncidentsTablePlotData(errors));

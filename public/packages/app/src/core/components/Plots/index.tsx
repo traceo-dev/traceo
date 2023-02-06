@@ -63,10 +63,10 @@ export const LogsPlot = ({ logs }) => {
   );
 };
 
-export const MetricCardPlot = ({ metric, hrCount }) => {
+export const MetricCardPlot = ({ metric, ranges }) => {
   return (
     <Suspense fallback={<Fallback />}>
-      <LazyMetricPlot metric={metric} hrCount={hrCount} />
+      <LazyMetricPlot metric={metric} ranges={ranges} />
     </Suspense>
   );
 };

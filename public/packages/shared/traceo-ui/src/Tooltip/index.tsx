@@ -4,7 +4,7 @@ import { BasePlacement } from "@popperjs/core";
 
 export interface TooltipProps {
   placement?: BasePlacement;
-  title: string;
+  title: string | JSX.Element;
   children: JSX.Element;
   //   trigger?: "click" | "hover"; //TODO: to implement
 }
@@ -13,9 +13,12 @@ export const Tooltip = forwardRef<any, TooltipProps>(
   ({ children, title, placement = "bottom" }, ref) => {
     const [visible, setVisible] = useState<boolean>(false);
 
-    const tooltipTitle = (
-      <span className="text-xs font-normal text-white">{title}</span>
-    );
+    const tooltipTitle =
+      typeof title === "string" ? (
+        <span className="text-xs font-normal text-white">{title}</span>
+      ) : (
+        title
+      );
 
     const overrideStyles = {
       maxWidth: "250px",

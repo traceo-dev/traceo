@@ -1,4 +1,4 @@
-import { FC, lazy, useEffect } from "react";
+import { FC, lazy, useEffect, useMemo } from "react";
 import { IMetric, MetricsResponse, METRIC_UNIT } from "@traceo/types";
 import { MetricLoading } from "../../../MetricLoading";
 import { useRequest } from "../../../../hooks/useRequest";
@@ -9,32 +9,32 @@ import { useApplication } from "../../../../hooks/useApplication";
 
 interface Props {
   metric: IMetric;
-  hrCount: number;
+  ranges: [number, number];
 }
 const ReactECharts = lazy(() => import("echarts-for-react"));
-const MetricPlot: FC<Props> = ({ metric, hrCount }) => {
+const MetricPlot: FC<Props> = ({ metric, ranges }) => {
   const { application } = useApplication();
 
   useEffect(() => {
     execute();
-  }, [hrCount, metric]);
+  }, [ranges, metric]);
 
-  const seriesFields =
-    metric?.series?.reduce<string[]>((acc, serie) => {
-      acc.push(serie.field);
+  const seriesFields = useMemo(() => {
+    return (
+      metric?.series?.reduce<string[]>((acc, serie) => {
+        acc.push(serie.field);
 
-      return acc;
-    }, []) || [];
+        return acc;
+      }, []) || []
+    );
+  }, [metric]);
 
-  const {
-    data: datasource,
-    // isLoading,
-    execute
-  } = useRequest<MetricsResponse[]>({
+  const { data: datasource, execute } = useRequest<MetricsResponse[]>({
     url: `/api/metrics/${application.id}/datasource`,
     params: {
       fields: seriesFields,
-      hrCount
+      from: ranges[0],
+      to: ranges[1]
     }
   });
 

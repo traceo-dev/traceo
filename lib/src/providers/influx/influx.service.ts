@@ -146,7 +146,7 @@ export class InfluxService {
         dtoQuery: MetricQueryDto
     ): Promise<MetricsResponse[]> {
         const { url, token, org, bucket } = config;
-        const { hrCount, fields } = dtoQuery;
+        const { from, to, fields } = dtoQuery;
 
         if (!url || !token) {
             this.logger.error(`[${this.queryData.name}] URL and Token are required!`);
@@ -158,7 +158,7 @@ export class InfluxService {
 
         const query = `
             from(bucket: "${bucket}")
-                |> range(start: -${hrCount}h)
+                |> range(start: ${from}, stop: ${to})
                 |> filter(fn: (r) => r._measurement == "metrics_${appId}")
                 |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
                 |> keep(columns: [

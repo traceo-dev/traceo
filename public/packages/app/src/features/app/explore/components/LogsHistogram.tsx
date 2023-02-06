@@ -6,25 +6,20 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../../../store";
 import { StoreState } from "@store/types";
-import { LogLevel } from "@traceo/types";
-import {
-  getLocalStorageLogLevels,
-  setLocalStorageLogLevels
-} from "../../../../core/utils/localStorage";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { LogsFilterPanel } from "./LogsFilterPanel";
 import { Button, Card, Space, Tooltip } from "@traceo/ui";
 import { statisticUtils } from "../../../../core/utils/statistics";
 import { LogsPlot } from "../../../../core/components/Plots";
+import { localStorageService } from "src/core/lib/localStorage";
+import { LocalStorage } from "src/core/lib/localStorage/types";
+import { useLogLevels } from "src/core/hooks/useLogLevels";
 
 export const LogsHistogram = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);
-
-  const [checkedLevels, setCheckedLevels] = useState<LogLevel[]>(
-    getLocalStorageLogLevels()
-  );
+  const { levels, setLevels } = useLogLevels();
 
   const defaultStartDate = dayjs().subtract(30, "minute").unix();
   const defaultEndDate = dayjs().unix();
@@ -36,12 +31,14 @@ export const LogsHistogram = () => {
     const props = {
       startDate,
       endDate,
-      levels: checkedLevels
+      levels
     };
     dispatch(loadApplicationLogs(id, props));
-  }, [checkedLevels, startDate, endDate]);
+  }, [levels, startDate, endDate]);
 
-  useEffect(() => setLocalStorageLogLevels(checkedLevels), [checkedLevels]);
+  useEffect(() => {
+    localStorageService.set(LocalStorage.LogLevels, levels.join(","));
+  }, [levels]);
 
   const onClickLeft = () => {
     setStartDate(dayjs.unix(startDate).subtract(30, "minute").unix());
@@ -65,10 +62,7 @@ export const LogsHistogram = () => {
   return (
     <div className="grid grid-cols-12 w-full mb-1">
       <div className="col-span-2 h-full mr-1">
-        <LogsFilterPanel
-          checkedLevels={checkedLevels}
-          setCheckedLevels={setCheckedLevels}
-        />
+        <LogsFilterPanel checkedLevels={levels} setCheckedLevels={setLevels} />
       </div>
       <div className="col-span-10">
         <Card

@@ -7,10 +7,17 @@ export class MetricQueryDto {
     @IsNotEmpty()
     fields: string[];
 
-    // @IsInt()
     @IsNotEmpty()
-    hrCount: number;
+    from: number;
+
+    @IsNotEmpty()
+    to: number;
 }
+
+
+// export class MetricRangeQueryDto {
+
+// }
 
 class UpdateTooltipMetricDto {
     @IsBoolean()

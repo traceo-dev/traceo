@@ -17,14 +17,12 @@ import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
 import { BugOutlined } from "@ant-design/icons";
-import {
-  getLocalStorageIncidentPlotType,
-  setLocalStorageIncidentPlotType
-} from "../../../core/utils/localStorage";
 import { InputSearch, Select, Card, RadioButtonGroup } from "@traceo/ui";
 import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
 import { resetIncidentState } from "./state/reducers";
 import { Page } from "../../../core/components/Page";
+import { localStorageService } from "src/core/lib/localStorage";
+import { LocalStorage } from "src/core/lib/localStorage/types";
 
 export const IncidentsListPage = () => {
   const { id } = useParams();
@@ -36,7 +34,7 @@ export const IncidentsListPage = () => {
   const [sortBy, setSortBy] = useState<IncidentSortBy>(IncidentSortBy.LAST_SEEN);
   const [status, setStatus] = useState<IncidentStatusSearch>(IncidentStatusSearch.ALL);
 
-  const plot = getLocalStorageIncidentPlotType();
+  const plot = localStorageService.get<any>(LocalStorage.PlotType);
   const [plotType, setPlotType] = useState<INCIDENT_PLOT_TYPE>(plot);
 
   const queryParams: ApiQueryParams = {
@@ -57,7 +55,7 @@ export const IncidentsListPage = () => {
 
   const onChangePlotType = (type: INCIDENT_PLOT_TYPE) => {
     setPlotType(type);
-    setLocalStorageIncidentPlotType(type);
+    localStorageService.set(LocalStorage.PlotType, type);
   };
 
   return (

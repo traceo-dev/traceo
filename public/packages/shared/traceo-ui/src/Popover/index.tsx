@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { BasePlacement } from "@popperjs/core";
 import { PopoverCore } from "./PopoverCore";
 
@@ -10,6 +10,7 @@ interface PopoverProps {
   placement?: BasePlacement;
   trigger?: TriggerType;
   showArrow?: boolean;
+  overrideStyles?: {};
 }
 
 export const Popover: FC<PopoverProps> = ({
@@ -18,6 +19,7 @@ export const Popover: FC<PopoverProps> = ({
   placement = "bottom",
   trigger = "click",
   showArrow = true,
+  overrideStyles = {},
 }) => {
   const [visible, setVisible] = useState<boolean>(false);
   const ref = useRef<any>();
@@ -52,11 +54,12 @@ export const Popover: FC<PopoverProps> = ({
   return (
     <div ref={ref} {...triggerOptions[trigger]}>
       <PopoverCore
-        className="bg-canvas rounded-sm p-1 z-50 shadow-2xl border border-solid border-secondary"
+        className="bg-primary rounded-sm z-50 shadow-2xl border border-solid border-secondary"
         visible={visible}
         content={content}
         placement={placement}
         showArrow={showArrow}
+        overrideStyles={overrideStyles}
       >
         {children}
       </PopoverCore>

@@ -11,24 +11,23 @@ import { BarChartOutlined, LoadingOutlined } from "@ant-design/icons";
 import { MetricCard } from "./components/MetricCard";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { notify } from "../../../core/utils/notify";
-import { TimeLimitDropdown } from "./components/TimeLimitDropdown";
-import { getLocalStorageTimeLimit } from "../../../core/utils/localStorage";
 import { searchMetric } from "./utils/searchUtil";
 import { metricsApi } from "./api";
 import { InputSearch, Button, Card, Row, Col, Divider } from "@traceo/ui";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
 import { useApplication } from "../../../core/hooks/useApplication";
 import { Page } from "../../../core/components/Page";
+import { MetricTimeRangePicker } from "./components/MetricTimeRangePicker";
+import { useMetricsRange } from "src/core/hooks/useMetricsRange";
 
 const MetricsPage = () => {
-  const DEFAULT_TIME_LIMIT = getLocalStorageTimeLimit() || 12;
   const dispatch = useAppDispatch();
 
   const { application } = useApplication();
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
-  const [timeLimit, setTimeLimit] = useState<number>(DEFAULT_TIME_LIMIT);
   const [search, setSearch] = useState<string>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const { ranges, setRanges } = useMetricsRange();
 
   useEffect(() => {
     dispatch(loadMetrics());
@@ -63,7 +62,7 @@ const MetricsPage = () => {
             onChange={setSearch}
             placeholder="Search metric by name, description or series details"
           />
-          <TimeLimitDropdown setTimeLimit={setTimeLimit} timeLimit={timeLimit} />
+          <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
           <Button icon={loading && <LoadingOutlined />} onClick={reloadMetrics}>
             Refresh
           </Button>
@@ -77,7 +76,7 @@ const MetricsPage = () => {
           <Row gap="2" cols={12}>
             {filteredMetrics?.map((metric, index) => (
               <Col span={4} key={index}>
-                <MetricCard metric={metric} hrCount={timeLimit} />
+                <MetricCard metric={metric} ranges={ranges} />
               </Col>
             ))}
           </Row>
