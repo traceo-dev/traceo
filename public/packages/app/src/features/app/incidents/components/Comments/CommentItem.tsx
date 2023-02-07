@@ -69,7 +69,7 @@ export const CommentItem: FC<Props> = ({ account, comment, incidentId }) => {
       }
     ];
     return (
-      <ul className="list-none pl-0">
+      <ul className="list-none p-2">
         {options.map((opt) => (
           <li
             onClick={opt.onClick}
@@ -101,7 +101,7 @@ export const CommentItem: FC<Props> = ({ account, comment, incidentId }) => {
         </Space>
 
         {editable && (
-          <Popover showArrow={false} content={editOptions()}>
+          <Popover showArrow={false} placement="left" content={editOptions()}>
             <EllipsisOutlined className="p-2 hover:bg-secondary rounded-full cursor-pointer" />
           </Popover>
         )}

@@ -14,20 +14,14 @@
   --color-text-disabled: rgba(204, 204, 220, 0.6);
 
   --color-traceo-primary: #eab308;
-  --color-bg-primary: #181b1f;
-  --color-bg-secondary: #22252b;
-  --color-bg-light-secondary: #2d3139;
-  --color-bg-canvas: #111217;
+
+  --color-bg-primary: #1b1b28;
+  --color-bg-secondary: #282a3b;
+  --color-bg-canvas: #14141f;
+  --color-bg-light-secondary: #1c223a;
 }
 
 /* Overrides for tailwind styles */
-/* .text-primary {
-  color: var(--color-text-primary) !important;
-}
-
-.text-secondary {
-  color: var(--color-text-secondary) !important;
-} */
 
 .border-bottom {
   border-bottom: 1px solid var(--color-bg-secondary);

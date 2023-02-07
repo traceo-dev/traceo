@@ -19,7 +19,7 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, ranges }) => {
   };
 
   return (
-    <div className="h-60 border border-solid border-secondary p-2 cursor-pointer rounded-md hover:bg-secondary">
+    <div className="h-60 border border-solid border-secondary p-2 cursor-pointer rounded-md bg-canvas">
       <Space className="w-full" direction="vertical" onClick={onClick}>
         <Space className="w-full pb-5 pt-1 justify-center">
           <Typography>{metric?.name}</Typography>
