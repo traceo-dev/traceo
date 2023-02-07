@@ -11,6 +11,7 @@ interface PopoverProps {
   trigger?: TriggerType;
   showArrow?: boolean;
   overrideStyles?: {};
+  open?: boolean;
 }
 
 export const Popover: FC<PopoverProps> = ({
@@ -20,10 +21,12 @@ export const Popover: FC<PopoverProps> = ({
   trigger = "click",
   showArrow = true,
   overrideStyles = {},
+  open = false,
 }) => {
   const [visible, setVisible] = useState<boolean>(false);
   const ref = useRef<any>();
 
+  useEffect(() => setVisible(open), [open]);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (ref.current && !ref.current.contains(event.target as Node)) {

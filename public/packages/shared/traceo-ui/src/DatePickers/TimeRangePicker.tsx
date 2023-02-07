@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import styled from "styled-components";
 import { ReactCalendarBody } from "./ReactCalendarBody";
 import { BasePlacement } from "@popperjs/core/lib";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 interface Props {
   value: [number, number];
@@ -18,6 +18,8 @@ export const TimeRangePicker = ({
   submit,
   placement = "bottom",
 }: Props) => {
+  const [open, setOpen] = useState<boolean>(false);
+
   const handleOnRangeChange = (range: [Date, Date]) => {
     /**
      * Add validation
@@ -26,8 +28,8 @@ export const TimeRangePicker = ({
   };
 
   const handleOnSubmit = () => {
-    //TODO: hide popover on submit
     submit();
+    setOpen(false);
   };
 
   const popoverContent = (
@@ -80,14 +82,17 @@ export const TimeRangePicker = ({
 
   return (
     <Popover
+      open={open}
       overrideStyles={{ transitionDuration: 0 }}
       placement={placement}
       content={popoverContent}
     >
       <Input
-        style={{ minWidth: "230px" }}
+        style={{ minWidth: "230px", cursor: "pointer" }}
         prefix={<ClockCircleOutlined />}
         value={inputValue}
+        onClick={() => setOpen(true)}
+        readOnly
       />
     </Popover>
   );

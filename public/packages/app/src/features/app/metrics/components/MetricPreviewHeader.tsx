@@ -67,7 +67,7 @@ export const MetricPreviewHeader: FC<Props> = ({
               navigate(-1);
               dispatch(toggleNavbar(false));
             }}
-            className="text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 hover:text-white"
+            className="max-w-min text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 hover:text-white"
           >
             <ArrowLeftOutlined />
             <Typography size="xxs" weight="semibold">

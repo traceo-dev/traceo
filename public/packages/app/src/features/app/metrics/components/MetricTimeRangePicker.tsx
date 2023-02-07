@@ -1,21 +1,11 @@
 import { TimeRangePicker } from "@traceo/ui";
-import { useEffect, useState } from "react";
-import { localStorageService } from "src/core/lib/localStorage";
-import { LocalStorage } from "src/core/lib/localStorage/types";
-
+import { useState } from "react";
 interface Props {
   ranges: [number, number];
   setRanges: (val: [number, number]) => void;
 }
 export const MetricTimeRangePicker = ({ ranges, setRanges }: Props) => {
   const [newRanges, setNewRanges] = useState<[number, number]>(ranges);
-
-  useEffect(() => {
-    localStorageService.set(LocalStorage.MetricQuery, {
-      from: newRanges[0],
-      to: newRanges[1]
-    });
-  }, [newRanges]);
 
   return (
     <TimeRangePicker

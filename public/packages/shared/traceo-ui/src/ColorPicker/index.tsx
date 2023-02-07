@@ -2,6 +2,7 @@ import { Popover } from "../Popover";
 import { HexColorPicker } from "react-colorful";
 import { useEffect, useState } from "react";
 import { BasePlacement } from "@popperjs/core";
+import styled from "styled-components";
 
 interface Props {
   color: string;
@@ -22,8 +23,10 @@ export const ColorPicker = ({
   }, [newColor]);
 
   const pickerContent = () => (
-    <div className="flex flex-col">
-      <HexColorPicker color={newColor} onChange={setColor} />
+    <div className="flex flex-col p-1">
+      <ColorPickerWrapper>
+        <HexColorPicker color={newColor} onChange={setColor} />
+      </ColorPickerWrapper>
       <div
         className="mt-2 h-7 w-full rounded-sm"
         style={{ backgroundColor: newColor }}
@@ -32,22 +35,15 @@ export const ColorPicker = ({
   );
 
   return (
-    <>
-      <Popover
-        placement={placement}
-        showArrow={false}
-        content={pickerContent()}
-      >
-        {children}
-      </Popover>
-      <style>
-        {`
-            .react-colorful__pointer {
-                width: 14px !important;
-                height: 14px !important;
-            }
-        `}
-      </style>
-    </>
+    <Popover placement={placement} showArrow={false} content={pickerContent()}>
+      {children}
+    </Popover>
   );
 };
+
+const ColorPickerWrapper = styled.div`
+  .react-colorful__pointer {
+    width: 14px !important;
+    height: 14px !important;
+  }
+`;

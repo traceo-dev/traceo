@@ -15,11 +15,14 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, ranges }) => {
   const { application } = useApplication();
 
   const onClick = () => {
-    navigate(`/app/${application.id}/metrics/preview/${metric.id}?name=${metric.name}`);
+    navigate({
+      pathname: `/app/${application.id}/metrics/preview/${metric.id}`,
+      search: `?from=${ranges[0]}&to=${ranges[1]}`
+    });
   };
 
   return (
-    <div className="h-60 border border-solid border-secondary p-2 cursor-pointer rounded-md bg-canvas">
+    <div className="h-60 p-2 cursor-pointer rounded-md bg-canvas">
       <Space className="w-full" direction="vertical" onClick={onClick}>
         <Space className="w-full pb-5 pt-1 justify-center">
           <Typography>{metric?.name}</Typography>
