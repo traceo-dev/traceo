@@ -15,7 +15,7 @@ interface Props {
 const PLOT_COLOR = "#04785A";
 
 const IncidentsListPlot: FC<Props> = ({ errors }) => {
-  const plotType = localStorageService.get<any>(LocalStorage.PlotType);
+  const plotType = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
 
   const dataSource = useMemo(() => {
     return normalizePlotData(statisticUtils.parseIncidentsTablePlotData(errors));

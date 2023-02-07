@@ -19,15 +19,12 @@ const MetricPlot: FC<Props> = ({ metric, ranges }) => {
     execute();
   }, [ranges, metric]);
 
-  const seriesFields = useMemo(() => {
-    return (
-      metric?.series?.reduce<string[]>((acc, serie) => {
-        acc.push(serie.field);
+  const seriesFields =
+    metric?.series?.reduce<string[]>((acc, serie) => {
+      acc.push(serie.field);
 
-        return acc;
-      }, []) || []
-    );
-  }, [metric]);
+      return acc;
+    }, []) || [];
 
   const { data: datasource, execute } = useRequest<MetricsResponse[]>({
     url: `/api/metrics/${application.id}/datasource`,

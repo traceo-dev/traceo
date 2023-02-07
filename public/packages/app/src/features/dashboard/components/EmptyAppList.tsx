@@ -17,7 +17,7 @@ export const EmptyAppList: FC<Props> = ({ constraints }) => {
           </Typography>
         ) : (
           <Typography>
-            Contact the administrator and start monitoring the applications.
+            Contact the administrator and start monitoring applications.
           </Typography>
         )
       }

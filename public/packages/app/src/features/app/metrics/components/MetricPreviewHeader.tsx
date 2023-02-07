@@ -11,6 +11,7 @@ import { ApiResponse, IMetric } from "@traceo/types";
 import { StoreState } from "@store/types";
 import { DraftFunction } from "use-immer";
 import { loadMetric } from "../state/actions";
+import { useMetricsRange } from "src/core/hooks/useMetricsRange";
 
 interface Props {
   currentOptions: DeepPartial<IMetric>;
@@ -29,6 +30,7 @@ export const MetricPreviewHeader: FC<Props> = ({
   const { id } = useParams();
   const { metric } = useSelector((state: StoreState) => state.metrics);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
+  const { ranges } = useMetricsRange();
 
   const onSave = async () => {
     setSaveLoading(true);
@@ -38,11 +40,13 @@ export const MetricPreviewHeader: FC<Props> = ({
         currentOptions
       )
       .then(() => {
-        // const payload = {
-        //   appId: id,
-        //   metricId: metric.options.id
-        // };
-        // dispatch(loadMetric(payload));
+        const payload = {
+          appId: id,
+          metricId: metric.options.id,
+          from: ranges[0],
+          to: ranges[1]
+        };
+        dispatch(loadMetric(payload));
       })
       .finally(() => {
         setSaveLoading(false);
@@ -57,16 +61,21 @@ export const MetricPreviewHeader: FC<Props> = ({
     dispatch(toggleNavbar(false));
   };
 
+  const onBack = () => {
+    navigate({
+      pathname: `/app/${id}/metrics`,
+      search: `?from=${ranges[0]}&to=${ranges[1]}`
+    });
+    dispatch(toggleNavbar(false));
+  };
+
   return (
     <PageHeader
       className="mb-5"
       title={
         <Space direction="vertical" className="gap-0 w-full">
           <Space
-            onClick={() => {
-              navigate(-1);
-              dispatch(toggleNavbar(false));
-            }}
+            onClick={onBack}
             className="max-w-min text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 hover:text-white"
           >
             <ArrowLeftOutlined />
@@ -75,9 +84,9 @@ export const MetricPreviewHeader: FC<Props> = ({
             </Typography>
           </Space>
           <Typography className="text-white text-3xl" weight="semibold">
-            {metric?.options?.name}
+            {currentOptions?.name}
           </Typography>
-          <Typography className="pt-2">{metric?.options?.description}</Typography>
+          <Typography className="pt-2">{currentOptions?.description}</Typography>
         </Space>
       }
       suffix={

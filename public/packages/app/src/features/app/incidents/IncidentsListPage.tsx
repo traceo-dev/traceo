@@ -34,7 +34,7 @@ export const IncidentsListPage = () => {
   const [sortBy, setSortBy] = useState<IncidentSortBy>(IncidentSortBy.LAST_SEEN);
   const [status, setStatus] = useState<IncidentStatusSearch>(IncidentStatusSearch.ALL);
 
-  const plot = localStorageService.get<any>(LocalStorage.PlotType);
+  const plot = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
   const [plotType, setPlotType] = useState<INCIDENT_PLOT_TYPE>(plot);
 
   const queryParams: ApiQueryParams = {

@@ -75,7 +75,7 @@ const MetricsPage = () => {
         >
           <Row gap="2" cols={12}>
             {filteredMetrics?.map((metric, index) => (
-              <Col span={4} key={index}>
+              <Col span={6} key={index}>
                 <MetricCard metric={metric} ranges={ranges} />
               </Col>
             ))}

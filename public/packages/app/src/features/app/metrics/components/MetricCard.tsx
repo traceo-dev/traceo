@@ -1,10 +1,9 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { IMetric } from "@traceo/types";
-import { Typography, Space, Tooltip } from "@traceo/ui";
+import { Space, Tooltip } from "@traceo/ui";
 import { MetricCardPlot } from "../../../../core/components/Plots";
-import { useApplication } from "../../../../core/hooks/useApplication";
 
 interface MetricCardProps {
   metric: IMetric;
@@ -12,28 +11,27 @@ interface MetricCardProps {
 }
 export const MetricCard: FC<MetricCardProps> = ({ metric, ranges }) => {
   const navigate = useNavigate();
-  const { application } = useApplication();
+  const { id } = useParams();
 
   const onClick = () => {
     navigate({
-      pathname: `/app/${application.id}/metrics/preview/${metric.id}`,
+      pathname: `/app/${id}/metrics/preview/${metric.id}`,
       search: `?from=${ranges[0]}&to=${ranges[1]}`
     });
   };
 
   return (
-    <div className="h-60 p-2 cursor-pointer rounded-md bg-canvas">
+    <div className="pb-5 cursor-pointer rounded-md bg-canvas">
       <Space className="w-full" direction="vertical" onClick={onClick}>
-        <Space className="w-full pb-5 pt-1 justify-center">
-          <Typography>{metric?.name}</Typography>
-          {metric?.description && (
-            <Tooltip title={metric?.description}>
-              <QuestionCircleOutlined className="text-xs" />
-            </Tooltip>
-          )}
-        </Space>
-
-        <MetricCardPlot metric={metric} ranges={ranges} />
+        <div className="flex flex-row border-bottom p-3 items-center">
+          <span className="font-semibold text-md pr-2">{metric?.name}</span>
+          <Tooltip title={metric?.description}>
+            <QuestionCircleOutlined className="text-xs" />
+          </Tooltip>
+        </div>
+        <div className="p-2">
+          <MetricCardPlot metric={metric} ranges={ranges} />
+        </div>
       </Space>
     </div>
   );

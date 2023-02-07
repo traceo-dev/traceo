@@ -28,9 +28,10 @@ const Login = () => {
       .then((res) => {
         if (res.status === "success") {
           goToTraceo();
+        } else {
+          setInvalid(true);
         }
       })
-      .catch(() => setInvalid(true))
       .finally(() => setLoading(false));
 
     setLoading(false);

@@ -18,11 +18,13 @@ export const useMetricsRange = () => {
   ]);
 
   useEffect(() => {
+    console.log("change");
     const params = new URLSearchParams(location.search);
     params.set("from", ranges[0].toString());
     params.set("to", ranges[1].toString());
-    const rangeParams = searchParams.toString();
+    const rangeParams = params.toString();
 
+    console.log(rangeParams);
     navigate(`${location.pathname}?${rangeParams}`);
   }, [ranges]);
 
