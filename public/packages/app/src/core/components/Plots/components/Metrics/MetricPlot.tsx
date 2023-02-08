@@ -15,10 +15,6 @@ const ReactECharts = lazy(() => import("echarts-for-react"));
 const MetricPlot: FC<Props> = ({ metric, ranges }) => {
   const { application } = useApplication();
 
-  useEffect(() => {
-    execute();
-  }, [ranges, metric]);
-
   const seriesFields =
     metric?.series?.reduce<string[]>((acc, serie) => {
       acc.push(serie.field);
@@ -26,7 +22,11 @@ const MetricPlot: FC<Props> = ({ metric, ranges }) => {
       return acc;
     }, []) || [];
 
-  const { data: datasource, execute } = useRequest<MetricsResponse[]>({
+  const {
+    data: datasource,
+    execute,
+    isLoading
+  } = useRequest<MetricsResponse[]>({
     url: `/api/metrics/${application.id}/datasource`,
     params: {
       fields: seriesFields,
@@ -35,9 +35,9 @@ const MetricPlot: FC<Props> = ({ metric, ranges }) => {
     }
   });
 
-  if (!datasource) {
-    return <MetricLoading />;
-  }
+  useEffect(() => {
+    execute();
+  }, [ranges, metric]);
 
   const options = {
     ...commonOptions({
@@ -59,11 +59,12 @@ const MetricPlot: FC<Props> = ({ metric, ranges }) => {
 
   return (
     <ConditionalWrapper
-      // isLoading={isLoading}
-      isEmpty={datasource.length === 0}
+      // isLoading={isLoading || !datasource}
+      isEmpty={datasource?.length === 0}
       emptyView={<DataNotFound className="text-2xs" label="Data not found" />}
     >
       <ReactECharts
+        key={metric.id}
         style={{
           height: "150px"
         }}

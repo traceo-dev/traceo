@@ -11,7 +11,6 @@ import { BarChartOutlined, LoadingOutlined } from "@ant-design/icons";
 import { MetricCard } from "./components/MetricCard";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { notify } from "../../../core/utils/notify";
-import { searchMetric } from "./utils/searchUtil";
 import { metricsApi } from "./api";
 import { InputSearch, Button, Card, Row, Col, Divider } from "@traceo/ui";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
@@ -30,8 +29,12 @@ const MetricsPage = () => {
   const { ranges, setRanges } = useMetricsRange();
 
   useEffect(() => {
-    dispatch(loadMetrics());
-  }, [application]);
+    dispatch(
+      loadMetrics({
+        search
+      })
+    );
+  }, [search]);
 
   const reloadMetrics = async () => {
     await metricsApi.reload(application.id, (e) => setLoading(e));
@@ -42,8 +45,6 @@ const MetricsPage = () => {
 
   const isConnectedSuccessfully =
     application?.influxDS?.connStatus === CONNECTION_STATUS.CONNECTED;
-
-  const filteredMetrics = searchMetric(search, metrics) || [];
 
   const renderContent = () => {
     if (!isConnectedTSDB) {
@@ -69,12 +70,12 @@ const MetricsPage = () => {
         </SearchWrapper>
         <Divider className="my-5" />
         <ConditionalWrapper
-          isEmpty={filteredMetrics?.length === 0}
+          isEmpty={metrics?.length === 0}
           emptyView={<EmptyMetricsList constraints={search} />}
           isLoading={!hasFetched}
         >
           <Row gap="2" cols={12}>
-            {filteredMetrics?.map((metric, index) => (
+            {metrics?.map((metric, index) => (
               <Col span={6} key={index}>
                 <MetricCard metric={metric} ranges={ranges} />
               </Col>

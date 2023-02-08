@@ -3,7 +3,7 @@ import { Controller, Get, Param } from "@nestjs/common";
 import { Body, Patch, UseGuards } from "@nestjs/common/decorators";
 import { ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "@common/decorators/auth-guard.decorator";
-import { MetricQueryDto, UpdateMetricDto } from "@common/types/dto/metrics.dto";
+import { MetricQueryDto, MetricsQueryDto, UpdateMetricDto } from "@common/types/dto/metrics.dto";
 import { ApiResponse } from "@common/types/dto/response.dto";
 import { IMetric, MetricPreviewType, MetricsResponse } from "@traceo/types";
 import { MetricsService } from "./metrics.service";
@@ -20,9 +20,10 @@ export class MetricsController {
 
     @Get('/:id')
     async getMetrics(
-        @Param('id') id: string
+        @Param('id') id: string,
+        @Query() query: MetricsQueryDto
     ): Promise<ApiResponse<IMetric[]>> {
-        return await this.metricsQueryService.getApplicationMetrics(id);
+        return await this.metricsQueryService.getApplicationMetrics(id, query);
     }
 
     @Get('/:id/preview/:metricId')

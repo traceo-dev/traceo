@@ -3,14 +3,17 @@ import api from "../../../../core/lib/api";
 import { ThunkResult } from "@store/types";
 import { metricLoaded, metricsLoaded } from "./reducers";
 
-export const loadMetrics = (): ThunkResult<void> => {
+type MetricsQuery = {
+    search: string;
+}
+export const loadMetrics = (query?: MetricsQuery): ThunkResult<void> => {
     return async (dispatch, getStore) => {
         const application = getStore().application.application;
         if (!application) {
             return;
         }
 
-        const { data } = await api.get<ApiResponse<IMetric[]>>(`/api/metrics/${application.id}`);
+        const { data } = await api.get<ApiResponse<IMetric[]>>(`/api/metrics/${application.id}`, query);
         dispatch(metricsLoaded(data));
     };
 };

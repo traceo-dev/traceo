@@ -14,10 +14,11 @@ export class MetricQueryDto {
     to: number;
 }
 
-
-// export class MetricRangeQueryDto {
-
-// }
+export class MetricsQueryDto {
+    @IsOptional()
+    @IsString()
+    search: string;
+}
 
 class UpdateTooltipMetricDto {
     @IsBoolean()
