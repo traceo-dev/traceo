@@ -1,23 +1,34 @@
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { loadIncident } from "../state/actions";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../../store";
 import { StoreState } from "@store/types";
 import { MenuRoute } from "@traceo/types";
 import {
+  ArrowLeftOutlined,
   BugOutlined,
   CommentOutlined,
   InfoCircleOutlined,
+  LeftOutlined,
   StockOutlined,
   SyncOutlined
 } from "@ant-design/icons";
 import { Page } from "../../../../core/components/Page";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
+import {
+  mapIncidentStatusIcon,
+  mapIncidentTwBgColor,
+  mapIncidentTwTextColor
+} from "./utils";
+import { joinClasses } from "src/core/utils/classes";
+import { useApplication } from "src/core/hooks/useApplication";
 
 export const IncidentPageWrapper = ({ children }) => {
   const { iid } = useParams();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { application } = useApplication();
   const { incident, hasFetched } = useSelector((state: StoreState) => state.incident);
 
   const menu: MenuRoute[] = [
@@ -45,17 +56,37 @@ export const IncidentPageWrapper = ({ children }) => {
     dispatch(loadIncident(iid));
   }, []);
 
+  const onBack = () => {
+    navigate(`/app/${application.id}/incidents`);
+  };
+
   return (
     <Page
       header={{
         title: (
-          <div>
-            <span>{incident.type}</span>
-            <IncidentStatusTag className="ml-5" status={incident.status} />
+          <div className="flex flex-col">
+            <div
+              onClick={() => onBack()}
+              className="flex flex-row text-xs gap-x-2 items-center cursor-pointer max-w-min"
+            >
+              <ArrowLeftOutlined />
+              <span className="text-2xs">INCIDENTS</span>
+            </div>
+            <div className="flex flex-row items-center">
+              <span>{incident.type}</span>
+              <div
+                className={joinClasses(
+                  mapIncidentTwTextColor[incident.status],
+                  "ml-2 text-md"
+                )}
+              >
+                {mapIncidentStatusIcon[incident.status]}
+              </div>
+            </div>
           </div>
         ),
         description: incident?.message,
-        icon: <BugOutlined />,
+        // icon: <BugOutlined />,
         suffix: (
           <SyncOutlined
             onClick={() => dispatch(loadIncident(iid))}

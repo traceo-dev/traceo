@@ -57,18 +57,19 @@ const MetricsPage = () => {
 
     return (
       <>
-        <SearchWrapper className="pt-2 justify-end">
-          <InputSearch
-            value={search}
-            onChange={setSearch}
-            placeholder="Search metric by name, description or series details"
-          />
-          <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
-          <Button icon={loading && <LoadingOutlined />} onClick={reloadMetrics}>
-            Refresh
-          </Button>
-        </SearchWrapper>
-        <Divider className="my-5" />
+        <Card className="rounded-md mb-2">
+          <SearchWrapper className="justify-end">
+            <InputSearch
+              value={search}
+              onChange={setSearch}
+              placeholder="Search metric by name, description or series details"
+            />
+            <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
+            <Button icon={loading && <LoadingOutlined />} onClick={reloadMetrics}>
+              Refresh
+            </Button>
+          </SearchWrapper>
+        </Card>
         <ConditionalWrapper
           isEmpty={metrics?.length === 0}
           emptyView={<EmptyMetricsList constraints={search} />}
@@ -94,9 +95,7 @@ const MetricsPage = () => {
         description: "View metrics from your app after connecting and configuring the SDK"
       }}
     >
-      <Page.Content>
-        <Card>{renderContent()}</Card>
-      </Page.Content>
+      <Page.Content>{renderContent()}</Page.Content>
     </Page>
   );
 };

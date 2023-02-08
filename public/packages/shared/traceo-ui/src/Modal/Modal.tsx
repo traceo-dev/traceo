@@ -31,7 +31,7 @@ export const Modal: FC<ModalProps> = (props: ModalProps) => {
   } = props;
 
   const bodyStyle = {
-    backgroundColor: "#1b1b28",
+    backgroundColor: "#181b1f",
     padding: 0
   };
 

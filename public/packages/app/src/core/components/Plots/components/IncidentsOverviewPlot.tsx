@@ -1,4 +1,4 @@
-import { Space } from "@traceo/ui"
+import { Space } from "@traceo/ui";
 import dateUtils from "../../../utils/date";
 import { statisticUtils } from "../../../utils/statistics";
 import { normalizePlotData, tooltipOptions } from "../utils";

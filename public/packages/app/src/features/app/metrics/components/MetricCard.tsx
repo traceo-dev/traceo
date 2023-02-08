@@ -21,10 +21,10 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, ranges }) => {
   };
 
   return (
-    <div className="pb-5 cursor-pointer rounded-md bg-canvas">
+    <div className="pb-5 cursor-pointer rounded-md bg-primary">
       <Space className="w-full" direction="vertical" onClick={onClick}>
-        <div className="flex flex-row border-bottom p-3 items-center">
-          <span className="font-semibold text-md pr-2">{metric?.name}</span>
+        <div className="flex flex-row border-bottom p-4 items-center">
+          <span className="text-sm pr-2">{metric?.name}</span>
           <Tooltip title={metric?.description}>
             <QuestionCircleOutlined className="text-xs" />
           </Tooltip>
