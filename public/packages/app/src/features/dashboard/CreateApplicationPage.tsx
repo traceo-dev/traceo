@@ -100,7 +100,7 @@ const CreateApplicationPage = () => {
     <Page>
       <Page.Content>
         <div className="w-full grid grid-cols-5">
-          <div className="col-span-1">
+          <div className="col-span-1 mr-3">
             <div className="flex flex-col">
               <div
                 onClick={() => onBack()}
@@ -113,6 +113,11 @@ const CreateApplicationPage = () => {
               <span className="text-xs pt-1">
                 Create new application by providing basic information.
               </span>
+              <Alert
+                type="success"
+                className="mt-9"
+                message="Select and configure time series provider to enable metrics collection. Remember that you can do this in any time."
+              />
             </div>
           </div>
           <div className="col-span-4 overflow-y-scroll">
@@ -154,16 +159,10 @@ const CreateApplicationPage = () => {
                     <Typography size="xl" weight="semibold">
                       Connect time series database
                     </Typography>
-
-                    <Alert
-                      type="success"
-                      className="mt-9"
-                      message="Select and configure time series provider to enable metrics collection. Remember that you can do this in any time."
-                    />
                     <FormItem
                       label="Time series provider"
                       error={errors.tsdbProvider}
-                      className="pt-3"
+                      className="pt-9"
                     >
                       <Select
                         isClearable

@@ -11,9 +11,12 @@ import { loadServerApplications } from "./state/applications/actions";
 import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 import { DataNotFound } from "../../core/components/DataNotFound";
 import { InputSearch, Button, Card } from "@traceo/ui";
+import { useNavigate } from "react-router-dom";
+import { navbarState } from "../app/state/navbar/reducers";
 
 export const ApplicationsListPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { applications, hasFetched } = useSelector(
     (state: StoreState) => state.serverApplications
   );
@@ -28,11 +31,20 @@ export const ApplicationsListPage = () => {
     dispatch(loadServerApplications(queryParams));
   };
 
+  const onNewApp = () => {
+    navigate("/dashboard/app/new");
+    dispatch(navbarState({ hidden: true }));
+  };
+
   return (
     <DashboardPageWrapper>
       <Card
         title="Applications list"
-        extra={<Button icon={<PlusOutlined />}>New aplication</Button>}
+        extra={
+          <Button onClick={() => onNewApp()} icon={<PlusOutlined />}>
+            New aplication
+          </Button>
+        }
       >
         <SearchWrapper className="pb-5">
           <InputSearch

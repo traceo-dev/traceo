@@ -42,7 +42,7 @@ export class AccountService {
 
     try {
       const url = gravatar.url(username || email, "retro");
-      const account: QueryDeepPartialEntity<Account> = {
+      const payload: Partial<Account> = {
         email,
         name,
         username: username.toLowerCase(),
@@ -53,9 +53,11 @@ export class AccountService {
         createdAt: dateUtils.toUnix()
       };
 
-      await this.entityManager.getRepository(Account).insert(account);
+      const account = await this.entityManager.getRepository(Account).save(payload);
 
-      return new ApiResponse("success", "New account has been created");
+      return new ApiResponse("success", "New account has been created", {
+        id: account.id
+      });
     } catch (error) {
       this.logger.error(`[${this.createAccount.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);

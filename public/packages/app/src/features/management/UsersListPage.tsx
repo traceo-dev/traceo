@@ -9,9 +9,11 @@ import { AccountsTable } from "./components/AccountManagement/AccountsTable";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { loadServerAccounts } from "./state/accounts/actions";
 import { InputSearch, Button, Card } from "@traceo/ui";
+import { useNavigate } from "react-router-dom";
 
 const UsersListPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { accounts, hasFetched } = useSelector(
     (state: StoreState) => state.serverAccounts
@@ -23,12 +25,16 @@ const UsersListPage = () => {
     dispatch(loadServerAccounts({ search }));
   }, [search]);
 
+  const onCreateNew = () => {
+    navigate("/dashboard/account/new");
+  };
+
   return (
     <DashboardPageWrapper>
       <Card
         title="Accounts list"
         extra={
-          <Button onClick={() => setOpenNewAccountDrawer(true)} icon={<PlusOutlined />}>
+          <Button onClick={() => onCreateNew()} icon={<PlusOutlined />}>
             New account
           </Button>
         }

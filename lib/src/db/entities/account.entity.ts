@@ -29,7 +29,7 @@ export class Account extends BaseEntity implements IAccount {
   @IsEmail()
   gravatar: string;
 
-  @Column({ select: false, nullable: false, type: 'varchar' })
+  @Column({ select: false, nullable: false, type: 'varchar', unique: false })
   password: string;
 
   @Column({ nullable: false })

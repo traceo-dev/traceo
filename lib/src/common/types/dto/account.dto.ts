@@ -14,7 +14,7 @@ export class CreateAccountDto {
     readonly password: string;
 
     @IsOptional()
-    @IsEmail()
+    // @IsEmail()
     @ApiPropertyOptional({ type: String, description: 'email' })
     readonly email: string;
 

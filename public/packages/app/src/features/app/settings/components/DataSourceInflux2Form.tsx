@@ -75,6 +75,14 @@ export const DataSourceInflux2Form = () => {
           <InfluxForm errors={errors} register={register} namePrefix={null} />
         )}
       </Form>
+      {isFailedConnection && (
+        <Alert
+          className="mt-5"
+          showIcon={true}
+          type="error"
+          message={application.influxConfig.connError}
+        />
+      )}
       {!isViewer && (
         <ButtonContainer justify="start">
           <Button loading={isLoading} type="submit" form="inlfux-provider-form">
@@ -91,15 +99,6 @@ export const DataSourceInflux2Form = () => {
             </Confirm>
           )}
         </ButtonContainer>
-      )}
-
-      {isFailedConnection && (
-        <Alert
-          className="mt-5"
-          showIcon={true}
-          type="error"
-          message={application.influxConfig.connError}
-        />
       )}
     </>
   );
