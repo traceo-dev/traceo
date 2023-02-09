@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
 import { ApplicationNotExistsError } from '@common/helpers/errors';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { TSDB_PROVIDER, IInfluxDs, DataSourceConnStatus } from '@traceo/types';
+import { TsdbProvider, IInfluxConfigDto, DataSourceConnStatus } from '@traceo/types';
 import { Application } from '@db/entities/application.entity';
 import { EntityManager } from 'typeorm';
 import { BaseDataSourceDto } from '@common/types/dto/data-source';
@@ -25,8 +25,8 @@ export class DataSourceService {
             return;
         }
 
-        switch (app.connectedTSDB) {
-            case TSDB_PROVIDER.INFLUX2: {
+        switch (app.tsdbProvider) {
+            case TsdbProvider.INFLUX2: {
                 if (!app.influxDS) {
                     return;
                 }
@@ -43,13 +43,13 @@ export class DataSourceService {
             throw new ApplicationNotExistsError();
         }
 
-        if (!app?.connectedTSDB || !app.influxDS) {
+        if (!app?.tsdbProvider || !app.influxConfig) {
             return null;
         }
 
         return {
-            connectedTSDB: app.connectedTSDB,
-            influxDS: app.influxDS
+            tsdbProvider: app.tsdbProvider,
+            influxDS: app.influxConfig
         };
     }
 
@@ -62,7 +62,7 @@ export class DataSourceService {
         config: T
     ): Promise<ApiResponse<DataSourceConnStatus>> {
         switch (config.provider) {
-            case TSDB_PROVIDER.INFLUX2: {
+            case TsdbProvider.INFLUX2: {
                 return await this.influxService.saveInfluxDataSource(config);
             }
             default:
@@ -70,13 +70,13 @@ export class DataSourceService {
         }
     }
 
-    async getConnectedDataSource(id: string): Promise<ApiResponse<IInfluxDs>> {
+    async getConnectedDataSource(id: string): Promise<ApiResponse<IInfluxConfigDto>> {
         const app = await this.getDataSourceOrThrowError(id);
         if (!app) {
             return;
         }
-        switch (app.connectedTSDB) {
-            case TSDB_PROVIDER.INFLUX2: {
+        switch (app.tsdbProvider) {
+            case TsdbProvider.INFLUX2: {
                 const response = app?.influxDS;
                 return new ApiResponse("success", undefined, response);
             }
@@ -92,9 +92,9 @@ export class DataSourceService {
                 return;
             }
 
-            switch (app.connectedTSDB) {
-                case TSDB_PROVIDER.INFLUX2: {
-                    await manager.getRepository(Application).update({ id }, { connectedTSDB: null, influxDS: null })
+            switch (app.tsdbProvider) {
+                case TsdbProvider.INFLUX2: {
+                    await manager.getRepository(Application).update({ id }, { tsdbProvider: null, influxConfig: null })
                     return new ApiResponse("success", "Data source removed");
                 }
                 default:

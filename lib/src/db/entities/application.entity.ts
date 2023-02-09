@@ -10,7 +10,7 @@ import { Account } from "./account.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IApplication, ISecurity, IInfluxDs, IRuntime, TSDB_PROVIDER, IAccount, IAmr, IIncident } from "@traceo/types";
+import { IApplication, ISecurity, IInfluxConfigDto, IRuntime, TsdbProvider, IAccount, IAmr, IIncident, ApplicationTechnology } from "@traceo/types";
 import { Metric } from "./metric.entity";
 
 @Entity()
@@ -23,6 +23,9 @@ export class Application extends BaseEntity implements IApplication {
 
   @Column({ type: 'varchar', unique: true })
   name: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  technology: ApplicationTechnology;
 
   @Column({
     type: "simple-json",
@@ -61,7 +64,7 @@ export class Application extends BaseEntity implements IApplication {
     },
   )
   members?: IAmr[];
-  membersCount?: number;
+  membersCount: number;
 
   @OneToMany(() => Incident, (incident) => incident.application, {
     onUpdate: "CASCADE",
@@ -75,7 +78,7 @@ export class Application extends BaseEntity implements IApplication {
     name: "incidents_count",
     default: 0
   })
-  incidentsCount?: number = 0;
+  incidentsCount: number = 0;
 
   @Column({
     type: "bigint",
@@ -83,7 +86,7 @@ export class Application extends BaseEntity implements IApplication {
     name: "errors_count",
     default: 0
   })
-  errorsCount?: number = 0;
+  errorsCount: number = 0;
 
   @Column({
     type: "simple-json",
@@ -97,14 +100,14 @@ export class Application extends BaseEntity implements IApplication {
     nullable: true,
     name: "influx_ds"
   })
-  influxDS?: IInfluxDs;
+  influxConfig?: IInfluxConfigDto;
 
   @Column({
     type: "varchar",
     nullable: true,
     name: "connected_tsdb"
   })
-  connectedTSDB?: TSDB_PROVIDER;
+  tsdbProvider?: TsdbProvider;
 
   @OneToMany(() => Metric, (metric) => metric.application, {
     onUpdate: "CASCADE",

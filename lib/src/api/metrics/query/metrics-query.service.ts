@@ -3,7 +3,7 @@ import { DataSourceService } from "../../../api/data-source/dataSource.service";
 import { INTERNAL_SERVER_ERROR } from "@common/helpers/constants";
 import { MetricQueryDto, MetricsQueryDto } from "@common/types/dto/metrics.dto";
 import { ApiResponse } from "@common/types/dto/response.dto";
-import { TSDB_PROVIDER, IMetric, IMetricSerie, MetricPreviewType, MetricsResponse } from "@traceo/types";
+import { TsdbProvider, IMetric, IMetricSerie, MetricPreviewType, MetricsResponse } from "@traceo/types";
 import { Metric } from "@db/entities/metric.entity";
 import { InfluxService } from "../../../providers/influx/influx.service";
 import { Brackets, EntityManager } from "typeorm";
@@ -26,8 +26,8 @@ export class MetricsQueryService {
             return;
         }
 
-        switch (app.connectedTSDB) {
-            case TSDB_PROVIDER.INFLUX2: {
+        switch (app.tsdbProvider) {
+            case TsdbProvider.INFLUX2: {
                 const response = await this.influxService.queryData(appId, app.influxDS, query);
                 return new ApiResponse("success", undefined, response);
             }

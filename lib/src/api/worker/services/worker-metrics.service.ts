@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { ISDKMetrics, TSDB_PROVIDER } from "@traceo/types";
+import { ISDKMetrics, TsdbProvider } from "@traceo/types";
 import { BaseWorkerService } from "@common/base/worker/base-worker.service";
 import { Application } from "@db/entities/application.entity";
 import { InfluxService } from "../../../providers/influx/influx.service";
@@ -23,18 +23,18 @@ export class WorkerMetricsService extends BaseWorkerService<ISDKMetrics> {
             return;
         }
 
-        if (!app?.connectedTSDB) {
+        if (!app?.tsdbProvider) {
             this.logger.error(`Metrics are sent to appID: ${id} but metrics datasource are not connected!`);
             return;
         }
 
-        switch (app.connectedTSDB) {
-            case TSDB_PROVIDER.INFLUX2: {
-                if (!app?.influxDS) {
+        switch (app.tsdbProvider) {
+            case TsdbProvider.INFLUX2: {
+                if (!app?.influxConfig) {
                     return;
                 }
 
-                await this.influxService.writeData(id, app.influxDS, data);
+                await this.influxService.writeData(id, app.influxConfig, data);
             }
             default:
                 break;

@@ -14,7 +14,7 @@ import { CreateApplicationDto, ApplicationDto } from '@common/types/dto/applicat
 import { Application } from '@db/entities/application.entity';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { Log } from '@db/entities/log.entity';
-import { MemberRole } from '@traceo/types';
+import { MemberRole, TsdbProvider } from '@traceo/types';
 import { MetricsService } from '../metrics/metrics.service';
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 
@@ -43,7 +43,9 @@ export class ApplicationService {
     return this.entityManager.transaction(async (manager) => {
       const app = await this.applicationQueryService.getDtoBy({ name: data.name });
       if (app) {
-        return new ApiResponse("error", "Application with this name already exists");
+        return new ApiResponse("error", undefined, {
+          error: "Application with this name already exists"
+        });
       }
 
       const account = await this.accountQueryService.getDtoBy({ id });
@@ -52,7 +54,7 @@ export class ApplicationService {
       }
 
       const url = gravatar.url(data.name, "identicon");
-      const applicationPayload: Partial<Application> = {
+      const payload: Partial<Application> = {
         ...data,
         id: uuidService.generate(),
         owner: account,
@@ -64,9 +66,25 @@ export class ApplicationService {
         isIntegrated: false
       };
 
+      if (data.tsdbProvider) {
+        const tsdbConfiguration = {
+          ...data.tsdbConfiguration,
+          connStatus: null,
+          connError: null
+        };
+
+        payload.tsdbProvider = data.tsdbProvider;
+
+        if (payload.tsdbProvider === TsdbProvider.INFLUX2) {
+          payload.influxConfig = tsdbConfiguration;
+        }
+      }
+
       const application = await manager
         .getRepository(Application)
-        .save(applicationPayload);
+        .save(payload);
+
+      console.log("payload: ", application);
 
       if (username !== ADMIN_NAME) {
         const admin = await this.accountQueryService.getDtoBy({ email: ADMIN_EMAIL });
@@ -87,7 +105,10 @@ export class ApplicationService {
 
       await this.metricsService.addDefaultMetrics(application, manager);
 
-      return new ApiResponse("success", "Application successfully created", application);
+      return new ApiResponse("success", "Application successfully created", {
+        redirectUrl: `/app/${application.id}/overview`,
+        id: application.id
+      });
     }).catch((err: Error) => {
       this.logger.error(`[${this.create.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);

@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Post, Query, UseGuards } from '@nestjs/c
 import { ApiTags } from '@nestjs/swagger';
 import { AuthAccount } from '@common/decorators/auth-user.decorator';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { RequestUser, IInfluxDs, DataSourceConnStatus } from '@traceo/types';
+import { RequestUser, IInfluxConfigDto, DataSourceConnStatus } from '@traceo/types';
 import { GuardsService } from '@common/guards/guards.service';
 import { DataSourceService } from './dataSource.service';
 import { InfluxConfigurationDto } from '@common/types/dto/influx.dto';
@@ -18,7 +18,7 @@ export class DataSourceController {
     ) { }
 
     @Get()
-    public async getDataSource(@Query("id") id: string): Promise<ApiResponse<IInfluxDs>> {
+    public async getDataSource(@Query("id") id: string): Promise<ApiResponse<IInfluxConfigDto>> {
         return await this.dsService.getConnectedDataSource(id);
     }
 

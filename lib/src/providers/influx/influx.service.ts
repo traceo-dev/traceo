@@ -4,7 +4,7 @@ import { InfluxDB, Point } from '@influxdata/influxdb-client'
 import { Application } from '@db/entities/application.entity';
 import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
 import { InfluxConfigurationDto } from '@common/types/dto/influx.dto';
-import { IDefaultSDKMetrics, ISDKMetrics, MetricsResponse, IInfluxDs, CONNECTION_STATUS, TSDB_PROVIDER, DataSourceConnStatus } from '@traceo/types';
+import { IDefaultSDKMetrics, ISDKMetrics, MetricsResponse, IInfluxConfigDto, ConnectionStatus, TsdbProvider, DataSourceConnStatus } from '@traceo/types';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { MetricQueryDto } from '@common/types/dto/metrics.dto';
 import { BaseDataSourceDto } from '@common/types/dto/data-source';
@@ -60,18 +60,18 @@ export class InfluxService {
         manager: EntityManager = this.entityManager
     ): Promise<DataSourceConnStatus> {
         const app = await manager.getRepository(Application).findOneBy({ id: appId });
-        const dataSource = config ? { ...config } : { ...app.influxDS };
+        const dataSource = config ? { ...config } : { ...app.influxConfig };
         const state: DataSourceConnStatus = await this.connectionTest(dataSource);
 
         await manager.getRepository(Application).update({ id: appId }, {
-            influxDS: { ...dataSource, connError: state.error, connStatus: state.status },
-            connectedTSDB: TSDB_PROVIDER.INFLUX2
+            influxConfig: { ...dataSource, connError: state.error, connStatus: state.status },
+            tsdbProvider: TsdbProvider.INFLUX2
         });
 
         return state;
     }
 
-    public async writeData(appId: string, config: Partial<IInfluxDs>, data: ISDKMetrics): Promise<void> {
+    public async writeData(appId: string, config: Partial<IInfluxConfigDto>, data: ISDKMetrics): Promise<void> {
         const { bucket, url, token, org } = config;
 
         if (!url || !token) {
@@ -92,17 +92,17 @@ export class InfluxService {
             .then(async () => {
                 this.logger.log(`New metrics write to InfluxDB for appId: ${appId}`);
 
-                if (config.connStatus === CONNECTION_STATUS.FAILED) {
-                    const influxDS = { ...config, connStatus: CONNECTION_STATUS.CONNECTED, connError: null };
-                    await appRef.update({ id: appId }, { influxDS });
+                if (config.connStatus === ConnectionStatus.FAILED) {
+                    const influxDS = { ...config, connStatus: ConnectionStatus.CONNECTED, connError: null };
+                    await appRef.update({ id: appId }, { influxConfig: influxDS });
                 }
             })
             .catch(async (error) => {
                 this.logger.error(`Cannot write new metrics to InfluxDB for appId: ${appId}. Caused by: ${error}`);
 
-                if (config.connStatus === CONNECTION_STATUS.CONNECTED) {
-                    const influxDS = { ...config, connStatus: CONNECTION_STATUS.FAILED, connError: String(error["code"]) };
-                    await appRef.update({ id: appId }, { influxDS });
+                if (config.connStatus === ConnectionStatus.CONNECTED) {
+                    const influxDS = { ...config, connStatus: ConnectionStatus.FAILED, connError: String(error["code"]) };
+                    await appRef.update({ id: appId }, { influxConfig: influxDS });
                 }
             });
     }
@@ -126,12 +126,12 @@ export class InfluxService {
             .close()
             .then(async () => {
                 return {
-                    status: CONNECTION_STATUS.CONNECTED
+                    status: ConnectionStatus.CONNECTED
                 }
             })
             .catch(async (error) => {
                 return {
-                    status: CONNECTION_STATUS.FAILED,
+                    status: ConnectionStatus.FAILED,
                     error: `${error["errno"]} : ${error["code"]}`
                 }
             });
@@ -142,7 +142,7 @@ export class InfluxService {
      */
     public async queryData(
         appId: string,
-        config: IInfluxDs,
+        config: IInfluxConfigDto,
         dtoQuery: MetricQueryDto
     ): Promise<MetricsResponse[]> {
         const { url, token, org, bucket } = config;

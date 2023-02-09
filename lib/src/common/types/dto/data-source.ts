@@ -1,15 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, IsNotEmpty, IsEnum } from "class-validator";
-import { TSDB_PROVIDER } from "@traceo/types";
+import { IsString, IsNotEmpty, IsEnum, IsOptional } from "class-validator";
+import { TsdbProvider } from "@traceo/types";
 
 export class BaseDataSourceDto {
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     @ApiProperty({ description: "appId" })
     public appId?: string;
 
-    @IsEnum(TSDB_PROVIDER)
-    @IsNotEmpty()
+    @IsEnum(TsdbProvider)
+    @IsOptional()
     @ApiProperty({ description: "provider" })
-    public provider: TSDB_PROVIDER;
+    public provider: TsdbProvider;
 }

@@ -57,7 +57,7 @@ export class ApplicationQueryService extends BaseQueryService<
   }
 
   public selectedColumns(): string[] {
-    return ["id", "name", "gravatar", "lastIncidentAt", "incidentsCount", "connectedTSDB", "isIntegrated"];
+    return ["id", "name", "gravatar", "lastIncidentAt", "incidentsCount", "tsdbProvider", "isIntegrated"];
   }
 
   public async getApplicationLogs(query: ApplicationLogsQuery): Promise<ApiResponse<ILog[]>> {
