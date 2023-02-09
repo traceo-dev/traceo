@@ -1,6 +1,6 @@
-import { CONNECTION_STATUS } from "./tsdb";
+import { ConnectionStatus } from "./tsdb";
 
 export interface BaseProviderDto {
-    connStatus: CONNECTION_STATUS;
+    connStatus: ConnectionStatus;
     connError: string;
 }

@@ -29,7 +29,7 @@ export const ConnectionError = () => {
       <Typography className="pt-0">
         Click Reload button to check your connection health.
       </Typography>
-      <Typography size="xs">Reason: {application?.influxDS?.connError}</Typography>
+      <Typography size="xs">Reason: {application?.influxConfig?.connError}</Typography>
       <Space className="mt-7 gap-3 w-full justify-center">
         <Button
           onClick={() => navigate(`/app/${application.id}/settings/datasource`)}

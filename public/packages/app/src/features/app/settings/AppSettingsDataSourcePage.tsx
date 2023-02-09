@@ -1,7 +1,7 @@
 import { Space, Typography, Card, Select } from "@traceo/ui";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { useEffect, useState } from "react";
-import { TSDB_PROVIDER } from "@traceo/types";
+import { TsdbProvider } from "@traceo/types";
 import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
@@ -11,7 +11,7 @@ const dataSourceOptions = [
   {
     label: "InfluxDB",
     description: "High-speed read and write database. Supported in version +1.8.",
-    value: TSDB_PROVIDER.INFLUX2
+    value: TsdbProvider.INFLUX2
   }
 ];
 
@@ -19,17 +19,17 @@ export const AppSettingsDataSourcePage = () => {
   const { application } = useApplication();
   const { isViewer } = useMemberRole();
 
-  const [selectedDS, setSelectedDS] = useState<TSDB_PROVIDER>(null);
+  const [selectedDS, setSelectedDS] = useState<TsdbProvider>(null);
 
   useEffect(() => {
-    setSelectedDS(application?.connectedTSDB);
+    setSelectedDS(application?.tsdbProvider);
   }, [application]);
 
   const isDisabled =
-    isViewer || (application && !!application.connectedTSDB) ? true : false;
+    isViewer || (application && !!application.tsdbProvider) ? true : false;
 
   const renderForm = () => {
-    if (selectedDS === TSDB_PROVIDER.INFLUX2) {
+    if (selectedDS === TsdbProvider.INFLUX2) {
       return <DataSourceInflux2Form />;
     }
 

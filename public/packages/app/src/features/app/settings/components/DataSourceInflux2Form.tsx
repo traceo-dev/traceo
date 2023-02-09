@@ -2,7 +2,7 @@ import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { useState, useMemo } from "react";
 import { useAppDispatch } from "../../../../store";
-import { CONNECTION_STATUS, InfluxDS, TSDB_PROVIDER, ApiResponse } from "@traceo/types";
+import { ConnectionStatus, InfluxDS, TsdbProvider, ApiResponse } from "@traceo/types";
 import { INFLUX2_DOCS } from "../../../../core/utils/constants";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
 import { loadApplication } from "../../state/application/actions";
@@ -17,6 +17,7 @@ import {
   Alert
 } from "@traceo/ui";
 import { useApplication } from "../../../../core/hooks/useApplication";
+import { InfluxForm } from "src/core/components/Forms/InfluxForm";
 
 export const DataSourceInflux2Form = () => {
   const dispatch = useAppDispatch();
@@ -25,12 +26,12 @@ export const DataSourceInflux2Form = () => {
   const [isDeletLoading, setDeleteLoading] = useState<boolean>(false);
   const { isViewer } = useMemberRole();
 
-  const isDeleteBtn = !!application.connectedTSDB;
+  const isDeleteBtn = !!application.tsdbProvider;
   const isFailedConnection =
-    application.influxDS?.connStatus === CONNECTION_STATUS.FAILED;
+    application.influxConfig?.connStatus === ConnectionStatus.FAILED;
 
   const defaultValues = useMemo(() => {
-    return { ...application?.influxDS };
+    return { ...application?.influxConfig };
   }, [application]);
 
   const update = async (form: InfluxDS) => {
@@ -38,7 +39,7 @@ export const DataSourceInflux2Form = () => {
     await api
       .post("/api/datasource/config", {
         appId: application.id,
-        provider: TSDB_PROVIDER.INFLUX2,
+        provider: TsdbProvider.INFLUX2,
         ...form
       })
       .finally(() => {
@@ -71,43 +72,7 @@ export const DataSourceInflux2Form = () => {
         className="mt-3"
       >
         {({ register, errors }) => (
-          <>
-            <FormItem error={errors.url} label="URL" disabled={isViewer}>
-              <Input
-                {...register("url", {
-                  required: true,
-                  pattern: {
-                    value: /^((https|http):\/\/.*):?(\d*)\/?(.*)/,
-                    message: "This url is invalid!"
-                  }
-                })}
-                placeholder="http://localhost:8086/"
-              />
-            </FormItem>
-            <FormItem error={errors.token} label="Token" disabled={isViewer}>
-              <InputSecret
-                {...register("token", {
-                  required: true
-                })}
-              />
-            </FormItem>
-            <div className="w-full flex flex-row justify-between gap-2">
-              <FormItem error={errors.org} label="Organization" disabled={isViewer}>
-                <Input
-                  {...register("org", {
-                    required: true
-                  })}
-                />
-              </FormItem>
-              <FormItem error={errors.bucket} label="Bucket name" disabled={isViewer}>
-                <Input
-                  {...register("bucket", {
-                    required: true
-                  })}
-                />
-              </FormItem>
-            </div>
-          </>
+          <InfluxForm errors={errors} register={register} namePrefix={null} />
         )}
       </Form>
       {!isViewer && (
@@ -128,22 +93,12 @@ export const DataSourceInflux2Form = () => {
         </ButtonContainer>
       )}
 
-      <Alert
-        showIcon={true}
-        type="info"
-        className="mt-12"
-        message={
-          <Link href={INFLUX2_DOCS} target="_blank" className="hover:text-gray-200">
-            Official documentation
-          </Link>
-        }
-      />
       {isFailedConnection && (
         <Alert
           className="mt-5"
           showIcon={true}
           type="error"
-          message={application.influxDS.connError}
+          message={application.influxConfig.connError}
         />
       )}
     </>

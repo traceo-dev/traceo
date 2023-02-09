@@ -2,7 +2,7 @@ import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import dateUtils from "../../../core/utils/date";
-import { Application, MemberApplication } from "@traceo/types";
+import { IApplication, MemberApplication } from "@traceo/types";
 import { Typography, ListCard, Space, Avatar, Tooltip } from "@traceo/ui";
 import { SmallAppIncidentsPlot } from "../../../core/components/Plots";
 
@@ -41,7 +41,7 @@ export const AppCard: FC<Props> = ({ app }) => {
   );
 };
 
-const AppDetails = (app: Application) => {
+const AppDetails = (app: IApplication) => {
   const lastError = app?.lastIncidentAt
     ? "Last error " + dateUtils.fromNow(app?.lastIncidentAt)
     : "-- : --";

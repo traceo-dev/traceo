@@ -1,6 +1,6 @@
 import { FC, useState, FormEvent } from "react";
 import { useRequest } from "../../hooks/useRequest";
-import { Application, MemberRole } from "@traceo/types";
+import { IApplication, MemberRole } from "@traceo/types";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
 import api from "../../lib/api";
@@ -31,7 +31,7 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { data: applications = [], isLoading } = useRequest<Application[]>({
+  const { data: applications = [], isLoading } = useRequest<IApplication[]>({
     url: "/api/applications/search",
     params: {
       order: "DESC",

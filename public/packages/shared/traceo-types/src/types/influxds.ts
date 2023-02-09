@@ -1,6 +1,6 @@
 import { BaseProviderDto } from "./provider";
 
-export interface IInfluxDs extends BaseProviderDto {
+export interface IInfluxConfigDto extends BaseProviderDto {
     url?: string;
     token?: string;
     org?: string;

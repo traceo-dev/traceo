@@ -18,15 +18,18 @@ export function configureApi() {
     (response) => {
       const status = response?.data?.status;
       const message = response?.data?.message;
+      const error = response?.data?.data?.error;
 
       if (status === "success" && message) {
         notify.success(message);
       }
 
       if (status === "error") {
-        if (!message) {
+        if (!message && !error) {
           notify.error(TRY_AGAIN_LATER_ERROR);
-        } else {
+        }
+
+        if (message) {
           notify.error(message);
         }
       }
@@ -40,7 +43,7 @@ export function configureApi() {
         cookie.clear();
 
         if (!cookie.get("traceo_session")) {
-          notify.error("Your session timed out. Please log in again");
+          notify.error("Your session timed out. Please log in again.");
         }
 
         window.location.href = "/";
@@ -53,7 +56,7 @@ export function configureApi() {
         error.response?.data?.data ||
         error.response?.statusText;
 
-      if (process.env.NODE_ENV !== "production") {
+      if (process.env.NODE_ENV !== "production" && errorMsg) {
         notify.error("Internal server error", errorMsg);
       }
       return error.response?.data;

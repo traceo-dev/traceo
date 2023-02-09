@@ -2,8 +2,12 @@ import { conditionClass, joinClasses } from "../utils/classes";
 import { REQUIRED_FIELD_ERROR } from "../utils/constants";
 import React, { FC } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  ExclamationCircleOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
 import { clearObject } from "../utils/object";
+import { Tooltip } from "../Tooltip";
 
 interface FormItemProps {
   label?: string;
@@ -22,12 +26,19 @@ export const FormItem: FC<FormItemProps> = (props: FormItemProps) => {
     showRequiredMark = false,
     className,
     disabled = false,
+    tooltip,
   } = props;
 
   const formLabel =
     typeof label === "string" ? (
-      <span>
-        {label} {showRequiredMark ? "*" : null}
+      <span className="flex flex-row gap-x-2">
+        {label}
+        {tooltip && (
+          <Tooltip title={tooltip}>
+            <QuestionCircleOutlined className="cursor-pointer" />
+          </Tooltip>
+        )}
+        {showRequiredMark ? "*" : null}
       </span>
     ) : (
       label

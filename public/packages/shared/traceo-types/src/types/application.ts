@@ -1,27 +1,32 @@
 import { IAccount } from "./account";
-import { IAmr, MemberRole } from "./amr";
+import { MemberRole } from "./amr";
 import { SortOrder } from "./api";
-import { IIncident } from "./incident";
-import { IInfluxDs } from "./influxds";
-import { IRuntime } from "./runtime";
-import { TSDB_PROVIDER, CONNECTION_STATUS } from "./tsdb";
+import { IInfluxConfigDto } from "./influxds";
+import { TsdbProvider, ConnectionStatus } from "./tsdb";
 
 export interface IApplication {
     id?: string;
     name: string;
-    owner: IAccount;
+    technology: ApplicationTechnology;
+    owner: OwnerAccount;
     gravatar?: string;
     lastIncidentAt?: number;
-    members?: IAmr[];
-    membersCount?: number;
-    incidents?: IIncident[];
-    incidentsCount?: number;
-    errorsCount?: number;
-    runtimeConfig?: IRuntime;
-    influxDS?: IInfluxDs;
-    connectedTSDB?: TSDB_PROVIDER;
+    incidentsCount: number;
+    errorsCount: number;
+    membersCount: number;
+    createdAt?: number;
+    updatedAt?: number;
+    tsdbProvider?: TsdbProvider;
+    influxConfig?: IInfluxConfigDto;
     isIntegrated: boolean;
-    security?: ISecurity;
+    runtimeConfig?: {
+        data: { [key: string]: any }
+    }
+    security?: {
+        apiKey: string;
+        lastUpdate: number;
+        generatedBy: string;
+    }
 }
 
 export interface ISecurity {
@@ -35,7 +40,7 @@ export interface IApplicationResponse extends Omit<IApplication, "influxDS" | "o
         role: MemberRole;
     },
     influxDS?: {
-        connStatus: CONNECTION_STATUS;
+        connStatus: ConnectionStatus;
         connError?: string;
     },
     owner?: {
@@ -47,37 +52,6 @@ export interface OwnerAccount {
     name: string;
     email: string;
     username: string;
-}
-
-export enum TSDB {
-    INFLUX = "influx",
-    INFLUX2 = "influx2",
-    PROMETHEUS = "prometheus"
-}
-
-export interface Application {
-    id?: string;
-    name: string;
-    dsn?: string;
-    owner: OwnerAccount;
-    gravatar?: string;
-    lastIncidentAt?: number;
-    incidentsCount: number;
-    errorsCount: number;
-    membersCount: number;
-    createdAt: number;
-    updatedAt: number;
-    connectedTSDB?: TSDB;
-    influxDS: IInfluxDs;
-    isIntegrated: boolean;
-    runtimeConfig: {
-        data: { [key: string]: any }
-    }
-    security: {
-        apiKey: string;
-        lastUpdate: number;
-        generatedBy: string;
-    }
 }
 
 export interface AddAccountToApplication {
@@ -105,10 +79,14 @@ export type MemberApplication = {
     id: string;
     appId: string;
     role: MemberRole
-} & Application;
+} & IApplication;
 
-export type CreateApplicationProps = Pick<Application, "name">;
-export type UpdateApplicationProps = Pick<Application, "name">;
+export type CreateApplicationProps = Pick<IApplication, "name" | "technology" | "tsdbProvider"> & {
+    tsdbConfiguration: {
+        influx: IInfluxConfigDto;
+    };
+};
+export type UpdateApplicationProps = Pick<IApplication, "name">;
 
 export interface SearchApplicationQueryParams {
     order?: SortOrder;
@@ -117,3 +95,6 @@ export interface SearchApplicationQueryParams {
     accountId?: string;
 }
 
+export enum ApplicationTechnology {
+    NODEJS = "nodejs"
+}

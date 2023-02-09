@@ -2,7 +2,6 @@ import { PlusOutlined } from "@ant-design/icons";
 import { SearchWrapper } from "../../core/components/SearchWrapper";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { NewApplicationModal } from "../../core/components/Modals/NewApplicationModal";
 import { ApiQueryParams } from "../../core/lib/api";
 import { useAppDispatch } from "../../store";
 import { StoreState } from "@store/types";
@@ -19,8 +18,6 @@ export const ApplicationsListPage = () => {
     (state: StoreState) => state.serverApplications
   );
   const [search, setSearch] = useState<string>(null);
-  const [openNewAppDrawer, setOpenNewAppDrawer] = useState<boolean>(false);
-
   const queryParams: ApiQueryParams = { search, order: "DESC", sortBy: "createdAt" };
 
   useEffect(() => {
@@ -35,11 +32,7 @@ export const ApplicationsListPage = () => {
     <DashboardPageWrapper>
       <Card
         title="Applications list"
-        extra={
-          <Button onClick={() => setOpenNewAppDrawer(true)} icon={<PlusOutlined />}>
-            New aplication
-          </Button>
-        }
+        extra={<Button icon={<PlusOutlined />}>New aplication</Button>}
       >
         <SearchWrapper className="pb-5">
           <InputSearch
@@ -56,12 +49,6 @@ export const ApplicationsListPage = () => {
           <ApplicationsTable applications={applications} hasFetched={hasFetched} />
         </ConditionalWrapper>
       </Card>
-
-      <NewApplicationModal
-        isOpen={openNewAppDrawer}
-        onCancel={() => setOpenNewAppDrawer(false)}
-        isAdmin={true}
-      />
     </DashboardPageWrapper>
   );
 };

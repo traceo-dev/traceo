@@ -1,7 +1,7 @@
 import { store } from "../../../../store";
 import api from "../../../../core/lib/api";
 import { loadApplication } from "../../state/application/actions";
-import { ApiResponse, DataSourceConnStatus, CONNECTION_STATUS  } from "@traceo/types";
+import { ApiResponse, DataSourceConnStatus, ConnectionStatus  } from "@traceo/types";
 import { loadMetrics } from "../state/actions";
 
 const reload = async (
@@ -13,7 +13,7 @@ const reload = async (
         .get<ApiResponse<DataSourceConnStatus>>("/api/datasource/connection/check", { id })
         .then((resp) => {
             const status = resp.data.status;
-            if (status === CONNECTION_STATUS.CONNECTED) {
+            if (status === ConnectionStatus.CONNECTED) {
                 store.dispatch(loadMetrics());
             }
 

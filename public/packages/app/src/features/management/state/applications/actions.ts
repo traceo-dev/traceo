@@ -1,7 +1,7 @@
 import api, { ApiQueryParams } from "../../../../core/lib/api";
 import { ThunkResult } from "@store/types";
 import { serverApplicationLoaded, serverApplicationsLoaded, serverAppLoadedAction } from "./reducers";
-import { Application, ApiResponse } from "@traceo/types";
+import { IApplication, ApiResponse } from "@traceo/types";
 
 export const loadServerApplications = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {
@@ -11,7 +11,7 @@ export const loadServerApplications = (query?: ApiQueryParams): ThunkResult<void
         order: "DESC"
       };
     }
-    const { data } = await api.get<ApiResponse<Application[]>>("/api/applications/search", query);
+    const { data } = await api.get<ApiResponse<IApplication[]>>("/api/applications/search", query);
     dispatch(serverApplicationsLoaded(data));
   };
 };
@@ -20,7 +20,7 @@ export const loadServerApplication = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
 
     dispatch(serverAppLoadedAction(false))
-    const { data } = await api.get<ApiResponse<Application>>("/api/applications", { id });
+    const { data } = await api.get<ApiResponse<IApplication>>("/api/applications", { id });
     dispatch(serverApplicationLoaded(data));
     dispatch(serverAppLoadedAction(true))
   };

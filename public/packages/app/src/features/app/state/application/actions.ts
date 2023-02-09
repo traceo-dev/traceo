@@ -49,18 +49,11 @@ export const loadPermission = (props?: LoadApplicationType): ThunkResult<void> =
 }
 
 export const createApplication = (
-  body: CreateApplicationProps,
-  isAdmin?: boolean
+  body: CreateApplicationProps
 ): ThunkResult<void> => {
   return async (dispatch) => {
-    // TODO: split this logic
-    await api.post("/api/application", body);
-    if (isAdmin) {
-      dispatch(loadServerApplications());
-      return;
-    }
-
-    dispatch(loadApplications());
+    const resp: ApiResponse<{ id: string }> = await api.post("/api/application", body);
+    dispatch(loadApplication({ id: resp.data.id }));
   };
 };
 

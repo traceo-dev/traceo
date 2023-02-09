@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
-import { CONNECTION_STATUS } from "@traceo/types";
+import { ConnectionStatus } from "@traceo/types";
 import { ConnectionError } from "./components/ConnectionError";
 import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
@@ -12,7 +12,7 @@ import { MetricCard } from "./components/MetricCard";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { notify } from "../../../core/utils/notify";
 import { metricsApi } from "./api";
-import { InputSearch, Button, Card, Row, Col, Divider } from "@traceo/ui";
+import { InputSearch, Button, Card, Row, Col } from "@traceo/ui";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
 import { useApplication } from "../../../core/hooks/useApplication";
 import { Page } from "../../../core/components/Page";
@@ -41,10 +41,10 @@ const MetricsPage = () => {
     notify.success("Refreshed");
   };
 
-  const isConnectedTSDB = !!application?.connectedTSDB;
+  const isConnectedTSDB = !!application?.tsdbProvider;
 
   const isConnectedSuccessfully =
-    application?.influxDS?.connStatus === CONNECTION_STATUS.CONNECTED;
+    application?.influxConfig?.connStatus === ConnectionStatus.CONNECTED;
 
   const renderContent = () => {
     if (!isConnectedTSDB) {
