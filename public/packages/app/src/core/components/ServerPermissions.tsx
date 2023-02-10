@@ -1,8 +1,8 @@
-import { userUser } from "../hooks/useUser";
+import { useUser } from "../hooks/useUser";
 import { FC } from "react";
 
 const ServerPermissions: FC = ({ children }) => {
-  const user = userUser();
+  const user = useUser();
 
   const isAdmin = user.isAdmin;
   if (isAdmin) {

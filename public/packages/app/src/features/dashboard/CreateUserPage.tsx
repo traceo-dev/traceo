@@ -46,7 +46,7 @@ const CreateUserPage = () => {
       .then(({ data, status }) => {
         if (status === "success") {
           dispatch(navbarState({ hidden: false }));
-          navigate(`/dashboard/management/users/${data.id}`);
+          navigate(`/dashboard/admin/users/${data.id}`);
         } else {
           setError(true);
           setErrorMessage(data?.error);

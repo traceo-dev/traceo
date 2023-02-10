@@ -3,7 +3,7 @@ import {
   LockFilled,
   SafetyCertificateFilled
 } from "@ant-design/icons";
-import { userUser } from "../../../../core/hooks/useUser";
+import { useUser } from "../../../../core/hooks/useUser";
 import { Avatar, Space, Table, TableColumn, Tooltip, Typography } from "@traceo/ui";
 import dateUtils from "../../../../core/utils/date";
 import { FC } from "react";
@@ -16,7 +16,7 @@ interface Props {
   hasFetched?: boolean;
 }
 export const UsersTable: FC<Props> = ({ users, hasFetched }) => {
-  const user = userUser();
+  const user = useUser();
   const navigate = useNavigate();
 
   const RenderProfile = (u: IUser) => {
@@ -47,7 +47,7 @@ export const UsersTable: FC<Props> = ({ users, hasFetched }) => {
       collection={users}
       striped
       loading={!hasFetched}
-      onRowClick={({ id }) => navigate(`/dashboard/management/users/${id}`)}
+      onRowClick={({ id }) => navigate(`/dashboard/admin/users/${id}`)}
       showPagination
       pageSize={15}
     >

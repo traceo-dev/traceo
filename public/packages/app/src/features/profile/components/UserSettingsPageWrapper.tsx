@@ -1,11 +1,20 @@
 import { SettingOutlined } from "@ant-design/icons";
 import { MenuRoute } from "@traceo/types";
 import { Avatar } from "@traceo/ui";
-import { userUser } from "../../../core/hooks/useUser";
+import { useUser } from "../../../core/hooks/useUser";
 import { Page } from "../../../core/components/Page";
+import { useEffect } from "react";
+import { useAppDispatch } from "../../../store/index";
+import { loadUser } from "src/features/auth/state/actions";
+import { ConditionalWrapper } from "src/core/components/ConditionLayout";
 
 export const UserSettingsPageWrapper = ({ children }) => {
-  const user = userUser();
+  const user = useUser();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
 
   const menu: MenuRoute[] = [
     {
@@ -21,11 +30,13 @@ export const UserSettingsPageWrapper = ({ children }) => {
       menuRoutes={menu}
       header={{
         icon: <Avatar size="lg" src={user?.gravatar} alt={user.username} />,
-        title: "Profile",
+        title: user.username,
         description: "Your account settings"
       }}
     >
-      <Page.Content>{children}</Page.Content>
+      <ConditionalWrapper isLoading={!user.isFetched}>
+        <Page.Content>{children}</Page.Content>
+      </ConditionalWrapper>
     </Page>
   );
 };

@@ -1,6 +1,4 @@
 import api from "../../../../core/lib/api";
-import { loadApplications } from "../../../dashboard/state/actions";
-import { loadServerApplications } from "../../../management/state/applications/actions";
 import { ApiResponse, IApplication, CreateApplicationProps, MemberRole, UpdateApplicationProps } from "@traceo/types";
 import { ThunkResult } from "@store/types";
 import { navbarState } from "../navbar/reducers";

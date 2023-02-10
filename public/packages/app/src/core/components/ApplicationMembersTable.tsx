@@ -1,4 +1,4 @@
-import { userUser } from "../hooks/useUser";
+import { useUser } from "../hooks/useUser";
 import { membersAction } from "../lib/api/members";
 import { Avatar, Button, Select, Table, TableColumn } from "@traceo/ui";
 import { ADMIN_EMAIL } from "../utils/constants";
@@ -17,7 +17,7 @@ export const ApplicationMembersTable: FC<Props> = ({
   postExecute,
   className
 }) => {
-  const user = userUser();
+  const user = useUser();
   const navigate = useNavigate();
 
   const options = [

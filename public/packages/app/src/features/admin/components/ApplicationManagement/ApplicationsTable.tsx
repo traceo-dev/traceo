@@ -15,7 +15,7 @@ export const ApplicationsTable: FC<Props> = ({ applications, hasFetched }) => {
     <Table
       collection={applications}
       loading={!hasFetched}
-      onRowClick={(item) => navigate(`/dashboard/management/apps/${item.id}`)}
+      onRowClick={(item) => navigate(`/dashboard/admin/apps/${item.id}`)}
       striped
       showPagination
     >

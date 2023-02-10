@@ -7,11 +7,11 @@ import { Space, List } from "@traceo/ui";
 import { useEffect } from "react";
 import { loadIncidentComments } from "../../state/actions";
 import { useAppDispatch } from "../../../../../store";
-import { userUser } from "../../../../../core/hooks/useUser";
+import { useUser } from "../../../../../core/hooks/useUser";
 
 export const CommentsBox = () => {
   const dispatch = useAppDispatch();
-  const user = userUser();
+  const user = useUser();
 
   const { incident, comments, hasCommentsFetched } = useSelector(
     (state: StoreState) => state.incident

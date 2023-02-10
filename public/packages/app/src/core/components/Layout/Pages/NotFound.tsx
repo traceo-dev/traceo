@@ -1,11 +1,11 @@
 import { Button, Col, Typography } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
-import { userUser } from "../../../hooks/useUser";
+import { useUser } from "../../../hooks/useUser";
 import { PageCenter } from "../../PageCenter";
 
 const NotFound = () => {
   const navigate = useNavigate();
-  const { isLoggedIn } = userUser();
+  const { isLoggedIn } = useUser();
 
   const onBack = () => {
     if (!isLoggedIn) {

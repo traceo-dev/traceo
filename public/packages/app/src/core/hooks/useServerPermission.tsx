@@ -1,7 +1,7 @@
-import { userUser } from "./useUser";
+import { useUser } from "./useUser";
 
 export const useServerPermission = () => {
-  const user = userUser();
+  const user = useUser();
 
   const isAdmin = user.isAdmin;
 

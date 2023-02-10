@@ -20,7 +20,7 @@ export const ApplicationInformation = () => {
       .delete<ApiResponse<unknown>>(`/api/application/${application.id}`)
       .then((resp) => {
         if (resp.status === "success") {
-          navigate("/dashboard/management/apps");
+          navigate("/dashboard/admin/apps");
         }
       })
       .finally(() => {

@@ -1,6 +1,6 @@
 import { useEffect, useState, FormEvent } from "react";
 import { useAppDispatch } from "../../../store";
-import { loadUsers } from "../../../features/management/state/accounts/actions";
+import { loadUsers } from "../../../features/admin/state/accounts/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
 import { ApplicationMember, MemberRole, IUser } from "@traceo/types";

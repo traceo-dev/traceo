@@ -7,7 +7,7 @@ import {
 import { MenuRoute } from "@traceo/types";
 import { PageCenter } from "../../../core/components/PageCenter";
 import NotFound from "../../../core/components/Layout/Pages/NotFound";
-import { userUser } from "../../../core/hooks/useUser";
+import { useUser } from "../../../core/hooks/useUser";
 import { Page } from "../../../core/components/Page";
 import { FC } from "react";
 
@@ -15,7 +15,7 @@ interface Props {
   isLoading?: boolean;
 }
 export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
-  const user = userUser();
+  const user = useUser();
 
   if (!user.isAdmin) {
     return (
@@ -27,19 +27,19 @@ export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
 
   const menu: MenuRoute[] = [
     {
-      href: "/dashboard/management/users",
+      href: "/dashboard/admin/users",
       label: "Users",
       key: "users",
       icon: <TeamOutlined />
     },
     {
-      href: "/dashboard/management/apps",
+      href: "/dashboard/admin/apps",
       label: "Applications",
       key: "apps",
       icon: <AppstoreFilled />
     },
     {
-      href: "/dashboard/management/instance",
+      href: "/dashboard/admin/instance",
       label: "Instance Info",
       key: "instance",
       icon: <InfoCircleOutlined />
@@ -50,7 +50,7 @@ export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
     <Page
       header={{
         icon: <SettingOutlined />,
-        title: "Management",
+        title: "Admin panel",
         description: "Manage your server resources"
       }}
       isLoading={isLoading}

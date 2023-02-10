@@ -13,12 +13,12 @@ import { MenuRoute } from "@traceo/types";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { Avatar, Divider } from "@traceo/ui";
-import { userUser } from "../../../hooks/useUser";
+import { useUser } from "../../../hooks/useUser";
 import { useApplication } from "../../../hooks/useApplication";
 
 export const AppNavBar = () => {
   const { application, hasFetched } = useApplication();
-  const user = userUser();
+  const user = useUser();
 
   const renderAppIcon = () => {
     if (!hasFetched) {

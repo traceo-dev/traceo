@@ -52,7 +52,7 @@ export const UserInformation = () => {
       .delete<ApiResponse<unknown>>(`/api/account/${account.id}`)
       .then((response) => {
         if (response.status === "success") {
-          navigate("/dashboard/management/users");
+          navigate("/dashboard/admin/users");
         }
       });
   };

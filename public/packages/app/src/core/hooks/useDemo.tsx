@@ -1,7 +1,7 @@
-import { userUser } from "./useUser";
+import { useUser } from "./useUser";
 
 export const useDemo = () => {
-  const user = userUser();
+  const user = useUser();
 
   const isDemoEnv = process.env.REACT_APP_DEMO === "true";
   const isAdmin = user.isAdmin;

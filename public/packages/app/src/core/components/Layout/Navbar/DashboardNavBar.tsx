@@ -10,10 +10,10 @@ import { MenuRoute } from "@traceo/types";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { GH_REPO_LINK } from "../../../utils/constants";
-import { userUser } from "../../../hooks/useUser";
+import { useUser } from "../../../hooks/useUser";
 
 export const DashboardNavBar = () => {
-  const user = userUser();
+  const user = useUser();
 
   const filterRoutes = (routes: MenuRoute[]) =>
     !user.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
@@ -29,11 +29,11 @@ export const DashboardNavBar = () => {
     }
   ]);
 
-  const manageRoutes: MenuRoute[] = filterRoutes([
+  const adminRoutes: MenuRoute[] = filterRoutes([
     {
-      key: "management",
-      href: "/dashboard/management/users",
-      label: "Management",
+      key: "admin",
+      href: "/dashboard/admin/users",
+      label: "Admin panel",
       adminRoute: true,
       icon: <SettingOutlined />
     }
@@ -41,9 +41,9 @@ export const DashboardNavBar = () => {
 
   const userRoutes: MenuRoute[] = filterRoutes([
     {
-      key: "user",
-      href: "/dashboard/user/settings",
-      label: "user",
+      key: "profile",
+      href: "/dashboard/profile/settings",
+      label: "Profile",
       icon: <UserOutlined />
     }
   ]);
@@ -69,12 +69,10 @@ export const DashboardNavBar = () => {
         {topRoutes.map((route, index) => (
           <NavBarItem key={index} route={route} />
         ))}
-
-        {manageRoutes.map((route, index) => (
+        {userRoutes.map((route, index) => (
           <NavBarItem key={index} route={route} />
         ))}
-
-        {userRoutes.map((route, index) => (
+        {adminRoutes.map((route, index) => (
           <NavBarItem key={index} route={route} />
         ))}
       </ul>

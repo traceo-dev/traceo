@@ -6,12 +6,12 @@ import { loadIncidentComments } from "../../state/actions";
 import { useAppDispatch } from "../../../../../store";
 import { StoreState } from "@store/types";
 import { InputArea, Button, Link, Card, Space, Avatar } from "@traceo/ui";
-import { userUser } from "../../../../../core/hooks/useUser";
+import { useUser } from "../../../../../core/hooks/useUser";
 import { useApplication } from "../../../../../core/hooks/useApplication";
 
 export const CommentInput = () => {
   const dispatch = useAppDispatch();
-  const user = userUser();
+  const user = useUser();
   const { application } = useApplication();
   const { incident } = useSelector((state: StoreState) => state.incident);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
