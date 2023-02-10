@@ -1,27 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IAccount } from "@traceo/types";
+import { IUser } from "@traceo/types";
 
 export interface UserState {
-  account: IAccount;
+  user: IUser;
   isFetching: boolean;
 }
 
 const initialState = {
-  account: {} as IAccount,
+  user: {} as IUser,
   isFetching: false
 };
 
-const accountSlice = createSlice({
-  name: "account",
+const userSlice = createSlice({
+  name: "user",
   initialState: initialState,
   reducers: {
-    accountLoaded: (state, action: PayloadAction<IAccount>): UserState => ({ ...state, account: action.payload })
+    userLoaded: (state, action: PayloadAction<IUser>): UserState => ({ ...state, user: action.payload })
   }
 });
 
-export const { accountLoaded } = accountSlice.actions;
-export const accountReducer = accountSlice.reducer;
+export const { userLoaded } = userSlice.actions;
+export const userReducer = userSlice.reducer;
 
 export default {
-  account: accountReducer
+  user: userReducer
 };

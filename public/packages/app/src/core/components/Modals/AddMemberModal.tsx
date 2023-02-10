@@ -1,9 +1,9 @@
 import { useEffect, useState, FormEvent } from "react";
 import { useAppDispatch } from "../../../store";
-import { loadServerAccounts } from "../../../features/management/state/accounts/actions";
+import { loadUsers } from "../../../features/management/state/accounts/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
-import { ApplicationMember, MemberRole, IAccount } from "@traceo/types";
+import { ApplicationMember, MemberRole, IUser } from "@traceo/types";
 import api from "../../lib/api";
 import {
   Select,
@@ -26,12 +26,12 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   const { members } = useSelector((state: StoreState) => state.members);
 
   const [role, setRole] = useState<MemberRole>(null);
-  const [accountId, setAccountId] = useState<string>(null);
+  const [userId, setUserId] = useState<string>(null);
 
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    dispatch(loadServerAccounts());
+    dispatch(loadUsers());
   }, []);
 
   const onFinish = async (e: FormEvent) => {
@@ -40,7 +40,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
     setLoading(true);
     await api
       .post("/api/amr/application/add", {
-        accountId: accountId,
+        accountId: userId,
         role: role,
         applicationId: application.id
       })
@@ -51,22 +51,21 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   };
 
   const onClose = () => {
-    setAccountId(null);
+    setUserId(null);
     setRole(null);
     onCancel();
   };
 
-  const filterAccounts = () =>
+  const filterUsers = () =>
     accounts.filter(
-      (acc: IAccount) =>
-        !members.find((member: ApplicationMember) => member.id === acc.id)
+      (acc: IUser) => !members.find((member: ApplicationMember) => member.id === acc.id)
     );
 
-  const accountOptions = filterAccounts().map((account) => ({
-    icon: <Avatar size="sm" alt={account.name} src={account.gravatar} />,
-    label: account.name,
-    value: account.id,
-    description: account?.email
+  const usersOptions = filterUsers().map((user) => ({
+    icon: <Avatar size="sm" alt={user.name} src={user.gravatar} />,
+    label: user.name,
+    value: user.id,
+    description: user?.email
   }));
 
   const roleOptions = Object.values(MemberRole).map((role) => ({
@@ -75,19 +74,19 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   }));
 
   const onChangeRole = (role: MemberRole) => setRole(role);
-  const onChangeAccount = (accountId: string) => setAccountId(accountId);
+  const onChangeUser = (userId: string) => setUserId(userId);
 
   return (
     <>
       <Modal title="Add member" onCancel={onClose} open={isOpen}>
         <Space direction="vertical" className="w-full">
           <form id="add-member-form" onSubmit={onFinish}>
-            <FormItem label="Server account">
+            <FormItem label="User">
               <Select
-                value={accountId}
-                onChange={(opt) => onChangeAccount(opt?.value)}
+                value={userId}
+                onChange={(opt) => onChangeUser(opt?.value)}
                 isLoading={!hasFetched}
-                options={accountOptions}
+                options={usersOptions}
               />
             </FormItem>
             <FormItem label="Role">
@@ -101,7 +100,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
 
           <ButtonContainer className="float-left">
             <Button
-              disabled={!role || !accountId}
+              disabled={!role || !userId}
               loading={loading}
               type="submit"
               form="add-member-form"

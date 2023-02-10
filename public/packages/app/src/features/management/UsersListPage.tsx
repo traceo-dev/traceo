@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../store";
 import { StoreState } from "@store/types";
-import { AccountsTable } from "./components/AccountManagement/AccountsTable";
+import { UsersTable } from "./components/UserManagement/UsersTable";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
-import { loadServerAccounts } from "./state/accounts/actions";
+import { loadUsers } from "./state/accounts/actions";
 import { InputSearch, Button, Card } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
 
@@ -20,20 +20,20 @@ const UsersListPage = () => {
   const [search, setSearch] = useState<string>(null);
 
   useEffect(() => {
-    dispatch(loadServerAccounts({ search }));
+    dispatch(loadUsers({ search }));
   }, [search]);
 
   const onCreateNew = () => {
-    navigate("/dashboard/account/new");
+    navigate("/dashboard/user/new");
   };
 
   return (
     <DashboardPageWrapper>
       <Card
-        title="Accounts list"
+        title="Users list"
         extra={
           <Button onClick={() => onCreateNew()} icon={<PlusOutlined />}>
-            New account
+            New user
           </Button>
         }
       >
@@ -44,7 +44,7 @@ const UsersListPage = () => {
             onChange={setSearch}
           />
         </SearchWrapper>
-        <AccountsTable accounts={accounts} hasFetched={hasFetched} />
+        <UsersTable users={accounts} hasFetched={hasFetched} />
       </Card>
     </DashboardPageWrapper>
   );

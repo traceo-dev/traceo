@@ -2,11 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useRequest } from "../../../../core/hooks/useRequest";
-import {
-  ApplicationMember,
-  MemberApplication,
-  MemberRole
-} from "@traceo/types";
+import { ApplicationMember, MemberApplication, MemberRole } from "@traceo/types";
 import { StoreState } from "@store/types";
 
 import { AddToApplicationModal } from "../../../../core/components/Modals/AddToApplicationModal";
@@ -16,7 +12,7 @@ import { Button, Card, Space, Table, TableColumn, Avatar, Select } from "@traceo
 import { Confirm } from "../../../../core/components/Confirm";
 import { membersAction } from "../../../../core/lib/api/members";
 
-export const AccountApplications = () => {
+export const UserApplications = () => {
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
   const [isOpenAddAppDrawer, setOpenAddAppDrawer] = useState<boolean>(false);
 

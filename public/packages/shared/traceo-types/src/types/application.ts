@@ -1,4 +1,4 @@
-import { IAccount } from "./account";
+import { IUser } from "./account";
 import { MemberRole } from "./amr";
 import { SortOrder } from "./api";
 import { IInfluxConfigDto } from "./influxds";
@@ -73,7 +73,7 @@ export type ApplicationMember = {
     id: string;
     accountId: string;
     role: MemberRole;
-} & IAccount;
+} & IUser;
 
 export type MemberApplication = {
     id: string;

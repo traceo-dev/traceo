@@ -1,25 +1,25 @@
 import api, { ApiQueryParams } from "../../../../core/lib/api";
 import { ThunkResult } from "@store/types";
-import { serverAccountLoaded, serverAccountLoadedAction, serverAccountsLoaded } from "./reducers";
-import { IAccount, AddAccountProps, ApiResponse } from "@traceo/types";
+import { serveruserLoaded, serveruserLoadedAction, serverAccountsLoaded } from "./reducers";
+import { IUser, ApiResponse } from "@traceo/types";
 
-export const loadServerAccounts = (query?: ApiQueryParams): ThunkResult<void> => {
+export const loadUsers = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {
-    const { data } = await api.get<ApiResponse<IAccount[]>>("/api/accounts/search", query);
+    const { data } = await api.get<ApiResponse<IUser[]>>("/api/accounts/search", query);
     dispatch(serverAccountsLoaded(data));
   };
 };
 
 export const loadServerAccount = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
-    dispatch(serverAccountLoadedAction(false))
-    const { data } = await api.get<ApiResponse<IAccount>>("/api/accounts", { id });
-    dispatch(serverAccountLoaded(data));
-    dispatch(serverAccountLoadedAction(true))
+    dispatch(serveruserLoadedAction(false))
+    const { data } = await api.get<ApiResponse<IUser>>("/api/accounts", { id });
+    dispatch(serveruserLoaded(data));
+    dispatch(serveruserLoadedAction(true))
   };
 };
 
-export const updateServerAccount = (update: Partial<IAccount>): ThunkResult<void> => {
+export const updateUser = (update: Partial<IUser>): ThunkResult<void> => {
   return async (dispatch) => {
     if (!update) {
       return;
@@ -27,12 +27,5 @@ export const updateServerAccount = (update: Partial<IAccount>): ThunkResult<void
 
     await api.patch("/api/account", update);
     dispatch(loadServerAccount(update.id));
-  };
-};
-
-export const addServerAccount = (props: AddAccountProps): ThunkResult<void> => {
-  return async (dispatch) => {
-    await api.post("/api/account/new", props);
-    dispatch(loadServerAccounts());
   };
 };

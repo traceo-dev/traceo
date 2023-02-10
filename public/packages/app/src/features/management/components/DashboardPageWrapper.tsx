@@ -7,7 +7,7 @@ import {
 import { MenuRoute } from "@traceo/types";
 import { PageCenter } from "../../../core/components/PageCenter";
 import NotFound from "../../../core/components/Layout/Pages/NotFound";
-import { useAccount } from "../../../core/hooks/useAccount";
+import { userUser } from "../../../core/hooks/useUser";
 import { Page } from "../../../core/components/Page";
 import { FC } from "react";
 
@@ -15,9 +15,9 @@ interface Props {
   isLoading?: boolean;
 }
 export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
-  const account = useAccount();
+  const user = userUser();
 
-  if (!account.isAdmin) {
+  if (!user.isAdmin) {
     return (
       <PageCenter>
         <NotFound />
@@ -27,9 +27,9 @@ export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
 
   const menu: MenuRoute[] = [
     {
-      href: "/dashboard/management/accounts",
-      label: "Accounts",
-      key: "accounts",
+      href: "/dashboard/management/users",
+      label: "Users",
+      key: "users",
       icon: <TeamOutlined />
     },
     {

@@ -1,4 +1,4 @@
-import { IAccount } from "./account";
+import { IUser } from "./account";
 import { IIncident } from "./incident";
 
 export interface IComment {
@@ -8,5 +8,5 @@ export interface IComment {
     removed: boolean;
     incident: IIncident;
     createdAt?: number;
-    sender: IAccount;
+    sender: IUser;
 }

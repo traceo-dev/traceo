@@ -1,4 +1,4 @@
-import { IAccount, IComment, IIncident } from "@traceo/types";
+import { IUser, IComment, IIncident } from "@traceo/types";
 import {
   Column,
   Entity,
@@ -24,7 +24,7 @@ export class Comment extends BaseEntity implements IComment {
   @JoinColumn({
     name: "sender_id",
   })
-  sender: IAccount;
+  sender: IUser;
 
   @Column({
     type: "bigint",

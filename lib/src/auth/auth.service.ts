@@ -10,13 +10,13 @@ import { AccountService } from '../api/account/account.service';
 import { INTERNAL_SERVER_ERROR, SESSION_EXPIRY_TIME, SESSION_NAME } from '@common/helpers/constants';
 import { AccountNotExistsError } from '@common/helpers/errors';
 import { AccountCredentialsDto, UpdatePasswordDto } from '@common/types/dto/account.dto';
-import { IAccount, AccountStatus } from '@traceo/types';
+import { IUser, UserStatus } from '@traceo/types';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { AuthTokenService } from './auth-token.service';
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 
 export type LoginResponseType = { accessToken: string };
-export type CheckCredentialsType = { isCorrect: boolean; account?: IAccount };
+export type CheckCredentialsType = { isCorrect: boolean; account?: IUser };
 
 @Injectable()
 export class AuthService {
@@ -49,11 +49,11 @@ export class AuthService {
       if (!account?.lastActiveAt) {
         await this.accountService.updateAccountApi({
           id: account.id,
-          status: AccountStatus.ACTIVE
+          status: UserStatus.ACTIVE
         });
       }
 
-      if (account.status === AccountStatus.DISABLED) {
+      if (account.status === UserStatus.DISABLED) {
         return new ApiResponse("error", "Account suspended. Contact with administrator of this Traceo Platform.");
       }
 

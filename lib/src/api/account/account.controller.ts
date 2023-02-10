@@ -13,7 +13,7 @@ import { GuardsService } from '@common/guards/guards.service';
 import { AuthAccount } from '@common/decorators/auth-user.decorator';
 import { CreateAccountDto, AccountDto } from '@common/types/dto/account.dto';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { IAccount, RequestUser } from '@traceo/types';
+import { IUser, RequestUser } from '@traceo/types';
 import { AccountQueryService } from './account-query/account-query.service';
 import { AccountService } from './account.service';
 import { AuthGuard } from '@common/decorators/auth-guard.decorator';
@@ -29,7 +29,7 @@ export class AccountController {
   ) { }
 
   @Get()
-  async getSignedInAccount(): Promise<ApiResponse<IAccount>> {
+  async getSignedInAccount(): Promise<ApiResponse<IUser>> {
     return await this.accountQueryService.getSignedInAccount();
   }
 

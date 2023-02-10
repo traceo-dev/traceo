@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useAppDispatch } from "../../store";
 import { StoreState } from "@store/types";
-import { AccountApplications } from "./components/AccountManagement/AccountApplications";
-import { AccountInformation } from "./components/AccountManagement/AccountInformation";
-import { AccountPermissions } from "./components/AccountManagement/AccountPermissions";
+import { UserApplications } from "./components/UserManagement/UserApplications";
+import { UserInformation } from "./components/UserManagement/UserInformation";
+import { UserPermissions } from "./components/UserManagement/UserPermissions";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { loadServerAccount } from "./state/accounts/actions";
 
@@ -20,9 +20,9 @@ export const UserPage = () => {
 
   return (
     <DashboardPageWrapper isLoading={!hasFetched}>
-      <AccountInformation />
-      <AccountPermissions />
-      <AccountApplications />
+      <UserInformation />
+      <UserPermissions />
+      <UserApplications />
     </DashboardPageWrapper>
   );
 };

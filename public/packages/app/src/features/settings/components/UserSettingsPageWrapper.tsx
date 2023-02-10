@@ -1,15 +1,15 @@
 import { SettingOutlined } from "@ant-design/icons";
 import { MenuRoute } from "@traceo/types";
 import { Avatar } from "@traceo/ui";
-import { useAccount } from "../../../core/hooks/useAccount";
+import { userUser } from "../../../core/hooks/useUser";
 import { Page } from "../../../core/components/Page";
 
-export const AccountSettingsPageWrapper = ({ children }) => {
-  const account = useAccount();
+export const UserSettingsPageWrapper = ({ children }) => {
+  const user = userUser();
 
   const menu: MenuRoute[] = [
     {
-      href: "/dashboard/account/settings",
+      href: "/dashboard/user/settings",
       label: "Settings",
       key: "settings",
       icon: <SettingOutlined />
@@ -20,8 +20,8 @@ export const AccountSettingsPageWrapper = ({ children }) => {
     <Page
       menuRoutes={menu}
       header={{
-        icon: <Avatar size="lg" src={account?.gravatar} alt={account.username} />,
-        title: "Account",
+        icon: <Avatar size="lg" src={user?.gravatar} alt={user.username} />,
+        title: "Profile",
         description: "Your account settings"
       }}
     >

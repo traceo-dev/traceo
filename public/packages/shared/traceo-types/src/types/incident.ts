@@ -1,4 +1,4 @@
-import { IAccount } from "./account";
+import { IUser } from "./account";
 import { IApplication } from "./application";
 import { IComment } from "./comment";
 
@@ -46,7 +46,7 @@ export interface IIncident {
     lastError: number;
     errorsCount: number;
     application: IApplication;
-    assigned: Pick<IAccount, "id" | "name" | "gravatar">;
+    assigned: Pick<IUser, "id" | "name" | "gravatar">;
     comments: IComment[];
     commentsCount: number;
     platform: Platform;

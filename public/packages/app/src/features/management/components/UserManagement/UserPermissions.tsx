@@ -1,19 +1,19 @@
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../../store";
 import { StoreState } from "@store/types";
-import { updateServerAccount } from "../../state/accounts/actions";
+import { updateUser } from "../../state/accounts/actions";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { Card, Select, FieldLabel } from "@traceo/ui";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 
-export const AccountPermissions = () => {
+export const UserPermissions = () => {
   const dispatch = useAppDispatch();
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
 
   const isCoreAdmin = account.email === ADMIN_EMAIL;
 
   const onUpdateServerRole = (value: boolean) => {
-    dispatch(updateServerAccount({ id: account.id, isAdmin: value }));
+    dispatch(updateUser({ id: account.id, isAdmin: value }));
   };
 
   return (

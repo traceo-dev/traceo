@@ -1,10 +1,10 @@
-import { useAccount } from "./useAccount";
+import { userUser } from "./useUser";
 
 export const useDemo = () => {
-  const account = useAccount();
+  const user = userUser();
 
   const isDemoEnv = process.env.REACT_APP_DEMO === "true";
-  const isAdmin = account.isAdmin;
+  const isAdmin = user.isAdmin;
 
   const isDemo = isDemoEnv && !isAdmin;
 

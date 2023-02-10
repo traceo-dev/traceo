@@ -3,38 +3,38 @@ import {
   LockFilled,
   SafetyCertificateFilled
 } from "@ant-design/icons";
-import { useAccount } from "../../../../core/hooks/useAccount";
+import { userUser } from "../../../../core/hooks/useUser";
 import { Avatar, Space, Table, TableColumn, Tooltip, Typography } from "@traceo/ui";
 import dateUtils from "../../../../core/utils/date";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { AccountStatusTag } from "../../../../core/components/AccountStatusTag";
-import { IAccount, AccountStatus } from "@traceo/types";
+import { UserStatusTag } from "../../../../core/components/UserStatusTag";
+import { IUser, UserStatus } from "@traceo/types";
 
 interface Props {
-  accounts: IAccount[];
+  users: IUser[];
   hasFetched?: boolean;
 }
-export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
-  const account = useAccount();
+export const UsersTable: FC<Props> = ({ users, hasFetched }) => {
+  const user = userUser();
   const navigate = useNavigate();
 
-  const RenderProfile = (currentAccount: IAccount) => {
+  const RenderProfile = (u: IUser) => {
     return (
       <Space>
-        <Typography className="text-primary">{currentAccount?.username}</Typography>
-        {currentAccount?.id === account?.id && (
+        <Typography className="text-primary">{u?.username}</Typography>
+        {u?.id === user?.id && (
           <Tooltip placement="left" title="It's you!">
             <CheckCircleFilled className="p-1 text-amber-600" />
           </Tooltip>
         )}
-        {currentAccount.isAdmin && (
+        {u.isAdmin && (
           <Tooltip placement="top" title="Server admin">
             <SafetyCertificateFilled />
           </Tooltip>
         )}
-        {currentAccount?.status === AccountStatus.DISABLED && (
-          <Tooltip placement="top" title="Account disabled">
+        {u?.status === UserStatus.DISABLED && (
+          <Tooltip placement="top" title="User disabled">
             <LockFilled />
           </Tooltip>
         )}
@@ -44,10 +44,10 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
 
   return (
     <Table
-      collection={accounts}
+      collection={users}
       striped
       loading={!hasFetched}
-      onRowClick={({ id }) => navigate(`/dashboard/management/accounts/${id}`)}
+      onRowClick={({ id }) => navigate(`/dashboard/management/users/${id}`)}
       showPagination
       pageSize={15}
     >
@@ -60,7 +60,7 @@ export const AccountsTable: FC<Props> = ({ accounts, hasFetched }) => {
       <TableColumn name="Name" value="name" />
       <TableColumn name="Email" value="email" />
       <TableColumn name="Status">
-        {({ item }) => <AccountStatusTag status={item.status} />}
+        {({ item }) => <UserStatusTag status={item.status} />}
       </TableColumn>
       <TableColumn name="Joined">
         {({ item }) => (

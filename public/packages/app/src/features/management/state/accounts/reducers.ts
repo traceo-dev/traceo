@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IAccount } from "@traceo/types";
+import { IUser } from "@traceo/types";
 
 export interface AccountsState {
-  accounts: IAccount[];
-  account: IAccount;
+  accounts: IUser[];
+  account: IUser;
   hasFetched: boolean;
 }
 
 const initialState = {
   accounts: [],
-  account: {} as IAccount,
+  account: {} as IUser,
   hasFetched: false
 };
 
@@ -17,13 +17,13 @@ const accountsSlice = createSlice({
   name: "serverAccounts",
   initialState: initialState,
   reducers: {
-    serverAccountsLoaded: (state, action: PayloadAction<IAccount[]>): AccountsState => {
+    serverAccountsLoaded: (state, action: PayloadAction<IUser[]>): AccountsState => {
       return { ...state, hasFetched: true, accounts: action.payload };
     },
-    serverAccountLoaded: (state, action: PayloadAction<IAccount>): AccountsState => {
+    serveruserLoaded: (state, action: PayloadAction<IUser>): AccountsState => {
       return { ...state, hasFetched: true, account: action.payload };
     },
-    serverAccountLoadedAction: (state, action: PayloadAction<boolean>): AccountsState => {
+    serveruserLoadedAction: (state, action: PayloadAction<boolean>): AccountsState => {
       return {
         ...state,
         hasFetched: action.payload
@@ -32,7 +32,7 @@ const accountsSlice = createSlice({
   }
 });
 
-export const { serverAccountsLoaded, serverAccountLoaded, serverAccountLoadedAction } = accountsSlice.actions;
+export const { serverAccountsLoaded, serveruserLoaded, serveruserLoadedAction } = accountsSlice.actions;
 export const accountsReducer = accountsSlice.reducer;
 
 export default {

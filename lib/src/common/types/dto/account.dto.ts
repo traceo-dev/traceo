@@ -1,6 +1,6 @@
 import { ApiPropertyOptional, ApiProperty } from "@nestjs/swagger";
 import { IsOptional, IsString, IsNotEmpty, IsEmail, IsBoolean, IsEnum } from "class-validator";
-import { AccountStatus } from "@traceo/types";
+import { UserStatus } from "@traceo/types";
 
 export class CreateAccountDto {
     @IsOptional()
@@ -50,10 +50,10 @@ export class AccountDto {
     @ApiProperty({ description: 'account as admin' })
     isAdmin?: boolean;
 
-    @IsEnum(AccountStatus)
+    @IsEnum(UserStatus)
     @IsOptional()
     @ApiProperty({ description: 'account status' })
-    status: AccountStatus;
+    status: UserStatus;
 }
 
 export class AccountCredentialsDto {

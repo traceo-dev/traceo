@@ -11,7 +11,7 @@ export const loadApplications = (
   query?: SearchApplicationQueryParams
 ): ThunkResult<void> => {
   return async (dispatch, getStore) => {
-    const account = getStore().account.account;
+    const user = getStore().user.user;
     if (!query) {
       query = {
         order: "DESC",
@@ -20,7 +20,7 @@ export const loadApplications = (
     }
 
     const { data } = await api.get<ApiResponse<MemberApplication[]>>("/api/amr/applications", {
-      accountId: query?.accountId || account?.id,
+      accountId: query?.accountId || user?.id,
       ...query
     });
     dispatch(applicationsLoaded(data));

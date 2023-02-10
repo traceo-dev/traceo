@@ -1,21 +1,21 @@
 import api from "../../../../../core/lib/api";
 import { logout } from "../../../../../core/utils/logout";
-import { loadAccount } from "../../../../auth/state/actions";
-import { IAccount, ApiResponse } from "@traceo/types";
+import { loadUser } from "../../../../auth/state/actions";
+import { IUser, ApiResponse } from "@traceo/types";
 import { ThunkResult } from "@store/types";
 
-export const updateAccount = (update: Partial<IAccount>): ThunkResult<void> => {
+export const updateUser = (update: Partial<IUser>): ThunkResult<void> => {
   return async (dispatch) => {
     if (!update) {
       return;
     }
 
     await api.patch<ApiResponse<unknown>>("/api/account", update);
-    dispatch(loadAccount());
+    dispatch(loadUser());
   };
 };
 
-export const updateAccountPassword = (cred: {
+export const updateUserPassword = (cred: {
   password: string;
   newPassword: string;
 }): ThunkResult<void> => {
@@ -33,7 +33,7 @@ export const updateAccountPassword = (cred: {
   };
 };
 
-export const deleteAccount = (): ThunkResult<void> => {
+export const deleteUser = (): ThunkResult<void> => {
   return async () => {
     await api.delete<ApiResponse<string>>("/api/account")
       .then((response) => {

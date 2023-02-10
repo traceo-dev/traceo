@@ -1,9 +1,9 @@
 import { ColumnSection } from "../../core/components/ColumnSection";
 import { useAppDispatch } from "../../store";
-import { AccountSettingsPageWrapper } from "./components/AccountSettingsPageWrapper";
+import { UserSettingsPageWrapper } from "./components/UserSettingsPageWrapper";
 import {
-  updateAccount,
-  updateAccountPassword
+  updateUser,
+  updateUserPassword
 } from "../app/settings/state/settings/actions";
 import {
   Input,
@@ -16,7 +16,7 @@ import {
 } from "@traceo/ui";
 import { useMemberRole } from "../../core/hooks/useMemberRole";
 import { useDemo } from "../../core/hooks/useDemo";
-import { useAccount } from "../../core/hooks/useAccount";
+import { userUser } from "../../core/hooks/useUser";
 
 type UpdateAccountForm = {
   name: string;
@@ -30,23 +30,23 @@ type UpdatePasswordForm = {
 
 const AccountPage = () => {
   const dispatch = useAppDispatch();
-  const account = useAccount();
+  const account = userUser();
   const { isAdmin } = useMemberRole();
   const { isDemo } = useDemo();
 
   const onFinishUpdateAccount = (form: UpdateAccountForm) =>
     dispatch(
-      updateAccount({
+      updateUser({
         id: account.id,
         ...form
       })
     );
 
   const onFinishUpdatePassword = (form: UpdatePasswordForm) =>
-    dispatch(updateAccountPassword(form));
+    dispatch(updateUserPassword(form));
 
   return (
-    <AccountSettingsPageWrapper>
+    <UserSettingsPageWrapper>
       <Card title="Basic Information">
         <ColumnSection
           title="Personal information"
@@ -140,7 +140,7 @@ const AccountPage = () => {
           </ButtonContainer>
         </ColumnSection>
       </Card>
-    </AccountSettingsPageWrapper>
+    </UserSettingsPageWrapper>
   );
 };
 

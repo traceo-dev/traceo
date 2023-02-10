@@ -10,13 +10,13 @@ import { MenuRoute } from "@traceo/types";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { GH_REPO_LINK } from "../../../utils/constants";
-import { useAccount } from "../../../hooks/useAccount";
+import { userUser } from "../../../hooks/useUser";
 
 export const DashboardNavBar = () => {
-  const account = useAccount();
+  const user = userUser();
 
   const filterRoutes = (routes: MenuRoute[]) =>
-    !account.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
+    !user.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
 
   const navigateDocumentation = () => window.open(GH_REPO_LINK, "_blank");
 
@@ -32,7 +32,7 @@ export const DashboardNavBar = () => {
   const manageRoutes: MenuRoute[] = filterRoutes([
     {
       key: "management",
-      href: "/dashboard/management/accounts",
+      href: "/dashboard/management/users",
       label: "Management",
       adminRoute: true,
       icon: <SettingOutlined />
@@ -41,9 +41,9 @@ export const DashboardNavBar = () => {
 
   const userRoutes: MenuRoute[] = filterRoutes([
     {
-      key: "account",
-      href: "/dashboard/account/settings",
-      label: "Account",
+      key: "user",
+      href: "/dashboard/user/settings",
+      label: "user",
       icon: <UserOutlined />
     }
   ]);

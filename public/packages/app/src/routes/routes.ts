@@ -34,15 +34,15 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
       component: lazy(() => import("../features/dashboard/CreateApplicationPage"))
     },
     {
-      path: "/dashboard/account/new",
+      path: "/dashboard/user/new",
       component: lazy(() => import("../features/dashboard/CreateUserPage"))
     },
     {
-      path: "/dashboard/management/accounts",
+      path: "/dashboard/management/users",
       component: lazy(() => import("../features/management/UsersListPage"))
     },
     {
-      path: "/dashboard/management/accounts/:id",
+      path: "/dashboard/management/users/:id",
       component: lazy(() => import("../features/management/UserPage"))
     },
     {
@@ -58,8 +58,8 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
       component: lazy(() => import("../features/management/InstancePage"))
     },
     {
-      path: "/dashboard/account/settings",
-      component: lazy(() => import("../features/settings/AccountPage"))
+      path: "/dashboard/user/settings",
+      component: lazy(() => import("../features/settings/UserPage"))
     }
   ];
 };

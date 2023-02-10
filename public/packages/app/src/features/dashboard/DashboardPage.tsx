@@ -4,7 +4,7 @@ import { AppsTable } from "./components/AppsTable";
 import { PlusOutlined } from "@ant-design/icons";
 import ServerPermissions from "../../core/components/ServerPermissions";
 import { Page } from "../../core/components/Page";
-import { loadAccount } from "../auth/state/actions";
+import { loadUser } from "../auth/state/actions";
 import { useAppDispatch } from "../../store";
 import { resetIncidentsState, resetIncidentState } from "../app/incidents/state/reducers";
 import { resetApplicationState } from "../app/state/application/reducers";
@@ -16,7 +16,7 @@ export const DashboardPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(loadAccount());
+    dispatch(loadUser());
 
     // Cleaning application stores
     dispatch(resetIncidentState());

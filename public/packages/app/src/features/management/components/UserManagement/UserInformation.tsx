@@ -1,9 +1,9 @@
 import { useSelector } from "react-redux";
 import { Confirm } from "../../../../core/components/Confirm";
 import { useAppDispatch } from "../../../../store";
-import { AccountStatus, ApiResponse } from "@traceo/types";
+import { UserStatus, ApiResponse } from "@traceo/types";
 import { StoreState } from "@store/types";
-import { updateServerAccount } from "../../state/accounts/actions";
+import { updateUser } from "../../state/accounts/actions";
 import api from "../../../../core/lib/api";
 import { useNavigate } from "react-router-dom";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
@@ -20,55 +20,53 @@ import {
 } from "@traceo/ui";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 
-interface AccountProps {
+interface UserProps {
   email: string;
   name: string;
   username: string;
 }
 
-export const AccountInformation = () => {
+export const UserInformation = () => {
   const dispatch = useAppDispatch();
   const { account } = useSelector((state: StoreState) => state.serverAccounts);
   const navigate = useNavigate();
 
-  const defaultValues: AccountProps = {
+  const defaultValues: UserProps = {
     ...account
   };
 
   const isAdmin = account.email === ADMIN_EMAIL;
 
-  const onFinish = (props: AccountProps) => {
-    dispatch(updateServerAccount({ id: account.id, ...props }));
+  const onFinish = (props: UserProps) => {
+    dispatch(updateUser({ id: account.id, ...props }));
   };
 
-  const onChangeAccountStatus = () => {
+  const onChangeUserStatus = () => {
     const status =
-      account.status === AccountStatus.DISABLED
-        ? AccountStatus.ACTIVE
-        : AccountStatus.DISABLED;
-    dispatch(updateServerAccount({ id: account.id, status }));
+      account.status === UserStatus.DISABLED ? UserStatus.ACTIVE : UserStatus.DISABLED;
+    dispatch(updateUser({ id: account.id, status }));
   };
 
-  const onDeleteAccount = async () => {
+  const onDeleteUser = async () => {
     await api
       .delete<ApiResponse<unknown>>(`/api/account/${account.id}`)
       .then((response) => {
         if (response.status === "success") {
-          navigate("/dashboard/management/accounts");
+          navigate("/dashboard/management/users");
         }
       });
   };
 
   const renderButtons = () => {
-    const isDisableUserBtn = [AccountStatus.ACTIVE, AccountStatus.INACTIVE].includes(
+    const isDisableUserBtn = [UserStatus.ACTIVE, UserStatus.INACTIVE].includes(
       account.status
     );
-    const isEnableUserBtn = AccountStatus.DISABLED === account.status;
+    const isEnableUserBtn = UserStatus.DISABLED === account.status;
     return (
       <Space className="w-full justify-end">
         {isDisableUserBtn && (
           <Confirm
-            onOk={onChangeAccountStatus}
+            onOk={onChangeUserStatus}
             description={
               <Typography>
                 Are you sure that you want to suspend <b>{account.name}</b>? After this
@@ -82,7 +80,7 @@ export const AccountInformation = () => {
 
         {isEnableUserBtn && (
           <Confirm
-            onOk={() => onChangeAccountStatus()}
+            onOk={() => onChangeUserStatus()}
             description={
               <Typography>
                 Are you sure that you want to activate <b>{account.name}</b> account?
@@ -97,7 +95,7 @@ export const AccountInformation = () => {
           <Confirm
             auth={true}
             description={"Are you sure that you want to delete this account?"}
-            onOk={() => onDeleteAccount()}
+            onOk={() => onDeleteUser()}
           >
             <Button variant="danger">Delete account</Button>
           </Confirm>

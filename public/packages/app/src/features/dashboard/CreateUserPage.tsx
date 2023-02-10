@@ -1,11 +1,6 @@
 import { AppstoreOutlined, ArrowLeftOutlined, LeftOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../../store/index";
-import {
-  AddAccountProps,
-  ApiResponse,
-  CreateApplicationProps,
-  TsdbProvider
-} from "@traceo/types";
+import { AddUserProps, ApiResponse } from "@traceo/types";
 import {
   Alert,
   Button,
@@ -44,14 +39,14 @@ const CreateUserPage = () => {
     dispatch(navbarState({ hidden: true }));
   }, []);
 
-  const onFinish = async (form: AddAccountProps) => {
+  const onFinish = async (form: AddUserProps) => {
     setLoading(true);
     await api
-      .post<ApiResponse<CreateUserPayload>>("/api/account/new", form)
+      .post<ApiResponse<CreateUserPayload>>("/api/user/new", form)
       .then(({ data, status }) => {
         if (status === "success") {
           dispatch(navbarState({ hidden: false }));
-          navigate(`/dashboard/management/accounts/${data.id}`);
+          navigate(`/dashboard/management/users/${data.id}`);
         } else {
           setError(true);
           setErrorMessage(data?.error);
@@ -98,7 +93,7 @@ const CreateUserPage = () => {
           </div>
           <div className="col-span-4 overflow-y-scroll">
             <Card>
-              <Form onSubmit={onFinish} id="add-account-form">
+              <Form onSubmit={onFinish} id="add-user-form">
                 {({ register, errors }) => (
                   <>
                     <Typography size="xl" weight="semibold">
@@ -162,7 +157,7 @@ const CreateUserPage = () => {
                 />
               )}
               <ButtonContainer className="pt-5" justify="start">
-                <Button type="submit" form="add-account-form" loading={loading}>
+                <Button type="submit" form="add-user-form" loading={loading}>
                   Confirm
                 </Button>
                 <Button variant="ghost" onClick={() => onBack()}>

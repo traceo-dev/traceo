@@ -2,13 +2,13 @@ import { cookie } from "../utils/cookie";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
 
-export const useAccount = () => {
-  const { account } = useSelector((state: StoreState) => state.account);
+export const userUser = () => {
+  const { user } = useSelector((state: StoreState) => state.user);
 
   const isLoggedIn = !!cookie.get("traceo_session");
 
   return {
-    ...account,
+    ...user,
     isLoggedIn
   };
 };

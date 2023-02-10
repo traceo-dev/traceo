@@ -1,26 +1,26 @@
 import { IAmr } from "./amr";
 
-export type AddAccountProps = Pick<IAccount, "email" | "name" | "username"> & { password: string; }
+export type AddUserProps = Pick<IUser, "email" | "name" | "username"> & { password: string; }
 
-export enum AccountRole {
+export enum UserRole {
     ADMIN = "admin",
     GUEST = "guest",
 }
 
-export enum AccountStatus {
+export enum UserStatus {
     ACTIVE = "active",
     INACTIVE = "inactive",
     DISABLED = "disabled",
 }
 
-export interface IAccount {
+export interface IUser {
     id?: string;
     name: string;
     username: string;
     email: string;
     gravatar: string;
     password: string;
-    status: AccountStatus;
+    status: UserStatus;
     isAdmin: boolean;
     applications: IAmr[];
     isPasswordUpdated: boolean;

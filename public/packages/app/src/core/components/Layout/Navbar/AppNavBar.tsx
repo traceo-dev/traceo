@@ -13,12 +13,12 @@ import { MenuRoute } from "@traceo/types";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { Avatar, Divider } from "@traceo/ui";
-import { useAccount } from "../../../hooks/useAccount";
+import { userUser } from "../../../hooks/useUser";
 import { useApplication } from "../../../hooks/useApplication";
 
 export const AppNavBar = () => {
   const { application, hasFetched } = useApplication();
-  const account = useAccount();
+  const user = userUser();
 
   const renderAppIcon = () => {
     if (!hasFetched) {
@@ -69,9 +69,9 @@ export const AppNavBar = () => {
 
   const userRoutes: MenuRoute[] = [
     {
-      key: "account",
-      href: "/dashboard/account/settings",
-      label: "Account",
+      key: "user",
+      href: "/dashboard/user/settings",
+      label: "Profile",
       icon: <UserOutlined />
     },
     {
@@ -86,7 +86,7 @@ export const AppNavBar = () => {
   ];
 
   const filterRoutes = (routes: MenuRoute[]) =>
-    !account.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
+    !user.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
 
   return (
     <NavbarWrapper>

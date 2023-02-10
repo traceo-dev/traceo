@@ -4,7 +4,7 @@ import { gravatar } from "../../common/helpers/gravatar";
 import tokenService from "../../common/helpers/tokens";
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { Account } from "../entities/account.entity";
-import { AccountStatus } from "@traceo/types"
+import { UserStatus } from "@traceo/types"
 
 export class InsertAdminUserOnStartup implements MigrationInterface {
     name?: string;
@@ -31,7 +31,7 @@ export class InsertAdminUserOnStartup implements MigrationInterface {
                 password,
                 isPasswordUpdated: false,
                 createdAt: dateUtils.toUnix(),
-                status: AccountStatus.ACTIVE
+                status: UserStatus.ACTIVE
             });
         }
     }

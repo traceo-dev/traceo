@@ -1,6 +1,6 @@
 import { IsBoolean, IsEmail } from "class-validator";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IAccount, AccountStatus, IAmr } from "@traceo/types";
+import { IUser, UserStatus, IAmr } from "@traceo/types";
 import {
   Column,
   Entity,
@@ -11,7 +11,7 @@ import { AccountMemberRelationship } from "./account-member-relationship.entity"
 import { Incident } from "./incident.entity";
 
 @Entity()
-export class Account extends BaseEntity implements IAccount {
+export class Account extends BaseEntity implements IUser {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
@@ -33,7 +33,7 @@ export class Account extends BaseEntity implements IAccount {
   password: string;
 
   @Column({ nullable: false })
-  status: AccountStatus;
+  status: UserStatus;
 
   @Column({ nullable: true, default: false, name: "is_admin" })
   @IsBoolean()

@@ -10,7 +10,7 @@ import { Account } from "./account.entity";
 import { AccountMemberRelationship } from "./account-member-relationship.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IApplication, ISecurity, IInfluxConfigDto, IRuntime, TsdbProvider, IAccount, IAmr, IIncident, ApplicationTechnology } from "@traceo/types";
+import { IApplication, ISecurity, IInfluxConfigDto, IRuntime, TsdbProvider, IUser, IAmr, IIncident, ApplicationTechnology } from "@traceo/types";
 import { Metric } from "./metric.entity";
 
 @Entity()
@@ -37,7 +37,7 @@ export class Application extends BaseEntity implements IApplication {
   @JoinColumn({
     name: 'owner_id',
   })
-  owner: IAccount;
+  owner: IUser;
 
   @Column({ nullable: true })
   gravatar?: string;

@@ -1,4 +1,4 @@
-import { useAccount } from "../hooks/useAccount";
+import { userUser } from "../hooks/useUser";
 import { membersAction } from "../lib/api/members";
 import { Avatar, Button, Select, Table, TableColumn } from "@traceo/ui";
 import { ADMIN_EMAIL } from "../utils/constants";
@@ -17,7 +17,7 @@ export const ApplicationMembersTable: FC<Props> = ({
   postExecute,
   className
 }) => {
-  const account = useAccount();
+  const user = userUser();
   const navigate = useNavigate();
 
   const options = [
@@ -34,7 +34,7 @@ export const ApplicationMembersTable: FC<Props> = ({
     await membersAction.onRemoveFromApp(member, () => {
       postExecute();
 
-      if (member?.accountId === account.id) {
+      if (member?.accountId === user.id) {
         navigate("/dashboard/overview");
       }
     });
