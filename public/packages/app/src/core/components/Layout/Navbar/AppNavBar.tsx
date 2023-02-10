@@ -70,7 +70,7 @@ export const AppNavBar = () => {
   const userRoutes: MenuRoute[] = [
     {
       key: "user",
-      href: "/dashboard/user/settings",
+      href: "/dashboard/profile/settings",
       label: "Profile",
       icon: <UserOutlined />
     },

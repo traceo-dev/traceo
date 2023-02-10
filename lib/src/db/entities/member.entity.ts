@@ -6,12 +6,12 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Account } from "./account.entity";
+import { User } from "./user.entity";
 import { Application } from "./application.entity";
-import { IAmr, MemberRole } from "@traceo/types";
+import { IMember, MemberRole } from "@traceo/types";
 
 @Entity()
-export class AccountMemberRelationship extends BaseEntity implements IAmr {
+export class MemberEntity extends BaseEntity implements IMember {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
@@ -21,14 +21,14 @@ export class AccountMemberRelationship extends BaseEntity implements IAmr {
   })
   role: MemberRole;
 
-  @ManyToOne(() => Account, {
+  @ManyToOne(() => User, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE",
   })
   @JoinColumn({
-    name: "account",
+    name: "user",
   })
-  account: Account;
+  user: User;
 
   @ManyToOne(() => Application, {
     onUpdate: "CASCADE",

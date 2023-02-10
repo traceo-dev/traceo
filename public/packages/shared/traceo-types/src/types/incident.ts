@@ -1,4 +1,4 @@
-import { IUser } from "./account";
+import { IUser } from "./user";
 import { IApplication } from "./application";
 import { IComment } from "./comment";
 

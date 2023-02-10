@@ -10,7 +10,7 @@ export const updateUser = (update: Partial<IUser>): ThunkResult<void> => {
       return;
     }
 
-    await api.patch<ApiResponse<unknown>>("/api/account", update);
+    await api.patch<ApiResponse<unknown>>("/api/user", update);
     dispatch(loadSignedInUser());
   };
 };
@@ -35,7 +35,7 @@ export const updateUserPassword = (cred: {
 
 export const deleteUser = (): ThunkResult<void> => {
   return async () => {
-    await api.delete<ApiResponse<string>>("/api/account")
+    await api.delete<ApiResponse<string>>("/api/user")
       .then((response) => {
         if (response.status === "success") {
           logout()

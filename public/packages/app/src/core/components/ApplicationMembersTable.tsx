@@ -34,7 +34,7 @@ export const ApplicationMembersTable: FC<Props> = ({
     await membersAction.onRemoveFromApp(member, () => {
       postExecute();
 
-      if (member?.accountId === user.id) {
+      if (member?.userId === user.id) {
         navigate("/dashboard/overview");
       }
     });

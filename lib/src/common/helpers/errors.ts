@@ -50,26 +50,26 @@ export class BadPasswordOrNotExists extends TraceoError {
   }
 }
 
-export class AccountNotExistsError extends TraceoError {
+export class UserNotExistsError extends TraceoError {
   constructor(message?) {
-    super(message || "Account not exists.");
-    this.name = "AccountNotExistsError";
+    super(message || "User not exists.");
+    this.name = "UserNotExistsError";
     this.status = 453;
   }
 }
 
-export class AccountEmailAlreadyExistsError extends TraceoError {
+export class UserEmailAlreadyExistsError extends TraceoError {
   constructor(message?) {
-    super(message || "Account with this email already exists.");
-    this.name = "AccountEmailAlreadyExistsError";
+    super(message || "User with this email already exists.");
+    this.name = "UserEmailAlreadyExistsError";
     this.status = 454;
   }
 }
 
-export class AccountWithUsernameAlreadyExistsError extends TraceoError {
+export class UserWithUsernameAlreadyExistsError extends TraceoError {
   constructor(message?) {
-    super(message || "Account with this username already exists.");
-    this.name = "AccountWithUsernameAlreadyExistsError";
+    super(message || "User with this username already exists.");
+    this.name = "UserWithUsernameAlreadyExistsError";
     this.status = 458;
   }
 }
@@ -82,10 +82,10 @@ export class ApplicationWithNameAlreadyExistsError extends TraceoError {
   }
 }
 
-export class AccountAlreadyInApplicationError extends TraceoError {
+export class UserAlreadyInApplicationError extends TraceoError {
   constructor(message?) {
-    super(message || "This account is already added to this application.");
-    this.name = "AccountAlreadyInApplicationError";
+    super(message || "This user is already added to this application.");
+    this.name = "UserAlreadyInApplicationError";
     this.status = 455;
   }
 }
@@ -98,7 +98,7 @@ export class ApplicationNotExistsError extends TraceoError {
   }
 }
 
-export class AccountSuspendedError extends TraceoError {
+export class UserSuspendedError extends TraceoError {
   constructor(message?) {
     super(message || "Account suspended. Please contact with administrator.");
     this.name = "AccountSuspended";

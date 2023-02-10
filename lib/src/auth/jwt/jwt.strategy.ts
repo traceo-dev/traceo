@@ -3,13 +3,13 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtPayload } from './jwt.payload.interface';
 import { config } from "dotenv";
-import { AccountQueryService } from '../../api/account/account-query/account-query.service';
+import { UserQueryService } from '../../api/user/user-query/user-query.service';
 
 config();
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private accountQueryService: AccountQueryService) {
+  constructor(private UserQueryService: UserQueryService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.JWT_SECRET
@@ -18,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: JwtPayload): Promise<JwtPayload> {
     const { id } = payload;
-    const user = await this.accountQueryService.getDto(id);
+    const user = await this.UserQueryService.getDto(id);
 
     if (!user) {
       throw new UnauthorizedException("Unauthorized!");

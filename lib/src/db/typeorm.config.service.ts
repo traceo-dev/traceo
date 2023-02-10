@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { join } from 'path';
-import { AccountMemberRelationship } from './entities/account-member-relationship.entity';
-import { Account } from './entities/account.entity';
+import { MemberEntity } from './entities/member.entity';
+import { User } from './entities/user.entity';
 import { Application } from './entities/application.entity';
 import { Comment } from './entities/comment.entity';
 import { Incident } from './entities/incident.entity';
@@ -28,8 +28,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         type: "sqlite",
         database: "traceo_sqlite_db",
         entities: [
-          Account,
-          AccountMemberRelationship,
+          User,
+          MemberEntity,
           Application,
           Comment,
           Incident,

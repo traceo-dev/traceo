@@ -2,11 +2,11 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsNotEmpty, IsEnum, IsOptional } from "class-validator";
 import { MemberRole } from "@traceo/types";
 
-export class AddAccountToApplicationDto {
+export class CreateMemberDto {
     @IsString()
     @IsNotEmpty()
     @ApiProperty()
-    accountId: string;
+    userId: string;
 
     @IsString()
     @IsNotEmpty()
@@ -19,7 +19,7 @@ export class AddAccountToApplicationDto {
     role: MemberRole;
 }
 
-export class UpdateAmrDto {
+export class UpdateMemberDto {
     @IsString()
     @IsNotEmpty()
     @ApiProperty()

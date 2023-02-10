@@ -1,4 +1,4 @@
-import { IAmr } from "./amr";
+import { IMember } from "./member";
 
 export type AddUserProps = Pick<IUser, "email" | "name" | "username"> & { password: string; }
 
@@ -22,7 +22,7 @@ export interface IUser {
     password: string;
     status: UserStatus;
     isAdmin: boolean;
-    applications: IAmr[];
+    applications: IMember[];
     isPasswordUpdated: boolean;
     lastActiveAt?: number;
     // active: boolean;

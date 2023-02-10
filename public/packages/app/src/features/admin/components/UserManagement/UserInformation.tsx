@@ -48,7 +48,7 @@ export const UserInformation = () => {
   };
 
   const onDeleteUser = async () => {
-    await api.delete<ApiResponse<unknown>>(`/api/account/${user.id}`).then((response) => {
+    await api.delete<ApiResponse<unknown>>(`/api/user/${user.id}`).then((response) => {
       if (response.status === "success") {
         navigate("/dashboard/admin/users");
       }

@@ -37,8 +37,8 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
 
     setLoading(true);
     await api
-      .post("/api/amr/application/add", {
-        accountId: userId,
+      .post("/api/member/application/add", {
+        userId,
         role: role,
         applicationId: application.id
       })

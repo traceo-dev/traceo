@@ -19,7 +19,7 @@ export const assignOptions = (members: ApplicationMember[]) =>
   members?.map((member: ApplicationMember) => ({
     label: member.name,
     description: member?.email,
-    value: member.accountId,
+    value: member.userId,
     icon: <Avatar alt={member.name} src={member.gravatar} size="sm" />
   }));
 

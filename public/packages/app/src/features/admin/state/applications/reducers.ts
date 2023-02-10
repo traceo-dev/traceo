@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IApplication } from "@traceo/types";
 
-export interface AccountsState {
+export interface UsersState {
   applications: IApplication[];
   application: IApplication;
   hasFetched: boolean;
@@ -14,18 +14,18 @@ const initialState = {
 };
 
 const applicationsSlice = createSlice({
-  name: "serverApplications",
+  name: "usersApps",
   initialState: initialState,
   reducers: {
     serverApplicationsLoaded: (
       state,
       action: PayloadAction<IApplication[]>
-    ): AccountsState => ({ ...state, hasFetched: true, applications: action.payload }),
+    ): UsersState => ({ ...state, hasFetched: true, applications: action.payload }),
     serverApplicationLoaded: (
       state,
       action: PayloadAction<IApplication>
-    ): AccountsState => ({ ...state, hasFetched: true, application: action.payload }),
-    serverAppLoadedAction: (state, action: PayloadAction<boolean>): AccountsState => ({
+    ): UsersState => ({ ...state, hasFetched: true, application: action.payload }),
+    serverAppLoadedAction: (state, action: PayloadAction<boolean>): UsersState => ({
       ...state,
       hasFetched: action.payload
     }),

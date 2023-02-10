@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn
 } from "typeorm";
 import { BaseEntity } from "@common/base/base.entity";
-import { Account } from "./account.entity";
+import { User } from "./user.entity";
 import { Incident } from "./incident.entity";
 
 @Entity()
@@ -20,7 +20,7 @@ export class Comment extends BaseEntity implements IComment {
   })
   message: string;
 
-  @ManyToOne(() => Account)
+  @ManyToOne(() => User)
   @JoinColumn({
     name: "sender_id",
   })

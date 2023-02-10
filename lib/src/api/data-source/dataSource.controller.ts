@@ -1,9 +1,7 @@
 import { Body, Controller, Delete, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthAccount } from '@common/decorators/auth-user.decorator';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { RequestUser, IInfluxConfigDto, DataSourceConnStatus } from '@traceo/types';
-import { GuardsService } from '@common/guards/guards.service';
+import { IInfluxConfigDto, DataSourceConnStatus } from '@traceo/types';
 import { DataSourceService } from './dataSource.service';
 import { InfluxConfigurationDto } from '@common/types/dto/influx.dto';
 import { AuthGuard } from '@common/decorators/auth-guard.decorator';
@@ -13,8 +11,7 @@ import { AuthGuard } from '@common/decorators/auth-guard.decorator';
 @UseGuards(new AuthGuard())
 export class DataSourceController {
     constructor(
-        private readonly dsService: DataSourceService,
-        private readonly permission: GuardsService
+        private readonly dsService: DataSourceService
     ) { }
 
     @Get()
@@ -38,11 +35,8 @@ export class DataSourceController {
 
     @Delete()
     public async removeDataSource(
-        @Query("id") id: string,
-        @AuthAccount() account: RequestUser,
+        @Query("id") id: string
     ): Promise<ApiResponse<unknown>> {
-        await this.permission.can('REMOVE_DATASOURCE', account);
-
         return await this.dsService.removeDataSource(id);
     }
 }

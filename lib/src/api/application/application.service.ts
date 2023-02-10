@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { AmrService } from '../application-member/amr.service';
+import { MemberService } from '../member/member.service';
 import { EntityManager } from 'typeorm';
 import * as crypto from "crypto";
 import { ApplicationQueryService } from './application-query/application-query.service';
-import { AccountQueryService } from '../account/account-query/account-query.service';
+import { UserQueryService } from '../user/user-query/user-query.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import dayjs from 'dayjs';
 import { ADMIN_NAME, ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
@@ -27,9 +27,9 @@ export class ApplicationService {
 
   constructor(
     private readonly entityManager: EntityManager,
-    private readonly awrService: AmrService,
+    private readonly awrService: MemberService,
     private readonly applicationQueryService: ApplicationQueryService,
-    private readonly accountQueryService: AccountQueryService,
+    private readonly userQueryService: UserQueryService,
     private readonly metricsService: MetricsService
   ) {
     this.logger = new Logger(ApplicationService.name)
@@ -48,16 +48,16 @@ export class ApplicationService {
         });
       }
 
-      const account = await this.accountQueryService.getDtoBy({ id });
-      if (!account) {
-        throw new Error('Owner account is required!');
+      const user = await this.userQueryService.getDtoBy({ id });
+      if (!user) {
+        throw new Error(INTERNAL_SERVER_ERROR);
       }
 
       const url = gravatar.url(data.name, "identicon");
       const payload: Partial<Application> = {
         ...data,
         id: uuidService.generate(),
-        owner: account,
+        owner: user,
         gravatar: url,
         createdAt: dateUtils.toUnix(),
         updatedAt: dateUtils.toUnix(),
@@ -87,8 +87,8 @@ export class ApplicationService {
       console.log("payload: ", application);
 
       if (username !== ADMIN_NAME) {
-        const admin = await this.accountQueryService.getDtoBy({ email: ADMIN_EMAIL });
-        await this.awrService.createAmr(
+        const admin = await this.userQueryService.getDtoBy({ email: ADMIN_EMAIL });
+        await this.awrService.createMember(
           admin,
           application,
           MemberRole.ADMINISTRATOR,
@@ -96,8 +96,8 @@ export class ApplicationService {
         );
       }
 
-      await this.awrService.createAmr(
-        account,
+      await this.awrService.createMember(
+        user,
         application,
         MemberRole.ADMINISTRATOR,
         manager,

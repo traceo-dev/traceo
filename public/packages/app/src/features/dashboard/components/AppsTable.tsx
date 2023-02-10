@@ -51,7 +51,7 @@ export const AppsTable = () => {
       order,
       sortBy,
       search: search,
-      accountId: user?.id
+      userId: user?.id
     };
     dispatch(loadApplications(queryParams));
   };

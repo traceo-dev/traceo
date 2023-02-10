@@ -2,13 +2,12 @@ import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { AuthModule } from '../auth/auth.module';
-import { GuardsModule } from '@common/guards/guards.module';
 import { CommentsGateway } from '@common/websockets/comments.gateway';
 import { InfluxService } from '../providers/influx/influx.service';
-import { AccountController } from './account/account.controller';
-import { AccountModule } from './account/account.module';
-import { AmrController } from './application-member/amr.controller';
-import { AmrModule } from './application-member/amr.module';
+import { UserController } from './user/user.controller';
+import { UserModule } from './user/user.module';
+import { MemberController } from './member/member.controller';
+import { MemberModule } from './member/member.module';
 import { ApplicationController } from './application/application.controller';
 import { ApplicationModule } from './application/application.module';
 import { DataSourceController } from './data-source/dataSource.controller';
@@ -22,7 +21,7 @@ import { StatisticsController } from './statistics/statistics.controller';
 import { StatisticsModule } from './statistics/statistics.module';
 import { WorkerController } from './worker/worker.controller';
 import { WorkerModule } from './worker/worker.module';
-import { AccountsController } from './account/accounts.controller';
+import { UsersController } from './user/users.controller';
 import { ApplicationsController } from './application/applications.controller';
 import { IncidentCommentsModule } from './incidents/incident-comments/incident-comments.module';
 
@@ -30,24 +29,23 @@ import { IncidentCommentsModule } from './incidents/incident-comments/incident-c
     imports: [
         AuthModule,
         PassportModule.register({ defaultStrategy: 'jwt' }),
-        AccountModule,
+        UserModule,
         ApplicationModule,
-        AmrModule,
+        MemberModule,
         DataSourceModule,
         IncidentsModule,
         IncidentCommentsModule,
         StatisticsModule,
         WorkerModule,
-        GuardsModule,
         HttpModule,
         MetricsModule
     ],
     controllers: [
-        AccountController,
-        AccountsController,
+        UserController,
+        UsersController,
         ApplicationController,
         ApplicationsController,
-        AmrController,
+        MemberController,
         DataSourceController,
         IncidentCommentsController,
         IncidentsController,

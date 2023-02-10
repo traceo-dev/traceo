@@ -19,8 +19,8 @@ export const loadApplications = (
       };
     }
 
-    const { data } = await api.get<ApiResponse<MemberApplication[]>>("/api/amr/applications", {
-      accountId: query?.accountId || user?.id,
+    const { data } = await api.get<ApiResponse<MemberApplication[]>>("/api/member/applications", {
+      userId: query?.userId || user?.id,
       ...query
     });
     dispatch(applicationsLoaded(data));

@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { GuardsService } from '@common/guards/guards.service';
-import { AccountQueryService } from '../account/account-query/account-query.service';
+import { UserQueryService } from '../user/user-query/user-query.service';
 import { IncidentCommentsModule } from './incident-comments/incident-comments.module';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsController } from './incidents.controller';
@@ -15,8 +14,7 @@ import { IncidentsService } from './incidents.service';
   providers: [
     IncidentsQueryService,
     IncidentsService,
-    AccountQueryService,
-    GuardsService
+    UserQueryService
   ],
   controllers: [IncidentsController],
   exports: [

@@ -19,18 +19,18 @@ export class Session extends BaseEntity implements ISession {
     @Column({
         type: "varchar"
     })
-    accountID: string;
+    userID: string;
 
     @Column({
         type: "varchar",
         nullable: true
     })
-    accountName: string;
+    userName: string;
 
     @Column({
         type: "varchar"
     })
-    accountIP: string;
+    userIP: string;
 
     @Column({
         type: "bigint",

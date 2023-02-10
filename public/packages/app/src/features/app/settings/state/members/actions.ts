@@ -1,7 +1,7 @@
 import api, { ApiQueryParams } from "../../../../../core/lib/api";
 import { ThunkResult } from "@store/types";
 import {
-  AddAccountToApplication,
+  AddUserToApplication,
   ApplicationMember,
   ApplicationMemberUpdateProps,
   ApiResponse
@@ -17,15 +17,15 @@ export const loadMembers = (query?: ApiQueryParams): ThunkResult<void> => {
       };
     }
 
-    const { data } = await api.get<ApiResponse<ApplicationMember[]>>("/api/amr/members", query);
+    const { data } = await api.get<ApiResponse<ApplicationMember[]>>("/api/member/members", query);
     dispatch(membersLoaded(data));
   };
 };
 
-export const addMember = (props: AddAccountToApplication): ThunkResult<void> => {
+export const addMember = (props: AddUserToApplication): ThunkResult<void> => {
   return async (dispatch) => {
     await api.post(
-      "/api/amr/application/add",
+      "/api/member/application/add",
       props
     );
     dispatch(loadMembers());
@@ -34,14 +34,14 @@ export const addMember = (props: AddAccountToApplication): ThunkResult<void> => 
 
 export const updateMember = (update: ApplicationMemberUpdateProps): ThunkResult<void> => {
   return async (dispatch) => {
-    await api.patch("/api/amr/application/member", update);
+    await api.patch("/api/member/application/member", update);
     dispatch(loadMembers());
   };
 };
 
 export const removeMember = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
-    await api.delete("/api/amr/application/member", { id });
+    await api.delete("/api/member/application/member", { id });
     dispatch(loadMembers());
   };
 };

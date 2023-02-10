@@ -1,17 +1,17 @@
 import { IsBoolean, IsEmail } from "class-validator";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IUser, UserStatus, IAmr } from "@traceo/types";
+import { IUser, UserStatus, IMember } from "@traceo/types";
 import {
   Column,
   Entity,
   OneToMany,
   PrimaryGeneratedColumn
 } from "typeorm";
-import { AccountMemberRelationship } from "./account-member-relationship.entity";
+import { MemberEntity } from "./member.entity";
 import { Incident } from "./incident.entity";
 
 @Entity()
-export class Account extends BaseEntity implements IUser {
+export class User extends BaseEntity implements IUser {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
@@ -40,13 +40,13 @@ export class Account extends BaseEntity implements IUser {
   isAdmin: boolean;
 
   @OneToMany(
-    () => AccountMemberRelationship,
-    (accountApp) => accountApp.account,
+    () => MemberEntity,
+    (app) => app.user,
     {
       cascade: true,
     },
   )
-  applications: IAmr[];
+  applications: IMember[];
 
   @OneToMany(() => Incident, (incident) => incident.assigned)
   incidents: Incident[];

@@ -1,4 +1,4 @@
-import { IUser } from "./account";
+import { IUser } from "./user";
 import { IIncident } from "./incident";
 
 export interface IComment {

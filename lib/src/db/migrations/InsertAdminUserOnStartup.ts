@@ -3,7 +3,7 @@ import dateUtils from "../../common/helpers/dateUtils";
 import { gravatar } from "../../common/helpers/gravatar";
 import tokenService from "../../common/helpers/tokens";
 import { MigrationInterface, QueryRunner } from "typeorm";
-import { Account } from "../entities/account.entity";
+import { User } from "../entities/user.entity";
 import { UserStatus } from "@traceo/types"
 
 export class InsertAdminUserOnStartup implements MigrationInterface {
@@ -18,11 +18,11 @@ export class InsertAdminUserOnStartup implements MigrationInterface {
 
         await connection.synchronize();
 
-        const account = await connection.getRepository(Account).findOneBy({ email: ADMIN_EMAIL });
-        if (!account) {
+        const user = await connection.getRepository(User).findOneBy({ email: ADMIN_EMAIL });
+        if (!user) {
             const password = tokenService.generate("admin");
             const url = gravatar.url("admin", "retro");
-            await connection.getRepository(Account).insert({
+            await connection.getRepository(User).insert({
                 email: ADMIN_EMAIL,
                 name: "admin",
                 username: "admin",

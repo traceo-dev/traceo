@@ -1,5 +1,5 @@
-import { IUser } from "./account";
-import { MemberRole } from "./amr";
+import { IUser } from "./user";
+import { MemberRole } from "./member";
 import { SortOrder } from "./api";
 import { IInfluxConfigDto } from "./influxds";
 import { TsdbProvider, ConnectionStatus } from "./tsdb";
@@ -8,7 +8,7 @@ export interface IApplication {
     id?: string;
     name: string;
     technology: ApplicationTechnology;
-    owner: OwnerAccount;
+    owner: Owner;
     gravatar?: string;
     lastIncidentAt?: number;
     incidentsCount: number;
@@ -48,20 +48,20 @@ export interface IApplicationResponse extends Omit<IApplication, "influxDS" | "o
     }
 }
 
-export interface OwnerAccount {
+export interface Owner {
     name: string;
     email: string;
     username: string;
 }
 
-export interface AddAccountToApplication {
+export interface AddUserToApplication {
     role: {
         value: MemberRole
     };
     application: {
         value: string
     };
-    accountId: string;
+    userId: string;
 }
 
 export interface ApplicationMemberUpdateProps {
@@ -71,7 +71,7 @@ export interface ApplicationMemberUpdateProps {
 
 export type ApplicationMember = {
     id: string;
-    accountId: string;
+    userId: string;
     role: MemberRole;
 } & IUser;
 
@@ -92,7 +92,7 @@ export interface SearchApplicationQueryParams {
     order?: SortOrder;
     sortBy?: string;
     search?: string;
-    accountId?: string;
+    userId?: string;
 }
 
 export enum ApplicationTechnology {

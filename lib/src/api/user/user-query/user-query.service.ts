@@ -1,53 +1,53 @@
 import { Injectable } from '@nestjs/common';
 import { BaseQueryService } from '@common/base/query/base-query.service';
 import { BaseDtoQuery } from '@common/base/query/base-query.model';
-import { Account } from '@db/entities/account.entity';
+import { User } from '@db/entities/user.entity';
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { IUser } from '@traceo/types';
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 
 @Injectable()
-export class AccountQueryService extends BaseQueryService<
-  Account,
+export class UserQueryService extends BaseQueryService<
+  User,
   BaseDtoQuery
 > {
   constructor(
     private readonly entityManager: EntityManager
   ) {
-    super(entityManager, Account);
+    super(entityManager, User);
   }
 
-  public async getSignedInAccount(): Promise<ApiResponse<IUser>> {
+  public async getSignedInUser(): Promise<ApiResponse<IUser>> {
     try {
-      const accountId = RequestContext.user.id;
-      const account = await this.entityManager.getRepository(Account).findOneBy({
-        id: accountId
+      const userId = RequestContext.user.id;
+      const user = await this.entityManager.getRepository(User).findOneBy({
+        id: userId
       });
 
-      return new ApiResponse("success", undefined, account)
+      return new ApiResponse("success", undefined, user)
     } catch (error) {
       console.log("erro: ", error)
     }
   }
 
   public get builderAlias(): string {
-    return 'account';
+    return 'user';
   }
 
   public extendQueryBuilder(
-    builder: SelectQueryBuilder<Account>,
+    builder: SelectQueryBuilder<User>,
     query: BaseDtoQuery,
-  ): SelectQueryBuilder<Account> {
+  ): SelectQueryBuilder<User> {
     const { search } = query;
 
     if (search) {
       builder
-        .where("LOWER(account.name) LIKE LOWER(:name)", { name: `%${search}%` })
-        .orWhere("LOWER(account.username) LIKE LOWER(:username)", {
+        .where("LOWER(user.name) LIKE LOWER(:name)", { name: `%${search}%` })
+        .orWhere("LOWER(user.username) LIKE LOWER(:username)", {
           username: `%${search}%`
         })
-        .orWhere("LOWER(account.email) LIKE LOWER(:email)", {
+        .orWhere("LOWER(user.email) LIKE LOWER(:email)", {
           email: `%${search}%`
         });
     }

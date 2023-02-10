@@ -2,7 +2,7 @@ import { ApiPropertyOptional, ApiProperty } from "@nestjs/swagger";
 import { IsOptional, IsString, IsNotEmpty, IsEmail, IsBoolean, IsEnum } from "class-validator";
 import { UserStatus } from "@traceo/types";
 
-export class CreateAccountDto {
+export class CreateUserDto {
     @IsOptional()
     @IsString()
     @ApiPropertyOptional({ type: String, description: 'name' })
@@ -24,15 +24,15 @@ export class CreateAccountDto {
     public username?: string;
 }
 
-export class AccountDto {
+export class UserDto {
     @IsString()
     @IsOptional()
-    @ApiProperty({ type: String, description: 'account id' })
+    @ApiProperty({ type: String, description: 'user id' })
     id?: string;
 
     @IsString()
     @IsOptional()
-    @ApiProperty({ type: String, description: 'account name' })
+    @ApiProperty({ type: String, description: 'user name' })
     name?: string;
 
     @IsString()
@@ -42,21 +42,21 @@ export class AccountDto {
 
     // @IsEmail()
     @IsOptional()
-    @ApiProperty({ type: String, description: 'account email' })
+    @ApiProperty({ type: String, description: 'user email' })
     email?: string;
 
     @IsBoolean()
     @IsOptional()
-    @ApiProperty({ description: 'account as admin' })
+    @ApiProperty({ description: 'user as admin' })
     isAdmin?: boolean;
 
     @IsEnum(UserStatus)
     @IsOptional()
-    @ApiProperty({ description: 'account status' })
+    @ApiProperty({ description: 'user status' })
     status: UserStatus;
 }
 
-export class AccountCredentialsDto {
+export class UserCredentialsDto {
     constructor(username: string, password: string) {
         this.username = username;
         this.password = password;

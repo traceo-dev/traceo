@@ -23,9 +23,9 @@ export const UserApplications = () => {
     execute: postExecute,
     isLoading
   } = useRequest<MemberApplication[]>({
-    url: "/api/amr/applications",
+    url: "/api/member/applications",
     params: {
-      accountId: user.id
+      userId: user.id
     }
   });
 

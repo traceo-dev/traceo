@@ -44,8 +44,8 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
 
     setLoading(true);
     await api
-      .post("/api/amr/application/add", {
-        accountId: user.id,
+      .post("/api/member/application/add", {
+        userId: user.id,
         applicationId: application,
         role: role
       })

@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthRequired } from '@common/decorators/auth-required.decorator';
-import { AccountCredentialsDto, UpdatePasswordDto } from '@common/types/dto/account.dto';
+import { UserCredentialsDto, UpdatePasswordDto } from '@common/types/dto/user.dto';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { AuthService, LoginResponseType } from './auth.service';
 import { Res, Req } from '@nestjs/common';
@@ -14,7 +14,7 @@ export class AuthController {
 
   @Post('login')
   async login(
-    @Body() user: AccountCredentialsDto,
+    @Body() user: UserCredentialsDto,
     @Res({ passthrough: true }) res: Response,
     @Req() req: Request
   ): Promise<ApiResponse<LoginResponseType>> {
@@ -33,7 +33,7 @@ export class AuthController {
   @Post('check')
   @AuthRequired()
   async check(
-    @Body() creds: AccountCredentialsDto,
+    @Body() creds: UserCredentialsDto,
   ): Promise<ApiResponse<unknown>> {
     return this.authService.checkUserCredentials(creds);
   }

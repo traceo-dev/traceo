@@ -6,11 +6,11 @@ import {
   OneToMany,
   PrimaryColumn,
 } from "typeorm";
-import { Account } from "./account.entity";
-import { AccountMemberRelationship } from "./account-member-relationship.entity";
+import { User } from "./user.entity";
+import { MemberEntity } from "./member.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IApplication, ISecurity, IInfluxConfigDto, IRuntime, TsdbProvider, IUser, IAmr, IIncident, ApplicationTechnology } from "@traceo/types";
+import { IApplication, ISecurity, IInfluxConfigDto, IRuntime, TsdbProvider, IUser, IMember, IIncident, ApplicationTechnology } from "@traceo/types";
 import { Metric } from "./metric.entity";
 
 @Entity()
@@ -33,7 +33,7 @@ export class Application extends BaseEntity implements IApplication {
   })
   security?: ISecurity;
 
-  @ManyToOne(() => Account)
+  @ManyToOne(() => User)
   @JoinColumn({
     name: 'owner_id',
   })
@@ -56,14 +56,14 @@ export class Application extends BaseEntity implements IApplication {
   isIntegrated: boolean;
 
   @OneToMany(
-    () => AccountMemberRelationship,
+    () => MemberEntity,
     (member) => member.application,
     {
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     },
   )
-  members?: IAmr[];
+  members?: IMember[];
   membersCount: number;
 
   @OneToMany(() => Incident, (incident) => incident.application, {

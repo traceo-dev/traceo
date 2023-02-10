@@ -36,7 +36,7 @@ export const loadPermission = (props?: LoadApplicationType): ThunkResult<void> =
     try {
       const { data } = await api.get<ApiResponse<{
         role: MemberRole
-      }>>("/api/amr/permission", {
+      }>>("/api/member/permission", {
         id: props.id
       });
       dispatch(applicationPermission(data.role));

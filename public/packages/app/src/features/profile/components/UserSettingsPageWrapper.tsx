@@ -18,7 +18,7 @@ export const UserSettingsPageWrapper = ({ children }) => {
 
   const menu: MenuRoute[] = [
     {
-      href: "/dashboard/user/settings",
+      href: "/dashboard/profile/settings",
       label: "Settings",
       key: "settings",
       icon: <SettingOutlined />
