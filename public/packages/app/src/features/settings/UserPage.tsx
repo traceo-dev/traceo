@@ -18,7 +18,7 @@ import { useMemberRole } from "../../core/hooks/useMemberRole";
 import { useDemo } from "../../core/hooks/useDemo";
 import { userUser } from "../../core/hooks/useUser";
 
-type UpdateAccountForm = {
+type UpdateUserForm = {
   name: string;
   email: string;
 };
@@ -28,16 +28,16 @@ type UpdatePasswordForm = {
   newPassword: string;
 };
 
-const AccountPage = () => {
+const UserProfilePage = () => {
   const dispatch = useAppDispatch();
-  const account = userUser();
+  const user = userUser();
   const { isAdmin } = useMemberRole();
   const { isDemo } = useDemo();
 
-  const onFinishUpdateAccount = (form: UpdateAccountForm) =>
+  const onFinishUpdateUser = (form: UpdateUserForm) =>
     dispatch(
       updateUser({
-        id: account.id,
+        id: user.id,
         ...form
       })
     );
@@ -53,10 +53,10 @@ const AccountPage = () => {
           subtitle="This information will appear on your profile."
         >
           <Form
-            onSubmit={onFinishUpdateAccount}
+            onSubmit={onFinishUpdateUser}
             defaultValues={{
-              name: account?.name,
-              email: account?.email
+              name: user?.name,
+              email: user?.email
             }}
             id="basic-info-form"
             className="w-2/3"
@@ -144,4 +144,4 @@ const AccountPage = () => {
   );
 };
 
-export default AccountPage;
+export default UserProfilePage;
