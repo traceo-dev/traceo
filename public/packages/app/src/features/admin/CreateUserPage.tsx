@@ -59,7 +59,7 @@ const CreateUserPage = () => {
 
   const onBack = () => {
     dispatch(toggleNavbar(false));
-    navigate("/dashboard/overview");
+    navigate("/dashboard/admin/users");
   };
 
   return (

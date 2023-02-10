@@ -55,14 +55,13 @@ export const UserInformation = () => {
     });
   };
 
+  const isActive = [UserStatus.ACTIVE, UserStatus.INACTIVE].includes(user.status);
+  const isDisabled = UserStatus.DISABLED === user.status;
+
   const renderButtons = () => {
-    const isDisableUserBtn = [UserStatus.ACTIVE, UserStatus.INACTIVE].includes(
-      user.status
-    );
-    const isEnableUserBtn = UserStatus.DISABLED === user.status;
     return (
       <Space className="w-full justify-end">
-        {isDisableUserBtn && (
+        {isActive && (
           <Confirm
             onOk={onChangeUserStatus}
             description={
@@ -76,7 +75,7 @@ export const UserInformation = () => {
           </Confirm>
         )}
 
-        {isEnableUserBtn && (
+        {isDisabled && (
           <Confirm
             onOk={() => onChangeUserStatus()}
             description={
@@ -107,9 +106,13 @@ export const UserInformation = () => {
       {isAdmin && (
         <Alert
           type="warning"
-          message="Administrator user is in read-only mode."
+          message="Sudo administrator account is always in read-only mode."
           className="my-1"
         />
+      )}
+
+      {isDisabled && (
+        <Alert type="info" message="This user is disabled." className="my-1" />
       )}
 
       <Card title="Personal Information" extra={renderButtons()}>
