@@ -1,6 +1,6 @@
 import api from "../../../../../core/lib/api";
 import { logout } from "../../../../../core/utils/logout";
-import { loadUser } from "../../../../auth/state/actions";
+import { loadSignedInUser } from "../../../../auth/state/actions";
 import { IUser, ApiResponse } from "@traceo/types";
 import { ThunkResult } from "@store/types";
 
@@ -11,7 +11,7 @@ export const updateUser = (update: Partial<IUser>): ThunkResult<void> => {
     }
 
     await api.patch<ApiResponse<unknown>>("/api/account", update);
-    dispatch(loadUser());
+    dispatch(loadSignedInUser());
   };
 };
 

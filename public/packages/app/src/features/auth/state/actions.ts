@@ -3,7 +3,7 @@ import { ApiResponse, IUser } from "@traceo/types";
 import { userLoaded } from "./reducers";
 import { ThunkResult } from "@store/types";
 
-export const loadUser = (): ThunkResult<void> => {
+export const loadSignedInUser = (): ThunkResult<void> => {
   return async (dispatch) => {
     const { data } = await api.get<ApiResponse<IUser>>("/api/account");
     dispatch(userLoaded(data));

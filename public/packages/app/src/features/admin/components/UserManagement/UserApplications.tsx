@@ -13,10 +13,10 @@ import { Confirm } from "../../../../core/components/Confirm";
 import { membersAction } from "../../../../core/lib/api/members";
 
 export const UserApplications = () => {
-  const { account } = useSelector((state: StoreState) => state.serverAccounts);
+  const { user } = useSelector((state: StoreState) => state.users);
   const [isOpenAddAppDrawer, setOpenAddAppDrawer] = useState<boolean>(false);
 
-  const isAdmin = account.email === ADMIN_EMAIL;
+  const isAdmin = user.email === ADMIN_EMAIL;
 
   const {
     data: applications = [],
@@ -25,7 +25,7 @@ export const UserApplications = () => {
   } = useRequest<MemberApplication[]>({
     url: "/api/amr/applications",
     params: {
-      accountId: account.id
+      accountId: user.id
     }
   });
 
@@ -69,7 +69,7 @@ export const UserApplications = () => {
             <TableColumn name="Name" value="name" />
             <TableColumn name="Role" className="py-0">
               {({ item }) => {
-                if (account.email === ADMIN_EMAIL) {
+                if (user.email === ADMIN_EMAIL) {
                   return <span>{item.role}</span>;
                 }
 
@@ -89,7 +89,7 @@ export const UserApplications = () => {
             <TableColumn width={100} />
             <TableColumn width={50}>
               {({ item }) => {
-                if (account.email !== ADMIN_EMAIL) {
+                if (user.email !== ADMIN_EMAIL) {
                   return (
                     <Confirm
                       description="Are you sure you want to remove this user from app?"

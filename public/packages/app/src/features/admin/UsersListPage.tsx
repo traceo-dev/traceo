@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../store";
 import { StoreState } from "@store/types";
 import { UsersTable } from "./components/UserManagement/UsersTable";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
-import { loadUsers } from "./state/accounts/actions";
+import { loadUsers } from "./state/users/actions";
 import { InputSearch, Button, Card } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
 
@@ -14,9 +14,7 @@ const UsersListPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { accounts, hasFetched } = useSelector(
-    (state: StoreState) => state.serverAccounts
-  );
+  const { users, hasFetched } = useSelector((state: StoreState) => state.users);
   const [search, setSearch] = useState<string>(null);
 
   useEffect(() => {
@@ -44,7 +42,7 @@ const UsersListPage = () => {
             onChange={setSearch}
           />
         </SearchWrapper>
-        <UsersTable users={accounts} hasFetched={hasFetched} />
+        <UsersTable users={users} hasFetched={hasFetched} />
       </Card>
     </DashboardPageWrapper>
   );

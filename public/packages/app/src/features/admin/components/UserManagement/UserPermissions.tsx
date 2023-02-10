@@ -1,19 +1,19 @@
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../../store";
 import { StoreState } from "@store/types";
-import { updateUser } from "../../state/accounts/actions";
+import { updateUser } from "../../state/users/actions";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { Card, Select, FieldLabel } from "@traceo/ui";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 
 export const UserPermissions = () => {
   const dispatch = useAppDispatch();
-  const { account } = useSelector((state: StoreState) => state.serverAccounts);
+  const { user } = useSelector((state: StoreState) => state.users);
 
-  const isCoreAdmin = account.email === ADMIN_EMAIL;
+  const isCoreAdmin = user.email === ADMIN_EMAIL;
 
   const onUpdateServerRole = (value: boolean) => {
-    dispatch(updateUser({ id: account.id, isAdmin: value }));
+    dispatch(updateUser({ id: user.id, isAdmin: value }));
   };
 
   return (
@@ -21,7 +21,7 @@ export const UserPermissions = () => {
       <ColumnSection subtitle="Manage permissions and access to all resources of this Traceo instance.">
         <FieldLabel className="w-2/3" label="Server Admin">
           <Select
-            defaultValue={account.isAdmin}
+            defaultValue={user.isAdmin}
             isDisabled={isCoreAdmin}
             onChange={(opt) => onUpdateServerRole(opt?.value)}
             options={[

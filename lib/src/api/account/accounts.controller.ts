@@ -20,7 +20,7 @@ export class AccountsController {
     ) { }
 
     @Get()
-    async getApplication(@Query("id") id: string): Promise<ApiResponse<IUser>> {
+    async getAccount(@Query("id") id: string): Promise<ApiResponse<IUser>> {
         return await this.accountQueryService.getApiDto(id);
     }
 

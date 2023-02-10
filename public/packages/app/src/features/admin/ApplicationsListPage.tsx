@@ -12,7 +12,7 @@ import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 import { DataNotFound } from "../../core/components/DataNotFound";
 import { InputSearch, Button, Card } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
-import { navbarState } from "../app/state/navbar/reducers";
+import { toggleNavbar } from "../../store/internal/navbar/actions";
 
 export const ApplicationsListPage = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +33,7 @@ export const ApplicationsListPage = () => {
 
   const onNewApp = () => {
     navigate("/dashboard/app/new");
-    dispatch(navbarState({ hidden: true }));
+    dispatch(toggleNavbar(true));
   };
 
   return (

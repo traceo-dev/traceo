@@ -1,6 +1,6 @@
 import { useEffect, useState, FormEvent } from "react";
 import { useAppDispatch } from "../../../store";
-import { loadUsers } from "../../../features/admin/state/accounts/actions";
+import { loadUsers } from "../../../features/admin/state/users/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
 import { ApplicationMember, MemberRole, IUser } from "@traceo/types";
@@ -19,9 +19,7 @@ import { useApplication } from "../../hooks/useApplication";
 export const AddMemberModal = ({ isOpen, onCancel }) => {
   const dispatch = useAppDispatch();
 
-  const { accounts, hasFetched } = useSelector(
-    (state: StoreState) => state.serverAccounts
-  );
+  const { users, hasFetched } = useSelector((state: StoreState) => state.users);
   const { application } = useApplication();
   const { members } = useSelector((state: StoreState) => state.members);
 
@@ -57,7 +55,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   };
 
   const filterUsers = () =>
-    accounts.filter(
+    users.filter(
       (acc: IUser) => !members.find((member: ApplicationMember) => member.id === acc.id)
     );
 

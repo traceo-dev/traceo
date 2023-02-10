@@ -7,15 +7,15 @@ import { UserApplications } from "./components/UserManagement/UserApplications";
 import { UserInformation } from "./components/UserManagement/UserInformation";
 import { UserPermissions } from "./components/UserManagement/UserPermissions";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
-import { loadServerAccount } from "./state/accounts/actions";
+import { loadUser } from "./state/users/actions";
 
 export const UserPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const { hasFetched } = useSelector((state: StoreState) => state.serverAccounts);
+  const { hasFetched } = useSelector((state: StoreState) => state.users);
 
   useEffect(() => {
-    dispatch(loadServerAccount(id));
+    dispatch(loadUser(id));
   }, []);
 
   return (

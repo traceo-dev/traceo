@@ -3,7 +3,7 @@ import { Confirm } from "../../../../core/components/Confirm";
 import { useAppDispatch } from "../../../../store";
 import { UserStatus, ApiResponse } from "@traceo/types";
 import { StoreState } from "@store/types";
-import { updateUser } from "../../state/accounts/actions";
+import { updateUser } from "../../state/users/actions";
 import api from "../../../../core/lib/api";
 import { useNavigate } from "react-router-dom";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
@@ -28,40 +28,38 @@ interface UserProps {
 
 export const UserInformation = () => {
   const dispatch = useAppDispatch();
-  const { account } = useSelector((state: StoreState) => state.serverAccounts);
+  const { user } = useSelector((state: StoreState) => state.users);
   const navigate = useNavigate();
 
   const defaultValues: UserProps = {
-    ...account
+    ...user
   };
 
-  const isAdmin = account.email === ADMIN_EMAIL;
+  const isAdmin = user.email === ADMIN_EMAIL;
 
   const onFinish = (props: UserProps) => {
-    dispatch(updateUser({ id: account.id, ...props }));
+    dispatch(updateUser({ id: user.id, ...props }));
   };
 
   const onChangeUserStatus = () => {
     const status =
-      account.status === UserStatus.DISABLED ? UserStatus.ACTIVE : UserStatus.DISABLED;
-    dispatch(updateUser({ id: account.id, status }));
+      user.status === UserStatus.DISABLED ? UserStatus.ACTIVE : UserStatus.DISABLED;
+    dispatch(updateUser({ id: user.id, status }));
   };
 
   const onDeleteUser = async () => {
-    await api
-      .delete<ApiResponse<unknown>>(`/api/account/${account.id}`)
-      .then((response) => {
-        if (response.status === "success") {
-          navigate("/dashboard/admin/users");
-        }
-      });
+    await api.delete<ApiResponse<unknown>>(`/api/account/${user.id}`).then((response) => {
+      if (response.status === "success") {
+        navigate("/dashboard/admin/users");
+      }
+    });
   };
 
   const renderButtons = () => {
     const isDisableUserBtn = [UserStatus.ACTIVE, UserStatus.INACTIVE].includes(
-      account.status
+      user.status
     );
-    const isEnableUserBtn = UserStatus.DISABLED === account.status;
+    const isEnableUserBtn = UserStatus.DISABLED === user.status;
     return (
       <Space className="w-full justify-end">
         {isDisableUserBtn && (
@@ -69,8 +67,8 @@ export const UserInformation = () => {
             onOk={onChangeUserStatus}
             description={
               <Typography>
-                Are you sure that you want to suspend <b>{account.name}</b>? After this
-                action, user will not be able to log into the account.
+                Are you sure that you want to suspend <b>{user.name}</b>? After this
+                action, user will not be able to log into the user.
               </Typography>
             }
           >
@@ -83,7 +81,7 @@ export const UserInformation = () => {
             onOk={() => onChangeUserStatus()}
             description={
               <Typography>
-                Are you sure that you want to activate <b>{account.name}</b> account?
+                Are you sure that you want to activate <b>{user.name}</b> user?
               </Typography>
             }
           >
@@ -94,10 +92,10 @@ export const UserInformation = () => {
         {!isAdmin && (
           <Confirm
             auth={true}
-            description={"Are you sure that you want to delete this account?"}
+            description={"Are you sure that you want to delete this user?"}
             onOk={() => onDeleteUser()}
           >
-            <Button variant="danger">Delete account</Button>
+            <Button variant="danger">Delete user</Button>
           </Confirm>
         )}
       </Space>
@@ -109,7 +107,7 @@ export const UserInformation = () => {
       {isAdmin && (
         <Alert
           type="warning"
-          message="Administrator account is in read-only mode."
+          message="Administrator user is in read-only mode."
           className="my-1"
         />
       )}

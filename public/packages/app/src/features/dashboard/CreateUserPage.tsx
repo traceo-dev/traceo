@@ -1,4 +1,4 @@
-import { AppstoreOutlined, ArrowLeftOutlined, LeftOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../../store/index";
 import { AddUserProps, ApiResponse } from "@traceo/types";
 import {
@@ -10,18 +10,14 @@ import {
   FormItem,
   Input,
   InputSecret,
-  Select,
-  SelectOptionProps,
   Typography
 } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { Page } from "src/core/components/Page";
-import { loadApplication } from "../app/state/application/actions";
 import { useNavigate } from "react-router-dom";
-import { navbarState } from "../app/state/navbar/reducers";
 import api from "src/core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "src/core/utils/constants";
-import { InfluxForm } from "src/core/components/Forms/InfluxForm";
+import { toggleNavbar } from "../../store/internal/navbar/actions";
 
 type CreateUserPayload = {
   id: string;
@@ -36,7 +32,7 @@ const CreateUserPage = () => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
   useEffect(() => {
-    dispatch(navbarState({ hidden: true }));
+    dispatch(toggleNavbar(true));
   }, []);
 
   const onFinish = async (form: AddUserProps) => {
@@ -45,7 +41,7 @@ const CreateUserPage = () => {
       .post<ApiResponse<CreateUserPayload>>("/api/user/new", form)
       .then(({ data, status }) => {
         if (status === "success") {
-          dispatch(navbarState({ hidden: false }));
+          dispatch(toggleNavbar(false));
           navigate(`/dashboard/admin/users/${data.id}`);
         } else {
           setError(true);
@@ -62,7 +58,7 @@ const CreateUserPage = () => {
   };
 
   const onBack = () => {
-    dispatch(navbarState({ hidden: false }));
+    dispatch(toggleNavbar(false));
     navigate("/dashboard/overview");
   };
 

@@ -5,7 +5,7 @@ import { useUser } from "../../../core/hooks/useUser";
 import { Page } from "../../../core/components/Page";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../../store/index";
-import { loadUser } from "src/features/auth/state/actions";
+import { loadSignedInUser } from "src/features/auth/state/actions";
 import { ConditionalWrapper } from "src/core/components/ConditionLayout";
 
 export const UserSettingsPageWrapper = ({ children }) => {
@@ -13,7 +13,7 @@ export const UserSettingsPageWrapper = ({ children }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(loadUser());
+    dispatch(loadSignedInUser());
   }, []);
 
   const menu: MenuRoute[] = [

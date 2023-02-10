@@ -4,19 +4,19 @@ import { AppsTable } from "./components/AppsTable";
 import { PlusOutlined } from "@ant-design/icons";
 import ServerPermissions from "../../core/components/ServerPermissions";
 import { Page } from "../../core/components/Page";
-import { loadUser } from "../auth/state/actions";
+import { loadSignedInUser } from "../auth/state/actions";
 import { useAppDispatch } from "../../store";
 import { resetIncidentsState, resetIncidentState } from "../app/incidents/state/reducers";
 import { resetApplicationState } from "../app/state/application/reducers";
 import { useNavigate } from "react-router-dom";
-import { navbarState } from "../app/state/navbar/reducers";
+import { toggleNavbar } from "../../store/internal/navbar/actions";
 
 export const DashboardPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(loadUser());
+    dispatch(loadSignedInUser());
 
     // Cleaning application stores
     dispatch(resetIncidentState());
@@ -26,7 +26,7 @@ export const DashboardPage = () => {
 
   const onNewApp = () => {
     navigate("/dashboard/app/new");
-    dispatch(navbarState({ hidden: true }));
+    dispatch(toggleNavbar(true));
   };
 
   return (

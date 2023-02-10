@@ -17,10 +17,10 @@ import { useEffect, useState } from "react";
 import { Page } from "src/core/components/Page";
 import { loadApplication } from "../app/state/application/actions";
 import { useNavigate } from "react-router-dom";
-import { navbarState } from "../app/state/navbar/reducers";
 import api from "src/core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "src/core/utils/constants";
 import { InfluxForm } from "src/core/components/Forms/InfluxForm";
+import { toggleNavbar } from "../../store/internal/navbar/actions";
 
 type CreateAppPayload = {
   redirectUrl: string;
@@ -55,7 +55,7 @@ const CreateApplicationPage = () => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
   useEffect(() => {
-    dispatch(navbarState({ hidden: true }));
+    dispatch(toggleNavbar(true));
   }, []);
 
   const onFinish = async (form: CreateApplicationProps) => {
@@ -92,7 +92,7 @@ const CreateApplicationPage = () => {
   };
 
   const onBack = () => {
-    dispatch(navbarState({ hidden: false }));
+    dispatch(toggleNavbar(false));
     navigate("/dashboard/overview");
   };
 
