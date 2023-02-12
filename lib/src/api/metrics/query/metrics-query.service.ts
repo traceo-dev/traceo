@@ -1,44 +1,58 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { DataSourceService } from "../../../api/data-source/dataSource.service";
 import { INTERNAL_SERVER_ERROR } from "@common/helpers/constants";
 import { MetricQueryDto, MetricsQueryDto } from "@common/types/dto/metrics.dto";
 import { ApiResponse } from "@common/types/dto/response.dto";
-import { TsdbProvider, IMetric, IMetricSerie, MetricPreviewType, MetricsResponse } from "@traceo/types";
+import { IMetric, IMetricSerie, MetricPreviewType, MetricsResponse, DatasourceProvider } from "@traceo/types";
 import { Metric } from "@db/entities/metric.entity";
 import { InfluxService } from "../../../providers/influx/influx.service";
 import { Brackets, EntityManager } from "typeorm";
+import { BaseProviderService } from "@common/base/provider/base-provider.service";
+import { Datasource } from "@db/entities/datasource.entity";
+import { Application } from "@db/entities/application.entity";
 
 @Injectable()
 export class MetricsQueryService {
     private readonly logger: Logger;
 
     constructor(
-        private readonly entityManager: EntityManager,
-        private readonly influxService: InfluxService,
-        private readonly dataSourceService: DataSourceService
+        private readonly entityManager: EntityManager
     ) {
         this.logger = new Logger(MetricsQueryService.name)
     }
 
     async getMetricData(appId: string, query: MetricQueryDto): Promise<ApiResponse<MetricsResponse[]>> {
-        const app = await this.dataSourceService.getDataSourceOrThrowError(appId);
-        if (!app) {
-            return;
-        }
-
-        switch (app.tsdbProvider) {
-            case TsdbProvider.INFLUX2: {
-                const response = await this.influxService.queryData(appId, app.influxDS, query);
-                return new ApiResponse("success", undefined, response);
+        try {
+            const app = await this.entityManager.getRepository(Application).findOneBy({ id: appId });
+            if (!app?.tsdbDatasource) {
+                this.logger.error(`[${this.getMetricData.name}] Not connected time series db.`)
+                return;
             }
-            default:
-                return new ApiResponse("error", undefined, []);
+
+            const datasource = await this.entityManager.getRepository(Datasource).findOneBy({ id: app.tsdbDatasource });
+            if (!datasource) {
+                return;
+            }
+
+            const services = new Map<DatasourceProvider, BaseProviderService>([
+                [DatasourceProvider.INLFUX_DB, new InfluxService(this.entityManager)],
+            ]);
+
+            const service = services.get(datasource.type);
+            if (!service) {
+                throw new Error("Service not implemented!");
+            }
+
+            const response = await service.queryData(datasource, query);
+            return new ApiResponse("success", undefined, response);
+        } catch (err) {
+            this.logger.error(`[${this.getMetricData.name}] Caused by: ${err}`);
+            return new ApiResponse("error", undefined, []);
         }
     }
 
     public async getApplicationMetrics(appId: string, query: MetricsQueryDto): Promise<ApiResponse<IMetric[]>> {
         try {
-            await this.influxService.checkConnection(appId);
+            // await this.influxService.checkConnection(appId);
 
             const queryBuilder = this.entityManager.getRepository(Metric)
                 .createQueryBuilder("metric")

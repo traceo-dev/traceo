@@ -1,110 +1,96 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { InfluxDB, Point } from '@influxdata/influxdb-client'
-import { Application } from '@db/entities/application.entity';
-import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
-import { InfluxConfigurationDto } from '@common/types/dto/influx.dto';
-import { IDefaultSDKMetrics, ISDKMetrics, MetricsResponse, IInfluxConfigDto, ConnectionStatus, TsdbProvider, DataSourceConnStatus } from '@traceo/types';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { IDefaultSDKMetrics, ISDKMetrics, MetricsResponse, IInfluxConfigDto, ConnectionStatus, DataSourceConnStatus } from '@traceo/types';
 import { MetricQueryDto } from '@common/types/dto/metrics.dto';
-import { BaseDataSourceDto } from '@common/types/dto/data-source';
+import { BaseProviderService } from '@common/base/provider/base-provider.service';
+import { Datasource } from '@db/entities/datasource.entity';
 
-
-/**
- * TODO: Every TSDB provider (eq. Influx, Flux, Prometheus etc.) should be extended by base abstract class, 
- * In [Provider]Service should be logic defined only for a given provider and in BaseService only common logic.
- */
-
+type InfluxErrorType = {
+    errno?: string;
+    statusCode: number;
+    statusMessage: string;
+    body: string;
+    contentType: string;
+    json: {
+        code: string;
+        message: string;
+    },
+    code: string;
+}
 @Injectable()
-export class InfluxService {
-    private logger: Logger;
-
-    constructor(
-        private readonly entityManager: EntityManager
-    ) {
-        this.logger = new Logger(InfluxService.name);
+export class InfluxService extends BaseProviderService {
+    constructor(public readonly entityManager: EntityManager) {
+        super(entityManager);
     }
 
-    public async saveInfluxDataSource<T extends BaseDataSourceDto>(config: T): Promise<ApiResponse<DataSourceConnStatus>> {
-        const { appId } = config;
-
-        return this.entityManager.transaction(async (manager) => {
-            const { error, status } = await this.checkAndUpdateConnectionStatus(appId, config, manager);
-
-            this.logger.log(`InfluxDB data source updated in app: ${appId}`);
-            return new ApiResponse("success", "InfluxDB data source updated", {
-                status, error
-            });
-        }).catch((err: Error) => {
-            this.logger.error(`[${this.saveInfluxDataSource.name}] Caused by: ${err}`);
-            return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
-        });
-    }
-
-    public async checkConnection(appId: string): Promise<ApiResponse<DataSourceConnStatus>> {
-        try {
-            const { status, error } = await this.checkAndUpdateConnectionStatus(appId)
-            return new ApiResponse("success", undefined, {
-                status,
-                error
-            })
-        } catch (err) {
-            this.logger.error(`[${this.checkConnection.name}] Caused by: ${err}`);
-            return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
-        }
-    }
-
-    private async checkAndUpdateConnectionStatus<T extends BaseDataSourceDto>(
-        appId: string,
-        config?: T,
-        manager: EntityManager = this.entityManager
+    public async checkProviderConnection(
+        datasource: Datasource
     ): Promise<DataSourceConnStatus> {
-        const app = await manager.getRepository(Application).findOneBy({ id: appId });
-        const dataSource = config ? { ...config } : { ...app.influxConfig };
-        const state: DataSourceConnStatus = await this.connectionTest(dataSource);
+        const details = datasource.details as IInfluxConfigDto;
 
-        await manager.getRepository(Application).update({ id: appId }, {
-            influxConfig: { ...dataSource, connError: state.error, connStatus: state.status },
-            tsdbProvider: TsdbProvider.INFLUX2
-        });
+        if (!details?.bucket || !details?.org || !datasource?.url) {
+            const message = "Missing required fields. Check your configuration."
+            this.logger.error(`InfluxDB [${this.checkProviderConnection.name}] ${message}`)
+            return {
+                status: ConnectionStatus.FAILED,
+                error: message
+            }
+        }
 
-        return state;
+        const influxDb = new InfluxDB({ url: datasource.url, token: details.token });
+
+        const write = influxDb.getWriteApi(details.org, details.bucket);
+        const point = new Point('traceo_conn_test').floatField('test', 0);
+        write.writePoint(point)
+        return write
+            .close()
+            .then(() => {
+                return {
+                    status: ConnectionStatus.CONNECTED
+                }
+            })
+            .catch((error: InfluxErrorType) => {
+                return {
+                    status: ConnectionStatus.FAILED,
+                    error: `${error?.errno || error?.statusCode} : ${error?.json.message || error?.code}`
+                }
+            });
     }
 
-    public async writeData(appId: string, config: Partial<IInfluxConfigDto>, data: ISDKMetrics): Promise<void> {
-        const { bucket, url, token, org } = config;
+    public async writeData(datasource: Datasource, data: ISDKMetrics): Promise<void> {
+        const url = datasource?.url;
+        const { bucket, token, org } = datasource.details as IInfluxConfigDto;
 
-        if (!url || !token) {
-            this.logger.error(`[${this.queryData.name}] URL and Token are required!`);
+        if (!url) {
+            this.logger.error(`InfluxDB [${this.queryData.name}] URL are required!`);
             return;
         }
 
-        const appRef = this.entityManager.getRepository(Application);
+        if (!token) {
+            this.logger.error(`InfluxDB [${this.queryData.name}] Token are required!`);
+            return;
+        }
+
+        if (!org) {
+            this.logger.error(`InfluxDB [${this.queryData.name}] Org are required!`);
+            return;
+        }
 
         const influxDb = new InfluxDB({ url, token });
         const write = influxDb.getWriteApi(org, bucket);
 
-        const defaultPoint = this.saveDefaultMetrics(appId, data.default);
+        const defaultPoint = this.saveDefaultMetrics(datasource.appId, data.default);
 
         write.writePoint(defaultPoint);
         write
             .close()
-            .then(async () => {
-                this.logger.log(`New metrics write to InfluxDB for appId: ${appId}`);
-
-                if (config.connStatus === ConnectionStatus.FAILED) {
-                    const influxDS = { ...config, connStatus: ConnectionStatus.CONNECTED, connError: null };
-                    await appRef.update({ id: appId }, { influxConfig: influxDS });
-                }
-            })
-            .catch(async (error) => {
-                this.logger.error(`Cannot write new metrics to InfluxDB for appId: ${appId}. Caused by: ${error}`);
-
-                if (config.connStatus === ConnectionStatus.CONNECTED) {
-                    const influxDS = { ...config, connStatus: ConnectionStatus.FAILED, connError: String(error["code"]) };
-                    await appRef.update({ id: appId }, { influxConfig: influxDS });
-                }
-            });
+            .then(() =>
+                this.logger.log(`New metrics write to InfluxDB for appId: ${datasource.appId}`)
+            )
+            .catch((error) =>
+                this.logger.error(`Cannot write new metrics to InfluxDB for appId: ${datasource.appId}. Caused by: ${error}`)
+            );
     }
 
     private saveDefaultMetrics(applicationId: string, defaultMetrics: IDefaultSDKMetrics): Point {
@@ -113,39 +99,15 @@ export class InfluxService {
         return point;
     }
 
-    private async connectionTest(
-        config: Partial<InfluxConfigurationDto>
-    ): Promise<DataSourceConnStatus> {
-        const { url, token, org, bucket } = config;
-        const influxDb = new InfluxDB({ url, token });
-
-        const write = influxDb.getWriteApi(org, bucket);
-        const point = new Point('traceo_conn_test').floatField('test', 0);
-        write.writePoint(point)
-        return write
-            .close()
-            .then(async () => {
-                return {
-                    status: ConnectionStatus.CONNECTED
-                }
-            })
-            .catch(async (error) => {
-                return {
-                    status: ConnectionStatus.FAILED,
-                    error: `${error["errno"]} : ${error["code"]}`
-                }
-            });
-    }
-
     /**
      * https://docs.influxdata.com/influxdb/v2.0/query-data/flux/
      */
     public async queryData(
-        appId: string,
-        config: IInfluxConfigDto,
+        datasource: Datasource,
         dtoQuery: MetricQueryDto
     ): Promise<MetricsResponse[]> {
-        const { url, token, org, bucket } = config;
+        const url = datasource?.url;
+        const { token, org, bucket } = datasource.details as IInfluxConfigDto;
         const { from, to, fields } = dtoQuery;
 
         if (!url || !token) {
@@ -159,7 +121,7 @@ export class InfluxService {
         const query = `
             from(bucket: "${bucket}")
                 |> range(start: ${from}, stop: ${to})
-                |> filter(fn: (r) => r._measurement == "metrics_${appId}")
+                |> filter(fn: (r) => r._measurement == "metrics_${datasource.appId}")
                 |> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
                 |> keep(columns: [
                     "_time", ${fields.map((f) => `"${f}"`).join(', ')}

@@ -9,10 +9,6 @@ type MetricsQuery = {
 export const loadMetrics = (query?: MetricsQuery): ThunkResult<void> => {
     return async (dispatch, getStore) => {
         const application = getStore().application.application;
-        if (!application) {
-            return;
-        }
-
         const { data } = await api.get<ApiResponse<IMetric[]>>(`/api/metrics/${application.id}`, query);
         dispatch(metricsLoaded(data));
     };
@@ -31,7 +27,6 @@ type LoadMetricType = {
 }
 export const loadMetric = (payload: LoadMetricType): ThunkResult<void> => {
     return async (dispatch) => {
-        console.log("payload: ", payload);
         if (!payload?.from || !payload?.to) {
             return;
         }

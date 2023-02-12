@@ -3,18 +3,12 @@ import { Space, Button, Typography, Card } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
 import { notify } from "../../../../core/utils/notify";
 import { useState } from "react";
-import { metricsApi } from "../api";
 import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const ConnectionError = () => {
   const { application } = useApplication();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-
-  const reloadMetrics = async () => {
-    await metricsApi.reload(application.id, setLoading);
-    notify.success("Refreshed");
-  };
 
   return (
     <Card>
@@ -30,7 +24,7 @@ export const ConnectionError = () => {
         <Typography className="pt-0">
           Click Reload button to check your connection health.
         </Typography>
-        <Typography size="xs">Reason: {application?.influxConfig?.connError}</Typography>
+        {/* <Typography size="xs">Reason: {application?.influxConfig?.connError}</Typography> */}
         <Space className="mt-7 gap-3 w-full justify-center">
           <Button
             onClick={() => navigate(`/app/${application.id}/settings/datasource`)}
@@ -38,9 +32,9 @@ export const ConnectionError = () => {
           >
             Settings
           </Button>
-          <Button loading={loading} variant="ghost" onClick={reloadMetrics}>
+          {/* <Button loading={loading} variant="ghost" onClick={reloadMetrics}>
             Reload
-          </Button>
+          </Button> */}
         </Space>
       </Space>
     </Card>

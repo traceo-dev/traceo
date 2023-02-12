@@ -8,6 +8,7 @@ import { MemberQueryService } from '../member/member-query/member-query.service'
 import { UserQueryService } from '../user/user-query/user-query.service';
 import { MetricsService } from '../metrics/metrics.service';
 import { ApplicationsController } from './applications.controller';
+import { DataSourceService } from '../datasource/dataSource.service';
 
 @Module({
   imports: [PassportModule.register({ defaultStrategy: "jwt" })],
@@ -17,7 +18,8 @@ import { ApplicationsController } from './applications.controller';
     MemberService,
     MemberQueryService,
     UserQueryService,
-    MetricsService
+    MetricsService,
+    DataSourceService
   ],
   controllers: [
     ApplicationsController,

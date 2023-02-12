@@ -4,6 +4,7 @@ export * from "./api";
 export * from "./application";
 export * from "./auth";
 export * from "./comment";
+export * from "./datasource";
 export * from "./incident";
 export * from "./influxds";
 export * from "./log";

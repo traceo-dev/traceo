@@ -5,16 +5,13 @@ import { INFLUX2_DOCS } from "src/core/utils/constants";
 interface FormProps {
   errors: any;
   register: any;
-  namePrefix?: string;
 }
-export const InfluxForm = ({ errors, register, namePrefix = null }: FormProps) => {
-  const computeRegisterName = (name: string) =>
-    namePrefix ? `${namePrefix}${name}` : name;
+export const InfluxForm = ({ errors, register }: FormProps) => {
   return (
     <>
-      <FormItem error={errors?.url} label="URL">
+      <FormItem error={errors?.tsdbConfiguration?.url} label="URL">
         <Input
-          {...register(computeRegisterName("url"), {
+          {...register("url", {
             required: true,
             pattern: {
               value: /^((https|http):\/\/.*):?(\d*)\/?(.*)/,
@@ -26,7 +23,7 @@ export const InfluxForm = ({ errors, register, namePrefix = null }: FormProps) =
       </FormItem>
       <FormItem error={errors?.token} label="Token">
         <InputSecret
-          {...register(computeRegisterName("token"), {
+          {...register("tsdbConfiguration.token", {
             required: true
           })}
         />
@@ -34,14 +31,14 @@ export const InfluxForm = ({ errors, register, namePrefix = null }: FormProps) =
       <div className="w-full flex flex-row gap-x-2">
         <FormItem error={errors?.org} label="Organization" className="w-full">
           <Input
-            {...register(computeRegisterName("org"), {
+            {...register("tsdbConfiguration.org", {
               required: true
             })}
           />
         </FormItem>
         <FormItem error={errors?.bucket} label="Bucket name" className="w-full">
           <Input
-            {...register(computeRegisterName("bucket"), {
+            {...register("tsdbConfiguration.bucket", {
               required: true
             })}
           />

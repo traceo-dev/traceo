@@ -1,7 +1,7 @@
 import { ColumnSection } from "../../core/components/ColumnSection";
 import { useAppDispatch } from "../../store";
 import { UserSettingsPageWrapper } from "./components/UserSettingsPageWrapper";
-import { updateUser, updateUserPassword } from "../app/settings/state/settings/actions";
+import { updateUser, updateUserPassword } from "./state/actions";
 import {
   Input,
   InputSecret,

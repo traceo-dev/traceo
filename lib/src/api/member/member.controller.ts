@@ -60,14 +60,14 @@ export class MemberController {
     return await this.amrService.addUserToApplication(body);
   }
 
-  @Patch('/application/member')
+  @Patch()
   public async updateMember(
     @Body() body: UpdateMemberDto,
   ): Promise<ApiResponse<unknown>> {
     return await this.amrService.updateMember(body);
   }
 
-  @Delete('/application/member')
+  @Delete()
   public async removeMember(
     @Query("id", new ParseUUIDPipe()) id: string,
   ): Promise<ApiResponse<unknown>> {

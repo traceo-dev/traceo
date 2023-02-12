@@ -1,6 +1,6 @@
-import api from "../../../../../core/lib/api";
-import { logout } from "../../../../../core/utils/logout";
-import { loadSignedInUser } from "../../../../auth/state/actions";
+import api from "../../../core/lib/api";
+import { logout } from "../../../core/utils/logout";
+import { loadSignedInUser } from "../../auth/state/actions";
 import { IUser, ApiResponse } from "@traceo/types";
 import { ThunkResult } from "@store/types";
 
@@ -29,17 +29,6 @@ export const updateUserPassword = (cred: {
         if (response.status === "success") {
           logout();
         }
-      });
-  };
-};
-
-export const deleteUser = (): ThunkResult<void> => {
-  return async () => {
-    await api.delete<ApiResponse<string>>("/api/user")
-      .then((response) => {
-        if (response.status === "success") {
-          logout()
-        };
       });
   };
 };

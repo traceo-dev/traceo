@@ -7,7 +7,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn
 } from "typeorm";
-import { MemberEntity } from "./member.entity";
+import { Member } from "./member.entity";
 import { Incident } from "./incident.entity";
 
 @Entity()
@@ -40,7 +40,7 @@ export class User extends BaseEntity implements IUser {
   isAdmin: boolean;
 
   @OneToMany(
-    () => MemberEntity,
+    () => Member,
     (app) => app.user,
     {
       cascade: true,

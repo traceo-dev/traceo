@@ -14,9 +14,10 @@ import { CreateApplicationDto, ApplicationDto } from '@common/types/dto/applicat
 import { Application } from '@db/entities/application.entity';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { Log } from '@db/entities/log.entity';
-import { MemberRole, TsdbProvider } from '@traceo/types';
+import { MemberRole } from '@traceo/types';
 import { MetricsService } from '../metrics/metrics.service';
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
+import { DataSourceService } from '../datasource/dataSource.service';
 
 
 const MAX_RETENTION_LOGS = 3;
@@ -30,7 +31,8 @@ export class ApplicationService {
     private readonly awrService: MemberService,
     private readonly applicationQueryService: ApplicationQueryService,
     private readonly userQueryService: UserQueryService,
-    private readonly metricsService: MetricsService
+    private readonly metricsService: MetricsService,
+    private readonly datasourceService: DataSourceService
   ) {
     this.logger = new Logger(ApplicationService.name)
   }
@@ -66,25 +68,17 @@ export class ApplicationService {
         isIntegrated: false
       };
 
-      if (data.tsdbProvider) {
-        const tsdbConfiguration = {
-          ...data.tsdbConfiguration,
-          connStatus: null,
-          connError: null
-        };
-
-        payload.tsdbProvider = data.tsdbProvider;
-
-        if (payload.tsdbProvider === TsdbProvider.INFLUX2) {
-          payload.influxConfig = tsdbConfiguration;
-        }
-      }
-
       const application = await manager
         .getRepository(Application)
         .save(payload);
 
-      console.log("payload: ", application);
+      if (data?.tsdbConfiguration?.provider) {
+        await this.datasourceService.saveDatasource({
+          ...data.tsdbConfiguration,
+          appId: application.id,
+          provider: data.tsdbConfiguration?.provider,
+        }, manager);
+      }
 
       if (username !== ADMIN_NAME) {
         const admin = await this.userQueryService.getDtoBy({ email: ADMIN_EMAIL });

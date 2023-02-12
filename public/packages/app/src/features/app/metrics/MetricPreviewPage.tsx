@@ -8,22 +8,38 @@ import { loadMetric } from "./state/actions";
 import { conditionClass } from "../../../core/utils/classes";
 import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
 import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
-import { IMetric, DeepPartial } from "@traceo/types";
+import {
+  IMetric,
+  DeepPartial,
+  DataSourceConnStatus,
+  ConnectionStatus
+} from "@traceo/types";
 import { useImmer } from "use-immer";
-import { Card } from "@traceo/ui";
+import { Alert, Card } from "@traceo/ui";
 import { MetricPreviewPlot } from "../../../core/components/Plots";
 import { Page } from "../../../core/components/Page";
 import { MetricToolbar } from "./components/MetricToolbar";
 import { useMetricsRange } from "src/core/hooks/useMetricsRange";
+import { useRequest } from "src/core/hooks/useRequest";
+import { useApplication } from "src/core/hooks/useApplication";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
   const dispatch = useAppDispatch();
+  const { application } = useApplication();
   const { ranges, setRanges } = useMetricsRange();
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
   const [options, setOptions] = useImmer<DeepPartial<IMetric>>(metric?.options);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
   const [isExpandMode, setExpandMode] = useState<boolean>(false);
+
+  const { data: connection, isLoading: isLoadingConnection } =
+    useRequest<DataSourceConnStatus>({
+      url: "/api/datasource/heartbeat",
+      params: {
+        id: application?.tsdbDatasource
+      }
+    });
 
   useEffect(() => {
     const payload = {
@@ -49,6 +65,14 @@ export const MetricPreviewPage = () => {
         setCustomizeMode={setCustomizeMode}
         setOptions={setOptions}
       />
+      {connection?.status === ConnectionStatus.FAILED && (
+        <Alert
+          type="error"
+          title="Connection error. Check your configuration to your time series database."
+          message={`Error: ${connection?.error}`}
+          className="mb-2"
+        />
+      )}
       <Page.Content>
         <div className="w-full grid grid-cols-12">
           <div className={conditionClass(isCustomizeMode, "col-span-8", "col-span-12")}>

@@ -1,8 +1,8 @@
 import { IUser } from "./user";
 import { MemberRole } from "./member";
 import { SortOrder } from "./api";
-import { IInfluxConfigDto } from "./influxds";
-import { TsdbProvider, ConnectionStatus } from "./tsdb";
+import { ConnectionStatus } from "./tsdb";
+import { DatasourceProvider, IDatasource } from "./datasource";
 
 export interface IApplication {
     id?: string;
@@ -16,8 +16,7 @@ export interface IApplication {
     membersCount: number;
     createdAt?: number;
     updatedAt?: number;
-    tsdbProvider?: TsdbProvider;
-    influxConfig?: IInfluxConfigDto;
+    tsdbDatasource?: string;
     isIntegrated: boolean;
     runtimeConfig?: {
         data: { [key: string]: any }
@@ -81,11 +80,14 @@ export type MemberApplication = {
     role: MemberRole
 } & IApplication;
 
-export type CreateApplicationProps = Pick<IApplication, "name" | "technology" | "tsdbProvider"> & {
-    tsdbConfiguration: {
-        influx: IInfluxConfigDto;
-    };
+export type CreateApplicationProps = {
+    name: string;
+    technology: ApplicationTechnology;
+    tsdbProvider: DatasourceProvider;
+    url: string;
+    tsdbConfiguration: { [key: string]: any }
 };
+
 export type UpdateApplicationProps = Pick<IApplication, "name">;
 
 export interface SearchApplicationQueryParams {

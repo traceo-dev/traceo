@@ -7,11 +7,12 @@ import {
   PrimaryColumn,
 } from "typeorm";
 import { User } from "./user.entity";
-import { MemberEntity } from "./member.entity";
+import { Member } from "./member.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IApplication, ISecurity, IInfluxConfigDto, IRuntime, TsdbProvider, IUser, IMember, IIncident, ApplicationTechnology } from "@traceo/types";
+import { IApplication, ISecurity, IRuntime, IUser, IMember, IIncident, ApplicationTechnology } from "@traceo/types";
 import { Metric } from "./metric.entity";
+import { Datasource } from "./datasource.entity";
 
 @Entity()
 export class Application extends BaseEntity implements IApplication {
@@ -56,7 +57,7 @@ export class Application extends BaseEntity implements IApplication {
   isIntegrated: boolean;
 
   @OneToMany(
-    () => MemberEntity,
+    () => Member,
     (member) => member.application,
     {
       onUpdate: "CASCADE",
@@ -96,18 +97,11 @@ export class Application extends BaseEntity implements IApplication {
   runtimeConfig?: IRuntime;
 
   @Column({
-    type: "simple-json",
     nullable: true,
-    name: "influx_ds"
+    name: "tsdb_datasource_id",
+    type: "varchar"
   })
-  influxConfig?: IInfluxConfigDto;
-
-  @Column({
-    type: "varchar",
-    nullable: true,
-    name: "connected_tsdb"
-  })
-  tsdbProvider?: TsdbProvider;
+  tsdbDatasource?: string;
 
   @OneToMany(() => Metric, (metric) => metric.application, {
     onUpdate: "CASCADE",

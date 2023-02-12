@@ -6,7 +6,7 @@ import { UserQueryService } from '../user/user-query/user-query.service';
 import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
 import dateUtils from '@common/helpers/dateUtils';
 import { CreateMemberDto, UpdateMemberDto } from '@common/types/dto/member.dto';
-import { MemberEntity } from '@db/entities/member.entity';
+import { Member } from '@db/entities/member.entity';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { MemberRole } from '@traceo/types';
 import { Application } from '@db/entities/application.entity';
@@ -62,7 +62,7 @@ export class MemberService {
     const { memberId, ...rest } = awrModel;
     try {
       await manager
-        .getRepository(MemberEntity)
+        .getRepository(Member)
         .update({ id: memberId }, rest);
 
       return new ApiResponse("success", "Updated")
@@ -74,7 +74,7 @@ export class MemberService {
 
   public async removeMember(id: string): Promise<ApiResponse<unknown>> {
     try {
-      await this.entityManager.getRepository(MemberEntity).delete({ id });
+      await this.entityManager.getRepository(Member).delete({ id });
       return new ApiResponse("success", "Removed from application");
     } catch (err) {
       this.logger.error(`[${this.removeMember.name}] Caused by: ${err}`);
@@ -89,7 +89,7 @@ export class MemberService {
     role: MemberRole = MemberRole.VIEWER,
     manager: EntityManager = this.entityManager,
   ): Promise<void> {
-    await manager.getRepository(MemberEntity).save({
+    await manager.getRepository(Member).save({
       user,
       application,
       role,

@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
-import { ConnectionStatus } from "@traceo/types";
 import { ConnectionError } from "./components/ConnectionError";
 import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useAppDispatch } from "../../../store";
 import { loadMetrics } from "./state/actions";
-import { BarChartOutlined, LoadingOutlined } from "@ant-design/icons";
+import { BarChartOutlined } from "@ant-design/icons";
 import { MetricCard } from "./components/MetricCard";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
-import { notify } from "../../../core/utils/notify";
-import { metricsApi } from "./api";
-import { InputSearch, Button, Card, Row, Col } from "@traceo/ui";
+import { InputSearch, Card, Row, Col, Alert } from "@traceo/ui";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
 import { useApplication } from "../../../core/hooks/useApplication";
 import { Page } from "../../../core/components/Page";
 import { MetricTimeRangePicker } from "./components/MetricTimeRangePicker";
 import { useMetricsRange } from "src/core/hooks/useMetricsRange";
+import { useRequest } from "src/core/hooks/useRequest";
+import { ConnectionStatus, DataSourceConnStatus } from "@traceo/types";
 
 const MetricsPage = () => {
   const dispatch = useAppDispatch();
@@ -25,34 +24,25 @@ const MetricsPage = () => {
   const { application } = useApplication();
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
   const [search, setSearch] = useState<string>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const { ranges, setRanges } = useMetricsRange();
 
+  const { data: connection, isLoading: isLoadingConnection } =
+    useRequest<DataSourceConnStatus>({
+      url: "/api/datasource/heartbeat",
+      params: {
+        id: application?.tsdbDatasource
+      }
+    });
+
   useEffect(() => {
-    dispatch(
-      loadMetrics({
-        search
-      })
-    );
+    dispatch(loadMetrics({ search }));
   }, [search]);
 
-  const reloadMetrics = async () => {
-    await metricsApi.reload(application.id, (e) => setLoading(e));
-    notify.success("Refreshed");
-  };
-
-  const isConnectedTSDB = !!application?.tsdbProvider;
-
-  const isConnectedSuccessfully =
-    application?.influxConfig?.connStatus === ConnectionStatus.CONNECTED;
+  const isConnected = !!application?.tsdbDatasource;
 
   const renderContent = () => {
-    if (!isConnectedTSDB) {
+    if (!isConnected) {
       return <NotConnectedTSDB />;
-    }
-
-    if (!isConnectedSuccessfully) {
-      return <ConnectionError />;
     }
 
     return (
@@ -65,15 +55,20 @@ const MetricsPage = () => {
               placeholder="Search metric by name, description or series details"
             />
             <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
-            <Button icon={loading && <LoadingOutlined />} onClick={reloadMetrics}>
-              Refresh
-            </Button>
           </SearchWrapper>
         </Card>
+        {connection?.status === ConnectionStatus.FAILED && (
+          <Alert
+            type="error"
+            title="Connection error. Check your configuration to your time series database."
+            message={`Error: ${connection?.error}`}
+            className="mb-2"
+          />
+        )}
         <ConditionalWrapper
           isEmpty={metrics?.length === 0}
           emptyView={<EmptyMetricsList constraints={search} />}
-          isLoading={!hasFetched}
+          isLoading={!hasFetched || isLoadingConnection}
         >
           <Row gap="2" cols={12}>
             {metrics?.map((metric, index) => (

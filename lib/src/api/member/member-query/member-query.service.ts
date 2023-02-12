@@ -3,7 +3,7 @@ import { BaseDtoQuery } from '@common/base/query/base-query.model';
 import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
 import { ApplicationDtoQuery } from '@common/types/dto/application.dto';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { MemberEntity } from '@db/entities/member.entity';
+import { Member } from '@db/entities/member.entity';
 import { EntityManager } from 'typeorm';
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 
@@ -25,12 +25,12 @@ export class MemberQueryService {
   public async getMembers(
     appId: string,
     pageOptionsDto: BaseDtoQuery,
-  ): Promise<ApiResponse<MemberEntity[]>> {
+  ): Promise<ApiResponse<Member[]>> {
     const { order, take, search, page } = pageOptionsDto;
 
     try {
       const queryBuilder = this.entityManager
-        .getRepository(MemberEntity)
+        .getRepository(Member)
         .createQueryBuilder('member')
         .innerJoin('member.application', 'app', 'app.id = :appId', { appId })
         .leftJoin('member.user', 'user');
@@ -74,7 +74,7 @@ export class MemberQueryService {
   public async getUserApps(
     userId: string,
     pageOptionsDto: ApplicationDtoQuery
-  ): Promise<ApiResponse<MemberEntity[]>> {
+  ): Promise<ApiResponse<Member[]>> {
     const { page, take, order, search, sortBy } = pageOptionsDto;
 
     let id = userId;
@@ -84,7 +84,7 @@ export class MemberQueryService {
 
     try {
       const queryBuilder = this.entityManager
-        .getRepository(MemberEntity)
+        .getRepository(Member)
         .createQueryBuilder("member")
         .innerJoin("member.user", "user", "user.id = :userId", { userId: id })
         .leftJoinAndSelect("member.application", "application")
@@ -129,7 +129,7 @@ export class MemberQueryService {
     manager: EntityManager = this.entityManager,
   ): Promise<boolean> {
     const count = await manager
-      .getRepository(MemberEntity)
+      .getRepository(Member)
       .createQueryBuilder("member")
       .where('member.user = :userId AND member.application = :applicationId', { userId, applicationId })
       .getCount();
@@ -140,7 +140,7 @@ export class MemberQueryService {
     const { id } = RequestContext.user;
     try {
       const applicationQuery = await this.entityManager
-        .getRepository(MemberEntity)
+        .getRepository(Member)
         .createQueryBuilder("member")
         .where('member.application = :appId', { appId })
         .innerJoin("member.user", "user", "user.id = :id", { id })

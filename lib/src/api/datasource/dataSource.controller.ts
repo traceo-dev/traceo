@@ -3,8 +3,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { IInfluxConfigDto, DataSourceConnStatus } from '@traceo/types';
 import { DataSourceService } from './dataSource.service';
-import { InfluxConfigurationDto } from '@common/types/dto/influx.dto';
 import { AuthGuard } from '@common/decorators/auth-guard.decorator';
+import { BaseDataSourceDto } from '@common/types/dto/data-source';
 
 @ApiTags('datasource')
 @Controller('datasource')
@@ -16,21 +16,21 @@ export class DataSourceController {
 
     @Get()
     public async getDataSource(@Query("id") id: string): Promise<ApiResponse<IInfluxConfigDto>> {
-        return await this.dsService.getConnectedDataSource(id);
+        return await this.dsService.getDatasource(id);
     }
 
-    @Get('/connection/check')
+    @Get('/heartbeat')
     async checkConnection(
         @Query('id') id: string
     ): Promise<ApiResponse<DataSourceConnStatus>> {
-        return await this.dsService.checkConnection(id);
+        return await this.dsService.heartbeat(id);
     }
 
-    @Post('/config')
-    async saveInfluxDataSource(
-        @Body() body: InfluxConfigurationDto
+    @Post('/save')
+    async saveDatasource(
+        @Body() body: BaseDataSourceDto
     ): Promise<ApiResponse<DataSourceConnStatus>> {
-        return await this.dsService.saveDataSource(body);
+        return await this.dsService.saveDatasource(body);
     }
 
     @Delete()
