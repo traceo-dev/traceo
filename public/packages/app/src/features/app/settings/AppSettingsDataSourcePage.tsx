@@ -21,12 +21,12 @@ import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
 import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import { useApplication } from "../../../core/hooks/useApplication";
-import { useRequest } from "src/core/hooks/useRequest";
-import { ConditionalWrapper } from "src/core/components/ConditionLayout";
-import api from "src/core/lib/api";
+import { useRequest } from "../../../core/hooks/useRequest";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
+import api from "../../../core/lib/api";
 import { loadApplication } from "../state/application/actions";
 import { useAppDispatch } from "../../../store/index";
-import { Confirm } from "src/core/components/Confirm";
+import { Confirm } from "../../../core/components/Confirm";
 
 const dataSourceOptions = [
   {

@@ -11,9 +11,9 @@ import { LogsFilterPanel } from "./LogsFilterPanel";
 import { Button, Card, Space, Tooltip } from "@traceo/ui";
 import { statisticUtils } from "../../../../core/utils/statistics";
 import { LogsPlot } from "../../../../core/components/Plots";
-import { localStorageService } from "src/core/lib/localStorage";
-import { LocalStorage } from "src/core/lib/localStorage/types";
-import { useLogLevels } from "src/core/hooks/useLogLevels";
+import { localStorageService } from "../../../../core/lib/localStorage";
+import { LocalStorage } from "../../../../core/lib/localStorage/types";
+import { useLogLevels } from "../../../../core/hooks/useLogLevels";
 
 export const LogsHistogram = () => {
   const dispatch = useAppDispatch();

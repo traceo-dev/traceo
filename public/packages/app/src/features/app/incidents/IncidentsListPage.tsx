@@ -16,13 +16,12 @@ import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
-import { BugOutlined } from "@ant-design/icons";
 import { InputSearch, Select, Card, RadioButtonGroup } from "@traceo/ui";
 import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
 import { resetIncidentState } from "./state/reducers";
 import { Page } from "../../../core/components/Page";
-import { localStorageService } from "src/core/lib/localStorage";
-import { LocalStorage } from "src/core/lib/localStorage/types";
+import { localStorageService } from "../../../core/lib/localStorage";
+import { LocalStorage } from "../../../core/lib/localStorage/types";
 
 export const IncidentsListPage = () => {
   const { id } = useParams();

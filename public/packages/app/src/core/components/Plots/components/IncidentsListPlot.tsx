@@ -4,8 +4,8 @@ import { ErrorDetails } from "@traceo/types";
 import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
 import { EChartsOption } from "echarts";
 import dateUtils from "../../../utils/date";
-import { localStorageService } from "src/core/lib/localStorage";
-import { LocalStorage } from "src/core/lib/localStorage/types";
+import { localStorageService } from "../../../../core/lib/localStorage";
+import { LocalStorage } from "../../../../core/lib/localStorage/types";
 
 const ReactECharts = lazy(() => import("echarts-for-react"));
 interface Props {

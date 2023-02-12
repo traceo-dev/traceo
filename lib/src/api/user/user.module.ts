@@ -4,8 +4,8 @@ import { ApplicationQueryService } from '../application/application-query/applic
 import { MemberService } from '../member/member.service';
 import { MemberQueryService } from '../member/member-query/member-query.service';
 import { HttpModule } from "@nestjs/axios";
-import { AuthTokenService } from 'src/auth/auth-token.service';
-import { AuthModule } from 'src/auth/auth.module';
+import { AuthTokenService } from '../../auth/auth-token.service';
+import { AuthModule } from '../../auth/auth.module';
 import { UserService } from './user.service';
 import { UserQueryService } from './user-query/user-query.service';
 import { UserController } from './user.controller';

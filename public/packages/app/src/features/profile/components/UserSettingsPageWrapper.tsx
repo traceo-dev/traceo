@@ -5,8 +5,8 @@ import { useUser } from "../../../core/hooks/useUser";
 import { Page } from "../../../core/components/Page";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../../store/index";
-import { loadSignedInUser } from "src/features/auth/state/actions";
-import { ConditionalWrapper } from "src/core/components/ConditionLayout";
+import { loadSignedInUser } from "../../../features/auth/state/actions";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 
 export const UserSettingsPageWrapper = ({ children }) => {
   const user = useUser();

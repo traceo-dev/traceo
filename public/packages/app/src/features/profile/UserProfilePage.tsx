@@ -14,7 +14,7 @@ import {
 import { useMemberRole } from "../../core/hooks/useMemberRole";
 import { useDemo } from "../../core/hooks/useDemo";
 import { useUser } from "../../core/hooks/useUser";
-import { ConditionalWrapper } from "src/core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 
 type UpdateUserForm = {
   name: string;

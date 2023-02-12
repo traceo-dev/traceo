@@ -3,7 +3,7 @@ import { IDatasource } from "@traceo/types";
 import { useMemberRole } from "../../../../core/hooks/useMemberRole";
 import { Form } from "@traceo/ui";
 import { useApplication } from "../../../../core/hooks/useApplication";
-import { InfluxForm } from "src/core/components/Forms/InfluxForm";
+import { InfluxForm } from "../../../../core/components/Forms/InfluxForm";
 
 interface Props {
   datasource: IDatasource;

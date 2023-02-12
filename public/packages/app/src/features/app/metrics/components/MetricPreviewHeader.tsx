@@ -11,7 +11,7 @@ import { ApiResponse, IMetric } from "@traceo/types";
 import { StoreState } from "@store/types";
 import { DraftFunction } from "use-immer";
 import { loadMetric } from "../state/actions";
-import { useMetricsRange } from "src/core/hooks/useMetricsRange";
+import { useMetricsRange } from "../../../../core/hooks/useMetricsRange";
 
 interface Props {
   currentOptions: DeepPartial<IMetric>;

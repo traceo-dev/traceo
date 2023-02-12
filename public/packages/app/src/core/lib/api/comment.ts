@@ -1,5 +1,5 @@
 import { store } from "../../../store/index";
-import { loadIncidentComments } from "src/features/app/incidents/state/actions";
+import { loadIncidentComments } from "../../../features/app/incidents/state/actions";
 import api from "../api";
 
 const send = async (incidentId: string, applicationId: string, message: string) => {

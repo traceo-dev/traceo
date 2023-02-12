@@ -14,7 +14,7 @@ import { EntityManager } from 'typeorm';
 import { UserStatus } from "@traceo/types";
 import { ApiResponse } from "@common/types/dto/response.dto";
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
-import { AuthTokenService } from 'src/auth/auth-token.service';
+import { AuthTokenService } from '../../auth/auth-token.service';
 
 
 @Injectable()

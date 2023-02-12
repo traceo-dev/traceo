@@ -14,12 +14,12 @@ import {
   Typography
 } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { Page } from "src/core/components/Page";
+import { Page } from "../../core/components/Page";
 import { loadApplication } from "../app/state/application/actions";
 import { useNavigate } from "react-router-dom";
-import api from "src/core/lib/api";
-import { TRY_AGAIN_LATER_ERROR } from "src/core/utils/constants";
-import { InfluxForm } from "src/core/components/Forms/InfluxForm";
+import api from "../../core/lib/api";
+import { TRY_AGAIN_LATER_ERROR } from "../../core/utils/constants";
+import { InfluxForm } from "../../core/components/Forms/InfluxForm";
 import { toggleNavbar } from "../../store/internal/navbar/actions";
 
 type CreateAppPayload = {

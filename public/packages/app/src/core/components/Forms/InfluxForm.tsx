@@ -1,5 +1,5 @@
 import { Alert, FormItem, Input, InputSecret, Link } from "@traceo/ui";
-import { INFLUX2_DOCS } from "src/core/utils/constants";
+import { INFLUX2_DOCS } from "../../../core/utils/constants";
 
 //TODO: add types!
 interface FormProps {

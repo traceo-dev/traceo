@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { loadIncident } from "../state/actions";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../../store";
@@ -7,22 +7,15 @@ import { StoreState } from "@store/types";
 import { MenuRoute } from "@traceo/types";
 import {
   ArrowLeftOutlined,
-  BugOutlined,
   CommentOutlined,
   InfoCircleOutlined,
-  LeftOutlined,
   StockOutlined,
   SyncOutlined
 } from "@ant-design/icons";
 import { Page } from "../../../../core/components/Page";
-import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
-import {
-  mapIncidentStatusIcon,
-  mapIncidentTwBgColor,
-  mapIncidentTwTextColor
-} from "./utils";
-import { joinClasses } from "src/core/utils/classes";
-import { useApplication } from "src/core/hooks/useApplication";
+import { mapIncidentStatusIcon, mapIncidentTwTextColor } from "./utils";
+import { joinClasses } from "../../../../core/utils/classes";
+import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const IncidentPageWrapper = ({ children }) => {
   const { iid } = useParams();

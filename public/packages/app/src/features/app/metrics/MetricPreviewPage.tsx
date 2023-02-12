@@ -19,9 +19,9 @@ import { Alert, Card } from "@traceo/ui";
 import { MetricPreviewPlot } from "../../../core/components/Plots";
 import { Page } from "../../../core/components/Page";
 import { MetricToolbar } from "./components/MetricToolbar";
-import { useMetricsRange } from "src/core/hooks/useMetricsRange";
-import { useRequest } from "src/core/hooks/useRequest";
-import { useApplication } from "src/core/hooks/useApplication";
+import { useMetricsRange } from "../../../core/hooks/useMetricsRange";
+import { useRequest } from "../../../core/hooks/useRequest";
+import { useApplication } from "../../../core/hooks/useApplication";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();

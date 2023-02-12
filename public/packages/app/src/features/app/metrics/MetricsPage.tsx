@@ -14,8 +14,8 @@ import { EmptyMetricsList } from "./components/EmptyMetricsList";
 import { useApplication } from "../../../core/hooks/useApplication";
 import { Page } from "../../../core/components/Page";
 import { MetricTimeRangePicker } from "./components/MetricTimeRangePicker";
-import { useMetricsRange } from "src/core/hooks/useMetricsRange";
-import { useRequest } from "src/core/hooks/useRequest";
+import { useMetricsRange } from "../../../core/hooks/useMetricsRange";
+import { useRequest } from "../../../core/hooks/useRequest";
 import { ConnectionStatus, DataSourceConnStatus } from "@traceo/types";
 
 const MetricsPage = () => {
