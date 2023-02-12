@@ -91,7 +91,7 @@ export const AppSettingsDataSourcePage = () => {
 
   //TODO: add type
   const save = async (form: any) => {
-    const { url, ...rest } = form;
+    const { url, tsdbConfiguration } = form;
     setLoading(true);
     await api
       .post("/api/datasource/save", {
@@ -101,7 +101,11 @@ export const AppSettingsDataSourcePage = () => {
         appId: application.id,
         provider: selectedDatasource,
         url,
-        details: rest
+        details: {
+          token: tsdbConfiguration.token,
+          bucket: tsdbConfiguration.bucket,
+          org: tsdbConfiguration.org
+        }
       })
       .then(() => dispatch(loadApplication()))
       .finally(() => setLoading(false));

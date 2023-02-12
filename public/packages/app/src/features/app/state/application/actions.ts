@@ -24,7 +24,7 @@ export const loadApplication = (props?: LoadApplicationType): ThunkResult<void> 
       currId = getStore().application.application.id
     };
 
-    const { data } = await api.get<ApiResponse<IApplication>>("/api/applications", {
+    const { data } = await api.get<ApiResponse<IApplication>>("/api/application", {
       id: currId
     });
     dispatch(applicationLoaded(data));

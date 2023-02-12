@@ -45,30 +45,12 @@ export const MetricToolbar = ({
     dispatch(toggleNavbar(true));
   };
 
-  const refreshGraph = () => {
-    const payload = {
-      appId: id,
-      metricId,
-      from: ranges[0],
-      to: ranges[1]
-    };
-    dispatch(loadMetric(payload));
-  };
-
   const graphToolbarTools = () => {
     const tools = [];
 
     if (isCustomizeMode) {
       return [];
     }
-
-    tools.push({
-      title: "Refresh graph",
-      icon: <SyncOutlined />,
-      onClick: () => {
-        refreshGraph();
-      }
-    });
 
     if (!isExpandMode) {
       tools.push({

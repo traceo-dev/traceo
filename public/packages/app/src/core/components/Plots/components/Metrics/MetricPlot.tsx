@@ -60,7 +60,7 @@ const MetricPlot: FC<Props> = ({ metric, ranges }) => {
   return (
     <ConditionalWrapper
       isLoading={isLoading}
-      isEmpty={datasource?.length === 0}
+      isEmpty={datasource?.length === 0 || !datasource}
       emptyView={<DataNotFound className="text-2xs" label="Data not found" />}
     >
       <ReactECharts

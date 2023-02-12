@@ -15,7 +15,6 @@ export const loadMembers = (query?: ApiQueryParams): ThunkResult<void> => {
       ...query,
       id: application?.id
     });
-    console.log("meme: ", data?.length)
     dispatch(membersLoaded(data));
   };
 };
