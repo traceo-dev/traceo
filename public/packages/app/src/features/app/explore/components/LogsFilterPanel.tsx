@@ -13,14 +13,9 @@ interface Props {
 export const LogsFilterPanel: FC<Props> = ({ checkedLevels, setCheckedLevels }) => {
   const { logs } = useSelector((state: StoreState) => state.logs);
 
-  // const calculateCountByLevel = (level: LogLevel) => {
-  //   const logsByLevel = logs.filter((log) => log.level === level);
-  //   return logsByLevel?.length || 0;
-  // };
-
   const counts = useMemo(() => {
     return logs.reduce((acc, log) => {
-      acc[log.level] = logs.filter(({ level }) => level === log.level);
+      acc[log.level] = logs.filter(({ level }) => level === log.level).length;
       return acc;
     }, {});
   }, [logs]);

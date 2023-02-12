@@ -102,9 +102,6 @@ export const AppSettingsDetailsPage = () => {
                 {renderEditNameButtons()}
               </InputGroup>
             </FieldLabel>
-            <FieldLabel label="Created by">
-              <Input defaultValue={application?.owner?.name} disabled={true} />
-            </FieldLabel>
           </div>
         </ColumnSection>
       </Card>
@@ -114,11 +111,7 @@ export const AppSettingsDetailsPage = () => {
       <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
         <Card title="Danger zone">
           <ColumnSection
-            title={
-              <Typography size="xl" weight="semibold" className="text-red-700">
-                Delete app
-              </Typography>
-            }
+            title={<span className="text-red-600 font-semibold">Delete app</span>}
             subtitle="Note that the removal of the application is immediate and irreversible. Only members with `Administrator` role can perform this operation."
           >
             <Space className="w-full mb-5">

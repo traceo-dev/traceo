@@ -59,15 +59,9 @@ export const IncidentsListPage = () => {
   };
 
   return (
-    <Page
-      header={{
-        icon: <BugOutlined />,
-        title: "Incidents",
-        description: "List of incidents catched by Traceo SDK"
-      }}
-    >
+    <Page>
       <Page.Content>
-        <Card>
+        <Card title="Incidents">
           <SearchWrapper className="pt-2 pb-12">
             <InputSearch
               placeholder="Search incidents by type, message, status or assigned user"
