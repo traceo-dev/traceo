@@ -5,14 +5,15 @@ import { INFLUX2_DOCS } from "src/core/utils/constants";
 interface FormProps {
   errors: any;
   register: any;
+  required?: boolean;
 }
-export const InfluxForm = ({ errors, register }: FormProps) => {
+export const InfluxForm = ({ errors, register, required = true }: FormProps) => {
   return (
     <>
-      <FormItem error={errors?.tsdbConfiguration?.url} label="URL">
+      <FormItem error={errors?.url} label="URL">
         <Input
           {...register("url", {
-            required: true,
+            required,
             pattern: {
               value: /^((https|http):\/\/.*):?(\d*)\/?(.*)/,
               message: "This url is invalid!"
@@ -21,25 +22,33 @@ export const InfluxForm = ({ errors, register }: FormProps) => {
           placeholder="http://localhost:8086/"
         />
       </FormItem>
-      <FormItem error={errors?.token} label="Token">
+      <FormItem error={errors?.tsdbConfiguration?.token} label="Token">
         <InputSecret
           {...register("tsdbConfiguration.token", {
-            required: true
+            required
           })}
         />
       </FormItem>
       <div className="w-full flex flex-row gap-x-2">
-        <FormItem error={errors?.org} label="Organization" className="w-full">
+        <FormItem
+          error={errors?.tsdbConfiguration?.org}
+          label="Organization"
+          className="w-full"
+        >
           <Input
             {...register("tsdbConfiguration.org", {
-              required: true
+              required
             })}
           />
         </FormItem>
-        <FormItem error={errors?.bucket} label="Bucket name" className="w-full">
+        <FormItem
+          error={errors?.tsdbConfiguration?.bucket}
+          label="Bucket name"
+          className="w-full"
+        >
           <Input
             {...register("tsdbConfiguration.bucket", {
-              required: true
+              required
             })}
           />
         </FormItem>

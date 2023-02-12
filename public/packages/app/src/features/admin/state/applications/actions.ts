@@ -20,7 +20,7 @@ export const loadServerApplication = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
 
     dispatch(serverAppLoadedAction(false))
-    const { data } = await api.get<ApiResponse<IApplication>>("/api/applications", { id });
+    const { data } = await api.get<ApiResponse<IApplication>>("/api/application", { id });
     dispatch(serverApplicationLoaded(data));
     dispatch(serverAppLoadedAction(true))
   };

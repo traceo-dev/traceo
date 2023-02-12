@@ -1,11 +1,6 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../../store/index";
-import {
-  ApiResponse,
-  CreateApplicationProps,
-  DatasourceProvider,
-  TsdbProvider
-} from "@traceo/types";
+import { ApiResponse, CreateApplicationProps, DatasourceProvider } from "@traceo/types";
 import {
   Alert,
   Button,
@@ -55,12 +50,13 @@ const CreateApplicationPage = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedDS, setSelectedDS] = useState<TsdbProvider>(null);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
   useEffect(() => {
-    dispatch(toggleNavbar(true));
+    return () => {
+      dispatch(toggleNavbar(true));
+    };
   }, []);
 
   const onFinish = async (form: CreateApplicationProps) => {
@@ -83,7 +79,7 @@ const CreateApplicationPage = () => {
           navigate(data.redirectUrl);
         } else {
           setError(true);
-          setErrorMessage(data?.error);
+          setErrorMessage(data?.error || TRY_AGAIN_LATER_ERROR);
         }
       })
       .catch(() => {
@@ -178,7 +174,11 @@ const CreateApplicationPage = () => {
                     </FormItem>
 
                     {watch("tsdbProvider") === DatasourceProvider.INLFUX_DB && (
-                      <InfluxForm errors={errors.tsdbConfiguration} register={register} />
+                      <InfluxForm
+                        required={watch("tsdbProvider") === DatasourceProvider.INLFUX_DB}
+                        errors={errors}
+                        register={register}
+                      />
                     )}
 
                     {error && (

@@ -46,7 +46,7 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
       </Card>
       <Card title="Graph series" bodyClassName="max-h-[500px] overflow-y-auto">
         {props.options.series.map((serie, index) => (
-          <>
+          <div key={index}>
             <CustomizeFormSection title={serie.name}>
               <>
                 {editSerieForm({
@@ -54,8 +54,9 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
                   serie: serie as IMetricSerie,
                   setOptions: props.setOptions,
                   isDefault: props.options.isDefault
-                }).map((opt) => (
+                }).map((opt, index) => (
                   <FieldLabel
+                    key={index}
                     label={opt.label}
                     labelPosition={opt?.labelPosition}
                     labelSize="xs"
@@ -66,7 +67,7 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
               </>
             </CustomizeFormSection>
             <Divider />
-          </>
+          </div>
         ))}
       </Card>
     </div>

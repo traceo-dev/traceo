@@ -13,7 +13,7 @@ export const ApplicationMembers = () => {
     isLoading,
     execute
   } = useRequest<ApplicationMember[]>({
-    url: "/api/members/search",
+    url: "/api/member/search",
     params: {
       id
     }

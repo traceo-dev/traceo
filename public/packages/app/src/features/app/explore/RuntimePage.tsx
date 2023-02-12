@@ -2,7 +2,7 @@ import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../core/components/DataNotFound";
 import { DescriptionRow, Descriptions } from "../../../core/components/Descriptions";
 import ExplorePageWrapper from "./ExplorePageWrapper";
-import { Card } from "@traceo/ui"
+import { Card } from "@traceo/ui";
 import { useApplication } from "../../../core/hooks/useApplication";
 
 const RuntimePage = () => {

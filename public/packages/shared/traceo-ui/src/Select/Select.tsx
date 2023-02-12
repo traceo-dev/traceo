@@ -4,7 +4,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { conditionClass, joinClasses } from "../utils/classes";
-import { FC, useRef } from "react";
+import { FC, forwardRef, useRef } from "react";
 import {
   ActionMeta,
   components,
@@ -80,7 +80,7 @@ const SelectContainer = <
     <components.SelectContainer
       {...props}
       className={joinClasses(
-        "border border-secondary rounded-md block text-sm",
+        "border border-secondary rounded-md block text-sm items-center",
         conditionClass(isFocused, "ring-2 ring-blue-400"),
         conditionClass(isDisabled, "opacity-75 cursor-not-allowed")
       )}
@@ -104,7 +104,6 @@ const Option: FC<SelectMenuOptionProps> = ({
         conditionClass(isSelected, "bg-secondary")
       )}
       {...innerProps}
-      aria-label="Select option"
     >
       {data.icon && <div className="pr-2 text-lg">{data.icon}</div>}
       <div className="flex flex-col">
@@ -115,7 +114,7 @@ const Option: FC<SelectMenuOptionProps> = ({
   );
 };
 
-export const Select: FC<SelectProps> = (props: SelectProps) => {
+export const Select = forwardRef<any, SelectProps>((props, ref) => {
   const {
     loadingMessage = "Loading ...",
     emptyMessage = "No options",
@@ -126,7 +125,6 @@ export const Select: FC<SelectProps> = (props: SelectProps) => {
     ...restProps
   } = props;
 
-  const ref = useRef(null);
   const selectStyles = defaultStyles(width);
   const selectedValue = options?.find((opt) => opt.value === value) || value;
   const selectedDefaultValue =
@@ -157,4 +155,4 @@ export const Select: FC<SelectProps> = (props: SelectProps) => {
       {...restProps}
     />
   );
-};
+});

@@ -20,7 +20,7 @@ export const assignOptions = (members: ApplicationMember[]) =>
     label: member.name,
     description: member?.email,
     value: member.userId,
-    icon: <Avatar alt={member.name} src={member.gravatar} size="sm" />
+    icon: <Avatar alt={member.name} src={member.gravatar} size="sm" className="mt-1" />
   }));
 
 export const mapIncidentTwTextColor: Record<IncidentStatus, string> = {

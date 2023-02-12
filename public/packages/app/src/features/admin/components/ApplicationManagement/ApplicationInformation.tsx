@@ -56,7 +56,7 @@ export const ApplicationInformation = () => {
           </FieldLabel>
           <FieldLabel label="Last error at">
             <Input
-              defaultValue={dateUtils.fromNow(application.lastIncidentAt)}
+              defaultValue={dateUtils.fromNow(application?.lastIncidentAt)}
               disabled
             />
           </FieldLabel>

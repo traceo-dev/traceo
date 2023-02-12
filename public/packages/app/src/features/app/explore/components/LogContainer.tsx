@@ -20,11 +20,7 @@ export const mapLogIcon: Record<LogLevel, JSX.Element> = {
 };
 
 export const LogContainer = ({ children }) => {
-  return (
-    <table className="w-full">
-      <tbody className="block overflow-y-scroll h-96">{children}</tbody>
-    </table>
-  );
+  return <ul className="w-full block overflow-y-scroll h-96 pl-0">{children}</ul>;
 };
 
 interface LogProps {
@@ -35,33 +31,28 @@ export const LogRow: FC<LogProps> = ({ log }) => {
 
   return (
     <>
-      <tr
+      <li
         className={joinClasses(
           "grid grid-cols-12 font-mono text-xs py-1 block cursor-pointer hover:bg-secondary",
           conditionClass(isSelected, "bg-secondary")
         )}
         onClick={() => setSelected(!isSelected)}
       >
-        <td className="col-span-1">
+        <span className="col-span-1">
           {isSelected ? <DownOutlined /> : <RightOutlined />}
           <Typography className="ml-4">{mapLogIcon[log.level]}</Typography>
-        </td>
-        <td className="col-span-2">{log.timestamp}</td>
-        <td className="col-span-7">
-          {
-            <span className="whitespace-nowrap overflow-hidden text-ellipsis inline-block">
-              {log.message}
-            </span>
-          }
-        </td>
-      </tr>
+        </span>
+        <span className="col-span-2">{log.timestamp}</span>
+        <span className="col-span-7">
+          <div className="whitespace-nowrap overflow-hidden text-ellipsis inline-block">
+            {log.message}
+          </div>
+        </span>
+      </li>
       {isSelected && (
         <Space
           direction="vertical"
-          style={{
-            border: "1px solid #2a2d32"
-          }}
-          className="text-xs p-3 w-full rounded-md"
+          className="text-xs p-3 w-full rounded-md border border-solid border-light-secondary"
         >
           <pre className="whitespace-pre-wrap">{JSON.stringify(log, null, 2)}</pre>
         </Space>

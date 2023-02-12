@@ -70,8 +70,9 @@ export const CommentItem: FC<Props> = ({ user, comment, incidentId }) => {
     ];
     return (
       <ul className="list-none p-2">
-        {options.map((opt) => (
+        {options.map((opt, index) => (
           <li
+            key={index}
             onClick={opt.onClick}
             className="mt-1 px-2 text-[14px] py-1 hover:bg-secondary rounded cursor-pointer"
           >

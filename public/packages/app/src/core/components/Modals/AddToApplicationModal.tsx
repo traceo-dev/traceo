@@ -63,49 +63,47 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
   };
 
   return (
-    <>
-      <Modal title="Add to application" open={isOpen} onCancel={onCancel}>
-        <Space
-          direction="vertical"
-          className="pt-0 px-4 w-full h-full justify-between text-center"
-        >
-          <form onSubmit={onFinish} id="add-to-application-form">
-            <FormItem label="Application">
-              <Select
-                isLoading={isLoading}
-                value={application}
-                options={applications?.map((app) => ({
-                  label: app.name,
-                  value: app.id,
-                  icon: <Avatar size="sm" src={app?.gravatar} alt={app.name} />
-                }))}
-                onChange={(opt) => setApplication(opt?.value)}
-              />
-            </FormItem>
-            <FormItem label="Role">
-              <Select
-                value={role}
-                options={roleOptions}
-                onChange={(opt) => setRole(opt?.value)}
-              />
-            </FormItem>
-          </form>
+    <Modal title="Add to application" open={isOpen} onCancel={onCancel}>
+      <Space
+        direction="vertical"
+        className="pt-0 px-4 w-full h-full justify-between text-center"
+      >
+        <form onSubmit={onFinish} id="add-to-application-form">
+          <FormItem label="Application">
+            <Select
+              isLoading={isLoading}
+              value={application}
+              options={applications?.map((app) => ({
+                label: app.name,
+                value: app.id,
+                icon: <Avatar size="sm" src={app?.gravatar} alt={app.name} />
+              }))}
+              onChange={(opt) => setApplication(opt?.value)}
+            />
+          </FormItem>
+          <FormItem label="Role">
+            <Select
+              value={role}
+              options={roleOptions}
+              onChange={(opt) => setRole(opt?.value)}
+            />
+          </FormItem>
+        </form>
 
-          <ButtonContainer>
-            <Button
-              disabled={!role || !application}
-              loading={loading}
-              type="submit"
-              form="add-to-application-form"
-            >
-              OK
-            </Button>
-            <Button variant="ghost" onClick={onCancel}>
-              Cancel
-            </Button>
-          </ButtonContainer>
-        </Space>
-      </Modal>
-    </>
+        <ButtonContainer>
+          <Button
+            disabled={!role || !application}
+            loading={loading}
+            type="submit"
+            form="add-to-application-form"
+          >
+            OK
+          </Button>
+          <Button variant="ghost" onClick={onCancel}>
+            Cancel
+          </Button>
+        </ButtonContainer>
+      </Space>
+    </Modal>
   );
 };

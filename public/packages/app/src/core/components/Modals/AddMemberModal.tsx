@@ -54,10 +54,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
     onCancel();
   };
 
-  const filterUsers = () =>
-    users.filter(
-      (acc: IUser) => !members?.find((member: ApplicationMember) => member.id === acc.id)
-    );
+  const filterUsers = () => users.filter((u) => members.find((m) => m.userId !== u.id));
 
   const usersOptions = filterUsers().map((user) => ({
     icon: <Avatar size="sm" alt={user.name} src={user.gravatar} />,

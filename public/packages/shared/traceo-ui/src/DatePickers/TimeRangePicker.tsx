@@ -45,12 +45,14 @@ export const TimeRangePicker = ({
           <FieldLabel label="From">
             <Input
               value={dayjs.unix(value[0]).format("DD-MM-YYYY HH:mm")}
+              readOnly
               suffix={<CalendarOutlined />}
             />
           </FieldLabel>
           <FieldLabel label="To">
             <Input
               value={dayjs.unix(value[1]).format("DD-MM-YYYY HH:mm")}
+              readOnly
               suffix={<CalendarOutlined />}
             />
           </FieldLabel>

@@ -17,6 +17,7 @@ export const DashboardPage = () => {
 
   useEffect(() => {
     dispatch(loadSignedInUser());
+    dispatch(toggleNavbar(false));
 
     // Cleaning application stores
     dispatch(resetIncidentState());

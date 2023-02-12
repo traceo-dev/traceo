@@ -1,11 +1,7 @@
 import { RightOutlined } from "@ant-design/icons";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import { useRequest } from "../../../../core/hooks/useRequest";
-import {
-  IIncident,
-  IncidentSortBy,
-  IncidentStatusSearch
-} from "@traceo/types";
+import { IIncident, IncidentSortBy, IncidentStatusSearch } from "@traceo/types";
 import dateUtils from "../../../../core/utils/date";
 import { useNavigate } from "react-router-dom";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
@@ -36,7 +32,7 @@ export const RecentIncidentsSection = () => {
       extra={
         <Link
           onClick={() => navigate(`/app/${application.id}/incidents`)}
-          className="text-xs font-semibold text-primary"
+          className="text-xs font-semibold"
         >
           View
         </Link>

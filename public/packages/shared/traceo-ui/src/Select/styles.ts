@@ -51,7 +51,8 @@ export const defaultStyles = (width: number | string | undefined): StylesConfig 
                 ...provided,
                 margin: 0,
                 color: "#ccccdc",
-                width: "auto"
+                width: "auto",
+                alignItems: "center"
             }),
             singleValue: (provided) => ({
                 ...provided,

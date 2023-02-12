@@ -38,7 +38,7 @@ export const TableRow: FC<TableRowProps> = ({
           "odd:bg-secondary",
           "border-t border-b-0 border-l-0 border-r-0 border-solid border-light-secondary"
         ),
-        conditionClass(hovered, "hover:bg-light-secondary duration-200"),
+        conditionClass(hovered, "hover:bg-secondary duration-200"),
         conditionClass(!!onRowClick, "cursor-pointer")
       )}
     >
