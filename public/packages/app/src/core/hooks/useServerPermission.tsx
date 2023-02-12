@@ -1,9 +1,9 @@
-import { useAccount } from "./useAccount";
+import { useUser } from "./useUser";
 
 export const useServerPermission = () => {
-  const account = useAccount();
+  const user = useUser();
 
-  const isAdmin = account.isAdmin;
+  const isAdmin = user.isAdmin;
 
   return { isAdmin };
 };

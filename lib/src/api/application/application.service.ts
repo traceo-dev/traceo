@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { AmrService } from '../application-member/amr.service';
+import { MemberService } from '../member/member.service';
 import { EntityManager } from 'typeorm';
 import * as crypto from "crypto";
 import { ApplicationQueryService } from './application-query/application-query.service';
-import { AccountQueryService } from '../account/account-query/account-query.service';
+import { UserQueryService } from '../user/user-query/user-query.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import dayjs from 'dayjs';
 import { ADMIN_NAME, ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
@@ -14,9 +14,10 @@ import { CreateApplicationDto, ApplicationDto } from '@common/types/dto/applicat
 import { Application } from '@db/entities/application.entity';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { Log } from '@db/entities/log.entity';
-import { MemberRole, TsdbProvider } from '@traceo/types';
+import { MemberRole } from '@traceo/types';
 import { MetricsService } from '../metrics/metrics.service';
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
+import { DataSourceService } from '../datasource/dataSource.service';
 
 
 const MAX_RETENTION_LOGS = 3;
@@ -27,10 +28,11 @@ export class ApplicationService {
 
   constructor(
     private readonly entityManager: EntityManager,
-    private readonly awrService: AmrService,
+    private readonly awrService: MemberService,
     private readonly applicationQueryService: ApplicationQueryService,
-    private readonly accountQueryService: AccountQueryService,
-    private readonly metricsService: MetricsService
+    private readonly userQueryService: UserQueryService,
+    private readonly metricsService: MetricsService,
+    private readonly datasourceService: DataSourceService
   ) {
     this.logger = new Logger(ApplicationService.name)
   }
@@ -48,16 +50,16 @@ export class ApplicationService {
         });
       }
 
-      const account = await this.accountQueryService.getDtoBy({ id });
-      if (!account) {
-        throw new Error('Owner account is required!');
+      const user = await this.userQueryService.getDtoBy({ id });
+      if (!user) {
+        throw new Error(INTERNAL_SERVER_ERROR);
       }
 
       const url = gravatar.url(data.name, "identicon");
       const payload: Partial<Application> = {
         ...data,
         id: uuidService.generate(),
-        owner: account,
+        owner: user,
         gravatar: url,
         createdAt: dateUtils.toUnix(),
         updatedAt: dateUtils.toUnix(),
@@ -66,29 +68,21 @@ export class ApplicationService {
         isIntegrated: false
       };
 
-      if (data.tsdbProvider) {
-        const tsdbConfiguration = {
-          ...data.tsdbConfiguration,
-          connStatus: null,
-          connError: null
-        };
-
-        payload.tsdbProvider = data.tsdbProvider;
-
-        if (payload.tsdbProvider === TsdbProvider.INFLUX2) {
-          payload.influxConfig = tsdbConfiguration;
-        }
-      }
-
       const application = await manager
         .getRepository(Application)
         .save(payload);
 
-      console.log("payload: ", application);
+      if (data?.tsdbConfiguration?.provider) {
+        await this.datasourceService.saveDatasource({
+          ...data.tsdbConfiguration,
+          appId: application.id,
+          provider: data.tsdbConfiguration?.provider,
+        }, manager);
+      }
 
       if (username !== ADMIN_NAME) {
-        const admin = await this.accountQueryService.getDtoBy({ email: ADMIN_EMAIL });
-        await this.awrService.createAmr(
+        const admin = await this.userQueryService.getDtoBy({ email: ADMIN_EMAIL });
+        await this.awrService.createMember(
           admin,
           application,
           MemberRole.ADMINISTRATOR,
@@ -96,8 +90,8 @@ export class ApplicationService {
         );
       }
 
-      await this.awrService.createAmr(
-        account,
+      await this.awrService.createMember(
+        user,
         application,
         MemberRole.ADMINISTRATOR,
         manager,

@@ -25,7 +25,7 @@ interface Props {
   postExecute: () => void;
 }
 export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute }) => {
-  const { account } = useSelector((state: StoreState) => state.serverAccounts);
+  const { user } = useSelector((state: StoreState) => state.users);
   const [application, setApplication] = useState<string>(null);
   const [role, setRole] = useState<MemberRole>(MemberRole.VIEWER);
 
@@ -44,8 +44,8 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
 
     setLoading(true);
     await api
-      .post("/api/amr/application/add", {
-        accountId: account.id,
+      .post("/api/member/application/add", {
+        userId: user.id,
         applicationId: application,
         role: role
       })

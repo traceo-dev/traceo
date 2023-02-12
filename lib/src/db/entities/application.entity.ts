@@ -6,12 +6,13 @@ import {
   OneToMany,
   PrimaryColumn,
 } from "typeorm";
-import { Account } from "./account.entity";
-import { AccountMemberRelationship } from "./account-member-relationship.entity";
+import { User } from "./user.entity";
+import { Member } from "./member.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IApplication, ISecurity, IInfluxConfigDto, IRuntime, TsdbProvider, IAccount, IAmr, IIncident, ApplicationTechnology } from "@traceo/types";
+import { IApplication, ISecurity, IRuntime, IUser, IMember, IIncident, ApplicationTechnology } from "@traceo/types";
 import { Metric } from "./metric.entity";
+import { Datasource } from "./datasource.entity";
 
 @Entity()
 export class Application extends BaseEntity implements IApplication {
@@ -33,11 +34,11 @@ export class Application extends BaseEntity implements IApplication {
   })
   security?: ISecurity;
 
-  @ManyToOne(() => Account)
+  @ManyToOne(() => User)
   @JoinColumn({
     name: 'owner_id',
   })
-  owner: IAccount;
+  owner: IUser;
 
   @Column({ nullable: true })
   gravatar?: string;
@@ -56,14 +57,14 @@ export class Application extends BaseEntity implements IApplication {
   isIntegrated: boolean;
 
   @OneToMany(
-    () => AccountMemberRelationship,
+    () => Member,
     (member) => member.application,
     {
       onUpdate: "CASCADE",
       onDelete: "CASCADE",
     },
   )
-  members?: IAmr[];
+  members?: IMember[];
   membersCount: number;
 
   @OneToMany(() => Incident, (incident) => incident.application, {
@@ -96,18 +97,11 @@ export class Application extends BaseEntity implements IApplication {
   runtimeConfig?: IRuntime;
 
   @Column({
-    type: "simple-json",
     nullable: true,
-    name: "influx_ds"
+    name: "tsdb_datasource_id",
+    type: "varchar"
   })
-  influxConfig?: IInfluxConfigDto;
-
-  @Column({
-    type: "varchar",
-    nullable: true,
-    name: "connected_tsdb"
-  })
-  tsdbProvider?: TsdbProvider;
+  tsdbDatasource?: string;
 
   @OneToMany(() => Metric, (metric) => metric.application, {
     onUpdate: "CASCADE",

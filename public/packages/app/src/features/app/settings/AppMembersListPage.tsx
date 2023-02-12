@@ -32,6 +32,8 @@ export const AppMembersListPage = () => {
     dispatch(loadMembers(queryParams));
   }, [search]);
 
+  console.log("mem: ", members?.length);
+
   return (
     <>
       <SettingsPageWrapper>

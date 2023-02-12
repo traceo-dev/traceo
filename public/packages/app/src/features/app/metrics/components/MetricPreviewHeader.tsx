@@ -1,7 +1,7 @@
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { PageHeader, Button, Typography, Space } from "@traceo/ui";
 import api from "../../../../core/lib/api";
-import { toggleNavbar } from "../../state/navbar/actions";
+import { toggleNavbar } from "../../../../store/internal/navbar/actions";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";

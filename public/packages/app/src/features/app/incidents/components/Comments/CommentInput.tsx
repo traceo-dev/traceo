@@ -6,12 +6,12 @@ import { loadIncidentComments } from "../../state/actions";
 import { useAppDispatch } from "../../../../../store";
 import { StoreState } from "@store/types";
 import { InputArea, Button, Link, Card, Space, Avatar } from "@traceo/ui";
-import { useAccount } from "../../../../../core/hooks/useAccount";
+import { useUser } from "../../../../../core/hooks/useUser";
 import { useApplication } from "../../../../../core/hooks/useApplication";
 
 export const CommentInput = () => {
   const dispatch = useAppDispatch();
-  const account = useAccount();
+  const user = useUser();
   const { application } = useApplication();
   const { incident } = useSelector((state: StoreState) => state.incident);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -43,7 +43,7 @@ export const CommentInput = () => {
   return (
     <Card>
       <div className="flex flex-row">
-        <Avatar alt={account?.name} src={account?.gravatar} size="md" />
+        <Avatar alt={user?.name} src={user?.gravatar} size="md" />
 
         <div className="w-full flex flex-col ml-3">
           <InputArea

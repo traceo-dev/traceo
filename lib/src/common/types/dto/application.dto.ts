@@ -1,9 +1,9 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { ApplicationTechnology, TsdbProvider } from "@traceo/types";
+import { ApplicationTechnology } from "@traceo/types";
 import { Type } from "class-transformer";
-import { IsString, IsNotEmpty, IsOptional, MaxLength, Validate, ValidateNested } from "class-validator";
+import { IsString, IsNotEmpty, IsOptional, MaxLength, ValidateNested } from "class-validator";
 import { BaseDtoQuery } from "../../base/query/base-query.model";
-import { InfluxConfigurationDto } from "./influx.dto";
+import { BaseDataSourceDto } from "./data-source";
 
 export class ApplicationDtoQuery extends BaseDtoQuery { }
 
@@ -18,15 +18,10 @@ export class CreateApplicationDto {
     @ApiPropertyOptional({ description: "technology" })
     public technology: ApplicationTechnology;
 
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional({ description: "technology" })
-    public tsdbProvider?: TsdbProvider;
-
     @IsOptional()
     @ValidateNested()
-    @Type(() => InfluxConfigurationDto)
-    public tsdbConfiguration: InfluxConfigurationDto;
+    @Type(() => BaseDataSourceDto)
+    public tsdbConfiguration: BaseDataSourceDto;
 }
 
 export class ApplicationDto {

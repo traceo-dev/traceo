@@ -1,14 +1,14 @@
-import { IAccount } from "./account";
-import { MemberRole } from "./amr";
+import { IUser } from "./user";
+import { MemberRole } from "./member";
 import { SortOrder } from "./api";
-import { IInfluxConfigDto } from "./influxds";
-import { TsdbProvider, ConnectionStatus } from "./tsdb";
+import { ConnectionStatus } from "./tsdb";
+import { DatasourceProvider, IDatasource } from "./datasource";
 
 export interface IApplication {
     id?: string;
     name: string;
     technology: ApplicationTechnology;
-    owner: OwnerAccount;
+    owner: Owner;
     gravatar?: string;
     lastIncidentAt?: number;
     incidentsCount: number;
@@ -16,8 +16,7 @@ export interface IApplication {
     membersCount: number;
     createdAt?: number;
     updatedAt?: number;
-    tsdbProvider?: TsdbProvider;
-    influxConfig?: IInfluxConfigDto;
+    tsdbDatasource?: string;
     isIntegrated: boolean;
     runtimeConfig?: {
         data: { [key: string]: any }
@@ -48,20 +47,20 @@ export interface IApplicationResponse extends Omit<IApplication, "influxDS" | "o
     }
 }
 
-export interface OwnerAccount {
+export interface Owner {
     name: string;
     email: string;
     username: string;
 }
 
-export interface AddAccountToApplication {
+export interface AddUserToApplication {
     role: {
         value: MemberRole
     };
     application: {
         value: string
     };
-    accountId: string;
+    userId: string;
 }
 
 export interface ApplicationMemberUpdateProps {
@@ -71,9 +70,9 @@ export interface ApplicationMemberUpdateProps {
 
 export type ApplicationMember = {
     id: string;
-    accountId: string;
+    userId: string;
     role: MemberRole;
-} & IAccount;
+} & IUser;
 
 export type MemberApplication = {
     id: string;
@@ -81,18 +80,21 @@ export type MemberApplication = {
     role: MemberRole
 } & IApplication;
 
-export type CreateApplicationProps = Pick<IApplication, "name" | "technology" | "tsdbProvider"> & {
-    tsdbConfiguration: {
-        influx: IInfluxConfigDto;
-    };
+export type CreateApplicationProps = {
+    name: string;
+    technology: ApplicationTechnology;
+    tsdbProvider: DatasourceProvider;
+    url: string;
+    tsdbConfiguration: { [key: string]: any }
 };
+
 export type UpdateApplicationProps = Pick<IApplication, "name">;
 
 export interface SearchApplicationQueryParams {
     order?: SortOrder;
     sortBy?: string;
     search?: string;
-    accountId?: string;
+    userId?: string;
 }
 
 export enum ApplicationTechnology {

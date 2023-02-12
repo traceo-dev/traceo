@@ -57,7 +57,7 @@ export class ApplicationQueryService extends BaseQueryService<
   }
 
   public selectedColumns(): string[] {
-    return ["id", "name", "gravatar", "lastIncidentAt", "incidentsCount", "tsdbProvider", "isIntegrated"];
+    return ["id", "name", "gravatar", "lastIncidentAt", "incidentsCount", "isIntegrated"];
   }
 
   public async getApplicationLogs(query: ApplicationLogsQuery): Promise<ApiResponse<ILog[]>> {
@@ -67,7 +67,7 @@ export class ApplicationQueryService extends BaseQueryService<
       throw new Error(`[${this.getApplicationLogs.name}] Application ID is required!`);
     }
 
-    if (!query?.levels || query.levels.length === 0) {
+    if (!levels || levels.length === 0) {
       return new ApiResponse("success", undefined, []);
     }
 

@@ -34,32 +34,32 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
       component: lazy(() => import("../features/dashboard/CreateApplicationPage"))
     },
     {
-      path: "/dashboard/account/new",
-      component: lazy(() => import("../features/dashboard/CreateUserPage"))
+      path: "/dashboard/user/new",
+      component: lazy(() => import("../features/admin/CreateUserPage"))
     },
     {
-      path: "/dashboard/management/accounts",
-      component: lazy(() => import("../features/management/UsersListPage"))
+      path: "/dashboard/admin/users",
+      component: lazy(() => import("../features/admin/UsersListPage"))
     },
     {
-      path: "/dashboard/management/accounts/:id",
-      component: lazy(() => import("../features/management/UserPage"))
+      path: "/dashboard/admin/users/:id",
+      component: lazy(() => import("../features/admin/UserPage"))
     },
     {
-      path: "/dashboard/management/apps",
-      component: lazy(() => import("../features/management/ApplicationsListPage"))
+      path: "/dashboard/admin/apps",
+      component: lazy(() => import("../features/admin/ApplicationsListPage"))
     },
     {
-      path: "/dashboard/management/apps/:id",
-      component: lazy(() => import("../features/management/ApplicationPage"))
+      path: "/dashboard/admin/apps/:id",
+      component: lazy(() => import("../features/admin/ApplicationPage"))
     },
     {
-      path: "/dashboard/management/instance",
-      component: lazy(() => import("../features/management/InstancePage"))
+      path: "/dashboard/admin/instance",
+      component: lazy(() => import("../features/admin/InstancePage"))
     },
     {
-      path: "/dashboard/account/settings",
-      component: lazy(() => import("../features/settings/AccountPage"))
+      path: "/dashboard/profile/settings",
+      component: lazy(() => import("../features/profile/UserProfilePage"))
     }
   ];
 };

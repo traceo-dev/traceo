@@ -1,5 +1,5 @@
 import { FC, useRef, useState } from "react";
-import { IComment, IAccount } from "@traceo/types";
+import { IComment, IUser } from "@traceo/types";
 import dateUtils from "../../../../../core/utils/date";
 import ReactMarkdown from "react-markdown";
 import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
@@ -18,12 +18,12 @@ import { useApplication } from "../../../../../core/hooks/useApplication";
 import { EllipsisOutlined } from "@ant-design/icons";
 
 interface Props {
-  account: IAccount;
+  user: IUser;
   comment: IComment;
   incidentId: string;
 }
 
-export const CommentItem: FC<Props> = ({ account, comment, incidentId }) => {
+export const CommentItem: FC<Props> = ({ user, comment, incidentId }) => {
   const { message, sender, createdAt, lastUpdateAt, removed } = comment;
 
   const [isEditMode, setEditMode] = useState<boolean>(false);
@@ -55,7 +55,7 @@ export const CommentItem: FC<Props> = ({ account, comment, incidentId }) => {
     await api.comment.remove(comment.id, application.id, incidentId);
   };
 
-  const editable = account?.id === sender?.id && !isEditMode && !removed;
+  const editable = user?.id === sender?.id && !isEditMode && !removed;
 
   const editOptions = () => {
     const options = [

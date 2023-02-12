@@ -1,30 +1,30 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { createHmac } from 'crypto';
 import { Response, Request } from "express";
-import { Account } from '@db/entities/account.entity';
+import { User } from '@db/entities/user.entity';
 import { JwtService } from "@nestjs/jwt";
 import { EntityManager } from 'typeorm';
 import { JwtPayload } from 'jsonwebtoken';
-import { AccountQueryService } from '../api/account/account-query/account-query.service';
-import { AccountService } from '../api/account/account.service';
+import { UserQueryService } from '../api/user/user-query/user-query.service';
+import { UserService } from '../api/user/user.service';
 import { INTERNAL_SERVER_ERROR, SESSION_EXPIRY_TIME, SESSION_NAME } from '@common/helpers/constants';
-import { AccountNotExistsError } from '@common/helpers/errors';
-import { AccountCredentialsDto, UpdatePasswordDto } from '@common/types/dto/account.dto';
-import { IAccount, AccountStatus } from '@traceo/types';
+import { UserNotExistsError } from '@common/helpers/errors';
+import { UserCredentialsDto, UpdatePasswordDto } from '@common/types/dto/user.dto';
+import { IUser, UserStatus } from '@traceo/types';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { AuthTokenService } from './auth-token.service';
 import { RequestContext } from '@common/middlewares/request-context/request-context.model';
 
 export type LoginResponseType = { accessToken: string };
-export type CheckCredentialsType = { isCorrect: boolean; account?: IAccount };
+export type CheckCredentialsType = { isCorrect: boolean; user?: IUser };
 
 @Injectable()
 export class AuthService {
   private logger: Logger;
 
   constructor(
-    private readonly accountService: AccountService,
-    private readonly accountQueryService: AccountQueryService,
+    private readonly userService: UserService,
+    private readonly userQueryService: UserQueryService,
     private readonly authTokenService: AuthTokenService,
     private readonly jwtService: JwtService,
     private readonly entityManager: EntityManager,
@@ -33,33 +33,33 @@ export class AuthService {
   }
 
   public async login(
-    accountCredentials: AccountCredentialsDto,
+    userCreds: UserCredentialsDto,
     res: Response,
     req: Request
   ) {
     return this.entityManager.transaction(async (manager) => {
-      const { isCorrect, account } = await this.checkCredentials(
-        accountCredentials,
+      const { isCorrect, user } = await this.checkCredentials(
+        userCreds,
         manager,
       );
       if (!isCorrect) {
         return new ApiResponse("error", "Bad username or password");
       }
 
-      if (!account?.lastActiveAt) {
-        await this.accountService.updateAccountApi({
-          id: account.id,
-          status: AccountStatus.ACTIVE
+      if (!user?.lastActiveAt) {
+        await this.userService.updateUser({
+          id: user.id,
+          status: UserStatus.ACTIVE
         });
       }
 
-      if (account.status === AccountStatus.DISABLED) {
-        return new ApiResponse("error", "Account suspended. Contact with administrator of this Traceo Platform.");
+      if (user.status === UserStatus.DISABLED) {
+        return new ApiResponse("error", "User suspended. Contact with administrator of this Traceo Platform.");
       }
 
       const sessionId = await this.authTokenService.createUserToken({
-        accountID: account.id,
-        accountName: account.name
+        userID: user.id,
+        userName: user.name
       }, req);
 
       res.cookie(SESSION_NAME, sessionId, {
@@ -92,7 +92,7 @@ export class AuthService {
     }
   }
 
-  public async checkUserCredentials(credentials: AccountCredentialsDto): Promise<ApiResponse<unknown>> {
+  public async checkUserCredentials(credentials: UserCredentialsDto): Promise<ApiResponse<unknown>> {
     const { username } = RequestContext.user;
     const response = await this.checkCredentials({
       username,
@@ -104,19 +104,19 @@ export class AuthService {
   }
 
   public async checkCredentials(
-    credentials: AccountCredentialsDto,
+    credentials: UserCredentialsDto,
     manager: EntityManager = this.entityManager,
   ): Promise<CheckCredentialsType> {
     const { username, password } = credentials;
 
-    const account = await manager.getRepository(Account).findOne({
+    const user = await manager.getRepository(User).findOne({
       where: {
         username,
         password: createHmac("sha256", password).digest("hex")
       }
     });
 
-    if (!account) {
+    if (!user) {
       return {
         isCorrect: false
       };
@@ -124,7 +124,7 @@ export class AuthService {
 
     return {
       isCorrect: true,
-      account
+      user
     };
   }
 
@@ -135,19 +135,19 @@ export class AuthService {
     const { newPassword, password } = passwords;
 
     return this.entityManager.transaction(async (manager) => {
-      const account = await this.accountQueryService.getDto(id);
-      if (!account) {
-        throw new AccountNotExistsError();
+      const user = await this.userQueryService.getDto(id);
+      if (!user) {
+        throw new UserNotExistsError();
       }
 
-      const credentials = new AccountCredentialsDto(account?.username, password);
+      const credentials = new UserCredentialsDto(user?.username, password);
       const { isCorrect } = await this.checkCredentials(credentials, manager);
       if (!isCorrect) {
         return new ApiResponse("error", "Bad password!");
       }
 
-      await manager.getRepository(Account).save({
-        ...account,
+      await manager.getRepository(User).save({
+        ...user,
         password: createHmac('sha256', newPassword).digest('hex'),
         isPasswordUpdated: true
       });

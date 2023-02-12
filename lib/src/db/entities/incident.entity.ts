@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn
 } from "typeorm";
-import { Account } from "./account.entity";
+import { User } from "./user.entity";
 import { Comment } from "./comment.entity";
 import { Application } from "./application.entity";
 import { BaseEntity } from "@common/base/base.entity";
@@ -68,13 +68,13 @@ export class Incident extends BaseEntity implements IIncident {
   })
   application: Application;
 
-  @ManyToOne(() => Account, (account) => account.incidents, {
+  @ManyToOne(() => User, (user) => user.incidents, {
     onDelete: "SET NULL"
   })
   @JoinColumn({
     name: "assigned_id",
   })
-  assigned: Account;
+  assigned: User;
 
   @OneToMany(() => Comment, (comment) => comment.incident, { nullable: true })
   comments: IComment[];

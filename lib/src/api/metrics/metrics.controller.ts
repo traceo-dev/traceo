@@ -38,10 +38,10 @@ export class MetricsController {
 
     @Get('/:id/datasource')
     async getMetricValues(
-        @Param("id") id: string,
+        @Param("id") appId: string,
         @Query() query: MetricQueryDto
     ): Promise<ApiResponse<MetricsResponse[]>> {
-        return await this.metricsQueryService.getMetricData(id, query);
+        return await this.metricsQueryService.getMetricData(appId, query);
     }
 
     @Patch("/:metricId/update")

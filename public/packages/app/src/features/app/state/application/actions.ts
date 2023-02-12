@@ -1,9 +1,7 @@
 import api from "../../../../core/lib/api";
-import { loadApplications } from "../../../dashboard/state/actions";
-import { loadServerApplications } from "../../../management/state/applications/actions";
-import { ApiResponse, IApplication, CreateApplicationProps, MemberRole, UpdateApplicationProps } from "@traceo/types";
+import { ApiResponse, IApplication, MemberRole, UpdateApplicationProps } from "@traceo/types";
 import { ThunkResult } from "@store/types";
-import { navbarState } from "../navbar/reducers";
+import { navbarState } from "../../../../store/internal/navbar/reducers";
 import { applicationLoaded, applicationPermission, resetApplicationState } from "./reducers";
 
 export type LoadApplicationType = {
@@ -38,7 +36,7 @@ export const loadPermission = (props?: LoadApplicationType): ThunkResult<void> =
     try {
       const { data } = await api.get<ApiResponse<{
         role: MemberRole
-      }>>("/api/amr/permission", {
+      }>>("/api/member/permission", {
         id: props.id
       });
       dispatch(applicationPermission(data.role));
@@ -47,15 +45,6 @@ export const loadPermission = (props?: LoadApplicationType): ThunkResult<void> =
     }
   }
 }
-
-export const createApplication = (
-  body: CreateApplicationProps
-): ThunkResult<void> => {
-  return async (dispatch) => {
-    const resp: ApiResponse<{ id: string }> = await api.post("/api/application", body);
-    dispatch(loadApplication({ id: resp.data.id }));
-  };
-};
 
 export const updateAplication = (body: UpdateApplicationProps): ThunkResult<void> => {
   return async (dispatch, getStore) => {

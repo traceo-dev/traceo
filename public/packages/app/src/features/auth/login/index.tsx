@@ -2,7 +2,7 @@ import AuthLayout from "../../../core/components/Layout/AuthLayout";
 import { useState } from "react";
 import { LoginForm } from "./LoginForm";
 import { useAppDispatch } from "../../../store";
-import { loadAccount } from "../state/actions";
+import { loadSignedInUser } from "../state/actions";
 import { LoginProps, ApiResponse } from "@traceo/types";
 import api from "../../../core/lib/api";
 
@@ -12,7 +12,7 @@ const Login = () => {
   const [invalid, setInvalid] = useState<boolean>(false);
 
   const goToTraceo = () => {
-    dispatch(loadAccount());
+    dispatch(loadSignedInUser());
     window.location.href = "/dashboard/overview";
   };
 

@@ -1,6 +1,6 @@
 import { FC, useEffect } from "react";
 import { joinClasses } from "../../utils/classes";
-import { hideNotify } from "../../../store/internal/reducers/notifyReducer";
+import { hideNotify } from "../../../store/internal/notify/notifyReducer";
 import { useAppDispatch } from "../../../store";
 import { NotifyItem, NotifyType } from "@traceo/types";
 import {

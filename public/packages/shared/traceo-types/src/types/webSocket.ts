@@ -20,7 +20,7 @@ export interface SendMessageSocketPayload {
 export interface SendTypingSocketPayload {
   chatId: string;
   isTyping: boolean;
-  accountId: string;
+  userId: string;
 }
 
 type Participant = {

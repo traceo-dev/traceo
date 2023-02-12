@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { join } from 'path';
-import { AccountMemberRelationship } from './entities/account-member-relationship.entity';
-import { Account } from './entities/account.entity';
+import { Member } from './entities/member.entity';
+import { User } from './entities/user.entity';
 import { Application } from './entities/application.entity';
 import { Comment } from './entities/comment.entity';
 import { Incident } from './entities/incident.entity';
 import { Log } from './entities/log.entity';
 import { Session } from './entities/session.entity';
 import { InsertAdminUserOnStartup } from './migrations/InsertAdminUserOnStartup';
+import { Datasource } from './entities/datasource.entity';
+import { Metric } from './entities/metric.entity';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -28,13 +30,15 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         type: "sqlite",
         database: "traceo_sqlite_db",
         entities: [
-          Account,
-          AccountMemberRelationship,
           Application,
           Comment,
+          Datasource,
           Incident,
           Log,
-          Session
+          Member,
+          Metric,
+          Session,
+          User
         ]
       })
     }

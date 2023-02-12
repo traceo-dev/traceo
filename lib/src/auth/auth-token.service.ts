@@ -9,8 +9,8 @@ import dayjs from "dayjs";
 import { SESSION_EXPIRY_TIME } from "@common/helpers/constants";
 
 type UserTokenPayload = {
-    accountID: string;
-    accountName: string;
+    userID: string;
+    userName: string;
 }
 @Injectable()
 export class AuthTokenService {
@@ -28,14 +28,14 @@ export class AuthTokenService {
             const expiryAt = dayjs().add(SESSION_EXPIRY_TIME, 'milliseconds').unix();
 
             const tokenPayload: ISession = {
-                accountIP: ip,
+                userIP: ip,
                 sessionID: token,
                 createdAt: dateUtils.toUnix(),
                 expiryAt,
                 ...payload
             }
             await this.entityManager.getRepository(Session).save(tokenPayload);
-            this.logger.log(`[${this.createUserToken.name}] Session succesfully created for user: ${payload.accountName}::${payload.accountID}`)
+            this.logger.log(`[${this.createUserToken.name}] Session succesfully created for user: ${payload.userName}::${payload.userID}`)
 
             return token;
         } catch (err) {
@@ -50,17 +50,17 @@ export class AuthTokenService {
                 this.logger.error(`[${this.createUserToken.name}] Session not found/already revoked.`)
             } else {
                 await this.entityManager.getRepository(Session).remove(session);
-                this.logger.log(`[${this.revokeUserToken.name}] Session revoked for user: ${session.accountName}::${session.accountName}`)
+                this.logger.log(`[${this.revokeUserToken.name}] Session revoked for user: ${session.userName}::${session.userID}`)
             }
         } catch (err) {
             this.logger.error(`[${this.revokeUserToken.name}] Caused by: ${err}`);
         }
     }
 
-    public async revokeAllUserTokens(accountID: string, manager: EntityManager = this.entityManager) {
+    public async revokeAllUserTokens(userID: string, manager: EntityManager = this.entityManager) {
         try {
-            await manager.getRepository(Session).delete({ accountID });
-            this.logger.log(`[${this.revokeAllUserTokens.name}] Sessions revoked for user: ${accountID}`)
+            await manager.getRepository(Session).delete({ userID });
+            this.logger.log(`[${this.revokeAllUserTokens.name}] Sessions revoked for user: ${userID}`)
         } catch (err) {
             this.logger.error(`[${this.revokeAllUserTokens.name}] Caused by: ${err}`);
             throw new Error(err);

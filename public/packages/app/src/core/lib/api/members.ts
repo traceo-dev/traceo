@@ -3,7 +3,7 @@ import api from "../api";
 
 const onUpdateRole = async (member: ApplicationMember, role: MemberRole, postExecute: () => void) => {
     await api
-        .patch("/api/amr/application/member", {
+        .patch("/api/member", {
             memberId: member.id,
             role
         })
@@ -12,7 +12,7 @@ const onUpdateRole = async (member: ApplicationMember, role: MemberRole, postExe
 
 const onRemoveFromApp = async (member: ApplicationMember, postExecute: () => void) => {
     await api
-        .delete("/api/amr/application/member", {
+        .delete("/api/member", {
             id: member.id
         })
         .finally(() => postExecute());

@@ -27,7 +27,7 @@ const MetricPlot: FC<Props> = ({ metric, ranges }) => {
     execute,
     isLoading
   } = useRequest<MetricsResponse[]>({
-    url: `/api/metrics/${application.id}/datasource`,
+    url: `/api/metrics/${application?.id}/datasource`,
     params: {
       fields: seriesFields,
       from: ranges[0],
@@ -59,7 +59,7 @@ const MetricPlot: FC<Props> = ({ metric, ranges }) => {
 
   return (
     <ConditionalWrapper
-      // isLoading={isLoading || !datasource}
+      isLoading={isLoading}
       isEmpty={datasource?.length === 0}
       emptyView={<DataNotFound className="text-2xs" label="Data not found" />}
     >

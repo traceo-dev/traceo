@@ -1,6 +1,11 @@
-import { AppstoreOutlined, ArrowLeftOutlined, LeftOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../../store/index";
-import { ApiResponse, CreateApplicationProps, TsdbProvider } from "@traceo/types";
+import {
+  ApiResponse,
+  CreateApplicationProps,
+  DatasourceProvider,
+  TsdbProvider
+} from "@traceo/types";
 import {
   Alert,
   Button,
@@ -17,10 +22,10 @@ import { useEffect, useState } from "react";
 import { Page } from "src/core/components/Page";
 import { loadApplication } from "../app/state/application/actions";
 import { useNavigate } from "react-router-dom";
-import { navbarState } from "../app/state/navbar/reducers";
 import api from "src/core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "src/core/utils/constants";
 import { InfluxForm } from "src/core/components/Forms/InfluxForm";
+import { toggleNavbar } from "../../store/internal/navbar/actions";
 
 type CreateAppPayload = {
   redirectUrl: string;
@@ -41,7 +46,7 @@ const dataSourceOptions = [
   {
     label: "InfluxDB",
     description: "High-speed read and write database. Supported in version +1.8.",
-    value: TsdbProvider.INFLUX2
+    value: DatasourceProvider.INLFUX_DB
   }
 ];
 
@@ -55,22 +60,21 @@ const CreateApplicationPage = () => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
   useEffect(() => {
-    dispatch(navbarState({ hidden: true }));
+    dispatch(toggleNavbar(true));
   }, []);
 
   const onFinish = async (form: CreateApplicationProps) => {
     setLoading(true);
-
+    const { name, technology, tsdbProvider, tsdbConfiguration, url } = form;
     const payload = {
-      name: form.name,
-      technology: form.technology,
-      tsdbProvider: form.tsdbProvider
+      name,
+      technology,
+      tsdbConfiguration: {
+        url,
+        provider: tsdbProvider,
+        details: tsdbConfiguration
+      }
     };
-
-    if (form.tsdbProvider === TsdbProvider.INFLUX2) {
-      payload["tsdbConfiguration"] = form?.tsdbConfiguration?.influx;
-    }
-
     await api
       .post<ApiResponse<CreateAppPayload>>("/api/application", payload)
       .then(({ data, status }) => {
@@ -92,7 +96,7 @@ const CreateApplicationPage = () => {
   };
 
   const onBack = () => {
-    dispatch(navbarState({ hidden: false }));
+    dispatch(toggleNavbar(false));
     navigate("/dashboard/overview");
   };
 
@@ -173,12 +177,8 @@ const CreateApplicationPage = () => {
                       />
                     </FormItem>
 
-                    {watch("tsdbProvider") === TsdbProvider.INFLUX2 && (
-                      <InfluxForm
-                        errors={errors.tsdbConfiguration?.influx}
-                        register={register}
-                        namePrefix="tsdbConfiguration.influx."
-                      />
+                    {watch("tsdbProvider") === DatasourceProvider.INLFUX_DB && (
+                      <InfluxForm errors={errors.tsdbConfiguration} register={register} />
                     )}
 
                     {error && (

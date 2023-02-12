@@ -14,7 +14,7 @@ import { AppCard } from "./AppCard";
 import { loadApplications } from "../state/actions";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { InputSearch, Select, List } from "@traceo/ui";
-import { useAccount } from "../../../core/hooks/useAccount";
+import { useUser } from "../../../core/hooks/useUser";
 
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",
@@ -38,7 +38,7 @@ export const AppsTable = () => {
   const { applications, hasFetched } = useSelector(
     (state: StoreState) => state.applications
   );
-  const account = useAccount();
+  const user = useUser();
 
   const [order, setOrder] = useState<SortOrder>("DESC");
   const [search, setSearch] = useState<string>("");
@@ -51,7 +51,7 @@ export const AppsTable = () => {
       order,
       sortBy,
       search: search,
-      accountId: account?.id
+      userId: user?.id
     };
     dispatch(loadApplications(queryParams));
   };

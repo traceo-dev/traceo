@@ -1,21 +1,21 @@
 import api from "../../../core/lib/api";
-import { ApiResponse, IAccount } from "@traceo/types";
-import { accountLoaded } from "./reducers";
+import { ApiResponse, IUser } from "@traceo/types";
+import { userLoaded } from "./reducers";
 import { ThunkResult } from "@store/types";
 
-export const loadAccount = (): ThunkResult<void> => {
+export const loadSignedInUser = (): ThunkResult<void> => {
   return async (dispatch) => {
-    const { data } = await api.get<ApiResponse<IAccount>>("/api/account");
-    dispatch(accountLoaded(data));
+    const { data } = await api.get<ApiResponse<IUser>>("/api/user");
+    dispatch(userLoaded(data));
   };
 };
 
-type LogoutAccountType = {
+type LogoutUserType = {
   redirectUrl: string;
 }
-export const logoutAccount = (): ThunkResult<void> => {
+export const logoutUser = (): ThunkResult<void> => {
   return async () => {
-    const { data } = await api.get<ApiResponse<LogoutAccountType>>("/api/auth/logout");
+    const { data } = await api.get<ApiResponse<LogoutUserType>>("/api/auth/logout");
     sessionStorage.clear();
     localStorage.clear();
     window.location.href = !!data.redirectUrl ? data.redirectUrl : "/";

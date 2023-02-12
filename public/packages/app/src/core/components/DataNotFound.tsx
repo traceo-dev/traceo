@@ -20,7 +20,7 @@ export const DataNotFound: FC<Props> = ({
     className={joinClasses("font-semibold w-full items-center pb-5 gap-0", className)}
   >
     {showIcon && <SearchOutlined className="text-2xl" />}
-    <Typography>{label}</Typography>
+    <Typography weight="semibold">{label}</Typography>
     {explanation && (
       <Typography size="xxs" weight="normal">
         {explanation}

@@ -7,11 +7,11 @@ import { Space, List } from "@traceo/ui";
 import { useEffect } from "react";
 import { loadIncidentComments } from "../../state/actions";
 import { useAppDispatch } from "../../../../../store";
-import { useAccount } from "../../../../../core/hooks/useAccount";
+import { useUser } from "../../../../../core/hooks/useUser";
 
 export const CommentsBox = () => {
   const dispatch = useAppDispatch();
-  const account = useAccount();
+  const user = useUser();
 
   const { incident, comments, hasCommentsFetched } = useSelector(
     (state: StoreState) => state.incident
@@ -36,7 +36,7 @@ export const CommentsBox = () => {
         <List
           dataSource={comments}
           renderItem={(item) => (
-            <CommentItem account={account} comment={item} incidentId={incident.id} />
+            <CommentItem user={user} comment={item} incidentId={incident.id} />
           )}
         />
       </ConditionalWrapper>

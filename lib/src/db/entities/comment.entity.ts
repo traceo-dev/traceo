@@ -1,4 +1,4 @@
-import { IAccount, IComment, IIncident } from "@traceo/types";
+import { IUser, IComment, IIncident } from "@traceo/types";
 import {
   Column,
   Entity,
@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn
 } from "typeorm";
 import { BaseEntity } from "@common/base/base.entity";
-import { Account } from "./account.entity";
+import { User } from "./user.entity";
 import { Incident } from "./incident.entity";
 
 @Entity()
@@ -20,11 +20,11 @@ export class Comment extends BaseEntity implements IComment {
   })
   message: string;
 
-  @ManyToOne(() => Account)
+  @ManyToOne(() => User)
   @JoinColumn({
     name: "sender_id",
   })
-  sender: IAccount;
+  sender: IUser;
 
   @Column({
     type: "bigint",

@@ -4,7 +4,7 @@ import { IncidentUpdateDto, IncidentBatchUpdateDto } from "@common/types/dto/inc
 import { ApiResponse } from "@common/types/dto/response.dto";
 import { Incident } from "@db/entities/incident.entity";
 import { EntityManager } from "typeorm";
-import { AccountQueryService } from "../account/account-query/account-query.service";
+import { UserQueryService } from "../user/user-query/user-query.service";
 
 
 @Injectable()
@@ -12,7 +12,7 @@ export class IncidentsService {
   private logger: Logger;
   constructor(
     private entityManger: EntityManager,
-    private accountQueryService: AccountQueryService
+    private userQueryService: UserQueryService
   ) {
     this.logger = new Logger(IncidentsService.name);
   }
@@ -27,10 +27,10 @@ export class IncidentsService {
 
     return await this.entityManger.transaction(async (manager) => {
       if (update.assignedId) {
-        const account = await this.accountQueryService.getDto(update.assignedId);
+        const user = await this.userQueryService.getDto(update.assignedId);
         await manager
           .getRepository(Incident)
-          .update({ id: incidentId }, { assigned: account });
+          .update({ id: incidentId }, { assigned: user });
 
         return new ApiResponse("success", "Incident assigned");
       }

@@ -30,8 +30,8 @@ export class RequestContextMiddleware implements NestMiddleware<Request, Respons
             }
 
             req.user = {
-                id: session.accountID,
-                username: session.accountName
+                id: session.userID,
+                username: session.userName
             };
 
             RequestContext.cls.run(new RequestContext(req, res), next);

@@ -4,11 +4,10 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { HttpModule } from "@nestjs/axios";
-import { GuardsService } from '@common/guards/guards.service';
-import { AccountService } from '../api/account/account.service';
-import { AccountQueryService } from '../api/account/account-query/account-query.service';
-import { AmrQueryService } from '../api/application-member/amr-query/amr-query.service';
-import { AmrService } from '../api/application-member/amr.service';
+import { UserService } from '../api/user/user.service';
+import { UserQueryService } from '../api/user/user-query/user-query.service';
+import { MemberQueryService } from '../api/member/member-query/member-query.service';
+import { MemberService } from '../api/member/member.service';
 import { ApplicationQueryService } from '../api/application/application-query/application-query.service';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { AuthTokenService } from './auth-token.service';
@@ -24,13 +23,12 @@ import { AuthTokenService } from './auth-token.service';
   providers: [
     AuthService,
     AuthTokenService,
-    AccountService,
+    UserService,
     JwtStrategy,
-    AccountQueryService,
+    UserQueryService,
     ApplicationQueryService,
-    AmrService,
-    AmrQueryService,
-    GuardsService
+    MemberService,
+    MemberQueryService
   ],
   controllers: [AuthController]
 })

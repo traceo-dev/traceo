@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import { useAppDispatch } from "../../../../store/index";
 import { Tooltip } from "@traceo/ui";
-import { toggleNavbar } from "../../state/navbar/actions";
+import { toggleNavbar } from "../../../../store/internal/navbar/actions";
 import { loadMetric } from "../state/actions";
 import { useParams } from "react-router-dom";
 import { MetricTimeRangePicker } from "./MetricTimeRangePicker";

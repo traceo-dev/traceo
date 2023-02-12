@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BaseDtoQuery } from '@common/base/query/base-query.model';
-import { GuardsService } from '@common/guards/guards.service';
 import { ApiResponse } from '@common/types/dto/response.dto';
 import { IApplication } from '@traceo/types';
 import { ApplicationQueryService } from './application-query/application-query.service';
@@ -25,8 +24,7 @@ import { AuthGuard } from '@common/decorators/auth-guard.decorator';
 export class ApplicationsController {
     constructor(
         readonly applicationService: ApplicationService,
-        readonly applicationQueryService: ApplicationQueryService,
-        readonly permission: GuardsService
+        readonly applicationQueryService: ApplicationQueryService
     ) { }
 
     @Get()

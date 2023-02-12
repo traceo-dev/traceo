@@ -10,11 +10,9 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { GuardsService } from '@common/guards/guards.service';
-import { AuthAccount } from '@common/decorators/auth-user.decorator';
 import { IncidentQueryDto, IncidentUpdateDto, IncidentBatchUpdateDto } from '@common/types/dto/incident.dto';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { RequestUser, IIncident } from '@traceo/types';
+import { IIncident } from '@traceo/types';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsService } from './incidents.service';
 import { AuthGuard } from '@common/decorators/auth-guard.decorator';
@@ -26,8 +24,7 @@ import { AuthGuard } from '@common/decorators/auth-guard.decorator';
 export class IncidentsController {
   constructor(
     private readonly incidentsQueryService: IncidentsQueryService,
-    private readonly incidentsService: IncidentsService,
-    private readonly permission: GuardsService
+    private readonly incidentsService: IncidentsService
   ) { }
 
   @Get('/:id')
@@ -56,11 +53,8 @@ export class IncidentsController {
 
   @Delete('/:id')
   public async deleteIncident(
-    @Param("id") id: string,
-    @AuthAccount() account: RequestUser
+    @Param("id") id: string
   ): Promise<ApiResponse<unknown>> {
-    await this.permission.can('DELETE_INCIDENT', account);
-
     return await this.incidentsService.removeIncident(id);
   }
 
