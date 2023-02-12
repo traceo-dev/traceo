@@ -27,11 +27,6 @@ export class ApplicationsController {
         readonly applicationQueryService: ApplicationQueryService
     ) { }
 
-    @Get()
-    async getApplication(@Query("id") id: string): Promise<ApiResponse<IApplication>> {
-        return await this.applicationQueryService.getApiDto(id);
-    }
-
     @Get('/search')
     async getApplications(@Query() query: BaseDtoQuery): Promise<ApiResponse<IApplication[]>> {
         return await this.applicationQueryService.getApiListDto(query);

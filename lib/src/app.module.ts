@@ -38,6 +38,7 @@ export class AppModule {
     consumer
       .apply(RequestContextMiddleware)
       .exclude("/api/auth/login")
+      .exclude("/api/worker/(.*)")
       .forRoutes({
         path: "*",
         method: RequestMethod.ALL

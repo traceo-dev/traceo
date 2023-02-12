@@ -21,13 +21,17 @@ export class UserQueryService extends BaseQueryService<
   public async getSignedInUser(): Promise<ApiResponse<IUser>> {
     try {
       const userId = RequestContext.user.id;
+      if (!userId) {
+        throw new Error(`[${this.getSignedInUser.name}] No user ID!`);
+      }
+
       const user = await this.entityManager.getRepository(User).findOneBy({
         id: userId
       });
 
       return new ApiResponse("success", undefined, user)
     } catch (error) {
-      console.log("erro: ", error)
+      throw new Error(`[${this.getSignedInUser.name}] Caused by: ${error}`);
     }
   }
 
