@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
 import { ApiResponse } from '@common/types/dto/response.dto';
-import { DataSourceConnStatus, DatasourceProvider } from '@traceo/types';
+import { ConnectionStatus, DataSourceConnStatus, DatasourceProvider } from '@traceo/types';
 import { Application } from '@db/entities/application.entity';
 import { EntityManager } from 'typeorm';
 import { BaseDataSourceDto } from '@common/types/dto/data-source';

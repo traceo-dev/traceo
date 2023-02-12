@@ -91,15 +91,9 @@ export class UserService {
       }
 
       await this.tokenService.revokeAllUserTokens(id, manager);
+      await manager.getRepository(User).delete({ id });
 
-      await manager
-        .getRepository(User)
-        .createQueryBuilder('user')
-        .where('user.id = :id', { id })
-        .delete()
-        .execute();
-
-
+      this.logger.log(`[${this.deleteUser.name}] User with id: ${id} removed.`);
       return new ApiResponse("success", "User successfully removed");
     }).catch((err: Error) => {
       this.logger.error(`[${this.deleteUser.name}] Caused by: ${err}`)

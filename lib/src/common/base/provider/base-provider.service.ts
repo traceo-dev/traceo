@@ -3,7 +3,7 @@ import { MetricQueryDto } from "@common/types/dto/metrics.dto";
 import { ApiResponse } from "@common/types/dto/response.dto";
 import { Datasource } from "@db/entities/datasource.entity";
 import { Logger } from "@nestjs/common";
-import { DataSourceConnStatus, ISDKMetrics, MetricsResponse } from "@traceo/types";
+import { ConnectionStatus, DataSourceConnStatus, ISDKMetrics, MetricsResponse } from "@traceo/types";
 import { EntityManager } from "typeorm";
 
 export abstract class BaseProviderService {
@@ -24,7 +24,10 @@ export abstract class BaseProviderService {
             })
         } catch (err) {
             this.logger.error(`[${this.healthCheck.name}] Caused by: ${err}`);
-            return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR, {
+                status: ConnectionStatus.FAILED,
+                error: err
+            });
         }
     }
 

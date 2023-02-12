@@ -42,20 +42,18 @@ export class InfluxService extends BaseProviderService {
 
         const write = influxDb.getWriteApi(details.org, details.bucket);
         const point = new Point('traceo_conn_test').floatField('test', 0);
-        write.writePoint(point)
-        return write
-            .close()
-            .then(() => {
-                return {
-                    status: ConnectionStatus.CONNECTED
-                }
-            })
-            .catch((error: InfluxErrorType) => {
-                return {
-                    status: ConnectionStatus.FAILED,
-                    error: `${error?.errno || error?.statusCode} : ${error?.json.message || error?.code}`
-                }
-            });
+
+        write.writePoint(point);
+        return write.close().then(() => {
+            return {
+                status: ConnectionStatus.CONNECTED
+            }
+        }).catch((error: InfluxErrorType) => {
+            return {
+                status: ConnectionStatus.FAILED,
+                error: `${error?.errno || error?.statusCode} : ${error?.json?.message || error?.code}`
+            }
+        });
     }
 
     public async writeData(datasource: Datasource, data: ISDKMetrics): Promise<void> {
@@ -131,7 +129,7 @@ export class InfluxService extends BaseProviderService {
         try {
             return await queryApi.collectRows(query);
         } catch (error) {
-            this.logger.error(`[${this.queryData.name}] Caused by: ${error}`);
+            this.logger.warn(`[${this.queryData.name}] Caused by: ${error}`);
             return [];
         }
     }

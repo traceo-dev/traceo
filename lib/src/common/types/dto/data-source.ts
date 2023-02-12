@@ -14,16 +14,16 @@ export class BaseDataSourceDto {
     public appId?: string;
 
     @IsEnum(DatasourceProvider)
-    @IsNotEmpty()
+    @IsOptional()
     @ApiProperty({ description: "provider" })
     public provider: DatasourceProvider;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     @ApiProperty({ description: "url" })
     public url?: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @ApiProperty({ description: "datasource details" })
     public details: { [key: string]: any }
 }
