@@ -22,7 +22,7 @@ export const loadApplication = (props?: LoadApplicationType): ThunkResult<void> 
     let currId = props?.id;
     if (!props?.id) {
       currId = getStore().application.application.id
-    };
+    }
 
     const { data } = await api.get<ApiResponse<IApplication>>("/api/application", {
       id: currId

@@ -1,13 +1,6 @@
-import { BarChartOutlined, DotChartOutlined, LineChartOutlined } from "@ant-design/icons";
+import { BarChartOutlined, LineChartOutlined } from "@ant-design/icons";
 import { DeepPartial, IMetric, IMetricSerie, PLOT_TYPE } from "@traceo/types";
-import {
-  ColorPicker,
-  Input,
-  InputColor,
-  LabelPosition,
-  Select,
-  Switch
-} from "@traceo/ui";
+import { Input, InputColor, LabelPosition, Select, Switch } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
 
 const mapPlotName: Record<PLOT_TYPE, string> = {

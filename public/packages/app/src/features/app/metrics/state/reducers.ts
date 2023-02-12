@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ConnectionStatus, IMetric, MetricsResponse } from "@traceo/types";
+import { IMetric, MetricsResponse } from "@traceo/types";
 
 type MetricType = {
     options: IMetric,
@@ -11,8 +11,6 @@ export interface MetricsState {
     metric: MetricType;
     hasFetched: boolean;
     hasFetchedMetric: boolean;
-    // status: ConnectionStatus;
-    // statusMessage: string;
 }
 
 const initialState = {

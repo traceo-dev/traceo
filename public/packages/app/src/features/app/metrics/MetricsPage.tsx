@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
-import { ConnectionError } from "./components/ConnectionError";
 import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useAppDispatch } from "../../../store";

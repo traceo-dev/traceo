@@ -1,8 +1,7 @@
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { IMetric, DeepPartial, IMetricSerie } from "@traceo/types";
 import { DraftFunction } from "use-immer";
 import { Card, Divider, FieldLabel } from "@traceo/ui";
-import { useMemo } from "react";
 import { editMetricBasicForm } from "./editMetricBasicForm";
 import { editMetricGraphForm } from "./editMetricGraphForm";
 import { editSerieForm } from "./editMetricSeriesForm";

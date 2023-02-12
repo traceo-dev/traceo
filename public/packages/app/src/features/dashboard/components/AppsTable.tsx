@@ -44,8 +44,6 @@ export const AppsTable = () => {
   const [search, setSearch] = useState<string>("");
   const [sortBy, setSortBy] = useState<AppsSortBy>(AppsSortBy.LAST_ERROR);
 
-  useEffect(() => fetchApplications(), [order, sortBy, search]);
-
   const fetchApplications = () => {
     const queryParams: SearchApplicationQueryParams = {
       order,
@@ -55,6 +53,8 @@ export const AppsTable = () => {
     };
     dispatch(loadApplications(queryParams));
   };
+
+  useEffect(() => fetchApplications(), [order, sortBy, search]);
 
   const renderSearch = () => (
     <SearchWrapper>

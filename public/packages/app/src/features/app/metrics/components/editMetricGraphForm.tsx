@@ -1,5 +1,5 @@
 import { IMetric } from "@traceo/types";
-import { Input, LabelPosition, RadioButtonGroup, Switch } from "@traceo/ui";
+import { LabelPosition, RadioButtonGroup, Switch } from "@traceo/ui";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
 

@@ -77,7 +77,7 @@ const CreateUserPage = () => {
               </div>
               <span className="font-semibold text-lg">New user</span>
               <span className="text-xs pt-1">
-                Create new user in this Traceo instance. After this you'll be able to
+                Create new user in this Traceo instance. After this you&apos;ll be able to
                 attach him to any apps.
               </span>
               <Alert

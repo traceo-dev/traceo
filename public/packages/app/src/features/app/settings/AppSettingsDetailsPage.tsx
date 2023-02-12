@@ -1,12 +1,4 @@
-import {
-  Space,
-  Button,
-  Typography,
-  Card,
-  FieldLabel,
-  Input,
-  InputGroup
-} from "@traceo/ui";
+import { Space, Button, Card, FieldLabel, Input, InputGroup } from "@traceo/ui";
 import { useRef, useState } from "react";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import SettingsPageWrapper from "./components/SettingsPageWrapper";

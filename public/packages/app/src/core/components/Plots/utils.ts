@@ -42,7 +42,7 @@ export const splitLine = {
   }
 };
 
-export const normalizePlotData = (plotData: { date: number; count: number }[]) => {
+export const normalizePlotData = (plotData: Array<{ date: number; count: number }>) => {
   return {
     x: plotData?.map((plot) => plot.date) || [],
     y: plotData?.map((plot) => plot.count) || []

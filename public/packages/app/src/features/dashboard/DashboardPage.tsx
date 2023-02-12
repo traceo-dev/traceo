@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button, Card } from "@traceo/ui";
 import { AppsTable } from "./components/AppsTable";
 import { PlusOutlined } from "@ant-design/icons";

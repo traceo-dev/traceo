@@ -1,14 +1,7 @@
-import {
-  SyncOutlined,
-  SettingOutlined,
-  CompressOutlined,
-  ExpandOutlined
-} from "@ant-design/icons";
+import { SettingOutlined, CompressOutlined, ExpandOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../../../../store/index";
 import { Tooltip } from "@traceo/ui";
 import { toggleNavbar } from "../../../../store/internal/navbar/actions";
-import { loadMetric } from "../state/actions";
-import { useParams } from "react-router-dom";
 import { MetricTimeRangePicker } from "./MetricTimeRangePicker";
 
 interface Props {
@@ -28,7 +21,6 @@ export const MetricToolbar = ({
   setRanges
 }: Props) => {
   const dispatch = useAppDispatch();
-  const { id, metricId } = useParams();
 
   const onExpand = () => {
     dispatch(toggleNavbar(true));

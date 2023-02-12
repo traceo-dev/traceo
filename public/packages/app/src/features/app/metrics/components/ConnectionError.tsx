@@ -1,13 +1,10 @@
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Space, Button, Typography, Card } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
-import { notify } from "../../../../core/utils/notify";
-import { useState } from "react";
 import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const ConnectionError = () => {
   const { application } = useApplication();
-  const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   return (

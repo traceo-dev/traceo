@@ -14,8 +14,7 @@ import {
   ConnectionStatus,
   DataSourceConnStatus,
   DatasourceProvider,
-  IDatasource,
-  InfluxDS
+  IDatasource
 } from "@traceo/types";
 import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";

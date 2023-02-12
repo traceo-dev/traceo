@@ -33,13 +33,12 @@ export const MetricPreviewPage = () => {
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
   const [isExpandMode, setExpandMode] = useState<boolean>(false);
 
-  const { data: connection, isLoading: isLoadingConnection } =
-    useRequest<DataSourceConnStatus>({
-      url: "/api/datasource/heartbeat",
-      params: {
-        id: application?.tsdbDatasource
-      }
-    });
+  const { data: connection } = useRequest<DataSourceConnStatus>({
+    url: "/api/datasource/heartbeat",
+    params: {
+      id: application?.tsdbDatasource
+    }
+  });
 
   useEffect(() => {
     const payload = {

@@ -1,6 +1,5 @@
-import { FC, lazy, useEffect, useMemo } from "react";
+import { FC, lazy, useEffect } from "react";
 import { IMetric, MetricsResponse, METRIC_UNIT } from "@traceo/types";
-import { MetricLoading } from "../../../MetricLoading";
 import { useRequest } from "../../../../hooks/useRequest";
 import { ConditionalWrapper } from "../../../ConditionLayout";
 import { buildDatasource, buildSeries, commonOptions } from "./utils";

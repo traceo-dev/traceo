@@ -3,7 +3,7 @@ import { useAppDispatch } from "../../../store";
 import { loadUsers } from "../../../features/admin/state/users/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
-import { ApplicationMember, MemberRole, IUser } from "@traceo/types";
+import { MemberRole } from "@traceo/types";
 import api from "../../lib/api";
 import {
   Select,

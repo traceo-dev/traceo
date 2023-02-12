@@ -46,3 +46,5 @@ lerna-debug.log*
 
 traceo_sqlite_db
 *.sqlite
+
+.eslintcache

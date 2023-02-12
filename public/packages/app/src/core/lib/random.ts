@@ -1,4 +1,4 @@
-const generate = (length: number = 40) => {
+const generate = (length = 40) => {
     const arr = new Uint8Array(length / 2);
     window.crypto.getRandomValues(arr);
     return Array.from(arr, byteToHex).join("");

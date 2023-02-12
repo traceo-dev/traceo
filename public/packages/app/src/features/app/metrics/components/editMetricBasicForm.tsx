@@ -1,5 +1,5 @@
 import { DeepPartial, IMetric, METRIC_UNIT } from "@traceo/types";
-import { Input, InputArea, LabelPosition, Select, Switch } from "@traceo/ui";
+import { Input, InputArea, LabelPosition, Select } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
 
 const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({

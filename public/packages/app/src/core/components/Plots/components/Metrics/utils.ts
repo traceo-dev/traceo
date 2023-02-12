@@ -11,7 +11,7 @@ export const buildDatasource = (
 ) => {
     if (!datasource || !series) {
         return []
-    };
+    }
 
     const commonSource = {
         time: datasource?.map((t) => t._time)

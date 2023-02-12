@@ -1,0 +1,54 @@
+{
+  "plugins": ["@typescript-eslint", "prettier", "@typescript-eslint", "unused-imports"],
+  "extends": [
+    "plugin:react/recommended",
+    "prettier",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "ignorePatterns": [".eslintrc.js", "scripts/*", "*.js", "*.json"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "react/prop-types": "off",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "curly": "error",
+    "dot-notation": "off",
+    "eol-last": "error",
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          {
+            "name": "react-redux",
+            "importNames": ["useDispatch"],
+            "message": "Please import useAppDispatch instead."
+          }
+        ]
+      }
+    ],
+    "no-console": ["error", { "allow": ["error", "log", "warn", "info"] }],
+    "no-var": "error",
+    "no-duplicate-imports": "error",
+    "@typescript-eslint/no-unused-expressions": [
+      "error",
+      { "allowShortCircuit": true, "allowTernary": true }
+    ],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "interface",
+        "format": ["PascalCase"]
+      }
+    ],
+    "@typescript-eslint/no-inferrable-types": "error"
+  }
+}

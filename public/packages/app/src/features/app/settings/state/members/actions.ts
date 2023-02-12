@@ -1,9 +1,7 @@
 import api, { ApiQueryParams } from "../../../../../core/lib/api";
 import { ThunkResult } from "@store/types";
 import {
-  AddUserToApplication,
   ApplicationMember,
-  ApplicationMemberUpdateProps,
   ApiResponse
 } from "@traceo/types";
 import { membersLoaded } from "./reducers";
