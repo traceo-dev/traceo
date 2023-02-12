@@ -6,7 +6,16 @@ import { useApplication } from "../../../../core/hooks/useApplication";
 export const NotIntegratedSection = () => {
   const { application } = useApplication();
 
-  const appIdLine = `  appId: '${application.id}',`;
+  const sampleIntegrationCode = `
+    1   import { TraceoClient } from 'traceo';
+    2 
+    3   new TraceoClient({
+    4      appId: '${application.id}',
+    5      apiKey: '<API_KEY>',
+    6      url: 'http://localhost:3000'
+    7   });
+    8 
+  `;
 
   return (
     !application.isIntegrated && (
@@ -15,7 +24,7 @@ export const NotIntegratedSection = () => {
           title="Welcome to your new app"
           subtitle={
             <Space className="w-full" direction="vertical">
-              <Typography>
+              <Typography size="xs">
                 We noticed that the Traceo SDK has not yet been integrated into this
                 application. To do this, use the example code on the right and restart
                 your software.
@@ -32,21 +41,10 @@ export const NotIntegratedSection = () => {
             </Space>
           }
         >
-          <Space className="code-container p-3 mb-5 bg-canvas text-white">
-            <Typography>
-              <ol>
-                <li className="code-line">{"import { TraceoClient } from 'traceo';"}</li>
-                <li className="code-line"></li>
-                <li className="code-line">{"new TraceoClient({"}</li>
-                <li className="code-line">{appIdLine}</li>
-                <li className="code-line">{"  apiKey: '<API_KEY>',"}</li>
-                <li className="code-line">
-                  {"  url: 'http://localhost:3000', //or copy url from your browser"}
-                </li>
-                <li className="code-line">{"});"}</li>
-                <li className="code-line"></li>
-              </ol>
-            </Typography>
+          <Space className="code-container p-3 mb-5 bg-canvas text-white w-full">
+            <span className="leading-5 whitespace-pre w-full monospace text-primary text-xs">
+              {sampleIntegrationCode}
+            </span>
           </Space>
         </ColumnSection>
       </Card>

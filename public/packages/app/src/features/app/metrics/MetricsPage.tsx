@@ -60,7 +60,7 @@ const MetricsPage = () => {
         {connection?.status === ConnectionStatus.FAILED && (
           <Alert
             type="error"
-            title="Connection error. Check your configuration to your time series database."
+            title="Connection error. Check configuration to your time series database."
             message={`Error: ${connection?.error}`}
             className="mb-2"
           />

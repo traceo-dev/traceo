@@ -6,20 +6,25 @@ import { StoreState } from "@store/types";
 import { ApplicationInformation } from "./components/ApplicationManagement/ApplicationInformation";
 import { ApplicationMembers } from "./components/ApplicationManagement/ApplicationMembers";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
-import { loadServerApplication } from "./state/applications/actions";
+import { useRequest } from "src/core/hooks/useRequest";
+import { IApplication } from "@traceo/types";
+// import { loadServerApplication } from "./state/applications/actions";
 
 export const ApplicationPage = () => {
   const { id } = useParams();
-  const dispatch = useAppDispatch();
-  const { hasFetched } = useSelector((state: StoreState) => state.serverApplications);
+  // const dispatch = useAppDispatch();
+  // const { hasFetched } = useSelector((state: StoreState) => state.serverApplications);
 
-  useEffect(() => {
-    dispatch(loadServerApplication(id));
-  }, []);
+  const { data, isLoading } = useRequest<IApplication>({
+    url: "/api/application",
+    params: {
+      id
+    }
+  });
 
   return (
-    <DashboardPageWrapper isLoading={!hasFetched}>
-      <ApplicationInformation />
+    <DashboardPageWrapper isLoading={isLoading}>
+      <ApplicationInformation application={data} />
       <ApplicationMembers />
     </DashboardPageWrapper>
   );

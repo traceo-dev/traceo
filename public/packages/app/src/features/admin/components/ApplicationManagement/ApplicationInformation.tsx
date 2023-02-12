@@ -4,14 +4,16 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
-import { ApiResponse } from "@traceo/types";
+import { ApiResponse, IApplication } from "@traceo/types";
 import { StoreState } from "@store/types";
 import dateUtils from "../../../../core/utils/date";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 
-export const ApplicationInformation = () => {
+interface Props {
+  application: IApplication
+}
+export const ApplicationInformation = ({ application }: Props) => {
   const navigate = useNavigate();
-  const { application } = useSelector((state: StoreState) => state.serverApplications);
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
 
   const onRemove = async () => {

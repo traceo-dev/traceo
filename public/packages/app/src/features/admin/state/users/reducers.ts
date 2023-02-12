@@ -14,7 +14,7 @@ const initialState = {
 };
 
 const userSlice = createSlice({
-  name: "serverUsers",
+  name: "users",
   initialState: initialState,
   reducers: {
     usersLoaded: (state, action: PayloadAction<IUser[]>): UsersState => {
