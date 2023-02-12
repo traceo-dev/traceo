@@ -10,7 +10,9 @@ import { User } from "./user.entity";
 import { Application } from "./application.entity";
 import { IMember, MemberRole } from "@traceo/types";
 
-@Entity()
+@Entity({
+  name: "member"
+})
 export class Member extends BaseEntity implements IMember {
   @PrimaryGeneratedColumn('uuid')
   id?: string;

@@ -44,7 +44,6 @@ export class DataSourceService {
             throw new Error("Missing required fields!");
         }
 
-        console.log("config: ", config);
         return await manager.transaction(async (manager) => {
             if (datasourceId) {
                 await manager.getRepository(Datasource).update({ id: datasourceId }, {
