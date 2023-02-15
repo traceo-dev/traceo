@@ -1,5 +1,3 @@
-import { deprecate } from "util";
-
 export type IMetric = {
     id?: string;
     name: string;
@@ -99,8 +97,6 @@ export type HeapMetricType = {
     heap_used: number;
     heap_total: number;
     heap_rss: number;
-    heap_native_contexts: number;
-    heap_detached_contexts: number;
 };
 
 export interface MetricsQuery {

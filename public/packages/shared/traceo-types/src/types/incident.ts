@@ -88,7 +88,6 @@ export interface Platform {
     arch: string;
     platform: string;
     release: string;
-    version: string;
 }
 
 export interface Trace {

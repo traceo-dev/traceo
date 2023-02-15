@@ -246,61 +246,6 @@
             }
         },
         {
-            "name": "Heap Contexts",
-            "description": "Values that indicate the existence of memory leaks.",
-            "showDescription": true,
-            "isDefault": true,
-            "show": true,
-            "unit": "",
-            "series": [
-                {
-                    "name": "Native Contexts",
-                    "field": "heap_native_contexts",
-                    "type": "intField",
-                    "config": {
-                        "lineWidth": 1,
-                        "barWidth": 20,
-                        "area": {
-                            "show": false,
-                            "opacity": 0
-                        },
-                        "type": "line",
-                        "color": "#E24D42"
-                    }
-                },
-                {
-                    "name": "Detached Contexts",
-                    "field": "heap_detached_contexts",
-                    "type": "intField",
-                    "config": {
-                        "lineWidth": 1,
-                        "barWidth": 20,
-                        "area": {
-                            "show": false,
-                            "opacity": 0
-                        },
-                        "type": "line",
-                        "color": "#447EBC"
-                    }
-                }
-            ],
-            "config": {
-                "line": {
-                    "marker": {
-                        "show": false
-                    }
-                },
-                "tooltip": {
-                    "show": false,
-                    "position": "bottom"
-                },
-                "legend": {
-                    "show": false,
-                    "orient": "vertical"
-                }
-            }
-        },
-        {
             "name": "Average Load",
             "description": "Load Average is a measure of system activity calculated by the operating system over the last minute and expressed as a fractional number. Supported only by UNIX operation systems.",
             "showDescription": true,
