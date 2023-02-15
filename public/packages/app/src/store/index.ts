@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-restricted-imports
 import { useDispatch as useReduxDispatch } from 'react-redux';
 import { configureStore as reduxConfigureStore } from "@reduxjs/toolkit";
 import { appReducers } from "./root";

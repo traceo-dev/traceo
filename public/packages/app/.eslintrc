@@ -1,7 +1,7 @@
 {
   "plugins": ["@typescript-eslint", "prettier", "@typescript-eslint", "unused-imports"],
   "extends": [
-    "plugin:react/recommended",
+    // "plugin:react/recommended",
     "prettier",
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
