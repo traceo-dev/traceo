@@ -1,0 +1,156 @@
+/* 
+  WARNING: only add styles here as a last resort.
+  Instead of this use tailwind for styling and tailwind.config.js 
+  to define repeating single styles
+*/
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-text-primary: rgb(204, 204, 220);
+  --color-text-secondary: rgba(204, 204, 220, 0.65);
+  --color-text-disabled: rgba(204, 204, 220, 0.6);
+
+  --color-traceo-primary: #eab308;
+
+  --color-bg-primary: #181b1f;
+  --color-bg-secondary: #22252b;
+  --color-bg-light-secondary: #2d3139;
+  --color-bg-canvas: #111217;
+}
+
+/* Overrides for tailwind styles */
+
+.border-bottom {
+  border-bottom: 1px solid var(--color-bg-secondary);
+}
+/* End overrides */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  background-color: transparent;
+  outline: none;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  color: #ffffff;
+  background-color: var(--color-bg-canvas);
+  margin: 0px 0px 0.45em;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.01071em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  font-feature-settings: "tnum";
+}
+
+input,
+button,
+select,
+textarea {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+}
+
+textarea {
+  overflow: auto;
+  resize: vertical;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+.code-container {
+  display: block;
+  overflow-x: auto;
+  font-family: monospace;
+}
+
+.details-table {
+  width: 100%;
+  border-spacing: 0;
+}
+
+.details-table td,
+.details-table th {
+  height: 30px;
+  line-height: 30px;
+  padding: 6px 8px;
+}
+
+.details-table tbody tr:nth-child(odd) {
+  background: var(--color-bg-secondary);
+}
+
+.details-table-label {
+  font-weight: 400 !important;
+  width: 256px !important;
+}
+
+.details-table-value {
+  width: 400px !important;
+}
+
+.pipe:after {
+  content: " | ";
+  padding: 0 8px;
+}
+
+.code-line {
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 24px;
+  min-height: 24px;
+  white-space: pre;
+}
+
+.details-table-thead tr th {
+  text-align: left;
+  font-weight: 400;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(204, 204, 220, 0.16);
+  border-radius: 4px;
+  opacity: 0;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out 0s;
+}
+
+/* End Scrollbar */
