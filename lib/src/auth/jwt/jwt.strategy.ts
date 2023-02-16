@@ -17,12 +17,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload): Promise<JwtPayload> {
-    const { id } = payload;
-    const user = await this.UserQueryService.getDto(id);
+    // const { id } = payload;
+    // const user = await this.UserQueryService.getDto(id);
 
-    if (!user) {
-      throw new UnauthorizedException("Unauthorized!");
-    }
+    // if (!user) {
+    //   throw new UnauthorizedException("Unauthorized!");
+    // }
 
     return payload;
   }

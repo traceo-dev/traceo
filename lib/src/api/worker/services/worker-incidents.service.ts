@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import dateUtils from "@common/helpers/dateUtils";
+import dateUtils from "../../../common/helpers/dateUtils";
 import { IncidentStatus, TraceoIncidentModel } from "@traceo/types";
-import { BaseWorkerService } from "@common/base/worker/base-worker.service";
-import { Application } from "@db/entities/application.entity";
-import { Incident } from "@db/entities/incident.entity";
+import { BaseWorkerService } from "../../../common/base/worker/base-worker.service";
+import { Application } from "../../../db/entities/application.entity";
+import { Incident } from "../../../db/entities/incident.entity";
 import { EntityManager, UpdateResult } from "typeorm";
 
 

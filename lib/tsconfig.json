@@ -15,8 +15,8 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "paths": {
-      "@common/*": ["./src/common/*"],
-      "@db/*": ["./src/db/*"]
+      // "@common/*": ["./src/common/*"],
+      // "@db/*": ["./src/db/*"]
     }
   },
   "include": ["./src"]

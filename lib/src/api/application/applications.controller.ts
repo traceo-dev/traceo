@@ -1,21 +1,16 @@
 import {
-    Body,
     Controller,
-    Delete,
     Get,
-    Param,
-    Patch,
-    Post,
     Query,
     UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { BaseDtoQuery } from '@common/base/query/base-query.model';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { BaseDtoQuery } from '../../common/base/query/base-query.model';
+import { ApiResponse } from '../../common/types/dto/response.dto';
 import { IApplication } from '@traceo/types';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { ApplicationService } from './application.service';
-import { AuthGuard } from '@common/decorators/auth-guard.decorator';
+import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
 
 
 @ApiTags('applications')

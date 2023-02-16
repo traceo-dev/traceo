@@ -3,7 +3,7 @@ import {
     Entity,
     PrimaryGeneratedColumn
 } from "typeorm";
-import { BaseEntity } from "@common/base/base.entity";
+import { BaseEntity } from "../../common/base/base.entity";
 import { DatasourceProvider, IDatasource } from "@traceo/types";
 
 @Entity()

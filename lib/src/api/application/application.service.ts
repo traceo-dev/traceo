@@ -6,17 +6,17 @@ import { ApplicationQueryService } from './application-query/application-query.s
 import { UserQueryService } from '../user/user-query/user-query.service';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import dayjs from 'dayjs';
-import { ADMIN_NAME, ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
-import dateUtils from '@common/helpers/dateUtils';
-import { gravatar } from '@common/helpers/gravatar';
-import { uuidService } from '@common/helpers/uuid';
-import { CreateApplicationDto, ApplicationDto } from '@common/types/dto/application.dto';
-import { Application } from '@db/entities/application.entity';
-import { ApiResponse } from '@common/types/dto/response.dto';
-import { Log } from '@db/entities/log.entity';
+import { ADMIN_NAME, ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from '../../common/helpers/constants';
+import dateUtils from '../../common/helpers/dateUtils';
+import { gravatar } from '../../common/helpers/gravatar';
+import { uuidService } from '../../common/helpers/uuid';
+import { CreateApplicationDto, ApplicationDto } from '../../common/types/dto/application.dto';
+import { Application } from '../../db/entities/application.entity';
+import { ApiResponse } from '../../common/types/dto/response.dto';
+import { Log } from '../../db/entities/log.entity';
 import { MemberRole } from '@traceo/types';
 import { MetricsService } from '../metrics/metrics.service';
-import { RequestContext } from '@common/middlewares/request-context/request-context.model';
+import { RequestContext } from '../../common/middlewares/request-context/request-context.model';
 import { DataSourceService } from '../datasource/dataSource.service';
 
 

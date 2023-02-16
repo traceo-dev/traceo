@@ -9,7 +9,7 @@ import {
 import { User } from "./user.entity";
 import { Comment } from "./comment.entity";
 import { Application } from "./application.entity";
-import { BaseEntity } from "@common/base/base.entity";
+import { BaseEntity } from "../../common/base/base.entity";
 import { ErrorDetails, IComment, IIncident, Platform, Trace } from "@traceo/types";
 
 export enum IncidentStatus {

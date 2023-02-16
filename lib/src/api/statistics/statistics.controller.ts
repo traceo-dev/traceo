@@ -1,9 +1,9 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AppIncidentsStats, ErrorDetails } from '@traceo/types';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { ApiResponse } from '../../common/types/dto/response.dto';
 import { StatisticsQueryService } from './query/statistics-query.service';
-import { AuthGuard } from '@common/decorators/auth-guard.decorator';
+import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
 
 @ApiTags('statistics')
 @Controller('statistics')

@@ -10,4 +10,6 @@ fi
 
 echo "Building image piotrszewczyk/traceo:$_traceo_tag"
 
+# build everything 
+
 docker build -t piotrszewczyk/traceo:$_traceo_tag -t piotrszewczyk/traceo:latest .

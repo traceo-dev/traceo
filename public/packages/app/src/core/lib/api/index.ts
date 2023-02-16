@@ -42,10 +42,7 @@ export function configureApi() {
         sessionStorage.clear();
         cookie.clear();
 
-        if (!cookie.get("traceo_session")) {
-          notify.error("Your session timed out. Please log in again.");
-        }
-
+        notify.error("Your session timed out. Please log in again.");
         window.location.href = "/";
 
         return error.response?.data;

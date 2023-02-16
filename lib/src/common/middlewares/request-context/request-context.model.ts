@@ -4,6 +4,7 @@ import { RequestUser } from '@traceo/types';
 export class RequestContext<TRequest = any, TResponse = any> {
     constructor(public readonly req: TRequest, public readonly res: TResponse) { }
 
+    // https://nodejs.org/api/async_context.html#class-asynclocalstorage
     static cls = new AsyncLocalStorage<RequestContext>();
 
     static get currentContext() {

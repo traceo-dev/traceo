@@ -9,10 +9,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateUserDto, UserDto } from '@common/types/dto/user.dto';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { CreateUserDto, UserDto } from '../../common/types/dto/user.dto';
+import { ApiResponse } from '../../common/types/dto/response.dto';
 import { IUser } from '@traceo/types';
-import { AuthGuard } from '@common/decorators/auth-guard.decorator';
+import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
 import { UserService } from './user.service';
 import { UserQueryService } from './user-query/user-query.service';
 

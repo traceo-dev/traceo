@@ -5,9 +5,9 @@ import {
     UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@common/decorators/auth-guard.decorator';
-import { BaseDtoQuery } from '@common/base/query/base-query.model';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
+import { BaseDtoQuery } from '../../common/base/query/base-query.model';
+import { ApiResponse } from '../../common/types/dto/response.dto';
 import { IUser } from '@traceo/types';
 import { UserQueryService } from './user-query/user-query.service';
 

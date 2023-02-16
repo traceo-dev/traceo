@@ -5,19 +5,14 @@ ENV NODE_OPTIONS=--max_old_space_size=8000
 
 WORKDIR /traceo
 
-COPY ./app/package.json .
-COPY ./app/yarn.lock .
-
-RUN yarn install
-
-COPY ./app/tsconfig.json .
-COPY ./app .
+COPY ./public .
+RUN yarn workspace @traceo/app install --frozen-lockfile
 
 ENV REACT_APP_API_URL host.docker.internal \
     REACT_APP_SOCKET_URL host.docker.internal \
     NODE_ENV production
 
-RUN yarn build:prod
+RUN yarn workspace @traceo/app build:prod
 
 # SERVER
 FROM node:16-alpine3.15 as server-builder
@@ -32,13 +27,14 @@ WORKDIR /traceo
 ENV NODE_ENV production \
     APP_ORIGIN host.docker.internal
 
-COPY package*.json ./
+COPY /lib/package*.json ./
 
+COPY /public/packages/shared/traceo-types /public/packages/shared/traceo-types
 RUN yarn install --production=true
 RUN yarn global add typescript
 # RUN node-prune
 
-COPY . .
+COPY /lib .
 
 RUN tsc -p tsconfig.build.json
 
@@ -54,9 +50,10 @@ RUN apk --no-cache add nodejs --repository=http://dl-cdn.alpinelinux.org/alpine/
 
 ENV NODE_OPTIONS=--max_old_space_size=8000
 
-COPY --from=app-builder /traceo/build ./app
+COPY --from=app-builder /traceo/packages/app/build ./app
 COPY --from=server-builder /traceo/dist ./dist
 COPY --from=server-builder /traceo/node_modules ./node_modules
+COPY --from=server-builder /public/packages/shared/traceo-types ./node_modules/@traceo/types
 
 EXPOSE 3000
 

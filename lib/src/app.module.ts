@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AuthModule } from './auth/auth.module';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -10,7 +10,13 @@ import { join } from 'path';
 import { CommonModule } from './common/common.module';
 import { ApiModule } from './api/api.module';
 import { ProvidersModule } from './providers/providers.module';
-import { RequestContextMiddleware } from './common/middlewares/request-context/request-context.middleware';
+
+const staticRootPath = () => {
+  if (process.env.NODE_ENV === "production") {
+    return join(__dirname, "../app");
+  }
+  return join(__dirname, '../../public/packages/app/public');
+}
 
 @Module({
   imports: [
@@ -24,25 +30,12 @@ import { RequestContextMiddleware } from './common/middlewares/request-context/r
     ScheduleModule.forRoot(),
     HttpModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../public/packages/app/public'),
+      rootPath: staticRootPath(),
       serveStaticOptions: {
         cacheControl: true
       }
     })
   ],
-  controllers: [AppController],
-  providers: [],
+  controllers: [AppController]
 })
-export class AppModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(RequestContextMiddleware)
-      .exclude(
-        { path: "/api/worker/(.*)", method: RequestMethod.ALL },
-        { path: "/api/auth/login", method: RequestMethod.POST })
-      .forRoutes({
-        path: "*",
-        method: RequestMethod.ALL
-      });
-  }
-}
+export class AppModule { }

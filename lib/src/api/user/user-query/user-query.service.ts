@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { BaseQueryService } from '@common/base/query/base-query.service';
-import { BaseDtoQuery } from '@common/base/query/base-query.model';
-import { User } from '@db/entities/user.entity';
+import { BaseQueryService } from '../../../common/base/query/base-query.service';
+import { BaseDtoQuery } from '../../../common/base/query/base-query.model';
+import { User } from '../../../db/entities/user.entity';
 import { EntityManager, SelectQueryBuilder } from 'typeorm';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { ApiResponse } from '../../../common/types/dto/response.dto';
 import { IUser } from '@traceo/types';
-import { RequestContext } from '@common/middlewares/request-context/request-context.model';
+import { RequestContext } from '../../../common/middlewares/request-context/request-context.model';
 
 @Injectable()
 export class UserQueryService extends BaseQueryService<

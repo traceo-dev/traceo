@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn
 } from "typeorm";
-import { BaseEntity } from "@common/base/base.entity";
+import { BaseEntity } from "../../common/base/base.entity";
 import { User } from "./user.entity";
 import { Incident } from "./incident.entity";
 

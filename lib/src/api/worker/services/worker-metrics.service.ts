@@ -1,11 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { DatasourceProvider, ISDKMetrics } from "@traceo/types";
-import { BaseWorkerService } from "@common/base/worker/base-worker.service";
-import { Application } from "@db/entities/application.entity";
+import { BaseWorkerService } from "../../../common/base/worker/base-worker.service";
+import { Application } from "../../../db/entities/application.entity";
 import { InfluxService } from "../../../providers/influx/influx.service";
 import { EntityManager } from "typeorm";
-import { BaseProviderService } from "@common/base/provider/base-provider.service";
-import { Datasource } from "@db/entities/datasource.entity";
+import { BaseProviderService } from "../../../common/base/provider/base-provider.service";
+import { Datasource } from "../../../db/entities/datasource.entity";
 
 @Injectable()
 export class WorkerMetricsService extends BaseWorkerService<ISDKMetrics> {

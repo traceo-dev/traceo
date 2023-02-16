@@ -4,7 +4,6 @@ import { loadIncident } from "../state/actions";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../../store";
 import { StoreState } from "@store/types";
-import { MenuRoute } from "@traceo/types";
 import {
   ArrowLeftOutlined,
   CommentOutlined,
@@ -16,6 +15,7 @@ import { Page } from "../../../../core/components/Page";
 import { mapIncidentStatusIcon, mapIncidentTwTextColor } from "./utils";
 import { joinClasses } from "../../../../core/utils/classes";
 import { useApplication } from "../../../../core/hooks/useApplication";
+import { MenuRoute } from "../../../../core/types/navigation";
 
 export const IncidentPageWrapper = ({ children }) => {
   const { iid } = useParams();

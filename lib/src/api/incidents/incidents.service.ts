@@ -1,8 +1,8 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { INTERNAL_SERVER_ERROR } from "@common/helpers/constants";
-import { IncidentUpdateDto, IncidentBatchUpdateDto } from "@common/types/dto/incident.dto";
-import { ApiResponse } from "@common/types/dto/response.dto";
-import { Incident } from "@db/entities/incident.entity";
+import { INTERNAL_SERVER_ERROR } from "../../common/helpers/constants";
+import { IncidentUpdateDto, IncidentBatchUpdateDto } from "../../common/types/dto/incident.dto";
+import { ApiResponse } from "../../common/types/dto/response.dto";
+import { Incident } from "../../db/entities/incident.entity";
 import { EntityManager } from "typeorm";
 import { UserQueryService } from "../user/user-query/user-query.service";
 

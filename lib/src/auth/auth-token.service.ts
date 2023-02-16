@@ -1,12 +1,12 @@
 import { Injectable, Logger } from "@nestjs/common";
 import crypto from "crypto";
 import { ISession } from "@traceo/types";
-import { Session } from "@db/entities/session.entity";
+import { Session } from "../db/entities/session.entity";
 import { EntityManager } from "typeorm";
 import { Request } from "express";
-import dateUtils from "@common/helpers/dateUtils";
+import dateUtils from "../common/helpers/dateUtils";
 import dayjs from "dayjs";
-import { SESSION_EXPIRY_TIME } from "@common/helpers/constants";
+import { SESSION_EXPIRY_TIME } from "../common/helpers/constants";
 
 type UserTokenPayload = {
     userID: string;
