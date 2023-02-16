@@ -30,6 +30,10 @@ import { AuthTokenService } from './auth-token.service';
     MemberService,
     MemberQueryService
   ],
-  controllers: [AuthController]
+  controllers: [AuthController],
+  exports: [
+    AuthService,
+    AuthTokenService
+  ]
 })
 export class AuthModule { }

@@ -3,17 +3,17 @@ import { UserQueryService } from './user-query/user-query.service';
 import { MemberService } from '../member/member.service';
 import { ApplicationQueryService } from '../application/application-query/application-query.service';
 import { HttpService } from "@nestjs/axios";
-import { INTERNAL_SERVER_ERROR, ADMIN_EMAIL } from "@common/helpers/constants";
-import dateUtils from "@common/helpers/dateUtils";
-import { UserWithUsernameAlreadyExistsError, UserEmailAlreadyExistsError } from "@common/helpers/errors";
-import { gravatar } from "@common/helpers/gravatar";
-import tokenService from "@common/helpers/tokens";
-import { CreateUserDto, UserDto } from '@common/types/dto/user.dto';
-import { User } from '@db/entities/user.entity';
+import { INTERNAL_SERVER_ERROR, ADMIN_EMAIL } from "../../common/helpers/constants";
+import dateUtils from "../../common/helpers/dateUtils";
+import { UserWithUsernameAlreadyExistsError, UserEmailAlreadyExistsError } from "../../common/helpers/errors";
+import { gravatar } from "../../common/helpers/gravatar";
+import tokenService from "../../common/helpers/tokens";
+import { CreateUserDto, UserDto } from '../../common/types/dto/user.dto';
+import { User } from '../../db/entities/user.entity';
 import { EntityManager } from 'typeorm';
 import { UserStatus } from "@traceo/types";
-import { ApiResponse } from "@common/types/dto/response.dto";
-import { RequestContext } from '@common/middlewares/request-context/request-context.model';
+import { ApiResponse } from "../../common/types/dto/response.dto";
+import { RequestContext } from '../../common/middlewares/request-context/request-context.model';
 import { AuthTokenService } from '../../auth/auth-token.service';
 
 

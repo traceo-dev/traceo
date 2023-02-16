@@ -1,15 +1,15 @@
+import { FC } from "react";
 import {
   AppstoreFilled,
   InfoCircleOutlined,
   SettingOutlined,
   TeamOutlined
 } from "@ant-design/icons";
-import { MenuRoute } from "@traceo/types";
 import { PageCenter } from "../../../core/components/PageCenter";
 import NotFound from "../../../core/components/Layout/Pages/NotFound";
 import { useUser } from "../../../core/hooks/useUser";
 import { Page } from "../../../core/components/Page";
-import { FC } from "react";
+import { MenuRoute } from "../../../core/types/navigation";
 
 interface Props {
   isLoading?: boolean;

@@ -1,4 +1,4 @@
-import { BaseEntity } from "@common/base/base.entity";
+import { BaseEntity } from "../../common/base/base.entity";
 import { ISession } from "@traceo/types";
 import {
     Column,

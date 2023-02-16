@@ -1,5 +1,5 @@
 import { SettingOutlined } from "@ant-design/icons";
-import { MenuRoute } from "@traceo/types";
+import { MenuRoute } from "../../../core/types/navigation";
 import { Avatar } from "@traceo/ui";
 import { useUser } from "../../../core/hooks/useUser";
 import { Page } from "../../../core/components/Page";

@@ -9,7 +9,6 @@ export * from "./incident";
 export * from "./influxds";
 export * from "./log";
 export * from "./metrics";
-export * from "./navigation";
 export * from "./notifications";
 export * from "./partials";
 export * from "./runtime";

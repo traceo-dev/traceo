@@ -3,7 +3,7 @@ import PublicPageWrapper from "../core/components/Layout/Wrappers/PublicPageWrap
 import { lazy } from "react";
 import NotFound from "../core/components/Layout/Pages/NotFound";
 import Login from "../features/auth/login";
-import { RouteDescriptor } from "@traceo/types";
+import { RouteDescriptor } from "../core/types/navigation";
 
 const getPublicRoutes = (): RouteDescriptor[] => {
   return [

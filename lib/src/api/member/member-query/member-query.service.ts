@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { BaseDtoQuery } from '@common/base/query/base-query.model';
-import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
-import { ApplicationDtoQuery } from '@common/types/dto/application.dto';
-import { ApiResponse } from '@common/types/dto/response.dto';
-import { Member } from '@db/entities/member.entity';
+import { BaseDtoQuery } from '../../../common/base/query/base-query.model';
+import { INTERNAL_SERVER_ERROR } from '../../../common/helpers/constants';
+import { ApplicationDtoQuery } from '../../../common/types/dto/application.dto';
+import { ApiResponse } from '../../../common/types/dto/response.dto';
+import { Member } from '../../../db/entities/member.entity';
 import { EntityManager } from 'typeorm';
-import { RequestContext } from '@common/middlewares/request-context/request-context.model';
+import { RequestContext } from '../../../common/middlewares/request-context/request-context.model';
 
 
 @Injectable()

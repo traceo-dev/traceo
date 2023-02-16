@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { EntityManager } from 'typeorm';
 import { InfluxDB, Point } from '@influxdata/influxdb-client'
 import { IDefaultSDKMetrics, ISDKMetrics, MetricsResponse, IInfluxConfigDto, ConnectionStatus, DataSourceConnStatus } from '@traceo/types';
-import { MetricQueryDto } from '@common/types/dto/metrics.dto';
-import { BaseProviderService } from '@common/base/provider/base-provider.service';
-import { Datasource } from '@db/entities/datasource.entity';
+import { MetricQueryDto } from "../../common/types/dto/metrics.dto";
+import { BaseProviderService } from '../../common/base/provider/base-provider.service';
+import { Datasource } from '../../db/entities/datasource.entity';
 
 type InfluxErrorType = {
     errno?: string;

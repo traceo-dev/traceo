@@ -6,11 +6,11 @@ import {
   LinkOutlined
 } from "@ant-design/icons";
 import { logout } from "../../../utils/logout";
-import { MenuRoute } from "@traceo/types";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { GH_REPO_LINK } from "../../../utils/constants";
 import { useUser } from "../../../hooks/useUser";
+import { MenuRoute } from "../../../types/navigation";
 
 export const DashboardNavBar = () => {
   const user = useUser();

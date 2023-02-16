@@ -10,14 +10,13 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { BaseDtoQuery } from '@common/base/query/base-query.model';
-import { AuthUser } from '@common/decorators/auth-user.decorator';
-import { CreateApplicationDto, ApplicationDto } from '@common/types/dto/application.dto';
-import { ApiResponse } from '@common/types/dto/response.dto';
-import { RequestUser, IApplication, ILog, ApplicationLogsQuery } from '@traceo/types';
+import { BaseDtoQuery } from '../../common/base/query/base-query.model';
+import { CreateApplicationDto, ApplicationDto } from '../../common/types/dto/application.dto';
+import { ApiResponse } from '../../common/types/dto/response.dto';
+import { IApplication, ILog, ApplicationLogsQuery } from '@traceo/types';
 import { ApplicationQueryService } from './application-query/application-query.service';
 import { ApplicationService } from './application.service';
-import { AuthGuard } from '@common/decorators/auth-guard.decorator';
+import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
 
 
 @ApiTags('application')

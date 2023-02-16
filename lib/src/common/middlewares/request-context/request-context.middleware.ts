@@ -2,8 +2,8 @@ import { Injectable, NestMiddleware, UnauthorizedException } from '@nestjs/commo
 import { RequestContext } from './request-context.model';
 import { Request, Response } from 'express';
 import { EntityManager } from 'typeorm';
-import { SESSION_NAME } from '@common/helpers/constants';
-import { Session } from '@db/entities/session.entity';
+import { SESSION_NAME } from '../../../common/helpers/constants';
+import { Session } from '../../../db/entities/session.entity';
 import { RequestUser } from '@traceo/types';
 
 interface ExtendedRequest extends Request {

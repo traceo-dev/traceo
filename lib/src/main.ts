@@ -10,9 +10,9 @@ const cors = require("cors");
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(morgan("[:date[iso]] :status :method :url :response-time ms"));
 
   if (process.env.NODE_ENV !== "production") {
-    app.use(morgan("[:date[iso]] :status :method :url :response-time ms"));
 
     const options = new DocumentBuilder()
       .setTitle('Traceo REST API')
@@ -36,6 +36,6 @@ async function bootstrap() {
   }));
 
   const PORT = process.env.PORT || 3000;
-  await app.listen(PORT);
+  await app.listen(PORT, () => console.log(`Application started in ${process.env.NODE_ENV} mode.`));
 }
 bootstrap();

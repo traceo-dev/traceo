@@ -1,14 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
-import { ApiResponse } from '@common/types/dto/response.dto';
-import { ConnectionStatus, DataSourceConnStatus, DatasourceProvider } from '@traceo/types';
-import { Application } from '@db/entities/application.entity';
+import { INTERNAL_SERVER_ERROR } from '../../common/helpers/constants';
+import { ApiResponse } from '../../common/types/dto/response.dto';
+import { DataSourceConnStatus, DatasourceProvider } from '@traceo/types';
+import { Application } from '../../db/entities/application.entity';
 import { EntityManager } from 'typeorm';
-import { BaseDataSourceDto } from '@common/types/dto/data-source';
+import { BaseDataSourceDto } from '../../common/types/dto/data-source';
 import { InfluxService } from '../../providers/influx/influx.service';
-import { Datasource } from '@db/entities/datasource.entity';
-import dateUtils from '@common/helpers/dateUtils';
-import { BaseProviderService } from '@common/base/provider/base-provider.service';
+import { Datasource } from '../../db/entities/datasource.entity';
+import dateUtils from '../../common/helpers/dateUtils';
+import { BaseProviderService } from '../../common/base/provider/base-provider.service';
 
 @Injectable()
 export class DataSourceService {

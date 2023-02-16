@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthRequired } from '@common/decorators/auth-required.decorator';
-import { UserCredentialsDto, UpdatePasswordDto } from '@common/types/dto/user.dto';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { AuthRequired } from '../common/decorators/auth-required.decorator';
+import { UserCredentialsDto, UpdatePasswordDto } from '../common/types/dto/user.dto';
+import { ApiResponse } from '../common/types/dto/response.dto';
 import { AuthService, LoginResponseType } from './auth.service';
 import { Res, Req } from '@nestjs/common';
 import { Response, Request } from "express";

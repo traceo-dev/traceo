@@ -4,8 +4,8 @@ import {
   SettingOutlined,
   TeamOutlined
 } from "@ant-design/icons";
-import { MenuRoute } from "@traceo/types";
 import { FC } from "react";
+import { MenuRoute } from "../../../../core/types/navigation";
 import { Page } from "../../../../core/components/Page";
 
 export const SettingsPageWrapper: FC = ({ children }) => {

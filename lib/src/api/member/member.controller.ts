@@ -10,11 +10,11 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from '@common/decorators/auth-guard.decorator';
-import { BaseDtoQuery } from '@common/base/query/base-query.model';
-import { CreateMemberDto, UpdateMemberDto } from '@common/types/dto/member.dto';
-import { ApplicationDtoQuery } from '@common/types/dto/application.dto';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
+import { BaseDtoQuery } from '../../common/base/query/base-query.model';
+import { CreateMemberDto, UpdateMemberDto } from '../../common/types/dto/member.dto';
+import { ApplicationDtoQuery } from '../../common/types/dto/application.dto';
+import { ApiResponse } from '../../common/types/dto/response.dto';
 import { IMember, IApplicationResponse } from '@traceo/types';
 import { MemberQueryService } from './member-query/member-query.service';
 import { MemberService } from './member.service';

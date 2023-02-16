@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 import { IsOptional, IsString } from "class-validator";
-import { BaseDtoQuery } from "@common/base/query/base-query.model";
+import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
 
 export class CommentDto {
     @Type(() => String)

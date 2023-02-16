@@ -7,9 +7,9 @@ export const PlatformSection = () => {
 
   return (
     <Card title="Platform" className="h-auto">
-      <FieldLabel label="Version">
+      {/* <FieldLabel label="Version">
         <Typography>{incident?.platform.version}</Typography>
-      </FieldLabel>
+      </FieldLabel> */}
       <FieldLabel label="Platform">
         <Typography>{incident?.platform.platform}</Typography>
       </FieldLabel>

@@ -1,8 +1,8 @@
 import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { AuthModule } from '../auth/auth.module';
-import { CommentsGateway } from '@common/websockets/comments.gateway';
+import { CommentsGateway } from '../common/websockets/comments.gateway';
 import { InfluxService } from '../providers/influx/influx.service';
 import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
@@ -24,7 +24,23 @@ import { WorkerModule } from './worker/worker.module';
 import { UsersController } from './user/users.controller';
 import { ApplicationsController } from './application/applications.controller';
 import { IncidentCommentsModule } from './incidents/incident-comments/incident-comments.module';
+import { RequestContextMiddleware } from '../common/middlewares/request-context/request-context.middleware';
+import { AuthController } from '../auth/auth.controller';
 
+const apiControllers = [
+    UserController,
+    UsersController,
+    ApplicationController,
+    ApplicationsController,
+    MemberController,
+    DataSourceController,
+    IncidentCommentsController,
+    IncidentsController,
+    StatisticsController,
+    WorkerController,
+    MetricsController,
+    AuthController
+];
 @Module({
     imports: [
         AuthModule,
@@ -40,22 +56,19 @@ import { IncidentCommentsModule } from './incidents/incident-comments/incident-c
         HttpModule,
         MetricsModule
     ],
-    controllers: [
-        UserController,
-        UsersController,
-        ApplicationController,
-        ApplicationsController,
-        MemberController,
-        DataSourceController,
-        IncidentCommentsController,
-        IncidentsController,
-        StatisticsController,
-        WorkerController,
-        MetricsController
-    ],
+    controllers: apiControllers,
     providers: [
         InfluxService,
         CommentsGateway
     ]
 })
-export class ApiModule { }
+export class ApiModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(RequestContextMiddleware)
+            .exclude(
+                { path: "/api/worker/(.*)", method: RequestMethod.ALL },
+                { path: "/api/auth/login", method: RequestMethod.POST })
+            .forRoutes(...apiControllers);
+    }
+}

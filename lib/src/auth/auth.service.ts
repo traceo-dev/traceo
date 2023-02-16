@@ -1,19 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { createHmac } from 'crypto';
 import { Response, Request } from "express";
-import { User } from '@db/entities/user.entity';
+import { User } from '../db/entities/user.entity';
 import { JwtService } from "@nestjs/jwt";
 import { EntityManager } from 'typeorm';
 import { JwtPayload } from 'jsonwebtoken';
 import { UserQueryService } from '../api/user/user-query/user-query.service';
 import { UserService } from '../api/user/user.service';
-import { INTERNAL_SERVER_ERROR, SESSION_EXPIRY_TIME, SESSION_NAME } from '@common/helpers/constants';
-import { UserNotExistsError } from '@common/helpers/errors';
-import { UserCredentialsDto, UpdatePasswordDto } from '@common/types/dto/user.dto';
+import { INTERNAL_SERVER_ERROR, SESSION_EXPIRY_TIME, SESSION_NAME } from '../common/helpers/constants';
+import { UserNotExistsError } from '../common/helpers/errors';
+import { UserCredentialsDto, UpdatePasswordDto } from '../common/types/dto/user.dto';
 import { IUser, UserStatus } from '@traceo/types';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { ApiResponse } from '../common/types/dto/response.dto';
 import { AuthTokenService } from './auth-token.service';
-import { RequestContext } from '@common/middlewares/request-context/request-context.model';
+import { RequestContext } from '../common/middlewares/request-context/request-context.model';
 
 export type LoginResponseType = { accessToken: string };
 export type CheckCredentialsType = { isCorrect: boolean; user?: IUser };

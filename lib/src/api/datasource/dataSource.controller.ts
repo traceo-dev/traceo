@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { ApiResponse } from '../../common/types/dto/response.dto';
 import { IInfluxConfigDto, DataSourceConnStatus } from '@traceo/types';
 import { DataSourceService } from './dataSource.service';
-import { AuthGuard } from '@common/decorators/auth-guard.decorator';
-import { BaseDataSourceDto } from '@common/types/dto/data-source';
+import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
+import { BaseDataSourceDto } from '../../common/types/dto/data-source';
 
 @ApiTags('datasource')
 @Controller('datasource')

@@ -1,11 +1,11 @@
+import { FC } from "react";
 import {
   DeploymentUnitOutlined,
   AlignLeftOutlined,
   CompassOutlined
 } from "@ant-design/icons";
-import { MenuRoute } from "@traceo/types";
 import { Page } from "../../../core/components/Page";
-import { FC } from "react";
+import { MenuRoute } from "../../../core/types/navigation";
 
 export const ExplorePageWrapper: FC = ({ children }) => {
   const menu: MenuRoute[] = [

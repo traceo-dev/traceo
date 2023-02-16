@@ -1,9 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { BaseQueryService } from "@common/base/query/base-query.service";
-import { BaseDtoQuery } from "@common/base/query/base-query.model";
-import { Comment } from "@db/entities/comment.entity";
+import { BaseQueryService } from "../../../../common/base/query/base-query.service";
+import { BaseDtoQuery } from "../../../../common/base/query/base-query.model";
+import { Comment } from "../../../../db/entities/comment.entity";
 import { EntityManager, SelectQueryBuilder } from "typeorm";
-import { GetCommentsDto } from "@common/types/dto/comment.dto";
+import { GetCommentsDto } from "../../../../common/types/dto/comment.dto";
 
 @Injectable()
 export class IncidentCommentsQueryService extends BaseQueryService<

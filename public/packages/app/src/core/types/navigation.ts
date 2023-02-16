@@ -1,15 +1,3 @@
-export type UrlQueryValue =
-  | string
-  | number
-  | boolean
-  | string[]
-  | number[]
-  | boolean[]
-  | undefined
-  | null;
-
-export type UrlQueryMap = Record<string, UrlQueryValue>;
-
 export type RouteComponent<T = any> = React.ComponentType<T>;
 
 export interface RouteDescriptor {

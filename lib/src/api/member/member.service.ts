@@ -3,14 +3,14 @@ import { EntityManager } from 'typeorm';
 import { MemberQueryService } from './member-query/member-query.service';
 import { ApplicationQueryService } from '../application/application-query/application-query.service';
 import { UserQueryService } from '../user/user-query/user-query.service';
-import { INTERNAL_SERVER_ERROR } from '@common/helpers/constants';
-import dateUtils from '@common/helpers/dateUtils';
-import { CreateMemberDto, UpdateMemberDto } from '@common/types/dto/member.dto';
-import { Member } from '@db/entities/member.entity';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { INTERNAL_SERVER_ERROR } from '../../common/helpers/constants';
+import dateUtils from '../../common/helpers/dateUtils';
+import { CreateMemberDto, UpdateMemberDto } from '../../common/types/dto/member.dto';
+import { Member } from '../../db/entities/member.entity';
+import { ApiResponse } from '../../common/types/dto/response.dto';
 import { MemberRole } from '@traceo/types';
-import { Application } from '@db/entities/application.entity';
-import { User } from '@db/entities/user.entity';
+import { Application } from '../../db/entities/application.entity';
+import { User } from '../../db/entities/user.entity';
 
 
 /**

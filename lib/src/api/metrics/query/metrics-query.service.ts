@@ -1,14 +1,14 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { INTERNAL_SERVER_ERROR } from "@common/helpers/constants";
-import { MetricQueryDto, MetricsQueryDto } from "@common/types/dto/metrics.dto";
-import { ApiResponse } from "@common/types/dto/response.dto";
+import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
+import { MetricQueryDto, MetricsQueryDto } from "../../../common/types/dto/metrics.dto";
+import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { IMetric, IMetricSerie, MetricPreviewType, MetricsResponse, DatasourceProvider } from "@traceo/types";
-import { Metric } from "@db/entities/metric.entity";
+import { Metric } from "../../../db/entities/metric.entity";
 import { InfluxService } from "../../../providers/influx/influx.service";
 import { Brackets, EntityManager } from "typeorm";
-import { BaseProviderService } from "@common/base/provider/base-provider.service";
-import { Datasource } from "@db/entities/datasource.entity";
-import { Application } from "@db/entities/application.entity";
+import { BaseProviderService } from "../../../common/base/provider/base-provider.service";
+import { Datasource } from "../../../db/entities/datasource.entity";
+import { Application } from "../../../db/entities/application.entity";
 
 @Injectable()
 export class MetricsQueryService {

@@ -10,12 +10,12 @@ import {
   UseGuards
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { IncidentQueryDto, IncidentUpdateDto, IncidentBatchUpdateDto } from '@common/types/dto/incident.dto';
-import { ApiResponse } from '@common/types/dto/response.dto';
+import { IncidentQueryDto, IncidentUpdateDto, IncidentBatchUpdateDto } from '../../common/types/dto/incident.dto';
+import { ApiResponse } from '../../common/types/dto/response.dto';
 import { IIncident } from '@traceo/types';
 import { IncidentsQueryService } from './incidents-query/incidents-query.service';
 import { IncidentsService } from './incidents.service';
-import { AuthGuard } from '@common/decorators/auth-guard.decorator';
+import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
 
 
 @ApiTags('incidents')
