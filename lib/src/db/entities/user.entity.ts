@@ -21,7 +21,7 @@ export class User extends BaseEntity implements IUser {
   @Column({ unique: true, type: 'varchar' })
   username: string;
 
-  @Column({ nullable: true, unique: true, type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   @IsEmail()
   email: string;
 

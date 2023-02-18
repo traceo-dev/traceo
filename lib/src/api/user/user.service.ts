@@ -1,11 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { UserQueryService } from './user-query/user-query.service';
 import { MemberService } from '../member/member.service';
 import { ApplicationQueryService } from '../application/application-query/application-query.service';
 import { HttpService } from "@nestjs/axios";
 import { INTERNAL_SERVER_ERROR, ADMIN_EMAIL } from "../../common/helpers/constants";
 import dateUtils from "../../common/helpers/dateUtils";
-import { UserWithUsernameAlreadyExistsError, UserEmailAlreadyExistsError } from "../../common/helpers/errors";
 import { gravatar } from "../../common/helpers/gravatar";
 import tokenService from "../../common/helpers/tokens";
 import { CreateUserDto, UserDto } from '../../common/types/dto/user.dto';
@@ -23,7 +21,6 @@ export class UserService {
 
   constructor(
     readonly entityManager: EntityManager,
-    readonly UserQueryService: UserQueryService,
     readonly applicationQueryService: ApplicationQueryService,
     readonly awrService: MemberService,
     readonly httpService: HttpService,
@@ -32,12 +29,28 @@ export class UserService {
     this.logger = new Logger(UserService.name);
   }
 
-  public async createUser(userDto: CreateUserDto): Promise<any> {
+  public async createUser(userDto: CreateUserDto): Promise<ApiResponse<unknown>> {
     const { name, email, password, username } = userDto;
 
-    await this.checkDuplicate(username, email);
+    return await this.entityManager.transaction(async (manager) => {
+      if (username) {
+        const user = await manager.getRepository(User).findOneBy({ username: username && username.toLowerCase() });
+        if (user) {
+          return new ApiResponse("error", undefined, {
+            error: "User with this username already exists."
+          });
+        }
+      }
 
-    try {
+      if (email) {
+        const user = await manager.getRepository(User).findOneBy({ email });
+        if (user) {
+          return new ApiResponse("error", undefined, {
+            error: "User with this email already exists."
+          });
+        }
+      }
+
       const url = gravatar.url(username || email, "retro");
       const payload: Partial<User> = {
         email,
@@ -50,15 +63,15 @@ export class UserService {
         createdAt: dateUtils.toUnix()
       };
 
-      const user = await this.entityManager.getRepository(User).save(payload);
+      const user = await manager.getRepository(User).save(payload);
 
       return new ApiResponse("success", "New user account has been created", {
         id: user.id
       });
-    } catch (error) {
+    }).catch((error) => {
       this.logger.error(`[${this.createUser.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
-    }
+    });
   }
 
   public async updateUser(
@@ -99,22 +112,5 @@ export class UserService {
       this.logger.error(`[${this.deleteUser.name}] Caused by: ${err}`)
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     });
-  }
-
-  private async checkDuplicate(username: string, email: string) {
-    const user = await this.UserQueryService.getDtoBy({
-      username: username && username.toLowerCase()
-    });
-    if (user) {
-      throw new UserWithUsernameAlreadyExistsError();
-    }
-
-    if (email) {
-      await this.UserQueryService.getDtoBy({ email }).then((user) => {
-        if (user) {
-          throw new UserEmailAlreadyExistsError();
-        }
-      });
-    }
   }
 }
