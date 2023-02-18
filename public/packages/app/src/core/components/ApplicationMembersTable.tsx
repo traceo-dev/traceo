@@ -1,12 +1,13 @@
 import { useUser } from "../hooks/useUser";
 import { membersAction } from "../lib/api/members";
-import { Avatar, Button, Select, Table, TableColumn } from "@traceo/ui";
+import { Avatar, Button, Select, Table, TableColumn, Tooltip } from "@traceo/ui";
 import { ADMIN_EMAIL } from "../utils/constants";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { MemberRole, ApplicationMember } from "@traceo/types";
 import { Confirm } from "./Confirm";
 import { useApplication } from "../hooks/useApplication";
+import { CheckCircleFilled } from "@ant-design/icons";
 
 interface Props {
   collection: ApplicationMember[];
@@ -47,7 +48,18 @@ export const ApplicationMembersTable: FC<Props> = ({
       <TableColumn width={5}>
         {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.name} />}
       </TableColumn>
-      <TableColumn name="Name" value="name" />
+      <TableColumn name="Name" value="name">
+        {({ item }) => (
+          <div className="flex flex-row">
+            <span>{item.name}</span>
+            {item?.userId === user?.id && (
+              <Tooltip placement="bottom" title="It's you!">
+                <CheckCircleFilled className="p-1 text-amber-600" />
+              </Tooltip>
+            )}
+          </div>
+        )}
+      </TableColumn>
       <TableColumn name="Email" value="email" />
       <TableColumn name="Role" className="py-0">
         {({ item }) => {
