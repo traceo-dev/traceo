@@ -8,6 +8,6 @@ else
     _traceo_tag=$1
 fi
 
-echo "Building image piotrszewczyk/traceo:$_traceo_tag"
+echo "Building image traceo/traceo:$_traceo_tag"
 
-docker build -t piotrszewczyk/traceo:$_traceo_tag -t piotrszewczyk/traceo:latest .
+docker build -t traceo/traceo:$_traceo_tag -t traceo/traceo:latest .

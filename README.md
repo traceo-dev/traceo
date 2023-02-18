@@ -2,7 +2,7 @@
 Traceo is an open source set of tool for monitoring of application health by collecting and aggregating data from the software. The fast and intuitive user interface allows you to quickly and efficiently navigate through the data, and the graphical presentation of data allows for a faster understanding of the seriousness of a given situation.
 
 # Demo
-App preview can be found [here](http://ec2-3-74-163-234.eu-central-1.compute.amazonaws.com/). Credentials: `guest`/`Guest!`. 
+App preview can be found [here](http://ec2-3-74-163-234.eu-central-1.compute.amazonaws.com/). Credentials: `johndoe`/`Traceo2023!`. 
 
 # SDK
 To start using the Traceo platform, you need to integrate with the [Traceo SDK](https://github.com/traceo-io/traceo-node), which will start monitoring the status of your application.
