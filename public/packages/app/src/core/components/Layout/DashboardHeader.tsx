@@ -24,7 +24,7 @@ export const DashboardHeader = () => {
           name={true}
           size="small"
           className="cursor-pointer"
-          onClick={() => configs.demoMode && navigate("/dashboard/overview")}
+          onClick={() => navigate("/dashboard/overview")}
         />
         {configs.demoMode && (
           <div className="ml-3 px-2 py-0.5 bg-blue-900 text-blue-100 rounded-lg text-xs font-semibold">

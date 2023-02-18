@@ -11,7 +11,6 @@ import {
   FormItem,
   Card
 } from "@traceo/ui";
-import { useMemberRole } from "../../core/hooks/useMemberRole";
 import { useUser } from "../../core/hooks/useUser";
 import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 
@@ -28,7 +27,6 @@ type UpdatePasswordForm = {
 const UserProfilePage = () => {
   const dispatch = useAppDispatch();
   const user = useUser();
-  const { isAdmin } = useMemberRole();
 
   const onFinishUpdateUser = (form: UpdateUserForm) =>
     dispatch(
@@ -60,11 +58,7 @@ const UserProfilePage = () => {
             >
               {({ register, errors }) => (
                 <>
-                  <FormItem
-                    label="Name"
-                    error={errors?.name}
-                    disabled={isAdmin}
-                  >
+                  <FormItem label="Name" error={errors?.name} disabled={user.isAdmin}>
                     <Input
                       {...register("name", {
                         required: true
@@ -72,11 +66,7 @@ const UserProfilePage = () => {
                     />
                   </FormItem>
 
-                  <FormItem
-                    label="Email"
-                    error={errors?.email}
-                    disabled={isAdmin}
-                  >
+                  <FormItem label="Email" error={errors?.email} disabled={user.isAdmin}>
                     <Input
                       {...register("email", {
                         required: false,
@@ -90,7 +80,7 @@ const UserProfilePage = () => {
                 </>
               )}
             </Form>
-            {!isAdmin && (
+            {!user.isAdmin && (
               <ButtonContainer justify="start">
                 <Button form="basic-info-form" type="submit">
                   Update

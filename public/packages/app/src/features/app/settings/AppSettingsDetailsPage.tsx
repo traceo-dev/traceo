@@ -97,7 +97,7 @@ export const AppSettingsDetailsPage = () => {
           </div>
         </ColumnSection>
       </Card>
-      <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
+      <Permissions statuses={[MemberRole.MAINTAINER, MemberRole.ADMINISTRATOR]}>
         <ApiKeySection />
       </Permissions>
       <Permissions statuses={[MemberRole.ADMINISTRATOR]}>

@@ -6,6 +6,7 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { MemberRole, ApplicationMember } from "@traceo/types";
 import { Confirm } from "./Confirm";
+import { useApplication } from "../hooks/useApplication";
 
 interface Props {
   collection: ApplicationMember[];
@@ -18,6 +19,8 @@ export const ApplicationMembersTable: FC<Props> = ({
   className
 }) => {
   const user = useUser();
+  const { permission } = useApplication();
+
   const navigate = useNavigate();
 
   const options = [
@@ -48,7 +51,7 @@ export const ApplicationMembersTable: FC<Props> = ({
       <TableColumn name="Email" value="email" />
       <TableColumn name="Role" className="py-0">
         {({ item }) => {
-          if (item.email === ADMIN_EMAIL) {
+          if (item.email === ADMIN_EMAIL || permission === MemberRole.VIEWER) {
             return <span>{item.role}</span>;
           }
 
@@ -68,7 +71,7 @@ export const ApplicationMembersTable: FC<Props> = ({
       <TableColumn width={100} />
       <TableColumn width={50}>
         {({ item }) => {
-          if (item.email !== ADMIN_EMAIL) {
+          if (item.email !== ADMIN_EMAIL && permission !== MemberRole.VIEWER) {
             return (
               <Confirm
                 description="Are you sure you want to remove this user from app?"
