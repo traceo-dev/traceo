@@ -10,9 +10,9 @@ const cors = require("cors");
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use(morgan("[:date[iso]] :status :method :url :response-time ms"));
 
   if (process.env.NODE_ENV !== "production") {
+    app.use(morgan("[:date[iso]] :status :method :url :response-time ms"));
 
     const options = new DocumentBuilder()
       .setTitle('Traceo REST API')

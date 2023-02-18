@@ -26,6 +26,8 @@ import { ApplicationsController } from './application/applications.controller';
 import { IncidentCommentsModule } from './incidents/incident-comments/incident-comments.module';
 import { RequestContextMiddleware } from '../common/middlewares/request-context/request-context.middleware';
 import { AuthController } from '../auth/auth.controller';
+import { ViewController } from './view/view.controller';
+import { ViewModule } from './view/view.module';
 
 const apiControllers = [
     UserController,
@@ -39,7 +41,8 @@ const apiControllers = [
     StatisticsController,
     WorkerController,
     MetricsController,
-    AuthController
+    AuthController,
+    ViewController
 ];
 @Module({
     imports: [
@@ -54,7 +57,8 @@ const apiControllers = [
         StatisticsModule,
         WorkerModule,
         HttpModule,
-        MetricsModule
+        MetricsModule,
+        ViewModule
     ],
     controllers: apiControllers,
     providers: [
@@ -68,6 +72,7 @@ export class ApiModule {
             .apply(RequestContextMiddleware)
             .exclude(
                 { path: "/api/worker/(.*)", method: RequestMethod.ALL },
+                { path: "/api/view/(.*)", method: RequestMethod.ALL },
                 { path: "/api/auth/login", method: RequestMethod.POST })
             .forRoutes(...apiControllers);
     }
