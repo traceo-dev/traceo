@@ -1,44 +1,43 @@
-# APP
-FROM node:16-alpine3.15 as app-builder
+ARG NODE_IMAGE=node:16-alpine3.15
+ARG FINAL_IMAGE=alpine:3.15
 
-ENV NODE_OPTIONS=--max_old_space_size=8000
+# APP
+FROM ${NODE_IMAGE} as app-builder
 
 WORKDIR /traceo
 
 COPY ./public .
 RUN yarn workspace @traceo/app install --frozen-lockfile
 
-ENV REACT_APP_API_URL host.docker.internal \
-    REACT_APP_SOCKET_URL host.docker.internal \
-    REACT_APP_PERSIST_KEY traceo \
-    NODE_ENV production
+ENV REACT_APP_API_URL=host.docker.internal \
+    REACT_APP_SOCKET_URL=host.docker.internal \
+    NODE_ENV=production \
+    NODE_OPTIONS=--max_old_space_size=8000
 
 RUN yarn workspace @traceo/app build:prod
 
-# SERVER
-FROM node:16-alpine3.15 as server-builder
-
-ENV NODE_OPTIONS=--max_old_space_size=8000
-
-RUN apk add curl
+# BACKEND
+FROM ${NODE_IMAGE} as backend-builder
 
 WORKDIR /traceo
 
-ENV NODE_ENV production \
-    APP_ORIGIN host.docker.internal
+RUN apk add curl
+
+ENV NODE_ENV=production \
+    NODE_OPTIONS=--max_old_space_size=8000 \
+    APP_ORIGIN=host.docker.internal
 
 COPY /lib/package*.json ./
 COPY /public/packages/shared/traceo-types /public/packages/shared/traceo-types
 
-RUN yarn install --production=true
-RUN yarn global add typescript
+RUN yarn install --production=true && yarn global add typescript
 
 COPY /lib .
 
 RUN tsc -p tsconfig.build.json
 
 # FINAL
-FROM alpine:3.15
+FROM ${FINAL_IMAGE}
 
 WORKDIR /traceo
 
@@ -51,9 +50,9 @@ ENV NODE_OPTIONS=--max_old_space_size=8000
 
 COPY --from=app-builder /traceo/packages/app/build ./app
 
-COPY --from=server-builder /traceo/dist ./dist
-COPY --from=server-builder /traceo/node_modules ./node_modules
-COPY --from=server-builder /public/packages/shared/traceo-types ./node_modules/@traceo/types
+COPY --from=backend-builder /traceo/dist ./dist
+COPY --from=backend-builder /traceo/node_modules ./node_modules
+COPY --from=backend-builder /public/packages/shared/traceo-types ./node_modules/@traceo/types
 
 EXPOSE 3000
 

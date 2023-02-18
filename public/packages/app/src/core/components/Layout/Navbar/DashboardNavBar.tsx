@@ -9,14 +9,22 @@ import { logout } from "../../../utils/logout";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { GH_REPO_LINK } from "../../../utils/constants";
-import { useUser } from "../../../hooks/useUser";
 import { MenuRoute } from "../../../types/navigation";
+import { useConfig } from "../../../../core/contexts/ConfigsContextProvider";
+import { DemoBanner } from "../../DemoBanner";
 
 export const DashboardNavBar = () => {
-  const user = useUser();
+  const configs = useConfig();
 
-  const filterRoutes = (routes: MenuRoute[]) =>
-    !user.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
+  const filterRoutes = (routes: MenuRoute[]) => {
+    let r = routes;
+
+    if (configs.demoMode && !configs?.user?.isAdmin) {
+      r = routes.filter((route) => !route.private);
+    }
+
+    return r;
+  };
 
   const navigateDocumentation = () => window.open(GH_REPO_LINK, "_blank");
 
@@ -29,7 +37,7 @@ export const DashboardNavBar = () => {
     }
   ]);
 
-  const adminRoutes: MenuRoute[] = filterRoutes([
+  const adminRoutes: MenuRoute[] = [
     {
       key: "admin",
       href: "/dashboard/admin/users",
@@ -37,14 +45,15 @@ export const DashboardNavBar = () => {
       adminRoute: true,
       icon: <SettingOutlined />
     }
-  ]);
+  ];
 
   const userRoutes: MenuRoute[] = filterRoutes([
     {
       key: "profile",
       href: "/dashboard/profile/settings",
       label: "Profile",
-      icon: <UserOutlined />
+      icon: <UserOutlined />,
+      private: configs.demoMode
     }
   ]);
 
@@ -59,7 +68,8 @@ export const DashboardNavBar = () => {
       label: "Logout",
       href: "",
       icon: <LogoutOutlined />,
-      onClick: () => logout()
+      onClick: () => logout(),
+      private: configs.demoMode
     }
   ]);
 
@@ -72,10 +82,11 @@ export const DashboardNavBar = () => {
         {userRoutes.map((route, index) => (
           <NavBarItem key={index} route={route} />
         ))}
-        {adminRoutes.map((route, index) => (
-          <NavBarItem key={index} route={route} />
-        ))}
+        {configs?.user?.isAdmin &&
+          adminRoutes.map((route, index) => <NavBarItem key={index} route={route} />)}
       </ul>
+
+      {configs.demoMode && <DemoBanner />}
 
       <ul className="p-0">
         {bottomRoutes.map((route, index) => (

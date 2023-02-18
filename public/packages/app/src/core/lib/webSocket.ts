@@ -1,4 +1,4 @@
-import { socket } from "../../core/hooks/SocketContextProvider";
+import { socket } from "../contexts/SocketContextProvider";
 import {
   SendMessageSocketPayload,
   SendTypingSocketPayload,

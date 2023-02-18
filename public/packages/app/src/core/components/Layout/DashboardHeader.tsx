@@ -3,9 +3,11 @@ import { TraceoLogo } from "../Icons/TraceoLogo";
 import { Space, Link, Typography } from "@traceo/ui";
 import { GH_REPO_LINK, VERSION } from "../../utils/constants";
 import { GithubOutlined } from "@ant-design/icons";
+import { useConfig } from "../../../core/contexts/ConfigsContextProvider";
 
 export const DashboardHeader = () => {
   const navigate = useNavigate();
+  const configs = useConfig();
 
   const breadcrumb = window.location.pathname.split("/");
   const isApp = breadcrumb.includes("app");
@@ -22,8 +24,13 @@ export const DashboardHeader = () => {
           name={true}
           size="small"
           className="cursor-pointer"
-          onClick={() => navigate("/dashboard/overview")}
+          onClick={() => configs.demoMode && navigate("/dashboard/overview")}
         />
+        {configs.demoMode && (
+          <div className="ml-3 px-2 py-0.5 bg-blue-900 text-blue-100 rounded-lg text-xs font-semibold">
+            Demo
+          </div>
+        )}
       </Space>
       <Space className="items-center">
         <Typography className="mr-4">v{VERSION}</Typography>

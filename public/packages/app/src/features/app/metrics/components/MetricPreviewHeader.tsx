@@ -12,6 +12,7 @@ import { StoreState } from "@store/types";
 import { DraftFunction } from "use-immer";
 import { loadMetric } from "../state/actions";
 import { useMetricsRange } from "../../../../core/hooks/useMetricsRange";
+import { useDemo } from "../../../..//core/hooks/useDemo";
 
 interface Props {
   currentOptions: DeepPartial<IMetric>;
@@ -28,6 +29,7 @@ export const MetricPreviewHeader: FC<Props> = ({
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
+  const isDemo = useDemo();
   const { metric } = useSelector((state: StoreState) => state.metrics);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
   const { ranges } = useMetricsRange();
@@ -83,9 +85,9 @@ export const MetricPreviewHeader: FC<Props> = ({
               METRICS
             </Typography>
           </Space>
-          <Typography className="text-white text-3xl" weight="semibold">
+          <span className="text-white text-3xl font-semibold">
             {currentOptions?.name}
-          </Typography>
+          </span>
           <Typography className="pt-2">{currentOptions?.description}</Typography>
         </Space>
       }
@@ -93,9 +95,12 @@ export const MetricPreviewHeader: FC<Props> = ({
         <Space>
           {isCustomizeMode && (
             <>
-              <Button loading={saveLoading} variant="ghost" onClick={() => onSave()}>
-                Save
-              </Button>
+              {!isDemo && (
+                <Button loading={saveLoading} variant="ghost" onClick={() => onSave()}>
+                  Save
+                </Button>
+              )}
+
               <Button variant="danger" onClick={() => onDiscard()}>
                 Discard
               </Button>

@@ -8,10 +8,12 @@ import { StoreState } from "@store/types";
 import { InputArea, Button, Link, Card, Space, Avatar } from "@traceo/ui";
 import { useUser } from "../../../../../core/hooks/useUser";
 import { useApplication } from "../../../../../core/hooks/useApplication";
+import { useDemo } from "../../../../../core/hooks/useDemo";
 
 export const CommentInput = () => {
   const dispatch = useAppDispatch();
   const user = useUser();
+  const isDemo = useDemo();
   const { application } = useApplication();
   const { incident } = useSelector((state: StoreState) => state.incident);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -68,7 +70,7 @@ export const CommentInput = () => {
 
             <Button
               className="mt-5"
-              disabled={sendAvailable}
+              disabled={sendAvailable || isDemo}
               onClick={() => sendMessage()}
             >
               Comment

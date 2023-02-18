@@ -13,11 +13,13 @@ import { notify } from "../../../core/utils/notify";
 import { ApiKeySection } from "./components/ApiKeySection";
 import { updateAplication } from "../state/application/actions";
 import { useApplication } from "../../../core/hooks/useApplication";
+import { useDemo } from "../../../core/hooks/useDemo";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { isViewer } = useMemberRole();
+  const isDemo = useDemo();
   const { application } = useApplication();
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
   const [isNameEdit, setNameEdit] = useState<boolean>(false);
@@ -32,8 +34,6 @@ export const AppSettingsDetailsPage = () => {
 
     dispatch(updateAplication({ name }));
     setNameEdit(false);
-
-    // window.location.href = `/app/${application.id}/settings/details`;
   };
 
   const remove = async () => {
@@ -51,7 +51,7 @@ export const AppSettingsDetailsPage = () => {
   };
 
   const renderEditNameButtons = () => {
-    if (isViewer) {
+    if (isViewer || isDemo) {
       return null;
     }
 

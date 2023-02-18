@@ -12,7 +12,7 @@ import { encryptTransform } from "redux-persist-transform-encrypt";
 const slicesToPersist = ["user"];
 
 const encryptionTransform = encryptTransform({
-    secretKey: process.env.REACT_APP_PERSIST_KEY
+    secretKey: "traceo"
 });
 
 const persistConfig = {

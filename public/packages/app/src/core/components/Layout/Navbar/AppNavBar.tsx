@@ -12,13 +12,14 @@ import { logout } from "../../../utils/logout";
 import { NavBarItem } from "./NavBarItem";
 import { NavbarWrapper } from "./NavbarWrapper";
 import { Avatar, Divider } from "@traceo/ui";
-import { useUser } from "../../../hooks/useUser";
 import { useApplication } from "../../../hooks/useApplication";
 import { MenuRoute } from "../../../types/navigation";
+import { useConfig } from "../../../../core/contexts/ConfigsContextProvider";
+import { DemoBanner } from "../../DemoBanner";
 
 export const AppNavBar = () => {
   const { application, hasFetched } = useApplication();
-  const user = useUser();
+  const configs = useConfig();
 
   const renderAppIcon = () => {
     if (!hasFetched) {
@@ -72,12 +73,14 @@ export const AppNavBar = () => {
       key: "user",
       href: "/dashboard/profile/settings",
       label: "Profile",
-      icon: <UserOutlined />
+      icon: <UserOutlined />,
+      private: configs.demoMode
     },
     {
       label: "Logout",
       icon: <LogoutOutlined />,
-      onClick: () => logout()
+      onClick: () => logout(),
+      private: configs.demoMode
     },
     {
       label: application?.name,
@@ -86,7 +89,7 @@ export const AppNavBar = () => {
   ];
 
   const filterRoutes = (routes: MenuRoute[]) =>
-    !user.isAdmin ? routes.filter((r) => !r.adminRoute) : routes;
+    configs.demoMode ? routes.filter((r) => !r.private) : routes;
 
   return (
     <NavbarWrapper>
@@ -107,6 +110,8 @@ export const AppNavBar = () => {
           <NavBarItem key={index} route={route} />
         ))}
       </ul>
+
+      {configs.demoMode && <DemoBanner />}
 
       <ul className="p-0 pt-5">
         {filterRoutes(userRoutes).map((route, index) => (

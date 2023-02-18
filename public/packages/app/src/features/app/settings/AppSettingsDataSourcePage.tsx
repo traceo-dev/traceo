@@ -26,6 +26,7 @@ import api from "../../../core/lib/api";
 import { loadApplication } from "../state/application/actions";
 import { useAppDispatch } from "../../../store/index";
 import { Confirm } from "../../../core/components/Confirm";
+import { useDemo } from "../../../core/hooks/useDemo";
 
 const dataSourceOptions = [
   {
@@ -38,6 +39,7 @@ const dataSourceOptions = [
 export const AppSettingsDataSourcePage = () => {
   const { application } = useApplication();
   const { isViewer } = useMemberRole();
+  const isDemo = useDemo();
   const dispatch = useAppDispatch();
 
   const [selectedDatasource, setSelectedDatasource] = useState<DatasourceProvider>(null);
@@ -169,7 +171,7 @@ export const AppSettingsDataSourcePage = () => {
                   message="Successfully connected"
                 />
               )}
-              {!isViewer && (
+              {!isViewer && !isDemo && (
                 <ButtonContainer justify="start">
                   {selectedDatasource && (
                     <Button loading={isLoading} type="submit" form="inlfux-provider-form">

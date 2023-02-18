@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { CommentInput } from "./components/Comments/CommentInput";
 import { CommentsBox } from "./components/Comments/CommentsBox";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
-import { SocketContext } from "../../../core/hooks/SocketContextProvider";
+import { SocketContext } from "../../../core/contexts/SocketContextProvider";
 import { useAppDispatch } from "../../../store";
 import { StoreState } from "@store/types";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";

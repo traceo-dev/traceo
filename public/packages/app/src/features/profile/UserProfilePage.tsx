@@ -12,7 +12,6 @@ import {
   Card
 } from "@traceo/ui";
 import { useMemberRole } from "../../core/hooks/useMemberRole";
-import { useDemo } from "../../core/hooks/useDemo";
 import { useUser } from "../../core/hooks/useUser";
 import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 
@@ -30,7 +29,6 @@ const UserProfilePage = () => {
   const dispatch = useAppDispatch();
   const user = useUser();
   const { isAdmin } = useMemberRole();
-  const { isDemo } = useDemo();
 
   const onFinishUpdateUser = (form: UpdateUserForm) =>
     dispatch(
@@ -65,7 +63,7 @@ const UserProfilePage = () => {
                   <FormItem
                     label="Name"
                     error={errors?.name}
-                    disabled={isAdmin || isDemo}
+                    disabled={isAdmin}
                   >
                     <Input
                       {...register("name", {
@@ -77,7 +75,7 @@ const UserProfilePage = () => {
                   <FormItem
                     label="Email"
                     error={errors?.email}
-                    disabled={isAdmin || isDemo}
+                    disabled={isAdmin}
                   >
                     <Input
                       {...register("email", {

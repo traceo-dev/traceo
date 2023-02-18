@@ -1,12 +1,6 @@
-import { useUser } from "./useUser";
+import { useConfig } from "../contexts/ConfigsContextProvider";
 
 export const useDemo = () => {
-  const user = useUser();
-
-  const isDemoEnv = process.env.REACT_APP_DEMO === "true";
-  const isAdmin = user.isAdmin;
-
-  const isDemo = isDemoEnv && !isAdmin;
-
-  return { isDemo };
+  const config = useConfig();
+  return config.demoMode && !config?.user?.isAdmin;
 };
