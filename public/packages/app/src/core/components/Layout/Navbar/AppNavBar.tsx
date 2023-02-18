@@ -79,8 +79,7 @@ export const AppNavBar = () => {
     {
       label: "Logout",
       icon: <LogoutOutlined />,
-      onClick: () => logout(),
-      private: configs.demoMode
+      onClick: () => logout()
     },
     {
       label: application?.name,

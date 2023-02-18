@@ -6,9 +6,10 @@ import api from "../../../../core/lib/api";
 import { ApiResponse, IApplication } from "@traceo/types";
 import dateUtils from "../../../../core/utils/date";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
+import { LeftOutlined } from "@ant-design/icons";
 
 interface Props {
-  application: IApplication
+  application: IApplication;
 }
 export const ApplicationInformation = ({ application }: Props) => {
   const navigate = useNavigate();
@@ -45,7 +46,16 @@ export const ApplicationInformation = ({ application }: Props) => {
   };
 
   return (
-    <Card title="Basic Information" extra={renderButtons()}>
+    <Card
+      icon={
+        <LeftOutlined
+          onClick={() => navigate(-1)}
+          className="px-2 py-1 hover:bg-secondary cursor-pointer duration-200 rounded"
+        />
+      }
+      title="Basic informations"
+      extra={renderButtons()}
+    >
       <ColumnSection subtitle="Basic information about the application. To edit his details, go to his settings on the dashboard.">
         <div className="flex flex-col w-2/3">
           <FieldLabel label="ID">

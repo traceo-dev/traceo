@@ -11,7 +11,7 @@ interface TableColumnProps {
 export const TableColumn: FC<TableColumnProps> = ({ name, width }) => {
   return (
     <th
-      style={{ width }}
+      style={{ width, textAlign: "start" }}
       className="text-2xs text-start font-bold h-5 leading-6 py-2 px-3 uppercase"
     >
       {name}

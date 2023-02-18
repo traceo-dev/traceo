@@ -13,7 +13,7 @@ export const DemoBanner = () => {
           Install your own instance to discover its full potential.
         </span>
         <span className="mt-2">
-          More informations
+          More informations{" "}
           <a className="text-yellow-500" target="_blank" href={GH_REPO_LINK}>
             here
           </a>

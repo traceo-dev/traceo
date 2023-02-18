@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { LeftOutlined } from "@ant-design/icons";
 import { Confirm } from "../../../../core/components/Confirm";
 import { useAppDispatch } from "../../../../store";
 import { UserStatus, ApiResponse } from "@traceo/types";
@@ -115,7 +116,16 @@ export const UserInformation = () => {
         <Alert type="info" message="This user is disabled." className="my-1" />
       )}
 
-      <Card title="Personal Information" extra={renderButtons()}>
+      <Card
+        icon={
+          <LeftOutlined
+            onClick={() => navigate(-1)}
+            className="px-2 py-1 hover:bg-secondary cursor-pointer duration-200 rounded"
+          />
+        }
+        title="Basic informations"
+        extra={renderButtons()}
+      >
         <ColumnSection subtitle="You can edit user details if needed. Remember to do it responsibly and only as a last resort.">
           <Form
             id="edit-user-form"

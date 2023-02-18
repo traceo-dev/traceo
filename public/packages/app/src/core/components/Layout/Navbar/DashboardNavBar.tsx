@@ -68,8 +68,7 @@ export const DashboardNavBar = () => {
       label: "Logout",
       href: "",
       icon: <LogoutOutlined />,
-      onClick: () => logout(),
-      private: configs.demoMode
+      onClick: () => logout()
     }
   ]);
 

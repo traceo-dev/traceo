@@ -141,17 +141,19 @@ const CreateUserPage = () => {
                         })}
                       />
                     </FormItem>
+
+                    {error && (
+                      <Alert
+                        className="font-semibold"
+                        type="error"
+                        showIcon
+                        title={errorMessage}
+                      />
+                    )}
                   </>
                 )}
               </Form>
-              {error && (
-                <Alert
-                  className="font-semibold"
-                  type="error"
-                  showIcon
-                  title={errorMessage}
-                />
-              )}
+
               <ButtonContainer className="pt-5" justify="start">
                 <Button type="submit" form="add-user-form" loading={loading}>
                   Confirm
