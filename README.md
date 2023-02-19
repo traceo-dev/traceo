@@ -77,4 +77,8 @@ Remeber also to configure options in your `TraceoClient` configuration in your a
 
 # Support
 
-Feel free to create Issues, Pull Request or Discussions. If you want to contact with one-man-army working on this app click [here](mailto:piotr.szewczyk.software@gmail.com).
+Feel free to create Issues, Pull Request or Discussions.
+
+# License
+
+Traceo is licensed under the [Apache License, Version 2.0](https://github.com/traceo-dev/traceo/blob/main/LICENSE).

@@ -1,7 +1,6 @@
-import { ContactsOutlined } from "@ant-design/icons";
 import { Card } from "@traceo/ui";
 import { DescriptionRow, Descriptions } from "../../core/components/Descriptions";
-import { CONTACT_EMAIL, VERSION } from "../../core/utils/constants";
+import { VERSION } from "../../core/utils/constants";
 import dateUtils from "../../core/utils/date";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 
@@ -15,12 +14,6 @@ const InstancePage = () => {
           </DescriptionRow>
           <DescriptionRow label="Version">{VERSION}</DescriptionRow>
           <DescriptionRow label="Timezone">{dateUtils.guessTz()}</DescriptionRow>
-          <DescriptionRow label="Contact">
-            <ContactsOutlined
-              className="text-cyan-500"
-              onClick={() => window.open(`mailto:${CONTACT_EMAIL}`)}
-            />
-          </DescriptionRow>
         </Descriptions>
       </Card>
     </DashboardPageWrapper>

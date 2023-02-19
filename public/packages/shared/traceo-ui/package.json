@@ -1,9 +1,7 @@
 {
     "name": "@traceo/ui",
     "version": "0.0.0",
-    "author": {
-        "name": "Piotr Szewczyk"
-    },
+    "author": "Traceo",
     "private": "true",
     "main": "dist/src/index.js",
     "types": "dist/src/index.d.ts",
