@@ -7,7 +7,7 @@ export const NotIntegratedSection = () => {
   const { application } = useApplication();
 
   const sampleIntegrationCode = `
-    1   import { TraceoClient } from 'traceo';
+    1   import { TraceoClient } from '@traceo-sdk/node';
     2 
     3   new TraceoClient({
     4      appId: '${application.id}',
