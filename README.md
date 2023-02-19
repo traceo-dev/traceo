@@ -2,7 +2,9 @@
 Traceo is an open source set of tool for monitoring of application health by collecting and aggregating data from the software. The fast and intuitive user interface allows you to quickly and efficiently navigate through the data, and the graphical presentation of data allows for a faster understanding of the seriousness of a given situation.
 
 # Demo
-App preview can be found [here](http://ec2-3-74-163-234.eu-central-1.compute.amazonaws.com/). Credentials: `johndoe`/`Traceo2023!`. 
+App preview can be found [here](http://ec2-3-74-163-234.eu-central-1.compute.amazonaws.com/). 
+
+Credentials: `johndoe`/`Traceo2023!`. 
 
 # SDK
 To start using the Traceo platform, you need to integrate with the [Traceo SDK](https://github.com/traceo-io/traceo-node), which will start monitoring the status of your application.
@@ -12,24 +14,33 @@ At this point, the installation of the Traceo platform is done by using the dock
 
 To pull or run already existing docker image:
 ```
-docker run -d --name=traceo -p 8080:8080 traceo/traceo
+docker run -d --name=traceo -p 3000:3000 traceo/traceo
 ```
-If you want to use custom `port` then you shuld use:
-```
-docker run -d --name=traceo -p <port>:8080 traceo/traceo
-```
+
+Application will be available at: http://localhost:3000.
+
 Default user is `admin/admin`. 
 
-# Guide
+If you want to use custom `port` then you shuld use:
+```
+docker run -d --name=traceo -p <port>:3000 traceo/traceo
+```
 
 ### ***Database***
+By default, Traceo Platform uses the SQLite database. Once the container is stopped, all your data will be deleted. To avoid this, create a docker volume and mount it at application startup.
+```
+docker volume create traceo-volume
 
-By default, Traceo Platform uses the SQLite database, so for testing and development purposes, this may be enough. If you want to use Traceo with production data, we recommend to use a PostgreSQL database. To do this, set the environment variables as below:
+docker run -d --name=traceo -v traceo-volume:/usr/traceo -p 3000:3000 traceo/traceo
+```
+
+
+If you want to use Traceo with production data, we recommend to use a PostgreSQL database. To do this, set the environment variables as below:
 
 ```
 docker run \
   -d -p 3000:3000 \
-  -e PG_HOST="POSTGRES_HOST" \ 
+  -e PG_HOST="POSTGRES_HOST" \
   -e PG_PORT="POSTGRES_PORT" \
   -e PG_DB_NAME="POSTGRSES_DB_NAME" \
   -e PG_PASS="POSTGRES_PASSWORD" \
@@ -37,7 +48,7 @@ docker run \
   --name=traceo \
   traceo/traceo
 ```
-
+# Guide
 ### ***Incidents***
 
 An incident is an error or exception caught by the SDK which extracts all the most important information about it and sends it to Traceo which graphically depicts the problem. Each incident is unique for a given application, and if another incident of the same type occurs, then he is grouped to the first one. The uniqueness of the incident is checked by comparing the content sended by the SDK. The most important part of the comparison is the type (eg BadRequestException), the message (eg This request cannot be processed.) and the full stacktrace.

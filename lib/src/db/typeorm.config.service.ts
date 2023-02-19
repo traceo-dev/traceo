@@ -7,7 +7,7 @@ import { Comment } from './entities/comment.entity';
 import { Incident } from './entities/incident.entity';
 import { Log } from './entities/log.entity';
 import { Session } from './entities/session.entity';
-import { InsertAdminUserOnStartup } from './migrations/InsertAdminUserOnStartup';
+import { StartupMigration } from './migrations/StartupMigration';
 import { Datasource } from './entities/datasource.entity';
 import { Metric } from './entities/metric.entity';
 
@@ -16,13 +16,12 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
 
     const commonOptions: TypeOrmModuleOptions = {
-      migrations: [InsertAdminUserOnStartup],
+      migrations: [StartupMigration],
       migrationsTransactionMode: "each",
       migrationsRun: true,
       logging: false,
       autoLoadEntities: true,
       synchronize: false,
-      // entities: [join(__dirname, "entities/*.entity.{js,ts}")]
       entities: [
         Application,
         Comment,
@@ -40,7 +39,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       Logger.warn("[Traceo] SqLite database connected. Please use own PostgresDB instance instead by passing envs.");
       return Object.assign(commonOptions, {
         type: "sqlite",
-        database: "traceo_sqlite_db",
+        database: `${this.sqliteStorage}/traceo-sqlite.db`,
       })
     } else {
       Logger.log("[Traceo] Postgres database connected successfully.");
@@ -59,5 +58,16 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     return process.env.PG_HOST && process.env.PG_PORT &&
       process.env.PG_USER && process.env.PG_DB_NAME &&
       process.env.PG_PASS;
+  }
+
+  private get sqliteStorage() {
+    switch (process.env.NODE_ENV) {
+      case "production":
+        //ubuntu
+        return "/usr/traceo";
+      default:
+        //development
+        return "../storage"
+    }
   }
 }
