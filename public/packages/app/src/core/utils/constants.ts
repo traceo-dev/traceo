@@ -1,6 +1,6 @@
 export const VERSION = "0.3.12";
 
-export const CONTACT_EMAIL = "piotr.szewczyk.software@gmail.com";
+// export const CONTACT_EMAIL = "piotr.szewczyk.software@gmail.com";
 export const GH_REPO_LINK = "https://github.com/traceo-dev/traceo";
 export const GH_SDK_REPO_LINK = "https://github.com/traceo-dev/traceo-node";
 export const INFLUX2_DOCS = "https://docs.influxdata.com/influxdb/v2.4/install/";
