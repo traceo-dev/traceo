@@ -37,7 +37,7 @@ export class WorkerController {
     @Post("/log/:id")
     async handleLog(
         @Param("id") id: string,
-        @Body() data: TraceoLog,
+        @Body() data: TraceoLog[],
         @Headers() headers: { [key: string]: any }
     ): Promise<void> {
         await this.logsService.processWorkerData(id, data, headers);

@@ -7,18 +7,16 @@ import { EntityManager } from "typeorm";
 
 
 @Injectable()
-export class WorkerLogsService extends BaseWorkerService<TraceoLog> {
+export class WorkerLogsService extends BaseWorkerService<TraceoLog[]> {
     constructor(
         private readonly entityManager: EntityManager
     ) {
         super(entityManager);
     }
 
-    public async handle(application: Application, data: TraceoLog): Promise<void> {
+    public async handle(application: Application, data: TraceoLog[]): Promise<void> {
         const { id } = application;
-        const { timestamp, level, message, resources, unix } = data;
-
-        await this.entityManager.getRepository(Log).save({
+        const logs = data.map(({ timestamp, level, message, resources, unix }) => ({
             application: {
                 id
             },
@@ -30,7 +28,8 @@ export class WorkerLogsService extends BaseWorkerService<TraceoLog> {
                 appId: id,
                 ...resources
             }
-        });
+        }));
+        await this.entityManager.getRepository(Log).save(logs);
         this.logger.log(`New log saved for application: ${application.id}.`);
     };
 }
