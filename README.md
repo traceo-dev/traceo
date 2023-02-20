@@ -1,10 +1,8 @@
 # Traceo
-Traceo is an open source set of tool for monitoring of application health by collecting and aggregating data from the software.
+Traceo is an open source set of tool for monitoring of application health by collecting and aggregating data from the software. 
 
-# Demo
-App demo can be found [here](http://ec2-3-74-163-234.eu-central-1.compute.amazonaws.com/). 
-
-Credentials: `johndoe`/`Traceo2023!`. 
+# Development status
+Not ready for production use.
 
 # SDK
 To start using the Traceo platform, you need to integrate with the [Traceo SDK](https://github.com/traceo-io/traceo-node), which will start monitoring the status of your application.
@@ -72,8 +70,6 @@ Runtime configuration is a collection of data that is retrieved from the applica
 ### ***Metrics***
 
 Metrics are a set of data taken from a given source, correlated with the time of their occurrence. In Traceo, metrics are used to record data about the software your application runs on, including CPU usage, memory usage, RSS and more. To start collecting data from software, Traceo first needs a place to store this information. For this purpose, the previously prepared InfluxDB instance must be connected to the platform in `Settings|Data Source` tab.
-
-<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-metrics.PNG">
 
 Remeber also to configure options in your `TraceoClient` configuration in your app. More informations about it is [here](https://github.com/traceo-io/traceo-node).
 
