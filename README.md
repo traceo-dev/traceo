@@ -6,6 +6,9 @@ App demo can be found [here](http://ec2-3-74-163-234.eu-central-1.compute.amazon
 
 Credentials: `johndoe`/`Traceo2023!`. 
 
+# Development status
+Not ready for production use.
+
 # SDK
 To start using the Traceo platform, you need to integrate with the [Traceo SDK](https://github.com/traceo-io/traceo-node), which will start monitoring the status of your application.
 
