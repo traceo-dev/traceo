@@ -1,10 +1,5 @@
 # Traceo
-Traceo is an open source set of tool for monitoring of application health by collecting and aggregating data from the software.
-
-# Demo
-App demo can be found [here](http://ec2-3-74-163-234.eu-central-1.compute.amazonaws.com/). 
-
-Credentials: `johndoe`/`Traceo2023!`. 
+Traceo is an open source set of tool for monitoring of application health by collecting and aggregating data from the software. 
 
 # Development status
 Not ready for production use.
