@@ -73,6 +73,8 @@ Runtime configuration is a collection of data that is retrieved from the applica
 
 Metrics are a set of data taken from a given source, correlated with the time of their occurrence. In Traceo, metrics are used to record data about the software your application runs on, including CPU usage, memory usage, RSS and more. To start collecting data from software, Traceo first needs a place to store this information. For this purpose, the previously prepared InfluxDB instance must be connected to the platform in `Settings|Data Source` tab.
 
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-metrics.PNG">
+
 Remeber also to configure options in your `TraceoClient` configuration in your app. More informations about it is [here](https://github.com/traceo-io/traceo-node).
 
 # Support
