@@ -14,9 +14,7 @@ export class StatisticsQueryService {
     this.logger = new Logger(StatisticsQueryService.name);
   }
 
-  async getApplicationStatistics(
-    id: string
-  ): Promise<ApiResponse<AppIncidentsStats>> {
+  async getApplicationStatistics(id: string): Promise<ApiResponse<AppIncidentsStats>> {
     const minDateBefore = dayjs().subtract(7, "day").unix();
 
     try {
@@ -31,12 +29,11 @@ export class StatisticsQueryService {
 
       const errorsDetails: ErrorDetails[] = incidents.reduce(
         (acc, curr) => acc.concat(curr.errorsDetails),
-        [],
+        []
       );
 
       const lastWeekCount =
-        errorsDetails?.filter((o) => dayjs(o?.date).isAfter(minDateBefore))?.length ||
-        0;
+        errorsDetails?.filter((o) => dayjs(o?.date).isAfter(minDateBefore))?.length || 0;
 
       return new ApiResponse("success", undefined, { lastWeekCount });
     } catch (error) {
@@ -45,9 +42,7 @@ export class StatisticsQueryService {
     }
   }
 
-  public async getTodayErrors(
-    applicationId: string
-  ): Promise<ApiResponse<ErrorDetails[]>> {
+  public async getTodayErrors(applicationId: string): Promise<ApiResponse<ErrorDetails[]>> {
     const today = dayjs().startOf("day").utc().unix();
 
     try {
@@ -61,7 +56,7 @@ export class StatisticsQueryService {
 
       const cachedDates: ErrorDetails[] = incidents.reduce(
         (acc, curr) => acc.concat(curr.errorsDetails),
-        [],
+        []
       );
 
       const resp = cachedDates.filter((d) => dayjs.unix(d.date).utc().isToday());
@@ -73,11 +68,11 @@ export class StatisticsQueryService {
     }
   }
 
-  public async getTotalOverview(
-    appId: string
-  ): Promise<ApiResponse<{
-    errors: ErrorDetails[]
-  }>> {
+  public async getTotalOverview(appId: string): Promise<
+    ApiResponse<{
+      errors: ErrorDetails[];
+    }>
+  > {
     try {
       const incidents = await this.entityManger
         .getRepository(Incident)
@@ -86,7 +81,10 @@ export class StatisticsQueryService {
         .select(["incident.errorsDetails", "incident.type", "incident.status", "incident.id"])
         .getMany();
 
-      const errorsDetails: ErrorDetails[] = incidents.reduce((acc, curr) => acc.concat(curr.errorsDetails), []);
+      const errorsDetails: ErrorDetails[] = incidents.reduce(
+        (acc, curr) => acc.concat(curr.errorsDetails),
+        []
+      );
 
       return new ApiResponse("success", undefined, {
         errors: errorsDetails

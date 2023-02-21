@@ -1,6 +1,6 @@
 import { joinClasses } from "../utils/classes";
-import { FC } from "react";
 import { RadioButton, RadioButtonSize } from "./RadioButton";
+import { FC } from "react";
 
 type RatioButtonGroupOption = {
   label: string | JSX.Element;
@@ -14,9 +14,7 @@ interface RadioButtonGroupProps {
   size?: RadioButtonSize;
   className?: string;
 }
-export const RadioButtonGroup: FC<RadioButtonGroupProps> = (
-  props: RadioButtonGroupProps
-) => {
+export const RadioButtonGroup: FC<RadioButtonGroupProps> = (props: RadioButtonGroupProps) => {
   const { onChange, options, value, size = "md", className } = props;
 
   return (

@@ -1,8 +1,8 @@
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { joinClasses } from "../utils/classes";
+import { PaginationPositionType } from "./types";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { FC } from "react";
 import styled from "styled-components";
-import { PaginationPositionType } from "./types";
 
 const PaginationButton = styled.div`
   padding: 8px;

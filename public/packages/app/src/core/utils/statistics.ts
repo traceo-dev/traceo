@@ -1,12 +1,12 @@
-import dayjs from "dayjs";
-import { LogLevel, TraceoLog, ErrorDetails, DailyStats } from "@traceo/types";
 import dateUtils from "./date";
+import { LogLevel, TraceoLog, ErrorDetails, DailyStats } from "@traceo/types";
+import dayjs from "dayjs";
 
 /**
  * TODO: This utils are to total refactoring. Rubbish.
- * 
- * QA: Why data to plots are parsing on app? 
- * Because I need to use local timezone instead of utc. Maybe I should save used timezone 
+ *
+ * QA: Why data to plots are parsing on app?
+ * Because I need to use local timezone instead of utc. Maybe I should save used timezone
  * in app object and parse this on backend side?
  */
 
@@ -21,9 +21,11 @@ const parseIncidentsTablePlotData = (errorsDetails: ErrorDetails[]) => {
   const sortedDates = errors?.sort((a, b) => a?.date - b?.date);
   const beginDate = errorsDetails[0];
 
-  let currentDate = dateUtils.endOf(dayjs.unix(beginDate?.date).subtract(3, "day").unix())
+  let currentDate = dateUtils.endOf(dayjs.unix(beginDate?.date).subtract(3, "day").unix());
   while (currentDate <= dateUtils.endOf()) {
-    const currentErrors = sortedDates.filter(({ date }) => dateUtils.endOf(date) === dateUtils.endOf(currentDate));
+    const currentErrors = sortedDates.filter(
+      ({ date }) => dateUtils.endOf(date) === dateUtils.endOf(currentDate)
+    );
     data.push({ date: dateUtils.endOf(currentDate), count: currentErrors?.length });
     currentDate = dateUtils.endOf(dayjs.unix(currentDate).add(1, "day").unix());
   }
@@ -80,10 +82,12 @@ const parseExploreLogsPlotData = (startDate: number, endDate: number, logs: Trac
       const count = currentLogs.filter((log) => log.level === level).length;
       const mapLevel = map.get(level);
       if (!mapLevel) {
-        map.set(level, [{
-          date,
-          count
-        }]);
+        map.set(level, [
+          {
+            date,
+            count
+          }
+        ]);
       } else {
         mapLevel.push({
           date,
@@ -131,18 +135,18 @@ const parseErrorsToTodayPlotSource = (stats: ErrorDetails[]): DailyStats => {
 };
 
 const formatHourToPlotAxis = (h: number): string => {
-  const hour = dayjs().hour(h).get('h');
+  const hour = dayjs().hour(h).get("h");
 
   if (hour === 0) {
-    return "00:00"
+    return "00:00";
   } else if (hour <= 9) {
-    return `0${hour}:00`
+    return `0${hour}:00`;
   } else if (hour === 23) {
     return "23:59";
   } else {
     return `${h}:00`;
   }
-}
+};
 
 export const statisticUtils = {
   parseIncidentsAnalyticsTodayPlotData,

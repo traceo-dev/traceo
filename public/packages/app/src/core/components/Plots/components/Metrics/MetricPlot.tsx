@@ -1,10 +1,10 @@
-import { FC, lazy, useEffect } from "react";
-import { IMetric, MetricsResponse, METRIC_UNIT } from "@traceo/types";
+import { useApplication } from "../../../../hooks/useApplication";
 import { useRequest } from "../../../../hooks/useRequest";
 import { ConditionalWrapper } from "../../../ConditionLayout";
-import { buildDatasource, buildSeries, commonOptions } from "./utils";
 import { DataNotFound } from "../../../DataNotFound";
-import { useApplication } from "../../../../hooks/useApplication";
+import { buildDatasource, buildSeries, commonOptions } from "./utils";
+import { IMetric, MetricsResponse, METRIC_UNIT } from "@traceo/types";
+import { FC, lazy, useEffect } from "react";
 
 interface Props {
   metric: IMetric;

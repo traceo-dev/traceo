@@ -27,7 +27,7 @@ const userSlice = createSlice({
       return {
         ...state,
         hasFetched: action.payload
-      }
+      };
     }
   }
 });

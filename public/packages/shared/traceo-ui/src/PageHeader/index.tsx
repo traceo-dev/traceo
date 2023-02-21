@@ -1,7 +1,7 @@
 import { Space } from "../Space";
+import { Typography } from "../Typography";
 import { joinClasses } from "../utils/classes";
 import { FC } from "react";
-import { Typography } from "../Typography";
 
 export interface PageHeaderProps {
   title: string | JSX.Element;
@@ -16,7 +16,7 @@ export const PageHeader: FC<PageHeaderProps> = ({
   description,
   suffix,
   icon,
-  className,
+  className
 }) => {
   return (
     <Space className={joinClasses("w-full justify-between pb-5 text-primary", className)}>

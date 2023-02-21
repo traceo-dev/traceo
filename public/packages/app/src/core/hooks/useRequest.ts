@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { ApiResponse } from "@traceo/types";
 import api from "../lib/api";
+import { ApiResponse } from "@traceo/types";
+import { useEffect, useState } from "react";
 
 export const useRequest = <T>({
   method = "get",

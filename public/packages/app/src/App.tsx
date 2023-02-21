@@ -1,22 +1,22 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./assets/styles/main.css";
 import "@traceo/ui/dist/styles.css";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
+import { DashboardHeader } from "./core/components/Layout/DashboardHeader";
+import { NavBar } from "./core/components/Layout/Navbar";
+import Maintenance from "./core/components/Layout/Pages/Maintenance";
+import { MainViewWrapper } from "./core/components/Layout/Wrappers/MainViewWrapper";
+import { NotificationContainer } from "./core/components/Notification/NotificationContainer";
+import { Page } from "./core/components/Page";
+import { PageCenter } from "./core/components/PageCenter";
+import { TraceoLoading } from "./core/components/TraceoLoading";
+import { ConfigsContextProvider } from "./core/contexts/ConfigsContextProvider";
 import { SocketContext, socket } from "./core/contexts/SocketContextProvider";
 import { RouteDescriptor } from "./core/types/navigation";
 import { getAppRoutes } from "./routes/routes";
-import { Suspense } from "react";
-import { PageCenter } from "./core/components/PageCenter";
-import Maintenance from "./core/components/Layout/Pages/Maintenance";
-import { NavBar } from "./core/components/Layout/Navbar";
-import { TraceoLoading } from "./core/components/TraceoLoading";
-import { DashboardHeader } from "./core/components/Layout/DashboardHeader";
-import { Page } from "./core/components/Page";
-import { MainViewWrapper } from "./core/components/Layout/Wrappers/MainViewWrapper";
-import { NotificationContainer } from "./core/components/Notification/NotificationContainer";
 import { persistedRedux, store } from "./store";
-import { ConfigsContextProvider } from "./core/contexts/ConfigsContextProvider";
+import { Suspense } from "react";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {

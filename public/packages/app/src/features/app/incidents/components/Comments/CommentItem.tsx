@@ -1,9 +1,9 @@
-import { FC, useRef, useState } from "react";
-import { IComment, IUser } from "@traceo/types";
-import dateUtils from "../../../../../core/utils/date";
-import ReactMarkdown from "react-markdown";
-import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
+import { useApplication } from "../../../../../core/hooks/useApplication";
 import api from "../../../../../core/lib/api";
+import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
+import dateUtils from "../../../../../core/utils/date";
+import { EllipsisOutlined } from "@ant-design/icons";
+import { IComment, IUser } from "@traceo/types";
 import {
   InputArea,
   Button,
@@ -14,8 +14,8 @@ import {
   Avatar,
   Popover
 } from "@traceo/ui";
-import { useApplication } from "../../../../../core/hooks/useApplication";
-import { EllipsisOutlined } from "@ant-design/icons";
+import { FC, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 interface Props {
   user: IUser;
@@ -87,17 +87,10 @@ export const CommentItem: FC<Props> = ({ user, comment, incidentId }) => {
     return (
       <Space className="w-full py-0 justify-between">
         <Space>
-          <Avatar
-            className="mr-1 w-7 h-7"
-            alt={sender?.name}
-            src={sender?.gravatar}
-            size="md"
-          />
+          <Avatar className="mr-1 w-7 h-7" alt={sender?.name} src={sender?.gravatar} size="md" />
           <div className="flex flex-col w-full ml-2">
             <span className="font-semibold text-sm self-start">{sender?.name}</span>
-            <span className="font-normal text-2xs">
-              commented {dateUtils.fromNow(createdAt)}
-            </span>
+            <span className="font-normal text-2xs">commented {dateUtils.fromNow(createdAt)}</span>
           </div>
         </Space>
 

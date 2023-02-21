@@ -1,20 +1,12 @@
-import { useEffect, useState, FormEvent } from "react";
-import { useAppDispatch } from "../../../store";
 import { loadUsers } from "../../../features/admin/state/users/actions";
-import { useSelector } from "react-redux";
+import { useAppDispatch } from "../../../store";
+import { useApplication } from "../../hooks/useApplication";
+import api from "../../lib/api";
 import { StoreState } from "@store/types";
 import { MemberRole } from "@traceo/types";
-import api from "../../lib/api";
-import {
-  Select,
-  FormItem,
-  Button,
-  ButtonContainer,
-  Space,
-  Avatar,
-  Modal
-} from "@traceo/ui";
-import { useApplication } from "../../hooks/useApplication";
+import { Select, FormItem, Button, ButtonContainer, Space, Avatar, Modal } from "@traceo/ui";
+import { useEffect, useState, FormEvent } from "react";
+import { useSelector } from "react-redux";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
   const dispatch = useAppDispatch();

@@ -1,20 +1,15 @@
-import { Injectable } from '@nestjs/common';
-import { BaseQueryService } from '../../../common/base/query/base-query.service';
-import { BaseDtoQuery } from '../../../common/base/query/base-query.model';
-import { User } from '../../../db/entities/user.entity';
-import { EntityManager, SelectQueryBuilder } from 'typeorm';
-import { ApiResponse } from '../../../common/types/dto/response.dto';
-import { IUser } from '@traceo/types';
-import { RequestContext } from '../../../common/middlewares/request-context/request-context.model';
+import { Injectable } from "@nestjs/common";
+import { BaseQueryService } from "../../../common/base/query/base-query.service";
+import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
+import { User } from "../../../db/entities/user.entity";
+import { EntityManager, SelectQueryBuilder } from "typeorm";
+import { ApiResponse } from "../../../common/types/dto/response.dto";
+import { IUser } from "@traceo/types";
+import { RequestContext } from "../../../common/middlewares/request-context/request-context.model";
 
 @Injectable()
-export class UserQueryService extends BaseQueryService<
-  User,
-  BaseDtoQuery
-> {
-  constructor(
-    private readonly entityManager: EntityManager
-  ) {
+export class UserQueryService extends BaseQueryService<User, BaseDtoQuery> {
+  constructor(private readonly entityManager: EntityManager) {
     super(entityManager, User);
   }
 
@@ -29,19 +24,19 @@ export class UserQueryService extends BaseQueryService<
         id: userId
       });
 
-      return new ApiResponse("success", undefined, user)
+      return new ApiResponse("success", undefined, user);
     } catch (error) {
       throw new Error(`[${this.getSignedInUser.name}] Caused by: ${error}`);
     }
   }
 
   public get builderAlias(): string {
-    return 'user';
+    return "user";
   }
 
   public extendQueryBuilder(
     builder: SelectQueryBuilder<User>,
-    query: BaseDtoQuery,
+    query: BaseDtoQuery
   ): SelectQueryBuilder<User> {
     const { search } = query;
 
@@ -68,7 +63,7 @@ export class UserQueryService extends BaseQueryService<
       "gravatar",
       "status",
       "isAdmin",
-      "isPasswordUpdated",
+      "isPasswordUpdated"
     ];
   }
 }

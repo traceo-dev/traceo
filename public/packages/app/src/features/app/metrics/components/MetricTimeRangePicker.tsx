@@ -1,5 +1,6 @@
 import { TimeRangePicker } from "@traceo/ui";
 import { useState } from "react";
+
 interface Props {
   ranges: [number, number];
   setRanges: (val: [number, number]) => void;

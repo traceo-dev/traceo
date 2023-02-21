@@ -15,7 +15,11 @@ const userSlice = createSlice({
   name: "user",
   initialState: initialState,
   reducers: {
-    userLoaded: (state, action: PayloadAction<IUser>): UserState => ({ ...state, user: action.payload, isFetched: true })
+    userLoaded: (state, action: PayloadAction<IUser>): UserState => ({
+      ...state,
+      user: action.payload,
+      isFetched: true
+    })
   }
 });
 

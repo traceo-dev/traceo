@@ -1,9 +1,9 @@
+import NotFound from "../core/components/Layout/Pages/NotFound";
 import AppDashboardPage from "../core/components/Layout/Wrappers/AppDashboardWrapper";
 import PublicPageWrapper from "../core/components/Layout/Wrappers/PublicPageWrapper";
-import { lazy } from "react";
-import NotFound from "../core/components/Layout/Pages/NotFound";
-import Login from "../features/auth/login";
 import { RouteDescriptor } from "../core/types/navigation";
+import Login from "../features/auth/login";
+import { lazy } from "react";
 
 const getPublicRoutes = (): RouteDescriptor[] => {
   return [
@@ -88,9 +88,7 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
     },
     {
       path: "/app/:id/incidents/:iid/conversation",
-      component: lazy(
-        () => import("../features/app/incidents/IncidentConversationPage"),
-      ),
+      component: lazy(() => import("../features/app/incidents/IncidentConversationPage")),
       wrapper: AppDashboardPage
     },
     {

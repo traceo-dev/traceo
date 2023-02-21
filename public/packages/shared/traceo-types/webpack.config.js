@@ -8,19 +8,19 @@ module.exports = {
     filename: "index.js",
     publicPath: "/dist/",
     libraryTarget: "umd",
-    globalObject: "this",
+    globalObject: "this"
   },
   resolve: {
     extensions: [".ts", ".js"],
-    symlinks: false,
+    symlinks: false
   },
   module: {
     rules: [
       {
         test: /\.ts?$/,
         use: "ts-loader",
-        exclude: /node_modules/,
-      },
-    ],
-  },
+        exclude: /node_modules/
+      }
+    ]
+  }
 };

@@ -1,15 +1,15 @@
-import { useEffect } from "react";
-import { Button, Card } from "@traceo/ui";
-import { AppsTable } from "./components/AppsTable";
-import { PlusOutlined } from "@ant-design/icons";
-import ServerPermissions from "../../core/components/ServerPermissions";
 import { Page } from "../../core/components/Page";
-import { loadSignedInUser } from "../auth/state/actions";
+import ServerPermissions from "../../core/components/ServerPermissions";
 import { useAppDispatch } from "../../store";
+import { toggleNavbar } from "../../store/internal/navbar/actions";
 import { resetIncidentsState, resetIncidentState } from "../app/incidents/state/reducers";
 import { resetApplicationState } from "../app/state/application/reducers";
+import { loadSignedInUser } from "../auth/state/actions";
+import { AppsTable } from "./components/AppsTable";
+import { PlusOutlined } from "@ant-design/icons";
+import { Button, Card } from "@traceo/ui";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toggleNavbar } from "../../store/internal/navbar/actions";
 
 export const DashboardPage = () => {
   const dispatch = useAppDispatch();

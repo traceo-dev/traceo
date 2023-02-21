@@ -5,48 +5,48 @@ import { BaseDtoQuery } from "../../base/query/base-query.model";
 import { IncidentStatus, IncidentStatusSearch } from "@traceo/types";
 
 export class IncidentQueryDto extends BaseDtoQuery {
-    @ApiPropertyOptional()
-    @Type(() => String)
-    @IsOptional()
-    readonly status?: IncidentStatusSearch;
+  @ApiPropertyOptional()
+  @Type(() => String)
+  @IsOptional()
+  readonly status?: IncidentStatusSearch;
 
-    @ApiPropertyOptional()
-    @Type(() => Number)
-    @IsOptional()
-    readonly size?: number;
+  @ApiPropertyOptional()
+  @Type(() => Number)
+  @IsOptional()
+  readonly size?: number;
 }
 
 export class Resolved {
-    @ApiPropertyOptional()
-    @IsString()
-    @IsOptional()
-    readonly id: string;
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  readonly id: string;
 }
 
 export class IncidentUpdateDto {
-    @ApiPropertyOptional()
-    @IsEnum(IncidentStatus)
-    @IsOptional()
-    readonly status?: IncidentStatus;
+  @ApiPropertyOptional()
+  @IsEnum(IncidentStatus)
+  @IsOptional()
+  readonly status?: IncidentStatus;
 
-    @ApiPropertyOptional()
-    @IsString()
-    @IsOptional()
-    readonly assignedId?: string;
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  readonly assignedId?: string;
 
-    @ApiPropertyOptional()
-    @IsString()
-    @IsOptional()
-    readonly assigned: any;
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  readonly assigned: any;
 
-    @ApiPropertyOptional()
-    @IsOptional()
-    @ValidateNested({ each: true })
-    @Type(() => Resolved)
-    readonly resolved: Resolved;
+  @ApiPropertyOptional()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => Resolved)
+  readonly resolved: Resolved;
 }
 
 export class IncidentBatchUpdateDto extends IncidentUpdateDto {
-    @IsOptional()
-    incidentsIds: string[];
+  @IsOptional()
+  incidentsIds: string[];
 }

@@ -1,13 +1,13 @@
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { Confirm } from "../../../../core/components/Confirm";
+import { useApplication } from "../../../../core/hooks/useApplication";
 import api from "../../../../core/lib/api";
 import dateUtils from "../../../../core/utils/date";
-import { useState } from "react";
 import { useAppDispatch } from "../../../../store";
-import { ApiResponse } from "@traceo/types";
 import { loadApplication } from "../../state/application/actions";
+import { ApiResponse } from "@traceo/types";
 import { InputSecret, InputGroup, Button, Typography, Card } from "@traceo/ui";
-import { useApplication } from "../../../../core/hooks/useApplication";
+import { useState } from "react";
 
 export const ApiKeySection = () => {
   const dispatch = useAppDispatch();

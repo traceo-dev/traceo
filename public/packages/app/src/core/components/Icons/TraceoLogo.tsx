@@ -1,6 +1,6 @@
+import { joinClasses } from "../../utils/classes";
 import { Space } from "@traceo/ui";
 import { FC } from "react";
-import { joinClasses } from "../../utils/classes";
 
 type Size = "small" | "medium";
 

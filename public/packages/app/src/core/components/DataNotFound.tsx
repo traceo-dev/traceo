@@ -1,6 +1,6 @@
+import { joinClasses } from "../utils/classes";
 import { SearchOutlined } from "@ant-design/icons";
 import { Space, Typography } from "@traceo/ui";
-import { joinClasses } from "../utils/classes";
 import { FC } from "react";
 
 interface Props {

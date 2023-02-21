@@ -1,5 +1,5 @@
-import { forwardRef, HTMLProps } from "react";
 import { joinClasses, conditionClass } from "../utils/classes";
+import { forwardRef, HTMLProps } from "react";
 
 export type TagColorType =
   | "slate"

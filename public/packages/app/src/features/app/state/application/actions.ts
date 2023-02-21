@@ -1,12 +1,12 @@
 import api from "../../../../core/lib/api";
-import { ApiResponse, IApplication, MemberRole, UpdateApplicationProps } from "@traceo/types";
-import { ThunkResult } from "@store/types";
 import { navbarState } from "../../../../store/internal/navbar/reducers";
 import { applicationLoaded, applicationPermission, resetApplicationState } from "./reducers";
+import { ThunkResult } from "@store/types";
+import { ApiResponse, IApplication, MemberRole, UpdateApplicationProps } from "@traceo/types";
 
 export type LoadApplicationType = {
-  id?: string
-}
+  id?: string;
+};
 
 export const initApplication = (props: LoadApplicationType): ThunkResult<void> => {
   return async (dispatch) => {
@@ -14,14 +14,14 @@ export const initApplication = (props: LoadApplicationType): ThunkResult<void> =
     dispatch(loadPermission({ id: props.id }));
     dispatch(navbarState({ hidden: false }));
     dispatch(loadApplication({ id: props.id }));
-  }
-}
+  };
+};
 
 export const loadApplication = (props?: LoadApplicationType): ThunkResult<void> => {
   return async (dispatch, getStore) => {
     let currId = props?.id;
     if (!props?.id) {
-      currId = getStore().application.application.id
+      currId = getStore().application.application.id;
     }
 
     const { data } = await api.get<ApiResponse<IApplication>>("/api/application", {
@@ -34,17 +34,19 @@ export const loadApplication = (props?: LoadApplicationType): ThunkResult<void> 
 export const loadPermission = (props?: LoadApplicationType): ThunkResult<void> => {
   return async (dispatch) => {
     try {
-      const { data } = await api.get<ApiResponse<{
-        role: MemberRole
-      }>>("/api/member/permission", {
+      const { data } = await api.get<
+        ApiResponse<{
+          role: MemberRole;
+        }>
+      >("/api/member/permission", {
         id: props.id
       });
       dispatch(applicationPermission(data.role));
     } catch (err) {
       //
     }
-  }
-}
+  };
+};
 
 export const updateAplication = (body: UpdateApplicationProps): ThunkResult<void> => {
   return async (dispatch, getStore) => {
@@ -57,8 +59,10 @@ export const updateAplication = (body: UpdateApplicationProps): ThunkResult<void
       id: application.id,
       ...body
     });
-    dispatch(loadApplication({
-      id: application.id
-    }));
+    dispatch(
+      loadApplication({
+        id: application.id
+      })
+    );
   };
 };

@@ -5,10 +5,7 @@ interface DividerProps {
   orientation?: "horizontal" | "vertical";
   className?: string;
 }
-export const Divider: FC<DividerProps> = ({
-  orientation = "horizontal",
-  className,
-}) => {
+export const Divider: FC<DividerProps> = ({ orientation = "horizontal", className }) => {
   return (
     <hr
       className={joinClasses(

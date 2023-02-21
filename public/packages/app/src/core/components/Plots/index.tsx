@@ -8,9 +8,7 @@ const LazyAppOverviewPlot = lazy(() => import("./components/IncidentsOverviewPlo
 const LazyIncidentListPlot = lazy(() => import("./components/IncidentsListPlot"));
 const LazyLogPlot = lazy(() => import("./components/Logs/LogsExplorePlot"));
 const LazyMetricPlot = lazy(() => import("./components/Metrics/MetricPlot"));
-const LazyMetricPreviewPlot = lazy(
-  () => import("./components/Metrics/MetricPreviewPlot")
-);
+const LazyMetricPreviewPlot = lazy(() => import("./components/Metrics/MetricPreviewPlot"));
 
 const FallbackWrapper = styled.div`
   width: 100%;

@@ -1,5 +1,5 @@
-import { FC } from "react";
 import { TraceoLoading } from "./TraceoLoading";
+import { FC } from "react";
 
 /**
  * TODO: simple conditional rendering for now, later more styles here instead of in Page

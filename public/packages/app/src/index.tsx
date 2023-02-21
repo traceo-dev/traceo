@@ -1,6 +1,6 @@
-import ReactDOM from "react-dom";
 import App from "./App";
 import { configureApi } from "./core/lib/api";
+import ReactDOM from "react-dom";
 
 const init = () => {
   try {

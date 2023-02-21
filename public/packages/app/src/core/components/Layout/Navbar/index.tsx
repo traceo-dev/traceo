@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { conditionClass } from "../../../utils/classes";
 import { AppNavBar } from "./AppNavBar";
 import { DashboardNavBar } from "./DashboardNavBar";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { conditionClass } from "../../../utils/classes";
 import { StoreState } from "@store/types";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 type NavType = "app" | "dashboard";
 

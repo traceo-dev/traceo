@@ -1,5 +1,5 @@
-import { LoadingOutlined } from "@ant-design/icons";
 import { joinClasses } from "../utils/classes";
+import { LoadingOutlined } from "@ant-design/icons";
 
 interface ListProps<T> {
   dataSource: T[];
@@ -7,12 +7,7 @@ interface ListProps<T> {
   loading?: boolean;
   className?: string;
 }
-export function List<T>({
-  dataSource,
-  renderItem,
-  loading = false,
-  className
-}: ListProps<T>) {
+export function List<T>({ dataSource, renderItem, loading = false, className }: ListProps<T>) {
   if (loading) {
     return <LoadingOutlined />;
   }

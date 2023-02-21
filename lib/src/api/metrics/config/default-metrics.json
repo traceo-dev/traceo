@@ -1,289 +1,289 @@
 {
-    "metrics": [
+  "metrics": [
+    {
+      "name": "CPU Usage",
+      "description": "CPU usage is the percentage of time that the CPU is being used to complete its tasks.",
+      "showDescription": true,
+      "isDefault": true,
+      "show": true,
+      "unit": "%",
+      "series": [
         {
-            "name": "CPU Usage",
-            "description": "CPU usage is the percentage of time that the CPU is being used to complete its tasks.",
-            "showDescription": true,
-            "isDefault": true,
-            "show": true,
-            "unit": "%",
-            "series": [
-                {
-                    "name": "Cpu",
-                    "field": "cpu_usage",
-                    "type": "floatField",
-                    "config": {
-                        "lineWidth": 1,
-                        "barWidth": 20,
-                        "area": {
-                            "show": true,
-                            "opacity": 50
-                        },
-                        "type": "line",
-                        "color": "#0991B3"
-                    }
-                }
-            ],
-            "config": {
-                "line": {
-                    "marker": {
-                        "show": false
-                    }
-                },
-                "tooltip": {
-                    "show": false,
-                    "position": "bottom"
-                },
-                "legend": {
-                    "show": false,
-                    "orient": "vertical"
-                }
-            }
-        },
-        {
-            "name": "Memory Usage",
-            "description": "The amount of RAM memory being used.",
-            "showDescription": true,
-            "isDefault": true,
-            "show": true,
-            "unit": "%",
-            "series": [
-                {
-                    "name": "Memory",
-                    "field": "memory_usage_percentage",
-                    "type": "floatField",
-                    "config": {
-                        "lineWidth": 1,
-                        "barWidth": 20,
-                        "area": {
-                            "show": true,
-                            "opacity": 50
-                        },
-                        "type": "line",
-                        "color": "#BD123C"
-                    }
-                }
-            ],
-            "config": {
-                "line": {
-                    "marker": {
-                        "show": false
-                    }
-                },
-                "tooltip": {
-                    "show": false,
-                    "position": "bottom"
-                },
-                "legend": {
-                    "show": false,
-                    "orient": "vertical"
-                }
-            }
-        },
-        {
-            "name": "RSS",
-            "description": "Resident set size (RSS) is the portion of memory occupied by a process that is held in main memory (RAM).",
-            "showDescription": true,
-            "isDefault": true,
-            "show": true,
-            "unit": "MB",
-            "series": [
-                {
-                    "name": "RSS",
-                    "field": "heap_rss",
-                    "type": "floatField",
-                    "config": {
-                        "lineWidth": 1,
-                        "barWidth": 20,
-                        "area": {
-                            "show": true,
-                            "opacity": 50
-                        },
-                        "type": "line",
-                        "color": "#C88A08"
-                    }
-                }
-            ],
-            "config": {
-                "line": {
-                    "marker": {
-                        "show": false
-                    }
-                },
-                "tooltip": {
-                    "show": false,
-                    "position": "bottom"
-                },
-                "legend": {
-                    "show": false,
-                    "orient": "vertical"
-                }
-            }
-        },
-        {
-            "name": "Heap",
-            "description": "Total amount of memory being used by JS objects.",
-            "showDescription": true,
-            "isDefault": true,
-            "show": true,
-            "unit": "MB",
-            "series": [
-                {
-                    "name": "Used Heap",
-                    "field": "heap_used",
-                    "type": "floatField",
-                    "config": {
-                        "lineWidth": 1,
-                        "barWidth": 20,
-                        "area": {
-                            "show": false,
-                            "opacity": 0
-                        },
-                        "type": "line",
-                        "color": "#0369A1"
-                    }
-                },
-                {
-                    "name": "Total Heap",
-                    "field": "heap_total",
-                    "type": "floatField",
-                    "config": {
-                        "lineWidth": 1,
-                        "barWidth": 20,
-                        "area": {
-                            "show": false,
-                            "opacity": 0
-                        },
-                        "type": "line",
-                        "color": "#1D50D8"
-                    }
-                }
-            ],
-            "config": {
-                "line": {
-                    "marker": {
-                        "show": false
-                    }
-                },
-                "tooltip": {
-                    "show": false,
-                    "position": "bottom"
-                },
-                "legend": {
-                    "show": false,
-                    "orient": "vertical"
-                }
-            }
-        },
-        {
-            "name": "Event Loop Delay",
-            "description": "Minimum, maximum and mean delay of the NodeJS event loop.",
-            "showDescription": true,
-            "isDefault": true,
-            "show": true,
-            "unit": "ms",
-            "series": [
-                {
-                    "name": "Min",
-                    "field": "loop_min",
-                    "type": "floatField",
-                    "config": {
-                        "lineWidth": 1,
-                        "barWidth": 20,
-                        "area": {
-                            "show": false,
-                            "opacity": 0
-                        },
-                        "type": "line",
-                        "color": "#0A437C"
-                    }
-                },
-                {
-                    "name": "Max",
-                    "field": "loop_max",
-                    "type": "floatField",
-                    "config": {
-                        "lineWidth": 1,
-                        "barWidth": 20,
-                        "area": {
-                            "show": false,
-                            "opacity": 0
-                        },
-                        "type": "line",
-                        "color": "#5195CE"
-                    }
-                },
-                {
-                    "name": "Mean",
-                    "field": "loop_mean",
-                    "type": "floatField",
-                    "config": {
-                        "lineWidth": 1,
-                        "barWidth": 20,
-                        "area": {
-                            "show": false,
-                            "opacity": 0
-                        },
-                        "type": "line",
-                        "color": "#70DBED"
-                    }
-                }
-            ],
-            "config": {
-                "line": {
-                    "marker": {
-                        "show": false
-                    }
-                },
-                "tooltip": {
-                    "show": false,
-                    "position": "bottom"
-                },
-                "legend": {
-                    "show": false,
-                    "orient": "vertical"
-                }
-            }
-        },
-        {
-            "name": "Average Load",
-            "description": "Load Average is a measure of system activity calculated by the operating system over the last minute and expressed as a fractional number. Supported only by UNIX operation systems.",
-            "showDescription": true,
-            "isDefault": true,
-            "show": false,
-            "unit": "",
-            "series": [
-                {
-                    "name": "Load",
-                    "field": "load_avg",
-                    "type": "floatField",
-                    "config": {
-                        "lineWidth": 1,
-                        "barWidth": 20,
-                        "area": {
-                            "show": false,
-                            "opacity": 0
-                        },
-                        "type": "line",
-                        "color": "#ffffff"
-                    }
-                }
-            ],
-            "config": {
-                "line": {
-                    "marker": {
-                        "show": false
-                    }
-                },
-                "tooltip": {
-                    "show": false,
-                    "position": "bottom"
-                },
-                "legend": {
-                    "show": false,
-                    "orient": "vertical"
-                }
-            }
+          "name": "Cpu",
+          "field": "cpu_usage",
+          "type": "floatField",
+          "config": {
+            "lineWidth": 1,
+            "barWidth": 20,
+            "area": {
+              "show": true,
+              "opacity": 50
+            },
+            "type": "line",
+            "color": "#0991B3"
+          }
         }
-    ]
+      ],
+      "config": {
+        "line": {
+          "marker": {
+            "show": false
+          }
+        },
+        "tooltip": {
+          "show": false,
+          "position": "bottom"
+        },
+        "legend": {
+          "show": false,
+          "orient": "vertical"
+        }
+      }
+    },
+    {
+      "name": "Memory Usage",
+      "description": "The amount of RAM memory being used.",
+      "showDescription": true,
+      "isDefault": true,
+      "show": true,
+      "unit": "%",
+      "series": [
+        {
+          "name": "Memory",
+          "field": "memory_usage_percentage",
+          "type": "floatField",
+          "config": {
+            "lineWidth": 1,
+            "barWidth": 20,
+            "area": {
+              "show": true,
+              "opacity": 50
+            },
+            "type": "line",
+            "color": "#BD123C"
+          }
+        }
+      ],
+      "config": {
+        "line": {
+          "marker": {
+            "show": false
+          }
+        },
+        "tooltip": {
+          "show": false,
+          "position": "bottom"
+        },
+        "legend": {
+          "show": false,
+          "orient": "vertical"
+        }
+      }
+    },
+    {
+      "name": "RSS",
+      "description": "Resident set size (RSS) is the portion of memory occupied by a process that is held in main memory (RAM).",
+      "showDescription": true,
+      "isDefault": true,
+      "show": true,
+      "unit": "MB",
+      "series": [
+        {
+          "name": "RSS",
+          "field": "heap_rss",
+          "type": "floatField",
+          "config": {
+            "lineWidth": 1,
+            "barWidth": 20,
+            "area": {
+              "show": true,
+              "opacity": 50
+            },
+            "type": "line",
+            "color": "#C88A08"
+          }
+        }
+      ],
+      "config": {
+        "line": {
+          "marker": {
+            "show": false
+          }
+        },
+        "tooltip": {
+          "show": false,
+          "position": "bottom"
+        },
+        "legend": {
+          "show": false,
+          "orient": "vertical"
+        }
+      }
+    },
+    {
+      "name": "Heap",
+      "description": "Total amount of memory being used by JS objects.",
+      "showDescription": true,
+      "isDefault": true,
+      "show": true,
+      "unit": "MB",
+      "series": [
+        {
+          "name": "Used Heap",
+          "field": "heap_used",
+          "type": "floatField",
+          "config": {
+            "lineWidth": 1,
+            "barWidth": 20,
+            "area": {
+              "show": false,
+              "opacity": 0
+            },
+            "type": "line",
+            "color": "#0369A1"
+          }
+        },
+        {
+          "name": "Total Heap",
+          "field": "heap_total",
+          "type": "floatField",
+          "config": {
+            "lineWidth": 1,
+            "barWidth": 20,
+            "area": {
+              "show": false,
+              "opacity": 0
+            },
+            "type": "line",
+            "color": "#1D50D8"
+          }
+        }
+      ],
+      "config": {
+        "line": {
+          "marker": {
+            "show": false
+          }
+        },
+        "tooltip": {
+          "show": false,
+          "position": "bottom"
+        },
+        "legend": {
+          "show": false,
+          "orient": "vertical"
+        }
+      }
+    },
+    {
+      "name": "Event Loop Delay",
+      "description": "Minimum, maximum and mean delay of the NodeJS event loop.",
+      "showDescription": true,
+      "isDefault": true,
+      "show": true,
+      "unit": "ms",
+      "series": [
+        {
+          "name": "Min",
+          "field": "loop_min",
+          "type": "floatField",
+          "config": {
+            "lineWidth": 1,
+            "barWidth": 20,
+            "area": {
+              "show": false,
+              "opacity": 0
+            },
+            "type": "line",
+            "color": "#0A437C"
+          }
+        },
+        {
+          "name": "Max",
+          "field": "loop_max",
+          "type": "floatField",
+          "config": {
+            "lineWidth": 1,
+            "barWidth": 20,
+            "area": {
+              "show": false,
+              "opacity": 0
+            },
+            "type": "line",
+            "color": "#5195CE"
+          }
+        },
+        {
+          "name": "Mean",
+          "field": "loop_mean",
+          "type": "floatField",
+          "config": {
+            "lineWidth": 1,
+            "barWidth": 20,
+            "area": {
+              "show": false,
+              "opacity": 0
+            },
+            "type": "line",
+            "color": "#70DBED"
+          }
+        }
+      ],
+      "config": {
+        "line": {
+          "marker": {
+            "show": false
+          }
+        },
+        "tooltip": {
+          "show": false,
+          "position": "bottom"
+        },
+        "legend": {
+          "show": false,
+          "orient": "vertical"
+        }
+      }
+    },
+    {
+      "name": "Average Load",
+      "description": "Load Average is a measure of system activity calculated by the operating system over the last minute and expressed as a fractional number. Supported only by UNIX operation systems.",
+      "showDescription": true,
+      "isDefault": true,
+      "show": false,
+      "unit": "",
+      "series": [
+        {
+          "name": "Load",
+          "field": "load_avg",
+          "type": "floatField",
+          "config": {
+            "lineWidth": 1,
+            "barWidth": 20,
+            "area": {
+              "show": false,
+              "opacity": 0
+            },
+            "type": "line",
+            "color": "#ffffff"
+          }
+        }
+      ],
+      "config": {
+        "line": {
+          "marker": {
+            "show": false
+          }
+        },
+        "tooltip": {
+          "show": false,
+          "position": "bottom"
+        },
+        "legend": {
+          "show": false,
+          "orient": "vertical"
+        }
+      }
+    }
+  ]
 }

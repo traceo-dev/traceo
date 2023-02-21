@@ -1,18 +1,10 @@
 import { ColumnSection } from "../../core/components/ColumnSection";
+import { ConditionalWrapper } from "../../core/components/ConditionLayout";
+import { useUser } from "../../core/hooks/useUser";
 import { useAppDispatch } from "../../store";
 import { UserSettingsPageWrapper } from "./components/UserSettingsPageWrapper";
 import { updateUser, updateUserPassword } from "./state/actions";
-import {
-  Input,
-  InputSecret,
-  Button,
-  ButtonContainer,
-  Form,
-  FormItem,
-  Card
-} from "@traceo/ui";
-import { useUser } from "../../core/hooks/useUser";
-import { ConditionalWrapper } from "../../core/components/ConditionLayout";
+import { Input, InputSecret, Button, ButtonContainer, Form, FormItem, Card } from "@traceo/ui";
 
 type UpdateUserForm = {
   name: string;
@@ -36,8 +28,7 @@ const UserProfilePage = () => {
       })
     );
 
-  const onFinishUpdatePassword = (form: UpdatePasswordForm) =>
-    dispatch(updateUserPassword(form));
+  const onFinishUpdatePassword = (form: UpdatePasswordForm) => dispatch(updateUserPassword(form));
 
   return (
     <UserSettingsPageWrapper>
@@ -96,11 +87,7 @@ const UserProfilePage = () => {
           title="Update password"
           subtitle="After a successful password update, you will be redirected to the login page where you can log in with your new password."
         >
-          <Form
-            onSubmit={onFinishUpdatePassword}
-            id="update-password-form"
-            className="w-2/3"
-          >
+          <Form onSubmit={onFinishUpdatePassword} id="update-password-form" className="w-2/3">
             {({ register, errors }) => (
               <>
                 <FormItem label="Password" error={errors.password}>

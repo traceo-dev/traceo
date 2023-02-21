@@ -1,5 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
-import { VERSION } from './common/helpers/constants';
+import { Controller, Get } from "@nestjs/common";
+import { VERSION } from "./common/helpers/constants";
 
 @Controller()
 export class AppController {

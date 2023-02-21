@@ -1,9 +1,9 @@
-import { BugOutlined, TeamOutlined, WarningOutlined } from "@ant-design/icons";
 import dateUtils from "../../../../core/utils/date";
-import { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { BugOutlined, TeamOutlined, WarningOutlined } from "@ant-design/icons";
 import { IApplication } from "@traceo/types";
 import { Avatar, Table, TableColumn } from "@traceo/ui";
+import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   applications: IApplication[];

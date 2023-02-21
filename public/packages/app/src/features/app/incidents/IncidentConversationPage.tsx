@@ -1,15 +1,15 @@
-import { AlertOutlined } from "@ant-design/icons";
-import { useContext, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { CommentInput } from "./components/Comments/CommentInput";
-import { CommentsBox } from "./components/Comments/CommentsBox";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SocketContext } from "../../../core/contexts/SocketContextProvider";
 import { useAppDispatch } from "../../../store";
-import { StoreState } from "@store/types";
+import { CommentInput } from "./components/Comments/CommentInput";
+import { CommentsBox } from "./components/Comments/CommentsBox";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { loadIncidentComments } from "./state/actions";
+import { AlertOutlined } from "@ant-design/icons";
+import { StoreState } from "@store/types";
 import { Typography, Space, Card, Divider } from "@traceo/ui";
+import { useContext, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export const IncidentConversationPage = () => {
   const { socket } = useContext(SocketContext);

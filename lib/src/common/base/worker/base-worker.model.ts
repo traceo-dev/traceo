@@ -1,3 +1,3 @@
 export interface BaseWorkerPayloadModel {
-    id: number;
+  id: number;
 }

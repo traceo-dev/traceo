@@ -1,9 +1,9 @@
-import { Space, Typography, Card } from "@traceo/ui";
-import { useParams } from "react-router-dom";
+import { ApplicationMembersTable } from "../../../../core/components/ApplicationMembersTable";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useRequest } from "../../../../core/hooks/useRequest";
 import { ApplicationMember } from "@traceo/types";
-import { ApplicationMembersTable } from "../../../../core/components/ApplicationMembersTable";
+import { Space, Typography, Card } from "@traceo/ui";
+import { useParams } from "react-router-dom";
 
 export const ApplicationMembers = () => {
   const { id } = useParams();

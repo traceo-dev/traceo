@@ -1,12 +1,4 @@
-import {
-  Alert,
-  Button,
-  ButtonContainer,
-  Form,
-  FormItem,
-  Input,
-  InputSecret
-} from "@traceo/ui";
+import { Alert, Button, ButtonContainer, Form, FormItem, Input, InputSecret } from "@traceo/ui";
 
 type FormType = {
   username: string;
@@ -15,9 +7,7 @@ type FormType = {
 export const LoginForm = ({ invalid, loading, onFinish }) => {
   return (
     <>
-      {invalid && (
-        <Alert type="error" title="Bad username or password!" className="mb-9" />
-      )}
+      {invalid && <Alert type="error" title="Bad username or password!" className="mb-9" />}
       <Form<FormType> onSubmit={onFinish} id="login-form">
         {({ register, errors }) => (
           <>

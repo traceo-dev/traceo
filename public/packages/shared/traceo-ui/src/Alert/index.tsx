@@ -1,12 +1,12 @@
+import { joinClasses } from "../utils/classes";
 import {
   CheckCircleFilled,
   CloseCircleFilled,
   CloseOutlined,
   ExclamationCircleFilled,
-  InfoCircleFilled,
+  InfoCircleFilled
 } from "@ant-design/icons";
 import { FC, useState } from "react";
-import { joinClasses } from "../utils/classes";
 
 type AlertType = "success" | "info" | "warning" | "error";
 
@@ -25,14 +25,14 @@ const mapAlertStyle: Record<AlertType, string> = {
   error: "bg-red-900 text-red-100",
   info: "bg-blue-900 text-blue-100",
   success: "bg-green-900 text-green-100",
-  warning: "bg-orange-900 text-orange-100",
+  warning: "bg-orange-900 text-orange-100"
 };
 
 const mapAlertIcon: Record<AlertType, JSX.Element> = {
   error: <CloseCircleFilled />,
   info: <InfoCircleFilled />,
   success: <CheckCircleFilled />,
-  warning: <ExclamationCircleFilled />,
+  warning: <ExclamationCircleFilled />
 };
 
 export const Alert: FC<AlertProps> = (props: AlertProps) => {
@@ -45,7 +45,7 @@ export const Alert: FC<AlertProps> = (props: AlertProps) => {
     className,
     onClose,
     showIcon = true,
-    closeable,
+    closeable
   } = props;
 
   if (closed) {
@@ -62,18 +62,10 @@ export const Alert: FC<AlertProps> = (props: AlertProps) => {
   const alertIcon = !icon ? mapAlertIcon[type] : icon;
 
   const alertMessage =
-    typeof message === "string" ? (
-      <span className="text-xs">{message}</span>
-    ) : (
-      message
-    );
+    typeof message === "string" ? <span className="text-xs">{message}</span> : message;
 
   const alertTitle =
-    typeof title === "string" ? (
-      <span className="text-sm tracking-wide">{title}</span>
-    ) : (
-      title
-    );
+    typeof title === "string" ? <span className="text-sm tracking-wide">{title}</span> : title;
 
   return (
     <div
@@ -91,10 +83,7 @@ export const Alert: FC<AlertProps> = (props: AlertProps) => {
         </div>
       </div>
       {closeable && (
-        <span
-          onClick={handleClose}
-          className="items-center text-xs cursor-pointer"
-        >
+        <span onClick={handleClose} className="items-center text-xs cursor-pointer">
           <CloseOutlined />
         </span>
       )}

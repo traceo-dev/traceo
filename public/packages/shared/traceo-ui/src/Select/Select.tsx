@@ -1,20 +1,16 @@
-import {
-  DownOutlined,
-  LoadingOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
 import { conditionClass, joinClasses } from "../utils/classes";
-import { FC, forwardRef, useRef } from "react";
+import { defaultStyles } from "./styles";
+import { SelectMenuOptionProps, SelectOptionProps } from "./types";
+import { DownOutlined, LoadingOutlined, SearchOutlined } from "@ant-design/icons";
+import { FC, forwardRef } from "react";
 import {
   ActionMeta,
   components,
   ContainerProps,
   default as ReactSelect,
   GroupBase,
-  MenuPlacement,
+  MenuPlacement
 } from "react-select";
-import { defaultStyles } from "./styles";
-import { SelectMenuOptionProps, SelectOptionProps } from "./types";
 
 /**
  * TODO:
@@ -38,10 +34,7 @@ interface SelectProps {
   width?: number;
   value?: any;
   defaultValue?: any;
-  onChange?: (
-    value: SelectOptionProps | any,
-    actionMeta: ActionMeta<unknown>
-  ) => void;
+  onChange?: (value: SelectOptionProps | any, actionMeta: ActionMeta<unknown>) => void;
   isDisabled?: boolean;
 }
 
@@ -50,28 +43,17 @@ const Control = (props: any) => {
   const selectProps = props.selectProps as SelectProps;
 
   return (
-    <div
-      className="h-[30px] bg-canvas px-2 flex rounded-md items-center"
-      {...innerProps}
-    >
+    <div className="h-[30px] bg-canvas px-2 flex rounded-md items-center" {...innerProps}>
       {(selectProps.prefix || selectProps.value?.icon) && (
-        <div className="px-1">
-          {selectProps.value?.icon || selectProps.prefix}
-        </div>
+        <div className="px-1">{selectProps.value?.icon || selectProps.prefix}</div>
       )}
       {children}
-      {selectProps.suffix && (
-        <div className="pr-1 pl-2">{selectProps.suffix}</div>
-      )}
+      {selectProps.suffix && <div className="pr-1 pl-2">{selectProps.suffix}</div>}
     </div>
   );
 };
 
-const SelectContainer = <
-  Option,
-  isMulti extends boolean,
-  Group extends GroupBase<Option>
->(
+const SelectContainer = <Option, isMulti extends boolean, Group extends GroupBase<Option>>(
   props: ContainerProps<Option, isMulti, Group> & { isFocused: boolean }
 ) => {
   const { isDisabled, isFocused, children } = props;
@@ -90,12 +72,7 @@ const SelectContainer = <
   );
 };
 
-const Option: FC<SelectMenuOptionProps> = ({
-  data,
-  innerProps,
-  innerRef,
-  isSelected,
-}) => {
+const Option: FC<SelectMenuOptionProps> = ({ data, innerProps, innerRef, isSelected }) => {
   return (
     <div
       ref={innerRef}
@@ -127,8 +104,7 @@ export const Select = forwardRef<any, SelectProps>((props, ref) => {
 
   const selectStyles = defaultStyles(width);
   const selectedValue = options?.find((opt) => opt.value === value) || value;
-  const selectedDefaultValue =
-    options?.find((opt) => opt.value === defaultValue) || defaultValue;
+  const selectedDefaultValue = options?.find((opt) => opt.value === defaultValue) || defaultValue;
 
   return (
     <ReactSelect
@@ -140,16 +116,12 @@ export const Select = forwardRef<any, SelectProps>((props, ref) => {
         Control,
         SelectContainer,
         DropdownIndicator(props: any) {
-          return props.selectProps.menuIsOpen ? (
-            <SearchOutlined />
-          ) : (
-            <DownOutlined />
-          );
+          return props.selectProps.menuIsOpen ? <SearchOutlined /> : <DownOutlined />;
         },
         LoadingIndicator(_: any) {
           return <LoadingOutlined />;
         },
-        Option,
+        Option
       }}
       styles={selectStyles}
       {...restProps}

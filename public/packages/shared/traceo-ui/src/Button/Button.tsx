@@ -1,8 +1,8 @@
-import { LoadingOutlined } from "@ant-design/icons";
 import { conditionClass, joinClasses } from "../utils/classes";
-import { ButtonHTMLAttributes, forwardRef } from "react";
 import { mapButtonVariantStyle, mapButtonSize } from "./styles";
 import { ButtonVariant, ButtonSize } from "./types";
+import { LoadingOutlined } from "@ant-design/icons";
+import { ButtonHTMLAttributes, forwardRef } from "react";
 
 interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size"> {
   variant?: ButtonVariant;

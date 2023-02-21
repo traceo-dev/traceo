@@ -1,5 +1,5 @@
-import { InfoCircleFilled } from "@ant-design/icons";
 import { GH_REPO_LINK } from "../utils/constants";
+import { InfoCircleFilled } from "@ant-design/icons";
 
 export const DemoBanner = () => {
   return (
@@ -9,9 +9,7 @@ export const DemoBanner = () => {
         <span className="leading-4">
           Many features of the Traceo platform have been blocked in the Demo version.
         </span>
-        <span className="mt-2">
-          Install your own instance to discover its full potential.
-        </span>
+        <span className="mt-2">Install your own instance to discover its full potential.</span>
         <span className="mt-2">
           More informations{" "}
           <a className="text-yellow-500" target="_blank" href={GH_REPO_LINK}>

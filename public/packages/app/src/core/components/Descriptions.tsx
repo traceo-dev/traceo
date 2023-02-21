@@ -12,11 +12,7 @@ interface DescriptionRowProps {
   label: string;
   className?: string;
 }
-export const DescriptionRow: FC<DescriptionRowProps> = ({
-  label,
-  className,
-  children
-}) => {
+export const DescriptionRow: FC<DescriptionRowProps> = ({ label, className, children }) => {
   return (
     <tr>
       <td className="details-table-label">

@@ -2,7 +2,7 @@ module.exports = {
   important: true,
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   corePlugins: {
-    preflight: false,
+    preflight: false
   },
   theme: {
     extend: {
@@ -11,16 +11,16 @@ module.exports = {
         primary: "#181b1f",
         secondary: "#22252b",
         canvas: "#111217",
-        contrast: "#ffffff",
+        contrast: "#ffffff"
       },
       textColor: {
         primary: "#CCCCDC",
-        secondary: "#CCCCDCA6",
+        secondary: "#CCCCDCA6"
       },
       fontSize: {
-        "2xs": "11px",
-      },
-    },
+        "2xs": "11px"
+      }
+    }
   },
-  plugins: [],
+  plugins: []
 };

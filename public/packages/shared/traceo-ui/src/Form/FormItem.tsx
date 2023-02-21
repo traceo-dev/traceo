@@ -1,13 +1,10 @@
+import { Tooltip } from "../Tooltip";
 import { conditionClass, joinClasses } from "../utils/classes";
 import { REQUIRED_FIELD_ERROR } from "../utils/constants";
+import { clearObject } from "../utils/object";
+import { ExclamationCircleOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import React, { FC } from "react";
 import { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
-import {
-  ExclamationCircleOutlined,
-  QuestionCircleOutlined,
-} from "@ant-design/icons";
-import { clearObject } from "../utils/object";
-import { Tooltip } from "../Tooltip";
 
 interface FormItemProps {
   label?: string;
@@ -26,7 +23,7 @@ export const FormItem: FC<FormItemProps> = (props: FormItemProps) => {
     showRequiredMark = false,
     className,
     disabled = false,
-    tooltip,
+    tooltip
   } = props;
 
   const formLabel =
@@ -52,20 +49,16 @@ export const FormItem: FC<FormItemProps> = (props: FormItemProps) => {
     : REQUIRED_FIELD_ERROR;
 
   const childrenProps = clearObject({
-    suffix: error ? (
-      <ExclamationCircleOutlined className="text-red-500 font-semibold" />
-    ) : null,
+    suffix: error ? <ExclamationCircleOutlined className="text-red-500 font-semibold" /> : null,
     isFocusable: !error,
     disabled,
-    className: "text-sm",
+    className: "text-sm"
   });
 
   return (
     <div className={joinClasses("flex flex-col text-start mb-5", className)}>
       {label && <span className="mb-2 font-semibold text-sm">{formLabel}</span>}
-      <div
-        className={conditionClass(!!error, "ring-2 ring-red-500 rounded-md")}
-      >
+      <div className={conditionClass(!!error, "ring-2 ring-red-500 rounded-md")}>
         {React.cloneElement(children, childrenProps)}
       </div>
       {/* TODO: Make it later as information in tooltip for suffix icon */}

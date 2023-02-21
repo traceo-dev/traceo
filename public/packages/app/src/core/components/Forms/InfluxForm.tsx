@@ -1,5 +1,5 @@
-import { Alert, FormItem, Input, InputSecret, Link } from "@traceo/ui";
 import { INFLUX2_DOCS } from "../../../core/utils/constants";
+import { Alert, FormItem, Input, InputSecret, Link } from "@traceo/ui";
 
 //TODO: add types!
 interface FormProps {
@@ -30,11 +30,7 @@ export const InfluxForm = ({ errors, register, required = true }: FormProps) => 
         />
       </FormItem>
       <div className="w-full flex flex-row gap-x-2">
-        <FormItem
-          error={errors?.tsdbConfiguration?.org}
-          label="Organization"
-          className="w-full"
-        >
+        <FormItem error={errors?.tsdbConfiguration?.org} label="Organization" className="w-full">
           <Input
             {...register("tsdbConfiguration.org", {
               required

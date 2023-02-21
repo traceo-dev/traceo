@@ -1,18 +1,18 @@
-import { PlusOutlined } from "@ant-design/icons";
+import { ConditionalWrapper } from "../../core/components/ConditionLayout";
+import { DataNotFound } from "../../core/components/DataNotFound";
 import { SearchWrapper } from "../../core/components/SearchWrapper";
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { ApiQueryParams } from "../../core/lib/api";
 import { useAppDispatch } from "../../store";
-import { StoreState } from "@store/types";
+import { toggleNavbar } from "../../store/internal/navbar/actions";
 import { ApplicationsTable } from "./components/ApplicationManagement/ApplicationsTable";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { loadServerApplications } from "./state/applications/actions";
-import { ConditionalWrapper } from "../../core/components/ConditionLayout";
-import { DataNotFound } from "../../core/components/DataNotFound";
+import { PlusOutlined } from "@ant-design/icons";
+import { StoreState } from "@store/types";
 import { InputSearch, Button, Card } from "@traceo/ui";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { toggleNavbar } from "../../store/internal/navbar/actions";
 
 export const ApplicationsListPage = () => {
   const dispatch = useAppDispatch();

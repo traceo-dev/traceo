@@ -6,42 +6,38 @@ import { Incident } from "../../db/entities/incident.entity";
 import { EntityManager } from "typeorm";
 import { UserQueryService } from "../user/user-query/user-query.service";
 
-
 @Injectable()
 export class IncidentsService {
   private logger: Logger;
-  constructor(
-    private entityManger: EntityManager,
-    private userQueryService: UserQueryService
-  ) {
+  constructor(private entityManger: EntityManager, private userQueryService: UserQueryService) {
     this.logger = new Logger(IncidentsService.name);
   }
 
   async updateIncident(
     incidentId: string,
-    update: IncidentUpdateDto,
+    update: IncidentUpdateDto
   ): Promise<ApiResponse<unknown>> {
     if (!update) {
       return;
     }
 
-    return await this.entityManger.transaction(async (manager) => {
-      if (update.assignedId) {
-        const user = await this.userQueryService.getDto(update.assignedId);
-        await manager
-          .getRepository(Incident)
-          .update({ id: incidentId }, { assigned: user });
+    return await this.entityManger
+      .transaction(async (manager) => {
+        if (update.assignedId) {
+          const user = await this.userQueryService.getDto(update.assignedId);
+          await manager.getRepository(Incident).update({ id: incidentId }, { assigned: user });
 
-        return new ApiResponse("success", "Incident assigned");
-      }
+          return new ApiResponse("success", "Incident assigned");
+        }
 
-      await manager.getRepository(Incident).update({ id: incidentId }, update);
+        await manager.getRepository(Incident).update({ id: incidentId }, update);
 
-      return new ApiResponse("success", "Incident updated");
-    }).catch((err: Error) => {
-      this.logger.error(`[${this.updateIncident.name}] Caused by: ${err}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
-    });
+        return new ApiResponse("success", "Incident updated");
+      })
+      .catch((err: Error) => {
+        this.logger.error(`[${this.updateIncident.name}] Caused by: ${err}`);
+        return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+      });
   }
 
   async updateBatchIncidents(update: IncidentBatchUpdateDto): Promise<ApiResponse<unknown>> {

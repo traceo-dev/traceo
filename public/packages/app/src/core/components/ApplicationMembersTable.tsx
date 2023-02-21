@@ -1,24 +1,20 @@
+import { useApplication } from "../hooks/useApplication";
 import { useUser } from "../hooks/useUser";
 import { membersAction } from "../lib/api/members";
-import { Avatar, Button, Select, Table, TableColumn, Tooltip } from "@traceo/ui";
 import { ADMIN_EMAIL } from "../utils/constants";
+import { Confirm } from "./Confirm";
+import { CheckCircleFilled } from "@ant-design/icons";
+import { MemberRole, ApplicationMember } from "@traceo/types";
+import { Avatar, Button, Select, Table, TableColumn, Tooltip } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { MemberRole, ApplicationMember } from "@traceo/types";
-import { Confirm } from "./Confirm";
-import { useApplication } from "../hooks/useApplication";
-import { CheckCircleFilled } from "@ant-design/icons";
 
 interface Props {
   collection: ApplicationMember[];
   postExecute: () => void;
   className?: string;
 }
-export const ApplicationMembersTable: FC<Props> = ({
-  collection,
-  postExecute,
-  className
-}) => {
+export const ApplicationMembersTable: FC<Props> = ({ collection, postExecute, className }) => {
   const user = useUser();
   const { permission } = useApplication();
 

@@ -1,10 +1,10 @@
-import { FC, lazy, useEffect } from "react";
-import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
+import { TotalOverviewType } from "../../../../features/app/overview/components/OverviewSection";
 import { useRequest } from "../../../hooks/useRequest";
-import { EChartsOption } from "echarts";
 import dateUtils from "../../../utils/date";
 import { statisticUtils } from "../../../utils/statistics";
-import { TotalOverviewType } from "../../../../features/app/overview/components/OverviewSection";
+import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
+import { EChartsOption } from "echarts";
+import { FC, lazy, useEffect } from "react";
 
 interface Props {
   id: string;
