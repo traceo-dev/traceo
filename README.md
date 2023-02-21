@@ -73,11 +73,11 @@ Metrics are a set of data taken from a given source, correlated with the time of
 
 <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-metrics.PNG">
 
-Remember also to configure options in your `TraceoClient` configuration in your app. More information about it is [here](https://github.com/traceo-io/traceo-node).
+Remeber also to configure options in your `TraceoClient` configuration in your app. More informations about it is [here](https://github.com/traceo-io/traceo-node).
 
 # Support
 
-Feel free to create Issues, Pull Requests, or Discussions.
+Feel free to create Issues, Pull Request or Discussions.
 
 # License
 
