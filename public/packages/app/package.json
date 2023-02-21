@@ -4,10 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "react-scripts build",
-    "build:dev": "webpack --progress --color --config scripts/webpack/webpack.dev.js",
-    "build:prod": "webpack --progress --color --config scripts/webpack/webpack.prod.js",
-    "test": "react-scripts test",
+    "build": "vite build",
     "lint": "eslint . --ext .js,.ts,.tsx",
     "lint:fix": "eslint . --ext .js,.tsx,.ts --cache --fix"
   },
