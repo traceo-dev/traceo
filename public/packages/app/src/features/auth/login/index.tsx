@@ -38,7 +38,7 @@ const Login = () => {
   };
 
   return (
-    <AuthLayout title="Welcome to Traceo">
+    <AuthLayout title="Welcome back 👋">
       <LoginForm invalid={invalid} loading={loading} onFinish={onFinish} />
     </AuthLayout>
   );
