@@ -53,7 +53,7 @@ export function configureApi() {
         error.response?.data?.data ||
         error.response?.statusText;
 
-      if (process.env.NODE_ENV !== "production" && errorMsg) {
+      if (!import.meta.env.PROD && errorMsg) {
         notify.error("Internal server error", errorMsg);
       }
       return error.response?.data;
@@ -62,7 +62,7 @@ export function configureApi() {
 
   Axios.interceptors.request.use((config) => {
     return {
-      baseURL: process.env.REACT_APP_API_URL,
+      baseURL: import.meta.env.VITE_API_URL,
       withCredentials: true,
       maxRedirects: 0,
       ...config,

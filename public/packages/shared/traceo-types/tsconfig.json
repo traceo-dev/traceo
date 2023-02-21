@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "esnext",
     "declaration": true,
-    "target": "es2017",
+    "target": "esnext",
     "outDir": "./dist",
     "baseUrl": ".",
     "incremental": true,
+    "moduleResolution": "Node",
     "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "isolatedModules": true,
     "allowSyntheticDefaultImports": true
   }
 }

@@ -27,7 +27,7 @@ const persistedReducer = persistReducer(persistConfig, appReducers);
 
 export const store = reduxConfigureStore({
     reducer: persistedReducer,
-    devTools: process.env.NODE_ENV !== "production",
+    devTools: !import.meta.env.PROD,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             thunk: true,

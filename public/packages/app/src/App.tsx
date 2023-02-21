@@ -38,7 +38,7 @@ export const App = () => {
   };
 
   const renderRoutes = () => {
-    if (process.env.REACT_APP_MAINTENANCE === "true") {
+    if (import.meta.env.VITE_MAINTENANCE === "true") {
       return (
         <PageCenter>
           <Maintenance />

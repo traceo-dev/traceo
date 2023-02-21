@@ -18,10 +18,12 @@
     "isolatedModules": true,
     "incremental": true,
     "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": true,
     "rootDirs": ["./src", "../../../shared"],
     "paths": {
       "@store/*": ["./src/store/*"]
-    }
+    },
+    "types": ["vite/client"]
   },
   "exclude": ["node_modules", "dist"]
 }
