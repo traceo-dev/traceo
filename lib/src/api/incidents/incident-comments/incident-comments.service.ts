@@ -1,26 +1,21 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { INTERNAL_SERVER_ERROR, REMOVED_MESSAGE_TEXT } from '../../../common/helpers/constants';
-import dateUtils from '../../../common/helpers/dateUtils';
-import { PatchCommentDto } from '../../../common/types/dto/comment.dto';
-import { ApiResponse } from '../../../common/types/dto/response.dto';
-import { CommentsGateway } from '../../../common/websockets/comments.gateway';
-import { EntityManager } from 'typeorm';
+import { Injectable, Logger } from "@nestjs/common";
+import { INTERNAL_SERVER_ERROR, REMOVED_MESSAGE_TEXT } from "../../../common/helpers/constants";
+import dateUtils from "../../../common/helpers/dateUtils";
+import { PatchCommentDto } from "../../../common/types/dto/comment.dto";
+import { ApiResponse } from "../../../common/types/dto/response.dto";
+import { CommentsGateway } from "../../../common/websockets/comments.gateway";
+import { EntityManager } from "typeorm";
 import { Comment } from "../../../db/entities/comment.entity";
-import { RequestContext } from '../../../common/middlewares/request-context/request-context.model';
+import { RequestContext } from "../../../common/middlewares/request-context/request-context.model";
 
 @Injectable()
 export class IncidentCommentsService {
   private logger: Logger;
-  constructor(
-    private commentsGateway: CommentsGateway,
-    private entityManager: EntityManager,
-  ) {
+  constructor(private commentsGateway: CommentsGateway, private entityManager: EntityManager) {
     this.logger = new Logger(IncidentCommentsService.name);
   }
 
-  public async saveComment(
-    comment: PatchCommentDto,
-  ): Promise<ApiResponse<unknown>> {
+  public async saveComment(comment: PatchCommentDto): Promise<ApiResponse<unknown>> {
     const { message, incidentId } = comment;
     const { id } = RequestContext.user;
 
@@ -48,7 +43,7 @@ export class IncidentCommentsService {
 
   public async updateComment(
     id: string,
-    comment: PatchCommentDto,
+    comment: PatchCommentDto
   ): Promise<ApiResponse<unknown>> {
     const { incidentId, message } = comment;
 
@@ -58,7 +53,7 @@ export class IncidentCommentsService {
         {
           message,
           lastUpdateAt: dateUtils.toUnix()
-        },
+        }
       );
 
       this.commentsGateway.onUpdateComment(incidentId);
@@ -78,12 +73,12 @@ export class IncidentCommentsService {
           message: REMOVED_MESSAGE_TEXT,
           removed: true,
           lastUpdateAt: dateUtils.toUnix()
-        },
+        }
       );
 
       this.commentsGateway.onUpdateComment(incidentId);
 
-      return new ApiResponse("success", "Comment removed")
+      return new ApiResponse("success", "Comment removed");
     } catch (err) {
       this.logger.error(`[${this.removeComment.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);

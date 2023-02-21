@@ -1,12 +1,11 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { BaseDtoQuery } from '../../../common/base/query/base-query.model';
-import { INTERNAL_SERVER_ERROR } from '../../../common/helpers/constants';
-import { ApplicationDtoQuery } from '../../../common/types/dto/application.dto';
-import { ApiResponse } from '../../../common/types/dto/response.dto';
-import { Member } from '../../../db/entities/member.entity';
-import { EntityManager } from 'typeorm';
-import { RequestContext } from '../../../common/middlewares/request-context/request-context.model';
-
+import { Injectable, Logger } from "@nestjs/common";
+import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
+import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
+import { ApplicationDtoQuery } from "../../../common/types/dto/application.dto";
+import { ApiResponse } from "../../../common/types/dto/response.dto";
+import { Member } from "../../../db/entities/member.entity";
+import { EntityManager } from "typeorm";
+import { RequestContext } from "../../../common/middlewares/request-context/request-context.model";
 
 @Injectable()
 export class MemberQueryService {
@@ -24,16 +23,16 @@ export class MemberQueryService {
    */
   public async getMembers(
     appId: string,
-    pageOptionsDto: BaseDtoQuery,
+    pageOptionsDto: BaseDtoQuery
   ): Promise<ApiResponse<Member[]>> {
     const { order, take, search, page } = pageOptionsDto;
 
     try {
       const queryBuilder = this.entityManager
         .getRepository(Member)
-        .createQueryBuilder('member')
-        .innerJoin('member.application', 'app', 'app.id = :appId', { appId })
-        .leftJoin('member.user', 'user');
+        .createQueryBuilder("member")
+        .innerJoin("member.application", "app", "app.id = :appId", { appId })
+        .leftJoin("member.user", "user");
 
       if (search) {
         queryBuilder.where("LOWER(user.name) LIKE LOWER(:name)", {
@@ -42,19 +41,19 @@ export class MemberQueryService {
       }
 
       queryBuilder
-        .addSelect([
-          "user.name",
-          "user.username",
-          "user.email",
-          "user.id",
-          "user.gravatar",
-        ])
+        .addSelect(["user.name", "user.username", "user.email", "user.id", "user.gravatar"])
         .orderBy("member.createdAt", order, "NULLS LAST")
         .skip((page - 1) * take)
         .take(take);
 
       const members = await queryBuilder.getMany();
-      const response = members.map(({ id, role, user, createdAt }) => ({ createdAt, ...user, id, userId: user.id, role, }));
+      const response = members.map(({ id, role, user, createdAt }) => ({
+        createdAt,
+        ...user,
+        id,
+        userId: user.id,
+        role
+      }));
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {
@@ -114,8 +113,8 @@ export class MemberQueryService {
         id: member.id,
         //Application id
         appId: member.application.id,
-        role: member.role,
-      }))
+        role: member.role
+      }));
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {
@@ -126,12 +125,15 @@ export class MemberQueryService {
 
   public async memberExists(
     { userId, applicationId }: { userId: string; applicationId: string },
-    manager: EntityManager = this.entityManager,
+    manager: EntityManager = this.entityManager
   ): Promise<boolean> {
     const count = await manager
       .getRepository(Member)
       .createQueryBuilder("member")
-      .where('member.user = :userId AND member.application = :applicationId', { userId, applicationId })
+      .where("member.user = :userId AND member.application = :applicationId", {
+        userId,
+        applicationId
+      })
       .getCount();
     return count > 0;
   }
@@ -142,7 +144,7 @@ export class MemberQueryService {
       const applicationQuery = await this.entityManager
         .getRepository(Member)
         .createQueryBuilder("member")
-        .where('member.application = :appId', { appId })
+        .where("member.application = :appId", { appId })
         .innerJoin("member.user", "user", "user.id = :id", { id })
         .getOne();
 

@@ -8,14 +8,10 @@ import { Request } from "express";
 @Controller("view")
 @ApiTags("view")
 export class ViewController {
-    constructor(
-        private readonly viewService: ViewService
-    ) { }
+  constructor(private readonly viewService: ViewService) {}
 
-    @Get("/config")
-    public async getViewConfigData(
-        @Req() req: Request
-    ): Promise<ApiResponse<ViewConfigData>> {
-        return this.viewService.getViewConfigData(req);
-    }
+  @Get("/config")
+  public async getViewConfigData(@Req() req: Request): Promise<ApiResponse<ViewConfigData>> {
+    return this.viewService.getViewConfigData(req);
+  }
 }

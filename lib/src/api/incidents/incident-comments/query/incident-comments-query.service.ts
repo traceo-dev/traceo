@@ -6,17 +6,14 @@ import { EntityManager, SelectQueryBuilder } from "typeorm";
 import { GetCommentsDto } from "../../../../common/types/dto/comment.dto";
 
 @Injectable()
-export class IncidentCommentsQueryService extends BaseQueryService<
-  Comment,
-  BaseDtoQuery
-> {
+export class IncidentCommentsQueryService extends BaseQueryService<Comment, BaseDtoQuery> {
   constructor(readonly entityManager: EntityManager) {
     super(entityManager, Comment);
   }
 
   public extendQueryBuilder(
     builder: SelectQueryBuilder<Comment>,
-    query: GetCommentsDto,
+    query: GetCommentsDto
   ): SelectQueryBuilder<Comment> {
     const { incidentId } = query;
 

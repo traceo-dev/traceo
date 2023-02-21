@@ -1,16 +1,17 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  PrimaryColumn,
-} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Member } from "./member.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IApplication, ISecurity, IRuntime, IUser, IMember, IIncident, ApplicationTechnology } from "@traceo/types";
+import {
+  IApplication,
+  ISecurity,
+  IRuntime,
+  IUser,
+  IMember,
+  IIncident,
+  ApplicationTechnology
+} from "@traceo/types";
 import { Metric } from "./metric.entity";
 import { Datasource } from "./datasource.entity";
 
@@ -22,10 +23,10 @@ export class Application extends BaseEntity implements IApplication {
   })
   id?: string;
 
-  @Column({ type: 'varchar', unique: true })
+  @Column({ type: "varchar", unique: true })
   name: string;
 
-  @Column({ type: 'varchar', nullable: true })
+  @Column({ type: "varchar", nullable: true })
   technology: ApplicationTechnology;
 
   @Column({
@@ -36,7 +37,7 @@ export class Application extends BaseEntity implements IApplication {
 
   @ManyToOne(() => User)
   @JoinColumn({
-    name: 'owner_id',
+    name: "owner_id"
   })
   owner: IUser;
 
@@ -56,20 +57,16 @@ export class Application extends BaseEntity implements IApplication {
   })
   isIntegrated: boolean;
 
-  @OneToMany(
-    () => Member,
-    (member) => member.application,
-    {
-      onUpdate: "CASCADE",
-      onDelete: "CASCADE",
-    },
-  )
+  @OneToMany(() => Member, (member) => member.application, {
+    onUpdate: "CASCADE",
+    onDelete: "CASCADE"
+  })
   members?: IMember[];
   membersCount: number;
 
   @OneToMany(() => Incident, (incident) => incident.application, {
     onUpdate: "CASCADE",
-    onDelete: "CASCADE",
+    onDelete: "CASCADE"
   })
   incidents?: IIncident[];
 
@@ -105,7 +102,7 @@ export class Application extends BaseEntity implements IApplication {
 
   @OneToMany(() => Metric, (metric) => metric.application, {
     onUpdate: "CASCADE",
-    onDelete: "CASCADE",
+    onDelete: "CASCADE"
   })
   metrics?: Metric[];
 }

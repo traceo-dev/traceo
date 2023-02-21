@@ -1,24 +1,23 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { MemberService } from '../member/member.service';
-import { EntityManager } from 'typeorm';
+import { Injectable, Logger } from "@nestjs/common";
+import { MemberService } from "../member/member.service";
+import { EntityManager } from "typeorm";
 import * as crypto from "crypto";
-import { ApplicationQueryService } from './application-query/application-query.service';
-import { UserQueryService } from '../user/user-query/user-query.service';
-import { Cron, CronExpression } from '@nestjs/schedule';
-import dayjs from 'dayjs';
-import { ADMIN_NAME, ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from '../../common/helpers/constants';
-import dateUtils from '../../common/helpers/dateUtils';
-import { gravatar } from '../../common/helpers/gravatar';
-import { uuidService } from '../../common/helpers/uuid';
-import { CreateApplicationDto, ApplicationDto } from '../../common/types/dto/application.dto';
-import { Application } from '../../db/entities/application.entity';
-import { ApiResponse } from '../../common/types/dto/response.dto';
-import { Log } from '../../db/entities/log.entity';
-import { MemberRole } from '@traceo/types';
-import { MetricsService } from '../metrics/metrics.service';
-import { RequestContext } from '../../common/middlewares/request-context/request-context.model';
-import { DataSourceService } from '../datasource/dataSource.service';
-
+import { ApplicationQueryService } from "./application-query/application-query.service";
+import { UserQueryService } from "../user/user-query/user-query.service";
+import { Cron, CronExpression } from "@nestjs/schedule";
+import dayjs from "dayjs";
+import { ADMIN_NAME, ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from "../../common/helpers/constants";
+import dateUtils from "../../common/helpers/dateUtils";
+import { gravatar } from "../../common/helpers/gravatar";
+import { uuidService } from "../../common/helpers/uuid";
+import { CreateApplicationDto, ApplicationDto } from "../../common/types/dto/application.dto";
+import { Application } from "../../db/entities/application.entity";
+import { ApiResponse } from "../../common/types/dto/response.dto";
+import { Log } from "../../db/entities/log.entity";
+import { MemberRole } from "@traceo/types";
+import { MetricsService } from "../metrics/metrics.service";
+import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
+import { DataSourceService } from "../datasource/dataSource.service";
 
 const MAX_RETENTION_LOGS = 3;
 
@@ -34,79 +33,75 @@ export class ApplicationService {
     private readonly metricsService: MetricsService,
     private readonly datasourceService: DataSourceService
   ) {
-    this.logger = new Logger(ApplicationService.name)
+    this.logger = new Logger(ApplicationService.name);
   }
 
-  public async create(
-    data: CreateApplicationDto
-  ): Promise<ApiResponse<Application>> {
+  public async create(data: CreateApplicationDto): Promise<ApiResponse<Application>> {
     const { id, username } = RequestContext.user;
 
-    return this.entityManager.transaction(async (manager) => {
-      const app = await this.applicationQueryService.getDtoBy({ name: data.name });
-      if (app) {
-        return new ApiResponse("error", undefined, {
-          error: "Application with this name already exists"
+    return this.entityManager
+      .transaction(async (manager) => {
+        const app = await this.applicationQueryService.getDtoBy({ name: data.name });
+        if (app) {
+          return new ApiResponse("error", undefined, {
+            error: "Application with this name already exists"
+          });
+        }
+
+        const user = await this.userQueryService.getDtoBy({ id });
+        if (!user) {
+          throw new Error(INTERNAL_SERVER_ERROR);
+        }
+
+        const url = gravatar.url(data.name, "identicon");
+        const payload: Partial<Application> = {
+          ...data,
+          id: uuidService.generate(),
+          owner: user,
+          gravatar: url,
+          createdAt: dateUtils.toUnix(),
+          updatedAt: dateUtils.toUnix(),
+          incidentsCount: 0,
+          errorsCount: 0,
+          isIntegrated: false
+        };
+
+        const application = await manager.getRepository(Application).save(payload);
+
+        if (data?.tsdbConfiguration?.provider) {
+          await this.datasourceService.saveDatasource(
+            {
+              ...data.tsdbConfiguration,
+              appId: application.id,
+              provider: data.tsdbConfiguration?.provider
+            },
+            manager
+          );
+        }
+
+        if (username !== ADMIN_NAME) {
+          const admin = await this.userQueryService.getDtoBy({ email: ADMIN_EMAIL });
+          await this.awrService.createMember(
+            admin,
+            application,
+            MemberRole.ADMINISTRATOR,
+            manager
+          );
+        }
+
+        await this.awrService.createMember(user, application, MemberRole.ADMINISTRATOR, manager);
+
+        await this.metricsService.addDefaultMetrics(application, manager);
+
+        return new ApiResponse("success", "Application successfully created", {
+          redirectUrl: `/app/${application.id}/overview`,
+          id: application.id
         });
-      }
-
-      const user = await this.userQueryService.getDtoBy({ id });
-      if (!user) {
-        throw new Error(INTERNAL_SERVER_ERROR);
-      }
-
-      const url = gravatar.url(data.name, "identicon");
-      const payload: Partial<Application> = {
-        ...data,
-        id: uuidService.generate(),
-        owner: user,
-        gravatar: url,
-        createdAt: dateUtils.toUnix(),
-        updatedAt: dateUtils.toUnix(),
-        incidentsCount: 0,
-        errorsCount: 0,
-        isIntegrated: false
-      };
-
-      const application = await manager
-        .getRepository(Application)
-        .save(payload);
-
-      if (data?.tsdbConfiguration?.provider) {
-        await this.datasourceService.saveDatasource({
-          ...data.tsdbConfiguration,
-          appId: application.id,
-          provider: data.tsdbConfiguration?.provider,
-        }, manager);
-      }
-
-      if (username !== ADMIN_NAME) {
-        const admin = await this.userQueryService.getDtoBy({ email: ADMIN_EMAIL });
-        await this.awrService.createMember(
-          admin,
-          application,
-          MemberRole.ADMINISTRATOR,
-          manager,
-        );
-      }
-
-      await this.awrService.createMember(
-        user,
-        application,
-        MemberRole.ADMINISTRATOR,
-        manager,
-      );
-
-      await this.metricsService.addDefaultMetrics(application, manager);
-
-      return new ApiResponse("success", "Application successfully created", {
-        redirectUrl: `/app/${application.id}/overview`,
-        id: application.id
+      })
+      .catch((err: Error) => {
+        this.logger.error(`[${this.create.name}] Caused by: ${err}`);
+        return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
       });
-    }).catch((err: Error) => {
-      this.logger.error(`[${this.create.name}] Caused by: ${err}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
-    });
   }
 
   public async generateApiKey(id: string): Promise<ApiResponse<string>> {
@@ -147,7 +142,7 @@ export class ApplicationService {
       {
         updatedAt: dateUtils.toUnix(),
         ...update
-      },
+      }
     );
   }
 
@@ -156,21 +151,19 @@ export class ApplicationService {
 
     try {
       await this.update(id, rest);
-      return new ApiResponse("success", "Application updated")
+      return new ApiResponse("success", "Application updated");
     } catch (err) {
       this.logger.error(`[${this.update.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     }
   }
 
-  public async delete(
-    appId: string
-  ): Promise<ApiResponse<unknown>> {
+  public async delete(appId: string): Promise<ApiResponse<unknown>> {
     try {
       await this.entityManager
         .getRepository(Application)
-        .createQueryBuilder('application')
-        .where('application.id = :appId', { appId })
+        .createQueryBuilder("application")
+        .where("application.id = :appId", { appId })
         .delete()
         .execute();
 
@@ -184,10 +177,11 @@ export class ApplicationService {
   @Cron(CronExpression.EVERY_6_HOURS)
   private async handleLogDelete() {
     try {
-      const maxRetentionDate = dayjs().subtract(MAX_RETENTION_LOGS, 'd').unix();
-      const logs = await this.entityManager.getRepository(Log)
-        .createQueryBuilder('log')
-        .where('log.receiveTimestamp < :maxRetentionDate', { maxRetentionDate })
+      const maxRetentionDate = dayjs().subtract(MAX_RETENTION_LOGS, "d").unix();
+      const logs = await this.entityManager
+        .getRepository(Log)
+        .createQueryBuilder("log")
+        .where("log.receiveTimestamp < :maxRetentionDate", { maxRetentionDate })
         .getMany();
 
       await this.entityManager.getRepository(Log).remove(logs);

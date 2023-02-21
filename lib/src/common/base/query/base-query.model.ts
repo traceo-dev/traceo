@@ -4,7 +4,7 @@ import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from "class-validator";
 
 enum Order {
   ASC = "ASC",
-  DESC = "DESC",
+  DESC = "DESC"
 }
 
 export class BaseDtoQuery {

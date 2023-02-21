@@ -1,11 +1,9 @@
-import { Module } from '@nestjs/common';
-import { PassportModule } from '@nestjs/passport';
-import { InfluxService } from './influx.service';
+import { Module } from "@nestjs/common";
+import { PassportModule } from "@nestjs/passport";
+import { InfluxService } from "./influx.service";
 
 @Module({
-    imports: [
-        PassportModule.register({ defaultStrategy: 'jwt' })
-    ],
-    providers: [InfluxService]
+  imports: [PassportModule.register({ defaultStrategy: "jwt" })],
+  providers: [InfluxService]
 })
-export class InfluxModule { }
+export class InfluxModule {}

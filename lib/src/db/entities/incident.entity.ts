@@ -36,12 +36,12 @@ export class Incident extends BaseEntity implements IIncident {
   stack: string;
 
   @Column({
-    type: "varchar",
+    type: "varchar"
   })
   type: string;
 
   @Column({
-    type: "varchar",
+    type: "varchar"
   })
   message: string;
 
@@ -61,10 +61,10 @@ export class Incident extends BaseEntity implements IIncident {
 
   @ManyToOne(() => Application, {
     onUpdate: "CASCADE",
-    onDelete: "CASCADE",
+    onDelete: "CASCADE"
   })
   @JoinColumn({
-    name: "application_id",
+    name: "application_id"
   })
   application: Application;
 
@@ -72,7 +72,7 @@ export class Incident extends BaseEntity implements IIncident {
     onDelete: "SET NULL"
   })
   @JoinColumn({
-    name: "assigned_id",
+    name: "assigned_id"
   })
   assigned: User;
 
