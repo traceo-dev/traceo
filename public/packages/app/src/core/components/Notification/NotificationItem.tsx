@@ -1,14 +1,14 @@
-import { FC, useEffect } from "react";
-import { joinClasses } from "../../utils/classes";
-import { hideNotify } from "../../../store/internal/notify/notifyReducer";
 import { useAppDispatch } from "../../../store";
-import { NotifyItem, NotifyType } from "@traceo/types";
+import { hideNotify } from "../../../store/internal/notify/notifyReducer";
+import { joinClasses } from "../../utils/classes";
 import {
   CheckCircleFilled,
   CloseCircleFilled,
   ExclamationCircleFilled,
   InfoCircleFilled
 } from "@ant-design/icons";
+import { NotifyItem, NotifyType } from "@traceo/types";
+import { FC, useEffect } from "react";
 
 interface NotificationItemProps {
   notification: NotifyItem;

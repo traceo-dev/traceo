@@ -1,9 +1,8 @@
+import { Input } from "./Input";
 import { EyeInvisibleOutlined, EyeOutlined } from "@ant-design/icons";
 import { forwardRef, HTMLProps, useState } from "react";
-import { Input } from "./Input";
 
-export interface Props
-  extends Omit<HTMLProps<HTMLInputElement>, "prefix" | "size" | "ref"> {
+export interface Props extends Omit<HTMLProps<HTMLInputElement>, "prefix" | "size" | "ref"> {
   label?: string;
 }
 

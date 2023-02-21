@@ -1,12 +1,12 @@
-import { SettingOutlined } from "@ant-design/icons";
-import { MenuRoute } from "../../../core/types/navigation";
-import { Avatar } from "@traceo/ui";
-import { useUser } from "../../../core/hooks/useUser";
-import { Page } from "../../../core/components/Page";
-import { useEffect } from "react";
-import { useAppDispatch } from "../../../store/index";
-import { loadSignedInUser } from "../../../features/auth/state/actions";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
+import { Page } from "../../../core/components/Page";
+import { useUser } from "../../../core/hooks/useUser";
+import { MenuRoute } from "../../../core/types/navigation";
+import { loadSignedInUser } from "../../../features/auth/state/actions";
+import { useAppDispatch } from "../../../store/index";
+import { SettingOutlined } from "@ant-design/icons";
+import { Avatar } from "@traceo/ui";
+import { useEffect } from "react";
 
 export const UserSettingsPageWrapper = ({ children }) => {
   const user = useUser();

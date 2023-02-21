@@ -1,8 +1,8 @@
 import api from "../../../core/lib/api";
 import { logout } from "../../../core/utils/logout";
 import { loadSignedInUser } from "../../auth/state/actions";
-import { IUser, ApiResponse } from "@traceo/types";
 import { ThunkResult } from "@store/types";
+import { IUser, ApiResponse } from "@traceo/types";
 
 export const updateUser = (update: Partial<IUser>): ThunkResult<void> => {
   return async (dispatch) => {
@@ -24,11 +24,10 @@ export const updateUserPassword = (cred: {
       return;
     }
 
-    await api.post<ApiResponse<string>>("/api/auth/update-password", cred)
-      .then((response) => {
-        if (response.status === "success") {
-          logout();
-        }
-      });
+    await api.post<ApiResponse<string>>("/api/auth/update-password", cred).then((response) => {
+      if (response.status === "success") {
+        logout();
+      }
+    });
   };
 };

@@ -1,19 +1,19 @@
-import { LeftOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
-import dayjs from "dayjs";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
+import { LogsPlot } from "../../../../core/components/Plots";
+import { useLogLevels } from "../../../../core/hooks/useLogLevels";
+import { localStorageService } from "../../../../core/lib/localStorage";
+import { LocalStorage } from "../../../../core/lib/localStorage/types";
+import { statisticUtils } from "../../../../core/utils/statistics";
+import { useAppDispatch } from "../../../../store";
 import { loadApplicationLogs } from "../state/actions";
+import { LogsFilterPanel } from "./LogsFilterPanel";
+import { LeftOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
+import { StoreState } from "@store/types";
+import { Button, Card, Space, Tooltip } from "@traceo/ui";
+import dayjs from "dayjs";
 import { useState, useEffect, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../../store";
-import { StoreState } from "@store/types";
-import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { LogsFilterPanel } from "./LogsFilterPanel";
-import { Button, Card, Space, Tooltip } from "@traceo/ui";
-import { statisticUtils } from "../../../../core/utils/statistics";
-import { LogsPlot } from "../../../../core/components/Plots";
-import { localStorageService } from "../../../../core/lib/localStorage";
-import { LocalStorage } from "../../../../core/lib/localStorage/types";
-import { useLogLevels } from "../../../../core/hooks/useLogLevels";
 
 export const LogsHistogram = () => {
   const dispatch = useAppDispatch();
@@ -78,11 +78,7 @@ export const LogsHistogram = () => {
             </Tooltip>
 
             <Tooltip title="+ 0.5h">
-              <Button
-                variant="ghost"
-                onClick={onClickRight}
-                disabled={isActiveRightButton}
-              >
+              <Button variant="ghost" onClick={onClickRight} disabled={isActiveRightButton}>
                 <RightOutlined className="text-sm" />
               </Button>
             </Tooltip>

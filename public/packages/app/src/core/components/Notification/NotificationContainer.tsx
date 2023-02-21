@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
 import { NotificationItem } from "./NotificationItem";
+import { StoreState } from "@store/types";
+import { useSelector } from "react-redux";
 
 export const NotificationContainer = () => {
   const { notifications } = useSelector((state: StoreState) => state.notify);

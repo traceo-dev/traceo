@@ -1,8 +1,8 @@
-import dayjs from "dayjs";
-import { FC, lazy } from "react";
-import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
-import { EChartsOption, graphic } from "echarts";
 import { PlotData } from "../../../utils/statistics";
+import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
+import dayjs from "dayjs";
+import { EChartsOption, graphic } from "echarts";
+import { FC, lazy } from "react";
 
 const ReactECharts = lazy(() => import("echarts-for-react"));
 

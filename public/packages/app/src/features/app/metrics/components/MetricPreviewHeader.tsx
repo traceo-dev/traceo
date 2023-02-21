@@ -1,18 +1,18 @@
-import { ArrowLeftOutlined } from "@ant-design/icons";
-import { PageHeader, Button, Typography, Space } from "@traceo/ui";
+import { useDemo } from "../../../..//core/hooks/useDemo";
+import { useMetricsRange } from "../../../../core/hooks/useMetricsRange";
 import api from "../../../../core/lib/api";
+import { useAppDispatch } from "../../../../store";
 import { toggleNavbar } from "../../../../store/internal/navbar/actions";
+import { loadMetric } from "../state/actions";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { StoreState } from "@store/types";
+import { ApiResponse, IMetric } from "@traceo/types";
+import { PageHeader, Button, Typography, Space } from "@traceo/ui";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { DeepPartial } from "redux";
-import { useAppDispatch } from "../../../../store";
-import { ApiResponse, IMetric } from "@traceo/types";
-import { StoreState } from "@store/types";
 import { DraftFunction } from "use-immer";
-import { loadMetric } from "../state/actions";
-import { useMetricsRange } from "../../../../core/hooks/useMetricsRange";
-import { useDemo } from "../../../..//core/hooks/useDemo";
 
 interface Props {
   currentOptions: DeepPartial<IMetric>;
@@ -37,10 +37,7 @@ export const MetricPreviewHeader: FC<Props> = ({
   const onSave = async () => {
     setSaveLoading(true);
     await api
-      .patch<ApiResponse<string>>(
-        `/api/metrics/${metric.options.id}/update`,
-        currentOptions
-      )
+      .patch<ApiResponse<string>>(`/api/metrics/${metric.options.id}/update`, currentOptions)
       .then(() => {
         const payload = {
           appId: id,
@@ -85,9 +82,7 @@ export const MetricPreviewHeader: FC<Props> = ({
               METRICS
             </Typography>
           </Space>
-          <span className="text-white text-3xl font-semibold">
-            {currentOptions?.name}
-          </span>
+          <span className="text-white text-3xl font-semibold">{currentOptions?.name}</span>
           <Typography className="pt-2">{currentOptions?.description}</Typography>
         </Space>
       }

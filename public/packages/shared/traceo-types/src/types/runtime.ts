@@ -1,3 +1,3 @@
 export interface IRuntime {
-    data: { [key: string]: any };
+  data: { [key: string]: any };
 }

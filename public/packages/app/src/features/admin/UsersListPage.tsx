@@ -1,13 +1,13 @@
-import { PlusOutlined } from "@ant-design/icons";
 import { SearchWrapper } from "../../core/components/SearchWrapper";
+import { useAppDispatch } from "../../store";
+import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
+import { UsersTable } from "./components/UserManagement/UsersTable";
+import { loadUsers } from "./state/users/actions";
+import { PlusOutlined } from "@ant-design/icons";
+import { StoreState } from "@store/types";
+import { InputSearch, Button, Card } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "../../store";
-import { StoreState } from "@store/types";
-import { UsersTable } from "./components/UserManagement/UsersTable";
-import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
-import { loadUsers } from "./state/users/actions";
-import { InputSearch, Button, Card } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
 
 const UsersListPage = () => {

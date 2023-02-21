@@ -1,10 +1,10 @@
-import { PageHeader, PageHeaderProps } from "@traceo/ui";
-import { FC } from "react";
 import { MenuRoute } from "../types/navigation";
 import { Menu } from "./Layout/Menu";
 import { PageCenter } from "./PageCenter";
 import { PageContent } from "./PageContent";
 import { TraceoLoading } from "./TraceoLoading";
+import { PageHeader, PageHeaderProps } from "@traceo/ui";
+import { FC } from "react";
 
 interface PageProps {
   menuRoutes?: MenuRoute[];

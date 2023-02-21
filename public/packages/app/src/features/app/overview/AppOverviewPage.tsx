@@ -1,8 +1,8 @@
-import { TodaySection } from "./components/TodaySection";
+import { Page } from "../../../core/components/Page";
+import { NotIntegratedSection } from "./components/NotIntegratedSection";
 import { OverviewSection } from "./components/OverviewSection";
 import { RecentIncidentsSection } from "./components/RecentIncidentsSection";
-import { NotIntegratedSection } from "./components/NotIntegratedSection";
-import { Page } from "../../../core/components/Page";
+import { TodaySection } from "./components/TodaySection";
 
 export const AppOverviewPage = () => {
   return (

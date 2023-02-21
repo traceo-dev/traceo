@@ -1,6 +1,6 @@
-import { forwardRef, useState } from "react";
 import { PopoverCore } from "../Popover/PopoverCore";
 import { BasePlacement } from "@popperjs/core";
+import { forwardRef, useState } from "react";
 
 export interface TooltipProps {
   placement?: BasePlacement;
@@ -21,14 +21,11 @@ export const Tooltip = forwardRef<any, TooltipProps>(
       );
 
     const overrideStyles = {
-      maxWidth: "250px",
+      maxWidth: "250px"
     };
 
     return (
-      <div
-        onMouseEnter={() => setVisible(true)}
-        onMouseLeave={() => setVisible(false)}
-      >
+      <div onMouseEnter={() => setVisible(true)} onMouseLeave={() => setVisible(false)}>
         <PopoverCore
           className="bg-canvas rounded px-5 py-1 z-50 shadow-2xl border border-solid border-secondary"
           ref={ref}

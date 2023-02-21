@@ -1,18 +1,10 @@
-import { FC, useState, FormEvent } from "react";
 import { useRequest } from "../../hooks/useRequest";
-import { IApplication, MemberRole } from "@traceo/types";
-import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
 import api from "../../lib/api";
-import {
-  Select,
-  FormItem,
-  ButtonContainer,
-  Button,
-  Space,
-  Avatar,
-  Modal
-} from "@traceo/ui";
+import { StoreState } from "@store/types";
+import { IApplication, MemberRole } from "@traceo/types";
+import { Select, FormItem, ButtonContainer, Button, Space, Avatar, Modal } from "@traceo/ui";
+import { FC, useState, FormEvent } from "react";
+import { useSelector } from "react-redux";
 
 const roleOptions = Object.values(MemberRole).map((role) => ({
   label: role,
@@ -64,10 +56,7 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
 
   return (
     <Modal title="Add to application" open={isOpen} onCancel={onCancel}>
-      <Space
-        direction="vertical"
-        className="pt-0 px-4 w-full h-full justify-between text-center"
-      >
+      <Space direction="vertical" className="pt-0 px-4 w-full h-full justify-between text-center">
         <form onSubmit={onFinish} id="add-to-application-form">
           <FormItem label="Application">
             <Select
@@ -82,11 +71,7 @@ export const AddToApplicationModal: FC<Props> = ({ isOpen, onCancel, postExecute
             />
           </FormItem>
           <FormItem label="Role">
-            <Select
-              value={role}
-              options={roleOptions}
-              onChange={(opt) => setRole(opt?.value)}
-            />
+            <Select value={role} options={roleOptions} onChange={(opt) => setRole(opt?.value)} />
           </FormItem>
         </form>
 

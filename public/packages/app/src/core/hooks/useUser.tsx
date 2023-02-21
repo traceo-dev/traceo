@@ -1,6 +1,6 @@
 import { cookie } from "../utils/cookie";
-import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
+import { useSelector } from "react-redux";
 
 export const useUser = () => {
   const { user, isFetched } = useSelector((state: StoreState) => state.user);

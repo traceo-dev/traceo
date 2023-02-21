@@ -1,3 +1,4 @@
+import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import {
   InfoCircleOutlined,
   BugOutlined,
@@ -6,10 +7,9 @@ import {
   DownOutlined,
   RightOutlined
 } from "@ant-design/icons";
-import { Space, Typography } from "@traceo/ui";
-import { joinClasses, conditionClass } from "../../../../core/utils/classes";
-import { FC, useState } from "react";
 import { LogLevel, TraceoLog } from "@traceo/types";
+import { Space, Typography } from "@traceo/ui";
+import { FC, useState } from "react";
 
 export const mapLogIcon: Record<LogLevel, JSX.Element> = {
   [LogLevel.Info]: <InfoCircleOutlined className="text-blue-500" />,

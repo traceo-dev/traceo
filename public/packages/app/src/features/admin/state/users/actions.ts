@@ -1,6 +1,6 @@
 import api, { ApiQueryParams } from "../../../../core/lib/api";
-import { ThunkResult } from "@store/types";
 import { userFetchedAction, userLoaded, usersLoaded } from "./reducers";
+import { ThunkResult } from "@store/types";
 import { IUser, ApiResponse } from "@traceo/types";
 
 export const loadUsers = (query?: ApiQueryParams): ThunkResult<void> => {
@@ -12,10 +12,10 @@ export const loadUsers = (query?: ApiQueryParams): ThunkResult<void> => {
 
 export const loadUser = (id: string): ThunkResult<void> => {
   return async (dispatch) => {
-    dispatch(userFetchedAction(false))
+    dispatch(userFetchedAction(false));
     const { data } = await api.get<ApiResponse<IUser>>("/api/users", { id });
     dispatch(userLoaded(data));
-    dispatch(userFetchedAction(true))
+    dispatch(userFetchedAction(true));
   };
 };
 

@@ -16,7 +16,7 @@ export const tooltipOptions: TooltipComponentOption = {
       width: 1
     }
   }
-}
+};
 
 export const toolboxOptions: ToolboxComponentOption = {
   bottom: 0,
@@ -32,7 +32,7 @@ export const toolboxOptions: ToolboxComponentOption = {
     }
   },
   z: -1
-}
+};
 
 export const splitLine = {
   show: true,

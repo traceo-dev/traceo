@@ -1,9 +1,10 @@
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { loadIncident } from "../state/actions";
-import { useSelector } from "react-redux";
+import { Page } from "../../../../core/components/Page";
+import { useApplication } from "../../../../core/hooks/useApplication";
+import { MenuRoute } from "../../../../core/types/navigation";
+import { joinClasses } from "../../../../core/utils/classes";
 import { useAppDispatch } from "../../../../store";
-import { StoreState } from "@store/types";
+import { loadIncident } from "../state/actions";
+import { mapIncidentStatusIcon, mapIncidentTwTextColor } from "./utils";
 import {
   ArrowLeftOutlined,
   CommentOutlined,
@@ -11,11 +12,10 @@ import {
   StockOutlined,
   SyncOutlined
 } from "@ant-design/icons";
-import { Page } from "../../../../core/components/Page";
-import { mapIncidentStatusIcon, mapIncidentTwTextColor } from "./utils";
-import { joinClasses } from "../../../../core/utils/classes";
-import { useApplication } from "../../../../core/hooks/useApplication";
-import { MenuRoute } from "../../../../core/types/navigation";
+import { StoreState } from "@store/types";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const IncidentPageWrapper = ({ children }) => {
   const { iid } = useParams();
@@ -68,10 +68,7 @@ export const IncidentPageWrapper = ({ children }) => {
             <div className="flex flex-row items-center">
               <span>{incident.type}</span>
               <div
-                className={joinClasses(
-                  mapIncidentTwTextColor[incident.status],
-                  "ml-2 text-md"
-                )}
+                className={joinClasses(mapIncidentTwTextColor[incident.status], "ml-2 text-md")}
               >
                 {mapIncidentStatusIcon[incident.status]}
               </div>

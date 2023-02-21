@@ -11,15 +11,8 @@ interface Props {
 
 const parseUnixToDate = (unix: number) => new Date(unix * 1e3);
 
-export const ReactCalendarBody: FC<Props> = ({
-  value,
-  onChange,
-  range = false,
-}) => {
-  const rangeValue = useMemo(
-    () => [parseUnixToDate(value[0]), parseUnixToDate(value[1])],
-    value
-  );
+export const ReactCalendarBody: FC<Props> = ({ value, onChange, range = false }) => {
+  const rangeValue = useMemo(() => [parseUnixToDate(value[0]), parseUnixToDate(value[1])], value);
 
   return (
     <CalendarWrapper>

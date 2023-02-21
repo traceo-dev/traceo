@@ -1,7 +1,7 @@
-import { LogLevel } from "@traceo/types";
-import { useState } from "react";
 import { localStorageService } from "../lib/localStorage";
 import { LocalStorage } from "../lib/localStorage/types";
+import { LogLevel } from "@traceo/types";
+import { useState } from "react";
 
 export const useLogLevels = () => {
   const lsLevels = localStorageService

@@ -1,12 +1,11 @@
-import { LoadingOutlined } from "@ant-design/icons";
-import { joinClasses } from "../utils/classes";
-import React, { FC, useEffect, useMemo, useState } from "react";
 import { Space } from "../Space";
 import { Typography } from "../Typography";
+import { joinClasses } from "../utils/classes";
 import { TablePagination } from "./TablePagination";
-import { TableColumn } from "./TableColumn";
 import { TableRow } from "./TableRow";
 import { PaginationPositionType, PageSizeType, TableRowSize } from "./types";
+import { LoadingOutlined } from "@ant-design/icons";
+import React, { FC, useEffect, useMemo, useState } from "react";
 
 interface TableProps {
   children: React.ReactNode;
@@ -33,7 +32,7 @@ export const Table: FC<TableProps> = (props: TableProps) => {
     onRowClick,
     pageSize = 15,
     showPagination = false,
-    paginationPosition = "right",
+    paginationPosition = "right"
   } = props;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,7 +47,7 @@ export const Table: FC<TableProps> = (props: TableProps) => {
 
     return {
       currentItems,
-      pagesCount,
+      pagesCount
     };
   }, [collection, pageSize, currentPage]);
 

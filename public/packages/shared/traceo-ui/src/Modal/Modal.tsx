@@ -1,6 +1,6 @@
-import { FC } from "react";
 import { ModalButtons, ModalButtonsProps } from "./ModalButtons";
 import Dialog from "rc-dialog";
+import { FC } from "react";
 import "rc-dialog/assets/index.css";
 
 type ModalSizeType = "md" | "lg" | "xl";
@@ -19,16 +19,7 @@ interface ModalProps extends Omit<ModalButtonsProps, "onCancel"> {
   children: JSX.Element;
 }
 export const Modal: FC<ModalProps> = (props: ModalProps) => {
-  const {
-    open,
-    title,
-    children,
-    size = "md",
-    formId,
-    loading = false,
-    onOk,
-    onCancel
-  } = props;
+  const { open, title, children, size = "md", formId, loading = false, onOk, onCancel } = props;
 
   const bodyStyle = {
     backgroundColor: "#181b1f",
@@ -62,12 +53,7 @@ export const Modal: FC<ModalProps> = (props: ModalProps) => {
       <div className="p-6 text-sm">
         {children}
         {(formId || onOk) && (
-          <ModalButtons
-            formId={formId}
-            onCancel={onCancel}
-            onOk={onOk}
-            loading={loading}
-          />
+          <ModalButtons formId={formId} onCancel={onCancel} onOk={onOk} loading={loading} />
         )}
       </div>
     </Dialog>

@@ -1,7 +1,7 @@
-import { Tag, TagColorType } from "@traceo/ui";
 import { joinClasses } from "../utils/classes";
-import { FC } from "react";
 import { UserStatus } from "@traceo/types";
+import { Tag, TagColorType } from "@traceo/ui";
+import { FC } from "react";
 
 interface Props {
   status: UserStatus;
@@ -20,10 +20,7 @@ export const UserStatusTag: FC<Props> = ({ status }) => {
   };
 
   return (
-    <Tag
-      color={tagColor[status]}
-      className={joinClasses("capitalize", userStatusColor[status])}
-    >
+    <Tag color={tagColor[status]} className={joinClasses("capitalize", userStatusColor[status])}>
       {status}
     </Tag>
   );

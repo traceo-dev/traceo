@@ -14,14 +14,11 @@ interface RadioButtonProps
 const mapRadioButtonSize: Record<RadioButtonSize, string> = {
   sm: "px-3",
   md: "py-1 px-4",
-  lg: "py-2 px-6",
+  lg: "py-2 px-6"
 };
 
 export const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
-  (
-    { id, onChange, isSelected, label, value, size = "md", ...restProps },
-    ref
-  ) => {
+  ({ id, onChange, isSelected, label, value, size = "md", ...restProps }, ref) => {
     return (
       <div onClick={onChange}>
         <input

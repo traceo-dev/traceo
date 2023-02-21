@@ -1,7 +1,7 @@
-import { ApiResponse, IComment, IIncident } from "@traceo/types";
 import api, { ApiQueryParams } from "../../../../core/lib/api";
-import { ThunkResult } from "@store/types";
 import { incidentCommentsLoaded, incidentLoaded, incidentsLoaded } from "./reducers";
+import { ThunkResult } from "@store/types";
+import { ApiResponse, IComment, IIncident } from "@traceo/types";
 
 export const loadIncidents = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch, getStore) => {

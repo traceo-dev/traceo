@@ -1,13 +1,13 @@
-import { UserOutlined } from "@ant-design/icons";
-import { FC } from "react";
-import { IIncident } from "@traceo/types";
-import { Link, useNavigate } from "react-router-dom";
-import { wrapIncidentMessage } from "../../../../core/utils/stringUtils";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
-import dateUtils from "../../../../core/utils/date";
-import { Typography, Space, Avatar, Table, TableColumn } from "@traceo/ui";
 import { AppIncidentsListPlot } from "../../../../core/components/Plots";
 import { useApplication } from "../../../../core/hooks/useApplication";
+import dateUtils from "../../../../core/utils/date";
+import { wrapIncidentMessage } from "../../../../core/utils/stringUtils";
+import { UserOutlined } from "@ant-design/icons";
+import { IIncident } from "@traceo/types";
+import { Typography, Space, Avatar, Table, TableColumn } from "@traceo/ui";
+import { FC } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
   incidents: IIncident[];
@@ -41,11 +41,7 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
         {({ item }) => (
           <Space className="w-full justify-center">
             {item?.assigned ? (
-              <Avatar
-                size="md"
-                src={item?.assigned?.gravatar}
-                alt={item?.assigned?.name}
-              />
+              <Avatar size="md" src={item?.assigned?.gravatar} alt={item?.assigned?.name} />
             ) : (
               <UserOutlined className="text-2xl" />
             )}

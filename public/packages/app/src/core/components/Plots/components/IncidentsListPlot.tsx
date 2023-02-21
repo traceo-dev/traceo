@@ -1,11 +1,11 @@
-import { FC, lazy, useMemo } from "react";
-import { statisticUtils } from "../../../utils/statistics";
-import { ErrorDetails } from "@traceo/types";
-import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
-import { EChartsOption } from "echarts";
-import dateUtils from "../../../utils/date";
 import { localStorageService } from "../../../../core/lib/localStorage";
 import { LocalStorage } from "../../../../core/lib/localStorage/types";
+import dateUtils from "../../../utils/date";
+import { statisticUtils } from "../../../utils/statistics";
+import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
+import { ErrorDetails } from "@traceo/types";
+import { EChartsOption } from "echarts";
+import { FC, lazy, useMemo } from "react";
 
 const ReactECharts = lazy(() => import("echarts-for-react"));
 interface Props {

@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
+import { useRequest } from "../../core/hooks/useRequest";
 import { ApplicationInformation } from "./components/ApplicationManagement/ApplicationInformation";
 import { ApplicationMembers } from "./components/ApplicationManagement/ApplicationMembers";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
-import { useRequest } from "../../core/hooks/useRequest";
 import { IApplication } from "@traceo/types";
+import { useParams } from "react-router-dom";
 
 export const ApplicationPage = () => {
   const { id } = useParams();

@@ -1,5 +1,9 @@
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import { Page } from "../../core/components/Page";
+import api from "../../core/lib/api";
+import { TRY_AGAIN_LATER_ERROR } from "../../core/utils/constants";
 import { useAppDispatch } from "../../store/index";
+import { toggleNavbar } from "../../store/internal/navbar/actions";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { AddUserProps, ApiResponse } from "@traceo/types";
 import {
   Alert,
@@ -13,11 +17,7 @@ import {
   Typography
 } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { Page } from "../../core/components/Page";
 import { useNavigate } from "react-router-dom";
-import api from "../../core/lib/api";
-import { TRY_AGAIN_LATER_ERROR } from "../../core/utils/constants";
-import { toggleNavbar } from "../../store/internal/navbar/actions";
 
 type CreateUserPayload = {
   id: string;
@@ -77,8 +77,8 @@ const CreateUserPage = () => {
               </div>
               <span className="font-semibold text-lg">New user</span>
               <span className="text-xs pt-1">
-                Create new user in this Traceo instance. After this you&apos;ll be able to
-                attach him to any apps.
+                Create new user in this Traceo instance. After this you&apos;ll be able to attach
+                him to any apps.
               </span>
               <Alert
                 type="success"
@@ -125,17 +125,12 @@ const CreateUserPage = () => {
                         })}
                       />
                     </FormItem>
-                    <FormItem
-                      showRequiredMark={true}
-                      label="Password"
-                      error={errors.password}
-                    >
+                    <FormItem showRequiredMark={true} label="Password" error={errors.password}>
                       <InputSecret
                         {...register("password", {
                           required: true,
                           pattern: {
-                            value:
-                              /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+                            value: /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
                             message: "This password is too weak"
                           }
                         })}

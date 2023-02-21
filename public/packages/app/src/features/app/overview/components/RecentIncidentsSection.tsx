@@ -1,13 +1,13 @@
-import { RightOutlined } from "@ant-design/icons";
-import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
-import { useRequest } from "../../../../core/hooks/useRequest";
-import { IIncident, IncidentSortBy, IncidentStatusSearch } from "@traceo/types";
-import dateUtils from "../../../../core/utils/date";
-import { useNavigate } from "react-router-dom";
-import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { Link, Typography, Card, ListCard, Space, List } from "@traceo/ui";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import { useApplication } from "../../../../core/hooks/useApplication";
+import { useRequest } from "../../../../core/hooks/useRequest";
+import dateUtils from "../../../../core/utils/date";
+import { RightOutlined } from "@ant-design/icons";
+import { IIncident, IncidentSortBy, IncidentStatusSearch } from "@traceo/types";
+import { Link, Typography, Card, ListCard, Space, List } from "@traceo/ui";
+import { useNavigate } from "react-router-dom";
 
 export const RecentIncidentsSection = () => {
   const { application } = useApplication();
@@ -49,9 +49,7 @@ export const RecentIncidentsSection = () => {
           dataSource={incidents || []}
           renderItem={(item: IIncident) => (
             <ListCard
-              onClick={() =>
-                navigate(`/app/${application.id}/incidents/${item.id}/details`)
-              }
+              onClick={() => navigate(`/app/${application.id}/incidents/${item.id}/details`)}
             >
               <Space className="w-full justify-between py-2">
                 <Space direction="vertical" className="gap-0">

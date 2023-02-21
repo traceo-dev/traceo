@@ -25,4 +25,4 @@ export interface SendTypingSocketPayload {
 
 type Participant = {
   id: string;
-}
+};

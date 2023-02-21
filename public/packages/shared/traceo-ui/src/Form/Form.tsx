@@ -4,15 +4,14 @@ import {
   SubmitHandler,
   DefaultValues,
   UseFormReturn,
-  FieldErrors,
+  FieldErrors
 } from "react-hook-form";
 
 export type FormAPI<T> = Omit<UseFormReturn<T>, "trigger" | "handleSubmit"> & {
   errors: FieldErrors<T>;
 };
 
-interface Props<T>
-  extends Omit<HTMLProps<HTMLFormElement>, "onSubmit" | "form" | "children"> {
+interface Props<T> extends Omit<HTMLProps<HTMLFormElement>, "onSubmit" | "form" | "children"> {
   defaultValues?: DefaultValues<T>;
   onSubmit: SubmitHandler<T>;
   children: (api: FormAPI<T>) => React.ReactNode;
@@ -22,7 +21,7 @@ export function Form<T>(props: Props<T>) {
   const { children, defaultValues, onSubmit, ...restProps } = props;
   const { handleSubmit, formState, reset, ...restFormProps } = useForm<T>({
     mode: "onSubmit",
-    defaultValues,
+    defaultValues
   });
 
   // useEffect(() => {
@@ -37,7 +36,7 @@ export function Form<T>(props: Props<T>) {
         errors: formState.errors,
         formState,
         reset,
-        ...restFormProps,
+        ...restFormProps
       })}
     </form>
   );

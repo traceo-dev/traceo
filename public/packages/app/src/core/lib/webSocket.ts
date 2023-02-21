@@ -1,9 +1,5 @@
 import { socket } from "../contexts/SocketContextProvider";
-import {
-  SendMessageSocketPayload,
-  SendTypingSocketPayload,
-  WEB_SOCKET
-} from "@traceo/types";
+import { SendMessageSocketPayload, SendTypingSocketPayload, WEB_SOCKET } from "@traceo/types";
 
 const sendChatMessage = (socketPayload: SendMessageSocketPayload) => {
   socket.emit(WEB_SOCKET.SEND_CHAT_MESSAGE, socketPayload);

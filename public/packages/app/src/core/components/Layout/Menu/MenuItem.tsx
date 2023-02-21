@@ -1,11 +1,11 @@
+import { useApplication } from "../../../hooks/useApplication";
+import { MenuRoute } from "../../../types/navigation";
+import { joinClasses, conditionClass } from "../../../utils/classes";
+import { StoreState } from "@store/types";
+import { Space } from "@traceo/ui";
 import { FC } from "react";
 import { useSelector } from "react-redux";
-import { joinClasses, conditionClass } from "../../../utils/classes";
 import { NavLink } from "react-router-dom";
-import { Space } from "@traceo/ui";
-import { useApplication } from "../../../hooks/useApplication";
-import { StoreState } from "@store/types";
-import { MenuRoute } from "../../../types/navigation";
 
 interface Props {
   menu: MenuRoute;

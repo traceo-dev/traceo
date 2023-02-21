@@ -1,9 +1,9 @@
+import { MetricCardPlot } from "../../../../core/components/Plots";
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { FC } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { IMetric } from "@traceo/types";
 import { Space, Tooltip } from "@traceo/ui";
-import { MetricCardPlot } from "../../../../core/components/Plots";
+import { FC } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface MetricCardProps {
   metric: IMetric;

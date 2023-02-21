@@ -1,5 +1,4 @@
 import api from "../../lib/api";
-import { FC, useState } from "react";
 import { ApiResponse } from "@traceo/types";
 import {
   InputSecret,
@@ -10,6 +9,8 @@ import {
   Alert,
   Modal
 } from "@traceo/ui";
+import { FC, useState } from "react";
+
 interface CheckCredentialsResponse {
   isCorrect: boolean;
 }

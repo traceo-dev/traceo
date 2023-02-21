@@ -1,27 +1,22 @@
-import { MetricTableWrapper } from "./components/MetricTableWrapper";
-import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../store";
-import { loadMetric } from "./state/actions";
-import { conditionClass } from "../../../core/utils/classes";
-import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
-import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
-import {
-  IMetric,
-  DeepPartial,
-  DataSourceConnStatus,
-  ConnectionStatus
-} from "@traceo/types";
-import { useImmer } from "use-immer";
-import { Alert, Card } from "@traceo/ui";
-import { MetricPreviewPlot } from "../../../core/components/Plots";
 import { Page } from "../../../core/components/Page";
-import { MetricToolbar } from "./components/MetricToolbar";
+import { MetricPreviewPlot } from "../../../core/components/Plots";
+import { useApplication } from "../../../core/hooks/useApplication";
 import { useMetricsRange } from "../../../core/hooks/useMetricsRange";
 import { useRequest } from "../../../core/hooks/useRequest";
-import { useApplication } from "../../../core/hooks/useApplication";
+import { conditionClass } from "../../../core/utils/classes";
+import { useAppDispatch } from "../../../store";
+import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
+import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
+import { MetricTableWrapper } from "./components/MetricTableWrapper";
+import { MetricToolbar } from "./components/MetricToolbar";
+import { loadMetric } from "./state/actions";
+import { StoreState } from "@store/types";
+import { IMetric, DeepPartial, DataSourceConnStatus, ConnectionStatus } from "@traceo/types";
+import { Alert, Card } from "@traceo/ui";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useImmer } from "use-immer";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
@@ -95,9 +90,7 @@ export const MetricPreviewPage = () => {
               <MetricTableWrapper metric={options} metricData={metric?.datasource} />
             )}
           </div>
-          {isCustomizeMode && (
-            <MetricCustomizeForm setOptions={setOptions} options={options} />
-          )}
+          {isCustomizeMode && <MetricCustomizeForm setOptions={setOptions} options={options} />}
         </div>
       </Page.Content>
     </Page>

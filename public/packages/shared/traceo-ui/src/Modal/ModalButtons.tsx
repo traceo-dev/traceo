@@ -1,6 +1,6 @@
-import { FC } from "react";
 import { Button } from "../Button/Button";
 import { ButtonContainer } from "../Button/ButtonContainer";
+import { FC } from "react";
 
 export interface ModalButtonsProps {
   formId?: string;

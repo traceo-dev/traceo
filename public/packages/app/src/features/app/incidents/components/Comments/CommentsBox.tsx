@@ -1,13 +1,13 @@
 import { ConditionalWrapper } from "../../../../../core/components/ConditionLayout";
-import { CommentItem } from "./CommentItem";
-import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
+import { useUser } from "../../../../../core/hooks/useUser";
+import { useAppDispatch } from "../../../../../store";
+import { loadIncidentComments } from "../../state/actions";
+import { CommentItem } from "./CommentItem";
+import { StoreState } from "@store/types";
 import { Space, List } from "@traceo/ui";
 import { useEffect } from "react";
-import { loadIncidentComments } from "../../state/actions";
-import { useAppDispatch } from "../../../../../store";
-import { useUser } from "../../../../../core/hooks/useUser";
+import { useSelector } from "react-redux";
 
 export const CommentsBox = () => {
   const dispatch = useAppDispatch();

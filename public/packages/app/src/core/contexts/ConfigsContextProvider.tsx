@@ -1,7 +1,7 @@
-import { ApiResponse, ViewConfigData } from "@traceo/types";
-import React, { useContext, useEffect, useState } from "react";
 import { TraceoLoading } from "../components/TraceoLoading";
 import api from "../lib/api";
+import { ApiResponse, ViewConfigData } from "@traceo/types";
+import React, { useContext, useEffect, useState } from "react";
 
 const initialConfigs: ViewConfigData = {
   demoMode: false,

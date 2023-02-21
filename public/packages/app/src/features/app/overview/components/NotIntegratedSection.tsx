@@ -1,7 +1,7 @@
-import { Space, Button, Typography, Card } from "@traceo/ui";
 import { ColumnSection } from "../../../../core/components/ColumnSection";
-import { GH_SDK_REPO_LINK } from "../../../../core/utils/constants";
 import { useApplication } from "../../../../core/hooks/useApplication";
+import { GH_SDK_REPO_LINK } from "../../../../core/utils/constants";
+import { Space, Button, Typography, Card } from "@traceo/ui";
 
 export const NotIntegratedSection = () => {
   const { application } = useApplication();
@@ -25,9 +25,8 @@ export const NotIntegratedSection = () => {
           subtitle={
             <Space className="w-full" direction="vertical">
               <Typography size="xs">
-                We noticed that the Traceo SDK has not yet been integrated into this
-                application. To do this, use the example code on the right and restart
-                your software.
+                We noticed that the Traceo SDK has not yet been integrated into this application.
+                To do this, use the example code on the right and restart your software.
               </Typography>
               <Space className="w-full mt-5">
                 <Button onClick={() => window.open(GH_SDK_REPO_LINK, "_blank")}>

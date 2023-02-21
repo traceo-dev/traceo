@@ -1,17 +1,9 @@
 import { CodePreview } from "../../../../core/components/CodePreview";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
-import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import {
-  Typography,
-  Card,
-  Space,
-  Tooltip,
-  Collapse,
-  CollapseItem,
-  FieldLabel
-} from "@traceo/ui";
+import { StoreState } from "@store/types";
+import { Typography, Card, Space, Tooltip, Collapse, CollapseItem, FieldLabel } from "@traceo/ui";
+import { useSelector } from "react-redux";
 
 export const StacktraceSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
