@@ -13,9 +13,7 @@ export const CommentsBox = () => {
   const dispatch = useAppDispatch();
   const user = useUser();
 
-  const { incident, comments, hasCommentsFetched } = useSelector(
-    (state: StoreState) => state.incident
-  );
+  const { comments, hasCommentsFetched } = useSelector((state: StoreState) => state.incident);
 
   useEffect(() => {
     dispatch(loadIncidentComments());
@@ -35,9 +33,7 @@ export const CommentsBox = () => {
       >
         <List
           dataSource={comments}
-          renderItem={(item) => (
-            <CommentItem user={user} comment={item} incidentId={incident.id} />
-          )}
+          renderItem={(item) => <CommentItem user={user} comment={item} />}
         />
       </ConditionalWrapper>
     </Space>

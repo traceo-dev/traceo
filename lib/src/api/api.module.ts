@@ -2,7 +2,6 @@ import { HttpModule } from "@nestjs/axios";
 import { MiddlewareConsumer, Module, RequestMethod } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { AuthModule } from "../auth/auth.module";
-import { CommentsGateway } from "../common/websockets/comments.gateway";
 import { InfluxService } from "../providers/influx/influx.service";
 import { UserController } from "./user/user.controller";
 import { UserModule } from "./user/user.module";
@@ -61,7 +60,7 @@ const apiControllers = [
     ViewModule
   ],
   controllers: apiControllers,
-  providers: [InfluxService, CommentsGateway]
+  providers: [InfluxService]
 })
 export class ApiModule {
   configure(consumer: MiddlewareConsumer) {

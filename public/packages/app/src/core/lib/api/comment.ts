@@ -1,5 +1,3 @@
-import { loadIncidentComments } from "../../../features/app/incidents/state/actions";
-import { store } from "../../../store/index";
 import api from "../api";
 
 const send = async (incidentId: string, applicationId: string, message: string) => {
@@ -13,25 +11,18 @@ const send = async (incidentId: string, applicationId: string, message: string) 
 const update = async (
   commentId: string,
   message: string,
-  applicationId: string,
-  incidentId: string
+  applicationId: string
 ) => {
   await api.patch(`/api/comments/update/${commentId}`, {
     message: message,
     applicationId,
-    incidentId
   });
 };
 
-const remove = async (commentId: string, applicationId: string, incidentId: string) => {
-  await api
-    .delete(`/api/comments/remove/${commentId}`, {
-      applicationId,
-      incidentId
-    })
-    .then(() => {
-      store.dispatch(loadIncidentComments());
-    });
+const remove = async (commentId: string, applicationId: string) => {
+  await api.delete(`/api/comments/remove/${commentId}`, {
+    applicationId
+  });
 };
 
 export const commentAction = {
