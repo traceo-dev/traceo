@@ -24,7 +24,18 @@ export class IncidentCommentsController {
   constructor(
     private commentsService: IncidentCommentsService,
     private commentsQueryService: IncidentCommentsQueryService
-  ) {}
+  ) { }
+
+  @Get()
+  public async getComments(
+    @Query("id") id: string,
+    @Query() query: GetCommentsDto
+  ): Promise<ApiResponse<IComment[]>> {
+    return await this.commentsQueryService.getApiListDto({
+      incidentId: id,
+      ...query
+    });
+  }
 
   @Post("/send")
   async sendComment(@Body() comment: PatchCommentDto): Promise<ApiResponse<unknown>> {
@@ -42,19 +53,8 @@ export class IncidentCommentsController {
   @Delete("/remove/:id")
   async removeComment(
     @Param("id") commentId: string,
-    @Query("incidentId") incidentId: string
+    @Query("applicationId") applicationId: string,
   ): Promise<ApiResponse<unknown>> {
-    return await this.commentsService.removeComment(commentId, incidentId);
-  }
-
-  @Get()
-  public async getComments(
-    @Query("id") id: string,
-    @Query() query: GetCommentsDto
-  ): Promise<ApiResponse<IComment[]>> {
-    return await this.commentsQueryService.getApiListDto({
-      incidentId: id,
-      ...query
-    });
+    return await this.commentsService.removeComment(commentId, applicationId);
   }
 }

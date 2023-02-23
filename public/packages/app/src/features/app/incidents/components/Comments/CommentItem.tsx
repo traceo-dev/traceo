@@ -1,6 +1,5 @@
 import { useApplication } from "../../../../../core/hooks/useApplication";
 import api from "../../../../../core/lib/api";
-import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
 import dateUtils from "../../../../../core/utils/date";
 import { EllipsisOutlined } from "@ant-design/icons";
 import { IComment, IUser } from "@traceo/types";
@@ -20,10 +19,9 @@ import ReactMarkdown from "react-markdown";
 interface Props {
   user: IUser;
   comment: IComment;
-  incidentId: string;
 }
 
-export const CommentItem: FC<Props> = ({ user, comment, incidentId }) => {
+export const CommentItem: FC<Props> = ({ user, comment }) => {
   const { message, sender, createdAt, lastUpdateAt, removed } = comment;
 
   const [isEditMode, setEditMode] = useState<boolean>(false);
@@ -44,18 +42,12 @@ export const CommentItem: FC<Props> = ({ user, comment, incidentId }) => {
     }, 10);
   };
 
-  const sendEdit = async () => {
-    const message = textAreaRef.current.value;
-    await api.comment.update(comment.id, message, application.id, incidentId);
+  const sendEdit = async () =>
+    await api.comment.update(comment.id, textAreaRef.current.value, application.id).then(() => {
+      setEditMode(false);
+    });
 
-    setEditMode(false);
-  };
-
-  const remove = async () => {
-    await api.comment.remove(comment.id, application.id, incidentId);
-  };
-
-  const editable = user?.id === sender?.id && !isEditMode && !removed;
+  const remove = async () => await api.comment.remove(comment.id, application.id);
 
   const editOptions = () => {
     const options = [
@@ -94,7 +86,7 @@ export const CommentItem: FC<Props> = ({ user, comment, incidentId }) => {
           </div>
         </Space>
 
-        {editable && (
+        {user?.id === sender?.id && !isEditMode && !removed && (
           <Popover showArrow={false} placement="left" content={editOptions()}>
             <EllipsisOutlined className="p-2 hover:bg-secondary rounded-full cursor-pointer" />
           </Popover>
@@ -108,7 +100,7 @@ export const CommentItem: FC<Props> = ({ user, comment, incidentId }) => {
       <Card
         title={renderCommentHeader()}
         className="border border-solid border-[#303030] rounded mb-5"
-        bodyClassName={joinClasses("bg-canvas", conditionClass(removed, "hidden"))}
+        bodyClassName="bg-canvas"
       >
         {!isEditMode && (
           <Space direction="vertical" className="w-full">

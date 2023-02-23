@@ -3,8 +3,8 @@ import { IsOptional, IsString } from "class-validator";
 import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
 
 export class CommentDto {
-  @Type(() => String)
   @IsString()
+  @IsOptional()
   readonly incidentId: string;
 
   @Type(() => String)

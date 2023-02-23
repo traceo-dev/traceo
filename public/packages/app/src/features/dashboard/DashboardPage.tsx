@@ -10,10 +10,12 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Button, Card } from "@traceo/ui";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLive } from "src/core/hooks/useLive";
 
 export const DashboardPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const live = useLive();
 
   useEffect(() => {
     dispatch(loadSignedInUser());
@@ -23,6 +25,9 @@ export const DashboardPage = () => {
     dispatch(resetIncidentState());
     dispatch(resetIncidentsState());
     dispatch(resetApplicationState());
+
+    // Reset socket connections after exiting the app
+    live.emit("leave_all_rooms");
   }, []);
 
   const onNewApp = () => {

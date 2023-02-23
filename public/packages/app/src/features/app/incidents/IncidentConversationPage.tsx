@@ -1,35 +1,42 @@
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
-import { SocketContext } from "../../../core/contexts/SocketContextProvider";
 import { useAppDispatch } from "../../../store";
 import { CommentInput } from "./components/Comments/CommentInput";
 import { CommentsBox } from "./components/Comments/CommentsBox";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
-import { loadIncidentComments } from "./state/actions";
 import { AlertOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
 import { Typography, Space, Card, Divider } from "@traceo/ui";
-import { useContext, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { useLive } from "src/core/hooks/useLive";
+import { incidentCommentsLoaded } from "./state/reducers";
+import { IComment } from "@traceo/types";
 
 export const IncidentConversationPage = () => {
-  const { socket } = useContext(SocketContext);
+  const live = useLive();
   const dispatch = useAppDispatch();
-  const { incident, hasFetched } = useSelector((state: StoreState) => state.incident);
+  const { comments, incident, hasFetched } = useSelector((state: StoreState) => state.incident);
 
-  useEffect(() => {
-    fetchComments();
-  }, []);
+  live.listen("new_comment", (comment: IComment) => {
+    dispatch(incidentCommentsLoaded([...comments, comment]));
+  });
 
-  const fetchComments = () => {
-    dispatch(loadIncidentComments());
-  };
+  live.listen("update_comment", (comment: IComment) => {
+    const commentsUpdate = [...comments];
+    const index = commentsUpdate.findIndex((f) => f.id === comment.id);
+    commentsUpdate[index] = comment;
+    if (index !== -1) {
+      dispatch(incidentCommentsLoaded(commentsUpdate));
+    }
+  });
 
-  useEffect(() => {
-    socket.emit("join_room", incident?.id);
-  }, []);
-
-  socket.off("new_comment").on("new_comment", () => fetchComments());
-  socket.off("update_comment").on("update_comment", () => fetchComments());
+  live.listen("remove_comment", (comment: IComment) => {
+    const commentsUpdate = [...comments];
+    const index = commentsUpdate.findIndex((f) => f.id === comment.id);
+    commentsUpdate.splice(index, 1);
+    if (index !== -1) {
+      dispatch(incidentCommentsLoaded(commentsUpdate));
+    }
+  });
 
   return (
     <IncidentPageWrapper>
