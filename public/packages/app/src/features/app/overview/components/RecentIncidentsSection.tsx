@@ -1,13 +1,18 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import { useApplication } from "../../../../core/hooks/useApplication";
 import { useRequest } from "../../../../core/hooks/useRequest";
 import dateUtils from "../../../../core/utils/date";
 import { RightOutlined } from "@ant-design/icons";
-import { IIncident, IncidentSortBy, IncidentStatusSearch } from "@traceo/types";
-import { Link, Typography, Card, ListCard, Space, List } from "@traceo/ui";
+import {
+  IIncident,
+  IncidentSortBy,
+  IncidentStatusSearch,
+  mapIncidentStatus
+} from "@traceo/types";
+import { Link, Typography, Card, ListCard, Space, List, Tooltip } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
+import { mapHeaderStatusIcon } from "../../incidents/components/utils";
 
 export const RecentIncidentsSection = () => {
   const { application } = useApplication();
@@ -52,14 +57,16 @@ export const RecentIncidentsSection = () => {
               onClick={() => navigate(`/app/${application.id}/incidents/${item.id}/details`)}
             >
               <Space className="w-full justify-between py-2">
-                <Space direction="vertical" className="gap-0">
-                  <Space>
+                <Space direction="horizontal" className="gap-0">
+                  <Tooltip title={mapIncidentStatus[item.status]}>
+                    {mapHeaderStatusIcon[item.status]}
+                  </Tooltip>
+                  <Space direction="vertical" className="pl-3">
                     <Typography weight="semibold" className="text-primary">
                       {item.type}
                     </Typography>
-                    <IncidentStatusTag className="ml-2" status={item.status} />
+                    <Typography size="xs">{item.message}</Typography>
                   </Space>
-                  <Typography size="xs">{item.message}</Typography>
                 </Space>
                 <Space>
                   <Typography size="xs">{dateUtils.fromNow(item.lastError)}</Typography>

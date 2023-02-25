@@ -1,5 +1,5 @@
-import { localStorageService } from "../../../../core/lib/localStorage";
-import { LocalStorage } from "../../../../core/lib/localStorage/types";
+import { localStorageService } from "../../../lib/localStorage";
+import { LocalStorage } from "../../../lib/localStorage/types";
 import dateUtils from "../../../utils/date";
 import { statisticUtils } from "../../../utils/statistics";
 import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
@@ -14,7 +14,7 @@ interface Props {
 
 const PLOT_COLOR = "#04785A";
 
-const IncidentsListPlot: FC<Props> = ({ errors }) => {
+const IncidentsErrorsTimelinePlot: FC<Props> = ({ errors }) => {
   const plotType = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
 
   const dataSource = useMemo(() => {
@@ -34,10 +34,9 @@ const IncidentsListPlot: FC<Props> = ({ errors }) => {
     },
     grid: {
       left: "20px",
-      right: "10px",
-      top: "8px",
+      right: "8px",
+      top: "5px",
       bottom: "20px"
-      // containLabel: true
     },
     xAxis: {
       splitLine: {
@@ -53,14 +52,13 @@ const IncidentsListPlot: FC<Props> = ({ errors }) => {
       },
       type: "category",
       axisLabel: {
-        show: false,
         interval: "auto",
         formatter: function (value, index) {
           if (index === 0 || index === dataSource.x.length - 1) {
             return dateUtils.formatDate(Number(value), "DD-MM");
+          } else {
+            return "";
           }
-
-          return "";
         },
         color: "#CCCCDC",
         fontSize: 10,
@@ -78,8 +76,8 @@ const IncidentsListPlot: FC<Props> = ({ errors }) => {
       axisLabel: {
         showMinLabel: false,
         hideOverlap: true,
-        color: "#CCCCDC",
-        fontSize: 10
+        fontSize: "10px",
+        color: "#CCCCDC"
       },
       alignTicks: true,
       min: 0,
@@ -109,11 +107,11 @@ const IncidentsListPlot: FC<Props> = ({ errors }) => {
   return (
     <ReactECharts
       style={{
-        height: "50px"
+        height: "70px"
       }}
       option={options}
     />
   );
 };
 
-export default IncidentsListPlot;
+export default IncidentsErrorsTimelinePlot;
