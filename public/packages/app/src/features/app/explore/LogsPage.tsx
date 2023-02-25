@@ -13,15 +13,15 @@ const LogsPage = () => {
   return (
     <ExplorePageWrapper>
       <LogsHistogram />
-      <Card title="Logs list">
+      <Card title="Logs list" bodyClassName="m-0 p-0">
         <ConditionalWrapper
           emptyView={<DataNotFound label="Logs not found" />}
-          isEmpty={logs?.length === 0}
-          isLoading={!hasFetched && !logs}
+          isEmpty={hasFetched && logs?.length === 0}
+          isLoading={!hasFetched}
         >
           <LogContainer>
             {logs?.map((log, index) => (
-              <LogRow key={index} log={log} />
+              <LogRow key={index} {...log} />
             ))}
           </LogContainer>
         </ConditionalWrapper>
