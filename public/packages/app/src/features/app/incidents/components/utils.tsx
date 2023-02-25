@@ -3,7 +3,10 @@ import {
   WarningOutlined,
   ThunderboltOutlined,
   BarChartOutlined,
-  LineChartOutlined
+  LineChartOutlined,
+  CheckCircleFilled,
+  ThunderboltFilled,
+  WarningFilled
 } from "@ant-design/icons";
 import {
   ApplicationMember,
@@ -39,6 +42,16 @@ export const mapIncidentStatusIcon: Record<IncidentStatus, JSX.Element> = {
   [IncidentStatus.RESOLVED]: <CheckCircleOutlined />,
   [IncidentStatus.UNRESOLVED]: <WarningOutlined />,
   [IncidentStatus.IN_PROGRESS]: <ThunderboltOutlined />
+};
+
+export const mapHeaderStatusIcon: Record<IncidentStatus, JSX.Element> = {
+  [IncidentStatus.RESOLVED]: (
+    <CheckCircleFilled className="text-white p-1 bg-green-800 rounded" />
+  ),
+  [IncidentStatus.UNRESOLVED]: <WarningFilled className="text-white p-1 bg-red-800 rounded" />,
+  [IncidentStatus.IN_PROGRESS]: (
+    <ThunderboltFilled className="text-white p-1 bg-purple-800 rounded" />
+  )
 };
 
 export const statusOptions: SelectOptionProps[] = Object.values(IncidentStatus).map((status) => ({

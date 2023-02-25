@@ -6,6 +6,7 @@ const LazyIncidentsAppListPlot = lazy(() => import("./components/IncidentsAppLis
 const LazyIncidentsTodayPlot = lazy(() => import("./components/IncidentsTodayPlot"));
 const LazyAppOverviewPlot = lazy(() => import("./components/IncidentsOverviewPlot"));
 const LazyIncidentListPlot = lazy(() => import("./components/IncidentsListPlot"));
+const LazyIncidentTimelinePlot = lazy(() => import("./components/IncidentsErrorsTimelinePlot"));
 const LazyLogPlot = lazy(() => import("./components/Logs/LogsExplorePlot"));
 const LazyMetricPlot = lazy(() => import("./components/Metrics/MetricPlot"));
 const LazyMetricPreviewPlot = lazy(() => import("./components/Metrics/MetricPreviewPlot"));
@@ -49,6 +50,14 @@ export const AppIncidentsListPlot = ({ errors }) => {
   return (
     <Suspense fallback={<LoadingOutlined />}>
       <LazyIncidentListPlot errors={errors} />
+    </Suspense>
+  );
+};
+
+export const IncidentTimelinePlot = ({ errors }) => {
+  return (
+    <Suspense fallback={<LoadingOutlined />}>
+      <LazyIncidentTimelinePlot errors={errors} />
     </Suspense>
   );
 };
