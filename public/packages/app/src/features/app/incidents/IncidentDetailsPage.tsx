@@ -1,9 +1,10 @@
-import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { ErrorsSection } from "./components/ErrorsSection";
-import { StacktraceSection } from "./components/StacktraceSection";
 import { ExceptionSection } from "./components/ExceptionSection";
-import { PlatformSection } from "./components/PlatformSection";
+import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { InfoSection } from "./components/InfoSection";
+import { PlatformSection } from "./components/PlatformSection";
+import { StacktraceSection } from "./components/StacktraceSection";
+import { TimelineSection } from "./components/TimelineSection";
 
 export const IncidentDetailsPage = () => {
   return (
@@ -15,6 +16,7 @@ export const IncidentDetailsPage = () => {
           <ErrorsSection />
         </div>
         <div className="col-span-3 ml-1">
+          <TimelineSection />
           <InfoSection />
           <PlatformSection />
         </div>

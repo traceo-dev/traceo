@@ -1,9 +1,8 @@
-import { FC, useRef, useState } from "react";
-import { IComment, IUser } from "@traceo/types";
-import dateUtils from "../../../../../core/utils/date";
-import ReactMarkdown from "react-markdown";
-import { conditionClass, joinClasses } from "../../../../../core/utils/classes";
+import { useApplication } from "../../../../../core/hooks/useApplication";
 import api from "../../../../../core/lib/api";
+import dateUtils from "../../../../../core/utils/date";
+import { EllipsisOutlined } from "@ant-design/icons";
+import { IComment, IUser } from "@traceo/types";
 import {
   InputArea,
   Button,
@@ -14,16 +13,15 @@ import {
   Avatar,
   Popover
 } from "@traceo/ui";
-import { useApplication } from "../../../../../core/hooks/useApplication";
-import { EllipsisOutlined } from "@ant-design/icons";
+import { FC, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 interface Props {
   user: IUser;
   comment: IComment;
-  incidentId: string;
 }
 
-export const CommentItem: FC<Props> = ({ user, comment, incidentId }) => {
+export const CommentItem: FC<Props> = ({ user, comment }) => {
   const { message, sender, createdAt, lastUpdateAt, removed } = comment;
 
   const [isEditMode, setEditMode] = useState<boolean>(false);
@@ -44,18 +42,12 @@ export const CommentItem: FC<Props> = ({ user, comment, incidentId }) => {
     }, 10);
   };
 
-  const sendEdit = async () => {
-    const message = textAreaRef.current.value;
-    await api.comment.update(comment.id, message, application.id, incidentId);
+  const sendEdit = async () =>
+    await api.comment.update(comment.id, textAreaRef.current.value, application.id).then(() => {
+      setEditMode(false);
+    });
 
-    setEditMode(false);
-  };
-
-  const remove = async () => {
-    await api.comment.remove(comment.id, application.id, incidentId);
-  };
-
-  const editable = user?.id === sender?.id && !isEditMode && !removed;
+  const remove = async () => await api.comment.remove(comment.id, application.id);
 
   const editOptions = () => {
     const options = [
@@ -87,21 +79,14 @@ export const CommentItem: FC<Props> = ({ user, comment, incidentId }) => {
     return (
       <Space className="w-full py-0 justify-between">
         <Space>
-          <Avatar
-            className="mr-1 w-7 h-7"
-            alt={sender?.name}
-            src={sender?.gravatar}
-            size="md"
-          />
+          <Avatar className="mr-1 w-7 h-7" alt={sender?.name} src={sender?.gravatar} size="md" />
           <div className="flex flex-col w-full ml-2">
             <span className="font-semibold text-sm self-start">{sender?.name}</span>
-            <span className="font-normal text-2xs">
-              commented {dateUtils.fromNow(createdAt)}
-            </span>
+            <span className="font-normal text-2xs">commented {dateUtils.fromNow(createdAt)}</span>
           </div>
         </Space>
 
-        {editable && (
+        {user?.id === sender?.id && !isEditMode && !removed && (
           <Popover showArrow={false} placement="left" content={editOptions()}>
             <EllipsisOutlined className="p-2 hover:bg-secondary rounded-full cursor-pointer" />
           </Popover>
@@ -115,7 +100,7 @@ export const CommentItem: FC<Props> = ({ user, comment, incidentId }) => {
       <Card
         title={renderCommentHeader()}
         className="border border-solid border-[#303030] rounded mb-5"
-        bodyClassName={joinClasses("bg-canvas", conditionClass(removed, "hidden"))}
+        bodyClassName="bg-canvas"
       >
         {!isEditMode && (
           <Space direction="vertical" className="w-full">

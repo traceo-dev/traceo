@@ -3,10 +3,11 @@ import {
   WarningOutlined,
   ThunderboltOutlined,
   BarChartOutlined,
-  LineChartOutlined
+  LineChartOutlined,
+  CheckCircleFilled,
+  ThunderboltFilled,
+  WarningFilled
 } from "@ant-design/icons";
-import { Avatar, SelectOptionProps } from "@traceo/ui";
-import React from "react";
 import {
   ApplicationMember,
   IncidentStatus,
@@ -14,6 +15,8 @@ import {
   IncidentSortBy,
   IncidentStatusSearch
 } from "@traceo/types";
+import { Avatar, SelectOptionProps } from "@traceo/ui";
+import React from "react";
 
 export const assignOptions = (members: ApplicationMember[]) =>
   members?.map((member: ApplicationMember) => ({
@@ -41,15 +44,23 @@ export const mapIncidentStatusIcon: Record<IncidentStatus, JSX.Element> = {
   [IncidentStatus.IN_PROGRESS]: <ThunderboltOutlined />
 };
 
-export const statusOptions: SelectOptionProps[] = Object.values(IncidentStatus).map(
-  (status) => ({
-    value: status,
-    label: mapIncidentStatus[status],
-    icon: React.cloneElement(mapIncidentStatusIcon[status], {
-      className: mapIncidentTwTextColor[status]
-    })
+export const mapHeaderStatusIcon: Record<IncidentStatus, JSX.Element> = {
+  [IncidentStatus.RESOLVED]: (
+    <CheckCircleFilled className="text-white p-1 bg-green-800 rounded" />
+  ),
+  [IncidentStatus.UNRESOLVED]: <WarningFilled className="text-white p-1 bg-red-800 rounded" />,
+  [IncidentStatus.IN_PROGRESS]: (
+    <ThunderboltFilled className="text-white p-1 bg-purple-800 rounded" />
+  )
+};
+
+export const statusOptions: SelectOptionProps[] = Object.values(IncidentStatus).map((status) => ({
+  value: status,
+  label: mapIncidentStatus[status],
+  icon: React.cloneElement(mapIncidentStatusIcon[status], {
+    className: mapIncidentTwTextColor[status]
   })
-);
+}));
 
 export const mapIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.FIRST_SEEN]: "First seen",
@@ -58,12 +69,12 @@ export const mapIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.STATUS]: "Status"
 };
 
-export const searchStatusOptions: SelectOptionProps[] = Object.values(
-  IncidentStatusSearch
-).map((status) => ({
-  label: mapIncidentStatus[status],
-  value: status
-}));
+export const searchStatusOptions: SelectOptionProps[] = Object.values(IncidentStatusSearch).map(
+  (status) => ({
+    label: mapIncidentStatus[status],
+    value: status
+  })
+);
 
 export const sortOptions = Object.values(IncidentSortBy).map((sort) => ({
   label: mapIncidentSortName[sort],

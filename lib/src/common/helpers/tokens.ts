@@ -7,13 +7,13 @@ const generate = (payload?: any) => {
 
 const sign = (id: string) => {
   return jwt.sign({ id: id }, process.env.JWT_SECRET as string, {
-    expiresIn: "10800s", //3h
+    expiresIn: "10800s" //3h
   });
 };
 
 const tokenService = {
   generate,
-  sign,
+  sign
 };
 
 export default tokenService;

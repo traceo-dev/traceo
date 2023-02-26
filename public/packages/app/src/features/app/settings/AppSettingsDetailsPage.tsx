@@ -1,19 +1,19 @@
-import { Space, Button, Card, FieldLabel, Input, InputGroup } from "@traceo/ui";
-import { useRef, useState } from "react";
 import { ColumnSection } from "../../../core/components/ColumnSection";
-import SettingsPageWrapper from "./components/SettingsPageWrapper";
-import api from "../../../core/lib/api";
-import { useAppDispatch } from "../../../store";
-import { ApiResponse, MemberRole } from "@traceo/types";
-import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";
 import { Permissions } from "../../../core/components/Permissions";
-import { useMemberRole } from "../../../core/hooks/useMemberRole";
-import { notify } from "../../../core/utils/notify";
-import { ApiKeySection } from "./components/ApiKeySection";
-import { updateAplication } from "../state/application/actions";
 import { useApplication } from "../../../core/hooks/useApplication";
 import { useDemo } from "../../../core/hooks/useDemo";
+import { useMemberRole } from "../../../core/hooks/useMemberRole";
+import api from "../../../core/lib/api";
+import { notify } from "../../../core/utils/notify";
+import { useAppDispatch } from "../../../store";
+import { updateAplication } from "../state/application/actions";
+import { ApiKeySection } from "./components/ApiKeySection";
+import SettingsPageWrapper from "./components/SettingsPageWrapper";
+import { ApiResponse, MemberRole } from "@traceo/types";
+import { Space, Button, Card, FieldLabel, Input, InputGroup } from "@traceo/ui";
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const AppSettingsDetailsPage = () => {
   const navigate = useNavigate();

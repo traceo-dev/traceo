@@ -15,11 +15,11 @@ const applicationsSlice = createSlice({
   name: "applications",
   initialState: initialState,
   reducers: {
-    applicationsLoaded: (
-      state,
-      action: PayloadAction<IApplication[]>
-    ): UsersState => ({ ...state, hasFetched: true, applications: action.payload }),
-
+    applicationsLoaded: (state, action: PayloadAction<IApplication[]>): UsersState => ({
+      ...state,
+      hasFetched: true,
+      applications: action.payload
+    })
   }
 });
 

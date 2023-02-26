@@ -1,7 +1,7 @@
-import { FC } from "react";
-import { MenuItem } from "./MenuItem";
-import { joinClasses } from "../../../utils/classes";
 import { MenuRoute } from "../../../types/navigation";
+import { joinClasses } from "../../../utils/classes";
+import { MenuItem } from "./MenuItem";
+import { FC } from "react";
 
 interface Props {
   routes: MenuRoute[];

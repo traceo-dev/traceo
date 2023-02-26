@@ -1,0 +1,16 @@
+# workaround for not working .eslintignore with workspaces
+packages/shared/traceo-types/node_modules/**
+packages/shared/traceo-types/dist/**
+
+packages/shared/traceo-ui/node_modules/**
+packages/shared/traceo-ui/dist/**
+
+packages/app/build/**
+packages/app/node_modules/**
+packages/app/public/**
+packages/app/scripts/**
+
+*.json
+*.config.js
+*.css
+*.svg

@@ -1,21 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 import {
   EntityManager,
   EntityTarget,
   FindOptionsWhere,
   Repository,
   SelectQueryBuilder
-} from 'typeorm';
-import { BaseDtoQuery } from './base-query.model';
-import { BaseEntity } from '../base.entity';
-import { ApiResponse } from '../../../common/types/dto/response.dto';
-import { InternalServerError } from '../../../common/helpers/errors';
+} from "typeorm";
+import { BaseDtoQuery } from "./base-query.model";
+import { BaseEntity } from "../base.entity";
+import { ApiResponse } from "../../../common/types/dto/response.dto";
+import { InternalServerError } from "../../../common/helpers/errors";
 
 @Injectable()
-export abstract class BaseQueryService<
-  ENTITY extends BaseEntity,
-  QUERY extends BaseDtoQuery,
-> {
+export abstract class BaseQueryService<ENTITY extends BaseEntity, QUERY extends BaseDtoQuery> {
   public repository: Repository<ENTITY>;
 
   constructor(manager: EntityManager, repository: EntityTarget<ENTITY>) {
@@ -42,7 +39,7 @@ export abstract class BaseQueryService<
 
   public async getDto(id: string): Promise<ENTITY> {
     const where: FindOptionsWhere<ENTITY> = { id } as any;
-    return await this.repository.findOneBy(where)
+    return await this.repository.findOneBy(where);
   }
 
   public async getDtoBy(where: FindOptionsWhere<ENTITY>) {
@@ -56,7 +53,7 @@ export abstract class BaseQueryService<
 
   public abstract extendQueryBuilder(
     builder: SelectQueryBuilder<ENTITY>,
-    query: QUERY,
+    query: QUERY
   ): SelectQueryBuilder<ENTITY>;
 
   public abstract get builderAlias(): string;
@@ -69,15 +66,11 @@ export abstract class BaseQueryService<
   public async listDto(query: QUERY): Promise<ENTITY[]> {
     const { sortBy, order, take, page } = query;
 
-    const queryBuilder: SelectQueryBuilder<ENTITY> =
-      this.createQueryBuilder(query);
+    const queryBuilder: SelectQueryBuilder<ENTITY> = this.createQueryBuilder(query);
     this.addSelectToQueryBuilder(queryBuilder, this.selectedColumns());
 
     if (sortBy && order) {
-      queryBuilder.orderBy(
-        `${this.builderAlias}.${sortBy}`,
-        order || "DESC", "NULLS LAST"
-      );
+      queryBuilder.orderBy(`${this.builderAlias}.${sortBy}`, order || "DESC", "NULLS LAST");
     }
 
     queryBuilder.limit(take).skip(page > 0 ? (page - 1) * take : 0);
@@ -89,14 +82,11 @@ export abstract class BaseQueryService<
 
   private addSelectToQueryBuilder(
     queryBuilder: SelectQueryBuilder<ENTITY>,
-    columns: string[],
+    columns: string[]
   ): SelectQueryBuilder<ENTITY> {
     if (columns.length > 0) {
       columns.forEach((column) => {
-        queryBuilder.addSelect(
-          `${this.builderAlias}.${column}`,
-          columns[column],
-        );
+        queryBuilder.addSelect(`${this.builderAlias}.${column}`, columns[column]);
       });
     }
 

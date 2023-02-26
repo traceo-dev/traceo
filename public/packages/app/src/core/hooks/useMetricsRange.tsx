@@ -1,7 +1,7 @@
+import dateUtils from "../utils/date";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import dateUtils from "../utils/date";
 
 export const useMetricsRange = () => {
   const location = useLocation();

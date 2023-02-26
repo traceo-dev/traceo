@@ -1,11 +1,6 @@
-import { FC, lazy } from "react";
+import { commonSeriesOptions, getLogExploreOptions, mapLogColor, mapLogName } from "./util";
 import { LogLevel } from "@traceo/types";
-import {
-  commonSeriesOptions,
-  getLogExploreOptions,
-  mapLogColor,
-  mapLogName
-} from "./util";
+import { FC, lazy } from "react";
 
 interface Props {
   logs: {
@@ -27,10 +22,7 @@ const LogsExplorePlot: FC<Props> = ({ logs }) => {
   }, []);
 
   return (
-    <ReactECharts
-      style={{ height: "150px" }}
-      option={getLogExploreOptions(logs.xAxis, series)}
-    />
+    <ReactECharts style={{ height: "150px" }} option={getLogExploreOptions(logs.xAxis, series)} />
   );
 };
 

@@ -1,14 +1,15 @@
-import {
-  Space,
-  Typography,
-  Card,
-  Select,
-  Alert,
-  Button,
-  ButtonContainer
-} from "@traceo/ui";
 import { ColumnSection } from "../../../core/components/ColumnSection";
-import { useEffect, useState } from "react";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
+import { Confirm } from "../../../core/components/Confirm";
+import { useApplication } from "../../../core/hooks/useApplication";
+import { useDemo } from "../../../core/hooks/useDemo";
+import { useMemberRole } from "../../../core/hooks/useMemberRole";
+import { useRequest } from "../../../core/hooks/useRequest";
+import api from "../../../core/lib/api";
+import { useAppDispatch } from "../../../store/index";
+import { loadApplication } from "../state/application/actions";
+import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
+import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import {
   ApiResponse,
   ConnectionStatus,
@@ -16,17 +17,8 @@ import {
   DatasourceProvider,
   IDatasource
 } from "@traceo/types";
-import SettingsPageWrapper from "./components/SettingsPageWrapper";
-import { DataSourceInflux2Form } from "./components/DataSourceInflux2Form";
-import { useMemberRole } from "../../../core/hooks/useMemberRole";
-import { useApplication } from "../../../core/hooks/useApplication";
-import { useRequest } from "../../../core/hooks/useRequest";
-import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
-import api from "../../../core/lib/api";
-import { loadApplication } from "../state/application/actions";
-import { useAppDispatch } from "../../../store/index";
-import { Confirm } from "../../../core/components/Confirm";
-import { useDemo } from "../../../core/hooks/useDemo";
+import { Space, Typography, Card, Select, Alert, Button, ButtonContainer } from "@traceo/ui";
+import { useEffect, useState } from "react";
 
 const dataSourceOptions = [
   {
@@ -58,15 +50,13 @@ export const AppSettingsDataSourcePage = () => {
     executeOnInit: false
   });
 
-  const { data: connection, execute: checkConnection } = useRequest<DataSourceConnStatus>(
-    {
-      url: "/api/datasource/heartbeat",
-      params: {
-        id: application?.tsdbDatasource
-      },
-      executeOnInit: false
-    }
-  );
+  const { data: connection, execute: checkConnection } = useRequest<DataSourceConnStatus>({
+    url: "/api/datasource/heartbeat",
+    params: {
+      id: application?.tsdbDatasource
+    },
+    executeOnInit: false
+  });
 
   useEffect(() => {
     setSelectedDatasource(datasource?.type);
@@ -82,9 +72,7 @@ export const AppSettingsDataSourcePage = () => {
   const isDisabled = isViewer || (application?.tsdbDatasource && !!datasource);
   const isDeleteBtn = !!application.tsdbDatasource;
   const isFailedConnection =
-    application?.tsdbDatasource &&
-    connection &&
-    connection?.status === ConnectionStatus.FAILED;
+    application?.tsdbDatasource && connection && connection?.status === ConnectionStatus.FAILED;
   const isGoodConnection =
     application?.tsdbDatasource &&
     connection &&

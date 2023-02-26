@@ -1,7 +1,7 @@
+import { useApplication } from "../../../../core/hooks/useApplication";
 import { DatabaseOutlined } from "@ant-design/icons";
 import { Space, Button, Typography, Card } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
-import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const NotConnectedTSDB = () => {
   const { application } = useApplication();

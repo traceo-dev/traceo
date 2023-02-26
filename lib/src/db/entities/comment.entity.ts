@@ -1,11 +1,5 @@
 import { IUser, IComment, IIncident } from "@traceo/types";
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn
-} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BaseEntity } from "../../common/base/base.entity";
 import { User } from "./user.entity";
 import { Incident } from "./incident.entity";
@@ -16,13 +10,13 @@ export class Comment extends BaseEntity implements IComment {
   id?: string;
 
   @Column({
-    type: "varchar",
+    type: "varchar"
   })
   message: string;
 
   @ManyToOne(() => User)
   @JoinColumn({
-    name: "sender_id",
+    name: "sender_id"
   })
   sender: IUser;
 
@@ -45,7 +39,7 @@ export class Comment extends BaseEntity implements IComment {
     nullable: false
   })
   @JoinColumn({
-    name: "incident_id",
+    name: "incident_id"
   })
   incident: IIncident;
 }

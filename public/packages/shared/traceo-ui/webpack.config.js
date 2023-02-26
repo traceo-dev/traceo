@@ -6,11 +6,11 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "index.js",
-    publicPath: "/dist/",
+    publicPath: "/dist/"
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx"],
-    symlinks: false,
+    symlinks: false
   },
   module: {
     rules: [
@@ -18,8 +18,8 @@ module.exports = {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: {
-          loader: "ts-loader",
-        },
+          loader: "ts-loader"
+        }
       },
       {
         test: /\.css$/,
@@ -29,17 +29,17 @@ module.exports = {
             loader: "css-loader",
             options: {
               importLoaders: 1,
-              modules: true,
-            },
-          },
+              modules: true
+            }
+          }
         ],
-        include: /\.module\.css$/,
+        include: /\.module\.css$/
       },
       {
         test: /\.css$/,
         use: ["style-loader", "css-loader", "postcss-loader"],
-        exclude: /\.module\.css$/,
-      },
-    ],
-  },
+        exclude: /\.module\.css$/
+      }
+    ]
+  }
 };

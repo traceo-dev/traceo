@@ -1,3 +1,10 @@
+import { useConfig } from "../../../../core/contexts/ConfigsContextProvider";
+import { useApplication } from "../../../hooks/useApplication";
+import { MenuRoute } from "../../../types/navigation";
+import { logout } from "../../../utils/logout";
+import { DemoBanner } from "../../DemoBanner";
+import { NavBarItem } from "./NavBarItem";
+import { NavbarWrapper } from "./NavbarWrapper";
 import {
   HomeOutlined,
   BugOutlined,
@@ -8,14 +15,7 @@ import {
   LogoutOutlined,
   LoadingOutlined
 } from "@ant-design/icons";
-import { logout } from "../../../utils/logout";
-import { NavBarItem } from "./NavBarItem";
-import { NavbarWrapper } from "./NavbarWrapper";
 import { Avatar, Divider } from "@traceo/ui";
-import { useApplication } from "../../../hooks/useApplication";
-import { MenuRoute } from "../../../types/navigation";
-import { useConfig } from "../../../../core/contexts/ConfigsContextProvider";
-import { DemoBanner } from "../../DemoBanner";
 
 export const AppNavBar = () => {
   const { application, hasFetched } = useApplication();

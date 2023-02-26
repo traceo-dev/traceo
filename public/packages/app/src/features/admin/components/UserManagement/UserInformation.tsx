@@ -1,13 +1,12 @@
-import { useSelector } from "react-redux";
-import { LeftOutlined } from "@ant-design/icons";
+import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { Confirm } from "../../../../core/components/Confirm";
-import { useAppDispatch } from "../../../../store";
-import { UserStatus, ApiResponse } from "@traceo/types";
-import { StoreState } from "@store/types";
-import { updateUser } from "../../state/users/actions";
 import api from "../../../../core/lib/api";
-import { useNavigate } from "react-router-dom";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
+import { useAppDispatch } from "../../../../store";
+import { updateUser } from "../../state/users/actions";
+import { LeftOutlined } from "@ant-design/icons";
+import { StoreState } from "@store/types";
+import { UserStatus, ApiResponse } from "@traceo/types";
 import {
   Button,
   Typography,
@@ -19,7 +18,8 @@ import {
   Input,
   ButtonContainer
 } from "@traceo/ui";
-import { ColumnSection } from "../../../../core/components/ColumnSection";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface UserProps {
   email: string;
@@ -43,8 +43,7 @@ export const UserInformation = () => {
   };
 
   const onChangeUserStatus = () => {
-    const status =
-      user.status === UserStatus.DISABLED ? UserStatus.ACTIVE : UserStatus.DISABLED;
+    const status = user.status === UserStatus.DISABLED ? UserStatus.ACTIVE : UserStatus.DISABLED;
     dispatch(updateUser({ id: user.id, status }));
   };
 
@@ -67,8 +66,8 @@ export const UserInformation = () => {
             onOk={onChangeUserStatus}
             description={
               <Typography>
-                Are you sure that you want to suspend <b>{user.name}</b>? After this
-                action, user will not be able to log into the user.
+                Are you sure that you want to suspend <b>{user.name}</b>? After this action, user
+                will not be able to log into the user.
               </Typography>
             }
           >
@@ -112,9 +111,7 @@ export const UserInformation = () => {
         />
       )}
 
-      {isDisabled && (
-        <Alert type="info" message="This user is disabled." className="my-1" />
-      )}
+      {isDisabled && <Alert type="info" message="This user is disabled." className="my-1" />}
 
       <Card
         icon={

@@ -1,15 +1,17 @@
-import NotFound from "../Pages/NotFound";
-import { Page } from "../../Page";
+import { initApplication } from "../../../../features/app/state/application/actions";
+import { useAppDispatch } from "../../../../store";
 import { useApplication } from "../../../hooks/useApplication";
 import { isEmptyObject } from "../../../utils/object";
-import { initApplication } from "../../../../features/app/state/application/actions";
+import { Page } from "../../Page";
+import NotFound from "../Pages/NotFound";
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../../store";
+import { useLive } from "src/core/hooks/useLive";
 
 const AppDashboardPage: FC = ({ children }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const live = useLive();
 
   const { id } = useParams();
   const { hasFetched, permission, application } = useApplication();
@@ -20,6 +22,8 @@ const AppDashboardPage: FC = ({ children }) => {
         id
       })
     );
+
+    live.subscribe(id);
   }, []);
 
   useEffect(() => {

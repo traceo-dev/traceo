@@ -1,6 +1,6 @@
-import { FC, useCallback, useEffect, useRef, useState } from "react";
-import { BasePlacement } from "@popperjs/core";
 import { PopoverCore } from "./PopoverCore";
+import { BasePlacement } from "@popperjs/core";
+import { FC, useEffect, useRef, useState } from "react";
 
 type TriggerType = "click" | "hover";
 
@@ -10,7 +10,7 @@ interface PopoverProps {
   placement?: BasePlacement;
   trigger?: TriggerType;
   showArrow?: boolean;
-  overrideStyles?: {};
+  overrideStyles?: object;
   open?: boolean;
 }
 
@@ -20,8 +20,8 @@ export const Popover: FC<PopoverProps> = ({
   placement = "bottom",
   trigger = "click",
   showArrow = true,
-  overrideStyles = {},
-  open = false,
+  overrideStyles,
+  open = false
 }) => {
   const [visible, setVisible] = useState<boolean>(false);
   const ref = useRef<any>();
@@ -45,14 +45,14 @@ export const Popover: FC<PopoverProps> = ({
       onClick: (event: MouseEvent) => {
         setVisible(true);
         event.stopPropagation();
-      },
+      }
     },
     hover: {
       onMouseEnter: (event: MouseEvent) => {
         setVisible(true);
         event.stopPropagation();
-      },
-    },
+      }
+    }
   };
   return (
     <div ref={ref} {...triggerOptions[trigger]}>

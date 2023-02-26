@@ -1,6 +1,6 @@
 import { DataNotFound } from "../../../core/components/DataNotFound";
-import { FC } from "react";
 import { Typography } from "@traceo/ui";
+import { FC } from "react";
 
 interface Props {
   constraints?: string;
@@ -16,9 +16,7 @@ export const EmptyAppList: FC<Props> = ({ constraints }) => {
             No results for <b>{constraints}</b>
           </Typography>
         ) : (
-          <Typography>
-            Contact the administrator and start monitoring applications.
-          </Typography>
+          <Typography>Contact the administrator and start monitoring applications.</Typography>
         )
       }
     />

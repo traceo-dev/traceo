@@ -1,7 +1,7 @@
 import { Popover } from "../Popover";
-import { HexColorPicker } from "react-colorful";
-import { useEffect, useState } from "react";
 import { BasePlacement } from "@popperjs/core";
+import { useEffect, useState } from "react";
+import { HexColorPicker } from "react-colorful";
 import styled from "styled-components";
 
 interface Props {
@@ -10,12 +10,7 @@ interface Props {
   children: JSX.Element;
   placement?: BasePlacement;
 }
-export const ColorPicker = ({
-  color,
-  onChange,
-  children,
-  placement = "bottom",
-}: Props) => {
+export const ColorPicker = ({ color, onChange, children, placement = "bottom" }: Props) => {
   const [newColor, setColor] = useState<string>(color);
 
   useEffect(() => {
@@ -27,10 +22,7 @@ export const ColorPicker = ({
       <ColorPickerWrapper>
         <HexColorPicker color={newColor} onChange={setColor} />
       </ColorPickerWrapper>
-      <div
-        className="mt-2 h-7 w-full rounded-sm"
-        style={{ backgroundColor: newColor }}
-      />
+      <div className="mt-2 h-7 w-full rounded-sm" style={{ backgroundColor: newColor }} />
     </div>
   );
 

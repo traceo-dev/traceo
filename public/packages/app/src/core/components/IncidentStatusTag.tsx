@@ -1,11 +1,11 @@
-import { FC } from "react";
-import { mapIncidentStatus, IncidentStatus } from "@traceo/types";
-import { Tag, TagColorType } from "@traceo/ui";
-import { joinClasses } from "../utils/classes";
 import {
   mapIncidentStatusIcon,
   mapIncidentTwBgColor
 } from "../../features/app/incidents/components/utils";
+import { joinClasses } from "../utils/classes";
+import { mapIncidentStatus, IncidentStatus } from "@traceo/types";
+import { Tag, TagColorType } from "@traceo/ui";
+import { FC } from "react";
 
 interface Props {
   status: IncidentStatus;

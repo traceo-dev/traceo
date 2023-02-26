@@ -1,10 +1,10 @@
 import AuthLayout from "../../../core/components/Layout/AuthLayout";
-import { useState } from "react";
-import { LoginForm } from "./LoginForm";
+import api from "../../../core/lib/api";
 import { useAppDispatch } from "../../../store";
 import { loadSignedInUser } from "../state/actions";
+import { LoginForm } from "./LoginForm";
 import { LoginProps, ApiResponse } from "@traceo/types";
-import api from "../../../core/lib/api";
+import { useState } from "react";
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -38,7 +38,7 @@ const Login = () => {
   };
 
   return (
-    <AuthLayout title="Welcome to Traceo">
+    <AuthLayout title="Welcome back 👋">
       <LoginForm invalid={invalid} loading={loading} onFinish={onFinish} />
     </AuthLayout>
   );

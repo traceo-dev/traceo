@@ -1,9 +1,9 @@
+import { joinClasses } from "../utils/classes";
+import { defaultTransitionStyles, transitionStyles, Arrow } from "./style";
+import { BasePlacement } from "@popperjs/core";
 import React, { forwardRef } from "react";
 import { Manager, Reference, Popper } from "react-popper";
 import { Transition } from "react-transition-group";
-import { BasePlacement } from "@popperjs/core";
-import { joinClasses } from "../utils/classes";
-import { defaultTransitionStyles, transitionStyles, Arrow } from "./style";
 
 interface PopoverCoreProps {
   visible?: boolean;
@@ -13,7 +13,7 @@ interface PopoverCoreProps {
   className?: string;
   showArrow?: boolean;
   chilren?: JSX.Element;
-  overrideStyles?: {};
+  overrideStyles?: object;
 }
 
 export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
@@ -24,16 +24,12 @@ export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
     visible,
     className,
     showArrow = true,
-    overrideStyles,
+    overrideStyles
   } = props;
-
-  // const margin = mapMargin[placement];
 
   return (
     <Manager ref={ref}>
-      <Reference>
-        {({ ref }) => React.cloneElement(children, { ref })}
-      </Reference>
+      <Reference>{({ ref }) => React.cloneElement(children, { ref })}</Reference>
 
       <Transition in={visible} timeout={200} unmountOnExit={true}>
         {(state) => (
@@ -46,19 +42,13 @@ export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
                   ...style,
                   ...defaultTransitionStyles,
                   ...transitionStyles[state],
-                  ...overrideStyles,
+                  ...overrideStyles
                 }}
                 data-placement={placement}
                 className={joinClasses("popper", className)}
               >
                 {content}
-                {showArrow && (
-                  <Arrow
-                    {...arrowProps}
-                    placement={placement}
-                    data-popper-arrow
-                  />
-                )}
+                {showArrow && <Arrow {...arrowProps} placement={placement} data-popper-arrow />}
               </div>
             )}
           </Popper>

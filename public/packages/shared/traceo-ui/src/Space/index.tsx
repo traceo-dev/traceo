@@ -17,11 +17,7 @@ export const Space: FC<SpaceProps> = ({
       {...restProps}
       className={joinClasses(
         "inline-flex gap-1",
-        conditionClass(
-          direction === "horizontal",
-          "flex-row items-center",
-          "flex-col"
-        ),
+        conditionClass(direction === "horizontal", "flex-row items-center", "flex-col"),
         className
       )}
     >

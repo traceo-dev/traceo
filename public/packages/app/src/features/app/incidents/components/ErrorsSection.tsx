@@ -1,7 +1,7 @@
-import { Card, Table, TableColumn } from "@traceo/ui";
-import { useSelector } from "react-redux";
 import dateUtils from "../../../../core/utils/date";
 import { StoreState } from "@store/types";
+import { Card, Table, TableColumn } from "@traceo/ui";
+import { useSelector } from "react-redux";
 
 export const ErrorsSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);

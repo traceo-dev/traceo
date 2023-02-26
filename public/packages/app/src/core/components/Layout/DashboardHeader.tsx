@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { TraceoLogo } from "../Icons/TraceoLogo";
-import { Space, Link, Typography } from "@traceo/ui";
-import { GH_REPO_LINK, VERSION } from "../../utils/constants";
-import { GithubOutlined } from "@ant-design/icons";
 import { useConfig } from "../../../core/contexts/ConfigsContextProvider";
+import { GH_REPO_LINK, VERSION } from "../../utils/constants";
+import { TraceoLogo } from "../Icons/TraceoLogo";
+import { GithubOutlined } from "@ant-design/icons";
+import { Space, Link, Typography } from "@traceo/ui";
+import { useNavigate } from "react-router-dom";
 
 export const DashboardHeader = () => {
   const navigate = useNavigate();

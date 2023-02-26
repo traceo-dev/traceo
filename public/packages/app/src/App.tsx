@@ -1,22 +1,22 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./assets/styles/main.css";
 import "@traceo/ui/dist/styles.css";
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { SocketContext, socket } from "./core/contexts/SocketContextProvider";
-import { RouteDescriptor } from "./core/types/navigation";
-import { getAppRoutes } from "./routes/routes";
-import { Suspense } from "react";
-import { PageCenter } from "./core/components/PageCenter";
-import Maintenance from "./core/components/Layout/Pages/Maintenance";
-import { NavBar } from "./core/components/Layout/Navbar";
-import { TraceoLoading } from "./core/components/TraceoLoading";
 import { DashboardHeader } from "./core/components/Layout/DashboardHeader";
-import { Page } from "./core/components/Page";
+import { NavBar } from "./core/components/Layout/Navbar";
+import Maintenance from "./core/components/Layout/Pages/Maintenance";
 import { MainViewWrapper } from "./core/components/Layout/Wrappers/MainViewWrapper";
 import { NotificationContainer } from "./core/components/Notification/NotificationContainer";
-import { persistedRedux, store } from "./store";
+import { Page } from "./core/components/Page";
+import { PageCenter } from "./core/components/PageCenter";
+import { TraceoLoading } from "./core/components/TraceoLoading";
 import { ConfigsContextProvider } from "./core/contexts/ConfigsContextProvider";
+import { RouteDescriptor } from "./core/types/navigation";
+import { getAppRoutes } from "./routes/routes";
+import { persistedRedux, store } from "./store";
+import { Suspense } from "react";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { LiveContextProvider } from "./core/contexts/LiveContextProvider";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
@@ -63,9 +63,9 @@ export const App = () => {
     <div className="App">
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistedRedux}>
-          <SocketContext.Provider value={{ socket }}>
-            <BrowserRouter>
-              <ConfigsContextProvider>
+          <BrowserRouter>
+            <ConfigsContextProvider>
+              <LiveContextProvider>
                 <div className="flex flex-col">
                   <DashboardHeader />
                   <NotificationContainer />
@@ -74,9 +74,9 @@ export const App = () => {
                     <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
                   </div>
                 </div>
-              </ConfigsContextProvider>
-            </BrowserRouter>
-          </SocketContext.Provider>
+              </LiveContextProvider>
+            </ConfigsContextProvider>
+          </BrowserRouter>
         </PersistGate>
       </Provider>
     </div>

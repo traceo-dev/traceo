@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
-import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
-import { useAppDispatch } from "../../../store";
-import { loadMetrics } from "./state/actions";
-import { BarChartOutlined } from "@ant-design/icons";
-import { MetricCard } from "./components/MetricCard";
-import { SearchWrapper } from "../../../core/components/SearchWrapper";
-import { InputSearch, Card, Row, Col, Alert } from "@traceo/ui";
-import { EmptyMetricsList } from "./components/EmptyMetricsList";
-import { useApplication } from "../../../core/hooks/useApplication";
 import { Page } from "../../../core/components/Page";
-import { MetricTimeRangePicker } from "./components/MetricTimeRangePicker";
+import { SearchWrapper } from "../../../core/components/SearchWrapper";
+import { useApplication } from "../../../core/hooks/useApplication";
 import { useMetricsRange } from "../../../core/hooks/useMetricsRange";
 import { useRequest } from "../../../core/hooks/useRequest";
+import { useAppDispatch } from "../../../store";
+import { EmptyMetricsList } from "./components/EmptyMetricsList";
+import { MetricCard } from "./components/MetricCard";
+import { MetricTimeRangePicker } from "./components/MetricTimeRangePicker";
+import { NotConnectedTSDB } from "./components/NotConnectedTSDB";
+import { loadMetrics } from "./state/actions";
+import { BarChartOutlined } from "@ant-design/icons";
+import { StoreState } from "@store/types";
 import { ConnectionStatus, DataSourceConnStatus } from "@traceo/types";
+import { InputSearch, Card, Row, Col, Alert } from "@traceo/ui";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 const MetricsPage = () => {
   const dispatch = useAppDispatch();
@@ -25,13 +25,12 @@ const MetricsPage = () => {
   const [search, setSearch] = useState<string>(null);
   const { ranges, setRanges } = useMetricsRange();
 
-  const { data: connection, isLoading: isLoadingConnection } =
-    useRequest<DataSourceConnStatus>({
-      url: "/api/datasource/heartbeat",
-      params: {
-        id: application?.tsdbDatasource
-      }
-    });
+  const { data: connection, isLoading: isLoadingConnection } = useRequest<DataSourceConnStatus>({
+    url: "/api/datasource/heartbeat",
+    params: {
+      id: application?.tsdbDatasource
+    }
+  });
 
   useEffect(() => {
     dispatch(loadMetrics({ search }));

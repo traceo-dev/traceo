@@ -1,11 +1,7 @@
-import { FC } from "react";
-import {
-  DeploymentUnitOutlined,
-  AlignLeftOutlined,
-  CompassOutlined
-} from "@ant-design/icons";
 import { Page } from "../../../core/components/Page";
 import { MenuRoute } from "../../../core/types/navigation";
+import { DeploymentUnitOutlined, AlignLeftOutlined, CompassOutlined } from "@ant-design/icons";
+import { FC } from "react";
 
 export const ExplorePageWrapper: FC = ({ children }) => {
   const menu: MenuRoute[] = [

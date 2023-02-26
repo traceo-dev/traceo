@@ -1,20 +1,16 @@
-import { useEffect, useState } from "react";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
-import { EmptyAppList } from "./EmptyAppList";
-import { SortIcons } from "../../../core/components/SortIcons";
-import {
-  SortOrder,
-  MemberApplication,
-  SearchApplicationQueryParams
-} from "@traceo/types";
-import { useAppDispatch } from "../../../store";
-import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
-import { AppCard } from "./AppCard";
-import { loadApplications } from "../state/actions";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
-import { InputSearch, Select, List } from "@traceo/ui";
+import { SortIcons } from "../../../core/components/SortIcons";
 import { useUser } from "../../../core/hooks/useUser";
+import { useAppDispatch } from "../../../store";
+import { loadApplications } from "../state/actions";
+import { AppCard } from "./AppCard";
+import { EmptyAppList } from "./EmptyAppList";
+import { StoreState } from "@store/types";
+import { SortOrder, MemberApplication, SearchApplicationQueryParams } from "@traceo/types";
+import { InputSearch, Select, List } from "@traceo/ui";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",
@@ -35,9 +31,7 @@ const sortOptions = Object.values(AppsSortBy).map((sort) => ({
 
 export const AppsTable = () => {
   const dispatch = useAppDispatch();
-  const { applications, hasFetched } = useSelector(
-    (state: StoreState) => state.applications
-  );
+  const { applications, hasFetched } = useSelector((state: StoreState) => state.applications);
   const user = useUser();
 
   const [order, setOrder] = useState<SortOrder>("DESC");

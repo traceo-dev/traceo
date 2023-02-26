@@ -1,5 +1,5 @@
-import { forwardRef, HTMLProps, useMemo } from "react";
 import { conditionClass, joinClasses } from "../utils/classes";
+import { forwardRef, HTMLProps, useMemo } from "react";
 
 interface SwitchProps extends Omit<HTMLProps<HTMLInputElement>, "value"> {
   value?: boolean;
@@ -27,10 +27,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(
           ref={ref}
         />
         <label
-          className={joinClasses(
-            "traceo-switch-label",
-            conditionClass(!!value, "bg-blue-500")
-          )}
+          className={joinClasses("traceo-switch-label", conditionClass(!!value, "bg-blue-500"))}
           htmlFor={switchId}
         >
           <span className="traceo-switch-button" />

@@ -1,3 +1,5 @@
+import { Page } from "../../../../core/components/Page";
+import { MenuRoute } from "../../../../core/types/navigation";
 import {
   DatabaseOutlined,
   InfoCircleOutlined,
@@ -5,8 +7,6 @@ import {
   TeamOutlined
 } from "@ant-design/icons";
 import { FC } from "react";
-import { MenuRoute } from "../../../../core/types/navigation";
-import { Page } from "../../../../core/components/Page";
 
 export const SettingsPageWrapper: FC = ({ children }) => {
   const menu: MenuRoute[] = [

@@ -1,7 +1,7 @@
+import { PageCenter } from "./PageCenter";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Space, Button, Typography } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
-import { PageCenter } from "./PageCenter";
 
 export const TraceoLoading = () => {
   const navigate = useNavigate();

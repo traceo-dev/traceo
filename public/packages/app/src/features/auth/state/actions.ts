@@ -1,7 +1,7 @@
 import api from "../../../core/lib/api";
-import { ApiResponse, IUser } from "@traceo/types";
 import { userLoaded } from "./reducers";
 import { ThunkResult } from "@store/types";
+import { ApiResponse, IUser } from "@traceo/types";
 
 export const loadSignedInUser = (): ThunkResult<void> => {
   return async (dispatch) => {
@@ -12,7 +12,7 @@ export const loadSignedInUser = (): ThunkResult<void> => {
 
 type LogoutUserType = {
   redirectUrl: string;
-}
+};
 export const logoutUser = (): ThunkResult<void> => {
   return async () => {
     const { data } = await api.get<ApiResponse<LogoutUserType>>("/api/auth/logout");
@@ -20,5 +20,5 @@ export const logoutUser = (): ThunkResult<void> => {
     localStorage.clear();
     window["__TRACEO__"] = {};
     window.location.href = data.redirectUrl ? data.redirectUrl : "/";
-  }
-}
+  };
+};

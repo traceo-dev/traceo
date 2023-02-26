@@ -1,13 +1,20 @@
-import { UserOutlined } from "@ant-design/icons";
-import { FC } from "react";
-import { IIncident } from "@traceo/types";
-import { Link, useNavigate } from "react-router-dom";
-import { wrapIncidentMessage } from "../../../../core/utils/stringUtils";
 import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
-import dateUtils from "../../../../core/utils/date";
-import { Typography, Space, Avatar, Table, TableColumn } from "@traceo/ui";
 import { AppIncidentsListPlot } from "../../../../core/components/Plots";
 import { useApplication } from "../../../../core/hooks/useApplication";
+import dateUtils from "../../../../core/utils/date";
+import { wrapIncidentMessage } from "../../../../core/utils/stringUtils";
+import {
+  CheckCircleFilled,
+  ThunderboltFilled,
+  UserOutlined,
+  WarningFilled
+} from "@ant-design/icons";
+import { IIncident, IncidentStatus, mapIncidentStatus } from "@traceo/types";
+import { Typography, Space, Avatar, Table, TableColumn, Tooltip } from "@traceo/ui";
+import { FC } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { conditionClass, joinClasses } from "src/core/utils/classes";
+import { mapHeaderStatusIcon, mapIncidentTwBgColor } from "./utils";
 
 interface Props {
   incidents: IIncident[];
@@ -25,56 +32,62 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
     <Table
       onRowClick={(item) => handleOnRowClick(item)}
       collection={incidents}
-      rowSize="lg"
       showPagination
       hovered
       loading={isLoading}
     >
-      <TableColumn width={600} name="Details">
-        {({ item }) => <IncidentMainColumn incident={item} />}
-      </TableColumn>
-      <TableColumn name="Graph">
-        {({ item }) => <AppIncidentsListPlot errors={item?.errorsDetails} />}
-      </TableColumn>
-      <TableColumn width={25} name="Errors" value="errorsCount" />
-      <TableColumn width={25} name="Assigned">
+      <TableColumn name="Details" width={700}>
         {({ item }) => (
-          <Space className="w-full justify-center">
-            {item?.assigned ? (
-              <Avatar
-                size="md"
-                src={item?.assigned?.gravatar}
-                alt={item?.assigned?.name}
-              />
-            ) : (
-              <UserOutlined className="text-2xl" />
-            )}
+          <Space direction="vertical" className="gap-0">
+            <div className="flex flex-row items-center">
+              <Tooltip title={mapIncidentStatus[item.status]}>
+                {mapHeaderStatusIcon[item.status]}
+              </Tooltip>
+
+              <div className="flex flex-col pl-5">
+                <Typography
+                  size="lg"
+                  weight="semibold"
+                  className={joinClasses(
+                    conditionClass(item.status === IncidentStatus.RESOLVED, "line-through"),
+                    "text-white"
+                  )}
+                >
+                  {item?.type}
+                </Typography>
+                <span className="pt-2 truncate text-xs text-primary xl:max-w-[400px] md:max-w-[200px]">
+                  {item?.message}
+                </span>
+              </div>
+            </div>
           </Space>
         )}
       </TableColumn>
+      <TableColumn name="Graph" width={300}>
+        {({ item }) => (
+          // TODO: echarts chart is very bad when we want to resize him...
+          <div style={{ width: 200 }}>
+            <AppIncidentsListPlot errors={item?.errorsDetails} />
+          </div>
+        )}
+      </TableColumn>
+      <TableColumn name="Errors">
+        {({ item }) => <span className="text-xs">{item?.errorsCount}</span>}
+      </TableColumn>
+      <TableColumn name="Last error">
+        {({ item }) => (
+          <span className="text-xs whitespace-nowrap">{dateUtils.fromNow(item?.lastError)}</span>
+        )}
+      </TableColumn>
+      <TableColumn name="Assigned">
+        {({ item }) =>
+          item?.assigned ? (
+            <Avatar size="md" src={item?.assigned?.gravatar} alt={item?.assigned?.name} />
+          ) : (
+            <UserOutlined className="text-2xl" />
+          )
+        }
+      </TableColumn>
     </Table>
-  );
-};
-
-interface MainColumnProps {
-  incident: IIncident;
-}
-const IncidentMainColumn: FC<MainColumnProps> = ({ incident }) => {
-  const { application } = useApplication();
-  return (
-    <Link to={`/app/${application.id}/incidents/${incident.id}/details`}>
-      <Space direction="vertical" className="gap-0">
-        <Typography size="lg" weight="semibold">
-          {incident?.type}
-        </Typography>
-        <Typography size="xs">{wrapIncidentMessage(incident?.message)}</Typography>
-        <Space className="pt-2">
-          <IncidentStatusTag status={incident?.status} className="mr-2" />
-          <Typography size="xs" weight="semibold">
-            Last: {dateUtils.fromNow(incident?.lastError)}
-          </Typography>
-        </Space>
-      </Space>
-    </Link>
   );
 };

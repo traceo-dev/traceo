@@ -1,27 +1,27 @@
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
+import { Page } from "../../../core/components/Page";
+import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { SortIcons } from "../../../core/components/SortIcons";
-import { IncidentTable } from "./components/IncidentTable";
 import { ApiQueryParams } from "../../../core/lib/api";
+import { localStorageService } from "../../../core/lib/localStorage";
+import { LocalStorage } from "../../../core/lib/localStorage/types";
 import { useAppDispatch } from "../../../store";
+import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
+import { IncidentTable } from "./components/IncidentTable";
+import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
+import { loadIncidents } from "./state/actions";
+import { resetIncidentState } from "./state/reducers";
+import { StoreState } from "@store/types";
 import {
   IncidentSortBy,
   IncidentStatusSearch,
   SortOrder,
   INCIDENT_PLOT_TYPE
 } from "@traceo/types";
-import { StoreState } from "@store/types";
-import { loadIncidents } from "./state/actions";
-import { useParams } from "react-router-dom";
-import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
-import { SearchWrapper } from "../../../core/components/SearchWrapper";
-import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
 import { InputSearch, Select, Card, RadioButtonGroup } from "@traceo/ui";
-import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
-import { resetIncidentState } from "./state/reducers";
-import { Page } from "../../../core/components/Page";
-import { localStorageService } from "../../../core/lib/localStorage";
-import { LocalStorage } from "../../../core/lib/localStorage/types";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 export const IncidentsListPage = () => {
   const { id } = useParams();

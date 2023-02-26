@@ -1,3 +1,10 @@
+import { useConfig } from "../../../../core/contexts/ConfigsContextProvider";
+import { MenuRoute } from "../../../types/navigation";
+import { GH_REPO_LINK } from "../../../utils/constants";
+import { logout } from "../../../utils/logout";
+import { DemoBanner } from "../../DemoBanner";
+import { NavBarItem } from "./NavBarItem";
+import { NavbarWrapper } from "./NavbarWrapper";
 import {
   HomeOutlined,
   SettingOutlined,
@@ -5,13 +12,6 @@ import {
   LogoutOutlined,
   LinkOutlined
 } from "@ant-design/icons";
-import { logout } from "../../../utils/logout";
-import { NavBarItem } from "./NavBarItem";
-import { NavbarWrapper } from "./NavbarWrapper";
-import { GH_REPO_LINK } from "../../../utils/constants";
-import { MenuRoute } from "../../../types/navigation";
-import { useConfig } from "../../../../core/contexts/ConfigsContextProvider";
-import { DemoBanner } from "../../DemoBanner";
 
 export const DashboardNavBar = () => {
   const configs = useConfig();

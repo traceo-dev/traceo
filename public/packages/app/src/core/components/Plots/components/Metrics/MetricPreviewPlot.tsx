@@ -1,11 +1,11 @@
-import { StoreState } from "@store/types";
-import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../ConditionLayout";
-import { buildDatasource, buildSeries, commonOptions } from "./utils";
-import { tooltipOptions } from "../../utils";
-import { FC, lazy, useMemo } from "react";
-import { IMetric, METRIC_UNIT, DeepPartial } from "@traceo/types";
 import { DataNotFound } from "../../../DataNotFound";
+import { tooltipOptions } from "../../utils";
+import { buildDatasource, buildSeries, commonOptions } from "./utils";
+import { StoreState } from "@store/types";
+import { IMetric, METRIC_UNIT, DeepPartial } from "@traceo/types";
+import { FC, lazy, useMemo } from "react";
+import { useSelector } from "react-redux";
 
 interface Props {
   options: DeepPartial<IMetric>;

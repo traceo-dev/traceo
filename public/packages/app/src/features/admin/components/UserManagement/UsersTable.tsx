@@ -1,15 +1,11 @@
-import {
-  CheckCircleFilled,
-  LockFilled,
-  SafetyCertificateFilled
-} from "@ant-design/icons";
+import { UserStatusTag } from "../../../../core/components/UserStatusTag";
 import { useUser } from "../../../../core/hooks/useUser";
-import { Avatar, Space, Table, TableColumn, Tooltip, Typography } from "@traceo/ui";
 import dateUtils from "../../../../core/utils/date";
+import { CheckCircleFilled, LockFilled, SafetyCertificateFilled } from "@ant-design/icons";
+import { IUser, UserStatus } from "@traceo/types";
+import { Avatar, Space, Table, TableColumn, Tooltip, Typography } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserStatusTag } from "../../../../core/components/UserStatusTag";
-import { IUser, UserStatus } from "@traceo/types";
 
 interface Props {
   users: IUser[];
@@ -54,9 +50,7 @@ export const UsersTable: FC<Props> = ({ users, hasFetched }) => {
       <TableColumn width={15}>
         {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.username} />}
       </TableColumn>
-      <TableColumn name="Username">
-        {({ item }) => <RenderProfile {...item} />}
-      </TableColumn>
+      <TableColumn name="Username">{({ item }) => <RenderProfile {...item} />}</TableColumn>
       <TableColumn name="Name" value="name" />
       <TableColumn name="Email" value="email" />
       <TableColumn name="Status">

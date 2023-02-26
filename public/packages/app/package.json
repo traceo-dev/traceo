@@ -8,8 +8,7 @@
     "build:dev": "webpack --progress --color --config scripts/webpack/webpack.dev.js",
     "build:prod": "webpack --progress --color --config scripts/webpack/webpack.prod.js",
     "test": "react-scripts test",
-    "lint": "eslint . --ext .js,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.tsx,.ts --cache --fix"
+    "prettier": "prettier ./src/**/*.{js,ts,tsx} --write"
   },
   "dependencies": {
     "@traceo/types": "0.0.0",
@@ -30,7 +29,6 @@
     "history": "^5.3.0",
     "husky": "^7.0.4",
     "jwt-decode": "^2.2.0",
-    "prettier": "^2.5.1",
     "prismjs": "^1.28.0",
     "process": "^0.11.10",
     "react": "17.0.2",
@@ -88,12 +86,6 @@
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "4.11.1",
     "webpack-merge": "^5.8.0"
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "npm run prettier",
-      "npm run lint:fix"
-    ]
   },
   "browserslist": {
     "production": [

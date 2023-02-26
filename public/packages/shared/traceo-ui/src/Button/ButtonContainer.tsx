@@ -13,7 +13,7 @@ export const ButtonContainer: FC<PropsWithChildren<ButtonContainerProps>> = ({
   className,
   hidden = false,
   justify = "end",
-  children,
+  children
 }) => {
   return (
     <div

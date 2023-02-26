@@ -2,7 +2,5 @@
   "version": "independent",
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "packages": [
-    "packages/shared/*"
-  ]
+  "packages": ["packages/shared/*"]
 }

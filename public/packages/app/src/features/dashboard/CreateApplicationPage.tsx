@@ -1,5 +1,11 @@
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import { InfluxForm } from "../../core/components/Forms/InfluxForm";
+import { Page } from "../../core/components/Page";
+import api from "../../core/lib/api";
+import { TRY_AGAIN_LATER_ERROR } from "../../core/utils/constants";
 import { useAppDispatch } from "../../store/index";
+import { toggleNavbar } from "../../store/internal/navbar/actions";
+import { loadApplication } from "../app/state/application/actions";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import { ApiResponse, CreateApplicationProps, DatasourceProvider } from "@traceo/types";
 import {
   Alert,
@@ -14,13 +20,7 @@ import {
   Typography
 } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { Page } from "../../core/components/Page";
-import { loadApplication } from "../app/state/application/actions";
 import { useNavigate } from "react-router-dom";
-import api from "../../core/lib/api";
-import { TRY_AGAIN_LATER_ERROR } from "../../core/utils/constants";
-import { InfluxForm } from "../../core/components/Forms/InfluxForm";
-import { toggleNavbar } from "../../store/internal/navbar/actions";
 
 type CreateAppPayload = {
   redirectUrl: string;
@@ -32,8 +32,7 @@ const technologyOptions: SelectOptionProps[] = [
   {
     label: "NodeJS",
     value: "nodejs",
-    description:
-      "Back-end JavaScript runtime environment, runs on the V8 JavaScript Engine."
+    description: "Back-end JavaScript runtime environment, runs on the V8 JavaScript Engine."
   }
 ];
 

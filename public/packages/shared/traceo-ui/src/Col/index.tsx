@@ -6,11 +6,7 @@ interface ColumnProps {
   className?: string;
 }
 
-export const Col: FC<PropsWithChildren<ColumnProps>> = ({
-  span,
-  children,
-  className,
-}) => {
+export const Col: FC<PropsWithChildren<ColumnProps>> = ({ span, children, className }) => {
   return (
     <div
       className={joinClasses(

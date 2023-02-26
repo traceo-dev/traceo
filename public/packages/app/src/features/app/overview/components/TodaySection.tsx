@@ -1,13 +1,13 @@
-import { SyncOutlined } from "@ant-design/icons";
-import { useParams } from "react-router-dom";
-import { useRequest } from "../../../../core/hooks/useRequest";
-import { ErrorDetails } from "@traceo/types";
-import { statisticUtils } from "../../../../core/utils/statistics";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import dateUtils from "../../../../core/utils/date";
-import { Typography, Card } from "@traceo/ui";
 import { AppIncidentsTodayPlot } from "../../../../core/components/Plots";
 import { useApplication } from "../../../../core/hooks/useApplication";
+import { useRequest } from "../../../../core/hooks/useRequest";
+import dateUtils from "../../../../core/utils/date";
+import { statisticUtils } from "../../../../core/utils/statistics";
+import { SyncOutlined } from "@ant-design/icons";
+import { ErrorDetails } from "@traceo/types";
+import { Typography, Card } from "@traceo/ui";
+import { useParams } from "react-router-dom";
 
 export const TodaySection = () => {
   const { id } = useParams();
@@ -46,9 +46,7 @@ export const TodaySection = () => {
             <Card
               title="Errors count"
               className="h-full"
-              extra={
-                <SyncOutlined className="text-xs" onClick={() => reloadDailyStats()} />
-              }
+              extra={<SyncOutlined className="text-xs" onClick={() => reloadDailyStats()} />}
             >
               <ConditionalWrapper isLoading={isLoading}>
                 <Typography size="xxl" weight="semibold">

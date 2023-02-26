@@ -1,16 +1,15 @@
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
+import { Confirm } from "../../../../core/components/Confirm";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { AddToApplicationModal } from "../../../../core/components/Modals/AddToApplicationModal";
+import { useRequest } from "../../../../core/hooks/useRequest";
+import { membersAction } from "../../../../core/lib/api/members";
+import { ADMIN_EMAIL } from "../../../../core/utils/constants";
+import { StoreState } from "@store/types";
+import { ApplicationMember, MemberApplication, MemberRole } from "@traceo/types";
+import { Button, Card, Space, Table, TableColumn, Avatar, Select } from "@traceo/ui";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { useRequest } from "../../../../core/hooks/useRequest";
-import { ApplicationMember, MemberApplication, MemberRole } from "@traceo/types";
-import { StoreState } from "@store/types";
-
-import { AddToApplicationModal } from "../../../../core/components/Modals/AddToApplicationModal";
-import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { ADMIN_EMAIL } from "../../../../core/utils/constants";
-import { Button, Card, Space, Table, TableColumn, Avatar, Select } from "@traceo/ui";
-import { Confirm } from "../../../../core/components/Confirm";
-import { membersAction } from "../../../../core/lib/api/members";
 
 export const UserApplications = () => {
   const { user } = useSelector((state: StoreState) => state.users);
@@ -50,9 +49,7 @@ export const UserApplications = () => {
         extra={
           !isAdmin && (
             <Space className="w-full justify-end">
-              <Button onClick={() => setOpenAddAppDrawer(true)}>
-                Add user to application
-              </Button>
+              <Button onClick={() => setOpenAddAppDrawer(true)}>Add user to application</Button>
             </Space>
           )
         }

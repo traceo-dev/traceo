@@ -1,9 +1,9 @@
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { IMetric, MetricsResponse, DeepPartial } from "@traceo/types";
+import { Typography, Card, Space, Switch, Table, TableColumn } from "@traceo/ui";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
-import { IMetric, MetricsResponse, DeepPartial } from "@traceo/types";
-import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { Typography, Card, Space, Switch, Table, TableColumn } from "@traceo/ui";
 
 interface Props {
   metric: DeepPartial<IMetric>;
@@ -19,10 +19,7 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
       extra={
         <Space className="w-full justify-end">
           <Typography>Formatted time</Typography>
-          <Switch
-            value={isFormattedTime}
-            onChange={() => setFormattedTime(!isFormattedTime)}
-          />
+          <Switch value={isFormattedTime} onChange={() => setFormattedTime(!isFormattedTime)} />
         </Space>
       }
     >
@@ -30,9 +27,7 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
         <Table collection={metricData} hovered>
           <TableColumn name="Time">
             {({ item }) =>
-              isFormattedTime
-                ? dayjs(item._time).format("YYYY-MM-DD HH:mm:ss")
-                : item._time
+              isFormattedTime ? dayjs(item._time).format("YYYY-MM-DD HH:mm:ss") : item._time
             }
           </TableColumn>
           {metric?.series?.map((serie, index) => (

@@ -1,15 +1,15 @@
-import { FC } from "react";
+import NotFound from "../../../core/components/Layout/Pages/NotFound";
+import { Page } from "../../../core/components/Page";
+import { PageCenter } from "../../../core/components/PageCenter";
+import { useUser } from "../../../core/hooks/useUser";
+import { MenuRoute } from "../../../core/types/navigation";
 import {
   AppstoreFilled,
   InfoCircleOutlined,
   SettingOutlined,
   TeamOutlined
 } from "@ant-design/icons";
-import { PageCenter } from "../../../core/components/PageCenter";
-import NotFound from "../../../core/components/Layout/Pages/NotFound";
-import { useUser } from "../../../core/hooks/useUser";
-import { Page } from "../../../core/components/Page";
-import { MenuRoute } from "../../../core/types/navigation";
+import { FC } from "react";
 
 interface Props {
   isLoading?: boolean;

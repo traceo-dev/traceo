@@ -1,15 +1,9 @@
 import api from "../../../core/lib/api";
-import { ThunkResult } from "@store/types";
-import {
-  MemberApplication,
-  SearchApplicationQueryParams,
-  ApiResponse
-} from "@traceo/types";
 import { applicationsLoaded } from "./reducers";
+import { ThunkResult } from "@store/types";
+import { MemberApplication, SearchApplicationQueryParams, ApiResponse } from "@traceo/types";
 
-export const loadApplications = (
-  query?: SearchApplicationQueryParams
-): ThunkResult<void> => {
+export const loadApplications = (query?: SearchApplicationQueryParams): ThunkResult<void> => {
   return async (dispatch, getStore) => {
     const user = getStore().user.user;
     if (!query) {

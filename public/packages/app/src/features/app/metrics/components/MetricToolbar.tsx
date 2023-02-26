@@ -1,8 +1,8 @@
-import { SettingOutlined, CompressOutlined, ExpandOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../../../../store/index";
-import { Tooltip } from "@traceo/ui";
 import { toggleNavbar } from "../../../../store/internal/navbar/actions";
 import { MetricTimeRangePicker } from "./MetricTimeRangePicker";
+import { SettingOutlined, CompressOutlined, ExpandOutlined } from "@ant-design/icons";
+import { Tooltip } from "@traceo/ui";
 
 interface Props {
   isCustomizeMode: boolean;
@@ -73,9 +73,7 @@ export const MetricToolbar = ({
 
   return (
     <div className="flex flex-row items-center gap-x-3">
-      {!isCustomizeMode && (
-        <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
-      )}
+      {!isCustomizeMode && <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />}
       {graphToolbarTools().map((tool, index) => (
         <Tooltip title={tool.title} key={index}>
           <div

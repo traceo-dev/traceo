@@ -1,9 +1,8 @@
-import { Module } from '@nestjs/common';
-import { CommentsGateway } from './websockets/comments.gateway';
-import { WebsocketsModule } from './websockets/websockets.module';
+import { Module } from "@nestjs/common";
+import { ServicesModule } from "./services/services.module";
 
 @Module({
-    imports: [WebsocketsModule],
-    providers: [CommentsGateway]
+  imports: [ServicesModule],
+  providers: []
 })
 export class CommonModule { }

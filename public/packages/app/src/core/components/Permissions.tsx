@@ -1,7 +1,7 @@
-import { useApplication } from "../hooks/useApplication";
-import { FC, ReactNode } from "react";
-import { MemberRole } from "@traceo/types";
 import { useConfig } from "../contexts/ConfigsContextProvider";
+import { useApplication } from "../hooks/useApplication";
+import { MemberRole } from "@traceo/types";
+import { FC, ReactNode } from "react";
 
 interface PermissionsProps {
   children: ReactNode;

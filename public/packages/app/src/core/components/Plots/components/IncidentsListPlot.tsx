@@ -1,11 +1,11 @@
-import { FC, lazy, useMemo } from "react";
-import { statisticUtils } from "../../../utils/statistics";
-import { ErrorDetails } from "@traceo/types";
-import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
-import { EChartsOption } from "echarts";
-import dateUtils from "../../../utils/date";
 import { localStorageService } from "../../../../core/lib/localStorage";
 import { LocalStorage } from "../../../../core/lib/localStorage/types";
+import dateUtils from "../../../utils/date";
+import { statisticUtils } from "../../../utils/statistics";
+import { normalizePlotData, splitLine, tooltipOptions } from "../utils";
+import { ErrorDetails } from "@traceo/types";
+import { EChartsOption } from "echarts";
+import { FC, lazy, useMemo } from "react";
 
 const ReactECharts = lazy(() => import("echarts-for-react"));
 interface Props {
@@ -33,16 +33,40 @@ const IncidentsListPlot: FC<Props> = ({ errors }) => {
       }
     },
     grid: {
-      left: "5px",
-      right: "5px",
+      left: "20px",
+      right: "10px",
       top: "8px",
-      bottom: "0px",
-      containLabel: true
+      bottom: "20px"
+      // containLabel: true
     },
     xAxis: {
-      show: false,
-      splitLine,
+      splitLine: {
+        lineStyle: {
+          color: "transparent"
+        }
+      },
+      axisTick: {
+        show: false
+      },
+      axisLine: {
+        show: false
+      },
       type: "category",
+      axisLabel: {
+        show: false,
+        interval: "auto",
+        formatter: function (value, index) {
+          if (index === 0 || index === dataSource.x.length - 1) {
+            return dateUtils.formatDate(Number(value), "DD-MM");
+          }
+
+          return "";
+        },
+        color: "#CCCCDC",
+        fontSize: 10,
+        showMaxLabel: true,
+        showMinLabel: true
+      },
       axisPointer: {
         label: {
           formatter: (v) => dateUtils.formatDate(v.value as number, "MMM D, YYYY")
@@ -53,7 +77,9 @@ const IncidentsListPlot: FC<Props> = ({ errors }) => {
       splitLine,
       axisLabel: {
         showMinLabel: false,
-        hideOverlap: true
+        hideOverlap: true,
+        color: "#CCCCDC",
+        fontSize: 10
       },
       alignTicks: true,
       min: 0,
@@ -83,8 +109,7 @@ const IncidentsListPlot: FC<Props> = ({ errors }) => {
   return (
     <ReactECharts
       style={{
-        height: "50px",
-        width: "250px"
+        height: "50px"
       }}
       option={options}
     />

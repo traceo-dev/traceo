@@ -1,19 +1,17 @@
-import { statisticUtils } from "../../../core/utils/statistics";
-import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
-import IncidentPageWrapper from "./components/IncidentPageWrapper";
-import dateUtils from "../../../core/utils/date";
-import { Typography, Card } from "@traceo/ui";
 import { AppIncidentsTodayPlot, AppOverviewPlot } from "../../../core/components/Plots";
+import dateUtils from "../../../core/utils/date";
+import { statisticUtils } from "../../../core/utils/statistics";
+import IncidentPageWrapper from "./components/IncidentPageWrapper";
+import { StoreState } from "@store/types";
+import { Typography, Card } from "@traceo/ui";
 import { useMemo } from "react";
+import { useSelector } from "react-redux";
 
 export const IncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
 
   const dataSource = useMemo(() => {
-    return statisticUtils.parseIncidentsAnalyticsTodayPlotData(
-      incident?.errorsDetails || []
-    );
+    return statisticUtils.parseIncidentsAnalyticsTodayPlotData(incident?.errorsDetails || []);
   }, [incident?.errorsDetails]);
 
   return (

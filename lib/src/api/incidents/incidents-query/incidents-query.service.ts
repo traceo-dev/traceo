@@ -6,10 +6,7 @@ import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
 import { IncidentStatusSearch } from "@traceo/types";
 
 @Injectable()
-export class IncidentsQueryService extends BaseQueryService<
-  Incident,
-  IncidentQueryDto
-> {
+export class IncidentsQueryService extends BaseQueryService<Incident, IncidentQueryDto> {
   constructor(readonly entityManager: EntityManager) {
     super(entityManager, Incident);
   }
@@ -26,7 +23,7 @@ export class IncidentsQueryService extends BaseQueryService<
 
   public extendQueryBuilder(
     builder: SelectQueryBuilder<Incident>,
-    query: IncidentQueryDto,
+    query: IncidentQueryDto
   ): SelectQueryBuilder<Incident> {
     const { appId } = query;
 
@@ -46,21 +43,10 @@ export class IncidentsQueryService extends BaseQueryService<
   }
 
   public selectedColumns(): string[] {
-    return [
-      "id",
-      "status",
-      "type",
-      "message",
-      "lastError",
-      "errorsCount",
-      "errorsDetails",
-    ];
+    return ["id", "status", "type", "message", "lastError", "errorsCount", "errorsDetails"];
   }
 
-  public commonQuery(
-    builder: SelectQueryBuilder<Incident>,
-    query: IncidentQueryDto,
-  ) {
+  public commonQuery(builder: SelectQueryBuilder<Incident>, query: IncidentQueryDto) {
     const { search, status, size } = query;
 
     if (status && status !== IncidentStatusSearch.ALL) {
@@ -81,8 +67,8 @@ export class IncidentsQueryService extends BaseQueryService<
             })
             .orWhere("LOWER(assigned.name) LIKE LOWER(:search)", {
               search: `%${search}%`
-            })
-        }),
+            });
+        })
       );
     }
 

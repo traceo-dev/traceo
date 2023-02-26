@@ -1,9 +1,9 @@
-import { useMemo } from "react";
-import { IDatasource } from "@traceo/types";
-import { useMemberRole } from "../../../../core/hooks/useMemberRole";
-import { Form } from "@traceo/ui";
-import { useApplication } from "../../../../core/hooks/useApplication";
 import { InfluxForm } from "../../../../core/components/Forms/InfluxForm";
+import { useApplication } from "../../../../core/hooks/useApplication";
+import { useMemberRole } from "../../../../core/hooks/useMemberRole";
+import { IDatasource } from "@traceo/types";
+import { Form } from "@traceo/ui";
+import { useMemo } from "react";
 
 interface Props {
   datasource: IDatasource;

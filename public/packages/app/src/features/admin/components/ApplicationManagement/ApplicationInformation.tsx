@@ -1,12 +1,12 @@
+import { ColumnSection } from "../../../../core/components/ColumnSection";
+import { Confirm } from "../../../../core/components/Confirm";
+import api from "../../../../core/lib/api";
+import dateUtils from "../../../../core/utils/date";
+import { LeftOutlined } from "@ant-design/icons";
+import { ApiResponse, IApplication } from "@traceo/types";
 import { Space, Button, Card, FieldLabel, Input } from "@traceo/ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Confirm } from "../../../../core/components/Confirm";
-import api from "../../../../core/lib/api";
-import { ApiResponse, IApplication } from "@traceo/types";
-import dateUtils from "../../../../core/utils/date";
-import { ColumnSection } from "../../../../core/components/ColumnSection";
-import { LeftOutlined } from "@ant-design/icons";
 
 interface Props {
   application: IApplication;
@@ -65,10 +65,7 @@ export const ApplicationInformation = ({ application }: Props) => {
             <Input defaultValue={application?.name} disabled />
           </FieldLabel>
           <FieldLabel label="Last error at">
-            <Input
-              defaultValue={dateUtils.fromNow(application?.lastIncidentAt)}
-              disabled
-            />
+            <Input defaultValue={dateUtils.fromNow(application?.lastIncidentAt)} disabled />
           </FieldLabel>
           <FieldLabel label="Incidents count">
             <Input defaultValue={application?.incidentsCount} disabled />

@@ -1,11 +1,11 @@
-import { FC, useMemo } from "react";
-import { IMetric, DeepPartial, IMetricSerie } from "@traceo/types";
-import { DraftFunction } from "use-immer";
-import { Card, Divider, FieldLabel } from "@traceo/ui";
+import { CustomizeFormSection } from "./CustomizeFormSection";
 import { editMetricBasicForm } from "./editMetricBasicForm";
 import { editMetricGraphForm } from "./editMetricGraphForm";
 import { editSerieForm } from "./editMetricSeriesForm";
-import { CustomizeFormSection } from "./CustomizeFormSection";
+import { IMetric, DeepPartial, IMetricSerie } from "@traceo/types";
+import { Card, Divider, FieldLabel } from "@traceo/ui";
+import { FC, useMemo } from "react";
+import { DraftFunction } from "use-immer";
 
 interface Props {
   options: DeepPartial<IMetric>;

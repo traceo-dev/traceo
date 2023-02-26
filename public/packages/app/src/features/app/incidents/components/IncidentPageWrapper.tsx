@@ -1,21 +1,37 @@
-import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { loadIncident } from "../state/actions";
-import { useSelector } from "react-redux";
+import { Page } from "../../../../core/components/Page";
+import { useApplication } from "../../../../core/hooks/useApplication";
+import { MenuRoute } from "../../../../core/types/navigation";
 import { useAppDispatch } from "../../../../store";
-import { StoreState } from "@store/types";
+import { loadIncident } from "../state/actions";
 import {
   ArrowLeftOutlined,
+  CheckCircleFilled,
   CommentOutlined,
   InfoCircleOutlined,
   StockOutlined,
-  SyncOutlined
+  SyncOutlined,
+  ThunderboltFilled,
+  WarningFilled
 } from "@ant-design/icons";
-import { Page } from "../../../../core/components/Page";
-import { mapIncidentStatusIcon, mapIncidentTwTextColor } from "./utils";
-import { joinClasses } from "../../../../core/utils/classes";
-import { useApplication } from "../../../../core/hooks/useApplication";
-import { MenuRoute } from "../../../../core/types/navigation";
+import { StoreState } from "@store/types";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { IncidentStatus } from "@traceo/types";
+import { joinClasses } from "src/core/utils/classes";
+
+const mainClassName = "p-3 rounded";
+const mapHeaderStatusIcon: Record<IncidentStatus, JSX.Element> = {
+  [IncidentStatus.RESOLVED]: (
+    <CheckCircleFilled className={joinClasses("bg-green-800 text-green-100", mainClassName)} />
+  ),
+  [IncidentStatus.UNRESOLVED]: (
+    <WarningFilled className={joinClasses("bg-red-800 text-red-100", mainClassName)} />
+  ),
+  [IncidentStatus.IN_PROGRESS]: (
+    <ThunderboltFilled className={joinClasses("bg-purple-800 text-purple-100", mainClassName)} />
+  )
+};
 
 export const IncidentPageWrapper = ({ children }) => {
   const { iid } = useParams();
@@ -57,29 +73,23 @@ export const IncidentPageWrapper = ({ children }) => {
     <Page
       header={{
         title: (
-          <div className="flex flex-col">
-            <div
-              onClick={() => onBack()}
-              className="flex flex-row text-xs gap-x-2 items-center cursor-pointer max-w-min"
-            >
-              <ArrowLeftOutlined />
-              <span className="text-2xs">INCIDENTS</span>
-            </div>
-            <div className="flex flex-row items-center">
-              <span>{incident.type}</span>
+          <div className="flex flex-row items-center">
+            {mapHeaderStatusIcon[incident.status]}
+            <div className="flex flex-col pl-5">
               <div
-                className={joinClasses(
-                  mapIncidentTwTextColor[incident.status],
-                  "ml-2 text-md"
-                )}
+                onClick={() => onBack()}
+                className="flex flex-row text-xs gap-x-2 items-center cursor-pointer max-w-min"
               >
-                {mapIncidentStatusIcon[incident.status]}
+                <ArrowLeftOutlined />
+                <span className="text-2xs">INCIDENTS</span>
+              </div>
+              <div className="flex flex-col">
+                <span>{incident.type}</span>
+                <span className="text-xs font-normal">{incident?.message}</span>
               </div>
             </div>
           </div>
         ),
-        description: incident?.message,
-        // icon: <BugOutlined />,
         suffix: (
           <SyncOutlined
             onClick={() => dispatch(loadIncident(iid))}

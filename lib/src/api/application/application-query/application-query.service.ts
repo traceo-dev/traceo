@@ -8,12 +8,8 @@ import { Application } from "../../../db/entities/application.entity";
 import { Log } from "../../../db/entities/log.entity";
 import { EntityManager, SelectQueryBuilder } from "typeorm";
 
-
 @Injectable()
-export class ApplicationQueryService extends BaseQueryService<
-  Application,
-  BaseDtoQuery
-> {
+export class ApplicationQueryService extends BaseQueryService<Application, BaseDtoQuery> {
   private logger: Logger;
 
   constructor(readonly entityManager: EntityManager) {
@@ -22,7 +18,7 @@ export class ApplicationQueryService extends BaseQueryService<
   }
 
   public get builderAlias(): string {
-    return 'application';
+    return "application";
   }
 
   public async checkAppExists(id: string) {
@@ -35,7 +31,7 @@ export class ApplicationQueryService extends BaseQueryService<
 
   public extendQueryBuilder(
     builder: SelectQueryBuilder<Application>,
-    query: BaseDtoQuery,
+    query: BaseDtoQuery
   ): SelectQueryBuilder<Application> {
     const { search } = query;
 
@@ -46,12 +42,9 @@ export class ApplicationQueryService extends BaseQueryService<
     }
 
     builder
-      .leftJoinAndSelect('application.owner', 'owner')
-      .loadRelationCountAndMap(
-        "application.membersCount",
-        "application.members",
-      )
-      .addSelect('owner.name', 'owner.email');
+      .leftJoinAndSelect("application.owner", "owner")
+      .loadRelationCountAndMap("application.membersCount", "application.members")
+      .addSelect("owner.name", "owner.email");
 
     return builder;
   }
@@ -72,13 +65,21 @@ export class ApplicationQueryService extends BaseQueryService<
     }
 
     try {
-      const response = await this.entityManager.getRepository(Log).createQueryBuilder('log')
-        .where('log.applicationId = :id', { id })
-        .andWhere('log.receiveTimestamp > :startDate', { startDate })
-        .andWhere('log.receiveTimestamp < :endDate', { endDate })
-        .andWhere('log.level in (:...levels)', { levels: query.levels || [] })
-        .orderBy('log.receiveTimestamp', 'DESC', "NULLS LAST")
-        .select(['log.timestamp', 'log.message', 'log.level', 'log.resources', 'log.receiveTimestamp'])
+      const response = await this.entityManager
+        .getRepository(Log)
+        .createQueryBuilder("log")
+        .where("log.applicationId = :id", { id })
+        .andWhere("log.receiveTimestamp > :startDate", { startDate })
+        .andWhere("log.receiveTimestamp < :endDate", { endDate })
+        .andWhere("log.level in (:...levels)", { levels: query.levels || [] })
+        .orderBy("log.receiveTimestamp", "DESC", "NULLS LAST")
+        .select([
+          "log.timestamp",
+          "log.message",
+          "log.level",
+          "log.resources",
+          "log.receiveTimestamp"
+        ])
         .take(1000)
         .getMany();
 

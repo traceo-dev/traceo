@@ -1,12 +1,12 @@
-import { Card, FieldLabel, Select, Typography } from "@traceo/ui";
-import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
-import { useEffect } from "react";
+import dateUtils from "../../../../core/utils/date";
 import { useAppDispatch } from "../../../../store";
 import { loadMembers } from "../../settings/state/members/actions";
 import { updateIncident } from "../state/actions";
-import dateUtils from "../../../../core/utils/date";
 import { assignOptions, statusOptions } from "./utils";
+import { StoreState } from "@store/types";
+import { Card, FieldLabel, Select, Typography } from "@traceo/ui";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 export const InfoSection = () => {
   const dispatch = useAppDispatch();

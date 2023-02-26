@@ -1,12 +1,4 @@
-import {
-  Alert,
-  Button,
-  ButtonContainer,
-  Form,
-  FormItem,
-  Input,
-  InputSecret
-} from "@traceo/ui";
+import { Alert, Button, ButtonContainer, Form, FormItem, Input, InputSecret } from "@traceo/ui";
 
 type FormType = {
   username: string;
@@ -15,9 +7,7 @@ type FormType = {
 export const LoginForm = ({ invalid, loading, onFinish }) => {
   return (
     <>
-      {invalid && (
-        <Alert type="error" title="Bad username or password!" className="mb-9" />
-      )}
+      {invalid && <Alert type="error" title="Bad username or password!" className="mb-9" />}
       <Form<FormType> onSubmit={onFinish} id="login-form">
         {({ register, errors }) => (
           <>
@@ -31,16 +21,14 @@ export const LoginForm = ({ invalid, loading, onFinish }) => {
           </>
         )}
       </Form>
-      <ButtonContainer className="pt-12 w-full" justify="center">
-        <Button
-          className="justify-center py-5 w-full"
-          form="login-form"
-          loading={loading}
-          type="submit"
-        >
-          Log In
-        </Button>
-      </ButtonContainer>
+      <Button
+        className="justify-center mt-12 min-w-full"
+        form="login-form"
+        loading={loading}
+        type="submit"
+      >
+        Login
+      </Button>
     </>
   );
 };

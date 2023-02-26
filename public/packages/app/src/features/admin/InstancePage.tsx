@@ -1,8 +1,8 @@
-import { Card } from "@traceo/ui";
 import { DescriptionRow, Descriptions } from "../../core/components/Descriptions";
 import { VERSION } from "../../core/utils/constants";
 import dateUtils from "../../core/utils/date";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
+import { Card } from "@traceo/ui";
 
 const InstancePage = () => {
   return (

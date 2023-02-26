@@ -1,10 +1,10 @@
-import { CalendarOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import { Button, FieldLabel, Input, Popover } from "../index";
-import dayjs from "dayjs";
-import styled from "styled-components";
 import { ReactCalendarBody } from "./ReactCalendarBody";
+import { CalendarOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import { BasePlacement } from "@popperjs/core/lib";
+import dayjs from "dayjs";
 import { useMemo, useState } from "react";
+import styled from "styled-components";
 
 interface Props {
   value: [number, number];
@@ -12,12 +12,7 @@ interface Props {
   submit?: () => void;
   placement?: BasePlacement;
 }
-export const TimeRangePicker = ({
-  value,
-  onChange,
-  submit,
-  placement = "bottom",
-}: Props) => {
+export const TimeRangePicker = ({ value, onChange, submit, placement = "bottom" }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
 
   const handleOnRangeChange = (range: [Date, Date]) => {

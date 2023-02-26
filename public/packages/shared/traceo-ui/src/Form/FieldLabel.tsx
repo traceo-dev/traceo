@@ -13,18 +13,16 @@ export const FieldLabel: FC<PropsWithChildren<FieldLabelProps>> = ({
   children,
   className,
   labelSize = "sm",
-  labelPosition = "vertical",
+  labelPosition = "vertical"
 }) => {
   const mapStyle: Record<LabelPosition, string> = {
     vertical: "flex flex-col",
-    horizontal: "flex flex-row items-center justify-between h-full",
+    horizontal: "flex flex-row items-center justify-between h-full"
   };
 
   return (
     <div className={joinClasses("mb-5", mapStyle[labelPosition], className)}>
-      <span className={joinClasses("font-semibold mb-2", `text-${labelSize}`)}>
-        {label}
-      </span>
+      <span className={joinClasses("font-semibold mb-2", `text-${labelSize}`)}>{label}</span>
       {children}
     </div>
   );

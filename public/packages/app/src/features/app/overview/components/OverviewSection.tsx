@@ -1,11 +1,11 @@
-import { useRequest } from "../../../../core/hooks/useRequest";
-import { SyncOutlined } from "@ant-design/icons";
-import { useParams } from "react-router-dom";
-import { ErrorDetails } from "@traceo/types";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { Card } from "@traceo/ui";
 import { AppOverviewPlot } from "../../../../core/components/Plots";
+import { useRequest } from "../../../../core/hooks/useRequest";
+import { SyncOutlined } from "@ant-design/icons";
+import { ErrorDetails } from "@traceo/types";
+import { Card } from "@traceo/ui";
+import { useParams } from "react-router-dom";
 
 export interface TotalOverviewType {
   errors: ErrorDetails[];

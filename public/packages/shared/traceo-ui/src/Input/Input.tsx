@@ -1,9 +1,8 @@
-import { LoadingOutlined } from "@ant-design/icons";
 import { conditionClass, joinClasses } from "../utils/classes";
+import { LoadingOutlined } from "@ant-design/icons";
 import { forwardRef, HTMLProps } from "react";
 
-export interface Props
-  extends Omit<HTMLProps<HTMLInputElement>, "prefix" | "size"> {
+export interface Props extends Omit<HTMLProps<HTMLInputElement>, "prefix" | "size"> {
   width?: string | number;
   label?: string;
   prefix?: JSX.Element;
@@ -41,9 +40,7 @@ export const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
 
   return (
     <div className={joinClasses(className, "grid grid-cols")}>
-      {label && (
-        <span className="text-start font-semibold text-sm mb-2">{label}</span>
-      )}
+      {label && <span className="text-start font-semibold text-sm mb-2">{label}</span>}
       <div className="relative text-sm">
         {prefix && (
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-500">

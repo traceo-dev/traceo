@@ -1,11 +1,7 @@
-import {
-  DownOutlined,
-  LoadingOutlined,
-  RightOutlined,
-} from "@ant-design/icons";
-import { conditionClass, joinClasses } from "../utils/classes";
-import { FC, useEffect, useState } from "react";
 import { Typography } from "../Typography";
+import { conditionClass, joinClasses } from "../utils/classes";
+import { DownOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
+import { FC, useEffect, useState } from "react";
 
 interface CollapseItemProps {
   header?: string | JSX.Element;
@@ -31,7 +27,7 @@ export const CollapseItem: FC<CollapseItemProps> = ({
   ghost,
   collapseIconPosition = "end",
   defaultActiveKey,
-  panelKey,
+  panelKey
 }) => {
   const [collapsed, setCollapsed] = useState<boolean>(true);
 
@@ -43,8 +39,7 @@ export const CollapseItem: FC<CollapseItemProps> = ({
 
   const icon = collapsed ? <RightOutlined /> : <DownOutlined />;
 
-  const itemHeader =
-    typeof header === "string" ? <Typography>{header}</Typography> : header;
+  const itemHeader = typeof header === "string" ? <Typography>{header}</Typography> : header;
 
   const collapseIcon = (
     <div className="text-xs">
@@ -66,9 +61,7 @@ export const CollapseItem: FC<CollapseItemProps> = ({
         )}
       >
         <div className="flex flex-row items-center">
-          {collapseIconPosition === "start" && (
-            <div className="mr-2">{collapseIcon}</div>
-          )}
+          {collapseIconPosition === "start" && <div className="mr-2">{collapseIcon}</div>}
           {startIcon && <div className="mr-2">{startIcon}</div>}
           {header && <Typography>{itemHeader}</Typography>}
         </div>
@@ -79,10 +72,7 @@ export const CollapseItem: FC<CollapseItemProps> = ({
         <div
           className={joinClasses(
             "py-3 px-4 text-start",
-            conditionClass(
-              !ghost,
-              "rounded border border-solid border-light-secondary"
-            )
+            conditionClass(!ghost, "rounded border border-solid border-light-secondary")
           )}
         >
           {children}

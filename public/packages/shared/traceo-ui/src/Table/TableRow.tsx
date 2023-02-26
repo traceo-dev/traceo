@@ -1,11 +1,11 @@
-import React, { FC } from "react";
 import { joinClasses, conditionClass } from "../utils/classes";
 import { TableRowSize } from "./types";
 import { getTraversValue } from "./utils";
+import React, { FC } from "react";
 
 const mapRowSizeStyle: Record<TableRowSize, string> = {
   md: "py-3 px-3 leading-6 h-7 text-[13px]",
-  lg: "py-4 px-3 leading-7 h-8 text-[16px]",
+  lg: "py-4 px-3 leading-7 h-8 text-[16px]"
 };
 
 interface TableRowProps {
@@ -22,7 +22,7 @@ export const TableRow: FC<TableRowProps> = ({
   striped = true,
   hovered = false,
   size = "md",
-  onRowClick,
+  onRowClick
 }) => {
   const handleOnClick = (e) => {
     e.preventDefault();
@@ -48,13 +48,7 @@ export const TableRow: FC<TableRowProps> = ({
         }
 
         return (
-          <td
-            key={index}
-            className={joinClasses(
-              mapRowSizeStyle[size],
-              child.props.className
-            )}
-          >
+          <td key={index} className={joinClasses(mapRowSizeStyle[size], child.props.className)}>
             {child.props.children
               ? child.props.children({ item })
               : getTraversValue(item, child.props.value)}
