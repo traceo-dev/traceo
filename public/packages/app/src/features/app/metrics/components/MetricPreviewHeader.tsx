@@ -2,7 +2,7 @@ import { useDemo } from "../../../..//core/hooks/useDemo";
 import { useMetricsRange } from "../../../../core/hooks/useMetricsRange";
 import api from "../../../../core/lib/api";
 import { useAppDispatch } from "../../../../store";
-import { toggleNavbar } from "../../../../store/internal/navbar/actions";
+import { hideNavbar } from "../../../../store/internal/navbar/actions";
 import { loadMetric } from "../state/actions";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
@@ -50,14 +50,14 @@ export const MetricPreviewHeader: FC<Props> = ({
       .finally(() => {
         setSaveLoading(false);
         setCustomizeMode(false);
-        dispatch(toggleNavbar(false));
+        dispatch(hideNavbar(false));
       });
   };
 
   const onDiscard = () => {
     setOptions(metric?.options);
     setCustomizeMode(false);
-    dispatch(toggleNavbar(false));
+    dispatch(hideNavbar(false));
   };
 
   const onBack = () => {
@@ -65,7 +65,7 @@ export const MetricPreviewHeader: FC<Props> = ({
       pathname: `/app/${id}/metrics`,
       search: `?from=${ranges[0]}&to=${ranges[1]}`
     });
-    dispatch(toggleNavbar(false));
+    dispatch(hideNavbar(false));
   };
 
   return (

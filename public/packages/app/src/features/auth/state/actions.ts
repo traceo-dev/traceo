@@ -18,7 +18,6 @@ export const logoutUser = (): ThunkResult<void> => {
     const { data } = await api.get<ApiResponse<LogoutUserType>>("/api/auth/logout");
     sessionStorage.clear();
     localStorage.clear();
-    window["__TRACEO__"] = {};
     window.location.href = data.redirectUrl ? data.redirectUrl : "/";
   };
 };

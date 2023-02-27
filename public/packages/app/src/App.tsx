@@ -59,6 +59,16 @@ export const App = () => {
     );
   };
 
+  const renderNavbar = () => {
+    // Navbar should be visible only in base and app views
+    const paths = window.location.pathname.split("/");
+    if (!paths.includes("app") && !paths.includes("dashboard")) {
+      return null;
+    }
+
+    return <NavBar />;
+  };
+
   return (
     <div className="App">
       <Provider store={store}>
@@ -70,7 +80,7 @@ export const App = () => {
                   <DashboardHeader />
                   <NotificationContainer />
                   <div className="flex items-strech absolute w-full h-full top-0 left-0">
-                    <NavBar />
+                    {renderNavbar()}
                     <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
                   </div>
                 </div>

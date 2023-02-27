@@ -1,20 +1,13 @@
-import { IncidentStatusTag } from "../../../../core/components/IncidentStatusTag";
 import { AppIncidentsListPlot } from "../../../../core/components/Plots";
 import { useApplication } from "../../../../core/hooks/useApplication";
 import dateUtils from "../../../../core/utils/date";
-import { wrapIncidentMessage } from "../../../../core/utils/stringUtils";
-import {
-  CheckCircleFilled,
-  ThunderboltFilled,
-  UserOutlined,
-  WarningFilled
-} from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { IIncident, IncidentStatus, mapIncidentStatus } from "@traceo/types";
 import { Typography, Space, Avatar, Table, TableColumn, Tooltip } from "@traceo/ui";
 import { FC } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { conditionClass, joinClasses } from "src/core/utils/classes";
-import { mapHeaderStatusIcon, mapIncidentTwBgColor } from "./utils";
+import { useNavigate } from "react-router-dom";
+import { conditionClass, joinClasses } from "../../../../core/utils/classes";
+import { mapHeaderStatusIcon } from "./utils";
 
 interface Props {
   incidents: IIncident[];
@@ -49,8 +42,7 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
                   size="lg"
                   weight="semibold"
                   className={joinClasses(
-                    conditionClass(item.status === IncidentStatus.RESOLVED, "line-through"),
-                    "text-white"
+                    conditionClass(item.status === IncidentStatus.RESOLVED, "line-through")
                   )}
                 >
                   {item?.type}

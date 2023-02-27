@@ -16,4 +16,5 @@ export interface MenuRoute {
   icon?: JSX.Element;
   adminRoute?: boolean;
   onClick?: () => void;
+  routes?: MenuRoute[];
 }

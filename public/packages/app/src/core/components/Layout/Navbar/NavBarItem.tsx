@@ -1,46 +1,38 @@
 import { useApplication } from "../../../hooks/useApplication";
 import { MenuRoute } from "../../../types/navigation";
-import { joinClasses, conditionClass } from "../../../utils/classes";
 import { StoreState } from "@store/types";
-import { Space, Typography } from "@traceo/ui";
-import { FC } from "react";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import styled from "styled-components";
 
-interface NavBarItemProps {
+export interface NavBarItemProps {
   route: MenuRoute;
 }
-export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
+export const NavbarItem = ({ route }: NavBarItemProps) => {
   const { application } = useApplication();
   const { incident } = useSelector((state: StoreState) => state.incident);
+  const location = useLocation();
 
-  const { label, disabled, icon, onClick, href, key } = route;
+  const { label, icon, onClick, href, key } = route;
 
-  const isActive = (currentKey: string) => {
-    if (!currentKey) {
+  const isActivePath = (key: string) => {
+    if (!key) {
       return false;
     }
-    const paths = window.location.pathname.split("/");
-    return paths.includes(currentKey);
+    return location.pathname.split("/").includes(key);
   };
 
-  const handlePath = (link: string) =>
-    link.replace(":id", String(application?.id)).replace(":iid", incident?.id);
+  const parsePath = () => href.replace(":id", application.id).replace(":iid", incident.id);
+
+  const handleOnClick = () => onClick && onClick();
 
   const NavItem = () => (
-    <li
-      onClick={onClick && (() => onClick())}
-      className={joinClasses(
-        "py-2 mx-3 flex cursor-pointer mb-2 rounded-lg",
-        conditionClass(key && isActive(key), "text-white bg-primary"),
-        conditionClass(!disabled, "duration-200 hover:text-white hover:bg-primary")
-      )}
-    >
-      <Space className="w-full px-3 text-sm">
-        {icon}
-        <Typography className="pl-2 cursor-pointer">{label}</Typography>
-      </Space>
-    </li>
+    <ItemWrapper onClick={handleOnClick} isActive={key && isActivePath(key)}>
+      <div className="px-3 flex flex-row w-full items-center">
+        <div className="text-center text-sm">{icon}</div>
+        {<span className="pl-3 cursor-pointer text-sm">{label}</span>}
+      </div>
+    </ItemWrapper>
   );
 
   if (!href) {
@@ -48,8 +40,38 @@ export const NavBarItem: FC<NavBarItemProps> = ({ route }) => {
   }
 
   return (
-    <NavLink to={handlePath(href)} className="text-inherit">
+    <NavLink to={parsePath()} className="text-inherit">
       <NavItem />
     </NavLink>
   );
 };
+
+const ItemWrapper = styled.li<{
+  isActive: boolean;
+}>`
+  transition-duration: 0.2s;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  --tw-bg-opacity: 1;
+  cursor: pointer;
+  display: flex;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem !important;
+  margin-inline: 0.75rem;
+  color: var(--color-text-primary);
+
+  &:hover {
+    background-color: var(--color-bg-secondary);
+  }
+
+  ${(p) =>
+    p.isActive &&
+    `
+    color: var(--color-traceo-primary);
+    background-color: #eab30808;
+
+    &:hover {
+      background-color: #eab30808;
+    }
+  `}
+`;

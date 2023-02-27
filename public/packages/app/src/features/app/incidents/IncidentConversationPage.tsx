@@ -7,7 +7,7 @@ import { AlertOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
 import { Typography, Space, Card, Divider } from "@traceo/ui";
 import { useSelector } from "react-redux";
-import { useLive } from "src/core/hooks/useLive";
+import { useLive } from "../../../core/hooks/useLive";
 import { incidentCommentsLoaded } from "./state/reducers";
 import { IComment } from "@traceo/types";
 

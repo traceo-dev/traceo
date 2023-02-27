@@ -2,7 +2,7 @@ import { Page } from "../../core/components/Page";
 import api from "../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../core/utils/constants";
 import { useAppDispatch } from "../../store/index";
-import { toggleNavbar } from "../../store/internal/navbar/actions";
+import { hideNavbar } from "../../store/internal/navbar/actions";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { AddUserProps, ApiResponse } from "@traceo/types";
 import {
@@ -32,7 +32,7 @@ const CreateUserPage = () => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
   useEffect(() => {
-    dispatch(toggleNavbar(true));
+    dispatch(hideNavbar(true));
   }, []);
 
   const onFinish = async (form: AddUserProps) => {
@@ -41,7 +41,7 @@ const CreateUserPage = () => {
       .post<ApiResponse<CreateUserPayload>>("/api/user/new", form)
       .then(({ data, status }) => {
         if (status === "success") {
-          dispatch(toggleNavbar(false));
+          dispatch(hideNavbar(false));
           navigate(`/dashboard/admin/users/${data.id}`);
         } else {
           setError(true);
@@ -58,7 +58,7 @@ const CreateUserPage = () => {
   };
 
   const onBack = () => {
-    dispatch(toggleNavbar(false));
+    dispatch(hideNavbar(false));
     navigate("/dashboard/admin/users");
   };
 

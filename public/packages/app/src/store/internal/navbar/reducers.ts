@@ -5,21 +5,21 @@ export interface NavbarState {
 }
 
 const initialState = {
-  hidden: false
+  hidden: false,
 };
 
 const navbarSlice = createSlice({
   name: "navbar",
   initialState: initialState,
   reducers: {
-    navbarState: (state, action: PayloadAction<NavbarState>): NavbarState => ({
+    navbarHideState: (state, action: PayloadAction<{ hidden: boolean }>): NavbarState => ({
       ...state,
-      hidden: action.payload.hidden
+      ...action.payload
     })
   }
 });
 
-export const { navbarState } = navbarSlice.actions;
+export const { navbarHideState } = navbarSlice.actions;
 export const navbarReducer = navbarSlice.reducer;
 
 export default {

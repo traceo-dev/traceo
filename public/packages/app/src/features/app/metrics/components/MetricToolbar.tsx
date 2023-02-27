@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../../../../store/index";
-import { toggleNavbar } from "../../../../store/internal/navbar/actions";
+import { hideNavbar } from "../../../../store/internal/navbar/actions";
 import { MetricTimeRangePicker } from "./MetricTimeRangePicker";
 import { SettingOutlined, CompressOutlined, ExpandOutlined } from "@ant-design/icons";
 import { Tooltip } from "@traceo/ui";
@@ -23,18 +23,18 @@ export const MetricToolbar = ({
   const dispatch = useAppDispatch();
 
   const onExpand = () => {
-    dispatch(toggleNavbar(true));
+    dispatch(hideNavbar(true));
     setExpandMode(true);
   };
 
   const onCompress = () => {
-    dispatch(toggleNavbar(false));
+    dispatch(hideNavbar(false));
     setExpandMode(false);
   };
 
   const onCustomize = () => {
     setCustomizeMode(true);
-    dispatch(toggleNavbar(true));
+    dispatch(hideNavbar(true));
   };
 
   const graphToolbarTools = () => {

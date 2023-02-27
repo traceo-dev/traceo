@@ -3,7 +3,7 @@ import { Page } from "../../core/components/Page";
 import api from "../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../core/utils/constants";
 import { useAppDispatch } from "../../store/index";
-import { toggleNavbar } from "../../store/internal/navbar/actions";
+import { hideNavbar } from "../../store/internal/navbar/actions";
 import { loadApplication } from "../app/state/application/actions";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { ApiResponse, CreateApplicationProps, DatasourceProvider } from "@traceo/types";
@@ -54,7 +54,7 @@ const CreateApplicationPage = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(toggleNavbar(true));
+      dispatch(hideNavbar(true));
     };
   }, []);
 
@@ -91,7 +91,7 @@ const CreateApplicationPage = () => {
   };
 
   const onBack = () => {
-    dispatch(toggleNavbar(false));
+    dispatch(hideNavbar(false));
     navigate("/dashboard/overview");
   };
 

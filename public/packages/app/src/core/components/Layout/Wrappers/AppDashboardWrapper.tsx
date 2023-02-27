@@ -6,7 +6,7 @@ import { Page } from "../../Page";
 import NotFound from "../Pages/NotFound";
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useLive } from "src/core/hooks/useLive";
+import { useLive } from "../../../../core/hooks/useLive";
 
 const AppDashboardPage: FC = ({ children }) => {
   const dispatch = useAppDispatch();

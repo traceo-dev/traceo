@@ -3,7 +3,7 @@ import { DataNotFound } from "../../core/components/DataNotFound";
 import { SearchWrapper } from "../../core/components/SearchWrapper";
 import { ApiQueryParams } from "../../core/lib/api";
 import { useAppDispatch } from "../../store";
-import { toggleNavbar } from "../../store/internal/navbar/actions";
+import { hideNavbar } from "../../store/internal/navbar/actions";
 import { ApplicationsTable } from "./components/ApplicationManagement/ApplicationsTable";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { loadServerApplications } from "./state/applications/actions";
@@ -33,7 +33,7 @@ export const ApplicationsListPage = () => {
 
   const onNewApp = () => {
     navigate("/dashboard/app/new");
-    dispatch(toggleNavbar(true));
+    dispatch(hideNavbar(true));
   };
 
   return (

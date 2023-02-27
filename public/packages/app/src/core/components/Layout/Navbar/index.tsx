@@ -1,33 +1,240 @@
-import { conditionClass } from "../../../utils/classes";
-import { AppNavBar } from "./AppNavBar";
-import { DashboardNavBar } from "./DashboardNavBar";
 import { StoreState } from "@store/types";
-import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
-type NavType = "app" | "dashboard";
+import {
+  LoadingOutlined,
+  HomeOutlined,
+  BugOutlined,
+  CompassOutlined,
+  BarChartOutlined,
+  SettingOutlined,
+  UserOutlined,
+  LogoutOutlined,
+  LinkOutlined
+} from "@ant-design/icons";
+import { Avatar, Divider } from "@traceo/ui";
+import { useConfig } from "../../../../core/contexts/ConfigsContextProvider";
+import { useApplication } from "../../../../core/hooks/useApplication";
+import { logout } from "../../../utils/logout";
+import { GH_REPO_LINK } from "../../../../core/utils/constants";
+import { NavbarItem } from "./NavbarItem";
+import styled from "styled-components";
+import { DemoBanner } from "../../DemoBanner";
+import { useUser } from "../../../../core/hooks/useUser";
 
 export const NavBar = () => {
-  const [type, setType] = useState<NavType>("dashboard");
   const { hidden } = useSelector((state: StoreState) => state.navbar);
+  const { application, hasFetched } = useApplication();
+  const { isAdmin } = useUser();
+  const configs = useConfig();
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    setType(window.location.pathname.split("/")[1] as NavType);
-  }, [navigate]);
-
-  const renderNavbar = () => {
-    switch (type) {
-      case "app":
-        return <AppNavBar />;
-      case "dashboard":
-        return <DashboardNavBar />;
-      default:
-        return null;
+  const renderAppIcon = () => {
+    if (!hasFetched) {
+      return <LoadingOutlined />;
     }
+
+    return <Avatar size="sm" alt={application.name} src={application.gravatar} />;
   };
 
-  return <div className={conditionClass(hidden, "hidden")}>{renderNavbar()}</div>;
+  const isDashboard = window.location.pathname.split("/").includes("dashboard");
+  const isAppDashboard = window.location.pathname.split("/").includes("app");
+
+  const navigateDocumentation = () => window.open(GH_REPO_LINK, "_blank");
+
+  const dashboardOverview = (
+    <NavbarItem
+      route={{
+        key: "overview",
+        href: "/dashboard/overview",
+        label: "Overview",
+        icon: <HomeOutlined />
+      }}
+    />
+  );
+
+  const dashboardAdmin = (
+    <NavbarItem
+      route={{
+        key: "admin",
+        href: "/dashboard/admin/users",
+        label: "Admin panel",
+        icon: <SettingOutlined />
+      }}
+    />
+  );
+
+  const dashboardDocumentation = (
+    <NavbarItem
+      route={{
+        label: "Documentation",
+        icon: <LinkOutlined />,
+        onClick: () => navigateDocumentation()
+      }}
+    />
+  );
+
+  // application items
+
+  const appOverview = (
+    <NavbarItem
+      route={{
+        key: "overview",
+        href: "/app/:id/overview",
+        label: "Overview",
+        icon: <HomeOutlined />
+      }}
+    />
+  );
+
+  const appIncidents = (
+    <NavbarItem
+      route={{
+        key: "incidents",
+        href: "/app/:id/incidents",
+        label: "Incidents",
+        icon: <BugOutlined />
+      }}
+    />
+  );
+
+  const appExplore = (
+    <NavbarItem
+      route={{
+        key: "explore",
+        href: "/app/:id/explore/logs",
+        label: "Explore",
+        icon: <CompassOutlined />
+      }}
+    />
+  );
+
+  const appMetrics = (
+    <NavbarItem
+      route={{
+        key: "metrics",
+        href: "/app/:id/metrics",
+        label: "Metrics",
+        icon: <BarChartOutlined />
+      }}
+    />
+  );
+
+  const appSettings = (
+    <NavbarItem
+      route={{
+        key: "settings",
+        href: "/app/:id/settings/details",
+        label: "Settings",
+        icon: <SettingOutlined />
+      }}
+    />
+  );
+
+  const profile = (
+    <NavbarItem
+      route={{
+        key: "profile",
+        href: "/dashboard/profile/settings",
+        label: "Profile",
+        icon: <UserOutlined />,
+        private: configs.demoMode
+      }}
+    />
+  );
+
+  const logoutItem = (
+    <NavbarItem
+      route={{
+        label: "Logout",
+        icon: <LogoutOutlined />,
+        onClick: () => logout()
+      }}
+    />
+  );
+
+  const appIcon = (
+    <NavbarItem
+      route={{
+        label: application?.name,
+        icon: renderAppIcon()
+      }}
+    />
+  );
+
+  if (hidden) {
+    return null;
+  }
+
+  return (
+    <NavbarWrapper>
+      <Nav>
+        <ul className="p-0 pt-5 h-full">
+          {isDashboard && (
+            <NavbarSectionGroup>
+              <NavbarSection>
+                {dashboardOverview}
+                {profile}
+                {isAdmin && dashboardAdmin}
+              </NavbarSection>
+              {configs.demoMode && <DemoBanner />}
+              <NavbarSection>
+                {dashboardDocumentation}
+                {logoutItem}
+              </NavbarSection>
+            </NavbarSectionGroup>
+          )}
+
+          {isAppDashboard && (
+            <NavbarSectionGroup>
+              <NavbarSection>
+                {appOverview}
+                <Divider />
+                {appIncidents}
+                {appExplore}
+                {appMetrics}
+                <Divider />
+                {appSettings}
+              </NavbarSection>
+              {configs.demoMode && <DemoBanner />}
+              <NavbarSection>
+                {profile}
+                {logoutItem}
+                {appIcon}
+              </NavbarSection>
+            </NavbarSectionGroup>
+          )}
+        </ul>
+      </Nav>
+    </NavbarWrapper>
+  );
 };
+
+const NavbarSection = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const NavbarSectionGroup = styled.div`
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+`;
+
+const NavbarWrapper = styled.div<{
+  collapsed: boolean;
+}>`
+  height: 100%;
+  width: 288px;
+  padding-top: 3rem;
+  overflow: auto !important;
+`;
+
+const Nav = styled.nav`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-right: 1px solid var(--color-bg-secondary);
+  padding-bottom: 0.5rem !important;
+  padding-top: 0.5rem !important;
+`;

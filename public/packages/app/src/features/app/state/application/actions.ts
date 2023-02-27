@@ -1,5 +1,5 @@
 import api from "../../../../core/lib/api";
-import { navbarState } from "../../../../store/internal/navbar/reducers";
+import { navbarHideState } from "../../../../store/internal/navbar/reducers";
 import { applicationLoaded, applicationPermission, resetApplicationState } from "./reducers";
 import { ThunkResult } from "@store/types";
 import { ApiResponse, IApplication, MemberRole, UpdateApplicationProps } from "@traceo/types";
@@ -12,7 +12,7 @@ export const initApplication = (props: LoadApplicationType): ThunkResult<void> =
   return async (dispatch) => {
     dispatch(resetApplicationState());
     dispatch(loadPermission({ id: props.id }));
-    dispatch(navbarState({ hidden: false }));
+    dispatch(navbarHideState({ hidden: false }));
     dispatch(loadApplication({ id: props.id }));
   };
 };

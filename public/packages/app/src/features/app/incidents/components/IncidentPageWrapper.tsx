@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { IncidentStatus } from "@traceo/types";
-import { joinClasses } from "src/core/utils/classes";
+import { joinClasses } from "../../../../core/utils/classes";
 
 const mainClassName = "p-3 rounded";
 const mapHeaderStatusIcon: Record<IncidentStatus, JSX.Element> = {
