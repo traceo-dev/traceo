@@ -1,5 +1,5 @@
 import { useDemo } from "../../../..//core/hooks/useDemo";
-import { useMetricsRange } from "../../../../core/hooks/useMetricsRange";
+import { useTimeRange } from "../../../../core/hooks/useTimeRange";
 import api from "../../../../core/lib/api";
 import { useAppDispatch } from "../../../../store";
 import { hideNavbar } from "../../../../store/internal/navbar/actions";
@@ -32,7 +32,7 @@ export const MetricPreviewHeader: FC<Props> = ({
   const isDemo = useDemo();
   const { metric } = useSelector((state: StoreState) => state.metrics);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
-  const { ranges } = useMetricsRange();
+  const { ranges } = useTimeRange();
 
   const onSave = async () => {
     setSaveLoading(true);

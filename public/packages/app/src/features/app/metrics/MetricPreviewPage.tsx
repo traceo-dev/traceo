@@ -1,7 +1,7 @@
 import { Page } from "../../../core/components/Page";
 import { MetricPreviewPlot } from "../../../core/components/Plots";
 import { useApplication } from "../../../core/hooks/useApplication";
-import { useMetricsRange } from "../../../core/hooks/useMetricsRange";
+import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { useRequest } from "../../../core/hooks/useRequest";
 import { conditionClass } from "../../../core/utils/classes";
 import { useAppDispatch } from "../../../store";
@@ -22,7 +22,7 @@ export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
   const dispatch = useAppDispatch();
   const { application } = useApplication();
-  const { ranges, setRanges } = useMetricsRange();
+  const { ranges, setRanges } = useTimeRange();
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
   const [options, setOptions] = useImmer<DeepPartial<IMetric>>(metric?.options);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);

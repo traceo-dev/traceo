@@ -7,7 +7,6 @@ const LazyIncidentsTodayPlot = lazy(() => import("./components/IncidentsTodayPlo
 const LazyAppOverviewPlot = lazy(() => import("./components/IncidentsOverviewPlot"));
 const LazyIncidentListPlot = lazy(() => import("./components/IncidentsListPlot"));
 const LazyIncidentTimelinePlot = lazy(() => import("./components/IncidentsErrorsTimelinePlot"));
-const LazyLogPlot = lazy(() => import("./components/Logs/LogsExplorePlot"));
 const LazyMetricPlot = lazy(() => import("./components/Metrics/MetricPlot"));
 const LazyMetricPreviewPlot = lazy(() => import("./components/Metrics/MetricPreviewPlot"));
 
@@ -16,7 +15,7 @@ const FallbackWrapper = styled.div`
   text-align: center;
 `;
 
-const Fallback = () => (
+export const Fallback = () => (
   <FallbackWrapper>
     <LoadingOutlined />
   </FallbackWrapper>
@@ -62,13 +61,13 @@ export const IncidentTimelinePlot = ({ errors }) => {
   );
 };
 
-export const LogsPlot = ({ logs }) => {
-  return (
-    <Suspense fallback={<Fallback />}>
-      <LazyLogPlot logs={logs} />
-    </Suspense>
-  );
-};
+// export const LogsPlot = ({ logs }) => {
+//   return (
+//     <Suspense fallback={<Fallback />}>
+//       <LazyLogPlot logs={logs} />
+//     </Suspense>
+//   );
+// };
 
 export const MetricCardPlot = ({ metric, ranges }) => {
   return (

@@ -1,10 +1,9 @@
-import { mapLogName } from "../../../../core/components/Plots/components/Logs/util";
+import { mapLogName, mapLogIcon } from "./utils";
 import { StoreState } from "@store/types";
 import { LogLevel } from "@traceo/types";
 import { Typography, Card, Space, Row, Col, Checkbox } from "@traceo/ui";
 import { FC, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { mapLogIcon } from "./utils";
 
 interface Props {
   checkedLevels: LogLevel[];

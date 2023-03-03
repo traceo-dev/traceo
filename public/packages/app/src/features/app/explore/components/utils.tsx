@@ -6,6 +6,32 @@ import {
 } from "@ant-design/icons";
 import { LogLevel } from "@traceo/types";
 
+export const mapLogName: Record<LogLevel, string> = {
+  [LogLevel.Log]: "Log",
+  [LogLevel.Debug]: "Debug",
+  [LogLevel.Info]: "Info",
+  [LogLevel.Error]: "Error",
+  [LogLevel.Warn]: "Warn"
+};
+
+export const mapLogBarsColor: Record<LogLevel, string> = {
+  [LogLevel.Log]: "#2b6cb0",
+  [LogLevel.Debug]: "#f6993f",
+  [LogLevel.Info]: "#176537",
+  [LogLevel.Error]: "#e53e3e",
+  [LogLevel.Warn]: "#F7DF4B"
+};
+
+export const commonSeriesOptions = {
+  type: "bar",
+  stack: "Ad",
+  itemStyle: {
+    borderColor: "transparent",
+    borderWidth: 2,
+    borderRadius: 2
+  }
+};
+
 export const mapLogIcon: Record<LogLevel, JSX.Element> = {
   [LogLevel.Info]: <InfoCircleOutlined className="text-green-500" />,
   [LogLevel.Debug]: <BugOutlined className="text-amber-500" />,

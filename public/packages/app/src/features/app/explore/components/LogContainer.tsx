@@ -13,19 +13,21 @@ export const LogContainer = ({ children }) => {
 export const LogRow = (log: TraceoLog) => {
   const [isSelected, setSelected] = useState<boolean>(false);
 
-  const logExpandIconClassname = "p-1 bg-secondary rounded";
+  const ToggleIcon = (is: boolean) =>
+    is ? (
+      <MinusOutlined className="p-1 bg-secondary rounded" />
+    ) : (
+      <PlusOutlined className="p-1 bg-secondary rounded" />
+    );
+
   return (
     <>
       <LogWrapper isSelected={isSelected} onClick={() => setSelected(!isSelected)}>
-        <span className="col-span-2">
-          {isSelected ? (
-            <MinusOutlined className={logExpandIconClassname} />
-          ) : (
-            <PlusOutlined className={logExpandIconClassname} />
-          )}
-          <span className="pl-5">{log.timestamp}</span>
+        <span className="col-span-3">
+          {ToggleIcon(isSelected)}
+          <span className="pl-5 whitespace-nowrap">{log.timestamp}</span>
         </span>
-        <span className="col-span-10 ml-5">
+        <span className="col-span-9 ml-5">
           <div className="whitespace-nowrap overflow-hidden text-ellipsis inline-block">
             <span className={mapLogColor[log.level]}>[{log.level.toUpperCase()}]</span>{" "}
             {log.message}

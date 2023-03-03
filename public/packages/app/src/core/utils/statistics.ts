@@ -65,9 +65,9 @@ const parseIncidentsAnalyticsTodayPlotData = (errorsDetails: ErrorDetails[]) => 
   };
 };
 
-const parseExploreLogsPlotData = (startDate: number, endDate: number, logs: TraceoLog[]) => {
-  let date = startDate;
-  const endPlotDate = endDate;
+const parseLogs = (range: [number, number], logs: TraceoLog[]) => {
+  let date = range[0];
+  const endPlotDate = range[1];
 
   const map = new Map<LogLevel, PlotData[]>();
   const xAxis: number[] = [];
@@ -150,7 +150,7 @@ const formatHourToPlotAxis = (h: number): string => {
 
 export const statisticUtils = {
   parseIncidentsAnalyticsTodayPlotData,
-  parseExploreLogsPlotData,
+  parseLogs,
   parseIncidentsTablePlotData,
   parseErrorsToTodayPlotSource
 };

@@ -2,7 +2,7 @@ import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { Page } from "../../../core/components/Page";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { useApplication } from "../../../core/hooks/useApplication";
-import { useMetricsRange } from "../../../core/hooks/useMetricsRange";
+import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { useRequest } from "../../../core/hooks/useRequest";
 import { useAppDispatch } from "../../../store";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
@@ -16,6 +16,8 @@ import { ConnectionStatus, DataSourceConnStatus } from "@traceo/types";
 import { InputSearch, Card, Row, Col, Alert } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import dayjs from "dayjs";
+import dateUtils from "src/core/utils/date";
 
 const MetricsPage = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +25,11 @@ const MetricsPage = () => {
   const { application } = useApplication();
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
   const [search, setSearch] = useState<string>(null);
-  const { ranges, setRanges } = useMetricsRange();
+  const { ranges, setRanges } = useTimeRange({
+    // TODO: cleanup
+    from: dayjs.unix(dateUtils.toUnix()).subtract(1, "d").unix(),
+    to: dateUtils.toUnix()
+  });
 
   const { data: connection, isLoading: isLoadingConnection } = useRequest<DataSourceConnStatus>({
     url: "/api/datasource/heartbeat",

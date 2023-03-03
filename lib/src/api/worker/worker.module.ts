@@ -6,6 +6,7 @@ import { WorkerMetricsService } from "./services/worker-metrics.service";
 import { WorkerIncidentsService } from "./services/worker-incidents.service";
 import { WorkerRuntimeService } from "./services/worker-runtime.service";
 import { WorkerController } from "./worker.controller";
+import { LiveService } from "src/common/services/live.service";
 
 @Module({
   imports: [],
@@ -15,9 +16,10 @@ import { WorkerController } from "./worker.controller";
     WorkerRuntimeService,
     WorkerLogsService,
     InfluxService,
-    ApplicationQueryService
+    ApplicationQueryService,
+    LiveService
   ],
   controllers: [WorkerController],
   exports: [WorkerIncidentsService, WorkerMetricsService, WorkerRuntimeService, WorkerLogsService]
 })
-export class WorkerModule {}
+export class WorkerModule { }

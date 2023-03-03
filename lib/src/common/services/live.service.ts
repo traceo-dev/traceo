@@ -11,7 +11,8 @@ import { Server, Socket } from "socket.io";
 export type EventActionType =
     "update_comment" |
     "new_comment" |
-    "remove_comment";
+    "remove_comment" |
+    "log";
 
 export type EventType = {
     message: object;
