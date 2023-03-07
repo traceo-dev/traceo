@@ -18,7 +18,7 @@ import { logsLoaded } from "../state/reducers";
 import { LiveButton } from "../../../../core/components/LiveButton";
 import { relativeTimeOptions } from "./utils";
 
-const LazyLogsExplorePlot = lazy(() => import("./LogsExplorePlot"));
+const LazyLogsExplorePlot = lazy(() => import("./LogsExploreChart"));
 
 export const LogsHistogram = () => {
   const dispatch = useAppDispatch();

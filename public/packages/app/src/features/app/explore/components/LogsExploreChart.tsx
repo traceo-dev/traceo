@@ -7,10 +7,16 @@ import { BaseChart } from "../../../../core/components/Charts/BaseChart";
 import { LocalStorage } from "../../../../core/lib/localStorage/types";
 import { localStorageService } from "../../../../core/lib/localStorage";
 import { BaseDataZoom } from "../../../../core/components/Charts/BaseDataZoom";
-import { BaseLegend, EchartLegendProps } from "../../../../core/components/Charts/BaseLegend";
+import { BaseLegend } from "../../../../core/components/Charts/BaseLegend";
 import { BaseTooltip } from "../../../../core/components/Charts/BaseTooltip";
 import { BaseXAxis } from "../../../../core/components/Charts/BaseXAxis";
 import { BaseYAxis } from "../../../../core/components/Charts/BaseYAxis";
+import dayjs from "dayjs";
+import {
+  EchartDataZoomProps,
+  EchartLegendProps,
+  EchartOnClickProps
+} from "../../../../core/components/Charts/types";
 
 type LogsType = {
   level: Record<LogLevel, number[]>;
@@ -25,7 +31,7 @@ interface Props {
   zoom?: boolean;
 }
 
-const LogsExplorePlot: FC<Props> = ({ logs, legendItems, setRanges, setLegendItems, zoom }) => {
+const LogsExploreChart: FC<Props> = ({ logs, legendItems, setRanges, setLegendItems, zoom }) => {
   const series = Object.values(LogLevel).reduce((acc, level) => {
     acc.push({
       data: logs.level[level],
@@ -37,7 +43,8 @@ const LogsExplorePlot: FC<Props> = ({ logs, legendItems, setRanges, setLegendIte
     return acc;
   }, []) as SeriesOption;
 
-  const onDataZoom = (params: any) => {
+  const onDataZoom = (params: EchartDataZoomProps) => {
+    console.log(params);
     if (!params.batch || !params.batch[0]) {
       return;
     }
@@ -60,6 +67,14 @@ const LogsExplorePlot: FC<Props> = ({ logs, legendItems, setRanges, setLegendIte
     localStorageService.set(LocalStorage.LogLevels, levels.join(","));
   };
 
+  const onBarClick = (params: EchartOnClickProps) => {
+    // params.name is and equivalent to clicked value on x axis,
+    // in this case is a unix value
+    const selectedTime = dayjs.unix(parseInt(params.name));
+
+    setRanges([selectedTime.subtract(1, "minute").unix(), selectedTime.unix()]);
+  };
+
   const labelFormatter = (v: unknown) => dateUtils.formatDate(Number(v), "HH:mm");
   const pointerFormatter = (v: unknown) =>
     dateUtils.formatDate(v["value"] as number, "MMM D, HH:mm");
@@ -69,6 +84,7 @@ const LogsExplorePlot: FC<Props> = ({ logs, legendItems, setRanges, setLegendIte
       height="175px"
       onDataZoom={onDataZoom}
       onLegendChange={onLegendChange}
+      onClick={onBarClick}
       series={series}
       xAxis={BaseXAxis({
         data: logs.xAxis,
@@ -95,4 +111,4 @@ const LogsExplorePlot: FC<Props> = ({ logs, legendItems, setRanges, setLegendIte
   );
 };
 
-export default LogsExplorePlot;
+export default LogsExploreChart;

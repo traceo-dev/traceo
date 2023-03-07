@@ -7,11 +7,8 @@ import {
 } from "echarts";
 import { EChartsInstance } from "echarts-for-react";
 import EChartsReactCore from "echarts-for-react/lib/core";
-// import type ReactEchartsCore from "echarts-for-react/lib/core";
-
-import { lazy, forwardRef, useEffect } from "react";
-import { useEffectOnce } from "react-use";
-import { BaseLegend } from "./BaseLegend";
+import { lazy, forwardRef } from "react";
+import { EchartDataZoomProps, EchartLegendProps, EchartOnClickProps } from "./types";
 
 const ReactECharts = lazy(() => import("echarts-for-react"));
 
@@ -35,10 +32,9 @@ export interface BaseChartProps {
   // Use YAxis wrapper instead of plain object
   yAxis?: YAXisComponentOption;
 
-  onDataZoom?: (params: any) => void;
-  onLegendChange?: (params: any) => void;
-  onClick?: (params: any) => void;
-  onDoubleClick?: (params: any) => void;
+  onDataZoom?: (params: EchartDataZoomProps) => void;
+  onLegendChange?: (params: EchartLegendProps) => void;
+  onClick?: (params: EchartOnClickProps) => void;
 }
 
 const BaseChartComponent = ({
@@ -58,8 +54,7 @@ const BaseChartComponent = ({
   forwardedRef = null,
   onDataZoom,
   onLegendChange,
-  onClick,
-  onDoubleClick
+  onClick
 }: BaseChartProps) => {
   const onChartReady = (chart: EChartsInstance) => {
     if (activeZoomSelect) {
@@ -113,7 +108,6 @@ const BaseChartComponent = ({
 
   const events = {
     click: (props) => onClick?.(props),
-    dblclick: (props) => onDoubleClick?.(props),
     datazoom: (props) => onDataZoom?.(props),
     legendselectchanged: (props) => onLegendChange?.(props)
   };
