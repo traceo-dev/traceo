@@ -1,23 +1,28 @@
 import dayjs from "dayjs";
-import { FC, useMemo } from "react";
+import { FC } from "react";
 import Calendar from "react-calendar";
 import styled from "styled-components";
 
+export type CalendarDatesType = number | [number, number] | Date[] | Date;
 interface Props {
-  value: [number, number];
-  onChange: (val: [Date, Date]) => void;
+  value: number | [number, number] | Date[] | Date;
+  onChange?: (val: CalendarDatesType) => void;
   range?: boolean;
+  width?: number;
+  className?: string;
 }
 
-const parseUnixToDate = (unix: number) => new Date(unix * 1e3);
-
-export const ReactCalendarBody: FC<Props> = ({ value, onChange, range = false }) => {
-  const rangeValue = useMemo(() => [parseUnixToDate(value[0]), parseUnixToDate(value[1])], value);
-
+export const ReactCalendarBody: FC<Props> = ({
+  value,
+  onChange,
+  range = false,
+  width = null,
+  className = ""
+}) => {
   return (
-    <CalendarWrapper>
+    <CalendarWrapper className={className} width={width}>
       <Calendar
-        value={rangeValue}
+        value={value}
         onChange={onChange}
         selectRange={range}
         next2Label={null}
@@ -29,7 +34,11 @@ export const ReactCalendarBody: FC<Props> = ({ value, onChange, range = false })
   );
 };
 
-const CalendarWrapper = styled.div`
+const CalendarWrapper = styled.div<{
+  width?: number;
+}>`
+  ${(p) => p.width && `width: ${p.width}px !important`};
+
   .react-calendar__navigation {
     text-align: center;
   }

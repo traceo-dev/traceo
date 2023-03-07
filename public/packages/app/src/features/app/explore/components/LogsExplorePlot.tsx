@@ -1,16 +1,16 @@
 import { commonSeriesOptions, mapLogBarsColor, mapLogName } from "./utils";
 import { Dictionary, LogLevel } from "@traceo/types";
 import { FC } from "react";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../../core/utils/date";
 import { SeriesOption } from "echarts";
 import { BaseChart } from "../../../../core/components/Charts/BaseChart";
-import { LocalStorage } from "src/core/lib/localStorage/types";
-import { localStorageService } from "src/core/lib/localStorage";
-import { BaseDataZoom } from "src/core/components/Charts/BaseDataZoom";
-import { BaseLegend, EchartLegendProps } from "src/core/components/Charts/BaseLegend";
-import { BaseTooltip } from "src/core/components/Charts/BaseTooltip";
-import { BaseXAxis } from "src/core/components/Charts/BaseXAxis";
-import { BaseYAxis } from "src/core/components/Charts/BaseYAxis";
+import { LocalStorage } from "../../../../core/lib/localStorage/types";
+import { localStorageService } from "../../../../core/lib/localStorage";
+import { BaseDataZoom } from "../../../../core/components/Charts/BaseDataZoom";
+import { BaseLegend, EchartLegendProps } from "../../../../core/components/Charts/BaseLegend";
+import { BaseTooltip } from "../../../../core/components/Charts/BaseTooltip";
+import { BaseXAxis } from "../../../../core/components/Charts/BaseXAxis";
+import { BaseYAxis } from "../../../../core/components/Charts/BaseYAxis";
 
 type LogsType = {
   level: Record<LogLevel, number[]>;

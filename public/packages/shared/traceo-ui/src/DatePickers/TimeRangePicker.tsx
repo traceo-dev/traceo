@@ -1,67 +1,172 @@
-import { Button, FieldLabel, Input, Popover } from "../index";
-import { ReactCalendarBody } from "./ReactCalendarBody";
-import { CalendarOutlined, ClockCircleOutlined } from "@ant-design/icons";
-import { BasePlacement } from "@popperjs/core/lib";
-import dayjs from "dayjs";
-import { useMemo, useState } from "react";
+import { ClockCircleOutlined } from "@ant-design/icons";
+import { Alert, Button, FieldLabel, Input } from "../index";
+import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
+import { CalendarDatesType, ReactCalendarBody } from "./ReactCalendarBody";
+import dayjs, { ManipulateType } from "dayjs";
+import { conditionClass, joinClasses } from "../utils/classes";
+import { PickerWrapper, PickerFooter, TimeWrapper, Header } from "./styles";
+import { PickerInput } from "./PickerInput";
+
+export type RelativeTimeOption = {
+  label: string;
+  value: number;
+  unit: ManipulateType;
+  onClick?: () => void;
+};
 
 interface Props {
   value: [number, number];
-  onChange: (from: number, to: number) => void;
-  submit?: () => void;
-  placement?: BasePlacement;
+  submit?: (val: [number, number]) => void;
+  onClickRelativeTime?: (val: number, unit: ManipulateType) => void;
+  options?: RelativeTimeOption[];
+  // The longest time period (in hours) available between from and to
+  maxTimePeriod?: number;
+  disabled?: boolean;
 }
-export const TimeRangePicker = ({ value, onChange, submit, placement = "bottom" }: Props) => {
-  const [open, setOpen] = useState<boolean>(false);
 
-  const handleOnRangeChange = (range: [Date, Date]) => {
-    /**
-     * Add validation
-     */
-    onChange(dayjs(range[0]).unix(), dayjs(range[1]).unix());
-  };
+const parseUnixToDate = (unix: number) => new Date(unix * 1e3);
+
+export const TimeRangePicker = ({
+  submit,
+  value = null,
+  options = [],
+  maxTimePeriod = 3,
+  disabled = false,
+  onClickRelativeTime
+}: Props) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [error, setError] = useState<string>(null);
+  const [selectedValue, setSelectedValue] = useState<[number, number]>(value);
+
+  const hasOptions = options.length > 0;
+
+  const calendarValue = parseUnixToDate(selectedValue[0]);
 
   const handleOnSubmit = () => {
-    submit();
+    submit([selectedValue[0], selectedValue[1]]);
     setOpen(false);
   };
 
+  const handleOnChangeCalendar = (date: CalendarDatesType) => {
+    const newDate = dayjs(date as Date);
+
+    const dayJsTime = newDate.set("hour", dayjs().hour()).set("minute", dayjs().minute());
+
+    // Current time minus 30min with date selected from calendar
+    const from = dayJsTime.subtract(30, "minute").unix();
+
+    // Current time with date selected from calendar
+    const to = dayJsTime.unix();
+
+    setSelectedValue([from, to]);
+  };
+
+  const handleOnChangeTimeFrom = (time: string) => {
+    const date = parseTime(time, selectedValue[1]);
+    setSelectedValue([date.unix(), selectedValue[1]]);
+  };
+
+  const handleOnChangeTimeTo = (time: string) => {
+    const date = parseTime(time, selectedValue[1]);
+    setSelectedValue([selectedValue[0], date.unix()]);
+  };
+
+  const parseTime = (time: string, initialDate: number) => {
+    // time returned in HH:mm format
+    const [hour, minute] = time.split(":");
+
+    const dayJS = dayjs.unix(initialDate);
+    const date = dayJS.set("hour", parseInt(hour)).set("minute", parseInt(minute));
+
+    return date;
+  };
+
+  useEffect(() => {
+    const from = dayjs.unix(selectedValue[0]);
+    const to = dayjs.unix(selectedValue[1]);
+
+    const isIncorrectDiff = Math.abs(from.diff(to, "hour")) > maxTimePeriod;
+    const isFromAfterTo = from.isAfter(to);
+    const isToBeforeFrom = to.isBefore(from);
+
+    if (isIncorrectDiff) {
+      setError(`Data can only be loaded from ${maxTimePeriod}h range`);
+    }
+
+    if (isFromAfterTo) {
+      setError("'From' can't be after 'To'");
+    }
+
+    if (isToBeforeFrom) {
+      setError("'To' can't be before 'From'");
+    }
+
+    if (!isIncorrectDiff && !isFromAfterTo && !isToBeforeFrom) {
+      setError(null);
+    }
+  }, [selectedValue]);
+
+  const handleOnClickOption = (value: number, unit: ManipulateType) => {
+    onClickRelativeTime(value, unit);
+    setOpen(false);
+  };
+
+  const relativeTimeContainer = (
+    <RelativeTimeWrapper>
+      <span className="px-3 py-2">Relative time</span>
+      <ul className="pl-0 list-none">
+        {options?.map(({ label, unit, value }, index) => (
+          <RelativeTimeOption key={index} onClick={() => handleOnClickOption(value, unit)}>
+            {label}
+          </RelativeTimeOption>
+        ))}
+      </ul>
+    </RelativeTimeWrapper>
+  );
+
   const popoverContent = (
     <PickerWrapper>
-      <div className="w-full p-3 border-bottom">
+      <Header>
         <span>
           <ClockCircleOutlined className="pr-2" />
           Select time range
         </span>
-      </div>
-      <div className="p-3">
-        <div className="flex flex-row gap-x-5 mt-5 px-3">
-          <FieldLabel label="From">
-            <Input
-              value={dayjs.unix(value[0]).format("DD-MM-YYYY HH:mm")}
-              readOnly
-              suffix={<CalendarOutlined />}
-            />
-          </FieldLabel>
-          <FieldLabel label="To">
-            <Input
-              value={dayjs.unix(value[1]).format("DD-MM-YYYY HH:mm")}
-              readOnly
-              suffix={<CalendarOutlined />}
-            />
-          </FieldLabel>
+      </Header>
+      <div className="flex flex-row grid grid-cols-12">
+        {hasOptions && relativeTimeContainer}
+        <div
+          className={joinClasses("p-3", conditionClass(hasOptions, "col-span-8", "col-span-12"))}
+        >
+          <ReactCalendarBody
+            className="p-3"
+            width={296}
+            value={calendarValue}
+            onChange={(date) => handleOnChangeCalendar(date)}
+          />
+          <TimeWrapper>
+            <FieldLabel labelSize="xs" label="Time from" className="w-full">
+              <Input
+                type="time"
+                value={dayjs.unix(selectedValue[0]).format("HH:mm")}
+                onChange={(e) => handleOnChangeTimeFrom(e.currentTarget.value)}
+              />
+            </FieldLabel>
+            <FieldLabel labelSize="xs" label="Time to" className="w-full">
+              <Input
+                type="time"
+                value={dayjs.unix(selectedValue[1]).format("HH:mm")}
+                onChange={(e) => handleOnChangeTimeTo(e.currentTarget.value)}
+              />
+            </FieldLabel>
+          </TimeWrapper>
+          {error && <Alert type="error" message={error} />}
         </div>
-        <ReactCalendarBody
-          value={[value[0], value[1]]}
-          onChange={handleOnRangeChange}
-          range={true}
-        />
       </div>
       {submit && (
         <PickerFooter>
           <div className="w-full text-end">
-            <Button size="xs" onClick={handleOnSubmit}>
+            <Button disabled={!!error} size="xs" onClick={handleOnSubmit}>
               Submit
             </Button>
           </div>
@@ -71,43 +176,39 @@ export const TimeRangePicker = ({ value, onChange, submit, placement = "bottom" 
   );
 
   const inputValue = useMemo(() => {
-    const from = dayjs.unix(value[0]).format("DD MMM, YYYY");
-    const to = dayjs.unix(value[1]).format("DD MMM, YYYY");
+    const from = dayjs.unix(value[0]).format("DD MMM, HH:mm");
+    const to = dayjs.unix(value[1]).format("HH:mm");
 
     return `${from} - ${to}`;
   }, value);
 
   return (
-    <Popover
+    <PickerInput
       open={open}
-      overrideStyles={{ transitionDuration: 0 }}
-      placement={placement}
-      content={popoverContent}
-    >
-      <Input
-        style={{ minWidth: "230px", cursor: "pointer" }}
-        prefix={<ClockCircleOutlined />}
-        value={inputValue}
-        onClick={() => setOpen(true)}
-        readOnly
-      />
-    </Popover>
+      popoverContent={popoverContent}
+      value={inputValue}
+      onClick={() => setOpen(true)}
+      disabled={disabled}
+    />
   );
 };
 
-const PickerWrapper = styled.div`
-  width: 100%;
+const RelativeTimeWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  border-right: 1px solid var(--color-bg-secondary);
+  width: 10rem; /* 160px */
+  grid-column: span 4 / span 4;
 `;
 
-const PickerFooter = styled.div`
-  width: 100%;
-  padding: 12px;
-  margin-top: 20px;
-  justify-content: flex-end;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border-top: 1px solid var(--color-bg-secondary);
+const RelativeTimeOption = styled.li`
+  cursor: pointer;
+  padding-left: 0.75rem; /* 12px */
+  padding-right: 0.75rem; /* 12px */
+  padding-top: 0.5rem; /* 8px */
+  padding-bottom: 0.5rem; /* 8px */
+
+  &:hover {
+    background-color: var(--color-bg-secondary);
+  }
 `;

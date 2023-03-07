@@ -4,25 +4,19 @@ import { useLogLevels } from "../../../../core/hooks/useLogLevels";
 import { statisticUtils } from "../../../../core/utils/statistics";
 import { useAppDispatch } from "../../../../store";
 import { loadApplicationLogs } from "../state/actions";
-import {
-  CaretRightFilled,
-  DoubleLeftOutlined,
-  LoadingOutlined,
-  PauseOutlined,
-  RocketOutlined
-} from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
-import { Card, Tooltip } from "@traceo/ui";
-import dayjs from "dayjs";
+import { Card, TimeRangePicker } from "@traceo/ui";
+import dayjs, { ManipulateType } from "dayjs";
 import { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useTimeRange } from "src/core/hooks/useTimeRange";
+import { useTimeRange } from "../../../../core/hooks/useTimeRange";
 import { LogLevel, TraceoLog } from "@traceo/types";
-import { useLive } from "src/core/hooks/useLive";
+import { useLive } from "../../../../core/hooks/useLive";
 import { logsLoaded } from "../state/reducers";
-import { conditionClass, joinClasses } from "src/core/utils/classes";
-import { LiveButton } from "src/core/components/LiveButton";
+import { LiveButton } from "../../../../core/components/LiveButton";
+import { relativeTimeOptions } from "./utils";
 
 const LazyLogsExplorePlot = lazy(() => import("./LogsExplorePlot"));
 
@@ -79,14 +73,22 @@ export const LogsHistogram = () => {
     return a;
   };
 
+  const handleOptionClick = (value: number, unit: ManipulateType) => {
+    const from = dayjs().subtract(value, unit).unix();
+    const to = dayjs().unix();
+    setRanges([from, to]);
+  };
+
   const renderToolbar = (
     <div className="flex flex-row gap-x-5 items-center">
-      {!isLive && (
-        <Tooltip title="Restore time range">
-          <DoubleLeftOutlined onClick={onRestoreClick} className="cursor-pointer" />
-        </Tooltip>
-      )}
       {!hasFetched && <LoadingOutlined />}
+      <TimeRangePicker
+        value={ranges}
+        options={relativeTimeOptions}
+        onClickRelativeTime={handleOptionClick}
+        submit={(val: [number, number]) => setRanges(val)}
+        disabled={isLive}
+      />
       <LiveButton
         live={isLive}
         onClick={() => onLiveClick()}

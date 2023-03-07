@@ -1,4 +1,4 @@
-import { TimeRangePicker } from "@traceo/ui";
+import { DatesRangePicker } from "@traceo/ui";
 import { useState } from "react";
 
 interface Props {
@@ -9,7 +9,7 @@ export const MetricTimeRangePicker = ({ ranges, setRanges }: Props) => {
   const [newRanges, setNewRanges] = useState<[number, number]>(ranges);
 
   return (
-    <TimeRangePicker
+    <DatesRangePicker
       value={newRanges}
       onChange={(from, to) => setNewRanges([from, to])}
       submit={() => setRanges(newRanges)}

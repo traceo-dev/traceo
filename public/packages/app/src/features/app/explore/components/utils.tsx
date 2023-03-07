@@ -5,6 +5,7 @@ import {
   WarningOutlined
 } from "@ant-design/icons";
 import { LogLevel } from "@traceo/types";
+import { RelativeTimeOption } from "@traceo/ui";
 
 export const mapLogName: Record<LogLevel, string> = {
   [LogLevel.Log]: "Log",
@@ -47,3 +48,26 @@ export const mapLogColor: Record<LogLevel, string> = {
   [LogLevel.Warn]: "text-yellow-500",
   [LogLevel.Log]: "text-blue-500"
 };
+
+export const relativeTimeOptions: RelativeTimeOption[] = [
+  {
+    label: "Last 30 minutes",
+    unit: "minute",
+    value: 30
+  },
+  {
+    label: "Last 60 minutes",
+    unit: "minute",
+    value: 60
+  },
+  {
+    label: "Last 2 hours",
+    unit: "hour",
+    value: 2
+  },
+  {
+    label: "Last 3 hours",
+    unit: "hour",
+    value: 3
+  }
+];

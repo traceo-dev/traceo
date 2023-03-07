@@ -12,6 +12,7 @@ interface PopoverProps {
   showArrow?: boolean;
   overrideStyles?: object;
   open?: boolean;
+  disabled?: boolean;
 }
 
 export const Popover: FC<PopoverProps> = ({
@@ -21,7 +22,8 @@ export const Popover: FC<PopoverProps> = ({
   trigger = "click",
   showArrow = true,
   overrideStyles,
-  open = false
+  open = false,
+  disabled = false
 }) => {
   const [visible, setVisible] = useState<boolean>(false);
   const ref = useRef<any>();
@@ -43,13 +45,13 @@ export const Popover: FC<PopoverProps> = ({
   const triggerOptions: Record<TriggerType, any> = {
     click: {
       onClick: (event: MouseEvent) => {
-        setVisible(true);
+        !disabled && setVisible(true);
         event.stopPropagation();
       }
     },
     hover: {
       onMouseEnter: (event: MouseEvent) => {
-        setVisible(true);
+        !disabled && setVisible(true);
         event.stopPropagation();
       }
     }

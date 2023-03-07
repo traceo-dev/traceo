@@ -221,9 +221,7 @@ const NavbarSectionGroup = styled.div`
   justify-content: space-between;
 `;
 
-const NavbarWrapper = styled.div<{
-  collapsed: boolean;
-}>`
+const NavbarWrapper = styled.div`
   height: 100%;
   width: 288px;
   padding-top: 3rem;

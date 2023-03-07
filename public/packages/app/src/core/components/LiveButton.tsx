@@ -1,6 +1,6 @@
 import { CaretRightFilled, PauseOutlined } from "@ant-design/icons";
 import { Tooltip } from "@traceo/ui";
-import { joinClasses, conditionClass } from "../utils/classes";
+import styled from "styled-components";
 
 interface Props {
   live: boolean;
@@ -16,21 +16,40 @@ export const LiveButton = ({
 }: Props) => {
   return (
     <Tooltip title={live ? tooltipLive : tooltipLiveStop}>
-      <div className="cursor-pointer" onClick={() => onClick()}>
-        <div
-          className={joinClasses(
-            "px-3 py-1 flex flex-row items-center gap-x-3 border-canvas border border-solid rounded",
-            conditionClass(
-              live,
-              "border-red-500 text-red-500 font-semibold",
-              "border-light-secondary text-secondary"
-            )
-          )}
-        >
+      <div className="cursor-pointer">
+        <LiveWrapper live={live} onClick={() => onClick()}>
           <span>Live</span>
           {!live ? <CaretRightFilled /> : <PauseOutlined />}
-        </div>
+        </LiveWrapper>
       </div>
     </Tooltip>
   );
 };
+
+const LiveWrapper = styled.div<{
+  live: boolean;
+}>`
+  border: 1px solid var(--color-bg-canvas);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  padding-top: 0.25rem; /* 4px */
+  padding-bottom: 0.25rem; /* 4px */
+  padding-left: 0.75rem; /* 12px */
+  padding-right: 0.75rem; /* 12px */
+  align-items: center;
+  column-gap: 0.75rem; /* 12px */
+  cursor: pointer;
+
+  ${(p) =>
+    p.live
+      ? `
+    border-color: #E8484A;
+    color: #E8484A;
+    font-weight: 500;
+  `
+      : `
+    border-color: var(--color-bg-light-secondary);
+    color: var(--color-text-secondary)
+  `}
+`;
