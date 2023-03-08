@@ -32,10 +32,9 @@ const MetricPreviewChart: FC<Props> = ({ options, isExpandMode }) => {
     const dataSourceOptions = buildDatasource(metric.datasource, metric.options.series);
 
     return {
-      tooltip: {
-        ...BaseTooltip(),
+      tooltip: BaseTooltip({
         show: showTooltip
-      },
+      }),
       legend: {
         show: showLegend,
         orient: legendOrient as any,
@@ -74,7 +73,7 @@ const MetricPreviewChart: FC<Props> = ({ options, isExpandMode }) => {
         renderer="canvas"
         dataset={echartOptions.dataset}
         series={echartOptions.series}
-        tooltip={echartOptions.legend}
+        tooltip={echartOptions.tooltip}
         legend={echartOptions.legend}
         grid={echartOptions.grid}
         xAxis={BaseXAxis({

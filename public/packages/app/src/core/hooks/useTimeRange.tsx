@@ -6,12 +6,10 @@ type RangeType = [number, number];
 
 export const useTimeRange = (initial?: { from: number; to: number }) => {
   const searchParams = new URLSearchParams(window.location.search);
-
-  const from = parseInt(searchParams.get("from"));
-  const to = parseInt(searchParams.get("to"));
-
-  const initialParams: RangeType = [from || initial?.from, to || initial?.to];
-  const [ranges, setRanges] = useState<RangeType>(initialParams);
+  const [ranges, setRanges] = useState<RangeType>([
+    parseInt(searchParams.get("from")) || initial?.from,
+    parseInt(searchParams.get("to")) || initial?.to
+  ]);
 
   useEffect(() => {
     const unlisten = historyService.listen(({ action, location }) => {
