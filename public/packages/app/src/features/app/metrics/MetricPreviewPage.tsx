@@ -83,7 +83,11 @@ export const MetricPreviewPage = () => {
                 />
               }
             >
-              <MetricPreviewChart isExpandMode={isExpandMode} options={options} />
+              <MetricPreviewChart
+                setRanges={setRanges}
+                isExpandMode={isExpandMode}
+                options={options}
+              />
             </Card>
 
             {!isExpandMode && (

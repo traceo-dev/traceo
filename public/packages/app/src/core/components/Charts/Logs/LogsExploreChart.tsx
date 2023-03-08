@@ -1,4 +1,8 @@
-import { commonSeriesOptions, mapLogBarsColor, mapLogName } from "../../../../features/app/explore/components/utils";
+import {
+  commonSeriesOptions,
+  mapLogBarsColor,
+  mapLogName
+} from "../../../../features/app/explore/components/utils";
 import { Dictionary, LogLevel } from "@traceo/types";
 import { FC } from "react";
 import dateUtils from "../../../utils/date";
@@ -12,11 +16,7 @@ import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import dayjs from "dayjs";
-import {
-  EchartDataZoomProps,
-  EchartLegendProps,
-  EchartOnClickProps
-} from "../types";
+import { EchartDataZoomProps, EchartLegendProps, EchartOnClickProps } from "../types";
 
 type LogsType = {
   level: Record<LogLevel, number[]>;
@@ -44,14 +44,8 @@ const LogsExploreChart: FC<Props> = ({ logs, legendItems, setRanges, setLegendIt
   }, []) as SeriesOption;
 
   const onDataZoom = (params: EchartDataZoomProps) => {
-    if (!params.batch || !params.batch[0]) {
-      return;
-    }
-
-    const startValue = params.batch[0].startValue;
-    const endValue = params.batch[0].endValue;
-
-    if (startValue && endValue) {
+    const { startValue, endValue } = params.batch[0];
+    if (startValue && endValue && logs.xAxis.length > 0) {
       const data = logs.xAxis.slice(startValue, endValue);
       setRanges([data[0], data[data.length - 1]]);
     }

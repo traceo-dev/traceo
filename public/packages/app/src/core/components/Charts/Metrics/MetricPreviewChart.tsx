@@ -10,12 +10,14 @@ import { BaseXAxis } from "../BaseXAxis";
 import dayjs from "dayjs";
 import { BaseYAxis } from "../BaseYAxis";
 import { BaseTooltip } from "../BaseTooltip";
+import { EchartDataZoomProps } from "../types";
 
 interface Props {
   options: DeepPartial<IMetric>;
   isExpandMode: boolean;
+  setRanges: (val: [number, number]) => void;
 }
-const MetricPreviewChart: FC<Props> = ({ options, isExpandMode }) => {
+const MetricPreviewChart: FC<Props> = ({ options, isExpandMode, setRanges }) => {
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
 
   const showTooltip = options?.config.tooltip.show;
@@ -23,17 +25,23 @@ const MetricPreviewChart: FC<Props> = ({ options, isExpandMode }) => {
   const legendOrient = options?.config.legend.orient;
   const unit = options?.unit;
 
+  const dataSourceOptions = useMemo(
+    () => buildDatasource(metric.datasource, metric.options.series),
+    [metric]
+  );
+  console.log("datasource: ", dataSourceOptions);
+
   const echartOptions = useMemo(() => {
     const seriesOptions = buildSeries(
       options?.series || metric.options.series,
       options || metric.options,
       "preview"
     );
-    const dataSourceOptions = buildDatasource(metric.datasource, metric.options.series);
 
     return {
       tooltip: BaseTooltip({
-        show: showTooltip
+        show: showTooltip,
+        pointer: "line"
       }),
       legend: {
         show: showLegend,
@@ -62,6 +70,17 @@ const MetricPreviewChart: FC<Props> = ({ options, isExpandMode }) => {
     };
   }, [metric, options]);
 
+  const onDataZoom = (params: EchartDataZoomProps) => {
+    const { startValue, endValue } = params.batch[0];
+    if (startValue && endValue && dataSourceOptions["time"]) {
+      const selected = dataSourceOptions["time"].slice(startValue, endValue);
+      const from = dayjs(selected[0]).unix();
+      const to = dayjs(selected[selected.length - 1]).unix();
+
+      setRanges([from, to]);
+    }
+  };
+
   return (
     <ConditionalWrapper
       isEmpty={metric?.datasource.length === 0}
@@ -71,6 +90,8 @@ const MetricPreviewChart: FC<Props> = ({ options, isExpandMode }) => {
       <BaseChart
         height={isExpandMode ? "500px" : "300px"}
         renderer="canvas"
+        onDataZoom={onDataZoom}
+        activeZoomSelect={true}
         dataset={echartOptions.dataset}
         series={echartOptions.series}
         tooltip={echartOptions.tooltip}
@@ -79,7 +100,6 @@ const MetricPreviewChart: FC<Props> = ({ options, isExpandMode }) => {
         xAxis={BaseXAxis({
           offset: 12,
           axisLabel: {
-            interval: 15,
             showMaxLabel: true
           },
           labelFormatter: (v: unknown) => dayjs(v as any).format("HH:mm"),
