@@ -55,7 +55,7 @@
     "js-yaml": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
-    "passport": "^0.5.2",
+    "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "promise-queue": "^2.2.5",
     "reflect-metadata": "^0.1.13",
