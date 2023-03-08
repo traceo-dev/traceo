@@ -1,18 +1,21 @@
-import { ConditionalWrapper } from "../../../ConditionLayout";
-import { DataNotFound } from "../../../DataNotFound";
-import { tooltipOptions } from "../../utils";
-import { buildDatasource, buildSeries, commonOptions } from "./utils";
+import { buildDatasource, buildSeries } from "./utils";
 import { StoreState } from "@store/types";
-import { IMetric, METRIC_UNIT, DeepPartial } from "@traceo/types";
-import { FC, lazy, useMemo } from "react";
+import { IMetric, DeepPartial } from "@traceo/types";
+import { FC, useMemo } from "react";
 import { useSelector } from "react-redux";
+import { ConditionalWrapper } from "../../ConditionLayout";
+import { DataNotFound } from "../../DataNotFound";
+import { BaseChart } from "../BaseChart";
+import { BaseXAxis } from "../BaseXAxis";
+import dayjs from "dayjs";
+import { BaseYAxis } from "../BaseYAxis";
+import { BaseTooltip } from "../BaseTooltip";
 
 interface Props {
   options: DeepPartial<IMetric>;
   isExpandMode: boolean;
 }
-const ReactECharts = lazy(() => import("echarts-for-react"));
-const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
+const MetricPreviewChart: FC<Props> = ({ options, isExpandMode }) => {
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
 
   const showTooltip = options?.config.tooltip.show;
@@ -29,17 +32,13 @@ const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
     const dataSourceOptions = buildDatasource(metric.datasource, metric.options.series);
 
     return {
-      ...commonOptions({
-        unit: unit as METRIC_UNIT,
-        xAxisInterval: 15
-      }),
       tooltip: {
-        show: showTooltip,
-        ...tooltipOptions
+        ...BaseTooltip(),
+        show: showTooltip
       },
       legend: {
         show: showLegend,
-        orient: legendOrient,
+        orient: legendOrient as any,
         right: legendOrient === "vertical" ? 10 : null,
         bottom: legendOrient === "horizontal" ? null : 10,
         top: legendOrient === "vertical" ? "center" : "bottom",
@@ -70,14 +69,33 @@ const MetricPreviewPlot: FC<Props> = ({ options, isExpandMode }) => {
       isLoading={!hasFetchedMetric || !metric || !options}
       emptyView={<DataNotFound />}
     >
-      <ReactECharts
-        style={{
-          height: isExpandMode ? "500px" : "300px"
-        }}
-        option={echartOptions}
+      <BaseChart
+        height={isExpandMode ? "500px" : "300px"}
+        renderer="canvas"
+        dataset={echartOptions.dataset}
+        series={echartOptions.series}
+        tooltip={echartOptions.legend}
+        legend={echartOptions.legend}
+        grid={echartOptions.grid}
+        xAxis={BaseXAxis({
+          offset: 12,
+          axisLabel: {
+            interval: 15,
+            showMaxLabel: true
+          },
+          labelFormatter: (v: unknown) => dayjs(v as any).format("HH:mm"),
+          pointerFormatter: (v: unknown) => dayjs(v as any).format("HH:mm, DD MMM")
+        })}
+        yAxis={BaseYAxis({
+          axisLabel: {
+            formatter: `{value} ${unit}`,
+            interval: "auto"
+          },
+          minInterval: 1
+        })}
       />
     </ConditionalWrapper>
   );
 };
 
-export default MetricPreviewPlot;
+export default MetricPreviewChart;

@@ -1,10 +1,10 @@
-import { SmallAppIncidentsPlot } from "../../../core/components/Plots";
 import dateUtils from "../../../core/utils/date";
 import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
 import { IApplication, MemberApplication } from "@traceo/types";
 import { Typography, ListCard, Space, Avatar, Tooltip } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import AppListIncidentsChart from "src/core/components/Charts/Incidents/AppListIncidentsChart";
 
 interface Props {
   app: MemberApplication;
@@ -35,7 +35,7 @@ export const AppCard: FC<Props> = ({ app }) => {
             <AppDetails {...app} />
           </Space>
         </Space>
-        <SmallAppIncidentsPlot id={app.appId} />
+        <AppListIncidentsChart id={app.appId} />
       </Space>
     </ListCard>
   );

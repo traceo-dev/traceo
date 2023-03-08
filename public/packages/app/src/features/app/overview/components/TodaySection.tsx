@@ -1,5 +1,4 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { AppIncidentsTodayPlot } from "../../../../core/components/Plots";
 import { useApplication } from "../../../../core/hooks/useApplication";
 import { useRequest } from "../../../../core/hooks/useRequest";
 import dateUtils from "../../../../core/utils/date";
@@ -8,6 +7,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import { ErrorDetails } from "@traceo/types";
 import { Typography, Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
+import IncidentsTodayChart from "src/core/components/Charts/Incidents/IncidentsTodayChart";
 
 export const TodaySection = () => {
   const { id } = useParams();
@@ -34,7 +34,7 @@ export const TodaySection = () => {
       <div className="col-span-4 h-full">
         <Card title="Today" className="h-full">
           <ConditionalWrapper isLoading={isLoading}>
-            <AppIncidentsTodayPlot
+            <IncidentsTodayChart
               stats={statisticUtils.parseErrorsToTodayPlotSource(dataSource).data}
             />
           </ConditionalWrapper>

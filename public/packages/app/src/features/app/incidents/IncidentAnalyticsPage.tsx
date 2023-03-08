@@ -1,4 +1,3 @@
-import { AppIncidentsTodayPlot, AppOverviewPlot } from "../../../core/components/Plots";
 import dateUtils from "../../../core/utils/date";
 import { statisticUtils } from "../../../core/utils/statistics";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
@@ -6,6 +5,8 @@ import { StoreState } from "@store/types";
 import { Typography, Card } from "@traceo/ui";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
+import IncidentsTodayChart from "src/core/components/Charts/Incidents/IncidentsTodayChart";
+import IncidentsOverviewChart from "src/core/components/Charts/Incidents/IncidentsOverviewChart";
 
 export const IncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
@@ -19,7 +20,7 @@ export const IncidentAnalyticsPage = () => {
       <div className="grid grid-cols-5 w-full mb-1">
         <div className="col-span-4 h-full">
           <Card title="Today" className="h-full">
-            <AppIncidentsTodayPlot stats={dataSource?.data} />
+            <IncidentsTodayChart stats={dataSource?.data} />
           </Card>
         </div>
         <div className="col-span-1 ml-1">
@@ -42,7 +43,7 @@ export const IncidentAnalyticsPage = () => {
         </div>
       </div>
       <Card title="Total overview">
-        <AppOverviewPlot stats={incident.errorsDetails} />
+        <IncidentsOverviewChart stats={incident.errorsDetails} />
       </Card>
     </IncidentPageWrapper>
   );

@@ -1,4 +1,3 @@
-import { AppIncidentsListPlot } from "../../../../core/components/Plots";
 import { useApplication } from "../../../../core/hooks/useApplication";
 import dateUtils from "../../../../core/utils/date";
 import { UserOutlined } from "@ant-design/icons";
@@ -8,6 +7,7 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { conditionClass, joinClasses } from "../../../../core/utils/classes";
 import { mapHeaderStatusIcon } from "./utils";
+import IncidentsListChart from "src/core/components/Charts/Incidents/IncidentsListChart";
 
 interface Props {
   incidents: IIncident[];
@@ -59,7 +59,7 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
         {({ item }) => (
           // TODO: echarts chart is very bad when we want to resize him...
           <div style={{ width: 200 }}>
-            <AppIncidentsListPlot errors={item?.errorsDetails} />
+            <IncidentsListChart errors={item?.errorsDetails} />
           </div>
         )}
       </TableColumn>

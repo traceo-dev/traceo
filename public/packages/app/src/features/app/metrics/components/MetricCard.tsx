@@ -1,9 +1,9 @@
-import { MetricCardPlot } from "../../../../core/components/Plots";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { IMetric } from "@traceo/types";
 import { Space, Tooltip } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import MetricChart from "src/core/components/Charts/Metrics/MetricChart";
 
 interface MetricCardProps {
   metric: IMetric;
@@ -30,7 +30,7 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, ranges }) => {
           </Tooltip>
         </div>
         <div className="p-2">
-          <MetricCardPlot metric={metric} ranges={ranges} />
+          <MetricChart metric={metric} ranges={ranges} />
         </div>
       </Space>
     </div>

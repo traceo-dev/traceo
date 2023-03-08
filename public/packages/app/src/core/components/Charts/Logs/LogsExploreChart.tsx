@@ -1,22 +1,22 @@
-import { commonSeriesOptions, mapLogBarsColor, mapLogName } from "./utils";
+import { commonSeriesOptions, mapLogBarsColor, mapLogName } from "../../../../features/app/explore/components/utils";
 import { Dictionary, LogLevel } from "@traceo/types";
 import { FC } from "react";
-import dateUtils from "../../../../core/utils/date";
+import dateUtils from "../../../utils/date";
 import { SeriesOption } from "echarts";
-import { BaseChart } from "../../../../core/components/Charts/BaseChart";
-import { LocalStorage } from "../../../../core/lib/localStorage/types";
-import { localStorageService } from "../../../../core/lib/localStorage";
-import { BaseDataZoom } from "../../../../core/components/Charts/BaseDataZoom";
-import { BaseLegend } from "../../../../core/components/Charts/BaseLegend";
-import { BaseTooltip } from "../../../../core/components/Charts/BaseTooltip";
-import { BaseXAxis } from "../../../../core/components/Charts/BaseXAxis";
-import { BaseYAxis } from "../../../../core/components/Charts/BaseYAxis";
+import { BaseChart } from "../BaseChart";
+import { LocalStorage } from "../../../lib/localStorage/types";
+import { localStorageService } from "../../../lib/localStorage";
+import { BaseDataZoom } from "../BaseDataZoom";
+import { BaseLegend } from "../BaseLegend";
+import { BaseTooltip } from "../BaseTooltip";
+import { BaseXAxis } from "../BaseXAxis";
+import { BaseYAxis } from "../BaseYAxis";
 import dayjs from "dayjs";
 import {
   EchartDataZoomProps,
   EchartLegendProps,
   EchartOnClickProps
-} from "../../../../core/components/Charts/types";
+} from "../types";
 
 type LogsType = {
   level: Record<LogLevel, number[]>;
@@ -44,7 +44,6 @@ const LogsExploreChart: FC<Props> = ({ logs, legendItems, setRanges, setLegendIt
   }, []) as SeriesOption;
 
   const onDataZoom = (params: EchartDataZoomProps) => {
-    console.log(params);
     if (!params.batch || !params.batch[0]) {
       return;
     }
@@ -76,8 +75,7 @@ const LogsExploreChart: FC<Props> = ({ logs, legendItems, setRanges, setLegendIt
   };
 
   const labelFormatter = (v: unknown) => dateUtils.formatDate(Number(v), "HH:mm");
-  const pointerFormatter = (v: unknown) =>
-    dateUtils.formatDate(v["value"] as number, "MMM D, HH:mm");
+  const pointerFormatter = (v: unknown) => dateUtils.formatDate(Number(v), "MMM D, HH:mm");
 
   return (
     <BaseChart

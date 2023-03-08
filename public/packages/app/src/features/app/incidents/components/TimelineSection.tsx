@@ -2,7 +2,7 @@ import { StoreState } from "@store/types";
 import { Card, Link } from "@traceo/ui";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { IncidentTimelinePlot } from "../../../../core/components/Plots";
+import IncidentTimelineChart from "src/core/components/Charts/Incidents/IncidentTimelineChart";
 
 export const TimelineSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
@@ -23,7 +23,7 @@ export const TimelineSection = () => {
         </Link>
       }
     >
-      <IncidentTimelinePlot errors={incident?.errorsDetails} />
+      <IncidentTimelineChart errors={incident?.errorsDetails} />
     </Card>
   );
 };

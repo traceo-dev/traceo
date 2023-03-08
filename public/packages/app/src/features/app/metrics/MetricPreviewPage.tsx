@@ -1,5 +1,4 @@
 import { Page } from "../../../core/components/Page";
-import { MetricPreviewPlot } from "../../../core/components/Plots";
 import { useApplication } from "../../../core/hooks/useApplication";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { useRequest } from "../../../core/hooks/useRequest";
@@ -17,6 +16,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
+import MetricPreviewChart from "src/core/components/Charts/Metrics/MetricPreviewChart";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
@@ -83,7 +83,7 @@ export const MetricPreviewPage = () => {
                 />
               }
             >
-              <MetricPreviewPlot isExpandMode={isExpandMode} options={options} />
+              <MetricPreviewChart isExpandMode={isExpandMode} options={options} />
             </Card>
 
             {!isExpandMode && (

@@ -50,7 +50,7 @@ const MetricsPage = () => {
     }
 
     return (
-      <>
+      <div>
         <Card className="rounded-md mb-2">
           <SearchWrapper className="justify-end">
             <InputSearch
@@ -82,7 +82,7 @@ const MetricsPage = () => {
             ))}
           </Row>
         </ConditionalWrapper>
-      </>
+      </div>
     );
   };
 

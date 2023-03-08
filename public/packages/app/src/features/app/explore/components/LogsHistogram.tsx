@@ -1,5 +1,4 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { Fallback } from "../../../../core/components/Plots";
 import { useLogLevels } from "../../../../core/hooks/useLogLevels";
 import { statisticUtils } from "../../../../core/utils/statistics";
 import { useAppDispatch } from "../../../../store";
@@ -8,14 +7,14 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
 import { Card, TimeRangePicker } from "@traceo/ui";
 import dayjs, { ManipulateType } from "dayjs";
-import { useEffect, useMemo, lazy, Suspense } from "react";
+import { useEffect, useMemo, lazy } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useTimeRange } from "../../../../core/hooks/useTimeRange";
 import { LogLevel } from "@traceo/types";
 import { relativeTimeOptions } from "./utils";
 
-const LazyLogsExplorePlot = lazy(() => import("./LogsExploreChart"));
+const LazyLogsExplorePlot = lazy(() => import("../../../../core/components/Charts/Logs/LogsExploreChart"));
 
 export const LogsHistogram = () => {
   const dispatch = useAppDispatch();
@@ -73,15 +72,13 @@ export const LogsHistogram = () => {
   return (
     <Card className="mb-0 h-full" title="Histogram" extra={renderToolbar}>
       <ConditionalWrapper isLoading={!hasFetched && !logs}>
-        <Suspense fallback={<Fallback />}>
-          <LazyLogsExplorePlot
-            legendItems={legendItems()}
-            setLegendItems={setLevels}
-            setRanges={setRanges}
-            logs={dataSource}
-            zoom={true}
-          />
-        </Suspense>
+        <LazyLogsExplorePlot
+          legendItems={legendItems()}
+          setLegendItems={setLevels}
+          setRanges={setRanges}
+          logs={dataSource}
+          zoom={true}
+        />
       </ConditionalWrapper>
     </Card>
   );
