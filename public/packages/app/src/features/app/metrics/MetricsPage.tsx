@@ -17,7 +17,6 @@ import { InputSearch, Card, Row, Col, Alert } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
-import dateUtils from "src/core/utils/date";
 
 const MetricsPage = () => {
   const dispatch = useAppDispatch();
@@ -26,9 +25,8 @@ const MetricsPage = () => {
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
   const [search, setSearch] = useState<string>(null);
   const { ranges, setRanges } = useTimeRange({
-    // TODO: cleanup
-    from: dayjs.unix(dateUtils.toUnix()).subtract(1, "d").unix(),
-    to: dateUtils.toUnix()
+    from: dayjs().subtract(1, "d").unix(),
+    to: dayjs().unix()
   });
 
   const { data: connection, isLoading: isLoadingConnection } = useRequest<DataSourceConnStatus>({

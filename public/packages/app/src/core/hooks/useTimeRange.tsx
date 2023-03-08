@@ -7,8 +7,8 @@ type RangeType = [number, number];
 export const useTimeRange = (initial?: { from: number; to: number }) => {
   const searchParams = new URLSearchParams(window.location.search);
 
-  const from = Number(searchParams.get("from"));
-  const to = Number(searchParams.get("to"));
+  const from = parseInt(searchParams.get("from"));
+  const to = parseInt(searchParams.get("to"));
 
   const initialParams: RangeType = [from || initial?.from, to || initial?.to];
   const [ranges, setRanges] = useState<RangeType>(initialParams);
@@ -17,7 +17,7 @@ export const useTimeRange = (initial?: { from: number; to: number }) => {
     const unlisten = historyService.listen(({ action, location }) => {
       if (action === "POP") {
         const search = new URLSearchParams(location.search);
-        setRanges([Number(search.get("from")), Number(search.get("to"))]);
+        setRanges([parseInt(search.get("from")), parseInt(search.get("to"))]);
       }
     });
 
