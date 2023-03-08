@@ -9,8 +9,7 @@ import { LiveService } from "src/common/services/live.service";
 @Injectable()
 export class WorkerLogsService extends BaseWorkerService<TraceoLog[]> {
   constructor(
-    readonly entityManager: EntityManager,
-    readonly live: LiveService
+    readonly entityManager: EntityManager
   ) {
     super(entityManager);
   }
@@ -32,10 +31,5 @@ export class WorkerLogsService extends BaseWorkerService<TraceoLog[]> {
     }));
     await this.entityManager.getRepository(Log).save(logs);
     this.logger.log(`New logs saved for application: ${application.id}.`);
-
-    this.live.publish(id, {
-      action: "log",
-      message: logs.sort((a, b) => b.receiveTimestamp - a.receiveTimestamp)
-    });
   }
 }

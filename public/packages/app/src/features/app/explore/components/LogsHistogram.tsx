@@ -8,14 +8,11 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
 import { Card, TimeRangePicker } from "@traceo/ui";
 import dayjs, { ManipulateType } from "dayjs";
-import { useState, useEffect, useMemo, lazy, Suspense } from "react";
+import { useEffect, useMemo, lazy, Suspense } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useTimeRange } from "../../../../core/hooks/useTimeRange";
-import { LogLevel, TraceoLog } from "@traceo/types";
-import { useLive } from "../../../../core/hooks/useLive";
-import { logsLoaded } from "../state/reducers";
-import { LiveButton } from "../../../../core/components/LiveButton";
+import { LogLevel } from "@traceo/types";
 import { relativeTimeOptions } from "./utils";
 
 const LazyLogsExplorePlot = lazy(() => import("./LogsExploreChart"));
@@ -25,19 +22,9 @@ export const LogsHistogram = () => {
   const { id } = useParams();
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);
   const { levels, setLevels } = useLogLevels();
-  const [isLive, setLive] = useState<boolean>(false);
-  const live = useLive();
-
-  const initialRange = {
+  const { ranges, setRanges } = useTimeRange({
     from: dayjs().subtract(30, "minute").unix(),
     to: dayjs().unix()
-  };
-  const { ranges, setRanges } = useTimeRange(initialRange);
-
-  live.listen("log", (wsLogs: TraceoLog[]) => {
-    if (isLive) {
-      dispatch(logsLoaded([...wsLogs, ...logs]));
-    }
   });
 
   useEffect(() => {
@@ -50,18 +37,10 @@ export const LogsHistogram = () => {
     dispatch(loadApplicationLogs(id, props));
   }, [levels, ranges]);
 
-  const getRange: [number, number] = isLive
-    ? [initialRange.from, initialRange.to]
-    : [ranges[0], ranges[1]];
-
-  const dataSource = useMemo(() => statisticUtils.parseLogs(getRange, logs), [logs]);
-
-  const onRestoreClick = () => setRanges([initialRange.from, initialRange.to]);
-
-  const onLiveClick = () => {
-    onRestoreClick();
-    setLive(!isLive);
-  };
+  const dataSource = useMemo(
+    () => statisticUtils.parseLogs([ranges[0], ranges[1]], logs),
+    [logs]
+  );
 
   const legendItems = () => {
     const a = Object.values(LogLevel).reduce((acc, val) => {
@@ -87,13 +66,6 @@ export const LogsHistogram = () => {
         options={relativeTimeOptions}
         onClickRelativeTime={handleOptionClick}
         submit={(val: [number, number]) => setRanges(val)}
-        disabled={isLive}
-      />
-      <LiveButton
-        live={isLive}
-        onClick={() => onLiveClick()}
-        tooltipLive="Stop live tail"
-        tooltipLiveStop="Start live tail"
       />
     </div>
   );
@@ -107,7 +79,7 @@ export const LogsHistogram = () => {
             setLegendItems={setLevels}
             setRanges={setRanges}
             logs={dataSource}
-            zoom={!isLive}
+            zoom={true}
           />
         </Suspense>
       </ConditionalWrapper>

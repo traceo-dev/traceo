@@ -50,23 +50,19 @@ export const AppsTable = () => {
 
   useEffect(() => fetchApplications(), [order, sortBy, search]);
 
-  const renderSearch = () => (
-    <SearchWrapper>
-      <InputSearch placeholder="Search by name" value={search} onChange={setSearch} />
-      <Select
-        width={150}
-        options={sortOptions}
-        value={sortBy}
-        onChange={(opt) => setSortBy(opt?.value)}
-        isClearable
-      />
-      <SortIcons order={order} setOrder={setOrder} />
-    </SearchWrapper>
-  );
-
   return (
-    <>
-      {renderSearch()}
+    <div>
+      <SearchWrapper>
+        <InputSearch placeholder="Search by name" value={search} onChange={setSearch} />
+        <Select
+          width={150}
+          options={sortOptions}
+          value={sortBy}
+          onChange={(opt) => setSortBy(opt?.value)}
+          isClearable
+        />
+        <SortIcons order={order} setOrder={setOrder} />
+      </SearchWrapper>
       <ConditionalWrapper
         isLoading={!hasFetched}
         isEmpty={applications?.length === 0}
@@ -78,6 +74,6 @@ export const AppsTable = () => {
           renderItem={(app: MemberApplication) => <AppCard app={app} />}
         />
       </ConditionalWrapper>
-    </>
+    </div>
   );
 };

@@ -16,8 +16,7 @@ import { LiveService } from "src/common/services/live.service";
     WorkerRuntimeService,
     WorkerLogsService,
     InfluxService,
-    ApplicationQueryService,
-    LiveService
+    ApplicationQueryService
   ],
   controllers: [WorkerController],
   exports: [WorkerIncidentsService, WorkerMetricsService, WorkerRuntimeService, WorkerLogsService]
