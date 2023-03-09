@@ -5,7 +5,7 @@ export interface NavbarState {
 }
 
 const initialState = {
-  hidden: false,
+  hidden: false
 };
 
 const navbarSlice = createSlice({

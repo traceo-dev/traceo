@@ -8,14 +8,10 @@ const send = async (incidentId: string, applicationId: string, message: string) 
   });
 };
 
-const update = async (
-  commentId: string,
-  message: string,
-  applicationId: string
-) => {
+const update = async (commentId: string, message: string, applicationId: string) => {
   await api.patch(`/api/comments/update/${commentId}`, {
     message: message,
-    applicationId,
+    applicationId
   });
 };
 

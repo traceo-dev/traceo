@@ -25,7 +25,7 @@ const MetricsPage = () => {
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
   const [search, setSearch] = useState<string>(null);
   const { ranges, setRanges } = useTimeRange({
-    from: dayjs().subtract(1, "d").unix(),
+    from: dayjs().subtract(24, "h").unix(),
     to: dayjs().unix()
   });
 

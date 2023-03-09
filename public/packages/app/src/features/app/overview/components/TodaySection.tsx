@@ -7,7 +7,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import { ErrorDetails } from "@traceo/types";
 import { Typography, Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
-import IncidentsTodayChart from "src/core/components/Charts/Incidents/IncidentsTodayChart";
+import IncidentsTodayChart from "../../../../core/components/Charts/Incidents/IncidentsTodayChart";
 
 export const TodaySection = () => {
   const { id } = useParams();

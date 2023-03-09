@@ -5,8 +5,8 @@ import { StoreState } from "@store/types";
 import { Typography, Card } from "@traceo/ui";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
-import IncidentsTodayChart from "src/core/components/Charts/Incidents/IncidentsTodayChart";
-import IncidentsOverviewChart from "src/core/components/Charts/Incidents/IncidentsOverviewChart";
+import IncidentsTodayChart from "../../../core/components/Charts/Incidents/IncidentsTodayChart";
+import IncidentsOverviewChart from "../../../core/components/Charts/Incidents/IncidentsOverviewChart";
 
 export const IncidentAnalyticsPage = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);

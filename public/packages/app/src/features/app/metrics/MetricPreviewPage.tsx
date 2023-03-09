@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
-import MetricPreviewChart from "src/core/components/Charts/Metrics/MetricPreviewChart";
+import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();

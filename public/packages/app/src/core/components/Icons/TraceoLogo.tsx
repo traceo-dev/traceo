@@ -39,7 +39,9 @@ export const TraceoLogo: FC<Props> = ({ size, onClick, name = false, className }
       </div>
 
       {name && (
-        <span className={joinClasses(typographyNameSize[size], "font-semibold pl-2 text-primary")}>
+        <span
+          className={joinClasses(typographyNameSize[size], "font-semibold pl-2 text-primary")}
+        >
           Traceo
         </span>
       )}

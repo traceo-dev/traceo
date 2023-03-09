@@ -3,7 +3,7 @@ import { IMetric } from "@traceo/types";
 import { Space, Tooltip } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import MetricChart from "src/core/components/Charts/Metrics/MetricChart";
+import MetricChart from "../../../../core/components/Charts/Metrics/MetricChart";
 
 interface MetricCardProps {
   metric: IMetric;

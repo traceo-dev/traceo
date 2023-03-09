@@ -1,6 +1,11 @@
 import { DeepPartial, IMetric, IMetricSerie, MetricsResponse, METRIC_UNIT } from "@traceo/types";
 import dayjs from "dayjs";
-import { EChartsOption, SeriesOption, ToolboxComponentOption, TooltipComponentOption } from "echarts";
+import {
+  EChartsOption,
+  SeriesOption,
+  ToolboxComponentOption,
+  TooltipComponentOption
+} from "echarts";
 import { BaseTooltip } from "../BaseTooltip";
 
 export type SerieType = "bar" | "line" | "scatter";
@@ -140,4 +145,3 @@ export const splitLine = {
     width: 1
   }
 };
-

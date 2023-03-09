@@ -6,7 +6,7 @@ import { loadApplicationLogs } from "../state/actions";
 import { LoadingOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
 import { Card, TimeRangePicker } from "@traceo/ui";
-import dayjs, { ManipulateType } from "dayjs";
+import dayjs from "dayjs";
 import { useEffect, useMemo, lazy } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,9 @@ import { useTimeRange } from "../../../../core/hooks/useTimeRange";
 import { LogLevel } from "@traceo/types";
 import { relativeTimeOptions } from "./utils";
 
-const LazyLogsExplorePlot = lazy(() => import("../../../../core/components/Charts/Logs/LogsExploreChart"));
+const LazyLogsExplorePlot = lazy(
+  () => import("../../../../core/components/Charts/Logs/LogsExploreChart")
+);
 
 export const LogsHistogram = () => {
   const dispatch = useAppDispatch();
@@ -51,19 +53,13 @@ export const LogsHistogram = () => {
     return a;
   };
 
-  const handleOptionClick = (value: number, unit: ManipulateType) => {
-    const from = dayjs().subtract(value, unit).unix();
-    const to = dayjs().unix();
-    setRanges([from, to]);
-  };
-
   const renderToolbar = (
     <div className="flex flex-row gap-x-5 items-center">
       {!hasFetched && <LoadingOutlined />}
       <TimeRangePicker
         value={ranges}
         options={relativeTimeOptions}
-        onClickRelativeTime={handleOptionClick}
+        maxHourPeriod={3}
         submit={(val: [number, number]) => setRanges(val)}
       />
     </div>

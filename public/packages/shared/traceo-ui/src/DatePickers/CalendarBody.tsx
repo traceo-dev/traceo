@@ -2,27 +2,30 @@ import dayjs from "dayjs";
 import { FC } from "react";
 import Calendar from "react-calendar";
 import styled from "styled-components";
+import { parseUnixToDate } from "./utils";
 
 export type CalendarDatesType = number | [number, number] | Date[] | Date;
 interface Props {
-  value: number | [number, number] | Date[] | Date;
+  value: number | [number, number];
   onChange?: (val: CalendarDatesType) => void;
   range?: boolean;
   width?: number;
   className?: string;
 }
 
-export const ReactCalendarBody: FC<Props> = ({
+export const CalendarBody: FC<Props> = ({
   value,
   onChange,
   range = false,
   width = null,
   className = ""
 }) => {
+  const calendarValue = parseUnixToDate(value, range);
+
   return (
     <CalendarWrapper className={className} width={width}>
       <Calendar
-        value={value}
+        value={calendarValue}
         onChange={onChange}
         selectRange={range}
         next2Label={null}
@@ -79,24 +82,32 @@ const CalendarWrapper = styled.div<{
     cursor: pointer;
   }
 
-  .react-calendar__tile:hover,
-  .react-calendar__tile--active:hover {
-    background-color: var(--color-bg-secondary);
-    color: white;
-    border-radius: 20px;
-  }
-
   .react-calendar__tile--active {
     box-shadow: none;
     border: 0px;
     font-weight: 600;
     color: var(--color-bg-canvas);
     background-color: var(--color-traceo-primary);
-    border-radius: 20px;
   }
 
   .react-calendar__tile[disabled] {
     color: gray;
     cursor: auto;
+  }
+
+  .react-calendar__tile--rangeStart {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background-color: var(--color-traceo-primary);
+    color: var(--color-bg-canvas);
+    font-weight: 600;
+  }
+
+  .react-calendar__tile--rangeEnd {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    background-color: var(--color-traceo-primary);
+    color: var(--color-bg-canvas);
+    font-weight: 600;
   }
 `;

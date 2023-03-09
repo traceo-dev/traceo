@@ -1,5 +1,5 @@
 import { PopoverCore } from "./PopoverCore";
-import { BasePlacement } from "@popperjs/core";
+import { Placement } from "@popperjs/core";
 import { FC, useEffect, useRef, useState } from "react";
 
 type TriggerType = "click" | "hover";
@@ -7,7 +7,7 @@ type TriggerType = "click" | "hover";
 interface PopoverProps {
   content: string | JSX.Element;
   children?: JSX.Element;
-  placement?: BasePlacement;
+  placement?: Placement;
   trigger?: TriggerType;
   showArrow?: boolean;
   overrideStyles?: object;
@@ -59,12 +59,15 @@ export const Popover: FC<PopoverProps> = ({
   return (
     <div ref={ref} {...triggerOptions[trigger]}>
       <PopoverCore
-        className="bg-primary rounded-sm z-50 shadow-2xl border border-solid border-secondary"
+        className="bg-primary rounded-sm z-50 border border-solid border-secondary"
         visible={visible}
         content={content}
         placement={placement}
         showArrow={showArrow}
-        overrideStyles={overrideStyles}
+        overrideStyles={{
+          boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+          ...overrideStyles
+        }}
       >
         {children}
       </PopoverCore>

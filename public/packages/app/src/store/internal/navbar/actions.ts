@@ -3,8 +3,6 @@ import { ThunkResult } from "@store/types";
 
 export const hideNavbar = (hidden: boolean): ThunkResult<void> => {
   return async (dispatch) => {
-    dispatch(
-      navbarHideState({ hidden })
-    );
+    dispatch(navbarHideState({ hidden }));
   };
 };

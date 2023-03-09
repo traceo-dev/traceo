@@ -5,7 +5,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import { ErrorDetails } from "@traceo/types";
 import { Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
-import IncidentsOverviewChart from "src/core/components/Charts/Incidents/IncidentsOverviewChart";
+import IncidentsOverviewChart from "../../../../core/components/Charts/Incidents/IncidentsOverviewChart";
 
 export interface TotalOverviewType {
   errors: ErrorDetails[];

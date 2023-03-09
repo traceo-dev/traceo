@@ -1,12 +1,13 @@
-import { ClockCircleOutlined } from "@ant-design/icons";
 import { Alert, Button, FieldLabel, Input } from "../index";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
-import { CalendarDatesType, ReactCalendarBody } from "./ReactCalendarBody";
+import { CalendarDatesType, CalendarBody } from "./CalendarBody";
 import dayjs, { ManipulateType } from "dayjs";
 import { conditionClass, joinClasses } from "../utils/classes";
-import { PickerWrapper, PickerFooter, TimeWrapper, Header } from "./styles";
-import { PickerInput } from "./PickerInput";
+import { PickerWrapper, PickerFooter, TimeWrapper } from "./styles";
+import { TimePickerInput } from "./TimePickerInput";
+import { setTimeToUnix, validateInput } from "./utils";
+import { CalendarHeader } from "./CalendarHeader";
 
 export type RelativeTimeOption = {
   label: string;
@@ -17,176 +18,151 @@ export type RelativeTimeOption = {
 
 interface Props {
   value: [number, number];
-  submit?: (val: [number, number]) => void;
-  onClickRelativeTime?: (val: number, unit: ManipulateType) => void;
+  submit: (val: [number, number]) => void;
+  // List of options on panel left side
   options?: RelativeTimeOption[];
   // The longest time period (in hours) available between from and to
-  maxTimePeriod?: number;
+  maxHourPeriod?: number;
   disabled?: boolean;
+  // Enable checking range time between two dates in calendar
+  datesRange?: boolean;
 }
-
-const parseUnixToDate = (unix: number) => new Date(unix * 1e3);
 
 export const TimeRangePicker = ({
   submit,
   value = null,
   options = [],
-  maxTimePeriod = 3,
+  maxHourPeriod = null,
   disabled = false,
-  onClickRelativeTime
+  datesRange = false
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>(null);
   const [selectedValue, setSelectedValue] = useState<[number, number]>(value);
+  const [from, setFrom] = useState<string>(null);
+  const [to, setTo] = useState<string>(null);
 
   const hasOptions = options.length > 0;
-
-  const calendarValue = parseUnixToDate(selectedValue[0]);
 
   const handleOnSubmit = () => {
     submit([selectedValue[0], selectedValue[1]]);
     setOpen(false);
   };
 
-  const handleOnChangeCalendar = (date: CalendarDatesType) => {
-    const newDate = dayjs(date as Date);
+  const handleOnChangeCalendar = useCallback(
+    (date: CalendarDatesType) => {
+      if (!datesRange) {
+        const dayJsTime = dayjs(date as Date)
+          .set("hour", dayjs().hour())
+          .set("minute", dayjs().minute());
 
-    const dayJsTime = newDate.set("hour", dayjs().hour()).set("minute", dayjs().minute());
+        // Current time minus 30min with date selected from calendar
+        const from = dayJsTime.subtract(30, "minute").unix();
 
-    // Current time minus 30min with date selected from calendar
-    const from = dayJsTime.subtract(30, "minute").unix();
+        // Current time with date selected from calendar
+        const to = dayJsTime.unix();
 
-    // Current time with date selected from calendar
-    const to = dayJsTime.unix();
+        setSelectedValue([from, to]);
+      } else if (date[0] && date[1]) {
+        // On change range on calendar time is set to 00:00-23:59
+        const from = dayjs(date[0]).unix();
+        const to = dayjs(date[1]).unix();
+        setSelectedValue([from, to]);
+      }
+    },
+    [selectedValue]
+  );
 
-    setSelectedValue([from, to]);
-  };
+  const handleOnChangeTimeFrom = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      const time = e.currentTarget.value;
+      if (time && typeof time === "string") {
+        const date = setTimeToUnix(time, selectedValue[0]);
+        setSelectedValue([date.unix(), selectedValue[1]]);
+      }
+    },
+    [selectedValue]
+  );
 
-  const handleOnChangeTimeFrom = (time: string) => {
-    const date = parseTime(time, selectedValue[1]);
-    setSelectedValue([date.unix(), selectedValue[1]]);
-  };
-
-  const handleOnChangeTimeTo = (time: string) => {
-    const date = parseTime(time, selectedValue[1]);
-    setSelectedValue([selectedValue[0], date.unix()]);
-  };
-
-  const parseTime = (time: string, initialDate: number) => {
-    // time returned in HH:mm format
-    const [hour, minute] = time.split(":");
-
-    const dayJS = dayjs.unix(initialDate);
-    const date = dayJS.set("hour", parseInt(hour)).set("minute", parseInt(minute));
-
-    return date;
-  };
+  const handleOnChangeTimeTo = useCallback(
+    (e: React.FormEvent<HTMLInputElement>) => {
+      const time = e.currentTarget.value;
+      if (time && typeof time === "string") {
+        const date = setTimeToUnix(time, selectedValue[1]);
+        setSelectedValue([selectedValue[0], date.unix()]);
+      }
+    },
+    [selectedValue]
+  );
 
   useEffect(() => {
     const from = dayjs.unix(selectedValue[0]);
     const to = dayjs.unix(selectedValue[1]);
 
-    const isIncorrectDiff = Math.abs(from.diff(to, "hour")) > maxTimePeriod;
-    const isFromAfterTo = from.isAfter(to);
-    const isToBeforeFrom = to.isBefore(from);
+    setFrom(from.format("HH:mm"));
+    setTo(to.format("HH:mm"));
 
-    if (isIncorrectDiff) {
-      setError(`Data can only be loaded from ${maxTimePeriod}h range`);
-    }
-
-    if (isFromAfterTo) {
-      setError("'From' can't be after 'To'");
-    }
-
-    if (isToBeforeFrom) {
-      setError("'To' can't be before 'From'");
-    }
-
-    if (!isIncorrectDiff && !isFromAfterTo && !isToBeforeFrom) {
-      setError(null);
-    }
+    const error = validateInput(from, to, maxHourPeriod);
+    setError(error);
   }, [selectedValue]);
 
-  const handleOnClickOption = (value: number, unit: ManipulateType) => {
-    onClickRelativeTime(value, unit);
-    setOpen(false);
-  };
-
-  const relativeTimeContainer = (
-    <RelativeTimeWrapper>
-      <span className="px-3 py-2">Relative time</span>
-      <ul className="pl-0 list-none">
-        {options?.map(({ label, unit, value }, index) => (
-          <RelativeTimeOption key={index} onClick={() => handleOnClickOption(value, unit)}>
-            {label}
-          </RelativeTimeOption>
-        ))}
-      </ul>
-    </RelativeTimeWrapper>
+  const handleOnClickOption = useCallback(
+    (value: number, unit: ManipulateType) => {
+      const from = dayjs().subtract(value, unit).unix();
+      const to = dayjs().unix();
+      setSelectedValue([from, to]);
+    },
+    [selectedValue]
   );
 
   const popoverContent = (
     <PickerWrapper>
-      <Header>
-        <span>
-          <ClockCircleOutlined className="pr-2" />
-          Select time range
-        </span>
-      </Header>
+      <CalendarHeader title="Select time range" />
       <div className="flex flex-row grid grid-cols-12">
-        {hasOptions && relativeTimeContainer}
-        <div
-          className={joinClasses("p-3", conditionClass(hasOptions, "col-span-8", "col-span-12"))}
-        >
-          <ReactCalendarBody
+        {hasOptions && (
+          <RelativeTimeWrapper>
+            <ul className="pl-0 list-none overflow-y-scroll">
+              {options.map(({ label, unit, value }, index) => (
+                <RelativeTimeOption key={index} onClick={() => handleOnClickOption(value, unit)}>
+                  {label}
+                </RelativeTimeOption>
+              ))}
+            </ul>
+          </RelativeTimeWrapper>
+        )}
+        <div className={joinClasses(conditionClass(hasOptions, "col-span-8", "col-span-12"))}>
+          <CalendarBody
             className="p-3"
-            width={296}
-            value={calendarValue}
+            width={300}
+            range={datesRange}
+            value={selectedValue}
             onChange={(date) => handleOnChangeCalendar(date)}
           />
           <TimeWrapper>
             <FieldLabel labelSize="xs" label="Time from" className="w-full">
-              <Input
-                type="time"
-                value={dayjs.unix(selectedValue[0]).format("HH:mm")}
-                onChange={(e) => handleOnChangeTimeFrom(e.currentTarget.value)}
-              />
+              <Input type="time" value={from} onChange={handleOnChangeTimeFrom} />
             </FieldLabel>
             <FieldLabel labelSize="xs" label="Time to" className="w-full">
-              <Input
-                type="time"
-                value={dayjs.unix(selectedValue[1]).format("HH:mm")}
-                onChange={(e) => handleOnChangeTimeTo(e.currentTarget.value)}
-              />
+              <Input type="time" value={to} onChange={handleOnChangeTimeTo} />
             </FieldLabel>
           </TimeWrapper>
           {error && <Alert type="error" message={error} />}
         </div>
       </div>
-      {submit && (
-        <PickerFooter>
-          <div className="w-full text-end">
-            <Button disabled={!!error} size="xs" onClick={handleOnSubmit}>
-              Submit
-            </Button>
-          </div>
-        </PickerFooter>
-      )}
+      <PickerFooter>
+        <Button disabled={!!error} size="xs" onClick={handleOnSubmit}>
+          Apply
+        </Button>
+      </PickerFooter>
     </PickerWrapper>
   );
 
-  const inputValue = useMemo(() => {
-    const from = dayjs.unix(value[0]).format("DD MMM, HH:mm");
-    const to = dayjs.unix(value[1]).format("HH:mm");
-
-    return `${from} - ${to}`;
-  }, value);
-
   return (
-    <PickerInput
+    <TimePickerInput
       open={open}
       popoverContent={popoverContent}
-      value={inputValue}
+      value={value}
+      range={datesRange}
       onClick={() => setOpen(true)}
       disabled={disabled}
     />
@@ -199,6 +175,7 @@ const RelativeTimeWrapper = styled.div`
   border-right: 1px solid var(--color-bg-secondary);
   width: 10rem; /* 160px */
   grid-column: span 4 / span 4;
+  height: 350px;
 `;
 
 const RelativeTimeOption = styled.li`

@@ -1,34 +1,43 @@
 import { YAXisComponentOption } from "echarts/types/dist/echarts";
 
 type YAxisProps = YAXisComponentOption & {
-    pointerFormatter?: (value: undefined) => string;
-    labelFormatter?: (value: unknown) => string;
-}
+  pointerFormatter?: (value: undefined) => string;
+  labelFormatter?: (value: unknown) => string;
+};
 const LINE_COLOR = "#272A30";
 export const BaseYAxis = ({
-    splitLine = {},
-    axisPointer = {},
-    axisLabel = {},
-    ...props
+  splitLine = {},
+  axisPointer = {},
+  axisLabel = {},
+  ...props
 }: YAxisProps): YAXisComponentOption => ({
-    splitLine: Object.assign({
-        show: true,
-        lineStyle: {
-            color: LINE_COLOR,
-            width: 1
-        }
-    }, splitLine),
-    axisPointer: Object.assign({
-        label: {
-            // TODO: add types
-            formatter: (value: any) => props?.pointerFormatter(value)
-        }
-    }, axisPointer),
-    // TODO: fix types and use Object.assign(axisLabel, 
-    axisLabel: Object.assign({
-        color: "white",
-        fontSize: 11,
-        padding: 0
-    }, axisLabel as any),
-    ...props
-})
+  splitLine: Object.assign(
+    {
+      show: true,
+      lineStyle: {
+        color: LINE_COLOR,
+        width: 1
+      }
+    },
+    splitLine
+  ),
+  axisPointer: Object.assign(
+    {
+      label: {
+        // TODO: add types
+        formatter: (value: any) => props?.pointerFormatter(value)
+      }
+    },
+    axisPointer
+  ),
+  // TODO: fix types and use Object.assign(axisLabel,
+  axisLabel: Object.assign(
+    {
+      color: "white",
+      fontSize: 11,
+      padding: 0
+    },
+    axisLabel as any
+  ),
+  ...props
+});

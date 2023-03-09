@@ -1,15 +1,14 @@
 import { MinusOutlined, PlusOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
-import { TraceoLog } from "@traceo/types";
+import { LogLevel, TraceoLog } from "@traceo/types";
 import { Card, Space, Tooltip } from "@traceo/ui";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { ConditionalWrapper } from "src/core/components/ConditionLayout";
-import { DataNotFound } from "src/core/components/DataNotFound";
-import { Descriptions, DescriptionRow } from "src/core/components/Descriptions";
+import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
+import { Descriptions, DescriptionRow } from "../../../../core/components/Descriptions";
 import { mapLogBarsColor, mapLogColor } from "./utils";
 import styled from "styled-components";
-import { LogLevel } from "ts-loader/dist/interfaces";
 
 export const LogsList = () => {
   const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);

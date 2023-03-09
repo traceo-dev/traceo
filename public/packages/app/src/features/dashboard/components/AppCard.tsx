@@ -4,7 +4,7 @@ import { IApplication, MemberApplication } from "@traceo/types";
 import { Typography, ListCard, Space, Avatar, Tooltip } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import AppListIncidentsChart from "src/core/components/Charts/Incidents/AppListIncidentsChart";
+import AppListIncidentsChart from "../../../core/components/Charts/Incidents/AppListIncidentsChart";
 
 interface Props {
   app: MemberApplication;

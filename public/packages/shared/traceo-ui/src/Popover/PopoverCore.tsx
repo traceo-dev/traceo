@@ -1,6 +1,6 @@
 import { joinClasses } from "../utils/classes";
 import { defaultTransitionStyles, transitionStyles, Arrow } from "./style";
-import { BasePlacement } from "@popperjs/core";
+import { Placement } from "@popperjs/core";
 import React, { forwardRef } from "react";
 import { Manager, Reference, Popper } from "react-popper";
 import { Transition } from "react-transition-group";
@@ -9,7 +9,7 @@ interface PopoverCoreProps {
   visible?: boolean;
   content: string | JSX.Element;
   children?: JSX.Element;
-  placement?: BasePlacement;
+  placement?: Placement;
   className?: string;
   showArrow?: boolean;
   chilren?: JSX.Element;

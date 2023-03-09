@@ -7,7 +7,7 @@ import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { conditionClass, joinClasses } from "../../../../core/utils/classes";
 import { mapHeaderStatusIcon } from "./utils";
-import IncidentsListChart from "src/core/components/Charts/Incidents/IncidentsListChart";
+import IncidentsListChart from "../../../../core/components/Charts/Incidents/IncidentsListChart";
 
 interface Props {
   incidents: IIncident[];
