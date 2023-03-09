@@ -87,6 +87,7 @@ export const MetricPreviewPage = () => {
                 setRanges={setRanges}
                 isExpandMode={isExpandMode}
                 options={options}
+                activeZoomSelect={!isCustomizeMode}
               />
             </Card>
 

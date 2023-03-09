@@ -32,7 +32,7 @@ const durationMap: Record<NotifyType, number> = {
   error: 5000,
   warning: 5000,
   info: 3000,
-  success: 3000
+  success: 30000
 };
 
 export const NotificationItem: FC<NotificationItemProps> = ({ notification }) => {
@@ -50,7 +50,7 @@ export const NotificationItem: FC<NotificationItemProps> = ({ notification }) =>
     <div
       onClick={() => dispatch(hideNotify(notification))}
       className={joinClasses(
-        "rounded-md w-full py-3 px-5 flex flex-row items-center cursor-pointer w-[320px]",
+        "rounded-md py-3 px-5 flex flex-row items-center cursor-pointer w-64",
         "transition duration-300 ease-in-out transform",
         mapNotifyStyle[type]
       )}

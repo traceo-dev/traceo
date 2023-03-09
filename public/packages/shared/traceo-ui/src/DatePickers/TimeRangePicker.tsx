@@ -44,6 +44,21 @@ export const TimeRangePicker = ({
 
   const hasOptions = options.length > 0;
 
+  useEffect(() => {
+    setSelectedValue(value);
+  }, [value]);
+
+  useEffect(() => {
+    const from = dayjs.unix(selectedValue[0]);
+    const to = dayjs.unix(selectedValue[1]);
+
+    setFrom(from.format("HH:mm"));
+    setTo(to.format("HH:mm"));
+
+    const error = validateInput(from, to, maxHourPeriod);
+    setError(error);
+  }, [selectedValue]);
+
   const handleOnSubmit = () => {
     submit([selectedValue[0], selectedValue[1]]);
     setOpen(false);
@@ -94,17 +109,6 @@ export const TimeRangePicker = ({
     },
     [selectedValue]
   );
-
-  useEffect(() => {
-    const from = dayjs.unix(selectedValue[0]);
-    const to = dayjs.unix(selectedValue[1]);
-
-    setFrom(from.format("HH:mm"));
-    setTo(to.format("HH:mm"));
-
-    const error = validateInput(from, to, maxHourPeriod);
-    setError(error);
-  }, [selectedValue]);
 
   const handleOnClickOption = useCallback(
     (value: number, unit: ManipulateType) => {
@@ -175,7 +179,6 @@ const RelativeTimeWrapper = styled.div`
   border-right: 1px solid var(--color-bg-secondary);
   width: 10rem; /* 160px */
   grid-column: span 4 / span 4;
-  height: 350px;
 `;
 
 const RelativeTimeOption = styled.li`

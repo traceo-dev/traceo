@@ -16,8 +16,14 @@ interface Props {
   options: DeepPartial<IMetric>;
   isExpandMode: boolean;
   setRanges: (val: [number, number]) => void;
+  activeZoomSelect?: boolean;
 }
-const MetricPreviewChart: FC<Props> = ({ options, isExpandMode, setRanges }) => {
+const MetricPreviewChart: FC<Props> = ({
+  options,
+  isExpandMode = false,
+  activeZoomSelect = false,
+  setRanges
+}) => {
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
 
   const showTooltip = options?.config.tooltip.show;
@@ -29,7 +35,6 @@ const MetricPreviewChart: FC<Props> = ({ options, isExpandMode, setRanges }) => 
     () => buildDatasource(metric.datasource, metric.options.series),
     [metric]
   );
-  console.log("datasource: ", dataSourceOptions);
 
   const echartOptions = useMemo(() => {
     const seriesOptions = buildSeries(
@@ -91,7 +96,7 @@ const MetricPreviewChart: FC<Props> = ({ options, isExpandMode, setRanges }) => 
         height={isExpandMode ? "500px" : "300px"}
         renderer="canvas"
         onDataZoom={onDataZoom}
-        activeZoomSelect={true}
+        activeZoomSelect={activeZoomSelect}
         dataset={echartOptions.dataset}
         series={echartOptions.series}
         tooltip={echartOptions.tooltip}
