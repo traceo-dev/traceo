@@ -1,6 +1,10 @@
 import { IApplication } from "./application";
+import { BrowserInfoType } from "./browser";
 import { IComment } from "./comment";
+import { SDK } from "./sdk";
 import { IUser } from "./user";
+
+export type SDKIncidentPayload = IncomingBrowserIncidentType | IncomingNodeIncidentType;
 
 export type RequestMethodType = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -39,6 +43,7 @@ export enum IncidentStatusSearch {
 
 export interface IIncident {
   id?: string;
+  sdk: SDK;
   status: IncidentStatus;
   stack: string;
   type: string;
@@ -52,26 +57,26 @@ export interface IIncident {
   platform: Platform;
   errorsDetails: Array<ErrorDetails>;
   traces: Array<Trace>;
-  // appId?: string;
   createdAt?: number;
 }
 
 /**
  * Payload received from SDK
  */
-export interface TraceoIncidentModel {
+
+export interface BaseIncidentType {
   type: string;
   message: string;
-  date: number;
   stack: string;
+  sdk: SDK;
+}
+
+export interface IncomingNodeIncidentType extends BaseIncidentType {
   stackFrames?: StackFrame[];
-  appId: string;
-  catchType?: CatchType;
-  options?: {
-    priority?: ExceptionPriority;
-    tag?: string;
-  };
-  persist?: boolean;
+}
+
+export interface IncomingBrowserIncidentType extends BaseIncidentType {
+  browser: BrowserInfoType
 }
 
 export interface StackFrame {
@@ -106,14 +111,7 @@ export interface Trace {
 export interface ErrorDetails {
   date: number;
   type?: string;
-}
-
-/**
- * Data received from sdk
- */
-export interface IncidentExistsPayload {
-  appId: string;
-  incident: TraceoIncidentModel;
+  browser?: Pick<BrowserInfoType, "browser" | "os" | "url">;
 }
 
 export const mapIncidentStatus: Record<IncidentStatusSearch, string> = {

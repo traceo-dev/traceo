@@ -4,7 +4,6 @@ import { BaseWorkerService } from "../../../common/base/worker/base-worker.servi
 import { Application } from "../../../db/entities/application.entity";
 import { Log } from "../../../db/entities/log.entity";
 import { EntityManager } from "typeorm";
-import { LiveService } from "src/common/services/live.service";
 
 @Injectable()
 export class WorkerLogsService extends BaseWorkerService<TraceoLog[]> {

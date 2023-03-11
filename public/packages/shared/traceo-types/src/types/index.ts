@@ -16,6 +16,8 @@ export * from "./session";
 export * from "./statistics";
 export * from "./tsdb";
 export * from "./webSocket";
+export * from "./browser";
+export * from "./sdk";
 
 export type DeepPartial<T> = T extends object
     ? {

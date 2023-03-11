@@ -10,7 +10,7 @@ import { User } from "./user.entity";
 import { Comment } from "./comment.entity";
 import { Application } from "./application.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { ErrorDetails, IComment, IIncident, Platform, Trace } from "@traceo/types";
+import { ErrorDetails, IComment, IIncident, Platform, SDK, Trace } from "@traceo/types";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",
@@ -22,6 +22,12 @@ export enum IncidentStatus {
 export class Incident extends BaseEntity implements IIncident {
   @PrimaryGeneratedColumn("uuid")
   id?: string;
+
+  @Column({
+    type: "varchar",
+    nullable: true
+  })
+  sdk: SDK;
 
   @Column({
     type: "varchar",

@@ -1,6 +1,6 @@
 import { Body, Controller, Param, Post, Headers } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { TraceoIncidentModel, TraceoLog, ISDKMetrics, IRuntime } from "@traceo/types";
+import { TraceoLog, ISDKMetrics, IRuntime, SDKIncidentPayload, Dictionary } from "@traceo/types";
 import { WorkerLogsService } from "./services/worker-logs.service";
 import { WorkerMetricsService } from "./services/worker-metrics.service";
 import { WorkerIncidentsService } from "./services/worker-incidents.service";
@@ -14,15 +14,19 @@ export class WorkerController {
     private readonly logsService: WorkerLogsService,
     private readonly metricsService: WorkerMetricsService,
     private readonly runtimeService: WorkerRuntimeService
-  ) {}
+  ) { }
 
   @Post("/incident/:id")
   async handleSDKIncidents(
     @Param("id") id: string,
-    @Body() data: TraceoIncidentModel,
-    @Headers() headers: { [key: string]: any }
+    @Body() data: SDKIncidentPayload,
+    @Headers() headers: Dictionary<string>
   ): Promise<void> {
-    await this.processIncidentsService.processWorkerData(id, data, headers);
+    const sdk = headers["x-sdk-name"];
+    await this.processIncidentsService.processWorkerData(id, {
+      sdk,
+      ...data
+    }, headers);
   }
 
   @Post("/runtime/:id")
