@@ -62,7 +62,6 @@ const IncidentsTodayChart: FC<Props> = ({ stats }) => {
         }
       ]
     }),
-    z: -1,
     markArea
   };
 
