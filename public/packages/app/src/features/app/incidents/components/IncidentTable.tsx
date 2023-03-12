@@ -1,13 +1,14 @@
 import { useApplication } from "../../../../core/hooks/useApplication";
 import dateUtils from "../../../../core/utils/date";
-import { UserOutlined } from "@ant-design/icons";
+import { RightOutlined, UserOutlined } from "@ant-design/icons";
 import { IIncident, IncidentStatus, mapIncidentStatus } from "@traceo/types";
-import { Typography, Space, Avatar, Table, TableColumn, Tooltip } from "@traceo/ui";
+import { Space, Avatar, Table, TableColumn } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { conditionClass, joinClasses } from "../../../../core/utils/classes";
 import { mapHeaderStatusIcon } from "./utils";
 import IncidentsListChart from "../../../../core/components/Charts/Incidents/IncidentsListChart";
+import styled from "styled-components";
+import dayjs from "dayjs";
 
 interface Props {
   incidents: IIncident[];
@@ -21,37 +22,44 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
     navigate(`/app/${application.id}/incidents/${incident.id}/details`);
   };
 
+  const isNewIncident = (inc: IIncident): boolean => {
+    if (inc.status !== IncidentStatus.UNRESOLVED) {
+      return false;
+    }
+    // New incident created within last 2 hours
+    return dayjs.unix(inc.createdAt).add(2, "h").isAfter(dayjs());
+  };
+
   return (
     <Table
       onRowClick={(item) => handleOnRowClick(item)}
       collection={incidents}
       showPagination
-      hovered
       loading={isLoading}
+      rowSize="lg"
     >
       <TableColumn name="Details" width={700}>
         {({ item }) => (
           <Space direction="vertical" className="gap-0">
-            <div className="flex flex-row items-center">
-              <Tooltip title={mapIncidentStatus[item.status]}>
-                {mapHeaderStatusIcon[item.status]}
-              </Tooltip>
-
-              <div className="flex flex-col pl-5">
-                <Typography
-                  size="lg"
-                  weight="semibold"
-                  className={joinClasses(
-                    conditionClass(item.status === IncidentStatus.RESOLVED, "line-through")
-                  )}
-                >
-                  {item?.type}
-                </Typography>
-                <span className="pt-2 truncate text-xs text-primary xl:max-w-[400px] md:max-w-[200px]">
-                  {item?.message}
-                </span>
-              </div>
+            <div className="w-full flex flex-row gap-x-3 items-center">
+              <span className="text-[16px] leading-3 font-semibold hover:text-white">
+                {item?.type}
+              </span>
+              {isNewIncident(item) && (
+                <NewIncidentPill>
+                  <span className="text-yellow-500 text-[10px]">New incident</span>
+                </NewIncidentPill>
+              )}
             </div>
+
+            <span className="flex flex-row text-xs text-primary items-center">
+              <div>
+                <span className="text-sm">{mapHeaderStatusIcon[item.status]}</span>
+                <span className="pl-2 text-[12px]">{mapIncidentStatus[item.status]}</span>
+              </div>
+              <RightOutlined className="text-[8px] px-2" />
+              <span className="text-[12px] truncate xl:max-w-[400px] md:max-w-[200px]">{item?.message}</span>
+            </span>
           </Space>
         )}
       </TableColumn>
@@ -83,3 +91,12 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
     </Table>
   );
 };
+
+const NewIncidentPill = styled.div`
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  border-radius: 20px;
+  border: 1px solid var(--color-traceo-primary);
+  padding: 0px 8px;
+`;

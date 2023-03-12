@@ -6,7 +6,7 @@ import { useAppDispatch } from "../../store/index";
 import { hideNavbar } from "../../store/internal/navbar/actions";
 import { loadApplication } from "../app/state/application/actions";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { ApiResponse, CreateApplicationProps, DatasourceProvider } from "@traceo/types";
+import { ApiResponse, CreateApplicationProps, DatasourceProvider, SDK } from "@traceo/types";
 import {
   Alert,
   Button,
@@ -31,8 +31,13 @@ type CreateAppPayload = {
 const technologyOptions: SelectOptionProps[] = [
   {
     label: "NodeJS",
-    value: "nodejs",
+    value: SDK.NODE,
     description: "Back-end JavaScript runtime environment, runs on the V8 JavaScript Engine."
+  },
+  {
+    label: "ReactJS",
+    value: SDK.REACT,
+    description: "A JavaScript library for building user interfaces."
   }
 ];
 
@@ -60,10 +65,10 @@ const CreateApplicationPage = () => {
 
   const onFinish = async (form: CreateApplicationProps) => {
     setLoading(true);
-    const { name, technology, tsdbProvider, tsdbConfiguration, url } = form;
+    const { name, sdk, tsdbProvider, tsdbConfiguration, url } = form;
     const payload = {
       name,
-      technology,
+      sdk,
       tsdbConfiguration: {
         url,
         provider: tsdbProvider,
@@ -143,50 +148,54 @@ const CreateApplicationPage = () => {
                     <FormItem
                       showRequiredMark={true}
                       label="Technology"
-                      error={errors.technology}
+                      error={errors.sdk}
                       className="pb-12"
                     >
                       <Select
-                        {...register("technology", {
+                        {...register("sdk", {
                           required: true
                         })}
                         options={technologyOptions}
-                        onChange={(opt) => setValue("technology", opt?.value)}
+                        onChange={(opt) => setValue("sdk", opt?.value)}
                       />
                     </FormItem>
 
-                    <Typography size="xl" weight="semibold">
-                      Connect time series database
-                    </Typography>
-                    <FormItem
-                      label="Time series provider"
-                      error={errors.tsdbProvider}
-                      className="pt-9"
-                    >
-                      <Select
-                        isClearable
-                        placeholder="Select data source provider"
-                        {...register("tsdbProvider", { required: false })}
-                        options={dataSourceOptions}
-                        onChange={(opt) => setValue("tsdbProvider", opt?.value)}
-                      />
-                    </FormItem>
+                    {watch("sdk") === SDK.NODE && (
+                      <>
+                        <Typography size="xl" weight="semibold">
+                          Connect time series database
+                        </Typography>
+                        <FormItem
+                          label="Time series provider"
+                          error={errors.tsdbProvider}
+                          className="pt-9"
+                        >
+                          <Select
+                            isClearable
+                            placeholder="Select data source provider"
+                            {...register("tsdbProvider", { required: false })}
+                            options={dataSourceOptions}
+                            onChange={(opt) => setValue("tsdbProvider", opt?.value)}
+                          />
+                        </FormItem>
 
-                    {watch("tsdbProvider") === DatasourceProvider.INLFUX_DB && (
-                      <InfluxForm
-                        required={watch("tsdbProvider") === DatasourceProvider.INLFUX_DB}
-                        errors={errors}
-                        register={register}
-                      />
-                    )}
+                        {watch("tsdbProvider") === DatasourceProvider.INLFUX_DB && (
+                          <InfluxForm
+                            required={watch("tsdbProvider") === DatasourceProvider.INLFUX_DB}
+                            errors={errors}
+                            register={register}
+                          />
+                        )}
 
-                    {error && (
-                      <Alert
-                        className="font-semibold"
-                        type="error"
-                        showIcon
-                        title={errorMessage}
-                      />
+                        {error && (
+                          <Alert
+                            className="font-semibold"
+                            type="error"
+                            showIcon
+                            title={errorMessage}
+                          />
+                        )}
+                      </>
                     )}
                   </>
                 )}

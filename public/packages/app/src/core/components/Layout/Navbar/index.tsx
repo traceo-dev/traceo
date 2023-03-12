@@ -3,9 +3,6 @@ import { useSelector } from "react-redux";
 import {
   LoadingOutlined,
   HomeOutlined,
-  BugOutlined,
-  CompassOutlined,
-  BarChartOutlined,
   SettingOutlined,
   UserOutlined,
   LogoutOutlined,
@@ -20,6 +17,7 @@ import { NavbarItem } from "./NavbarItem";
 import styled from "styled-components";
 import { DemoBanner } from "../../DemoBanner";
 import { useUser } from "../../../../core/hooks/useUser";
+import { buildAppNavbar } from "./utils";
 
 export const NavBar = () => {
   const { hidden } = useSelector((state: StoreState) => state.navbar);
@@ -85,39 +83,6 @@ export const NavBar = () => {
     />
   );
 
-  const appIncidents = (
-    <NavbarItem
-      route={{
-        key: "incidents",
-        href: "/app/:id/incidents",
-        label: "Incidents",
-        icon: <BugOutlined />
-      }}
-    />
-  );
-
-  const appExplore = (
-    <NavbarItem
-      route={{
-        key: "explore",
-        href: "/app/:id/explore/logs",
-        label: "Explore",
-        icon: <CompassOutlined />
-      }}
-    />
-  );
-
-  const appMetrics = (
-    <NavbarItem
-      route={{
-        key: "metrics",
-        href: "/app/:id/metrics",
-        label: "Metrics",
-        icon: <BarChartOutlined />
-      }}
-    />
-  );
-
   const appSettings = (
     <NavbarItem
       route={{
@@ -164,6 +129,14 @@ export const NavBar = () => {
     return null;
   }
 
+  const renderNavbarFeatures = () => {
+    if (!hasFetched) {
+      return <LoadingOutlined />;
+    }
+
+    return buildAppNavbar(application).map((e, index) => <NavbarItem key={index} route={e} />);
+  };
+
   return (
     <NavbarWrapper>
       <Nav>
@@ -188,9 +161,7 @@ export const NavBar = () => {
               <NavbarSection>
                 {appOverview}
                 <Divider />
-                {appIncidents}
-                {appExplore}
-                {appMetrics}
+                {renderNavbarFeatures()}
                 <Divider />
                 {appSettings}
               </NavbarSection>
@@ -223,7 +194,7 @@ const NavbarSectionGroup = styled.div`
 
 const NavbarWrapper = styled.div`
   height: 100%;
-  width: 288px;
+  width: 265px;
   padding-top: 3rem;
   overflow: auto !important;
 `;

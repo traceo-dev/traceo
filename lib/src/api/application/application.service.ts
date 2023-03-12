@@ -14,12 +14,13 @@ import { CreateApplicationDto, ApplicationDto } from "../../common/types/dto/app
 import { Application } from "../../db/entities/application.entity";
 import { ApiResponse } from "../../common/types/dto/response.dto";
 import { Log } from "../../db/entities/log.entity";
-import { MemberRole } from "@traceo/types";
+import { MemberRole, SDK } from "@traceo/types";
 import { MetricsService } from "../metrics/metrics.service";
 import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
 import { DataSourceService } from "../datasource/dataSource.service";
 
 const MAX_RETENTION_LOGS = 3;
+const SDK_WITH_METRICS_COLLECTION = [SDK.NODE];
 
 @Injectable()
 export class ApplicationService {
@@ -57,26 +58,26 @@ export class ApplicationService {
         const payload: Partial<Application> = {
           ...data,
           id: uuidService.generate(),
-          owner: user,
-          gravatar: url,
           createdAt: dateUtils.toUnix(),
           updatedAt: dateUtils.toUnix(),
-          incidentsCount: 0,
-          errorsCount: 0,
-          isIntegrated: false
+          owner: user,
+          gravatar: url
         };
 
         const application = await manager.getRepository(Application).save(payload);
+        if (SDK_WITH_METRICS_COLLECTION.includes(data.sdk)) {
+          if (data?.tsdbConfiguration?.provider) {
+            await this.datasourceService.saveDatasource(
+              {
+                ...data.tsdbConfiguration,
+                appId: application.id,
+                provider: data.tsdbConfiguration?.provider
+              },
+              manager
+            );
+          }
 
-        if (data?.tsdbConfiguration?.provider) {
-          await this.datasourceService.saveDatasource(
-            {
-              ...data.tsdbConfiguration,
-              appId: application.id,
-              provider: data.tsdbConfiguration?.provider
-            },
-            manager
-          );
+          await this.metricsService.addDefaultMetrics(application, manager);
         }
 
         if (username !== ADMIN_NAME) {
@@ -90,8 +91,6 @@ export class ApplicationService {
         }
 
         await this.awrService.createMember(user, application, MemberRole.ADMINISTRATOR, manager);
-
-        await this.metricsService.addDefaultMetrics(application, manager);
 
         return new ApiResponse("success", "Application successfully created", {
           redirectUrl: `/app/${application.id}/overview`,

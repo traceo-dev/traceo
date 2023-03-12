@@ -55,23 +55,24 @@ const ItemWrapper = styled.li<{
   --tw-bg-opacity: 1;
   cursor: pointer;
   display: flex;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
+  margin-top: 0.25rem;
   border-radius: 0.5rem !important;
   margin-inline: 0.75rem;
   color: var(--color-text-primary);
 
   &:hover {
-    background-color: var(--color-bg-secondary);
+    background-color: var(--color-bg-primary);
   }
 
   ${(p) =>
     p.isActive &&
     `
-    color: var(--color-traceo-primary);
-    background-color: #eab30808;
+    background-color: var(--color-bg-primary);
+    color: #ffffff;
 
     &:hover {
-      background-color: #eab30808;
+      background-color: var(--color-bg-secondary);
     }
   `}
 `;

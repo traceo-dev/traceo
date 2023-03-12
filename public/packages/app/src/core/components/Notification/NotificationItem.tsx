@@ -32,7 +32,7 @@ const durationMap: Record<NotifyType, number> = {
   error: 5000,
   warning: 5000,
   info: 3000,
-  success: 30000
+  success: 3000
 };
 
 export const NotificationItem: FC<NotificationItemProps> = ({ notification }) => {

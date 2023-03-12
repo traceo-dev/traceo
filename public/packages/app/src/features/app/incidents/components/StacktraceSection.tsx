@@ -2,7 +2,7 @@ import { CodePreview } from "../../../../core/components/CodePreview";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
-import { Typography, Card, Space, Tooltip, Collapse, CollapseItem, FieldLabel } from "@traceo/ui";
+import { Card, Tooltip, Collapse, CollapseItem, FieldLabel } from "@traceo/ui";
 import { useSelector } from "react-redux";
 
 export const StacktraceSection = () => {
@@ -15,20 +15,14 @@ export const StacktraceSection = () => {
 
   return (
     <Card title="Stacktrace" className="h-auto">
-      <Space className="w-full py-3 gap-0" direction="vertical">
-        <Typography size="xl" weight="semibold" className="font-mono">
-          {incident?.type}
-        </Typography>
-        <Typography className="font-mono">{incident?.message}</Typography>
-      </Space>
       <Collapse className="my-5" defaultActiveKey={"0"}>
         {incident?.traces?.map((trace, index) => (
           <CollapseItem
             panelKey={`${index}`}
             header={
-              <Typography>
-                {trace.absPath}:{trace.lineNo}:{trace.columnNo}
-              </Typography>
+              <div>
+                {trace.filename} in {trace.function} at {trace.lineNo}:{trace.columnNo}
+              </div>
             }
             startIcon={
               <Tooltip
@@ -47,7 +41,7 @@ export const StacktraceSection = () => {
               </Tooltip>
             }
             key={index}
-            className={joinClasses(conditionClass(!trace.code, "pointer-events-none"))}
+            // className={joinClasses(conditionClass(!trace.code, "pointer-events-none"))}
           >
             <>
               <div className="w-full flex flex-row justify-between p-5">
@@ -64,7 +58,7 @@ export const StacktraceSection = () => {
                   <span className="text-link">{trace?.columnNo}</span>
                 </FieldLabel>
               </div>
-              <CodePreview trace={trace} />
+              {trace.code && <CodePreview trace={trace} />}
             </>
           </CollapseItem>
         ))}
