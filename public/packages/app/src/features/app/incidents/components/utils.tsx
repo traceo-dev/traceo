@@ -45,13 +45,9 @@ export const mapIncidentStatusIcon: Record<IncidentStatus, JSX.Element> = {
 };
 
 export const mapHeaderStatusIcon: Record<IncidentStatus, JSX.Element> = {
-  [IncidentStatus.RESOLVED]: (
-    <CheckCircleFilled className="text-white p-1 bg-green-800 rounded" />
-  ),
-  [IncidentStatus.UNRESOLVED]: <WarningFilled className="text-white p-1 bg-red-800 rounded" />,
-  [IncidentStatus.IN_PROGRESS]: (
-    <ThunderboltFilled className="text-white p-1 bg-purple-800 rounded" />
-  )
+  [IncidentStatus.RESOLVED]: <CheckCircleOutlined className="text-green-600" />,
+  [IncidentStatus.UNRESOLVED]: <WarningOutlined className="text-red-600" />,
+  [IncidentStatus.IN_PROGRESS]: <ThunderboltOutlined className="text-purple-600" />
 };
 
 export const statusOptions: SelectOptionProps[] = Object.values(IncidentStatus).map((status) => ({

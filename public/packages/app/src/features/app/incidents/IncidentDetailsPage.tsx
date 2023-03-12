@@ -1,3 +1,7 @@
+import { StoreState } from "@store/types";
+import { SDK } from "@traceo/types";
+import { stat } from "fs";
+import { useSelector } from "react-redux";
 import { ErrorsSection } from "./components/ErrorsSection";
 import { ExceptionSection } from "./components/ExceptionSection";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
@@ -7,6 +11,8 @@ import { StacktraceSection } from "./components/StacktraceSection";
 import { TimelineSection } from "./components/TimelineSection";
 
 export const IncidentDetailsPage = () => {
+  const { incident } = useSelector((state: StoreState) => state.incident);
+
   return (
     <IncidentPageWrapper>
       <div className="w-full grid grid-cols-12">
@@ -18,7 +24,8 @@ export const IncidentDetailsPage = () => {
         <div className="col-span-3 ml-1">
           <TimelineSection />
           <InfoSection />
-          <PlatformSection />
+
+          {incident.sdk !== SDK.REACT && <PlatformSection />}
         </div>
       </div>
     </IncidentPageWrapper>

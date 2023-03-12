@@ -10,10 +10,9 @@ import {
   IUser,
   IMember,
   IIncident,
-  ApplicationTechnology
+  SDK
 } from "@traceo/types";
 import { Metric } from "./metric.entity";
-import { Datasource } from "./datasource.entity";
 
 @Entity()
 export class Application extends BaseEntity implements IApplication {
@@ -27,7 +26,7 @@ export class Application extends BaseEntity implements IApplication {
   name: string;
 
   @Column({ type: "varchar", nullable: true })
-  technology: ApplicationTechnology;
+  sdk: SDK;
 
   @Column({
     type: "simple-json",

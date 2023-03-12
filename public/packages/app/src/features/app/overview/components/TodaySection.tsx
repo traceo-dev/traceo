@@ -3,7 +3,7 @@ import { useApplication } from "../../../../core/hooks/useApplication";
 import { useRequest } from "../../../../core/hooks/useRequest";
 import dateUtils from "../../../../core/utils/date";
 import { statisticUtils } from "../../../../core/utils/statistics";
-import { SyncOutlined } from "@ant-design/icons";
+import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { ErrorDetails } from "@traceo/types";
 import { Typography, Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";

@@ -1,11 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { ApplicationTechnology } from "@traceo/types";
+import { SDK } from "@traceo/types";
 import { Type } from "class-transformer";
 import { IsString, IsNotEmpty, IsOptional, MaxLength, ValidateNested } from "class-validator";
 import { BaseDtoQuery } from "../../base/query/base-query.model";
 import { BaseDataSourceDto } from "./data-source";
 
-export class ApplicationDtoQuery extends BaseDtoQuery {}
+export class ApplicationDtoQuery extends BaseDtoQuery { }
 
 export class CreateApplicationDto {
   @IsString()
@@ -16,7 +16,7 @@ export class CreateApplicationDto {
   @IsString()
   @IsNotEmpty()
   @ApiPropertyOptional({ description: "technology" })
-  public technology: ApplicationTechnology;
+  public sdk: SDK;
 
   @IsOptional()
   @ValidateNested()

@@ -1,13 +1,14 @@
 import { SortOrder } from "./api";
 import { DatasourceProvider } from "./datasource";
 import { MemberRole } from "./member";
+import { SDK } from "./sdk";
 import { ConnectionStatus } from "./tsdb";
 import { IUser } from "./user";
 
 export interface IApplication {
   id?: string;
   name: string;
-  technology: ApplicationTechnology;
+  sdk: SDK;
   owner: Owner;
   gravatar?: string;
   lastIncidentAt?: number;
@@ -82,7 +83,7 @@ export type MemberApplication = {
 
 export type CreateApplicationProps = {
   name: string;
-  technology: ApplicationTechnology;
+  sdk: SDK;
   tsdbProvider: DatasourceProvider;
   url: string;
   tsdbConfiguration: { [key: string]: any };
@@ -95,8 +96,4 @@ export interface SearchApplicationQueryParams {
   sortBy?: string;
   search?: string;
   userId?: string;
-}
-
-export enum ApplicationTechnology {
-  NODEJS = "nodejs"
 }

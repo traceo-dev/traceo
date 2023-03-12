@@ -1,5 +1,4 @@
 import { Space } from "../Space";
-import { Typography } from "../Typography";
 import { joinClasses } from "../utils/classes";
 import { FC } from "react";
 
@@ -19,7 +18,7 @@ export const PageHeader: FC<PageHeaderProps> = ({
   className
 }) => {
   return (
-    <Space className={joinClasses("w-full justify-between pb-5 text-primary", className)}>
+    <Space className={joinClasses("w-full justify-between pb-5 px-5 text-primary", className)}>
       <Space>
         {icon && <div className="pr-2 text-5xl">{icon}</div>}
 
