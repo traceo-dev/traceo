@@ -42,7 +42,7 @@ export const IncidentPageWrapper = ({ children }) => {
       href: "/app/:id/incidents/:iid/errors",
       label: `Errors`,
       badge: (
-        <div className="bg-red-600 text-white text-xs border rounded-full px-2 font-semibold">
+        <div className="bg-yellow-600 text-black text-xs border rounded-full px-2 font-semibold">
           {incident.errorsCount}
         </div>
       ),

@@ -41,7 +41,7 @@ const AppDashboardPage: FC = ({ children }) => {
     return <TraceoLoading />;
   }
 
-  return <>{children}</>;
+  return <div>{children}</div>;
 };
 
 export default AppDashboardPage;

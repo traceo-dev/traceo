@@ -73,14 +73,10 @@ export const App = () => {
             <ConfigsContextProvider>
               <LiveContextProvider>
                 <div className="flex flex-col">
-                  {/* <DashboardHeader /> */}
                   <NotificationContainer />
                   <div className="flex items-strech absolute w-full h-full top-0 left-0">
                     {renderNavbar()}
-                    <MainViewWrapper>
-                      {/* <DashboardHeader /> */}
-                      {renderRoutes()}
-                    </MainViewWrapper>
+                    <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
                   </div>
                 </div>
               </LiveContextProvider>

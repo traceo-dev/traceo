@@ -29,12 +29,12 @@ export const NavbarItem = ({ route }: NavBarItemProps) => {
 
   const NavItem = () => (
     <ItemWrapper onClick={handleOnClick} isActive={key && isActivePath(key)}>
-      <div className="flex flex-row justify-betwwen items-center">
+      <div className="w-full flex flex-row justify-between items-center">
         <div className="px-3 flex flex-row w-full items-center">
           <div className="text-center text-sm">{icon}</div>
           {<span className="pl-3 cursor-pointer text-sm">{label}</span>}
         </div>
-        {badge}
+        <div className="pr-2">{badge}</div>
       </div>
     </ItemWrapper>
   );
@@ -50,7 +50,7 @@ export const NavbarItem = ({ route }: NavBarItemProps) => {
   );
 };
 
-const ItemWrapper = styled.li<{
+export const ItemWrapper = styled.li<{
   isActive: boolean;
 }>`
   transition-duration: 0.2s;

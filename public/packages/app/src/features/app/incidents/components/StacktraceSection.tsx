@@ -39,11 +39,11 @@ export const StacktraceSection = () => {
 
   return (
     <Card title="Stack Trace" className="h-auto">
-      <div className="flex flex-col pt-3 mb-12">
+      <div className="flex flex-col pt-3">
         <span className="font-semibold text-xl">{incident.type}</span>
         <span className="text-sm">{incident.message}</span>
       </div>
-      <div className="w-full pb-12">
+      <div className="w-full py-9">
         <RadioButtonGroup
           className="float-right"
           options={stacktraceTypeOptions}
@@ -67,7 +67,7 @@ export const StacktraceSection = () => {
               panelKey={`${index}`}
               header={
                 <div className="text-white">
-                  {trace.filename} in {trace.function} at {trace.lineNo}:{trace.columnNo}
+                  {trace.filename} {trace.lineNo}:{trace.columnNo}
                 </div>
               }
               startIcon={

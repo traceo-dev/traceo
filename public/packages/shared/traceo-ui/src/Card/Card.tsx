@@ -47,7 +47,7 @@ export const Card: FC<PropsWithChildren<CardProps>> = ({
         </div>
       )}
 
-      <div className={joinClasses("p-6 w-full", bodyClassName)}>{children}</div>
+      <div className={joinClasses("px-6 py-4 w-full", bodyClassName)}>{children}</div>
     </div>
   );
 };

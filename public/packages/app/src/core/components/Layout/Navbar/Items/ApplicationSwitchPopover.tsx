@@ -1,27 +1,19 @@
-import { useAppDispatch } from "../../../../store";
+import { useAppDispatch } from "../../../../../store";
 import { StoreState } from "@store/types";
 import { Popover, Avatar } from "@traceo/ui";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { loadApplications } from "src/features/dashboard/state/actions";
 import styled from "styled-components";
-import {
-  AppstoreOutlined,
-  ArrowDownOutlined,
-  DownOutlined,
-  LogoutOutlined,
-  SettingOutlined,
-  TeamOutlined,
-  UserOutlined
-} from "@ant-design/icons";
-import { logout } from "src/core/utils/logout";
-import { NavbarItem } from "./NavBarItem";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 
 const AppRow = styled.div`
   text-align: start;
   padding: 6px;
   padding-inline: 18px;
   margin-bottom: 5px;
+  color: var(--color-text-primary);
 
   &:hover {
     background-color: var(--color-bg-secondary);
@@ -31,10 +23,7 @@ const AppRow = styled.div`
 
 export const ApplicationSwitchPopover = () => {
   const dispatch = useAppDispatch();
-  const { applications, hasFetched } = useSelector((state: StoreState) => state.applications);
-  const { application, hasFetched: isAppFetched } = useSelector(
-    (state: StoreState) => state.application
-  );
+  const { application, hasFetched } = useSelector((state: StoreState) => state.application);
 
   useEffect(() => {
     dispatch(loadApplications());
@@ -43,15 +32,15 @@ export const ApplicationSwitchPopover = () => {
   const options = [
     {
       label: "Applications",
-      href: "/"
+      href: "/dashboard/overview"
     },
     {
       label: "Members",
-      href: "/"
+      href: `/app/${application.id}/settings/access`
     },
     {
       label: "Settings",
-      href: "/"
+      href: `/app/${application.id}/settings/details`
     }
   ];
 
@@ -67,10 +56,10 @@ export const ApplicationSwitchPopover = () => {
         </div>
       </span>
       <div className="py-3">
-        {options?.map(({ label }, index) => (
-          <AppRow key={index}>
-            <div className="flex flex-row gap-x-2 items-center">{label}</div>
-          </AppRow>
+        {options?.map(({ label, href }, index) => (
+          <Link to={href} key={index}>
+            <AppRow>{label}</AppRow>
+          </Link>
         ))}
       </div>
     </div>
@@ -87,7 +76,11 @@ export const ApplicationSwitchPopover = () => {
       content={content}
     >
       <div className="flex flex-row w-full justify-between items-center">
-        <Avatar size="md" alt={application.name} src={application.gravatar} />
+        {!hasFetched ? (
+          <LoadingOutlined />
+        ) : (
+          <Avatar size="md" alt={application.name} src={application.gravatar} />
+        )}
         <div className="flex flex-col text-start pl-2">
           <span className="font-semibold">{application.name}</span>
           <span className="text-xs">{application.sdk}</span>

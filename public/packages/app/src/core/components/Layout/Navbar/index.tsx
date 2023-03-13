@@ -10,7 +10,7 @@ import {
   AppstoreOutlined,
   DownOutlined
 } from "@ant-design/icons";
-import { Avatar, Divider, Popover } from "@traceo/ui";
+import { Divider } from "@traceo/ui";
 import { useConfig } from "../../../../core/contexts/ConfigsContextProvider";
 import { useApplication } from "../../../../core/hooks/useApplication";
 import { logout } from "../../../utils/logout";
@@ -20,8 +20,9 @@ import styled from "styled-components";
 import { DemoBanner } from "../../DemoBanner";
 import { useUser } from "../../../../core/hooks/useUser";
 import { buildAppNavbar } from "./utils";
-import { ApplicationSwitchPopover } from "./ApplicationSwitchPopover";
-import { UserProfilePopover } from "./UserProfilePopover";
+import { ApplicationSwitchPopover } from "./Items/ApplicationSwitchPopover";
+import { UserProfilePopover } from "./Items/UserProfilePopover";
+import { TraceoLogo } from "../../Icons/TraceoLogo";
 
 export const NavBar = () => {
   const { hidden } = useSelector((state: StoreState) => state.navbar);
@@ -29,123 +30,10 @@ export const NavBar = () => {
   const user = useUser();
   const configs = useConfig();
 
-  const renderProfileIcon = () => {
-    if (!user.isFetched) {
-      return <LoadingOutlined />;
-    }
-
-    return (
-      <div className="flex flex-row items-center">
-        <Avatar size="md" alt={user.name} src={user.gravatar} />
-        <div className="flex flex-col text-start pl-2">
-          <span className="font-semibold">{user.name}</span>
-          <span className="text-xs">{user.email}</span>
-        </div>
-      </div>
-    );
-  };
-
   const isDashboard = window.location.pathname.split("/").includes("dashboard");
   const isAppDashboard = window.location.pathname.split("/").includes("app");
 
   const navigateDocumentation = () => window.open(GH_REPO_LINK, "_blank");
-
-  const dashboardOverview = (
-    <NavbarItem
-      route={{
-        key: "overview",
-        href: "/dashboard/overview",
-        label: "Overview",
-        icon: <HomeOutlined />
-      }}
-    />
-  );
-
-  const dashboardAdmin = (
-    <NavbarItem
-      route={{
-        key: "admin",
-        href: "/dashboard/admin/users",
-        label: "Admin panel",
-        icon: <SettingOutlined />
-      }}
-    />
-  );
-
-  const dashboardDocumentation = (
-    <NavbarItem
-      route={{
-        label: "Documentation",
-        icon: <LinkOutlined />,
-        onClick: () => navigateDocumentation()
-      }}
-    />
-  );
-
-  // application items
-
-  const appOverview = (
-    <NavbarItem
-      route={{
-        key: "overview",
-        href: "/app/:id/overview",
-        label: "Overview",
-        icon: <HomeOutlined />
-      }}
-    />
-  );
-
-  const appSettings = (
-    <NavbarItem
-      route={{
-        key: "settings",
-        href: "/app/:id/settings/details",
-        label: "Settings",
-        icon: <SettingOutlined />
-      }}
-    />
-  );
-
-  const profile = (
-    <NavbarItem
-      route={{
-        // key: "profile",
-        // href: "/dashboard/profile/settings",
-        // label: "Profile",
-        // icon: <UserOutlined />,
-        // private: configs.demoMode
-        icon: <UserProfilePopover />,
-        badge: <SettingOutlined className="text-xs" />
-      }}
-    />
-  );
-
-  const logoutItem = (
-    <NavbarItem
-      route={{
-        label: "Logout",
-        icon: <LogoutOutlined />,
-        onClick: () => logout()
-      }}
-    />
-  );
-
-  const appIcon = (
-    <NavbarItem
-      route={{
-        icon: <ApplicationSwitchPopover />,
-        badge: <DownOutlined className="text-xs" />
-      }}
-    />
-  );
-
-  const userIcon = (
-    <NavbarItem
-      route={{
-        icon: renderProfileIcon()
-      }}
-    />
-  );
 
   if (hidden) {
     return null;
@@ -166,16 +54,53 @@ export const NavBar = () => {
           {isDashboard && (
             <NavbarSectionGroup>
               <NavbarSection>
-                {userIcon}
+                <div className="px-5">
+                  <TraceoLogo size="small" name={true} />
+                </div>
                 <Divider />
-                {dashboardOverview}
-                {profile}
-                {user && user.isAdmin && dashboardAdmin}
+                <NavbarItem
+                  route={{
+                    key: "overview",
+                    href: "/dashboard/overview",
+                    label: "Applications",
+                    icon: <AppstoreOutlined />
+                  }}
+                />
+                <NavbarItem
+                  route={{
+                    icon: <UserOutlined />,
+                    label: "Profile",
+                    href: "/dashboard/profile/settings",
+                    key: "profile"
+                  }}
+                />
+                {user && user.isAdmin && (
+                  <NavbarItem
+                    route={{
+                      key: "admin",
+                      href: "/dashboard/admin/users",
+                      label: "Admin panel",
+                      icon: <SettingOutlined />
+                    }}
+                  />
+                )}
               </NavbarSection>
               {configs.demoMode && <DemoBanner />}
               <NavbarSection>
-                {dashboardDocumentation}
-                {logoutItem}
+                <NavbarItem
+                  route={{
+                    label: "Documentation",
+                    icon: <LinkOutlined />,
+                    onClick: () => navigateDocumentation()
+                  }}
+                />
+                <NavbarItem
+                  route={{
+                    label: "Logout",
+                    icon: <LogoutOutlined />,
+                    onClick: () => logout()
+                  }}
+                />
               </NavbarSection>
             </NavbarSectionGroup>
           )}
@@ -183,19 +108,57 @@ export const NavBar = () => {
           {isAppDashboard && (
             <NavbarSectionGroup>
               <NavbarSection>
-                {appIcon}
+                <NavbarItem
+                  route={{
+                    icon: <ApplicationSwitchPopover />,
+                    badge: <DownOutlined className="text-xs" />
+                  }}
+                />
                 <Divider />
-                {appOverview}
+                <NavbarItem
+                  route={{
+                    key: "overview",
+                    href: "/app/:id/overview",
+                    label: "Overview",
+                    icon: <HomeOutlined />
+                  }}
+                />
                 <Divider />
                 {renderNavbarFeatures()}
                 <Divider />
-                {appSettings}
+                <NavbarItem
+                  route={{
+                    key: "settings",
+                    href: "/app/:id/settings/details",
+                    label: "Settings",
+                    icon: <SettingOutlined />
+                  }}
+                />
               </NavbarSection>
               {configs.demoMode && <DemoBanner />}
               <NavbarSection>
-                {dashboardDocumentation}
-                {logoutItem}
-                {profile}
+                <NavbarItem
+                  route={{
+                    label: "Documentation",
+                    icon: <LinkOutlined />,
+                    onClick: () => navigateDocumentation()
+                  }}
+                />
+                <NavbarItem
+                  route={{
+                    label: "Logout",
+                    icon: <LogoutOutlined />,
+                    onClick: () => logout()
+                  }}
+                />
+                <NavbarItem
+                  route={{
+                    icon: <UserProfilePopover />,
+                    badge: <SettingOutlined className="text-xs" />,
+                    key: "profile",
+                    href: "/dashboard/profile/settings"
+                  }}
+                />
               </NavbarSection>
             </NavbarSectionGroup>
           )}
@@ -220,9 +183,8 @@ const NavbarSectionGroup = styled.div`
 
 const NavbarWrapper = styled.div`
   height: 100%;
-  width: 265px;
+  width: 315px;
   overflow: auto !important;
-  background-color: var(--color-bg-canvas);
 `;
 
 const Nav = styled.nav`
