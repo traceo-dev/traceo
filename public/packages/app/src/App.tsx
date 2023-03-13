@@ -1,7 +1,6 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./assets/styles/main.css";
 import "@traceo/ui/dist/styles.css";
-import { DashboardHeader } from "./core/components/Layout/DashboardHeader";
 import { NavBar } from "./core/components/Layout/Navbar";
 import Maintenance from "./core/components/Layout/Pages/Maintenance";
 import { MainViewWrapper } from "./core/components/Layout/Wrappers/MainViewWrapper";
