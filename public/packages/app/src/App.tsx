@@ -20,11 +20,7 @@ import { LiveContextProvider } from "./core/contexts/LiveContextProvider";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
-    let element = (
-      <Page>
-        <route.component />
-      </Page>
-    );
+    let element = <route.component />;
 
     if (route.wrapper) {
       element = (
@@ -77,11 +73,14 @@ export const App = () => {
             <ConfigsContextProvider>
               <LiveContextProvider>
                 <div className="flex flex-col">
-                  <DashboardHeader />
+                  {/* <DashboardHeader /> */}
                   <NotificationContainer />
                   <div className="flex items-strech absolute w-full h-full top-0 left-0">
                     {renderNavbar()}
-                    <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
+                    <MainViewWrapper>
+                      {/* <DashboardHeader /> */}
+                      {renderRoutes()}
+                    </MainViewWrapper>
                   </div>
                 </div>
               </LiveContextProvider>

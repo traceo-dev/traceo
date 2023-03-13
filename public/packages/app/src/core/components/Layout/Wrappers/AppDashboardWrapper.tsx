@@ -7,6 +7,7 @@ import NotFound from "../Pages/NotFound";
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLive } from "../../../../core/hooks/useLive";
+import { TraceoLoading } from "../../TraceoLoading";
 
 const AppDashboardPage: FC = ({ children }) => {
   const dispatch = useAppDispatch();
@@ -36,7 +37,11 @@ const AppDashboardPage: FC = ({ children }) => {
     return <NotFound />;
   }
 
-  return <Page isLoading={!hasFetched || isEmptyObject(application)}>{children}</Page>;
+  if (!hasFetched || isEmptyObject(application)) {
+    return <TraceoLoading />;
+  }
+
+  return <>{children}</>;
 };
 
 export default AppDashboardPage;

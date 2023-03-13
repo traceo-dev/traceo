@@ -25,10 +25,15 @@ export const Page: PageType = ({ children, menuRoutes, header, isLoading }) => {
     );
   }
   return (
-    <div className="px-6 py-9">
-      {header && <PageHeader {...header} />}
-      {menuRoutes && <Menu routes={menuRoutes} />}
-      {children}
+    <div>
+      {header && (
+        <div className="w-full flex flex-col border-bottom px-9 mt-9">
+          <PageHeader {...header} className="pb-0" />
+          {menuRoutes && <Menu routes={menuRoutes} />}
+        </div>
+      )}
+
+      <div className="p-6">{children}</div>
     </div>
   );
 };

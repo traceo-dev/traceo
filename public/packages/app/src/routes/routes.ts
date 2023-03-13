@@ -87,6 +87,11 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       wrapper: AppDashboardPage
     },
     {
+      path: "/app/:id/incidents/:iid/errors",
+      component: lazy(() => import("../features/app/incidents/IncidentErrorsPage")),
+      wrapper: AppDashboardPage
+    },
+    {
       path: "/app/:id/incidents/:iid/conversation",
       component: lazy(() => import("../features/app/incidents/IncidentConversationPage")),
       wrapper: AppDashboardPage

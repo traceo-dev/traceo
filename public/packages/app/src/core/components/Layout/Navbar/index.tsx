@@ -6,31 +6,43 @@ import {
   SettingOutlined,
   UserOutlined,
   LogoutOutlined,
-  LinkOutlined
+  LinkOutlined,
+  AppstoreOutlined,
+  DownOutlined
 } from "@ant-design/icons";
-import { Avatar, Divider } from "@traceo/ui";
+import { Avatar, Divider, Popover } from "@traceo/ui";
 import { useConfig } from "../../../../core/contexts/ConfigsContextProvider";
 import { useApplication } from "../../../../core/hooks/useApplication";
 import { logout } from "../../../utils/logout";
 import { GH_REPO_LINK } from "../../../../core/utils/constants";
-import { NavbarItem } from "./NavbarItem";
+import { NavbarItem } from "./NavBarItem";
 import styled from "styled-components";
 import { DemoBanner } from "../../DemoBanner";
 import { useUser } from "../../../../core/hooks/useUser";
 import { buildAppNavbar } from "./utils";
+import { ApplicationSwitchPopover } from "./ApplicationSwitchPopover";
+import { UserProfilePopover } from "./UserProfilePopover";
 
 export const NavBar = () => {
   const { hidden } = useSelector((state: StoreState) => state.navbar);
   const { application, hasFetched } = useApplication();
-  const { isAdmin } = useUser();
+  const user = useUser();
   const configs = useConfig();
 
-  const renderAppIcon = () => {
-    if (!hasFetched) {
+  const renderProfileIcon = () => {
+    if (!user.isFetched) {
       return <LoadingOutlined />;
     }
 
-    return <Avatar size="sm" alt={application.name} src={application.gravatar} />;
+    return (
+      <div className="flex flex-row items-center">
+        <Avatar size="md" alt={user.name} src={user.gravatar} />
+        <div className="flex flex-col text-start pl-2">
+          <span className="font-semibold">{user.name}</span>
+          <span className="text-xs">{user.email}</span>
+        </div>
+      </div>
+    );
   };
 
   const isDashboard = window.location.pathname.split("/").includes("dashboard");
@@ -97,11 +109,13 @@ export const NavBar = () => {
   const profile = (
     <NavbarItem
       route={{
-        key: "profile",
-        href: "/dashboard/profile/settings",
-        label: "Profile",
-        icon: <UserOutlined />,
-        private: configs.demoMode
+        // key: "profile",
+        // href: "/dashboard/profile/settings",
+        // label: "Profile",
+        // icon: <UserOutlined />,
+        // private: configs.demoMode
+        icon: <UserProfilePopover />,
+        badge: <SettingOutlined className="text-xs" />
       }}
     />
   );
@@ -119,8 +133,16 @@ export const NavBar = () => {
   const appIcon = (
     <NavbarItem
       route={{
-        label: application?.name,
-        icon: renderAppIcon()
+        icon: <ApplicationSwitchPopover />,
+        badge: <DownOutlined className="text-xs" />
+      }}
+    />
+  );
+
+  const userIcon = (
+    <NavbarItem
+      route={{
+        icon: renderProfileIcon()
       }}
     />
   );
@@ -140,13 +162,15 @@ export const NavBar = () => {
   return (
     <NavbarWrapper>
       <Nav>
-        <ul className="p-0 pt-5 h-full">
+        <ul className="p-0 h-full">
           {isDashboard && (
             <NavbarSectionGroup>
               <NavbarSection>
+                {userIcon}
+                <Divider />
                 {dashboardOverview}
                 {profile}
-                {isAdmin && dashboardAdmin}
+                {user && user.isAdmin && dashboardAdmin}
               </NavbarSection>
               {configs.demoMode && <DemoBanner />}
               <NavbarSection>
@@ -159,6 +183,8 @@ export const NavBar = () => {
           {isAppDashboard && (
             <NavbarSectionGroup>
               <NavbarSection>
+                {appIcon}
+                <Divider />
                 {appOverview}
                 <Divider />
                 {renderNavbarFeatures()}
@@ -167,9 +193,9 @@ export const NavBar = () => {
               </NavbarSection>
               {configs.demoMode && <DemoBanner />}
               <NavbarSection>
-                {profile}
+                {dashboardDocumentation}
                 {logoutItem}
-                {appIcon}
+                {profile}
               </NavbarSection>
             </NavbarSectionGroup>
           )}
@@ -195,8 +221,8 @@ const NavbarSectionGroup = styled.div`
 const NavbarWrapper = styled.div`
   height: 100%;
   width: 265px;
-  padding-top: 3rem;
   overflow: auto !important;
+  background-color: var(--color-bg-canvas);
 `;
 
 const Nav = styled.nav`

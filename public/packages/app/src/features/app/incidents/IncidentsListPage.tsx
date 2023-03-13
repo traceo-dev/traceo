@@ -22,6 +22,7 @@ import { InputSearch, Select, Card, RadioButtonGroup } from "@traceo/ui";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { AlertOutlined } from "@ant-design/icons";
 
 export const IncidentsListPage = () => {
   const { id } = useParams();
@@ -58,9 +59,15 @@ export const IncidentsListPage = () => {
   };
 
   return (
-    <Page>
+    <Page
+      header={{
+        title: "Incidents",
+        description: "List of incidents catched by Traceo SDK connected to your app",
+        icon: <AlertOutlined />
+      }}
+    >
       <Page.Content>
-        <Card title="Incidents">
+        <Card>
           <SearchWrapper className="pt-2 pb-12">
             <InputSearch
               placeholder="Search incidents by type, message, status or assigned user"

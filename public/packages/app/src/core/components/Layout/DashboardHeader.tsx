@@ -1,7 +1,7 @@
 import { useConfig } from "../../../core/contexts/ConfigsContextProvider";
 import { GH_REPO_LINK, VERSION } from "../../utils/constants";
 import { TraceoLogo } from "../Icons/TraceoLogo";
-import { GithubOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, GithubOutlined, UserOutlined } from "@ant-design/icons";
 import { Space, Link, Typography } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
 
@@ -20,7 +20,8 @@ export const DashboardHeader = () => {
   return (
     <nav className="flex h-12 max-h-12 items-center justify-between py-2 px-5 border-l-0 border-t-0 border-r-0 border-b border-solid border-secondary z-10 bg-canvas">
       <Space>
-        <TraceoLogo
+        {/* <ArrowLeftOutlined className="text-sm rounded hover:bg-secondary p-1 cursor-pointer" /> */}
+        {/* <TraceoLogo
           name={true}
           size="small"
           className="cursor-pointer"
@@ -30,7 +31,7 @@ export const DashboardHeader = () => {
           <div className="ml-3 px-2 py-0.5 bg-blue-900 text-blue-100 rounded-lg text-xs font-semibold">
             Demo
           </div>
-        )}
+        )} */}
       </Space>
       <Space className="items-center">
         <Typography className="mr-4">v{VERSION}</Typography>

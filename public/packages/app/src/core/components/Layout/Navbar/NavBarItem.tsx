@@ -4,6 +4,7 @@ import { StoreState } from "@store/types";
 import { useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { SettingOutlined } from "@ant-design/icons";
 
 export interface NavBarItemProps {
   route: MenuRoute;
@@ -13,7 +14,7 @@ export const NavbarItem = ({ route }: NavBarItemProps) => {
   const { incident } = useSelector((state: StoreState) => state.incident);
   const location = useLocation();
 
-  const { label, icon, onClick, href, key } = route;
+  const { label, icon, onClick, href, key, badge } = route;
 
   const isActivePath = (key: string) => {
     if (!key) {
@@ -28,9 +29,12 @@ export const NavbarItem = ({ route }: NavBarItemProps) => {
 
   const NavItem = () => (
     <ItemWrapper onClick={handleOnClick} isActive={key && isActivePath(key)}>
-      <div className="px-3 flex flex-row w-full items-center">
-        <div className="text-center text-sm">{icon}</div>
-        {<span className="pl-3 cursor-pointer text-sm">{label}</span>}
+      <div className="flex flex-row justify-betwwen items-center">
+        <div className="px-3 flex flex-row w-full items-center">
+          <div className="text-center text-sm">{icon}</div>
+          {<span className="pl-3 cursor-pointer text-sm">{label}</span>}
+        </div>
+        {badge}
       </div>
     </ItemWrapper>
   );
