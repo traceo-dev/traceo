@@ -36,23 +36,20 @@ export const DashboardPage = () => {
   };
 
   return (
-    <>
-      <Page>
-        <Card
-          title="Applications"
-          className="mt-5"
-          extra={
-            <ServerPermissions>
-              <Button icon={<PlusOutlined />} onClick={() => onNewApp()}>
-                New application
-              </Button>
-            </ServerPermissions>
-          }
-        >
-          <AppsTable />
-        </Card>
-      </Page>
-    </>
+    <Page>
+      <Card
+        title="Applications"
+        extra={
+          <ServerPermissions>
+            <Button icon={<PlusOutlined />} onClick={() => onNewApp()}>
+              New application
+            </Button>
+          </ServerPermissions>
+        }
+      >
+        <AppsTable />
+      </Card>
+    </Page>
   );
 };
 

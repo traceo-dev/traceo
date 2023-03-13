@@ -5,22 +5,18 @@ import { useAppDispatch } from "../../../../store";
 import { loadIncident } from "../state/actions";
 import {
   ArrowLeftOutlined,
-  CheckCircleFilled,
   CommentOutlined,
   InfoCircleOutlined,
   RightOutlined,
   StockOutlined,
-  SyncOutlined,
-  ThunderboltFilled,
-  WarningFilled
+  WarningOutlined
 } from "@ant-design/icons";
 import { StoreState } from "@store/types";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { IncidentStatus, mapIncidentStatus } from "@traceo/types";
-import { joinClasses } from "../../../../core/utils/classes";
-import { mapHeaderStatusIcon, mapIncidentStatusIcon } from "./utils";
+import { mapIncidentStatus } from "@traceo/types";
+import { mapHeaderStatusIcon } from "./utils";
 
 export const IncidentPageWrapper = ({ children }) => {
   const { iid } = useParams();
@@ -41,6 +37,17 @@ export const IncidentPageWrapper = ({ children }) => {
       label: "Analytics",
       key: "analytics",
       icon: <StockOutlined />
+    },
+    {
+      href: "/app/:id/incidents/:iid/errors",
+      label: `Errors`,
+      badge: (
+        <div className="bg-yellow-600 text-black text-xs border rounded-full px-2 font-semibold">
+          {incident.errorsCount}
+        </div>
+      ),
+      key: "errors",
+      icon: <WarningOutlined />
     },
     {
       href: "/app/:id/incidents/:iid/conversation",

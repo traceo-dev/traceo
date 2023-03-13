@@ -16,7 +16,7 @@ export const Collapse: FC<CollapseProps> = ({
   defaultActiveKey
 }) => {
   return (
-    <div className={joinClasses("w-full gap-y-2 flex flex-col", className)}>
+    <div className={joinClasses("w-full gap-y-1 flex flex-col", className)}>
       {React.Children.map(children, (child) =>
         React.cloneElement(child, {
           ghost,

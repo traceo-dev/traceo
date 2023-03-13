@@ -8,7 +8,7 @@ export interface RouteDescriptor {
 }
 
 export interface MenuRoute {
-  label: string;
+  label?: string;
   key?: string;
   href?: string;
   private?: boolean;
@@ -17,4 +17,5 @@ export interface MenuRoute {
   adminRoute?: boolean;
   onClick?: () => void;
   routes?: MenuRoute[];
+  badge?: JSX.Element;
 }

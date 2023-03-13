@@ -1,7 +1,6 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./assets/styles/main.css";
 import "@traceo/ui/dist/styles.css";
-import { DashboardHeader } from "./core/components/Layout/DashboardHeader";
 import { NavBar } from "./core/components/Layout/Navbar";
 import Maintenance from "./core/components/Layout/Pages/Maintenance";
 import { MainViewWrapper } from "./core/components/Layout/Wrappers/MainViewWrapper";
@@ -20,11 +19,7 @@ import { LiveContextProvider } from "./core/contexts/LiveContextProvider";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
-    let element = (
-      <Page>
-        <route.component />
-      </Page>
-    );
+    let element = <route.component />;
 
     if (route.wrapper) {
       element = (
@@ -77,7 +72,6 @@ export const App = () => {
             <ConfigsContextProvider>
               <LiveContextProvider>
                 <div className="flex flex-col">
-                  <DashboardHeader />
                   <NotificationContainer />
                   <div className="flex items-strech absolute w-full h-full top-0 left-0">
                     {renderNavbar()}

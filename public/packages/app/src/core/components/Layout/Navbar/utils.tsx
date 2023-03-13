@@ -1,4 +1,5 @@
 import {
+  AlertOutlined,
   BarChartOutlined,
   BugOutlined,
   CompassOutlined,
@@ -10,6 +11,7 @@ import {
 import { IApplication, SDK, ViewConfigData } from "@traceo/types";
 import { Avatar } from "@traceo/ui";
 import { MenuRoute } from "src/core/types/navigation";
+import { conditionClass, joinClasses } from "src/core/utils/classes";
 
 const BROWSER_SDKS = [SDK.REACT];
 
@@ -21,7 +23,17 @@ export const buildAppNavbar = (application: IApplication): MenuRoute[] => {
       key: "incidents",
       href: "/app/:id/incidents",
       label: "Incidents",
-      icon: <BugOutlined />
+      badge: (
+        <div
+          className={joinClasses(
+            "text-black text-xs border rounded-full px-2 font-semibold",
+            conditionClass(application.incidentsCount > 0, "bg-yellow-600", "bg-green-600")
+          )}
+        >
+          {application.incidentsCount}
+        </div>
+      ),
+      icon: <AlertOutlined />
     }
   ];
 
