@@ -42,7 +42,7 @@ export const AppSettingsDetailsPage = () => {
       .delete<ApiResponse<unknown>>(`/api/applications/${application.id}`)
       .then((response) => {
         if (response.status === "success") {
-          navigate("/dashboard/overview");
+          navigate("/dashboard/applications");
         }
       })
       .finally(() => {
@@ -93,6 +93,12 @@ export const AppSettingsDetailsPage = () => {
                 />
                 {renderEditNameButtons()}
               </InputGroup>
+            </FieldLabel>
+            <FieldLabel label="SDK">
+              <div className="items-center gap-x-2 flex flex-row">
+                <img src={`/img/sdk/${application?.sdk}.svg`} width={15} alt={application?.sdk} />
+                <span className="capitalize">{application?.sdk}</span>
+              </div>
             </FieldLabel>
           </div>
         </ColumnSection>

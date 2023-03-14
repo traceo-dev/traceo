@@ -32,7 +32,7 @@ export const ApplicationsListPage = () => {
   };
 
   const onNewApp = () => {
-    navigate("/dashboard/app/new");
+    navigate("/dashboard/new-app");
     dispatch(hideNavbar(true));
   };
 

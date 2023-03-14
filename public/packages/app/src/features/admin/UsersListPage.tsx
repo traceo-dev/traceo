@@ -22,7 +22,7 @@ const UsersListPage = () => {
   }, [search]);
 
   const onCreateNew = () => {
-    navigate("/dashboard/user/new");
+    navigate("/dashboard/new-user");
   };
 
   return (

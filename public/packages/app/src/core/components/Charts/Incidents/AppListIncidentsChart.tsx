@@ -8,6 +8,7 @@ import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import { BaseTooltip } from "../BaseTooltip";
 import { normalizePlotData } from "../utils";
+import { SearchOutlined } from "@ant-design/icons";
 
 interface Props {
   id: string;
@@ -29,10 +30,17 @@ const AppListIncidentsChart: FC<Props> = ({ id }) => {
 
   const formatter = (v: unknown) => dateUtils.formatDate(Number(v), "MMM D, YYYY");
 
+  if (stats && stats.errors.length === 0) {
+    return (
+      <div className="w-full text-center flex flex-col text-primary">
+        <SearchOutlined className="text-lg" />
+        <span className="text-xs font-semibold">Data not found</span>
+      </div>
+    );
+  }
   return (
     <BaseChart
-      height="40px"
-      width="320px"
+      height="70px"
       dataset={{
         source: datasource
       }}
@@ -70,7 +78,7 @@ const AppListIncidentsChart: FC<Props> = ({ id }) => {
         pointer: "shadow"
       })}
       grid={{
-        left: "45px",
+        left: "25px",
         right: "5px",
         top: "10px",
         bottom: "5px"

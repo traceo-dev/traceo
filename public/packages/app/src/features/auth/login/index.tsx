@@ -13,7 +13,7 @@ const Login = () => {
 
   const goToTraceo = () => {
     dispatch(loadSignedInUser());
-    window.location.href = "/dashboard/overview";
+    window.location.href = "/dashboard/applications";
   };
 
   const onFinish = async (credentials: LoginProps) => {

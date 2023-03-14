@@ -2,7 +2,6 @@ import { initApplication } from "../../../../features/app/state/application/acti
 import { useAppDispatch } from "../../../../store";
 import { useApplication } from "../../../hooks/useApplication";
 import { isEmptyObject } from "../../../utils/object";
-import { Page } from "../../Page";
 import NotFound from "../Pages/NotFound";
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";

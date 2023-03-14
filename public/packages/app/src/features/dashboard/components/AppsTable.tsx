@@ -7,8 +7,8 @@ import { loadApplications } from "../state/actions";
 import { AppCard } from "./AppCard";
 import { EmptyAppList } from "./EmptyAppList";
 import { StoreState } from "@store/types";
-import { SortOrder, MemberApplication, SearchApplicationQueryParams } from "@traceo/types";
-import { InputSearch, Select, List } from "@traceo/ui";
+import { SortOrder, SearchApplicationQueryParams } from "@traceo/types";
+import { InputSearch, Select } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -68,11 +68,11 @@ export const AppsTable = () => {
         isEmpty={applications?.length === 0}
         emptyView={<EmptyAppList constraints={search} />}
       >
-        <List
-          className="pt-5"
-          dataSource={applications}
-          renderItem={(app: MemberApplication) => <AppCard app={app} />}
-        />
+        <div className="grid grid-cols-12 pt-5">
+          {applications?.map((app, index) => (
+            <AppCard app={app} key={index} />
+          ))}
+        </div>
       </ConditionalWrapper>
     </div>
   );

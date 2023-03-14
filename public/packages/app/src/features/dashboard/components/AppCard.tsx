@@ -1,7 +1,6 @@
 import dateUtils from "../../../core/utils/date";
-import { BugOutlined, WarningFilled, WarningOutlined } from "@ant-design/icons";
-import { IApplication, MemberApplication } from "@traceo/types";
-import { Typography, ListCard, Space, Avatar, Tooltip } from "@traceo/ui";
+import { MemberApplication } from "@traceo/types";
+import { Typography, Avatar } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import AppListIncidentsChart from "../../../core/components/Charts/Incidents/AppListIncidentsChart";
@@ -16,51 +15,31 @@ export const AppCard: FC<Props> = ({ app }) => {
     navigate(`/app/${app.appId}/overview`);
   };
 
-  return (
-    <ListCard onClick={openApplication} className="flex flex-col">
-      <Space className="w-full justify-between">
-        <Space>
-          <Avatar alt={app.name} src={app?.gravatar} />
-          <Space className="w-full pl-2 gap-0" direction="vertical">
-            <div className="w-full flex flex-row">
-              <Typography className="cursor-pointer" weight="semibold">
-                {app.name}
-              </Typography>
-              {!app.isIntegrated && (
-                <Tooltip title="Not integrated with Traceo SDK">
-                  <WarningFilled className="ml-2 text-red-500" />
-                </Tooltip>
-              )}
-            </div>
-            <AppDetails {...app} />
-          </Space>
-        </Space>
-        <AppListIncidentsChart id={app.appId} />
-      </Space>
-    </ListCard>
-  );
-};
-
-const AppDetails = (app: IApplication) => {
   const lastError = app?.lastIncidentAt
     ? "Last error " + dateUtils.fromNow(app?.lastIncidentAt)
     : "-- : --";
 
   return (
-    <Space className="text-xs">
-      <Typography size="xs" className="pipe">
-        {lastError}
-      </Typography>
-      <Tooltip title="Incidents">
-        <Typography size="xs" className="pipe">
-          <BugOutlined className="pr-1" /> {app?.incidentsCount || 0}
-        </Typography>
-      </Tooltip>
-      <Tooltip title="Errors">
-        <Typography size="xs">
-          <WarningOutlined className="pr-1" /> {app?.errorsCount || 0}
-        </Typography>
-      </Tooltip>
-    </Space>
+    <div
+      onClick={openApplication}
+      className="md:col-span-2 lg:col-span-4 flex flex-col p-5 m-2 bg-secondary rounded-md cursor-pointer min-h-[190px]"
+    >
+      <div className="flex flex-row justify-between items-center">
+        <div className="flex flex-row items-center">
+          <Avatar alt={app.name} src={app?.gravatar} />
+          <div className="flex flex-col pl-3">
+            <Typography className="cursor-pointer" weight="semibold">
+              {app.name}
+            </Typography>
+            <span className="text-xs text-primary">{lastError}</span>
+          </div>
+        </div>
+        <img alt={app.sdk} src={`/img/sdk/${app.sdk}.svg`} width="20" />
+      </div>
+
+      <div className="pt-9">
+        <AppListIncidentsChart id={app.appId} />
+      </div>
+    </div>
   );
 };

@@ -1,4 +1,6 @@
 export enum SDK {
-    NODE = "node",
-    REACT = "react"
+    NODE = "nodejs",
+    NESTJS = "nestjs",
+    REACT = "react",
+    VUE = "vue"
 }

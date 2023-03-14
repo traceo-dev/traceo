@@ -35,7 +35,7 @@ export const ApplicationMembersTable: FC<Props> = ({ collection, postExecute, cl
       postExecute();
 
       if (member?.userId === user.id) {
-        navigate("/dashboard/overview");
+        navigate("/dashboard/applications");
       }
     });
   };

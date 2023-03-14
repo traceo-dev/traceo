@@ -1,7 +1,7 @@
 import { Avatar } from "@traceo/ui";
 import { useUser } from "src/core/hooks/useUser";
 
-export const UserProfilePopover = () => {
+export const UserProfile = () => {
   const user = useUser();
 
   return (

@@ -12,7 +12,7 @@ const NotFound = () => {
       navigate("/");
     }
 
-    navigate("/dashboard/overview");
+    navigate("/dashboard/applications");
   };
 
   return (

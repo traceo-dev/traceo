@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { loadApplications } from "src/features/dashboard/state/actions";
 import styled from "styled-components";
-import { LoadingOutlined } from "@ant-design/icons";
+import { AppstoreOutlined, LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 const AppRow = styled.div`
@@ -14,12 +14,27 @@ const AppRow = styled.div`
   padding-inline: 18px;
   margin-bottom: 5px;
   color: var(--color-text-primary);
+  display: flex;
+  flex-direction: row;
 
   &:hover {
     background-color: var(--color-bg-secondary);
     color: #ffffff;
   }
 `;
+
+const options = [
+  {
+    label: "Applications",
+    icon: <AppstoreOutlined />,
+    href: "/dashboard/applications"
+  },
+  {
+    label: "New app",
+    icon: <PlusOutlined />,
+    href: "/dashboard/new-app"
+  }
+];
 
 export const ApplicationSwitchPopover = () => {
   const dispatch = useAppDispatch();
@@ -28,21 +43,6 @@ export const ApplicationSwitchPopover = () => {
   useEffect(() => {
     dispatch(loadApplications());
   }, []);
-
-  const options = [
-    {
-      label: "Applications",
-      href: "/dashboard/overview"
-    },
-    {
-      label: "Members",
-      href: `/app/${application.id}/settings/access`
-    },
-    {
-      label: "Settings",
-      href: `/app/${application.id}/settings/details`
-    }
-  ];
 
   const content = (
     <div className="flex flex-col w-[230px]">
@@ -56,10 +56,13 @@ export const ApplicationSwitchPopover = () => {
         </div>
       </span>
       <div className="py-3">
-        {options?.map(({ label, href }, index) => (
-          <Link to={href} key={index}>
-            <AppRow>{label}</AppRow>
-          </Link>
+        {options?.map(({ label, href, icon }, index) => (
+          <a href={href} key={index}>
+            <AppRow>
+              <div className="pr-2">{icon}</div>
+              {label}
+            </AppRow>
+          </a>
         ))}
       </div>
     </div>
@@ -81,9 +84,12 @@ export const ApplicationSwitchPopover = () => {
         ) : (
           <Avatar size="md" alt={application.name} src={application.gravatar} />
         )}
-        <div className="flex flex-col text-start pl-2">
+        <div className="flex flex-col text-start pl-3">
           <span className="font-semibold">{application.name}</span>
-          <span className="text-xs">{application.sdk}</span>
+          <div className="flex flex-row gap-x-1 items-center">
+            <img src={`/img/sdk/${application.sdk}.svg`} width="10" />
+            <span className="text-2xs capitalize">{application.sdk}</span>
+          </div>
         </div>
       </div>
     </Popover>

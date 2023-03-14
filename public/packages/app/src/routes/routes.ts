@@ -26,15 +26,15 @@ const getPublicRoutes = (): RouteDescriptor[] => {
 const getDashboardRoutes = (): RouteDescriptor[] => {
   return [
     {
-      path: "/dashboard/overview",
-      component: lazy(() => import("../features/dashboard/DashboardPage"))
+      path: "/dashboard/applications",
+      component: lazy(() => import("../features/dashboard/ApplicationsPage"))
     },
     {
-      path: "/dashboard/app/new",
+      path: "/dashboard/new-app",
       component: lazy(() => import("../features/dashboard/CreateApplicationPage"))
     },
     {
-      path: "/dashboard/user/new",
+      path: "/dashboard/new-user",
       component: lazy(() => import("../features/admin/CreateUserPage"))
     },
     {

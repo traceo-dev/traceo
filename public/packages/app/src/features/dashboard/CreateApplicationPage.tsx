@@ -5,7 +5,6 @@ import { TRY_AGAIN_LATER_ERROR } from "../../core/utils/constants";
 import { useAppDispatch } from "../../store/index";
 import { hideNavbar } from "../../store/internal/navbar/actions";
 import { loadApplication } from "../app/state/application/actions";
-import { ArrowLeftOutlined } from "@ant-design/icons";
 import { ApiResponse, CreateApplicationProps, DatasourceProvider, SDK } from "@traceo/types";
 import {
   Alert,
@@ -15,12 +14,13 @@ import {
   Form,
   FormItem,
   Input,
-  Select,
   SelectOptionProps,
   Typography
 } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { resetApplicationState } from "../app/state/application/reducers";
+import { ChooseElementGrid } from "src/core/components/ChooseElementGrid";
 
 type CreateAppPayload = {
   redirectUrl: string;
@@ -28,24 +28,29 @@ type CreateAppPayload = {
   error?: string;
 };
 
+const providersOptions: SelectOptionProps[] = [
+  {
+    label: "InfluxDB",
+    value: DatasourceProvider.INLFUX_DB,
+    icon: <img src={`/img/tsdb/influx.svg`} width="40" />
+  }
+];
+
 const technologyOptions: SelectOptionProps[] = [
   {
     label: "NodeJS",
     value: SDK.NODE,
-    description: "Back-end JavaScript runtime environment, runs on the V8 JavaScript Engine."
+    icon: <img src={`/img/sdk/${SDK.NODE}.svg`} width="30" />
+  },
+  {
+    label: "NestJS",
+    value: SDK.NESTJS,
+    icon: <img src={`/img/sdk/${SDK.NESTJS}.svg`} width="40" />
   },
   {
     label: "ReactJS",
     value: SDK.REACT,
-    description: "A JavaScript library for building user interfaces."
-  }
-];
-
-const dataSourceOptions = [
-  {
-    label: "InfluxDB",
-    description: "High-speed read and write database. Supported in version +1.8.",
-    value: DatasourceProvider.INLFUX_DB
+    icon: <img src={`/img/sdk/${SDK.REACT}.svg`} width="40" />
   }
 ];
 
@@ -57,18 +62,21 @@ const CreateApplicationPage = () => {
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
+  const [selectedPlatform, setSelectedPlatform] = useState<SDK>(SDK.NODE);
+  const [selectedTsdb, setSelectedTsdb] = useState<DatasourceProvider>(
+    DatasourceProvider.INLFUX_DB
+  );
+
   useEffect(() => {
-    return () => {
-      dispatch(hideNavbar(true));
-    };
+    dispatch(resetApplicationState());
   }, []);
 
   const onFinish = async (form: CreateApplicationProps) => {
     setLoading(true);
-    const { name, sdk, tsdbProvider, tsdbConfiguration, url } = form;
+    const { name, tsdbProvider, tsdbConfiguration, url } = form;
     const payload = {
       name,
-      sdk,
+      sdk: selectedPlatform,
       tsdbConfiguration: {
         url,
         provider: tsdbProvider,
@@ -97,120 +105,104 @@ const CreateApplicationPage = () => {
 
   const onBack = () => {
     dispatch(hideNavbar(false));
-    navigate("/dashboard/overview");
+    navigate("/dashboard/applications");
   };
 
   return (
-    <Page>
+    <Page
+      header={{
+        title: "Create new application",
+        description: (
+          <div>
+            <p className="m-0 pt-3">
+              Create a new application and then connect it to your software to track its
+              performance and capture any unwanted behavior.
+            </p>
+            <p className="m-0">
+              Information on how to connect the SDK to your software can be found here.
+            </p>
+          </div>
+        )
+      }}
+    >
       <Page.Content>
-        <div className="w-full grid grid-cols-5">
-          <div className="col-span-1 mr-3">
-            <div className="flex flex-col">
-              <div
-                onClick={() => onBack()}
-                className="text-xs cursor-pointer flex flex-ro gap-x-2 items-center font-semibold pb-3 hover:text-yellow-500"
-              >
-                <ArrowLeftOutlined />
-                <span>Back</span>
-              </div>
-              <span className="font-semibold text-lg">New application</span>
-              <span className="text-xs pt-1">
-                Create new application by providing basic information.
-              </span>
-              <Alert
-                type="success"
-                className="mt-9"
-                message="Select and configure time series provider to enable metrics collection. Remember that you can do this in any time."
-              />
-            </div>
-          </div>
-          <div className="col-span-4 overflow-y-scroll">
-            <Card>
-              <Form onSubmit={onFinish} id="create-app-form">
-                {({ register, errors, setValue, watch }) => (
-                  <>
-                    <Typography size="xl" weight="semibold">
-                      Basic informations
+        <Card>
+          <Typography className="text-white" size="xl" weight="semibold">
+            1. Choose yout platform
+          </Typography>
+          <ChooseElementGrid
+            options={technologyOptions}
+            onSelect={(v) => setSelectedPlatform(v)}
+            selected={selectedPlatform}
+          />
+          <Form onSubmit={onFinish} className="w-full" id="create-app-form">
+            {({ register, errors }) => (
+              <>
+                <Typography className="text-white" size="xl" weight="semibold">
+                  2. Name your app
+                </Typography>
+                <FormItem
+                  className="pt-9 w-1/2"
+                  showRequiredMark={true}
+                  label="Name"
+                  error={errors.name}
+                >
+                  <Input
+                    {...register("name", {
+                      required: true
+                    })}
+                  />
+                </FormItem>
+
+                {[SDK.NESTJS, SDK.NODE].includes(selectedPlatform) && (
+                  <div className="pt-9 w-full">
+                    <Typography className="text-white" size="xl" weight="semibold">
+                      3. Connect time series database
                     </Typography>
-                    <FormItem
-                      className="pt-9"
-                      showRequiredMark={true}
-                      label="Name"
-                      error={errors.name}
-                    >
-                      <Input
-                        {...register("name", {
-                          required: true
-                        })}
+                    <div className="mt-6 w-1/2">
+                      <Alert
+                        type="info"
+                        message="To collect metrics from the software, you must first connect to the time series database to store them. You can do it anytime."
                       />
-                    </FormItem>
+                    </div>
+                    <ChooseElementGrid
+                      options={providersOptions}
+                      onSelect={(v) => setSelectedTsdb(v)}
+                      selected={selectedTsdb}
+                    />
 
-                    <FormItem
-                      showRequiredMark={true}
-                      label="Technology"
-                      error={errors.sdk}
-                      className="pb-12"
-                    >
-                      <Select
-                        {...register("sdk", {
-                          required: true
-                        })}
-                        options={technologyOptions}
-                        onChange={(opt) => setValue("sdk", opt?.value)}
-                      />
-                    </FormItem>
-
-                    {watch("sdk") === SDK.NODE && (
-                      <>
-                        <Typography size="xl" weight="semibold">
-                          Connect time series database
-                        </Typography>
-                        <FormItem
-                          label="Time series provider"
-                          error={errors.tsdbProvider}
-                          className="pt-9"
-                        >
-                          <Select
-                            isClearable
-                            placeholder="Select data source provider"
-                            {...register("tsdbProvider", { required: false })}
-                            options={dataSourceOptions}
-                            onChange={(opt) => setValue("tsdbProvider", opt?.value)}
-                          />
-                        </FormItem>
-
-                        {watch("tsdbProvider") === DatasourceProvider.INLFUX_DB && (
-                          <InfluxForm
-                            required={watch("tsdbProvider") === DatasourceProvider.INLFUX_DB}
-                            errors={errors}
-                            register={register}
-                          />
-                        )}
-
-                        {error && (
-                          <Alert
-                            className="font-semibold"
-                            type="error"
-                            showIcon
-                            title={errorMessage}
-                          />
-                        )}
-                      </>
+                    {selectedTsdb === DatasourceProvider.INLFUX_DB && (
+                      <div className="w-1/2">
+                        <InfluxForm
+                          required={selectedTsdb === DatasourceProvider.INLFUX_DB}
+                          errors={errors}
+                          register={register}
+                        />
+                      </div>
                     )}
-                  </>
+
+                    {error && (
+                      <Alert
+                        className="font-semibold"
+                        type="error"
+                        showIcon
+                        title={errorMessage}
+                      />
+                    )}
+                  </div>
                 )}
-              </Form>
-              <ButtonContainer className="pt-5" justify="start">
-                <Button type="submit" form="create-app-form" loading={loading}>
-                  Save
-                </Button>
-                <Button variant="ghost" onClick={() => onBack()}>
-                  Cancel
-                </Button>
-              </ButtonContainer>
-            </Card>
-          </div>
-        </div>
+              </>
+            )}
+          </Form>
+          <ButtonContainer className="pt-5" justify="start">
+            <Button type="submit" form="create-app-form" loading={loading}>
+              Save
+            </Button>
+            <Button variant="ghost" onClick={() => onBack()}>
+              Cancel
+            </Button>
+          </ButtonContainer>
+        </Card>
       </Page.Content>
     </Page>
   );

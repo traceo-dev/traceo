@@ -12,7 +12,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLive } from "../../core/hooks/useLive";
 
-export const DashboardPage = () => {
+export const ApplicationsPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const live = useLive();
@@ -30,10 +30,7 @@ export const DashboardPage = () => {
     live.emit("leave_all_rooms");
   }, []);
 
-  const onNewApp = () => {
-    navigate("/dashboard/app/new");
-    dispatch(hideNavbar(true));
-  };
+  const onNewApp = () => navigate("/dashboard/new-app");
 
   return (
     <Page>
@@ -53,4 +50,4 @@ export const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default ApplicationsPage;

@@ -21,7 +21,7 @@ import { DemoBanner } from "../../DemoBanner";
 import { useUser } from "../../../../core/hooks/useUser";
 import { buildAppNavbar } from "./utils";
 import { ApplicationSwitchPopover } from "./Items/ApplicationSwitchPopover";
-import { UserProfilePopover } from "./Items/UserProfilePopover";
+import { UserProfile } from "./Items/UserProfile";
 import { TraceoLogo } from "../../Icons/TraceoLogo";
 
 export const NavBar = () => {
@@ -61,7 +61,7 @@ export const NavBar = () => {
                 <NavbarItem
                   route={{
                     key: "overview",
-                    href: "/dashboard/overview",
+                    href: "/dashboard/applications",
                     label: "Applications",
                     icon: <AppstoreOutlined />
                   }}
@@ -153,7 +153,7 @@ export const NavBar = () => {
                 />
                 <NavbarItem
                   route={{
-                    icon: <UserProfilePopover />,
+                    icon: <UserProfile />,
                     badge: <SettingOutlined className="text-xs" />,
                     key: "profile",
                     href: "/dashboard/profile/settings"

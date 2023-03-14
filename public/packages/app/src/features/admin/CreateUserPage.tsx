@@ -16,7 +16,7 @@ import {
   InputSecret,
   Typography
 } from "@traceo/ui";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 type CreateUserPayload = {
@@ -30,10 +30,6 @@ const CreateUserPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>(null);
-
-  useEffect(() => {
-    dispatch(hideNavbar(true));
-  }, []);
 
   const onFinish = async (form: AddUserProps) => {
     setLoading(true);
@@ -57,109 +53,90 @@ const CreateUserPage = () => {
       });
   };
 
-  const onBack = () => {
-    dispatch(hideNavbar(false));
-    navigate("/dashboard/admin/users");
-  };
+  const onBack = () => navigate("/dashboard/admin/users");
 
   return (
-    <Page>
+    <Page
+      header={{
+        title: "Create new user",
+        description: (
+          <div>
+            <p className="m-0 pt-3">
+              Create a new user in the Traceo application by providing basic information.
+            </p>
+            <p className="m-0">
+              Remember the entered data, because they will be useful for a this user to log in.
+            </p>
+          </div>
+        )
+      }}
+    >
       <Page.Content>
-        <div className="w-full grid grid-cols-5">
-          <div className="col-span-1 pr-2">
-            <div className="flex flex-col">
-              <div
-                onClick={() => onBack()}
-                className="text-xs cursor-pointer flex flex-ro gap-x-2 items-center font-semibold pb-3 hover:text-yellow-500"
-              >
-                <ArrowLeftOutlined />
-                <span>Back</span>
-              </div>
-              <span className="font-semibold text-lg">New user</span>
-              <span className="text-xs pt-1">
-                Create new user in this Traceo instance. After this you&apos;ll be able to attach
-                him to any apps.
-              </span>
-              <Alert
-                type="success"
-                className="mt-9"
-                message="After creating a new user, you will be able to assign him to a specific application."
-              />
-            </div>
-          </div>
-          <div className="col-span-4 overflow-y-scroll">
-            <Card>
-              <Form onSubmit={onFinish} id="add-user-form">
-                {({ register, errors }) => (
-                  <>
-                    <Typography size="xl" weight="semibold">
-                      Basic informations
-                    </Typography>
-                    <FormItem
-                      showRequiredMark={true}
-                      className="pt-9"
-                      label="Username"
-                      error={errors.username}
-                    >
-                      <Input
-                        {...register("username", {
-                          required: true
-                        })}
-                      />
-                    </FormItem>
-                    <FormItem label="Name" error={errors.name}>
-                      <Input
-                        {...register("name", {
-                          required: false
-                        })}
-                      />
-                    </FormItem>
-                    <FormItem label="Email" error={errors.email}>
-                      <Input
-                        {...register("email", {
-                          required: false,
-                          pattern: {
-                            value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                            message: "Invalid email address"
-                          }
-                        })}
-                      />
-                    </FormItem>
-                    <FormItem showRequiredMark={true} label="Password" error={errors.password}>
-                      <InputSecret
-                        {...register("password", {
-                          required: true,
-                          pattern: {
-                            value: /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-                            message: "This password is too weak"
-                          }
-                        })}
-                      />
-                    </FormItem>
+        <Card>
+          <Form onSubmit={onFinish} id="add-user-form">
+            {({ register, errors }) => (
+              <>
+                <Typography className="text-white" size="xl" weight="semibold">
+                  1. Basic informations
+                </Typography>
+                <FormItem
+                  showRequiredMark={true}
+                  className="pt-9"
+                  label="Username"
+                  error={errors.username}
+                >
+                  <Input
+                    {...register("username", {
+                      required: true
+                    })}
+                  />
+                </FormItem>
+                <FormItem label="Name" error={errors.name}>
+                  <Input
+                    {...register("name", {
+                      required: false
+                    })}
+                  />
+                </FormItem>
+                <FormItem label="Email" error={errors.email}>
+                  <Input
+                    {...register("email", {
+                      required: false,
+                      pattern: {
+                        value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        message: "Invalid email address"
+                      }
+                    })}
+                  />
+                </FormItem>
+                <FormItem showRequiredMark={true} label="Password" error={errors.password}>
+                  <InputSecret
+                    {...register("password", {
+                      required: true,
+                      pattern: {
+                        value: /((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
+                        message: "This password is too weak"
+                      }
+                    })}
+                  />
+                </FormItem>
 
-                    {error && (
-                      <Alert
-                        className="font-semibold"
-                        type="error"
-                        showIcon
-                        title={errorMessage}
-                      />
-                    )}
-                  </>
+                {error && (
+                  <Alert className="font-semibold" type="error" showIcon title={errorMessage} />
                 )}
-              </Form>
+              </>
+            )}
+          </Form>
 
-              <ButtonContainer className="pt-5" justify="start">
-                <Button type="submit" form="add-user-form" loading={loading}>
-                  Confirm
-                </Button>
-                <Button variant="ghost" onClick={() => onBack()}>
-                  Cancel
-                </Button>
-              </ButtonContainer>
-            </Card>
-          </div>
-        </div>
+          <ButtonContainer className="pt-5" justify="start">
+            <Button type="submit" form="add-user-form" loading={loading}>
+              Confirm
+            </Button>
+            <Button variant="ghost" onClick={() => onBack()}>
+              Cancel
+            </Button>
+          </ButtonContainer>
+        </Card>
       </Page.Content>
     </Page>
   );
