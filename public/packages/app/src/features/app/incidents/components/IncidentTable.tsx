@@ -35,6 +35,7 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
       onRowClick={(item) => handleOnRowClick(item)}
       collection={incidents}
       showPagination
+      striped
       loading={isLoading}
       rowSize="lg"
     >
@@ -58,7 +59,9 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
                 <span className="pl-2 text-[12px]">{mapIncidentStatus[item.status]}</span>
               </div>
               <RightOutlined className="text-[8px] px-2" />
-              <span className="text-[12px] truncate xl:max-w-[400px] md:max-w-[200px]">{item?.message}</span>
+              <span className="text-[12px] truncate xl:max-w-[400px] md:max-w-[200px]">
+                {item?.message}
+              </span>
             </span>
           </Space>
         )}

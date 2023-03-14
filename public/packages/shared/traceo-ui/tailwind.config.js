@@ -8,9 +8,9 @@ module.exports = {
     extend: {
       colors: {
         "light-secondary": "#2d3139",
-        primary: "#181b1f",
+        primary: "#1a1c20",
         secondary: "#22252b",
-        canvas: "#111217",
+        canvas: "#131517",
         contrast: "#ffffff"
       },
       textColor: {

@@ -185,13 +185,13 @@ const NavbarWrapper = styled.div`
   height: 100%;
   width: 315px;
   overflow: auto !important;
+  background-color: var(--color-bg-primary);
 `;
 
 const Nav = styled.nav`
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-right: 1px solid var(--color-bg-secondary);
   padding-bottom: 0.5rem !important;
   padding-top: 0.5rem !important;
 `;

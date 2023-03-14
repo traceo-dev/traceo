@@ -28,7 +28,7 @@ export const Page: PageType = ({ children, menuRoutes, header, isLoading }) => {
   return (
     <div>
       {header && (
-        <div className="w-full flex flex-col px-9 mt-9">
+        <div className="w-full flex flex-col px-9 pt-9">
           <PageHeader {...header} className="pb-0" />
           {menuRoutes && <Menu routes={menuRoutes} />}
         </div>

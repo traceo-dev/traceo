@@ -15,10 +15,10 @@
 
   --color-traceo-primary: #eab308;
 
-  --color-bg-primary: #181b1f;
+  --color-bg-primary: #1a1c20;
   --color-bg-secondary: #22252b;
   --color-bg-light-secondary: #2d3139;
-  --color-bg-canvas: #111217;
+  --color-bg-canvas: #131517;
 }
 
 /* Overrides for tailwind styles */

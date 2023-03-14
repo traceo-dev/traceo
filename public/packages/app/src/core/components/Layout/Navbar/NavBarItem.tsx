@@ -66,13 +66,13 @@ export const ItemWrapper = styled.li<{
   color: var(--color-text-primary);
 
   &:hover {
-    background-color: var(--color-bg-primary);
+    background-color: var(--color-bg-secondary);
   }
 
   ${(p) =>
     p.isActive &&
     `
-    background-color: var(--color-bg-primary);
+    background-color: var(--color-bg-secondary);
     color: #ffffff;
 
     &:hover {
