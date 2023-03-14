@@ -1,17 +1,6 @@
-import {
-  AlertOutlined,
-  BarChartOutlined,
-  BugOutlined,
-  CompassOutlined,
-  HomeOutlined,
-  LogoutOutlined,
-  SettingOutlined,
-  UserOutlined
-} from "@ant-design/icons";
-import { IApplication, SDK, ViewConfigData } from "@traceo/types";
-import { Avatar } from "@traceo/ui";
+import { AlertOutlined, BarChartOutlined, CompassOutlined } from "@ant-design/icons";
+import { IApplication, SDK } from "@traceo/types";
 import { MenuRoute } from "src/core/types/navigation";
-import { conditionClass, joinClasses } from "src/core/utils/classes";
 
 const BROWSER_SDKS = [SDK.REACT];
 
@@ -23,13 +12,8 @@ export const buildAppNavbar = (application: IApplication): MenuRoute[] => {
       key: "incidents",
       href: "/app/:id/incidents",
       label: "Incidents",
-      badge: (
-        <div
-          className={joinClasses(
-            "text-black text-xs border rounded-full px-2 font-semibold",
-            conditionClass(application.incidentsCount > 0, "bg-yellow-600", "bg-green-600")
-          )}
-        >
+      badge: application.incidentsCount > 0 && (
+        <div className="text-black text-xs border rounded-full px-2 font-semibold bg-yellow-600">
           {application.incidentsCount}
         </div>
       ),

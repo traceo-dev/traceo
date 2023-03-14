@@ -20,10 +20,10 @@ export const PageHeader: FC<PageHeaderProps> = ({
   return (
     <Space className={joinClasses("w-full justify-between pb-5 px-5 text-primary", className)}>
       <Space>
-        {icon && <div className="pr-2 text-5xl">{icon}</div>}
+        {icon && <div className="pr-2 text-4xl">{icon}</div>}
 
         <Space className="flex flex-col text-start gap-0 w-full">
-          <span className="text-3xl pt-2 w-full font-semibold">{title}</span>
+          <span className="text-3xl pt-2 w-full font-semibold leading-6">{title}</span>
           {description && <span className="w-full text-sm">{description}</span>}
         </Space>
       </Space>
