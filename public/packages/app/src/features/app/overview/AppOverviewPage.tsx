@@ -8,7 +8,7 @@ export const AppOverviewPage = () => {
   return (
     <Page>
       <Page.Content>
-        {/* <NotIntegratedSection /> */}
+        <NotIntegratedSection />
         <TodaySection />
         <OverviewSection />
         <RecentIncidentsSection />
