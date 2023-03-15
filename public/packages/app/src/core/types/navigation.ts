@@ -7,6 +7,7 @@ export interface RouteDescriptor {
   roles?: () => string[];
 }
 
+// TODO: clean unused fields
 export interface MenuRoute {
   label?: string;
   key?: string;
@@ -15,6 +16,7 @@ export interface MenuRoute {
   disabled?: boolean;
   icon?: JSX.Element;
   adminRoute?: boolean;
+  hidden?: boolean;
   onClick?: () => void;
   routes?: MenuRoute[];
   badge?: JSX.Element;

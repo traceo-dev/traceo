@@ -7,8 +7,12 @@ import {
   TeamOutlined
 } from "@ant-design/icons";
 import { FC } from "react";
+import { SDK } from "@traceo/types";
+import { useApplication } from "src/core/hooks/useApplication";
 
 export const SettingsPageWrapper: FC = ({ children }) => {
+  const { application } = useApplication();
+
   const menu: MenuRoute[] = [
     {
       href: "/app/:id/settings/details",
@@ -26,7 +30,8 @@ export const SettingsPageWrapper: FC = ({ children }) => {
       href: "/app/:id/settings/datasource",
       label: "Data source",
       key: "datasource",
-      icon: <DatabaseOutlined />
+      icon: <DatabaseOutlined />,
+      hidden: [SDK.REACT].includes(application.sdk)
     }
   ];
 

@@ -60,7 +60,7 @@ export const NavBar = () => {
                 <Divider />
                 <NavbarItem
                   route={{
-                    key: "overview",
+                    key: "applications",
                     href: "/dashboard/applications",
                     label: "Applications",
                     icon: <AppstoreOutlined />

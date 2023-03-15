@@ -2,12 +2,27 @@ import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { useApplication } from "../../../../core/hooks/useApplication";
 import { GH_SDK_REPO_LINK } from "../../../../core/utils/constants";
 import { Space, Button, Typography, Card } from "@traceo/ui";
+import { SDK } from "@traceo/types";
+
+const mapSdkToNpm: Record<SDK, string> = {
+  [SDK.NESTJS]: "@traceo-sdk/node",
+  [SDK.NODE]: "@traceo-sdk/node",
+  [SDK.REACT]: "@traceo-sdk/react",
+  [SDK.VUE]: "@traceo-sdk/vue"
+};
+
+const mapDocumentationLink: Record<SDK, string> = {
+  [SDK.NESTJS]: "https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/node",
+  [SDK.NODE]: "https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/node",
+  [SDK.REACT]: "https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/react",
+  [SDK.VUE]: "https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/react" //TODO:
+};
 
 export const NotIntegratedSection = () => {
   const { application } = useApplication();
 
   const sampleIntegrationCode = `
-    1   import { TraceoClient } from '@traceo-sdk/node';
+    1   import { TraceoClient } from '${mapSdkToNpm[application.sdk]}';
     2 
     3   new TraceoClient({
     4      appId: '${application.id}',
@@ -29,7 +44,9 @@ export const NotIntegratedSection = () => {
                 To do this, use the example code on the right and restart your software.
               </Typography>
               <Space className="w-full mt-5">
-                <Button onClick={() => window.open(GH_SDK_REPO_LINK, "_blank")}>
+                <Button
+                  onClick={() => window.open(mapDocumentationLink[application.sdk], "_blank")}
+                >
                   Documentation
                 </Button>
               </Space>

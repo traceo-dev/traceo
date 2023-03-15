@@ -12,6 +12,7 @@ export const Menu: FC<Props> = ({ routes, className }) => {
     <nav className={joinClasses("relative flex h-10", className)}>
       {routes
         .filter((route) => !route.private)
+        .filter((route) => !route.hidden)
         .map((menu, index) => (
           <MenuItem menu={menu} key={index} />
         ))}
