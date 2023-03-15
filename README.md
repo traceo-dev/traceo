@@ -5,7 +5,10 @@ Traceo is an open-source set of tools for monitoring application health by colle
 Not ready for production use.
 
 # SDK
-To start using the Traceo platform, you need to integrate with the [Traceo SDK](https://github.com/traceo-io/traceo-node), which will start monitoring the status of your application.
+To start using the Traceo platform, you need to integrate with the [Traceo SDK](https://github.com/traceo-io/traceo-node). Informations about the process of implementation SDK inside your software is in the README of the each SDK.
+- [`@traceo-sdk/node`](https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/node): SDK for NodeJS.
+- [`@traceo-sdk/react`](https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/react): SDK for ReactJS.
+
 
 # Installation
 At this point, the installation of the Traceo platform is done by using the docker image.
