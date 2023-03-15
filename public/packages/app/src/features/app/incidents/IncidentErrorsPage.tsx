@@ -2,7 +2,7 @@ import { StoreState } from "@store/types";
 import { SDK } from "@traceo/types";
 import { Card, Table, TableColumn } from "@traceo/ui";
 import { useSelector } from "react-redux";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../core/utils/date";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
 
 const IncidentErrorsPage = () => {

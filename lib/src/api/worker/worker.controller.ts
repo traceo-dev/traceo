@@ -14,7 +14,7 @@ export class WorkerController {
     private readonly logsService: WorkerLogsService,
     private readonly metricsService: WorkerMetricsService,
     private readonly runtimeService: WorkerRuntimeService
-  ) { }
+  ) {}
 
   @Post("/incident/:id")
   async handleSDKIncidents(
@@ -23,10 +23,14 @@ export class WorkerController {
     @Headers() headers: Dictionary<string>
   ): Promise<void> {
     const sdk = headers["x-sdk-name"];
-    await this.processIncidentsService.processWorkerData(id, {
-      sdk,
-      ...data
-    }, headers);
+    await this.processIncidentsService.processWorkerData(
+      id,
+      {
+        sdk,
+        ...data
+      },
+      headers
+    );
   }
 
   @Post("/runtime/:id")

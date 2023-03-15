@@ -20,7 +20,7 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { resetApplicationState } from "../app/state/application/reducers";
-import { ChooseElementGrid } from "src/core/components/ChooseElementGrid";
+import { ChooseElementGrid } from "../../core/components/ChooseElementGrid";
 
 type CreateAppPayload = {
   redirectUrl: string;

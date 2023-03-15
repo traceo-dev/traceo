@@ -1,5 +1,5 @@
 import { Avatar } from "@traceo/ui";
-import { useUser } from "src/core/hooks/useUser";
+import { useUser } from "../../../../../core/hooks/useUser";
 
 export const UserProfile = () => {
   const user = useUser();

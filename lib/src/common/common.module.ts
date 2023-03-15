@@ -5,4 +5,4 @@ import { ServicesModule } from "./services/services.module";
   imports: [ServicesModule],
   providers: []
 })
-export class CommonModule { }
+export class CommonModule {}

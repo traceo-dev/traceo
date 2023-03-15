@@ -50,7 +50,7 @@ export abstract class BaseWorkerService<PAYLOAD> {
 
     const sdkName = headers["x-sdk-name"];
     if (!sdkName) {
-      throw new Error("Missing property: SDK Name.")
+      throw new Error("Missing property: SDK Name.");
     }
 
     if (!app.security?.apiKey || app.security?.apiKey !== apiKey) {

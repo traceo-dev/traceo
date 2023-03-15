@@ -3,10 +3,9 @@ import { StoreState } from "@store/types";
 import { Popover, Avatar } from "@traceo/ui";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { loadApplications } from "src/features/dashboard/state/actions";
+import { loadApplications } from "../../../../../features/dashboard/state/actions";
 import styled from "styled-components";
 import { AppstoreOutlined, LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
 
 const AppRow = styled.div`
   text-align: start;

@@ -8,7 +8,7 @@ import {
 } from "@ant-design/icons";
 import { FC } from "react";
 import { SDK } from "@traceo/types";
-import { useApplication } from "src/core/hooks/useApplication";
+import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const SettingsPageWrapper: FC = ({ children }) => {
   const { application } = useApplication();

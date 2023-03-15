@@ -24,7 +24,7 @@ export class IncidentCommentsController {
   constructor(
     private commentsService: IncidentCommentsService,
     private commentsQueryService: IncidentCommentsQueryService
-  ) { }
+  ) {}
 
   @Get()
   public async getComments(
@@ -53,7 +53,7 @@ export class IncidentCommentsController {
   @Delete("/remove/:id")
   async removeComment(
     @Param("id") commentId: string,
-    @Query("applicationId") applicationId: string,
+    @Query("applicationId") applicationId: string
   ): Promise<ApiResponse<unknown>> {
     return await this.commentsService.removeComment(commentId, applicationId);
   }

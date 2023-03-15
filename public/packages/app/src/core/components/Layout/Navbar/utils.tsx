@@ -1,7 +1,6 @@
 import { AlertOutlined, BarChartOutlined, CompassOutlined } from "@ant-design/icons";
 import { IApplication, SDK } from "@traceo/types";
-import { MenuRoute } from "src/core/types/navigation";
-import { conditionClass, joinClasses } from "src/core/utils/classes";
+import { MenuRoute } from "../../../../core/types/navigation";
 
 const BROWSER_SDKS = [SDK.REACT];
 

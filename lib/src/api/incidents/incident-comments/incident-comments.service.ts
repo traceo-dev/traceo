@@ -12,10 +12,7 @@ import { IComment } from "@traceo/types";
 @Injectable()
 export class IncidentCommentsService {
   private logger: Logger;
-  constructor(
-    private entityManager: EntityManager,
-    private live: LiveService
-  ) {
+  constructor(private entityManager: EntityManager, private live: LiveService) {
     this.logger = new Logger(IncidentCommentsService.name);
   }
 
@@ -54,49 +51,59 @@ export class IncidentCommentsService {
   ): Promise<ApiResponse<unknown>> {
     const { message, applicationId } = comment;
 
-    return await this.entityManager.transaction(async (manager) => {
-      await manager.getRepository(Comment).save({
-        id, message,
-        lastUpdateAt: dateUtils.toUnix()
+    return await this.entityManager
+      .transaction(async (manager) => {
+        await manager.getRepository(Comment).save({
+          id,
+          message,
+          lastUpdateAt: dateUtils.toUnix()
+        });
+
+        const updatedComment = await this.getComment(id, manager);
+
+        this.live.publish(applicationId, {
+          action: "update_comment",
+          message: updatedComment
+        });
+
+        return new ApiResponse("success", undefined);
+      })
+      .catch((err) => {
+        this.logger.error(`[${this.updateComment.name}] Caused by: ${err}`);
+        return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
       });
-
-      const updatedComment = await this.getComment(id, manager);
-
-      this.live.publish(applicationId, {
-        action: "update_comment",
-        message: updatedComment
-      });
-
-      return new ApiResponse("success", undefined);
-    }).catch((err) => {
-      this.logger.error(`[${this.updateComment.name}] Caused by: ${err}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
-    });
   }
 
   public async removeComment(id: string, applicationId: string): Promise<ApiResponse<unknown>> {
-    return await this.entityManager.transaction(async (manager) => {
-      await manager.getRepository(Comment).save({
-        id, message: REMOVED_MESSAGE_TEXT,
-        removed: true,
-        lastUpdateAt: dateUtils.toUnix()
-      });
+    return await this.entityManager
+      .transaction(async (manager) => {
+        await manager.getRepository(Comment).save({
+          id,
+          message: REMOVED_MESSAGE_TEXT,
+          removed: true,
+          lastUpdateAt: dateUtils.toUnix()
+        });
 
-      const updatedComment = await this.getComment(id, manager);
-      this.live.publish(applicationId, {
-        action: "remove_comment",
-        message: updatedComment
-      });
+        const updatedComment = await this.getComment(id, manager);
+        this.live.publish(applicationId, {
+          action: "remove_comment",
+          message: updatedComment
+        });
 
-      return new ApiResponse("success", undefined);
-    }).catch((err) => {
-      this.logger.error(`[${this.removeComment.name}] Caused by: ${err}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
-    });
+        return new ApiResponse("success", undefined);
+      })
+      .catch((err) => {
+        this.logger.error(`[${this.removeComment.name}] Caused by: ${err}`);
+        return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+      });
   }
 
-  private async getComment(id: string, manager: EntityManager = this.entityManager): Promise<IComment> {
-    return await manager.getRepository(Comment)
+  private async getComment(
+    id: string,
+    manager: EntityManager = this.entityManager
+  ): Promise<IComment> {
+    return await manager
+      .getRepository(Comment)
       .createQueryBuilder("comment")
       .where("comment.id = :id", { id })
       .leftJoin("comment.sender", "sender")

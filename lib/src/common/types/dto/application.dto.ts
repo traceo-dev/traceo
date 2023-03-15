@@ -5,7 +5,7 @@ import { IsString, IsNotEmpty, IsOptional, MaxLength, ValidateNested } from "cla
 import { BaseDtoQuery } from "../../base/query/base-query.model";
 import { BaseDataSourceDto } from "./data-source";
 
-export class ApplicationDtoQuery extends BaseDtoQuery { }
+export class ApplicationDtoQuery extends BaseDtoQuery {}
 
 export class CreateApplicationDto {
   @IsString()

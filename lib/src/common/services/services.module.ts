@@ -5,4 +5,4 @@ import { LiveService } from "./live.service";
   imports: [],
   providers: [LiveService]
 })
-export class ServicesModule { }
+export class ServicesModule {}

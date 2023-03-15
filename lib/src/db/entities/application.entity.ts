@@ -3,15 +3,7 @@ import { User } from "./user.entity";
 import { Member } from "./member.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import {
-  IApplication,
-  ISecurity,
-  IRuntime,
-  IUser,
-  IMember,
-  IIncident,
-  SDK
-} from "@traceo/types";
+import { IApplication, ISecurity, IRuntime, IUser, IMember, IIncident, SDK } from "@traceo/types";
 import { Metric } from "./metric.entity";
 
 @Entity()

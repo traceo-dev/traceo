@@ -29,9 +29,7 @@ export const MenuItem: FC<Props> = ({ menu }) => {
         <Space>
           {menu.icon}
           {menu.label}
-          {menu.badge && (
-            <div className="pl-2">{menu.badge}</div>
-          )}
+          {menu.badge && <div className="pl-2">{menu.badge}</div>}
         </Space>
       </MenuItemWrapper>
     </NavLink>
