@@ -185,7 +185,8 @@ const NavbarWrapper = styled.div`
   height: 100%;
   width: 315px;
   overflow: auto !important;
-  background-color: var(--color-bg-primary);
+  background-color: var(--color-bg-canvas);
+  border-right: 1px solid var(--color-bg-secondary);
 `;
 
 const Nav = styled.nav`

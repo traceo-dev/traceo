@@ -6,6 +6,21 @@ import { TableRow } from "./TableRow";
 import { PaginationPositionType, PageSizeType, TableRowSize } from "./types";
 import { LoadingOutlined } from "@ant-design/icons";
 import React, { FC, useEffect, useMemo, useState } from "react";
+import styled from "styled-components";
+
+const TableWrapper = styled.table`
+  border: 2px solid var(--color-bg-secondary);
+  width: 100%;
+`;
+
+const TableThead = styled.thead`
+  color: #ffffff;
+  background-color: var(--color-bg-secondary);
+`;
+
+const TableTbody = styled.tbody`
+  margin-top: 4px;
+`;
 
 interface TableProps {
   children: React.ReactNode;
@@ -60,12 +75,12 @@ export const Table: FC<TableProps> = (props: TableProps) => {
 
   return (
     <div className="w-full flex flex-col">
-      <table className={joinClasses("w-full text-primary", className)}>
-        <thead className="text-white">
+      <TableWrapper className={className}>
+        <TableThead>
           <tr>{children}</tr>
-        </thead>
+        </TableThead>
         {!loading && (
-          <tbody className="mt-1">
+          <TableTbody>
             {pagination.currentItems?.map((item, index) => (
               <TableRow
                 childrens={React.Children.toArray(children)}
@@ -81,9 +96,9 @@ export const Table: FC<TableProps> = (props: TableProps) => {
                 }}
               />
             ))}
-          </tbody>
+          </TableTbody>
         )}
-      </table>
+      </TableWrapper>
       {loading && (
         <Space className="py-12 justify-center w-full">
           <Typography className="pr-2">Loading</Typography>

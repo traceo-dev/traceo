@@ -24,17 +24,14 @@ export const AppCard: FC<Props> = ({ app }) => {
       onClick={openApplication}
       className="md:col-span-2 lg:col-span-4 flex flex-col p-5 m-2 bg-secondary rounded-md cursor-pointer min-h-[190px]"
     >
-      <div className="flex flex-row justify-between items-center">
-        <div className="flex flex-row items-center">
-          <Avatar alt={app.name} src={app?.gravatar} />
-          <div className="flex flex-col pl-3">
-            <Typography className="cursor-pointer" weight="semibold">
-              {app.name}
-            </Typography>
-            <span className="text-xs text-primary">{lastError}</span>
-          </div>
+      <div className="flex flex-row items-center">
+        <Avatar alt={app.name} src={app?.gravatar} />
+        <div className="flex flex-col pl-3">
+          <Typography className="cursor-pointer" weight="semibold">
+            {app.name}
+          </Typography>
+          <span className="text-xs text-primary">{lastError}</span>
         </div>
-        <img alt={app.sdk} src={`/img/sdk/${app.sdk}.svg`} width="20" />
       </div>
 
       <div className="pt-9">
