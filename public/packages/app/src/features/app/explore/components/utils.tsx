@@ -27,9 +27,9 @@ export const commonSeriesOptions = {
   type: "bar",
   stack: "Ad",
   itemStyle: {
-    borderColor: "transparent",
-    borderWidth: 2,
-    borderRadius: 2
+    // borderColor: "transparent",
+    // borderWidth: 2,
+    // borderRadius: 2
   }
 };
 
