@@ -86,7 +86,7 @@ export const ApplicationSwitchPopover = () => {
         <div className="flex flex-col text-start pl-3">
           <span className="font-semibold">{application.name}</span>
           <div className="flex flex-row gap-x-1 items-center">
-            <img src={`/img/sdk/${application.sdk}.svg`} width="10" />
+            <img src={`/img/svg/${application.sdk}.svg`} width="10" />
             <span className="text-2xs capitalize">{application.sdk}</span>
           </div>
         </div>

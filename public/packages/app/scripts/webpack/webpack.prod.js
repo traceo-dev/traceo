@@ -4,6 +4,7 @@ const ESLintPlugin = require("eslint-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const path = require("path");
 const webpack = require("webpack");
@@ -48,6 +49,11 @@ module.exports = (env = {}) =>
       new HtmlWebpackPlugin({
         template: "./public/index.html",
         favicon: "./public/traceo-fav.PNG"
-      })
+      }),
+      new CopyWebpackPlugin({
+        patterns: [
+          { from: 'public/img/svg', to: 'img/svg' },
+        ],
+      }),
     ]
   });

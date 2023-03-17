@@ -79,21 +79,26 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        use: "raw-loader"
-      },
-      {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
         use: [
           {
-            loader: "file-loader",
-            options: { name: "assets/fonts/[name].[ext]" }
+            loader: "url-loader",
+            options: {
+              limit: 8192, // Convert images < 8kb to base64 strings
+              name: "images/[hash]-[name].[ext]"
+            }
           }
         ]
       },
       {
-        test: /\.(svg|ico|jpg|jpeg|png|PNG|gif|eot|otf|webp|ttf|cur|ani|pdf)(\?.*)?$/,
-        loader: "file-loader",
-        options: { name: "assets/[name].[ext]" }
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "[path][name].[ext]"
+            }
+          }
+        ]
       }
     ]
   },

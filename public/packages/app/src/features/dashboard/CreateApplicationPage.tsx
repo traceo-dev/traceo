@@ -32,7 +32,7 @@ const providersOptions: SelectOptionProps[] = [
   {
     label: "InfluxDB",
     value: DatasourceProvider.INLFUX_DB,
-    icon: <img src={`/img/tsdb/influx.svg`} width="40" />
+    icon: <img src={`/img/svg/influx.svg`} width="40" />
   }
 ];
 
@@ -40,17 +40,17 @@ const technologyOptions: SelectOptionProps[] = [
   {
     label: "NodeJS",
     value: SDK.NODE,
-    icon: <img src={`/img/sdk/${SDK.NODE}.svg`} width="30" />
+    icon: <img src={`/img/svg/${SDK.NODE}.svg`} width="30" />
   },
   {
     label: "NestJS",
     value: SDK.NESTJS,
-    icon: <img src={`/img/sdk/${SDK.NESTJS}.svg`} width="40" />
+    icon: <img src={`/img/svg/${SDK.NESTJS}.svg`} width="40" />
   },
   {
     label: "ReactJS",
     value: SDK.REACT,
-    icon: <img src={`/img/sdk/${SDK.REACT}.svg`} width="40" />
+    icon: <img src={`/img/svg/${SDK.REACT}.svg`} width="40" />
   }
 ];
 
@@ -174,7 +174,7 @@ const CreateApplicationPage = () => {
                     {selectedTsdb === DatasourceProvider.INLFUX_DB && (
                       <div className="w-1/2">
                         <InfluxForm
-                          required={selectedTsdb === DatasourceProvider.INLFUX_DB}
+                          required={false}
                           errors={errors}
                           register={register}
                         />

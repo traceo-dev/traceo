@@ -96,7 +96,7 @@ export const AppSettingsDetailsPage = () => {
             </FieldLabel>
             <FieldLabel label="SDK">
               <div className="items-center gap-x-2 flex flex-row">
-                <img src={`/img/sdk/${application?.sdk}.svg`} width={15} alt={application?.sdk} />
+                <img src={`/img/svg/${application?.sdk}.svg`} width={15} alt={application?.sdk} />
                 <span className="capitalize">{application?.sdk}</span>
               </div>
             </FieldLabel>
