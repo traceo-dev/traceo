@@ -15,7 +15,7 @@ const mapDocumentationLink: Record<SDK, string> = {
   [SDK.NESTJS]: "https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/node",
   [SDK.NODE]: "https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/node",
   [SDK.REACT]: "https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/react",
-  [SDK.VUE]: "https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/react" //TODO:
+  [SDK.VUE]: "https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/vue"
 };
 
 export const NotIntegratedSection = () => {

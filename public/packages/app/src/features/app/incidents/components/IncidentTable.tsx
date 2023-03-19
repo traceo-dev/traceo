@@ -48,7 +48,7 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
               </span>
               {isNewIncident(item) && (
                 <NewIncidentPill>
-                  <span className="text-yellow-500 text-[10px]">New incident</span>
+                  <span className="text-yellow-500 text-[10px]">New</span>
                 </NewIncidentPill>
               )}
             </div>

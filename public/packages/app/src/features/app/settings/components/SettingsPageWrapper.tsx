@@ -10,6 +10,8 @@ import { FC } from "react";
 import { SDK } from "@traceo/types";
 import { useApplication } from "../../../../core/hooks/useApplication";
 
+const BROWSER_SDKS = [SDK.REACT, SDK.VUE];
+
 export const SettingsPageWrapper: FC = ({ children }) => {
   const { application } = useApplication();
 
@@ -31,7 +33,7 @@ export const SettingsPageWrapper: FC = ({ children }) => {
       label: "Data source",
       key: "datasource",
       icon: <DatabaseOutlined />,
-      hidden: [SDK.REACT].includes(application.sdk)
+      hidden: BROWSER_SDKS.includes(application.sdk)
     }
   ];
 

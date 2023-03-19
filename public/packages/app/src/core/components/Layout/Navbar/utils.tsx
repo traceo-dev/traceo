@@ -2,7 +2,7 @@ import { AlertOutlined, BarChartOutlined, CompassOutlined } from "@ant-design/ic
 import { IApplication, SDK } from "@traceo/types";
 import { MenuRoute } from "../../../../core/types/navigation";
 
-const BROWSER_SDKS = [SDK.REACT];
+const BROWSER_SDKS = [SDK.REACT, SDK.VUE];
 
 export const buildAppNavbar = (application: IApplication): MenuRoute[] => {
   const sdk = application.sdk;

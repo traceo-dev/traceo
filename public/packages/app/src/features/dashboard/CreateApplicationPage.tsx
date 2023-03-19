@@ -48,9 +48,14 @@ const technologyOptions: SelectOptionProps[] = [
     icon: <img src={`/img/svg/${SDK.NESTJS}.svg`} width="40" />
   },
   {
-    label: "ReactJS",
+    label: "React",
     value: SDK.REACT,
     icon: <img src={`/img/svg/${SDK.REACT}.svg`} width="40" />
+  },
+  {
+    label: "Vue",
+    value: SDK.VUE,
+    icon: <img src={`/img/svg/${SDK.VUE}.svg`} width="40" />
   }
 ];
 
