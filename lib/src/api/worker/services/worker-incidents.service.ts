@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Dictionary, SDK, SDKIncidentPayload } from "@traceo/types";
+import { SDK, SDKIncidentPayload } from "@traceo/types";
 import { BaseWorkerService } from "../../../common/base/worker/base-worker.service";
 import { Application } from "../../../db/entities/application.entity";
 import { EntityManager } from "typeorm";
@@ -18,7 +18,7 @@ export class WorkerIncidentsService extends BaseWorkerService<SDKIncidentPayload
       case SDK.NODE:
         return new NodeProcessorService(this.entityManager);
       case SDK.REACT:
-        // case SDK.VUE:
+      case SDK.VUE:
         return new BrowserProcessorService(this.entityManager);
       default:
         throw new Error(`Incident processor not found for this SDK: ${sdk}!`);
