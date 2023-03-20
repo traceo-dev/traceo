@@ -11,7 +11,7 @@ import { FC, useState } from "react";
 type AlertType = "success" | "info" | "warning" | "error";
 
 interface AlertProps {
-  title?: string;
+  title?: JSX.Element | string;
   type: AlertType;
   icon?: JSX.Element;
   message?: string | JSX.Element;

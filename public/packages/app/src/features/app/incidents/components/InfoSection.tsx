@@ -46,21 +46,17 @@ export const InfoSection = () => {
           options={assignOptions(members)}
         />
       </FieldLabel>
-      <FieldLabel label="Catched at">
+      <FieldLabel label="First seen">
         <Typography size="sm" weight="normal">
           {dateUtils.formatDate(incident?.createdAt, "DD MMM YYYY, HH:mm")}
         </Typography>
       </FieldLabel>
-      <FieldLabel label="Last error">
+      <FieldLabel label="Last seen">
         <Typography size="sm" weight="normal">
           {dateUtils.formatDate(incident?.lastError, "DD MMM YYYY, HH:mm")}
         </Typography>
       </FieldLabel>
-      {/* <FieldLabel label="Last updated">
-        <Typography size="sm" weight="normal">
-        </Typography>
-      </FieldLabel> */}
-      <FieldLabel label="Number of errors">
+      <FieldLabel label="Total errors">
         <Typography weight="normal">{incident?.errorsCount}</Typography>
       </FieldLabel>
     </Card>

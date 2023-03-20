@@ -34,7 +34,7 @@ const IncidentTimelineChart: FC<Props> = ({ errors }) => {
       })}
       grid={{
         left: "20px",
-        right: "8px",
+        right: "10px",
         top: "5px",
         bottom: "20px"
       }}

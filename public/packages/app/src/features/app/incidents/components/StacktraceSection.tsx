@@ -10,7 +10,8 @@ import {
   FieldLabel,
   RadioButtonGroup,
   Space,
-  Typography
+  Typography,
+  Alert
 } from "@traceo/ui";
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -39,10 +40,11 @@ export const StacktraceSection = () => {
 
   return (
     <Card title="Stack Trace" className="h-auto">
-      <div className="flex flex-col pt-3">
-        <span className="font-semibold text-xl">{incident.type}</span>
-        <span className="text-sm">{incident.message}</span>
-      </div>
+      <Alert
+        title={<span className="text-white">{incident.type}</span>}
+        message={incident.message}
+        type="error"
+      />
       <div className="w-full py-9">
         <RadioButtonGroup
           className="float-right"
