@@ -53,7 +53,7 @@
     "gravatar": "^1.8.2",
     "influx": "^5.9.3",
     "js-yaml": "^4.1.0",
-    "jsonwebtoken": "^9.0.0",
+    "jsonwebtoken": "9.0.0",
     "morgan": "^1.10.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
