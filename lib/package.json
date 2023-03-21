@@ -63,7 +63,7 @@
     "rxjs": "^7",
     "sharp": "^0.30.3",
     "short-unique-id": "^4.4.4",
-    "sqlite3": "^5.1.1",
+    "sqlite3": "^5.1.5",
     "swagger-ui-express": "^4.3.0",
     "typeorm": "^0.3.5"
   },
