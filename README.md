@@ -62,7 +62,7 @@ You can monitor all the important and sensitive places in your software, recordi
 <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-logs.PNG">
 
 ### ***Metrics***
-Metrics are a set of data taken from a given source, correlated with the time of their occurrence. In Traceo, metrics are used to record data about the software your application runs on, including CPU usage, memory usage, RSS, and more. .
+Metrics are a set of data taken from a given source, correlated with the time of their occurrence. In Traceo, metrics are used to record data about your application, like eq. CPU utilization, RAM usage or multiple browser performance information like CLS, FCP, FI etc.
 
 <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-metrics.PNG">
 
