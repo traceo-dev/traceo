@@ -18,6 +18,7 @@ export * from "./tsdb";
 export * from "./webSocket";
 export * from "./browser";
 export * from "./sdk";
+export * from "./kafka";
 
 export type DeepPartial<T> = T extends object
     ? {

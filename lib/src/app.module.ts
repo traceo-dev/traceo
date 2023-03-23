@@ -10,6 +10,7 @@ import { join } from "path";
 import { CommonModule } from "./common/common.module";
 import { ApiModule } from "./api/api.module";
 import { ProvidersModule } from "./providers/providers.module";
+import { ServicesModule } from "./common/services/services.module";
 
 const staticRootPath = () => {
   if (process.env.NODE_ENV === "production") {
@@ -29,6 +30,7 @@ const staticRootPath = () => {
     }),
     ScheduleModule.forRoot(),
     HttpModule,
+    ServicesModule,
     ServeStaticModule.forRoot({
       rootPath: staticRootPath(),
       serveStaticOptions: {
@@ -38,4 +40,4 @@ const staticRootPath = () => {
   ],
   controllers: [AppController]
 })
-export class AppModule {}
+export class AppModule { }
