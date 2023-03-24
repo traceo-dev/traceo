@@ -4,6 +4,7 @@ import { eventHandler } from "./handlers";
 import { Core } from "./core";
 import { KAFKA_TOPIC } from "@traceo/types";
 import { logger } from ".";
+import { ExceptionHandlers } from "@traceo-sdk/node";
 
 export const createKafkaClient = async (configs: RelayWorkerConfig) => {
     const kafka = new Kafka({
@@ -21,13 +22,10 @@ export const createKafkaClient = async (configs: RelayWorkerConfig) => {
 
     const kafkaTopics = await admin.listTopics()
 
-    const topicsToCreate = Object.values(KAFKA_TOPIC).filter((t) => !kafkaTopics.includes(t)).map((topic) => ({ topic }));
-    if (topicsToCreate.length > 0) {
-        await admin.createTopics({
-            waitForLeaders: true,
-            topics: topicsToCreate,
-        });
-        logger.log(`New Kafka topics: ${topicsToCreate}`);
+    const topics = Object.values(KAFKA_TOPIC).filter((t) => !kafkaTopics.includes(t)).map((topic) => ({ topic }));
+    if (topics.length > 0) {
+        await admin.createTopics({ topics: topics });
+        logger.log(`✔ Created kafka topics: ${topics}`);
     }
     await admin.disconnect()
 
@@ -57,14 +55,28 @@ export const startEventConsumer = async (
 
     const topics: string[] = Object.values(KAFKA_TOPIC).map((topic) => topic);
 
-    await consumer.connect();
-    await consumer.subscribe({ topics });
-    await consumer.run({
-        eachBatchAutoResolve: false,
-        autoCommitInterval: configs.KAFKA_AUTOCOMMIT_INTERVAL,
-        autoCommitThreshold: configs.KAFKA_AUTOCOMMIT_TRESHOLD,
-        eachMessage: async ({ message, topic }) => eventHandler[topic](message)
-    });
+    try {
+        await consumer.connect();
+        await consumer.subscribe({ topics });
+        await consumer.run({
+            eachBatchAutoResolve: false,
+            autoCommitInterval: configs.KAFKA_AUTOCOMMIT_INTERVAL,
+            autoCommitThreshold: configs.KAFKA_AUTOCOMMIT_TRESHOLD,
+            eachMessage: async ({ message, topic }) => {
+                await eventHandler({
+                    core,
+                    message,
+                    topic: topic as KAFKA_TOPIC
+                })
+            }
+        });
+    } catch (err) {
+        const message = `❌ Error while running kafka consumer: ${err}`;
+        logger.error(message);
+        ExceptionHandlers.catchException(message);
+        
+        throw err;
+    }
 
     return consumer;
 }
