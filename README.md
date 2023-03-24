@@ -68,7 +68,7 @@ Metrics are a set of data taken from a given source, correlated with the time of
 
 # Support
 
-Feel free to create Issues, Pull Request or Discussions.
+Feel free to create Issues or Pull Request.
 
 # License
 
