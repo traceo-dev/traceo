@@ -1,7 +1,6 @@
 import { ExceptionHandlers } from "@traceo-sdk/node";
 import { IIncident, IncidentEventPayload, IncidentStatus, SDK } from "@traceo/types";
 import dayjs from "dayjs";
-import { KafkaMessage } from "kafkajs";
 import { PoolClient } from "pg";
 import { DatabaseService } from "../database";
 import { Core, RelayEventType } from "../types";
@@ -9,19 +8,11 @@ import { logger } from "..";
 
 type IncidentEvent = RelayEventType<IncidentEventPayload>;
 
-export const handleIncidentEvent = async (core: Core, message: KafkaMessage) => {
+export const handleIncidentEvent = async (core: Core, message: string) => {
     logger.info("☢ Processing incoming incident event from kafka ...")
 
-    const kafkaMessage = message.value.toString();
-    const db = core.db;
-
-    if (!db) {
-        ExceptionHandlers.catchException(`❌ Database instance has not been initialized inside Core. Cannot process incoming events.`)
-        return;
-    }
-
     try {
-        const incidentEvent = JSON.parse(kafkaMessage) as IncidentEvent;
+        const incidentEvent = JSON.parse(message) as IncidentEvent;
         const event = await captureEvent(incidentEvent, core.db);
 
         return event;

@@ -5,22 +5,32 @@ import { logger } from "..";
 import { ExceptionHandlers } from "@traceo-sdk/node";
 import { handleLogsEvent } from "./process-logs-handler";
 import { Core } from "../types";
+import { handleRuntimeEvent } from "./process-runtime-handler";
 
 type EventHandlerType = {
     core: Core,
     topic: KAFKA_TOPIC,
     message: KafkaMessage
 }
+
+const handlers: Record<KAFKA_TOPIC, (core: Core, message: string) => Promise<void>> = {
+    [KAFKA_TOPIC.INCIDENT_EVENT]: handleIncidentEvent,
+    [KAFKA_TOPIC.LOGS_EVENT]: handleLogsEvent,
+    [KAFKA_TOPIC.RUNTIME_EVENT]: handleRuntimeEvent
+};
+
 export const eventHandler = async ({
     core,
     message,
     topic
 }: EventHandlerType): Promise<void> => {
+    const db = core.db;
+    const kafkaMessage = message.value.toString();
 
-    const handlers: Record<KAFKA_TOPIC, (core: Core, message: KafkaMessage) => Promise<void>> = {
-        [KAFKA_TOPIC.INCIDENT_EVENT]: handleIncidentEvent,
-        [KAFKA_TOPIC.LOGS_EVENT]: handleLogsEvent
-    };
+    if (!db) {
+        ExceptionHandlers.catchException(`❌ Database instance has not been initialized inside Core. Cannot process incoming events.`)
+        return;
+    }
 
     const handler = handlers[topic];
 
@@ -33,5 +43,5 @@ export const eventHandler = async ({
         return;
     }
 
-    await handler(core, message);
+    await handler(core, kafkaMessage);
 }

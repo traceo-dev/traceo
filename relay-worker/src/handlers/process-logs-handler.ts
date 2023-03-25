@@ -4,19 +4,13 @@ import { KafkaMessage } from "kafkajs";
 import { Core, RelayEventType } from "../types";
 import { logger } from "..";
 
-export const handleLogsEvent = async (core: Core, message: KafkaMessage): Promise<any> => {
+export const handleLogsEvent = async (core: Core, message: string): Promise<any> => {
     logger.info("☢ Processing incoming logs event from kafka ...")
 
-    const kafkaMessage = message.value.toString();
     const db = core.db;
 
-    if (!db) {
-        ExceptionHandlers.catchException(`❌ Database instance has not been initialized inside Core. Cannot process incoming events.`)
-        return;
-    }
-
     try {
-        const logsEvent = JSON.parse(kafkaMessage) as RelayEventType<LogEventPayload[]>;
+        const logsEvent = JSON.parse(message) as RelayEventType<LogEventPayload[]>;
 
         const payload = logsEvent.payload;
         const app_id = logsEvent.appId;

@@ -2,7 +2,7 @@ import { Pool, PoolClient, QueryResult } from "pg";
 import { RelayWorkerConfig } from "./config";
 import { ExceptionHandlers } from "@traceo-sdk/node";
 import { logger } from ".";
-import { IApplication, IEvent, IIncident, ILog, LogEventPayload } from "@traceo/types";
+import { Dictionary, IApplication, IEvent, IIncident, LogEventPayload, SafeReturnType } from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
 
@@ -174,5 +174,10 @@ export class DatabaseService {
         const query = 'INSERT INTO log (level, message, timestamp, receive_timestamp, created_at, application_id, resources)';
         const rowsCount = await this.postgrseBulkInsert(query, values);
         return rowsCount;
+    }
+
+    public async insertRuntimeConfigs({ config, appId }: { config: Dictionary<SafeReturnType>, appId: string }): Promise<any> {
+        const insertedRows = await this.postgresQuery<Dictionary<SafeReturnType>>(`UPDATE application SET runtime_config = '${JSON.stringify(config)}' WHERE id = '${appId}'`)
+        return insertedRows.rows[0];
     }
 }
