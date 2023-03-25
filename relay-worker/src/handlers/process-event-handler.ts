@@ -3,15 +3,11 @@ import { IIncident, IncidentEventPayload, IncidentStatus, SDK } from "@traceo/ty
 import dayjs from "dayjs";
 import { KafkaMessage } from "kafkajs";
 import { PoolClient } from "pg";
-import { DatabaseService } from "src/database";
+import { DatabaseService } from "../database";
+import { Core, RelayEventType } from "../types";
 import { logger } from "..";
-import { Core } from "../core";
 
-type IncidentEvent = {
-    appId: string;
-    sdk: string | SDK;
-    payload: IncidentEventPayload
-};
+type IncidentEvent = RelayEventType<IncidentEventPayload>;
 
 export const handleIncidentEvent = async (core: Core, message: KafkaMessage) => {
     logger.info("☢ Processing incoming incident event from kafka ...")
@@ -53,10 +49,10 @@ const captureEvent = async ({
             return;
         }
 
-        const incident = await db.getIncident({ 
-            name: payload["type"], 
-            message: payload.message, 
-            appId: app_id 
+        const incident = await db.getIncident({
+            name: payload["type"],
+            message: payload.message,
+            appId: app_id
         }, client);
 
         if (!incident) {
@@ -75,8 +71,6 @@ const captureEvent = async ({
 
             return;
         }
-
-        logger.info(`☢ Creating new event for incident: ${incident.id}`);
 
         const event = await db.createEvent({
             date: now,

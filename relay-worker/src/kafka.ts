@@ -1,10 +1,10 @@
 import { Consumer, Kafka } from "kafkajs";
 import { RelayWorkerConfig } from "./config";
 import { eventHandler } from "./handlers";
-import { Core } from "./core";
 import { KAFKA_TOPIC } from "@traceo/types";
 import { logger } from ".";
 import { ExceptionHandlers } from "@traceo-sdk/node";
+import { Core } from "./types";
 
 export const createKafkaClient = async (configs: RelayWorkerConfig) => {
     const kafka = new Kafka({

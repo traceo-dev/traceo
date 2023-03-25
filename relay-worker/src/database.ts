@@ -2,7 +2,9 @@ import { Pool, PoolClient, QueryResult } from "pg";
 import { RelayWorkerConfig } from "./config";
 import { ExceptionHandlers } from "@traceo-sdk/node";
 import { logger } from ".";
-import { IApplication, IEvent, IIncident } from "@traceo/types";
+import { IApplication, IEvent, IIncident, ILog, LogEventPayload } from "@traceo/types";
+import dayjs from "dayjs";
+import format from "pg-format";
 
 export const createPostgresPool = (configs: RelayWorkerConfig): Pool => {
     const pgPool = new Pool({
@@ -30,8 +32,24 @@ export class DatabaseService {
         this.client = postgres;
     }
 
-    public async query<R>(queryString: string, values?: (string | number | undefined | {})[]): Promise<QueryResult<R>> {
+    /**
+     * Make SQL query to postgres db.
+     * Remember to made reference to values in query by using $1, $2
+     * and the appropriate order of setting the values relative to the fields.
+     * 
+     * eq. INSERT INTO account (name, email) VALUES ($1, $2)
+     */
+    public async postgresQuery<R>(queryString: string, values?: (string | number | undefined | {})[]): Promise<QueryResult<R>> {
         return await this.client.query(queryString, values)
+    }
+
+    /**
+     * Bulk insert with pg-format library to parse query. %L char is used to inject values
+     * which should be passed in ['a', 1, 'b', 2] format.
+     */
+    public async postgrseBulkInsert<T>(query: string, values: (string | number | undefined)[][]): Promise<number> {
+        const insertedRows = await this.postgresQuery<T>(format(`${query} VALUES %L`, values));
+        return insertedRows.rowCount;
     }
 
     public async postgresTransaction<T>(
@@ -138,5 +156,23 @@ export class DatabaseService {
         await client.query(`UPDATE incident SET last_error = '${date}' WHERE id = '${incident.id}'`)
 
         return result.rows[0];
+    }
+
+    public async insertBulkLogs({ logs, appId }: { logs: LogEventPayload[], appId: string }): Promise<number> {
+        const now = dayjs().unix();
+
+        const values = logs.map(({ level, message, resources, timestamp, unix }) => [
+            level,
+            message,
+            timestamp,
+            unix,
+            now,
+            appId,
+            JSON.stringify(resources),
+        ]);
+
+        const query = 'INSERT INTO log (level, message, timestamp, receive_timestamp, created_at, application_id, resources)';
+        const rowsCount = await this.postgrseBulkInsert(query, values);
+        return rowsCount;
     }
 }
