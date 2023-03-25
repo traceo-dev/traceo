@@ -9,8 +9,8 @@ import { KafkaConfig } from 'kafkajs';
             provide: KafkaService,
             useFactory: async () => {
                 const kafkaConfig: KafkaConfig = {
-                    clientId: 'traceo-kafka',
-                    brokers: ['localhost:29092'],
+                    clientId: process.env.KAFKA_CLIENT_ID,
+                    brokers: process.env.KAFKA_BROKERS.split(","),
                 };
                 const kafkaService = new KafkaService(kafkaConfig);
                 await kafkaService.connect();
