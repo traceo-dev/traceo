@@ -3,25 +3,28 @@ import { LocalStorage } from "../../../lib/localStorage/types";
 import dateUtils from "../../../utils/date";
 import { statisticUtils } from "../../../utils/statistics";
 import { normalizePlotData } from "../utils";
-import { ErrorDetails } from "@traceo/types";
+import { IEvent } from "@traceo/types";
 import { FC, useMemo } from "react";
 import { BaseChart } from "../BaseChart";
 import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
+import { useRequest } from "src/core/hooks/useRequest";
 
 interface Props {
-  errors: ErrorDetails[];
+  id: string;
 }
 
 const PLOT_COLOR = "#04785A";
 
-const IncidentsListChart: FC<Props> = ({ errors }) => {
+const IncidentsListChart: FC<Props> = ({ id }) => {
   const plotType = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
 
+  const { data: events } = useRequest<IEvent[]>({ url: `/api/event/incident/${id}`});
+
   const dataSource = useMemo(() => {
-    return normalizePlotData(statisticUtils.parseIncidentsTablePlotData(errors));
-  }, [errors]);
+    return normalizePlotData(statisticUtils.parseIncidentsTablePlotData(events));
+  }, [events]);
 
   return (
     <BaseChart

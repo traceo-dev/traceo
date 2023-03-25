@@ -1,3 +1,5 @@
+import { Dictionary } from ".";
+
 export enum DatasourceProvider {
   INLFUX_DB = "influxdb"
 }
@@ -10,5 +12,5 @@ export interface IDatasource {
   name: string;
   type: DatasourceProvider;
   url: string;
-  details: { [key: string]: any };
+  details: Dictionary<string | number | undefined>;
 }

@@ -1,8 +1,6 @@
 import { AlertOutlined, BarChartOutlined, CompassOutlined } from "@ant-design/icons";
-import { IApplication, SDK } from "@traceo/types";
+import { IApplication, BROWSER_SDK } from "@traceo/types";
 import { MenuRoute } from "../../../../core/types/navigation";
-
-const BROWSER_SDKS = [SDK.REACT, SDK.VUE];
 
 export const buildAppNavbar = (application: IApplication): MenuRoute[] => {
   const sdk = application.sdk;
@@ -21,7 +19,7 @@ export const buildAppNavbar = (application: IApplication): MenuRoute[] => {
     }
   ];
 
-  if (!BROWSER_SDKS.includes(sdk)) {
+  if (!BROWSER_SDK.includes(sdk)) {
     navItems.splice(2, 0, {
       key: "explore",
       href: "/app/:id/explore/logs",

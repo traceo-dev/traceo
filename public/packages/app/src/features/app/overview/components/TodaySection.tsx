@@ -24,9 +24,9 @@ export const TodaySection = () => {
     }
   });
 
-  const lastIncidentAt =
-    application?.lastIncidentAt && dateUtils.isTodayDate(application?.lastIncidentAt)
-      ? dateUtils.formatDate(application?.lastIncidentAt, "HH:mm")
+  const lastEventAt =
+    application?.lastEventAt && dateUtils.isTodayDate(application?.lastEventAt)
+      ? dateUtils.formatDate(application?.lastEventAt, "HH:mm")
       : "--:--";
 
   return (
@@ -59,7 +59,7 @@ export const TodaySection = () => {
             <Card className="h-full" title="Last seen">
               <ConditionalWrapper isLoading={isLoading}>
                 <Typography size="xxl" weight="semibold" className="text-center">
-                  {lastIncidentAt}
+                  {lastEventAt}
                 </Typography>
               </ConditionalWrapper>
             </Card>

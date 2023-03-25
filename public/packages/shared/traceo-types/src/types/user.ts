@@ -25,7 +25,5 @@ export interface IUser {
   applications: IMember[];
   isPasswordUpdated: boolean;
   lastActiveAt?: number;
-  // active: boolean;
   createdAt?: number;
-  // about: string;
 }

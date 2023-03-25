@@ -1,6 +1,6 @@
 import { MinusOutlined, PlusOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
-import { LogLevel, TraceoLog } from "@traceo/types";
+import { LogLevel, LogEventPayload } from "@traceo/types";
 import { Card, Space, Tooltip } from "@traceo/ui";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -44,7 +44,7 @@ export const LogsList = () => {
   );
 };
 
-const LogRow = (log: TraceoLog) => {
+const LogRow = (log: LogEventPayload) => {
   const [isSelected, setSelected] = useState<boolean>(false);
 
   const toggleIcon = (is: boolean) =>

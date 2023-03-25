@@ -17,6 +17,7 @@ export class IncidentsQueryService extends BaseQueryService<Incident, IncidentQu
       .where("incident.id = :id", { id })
       .leftJoin("incident.assigned", "assigned")
       .loadRelationCountAndMap("incident.commentsCount", "incident.comments")
+      .loadRelationCountAndMap("incident.eventsCount", "incident.events")
       .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.gravatar"])
       .getOne();
   }
@@ -31,6 +32,7 @@ export class IncidentsQueryService extends BaseQueryService<Incident, IncidentQu
       .where("incident.application_id = :appId", { appId })
       .leftJoin("incident.assigned", "assigned")
       .loadRelationCountAndMap("incident.commentsCount", "incident.comments")
+      .loadRelationCountAndMap("incident.eventsCount", "incident.events")
       .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.gravatar"]);
 
     this.commonQuery(builder, query);
@@ -43,7 +45,7 @@ export class IncidentsQueryService extends BaseQueryService<Incident, IncidentQu
   }
 
   public selectedColumns(): string[] {
-    return ["id", "status", "type", "message", "lastError", "errorsCount", "errorsDetails"];
+    return ["id", "status", "name", "message", "lastEventAt"];
   }
 
   public commonQuery(builder: SelectQueryBuilder<Incident>, query: IncidentQueryDto) {
@@ -59,7 +61,7 @@ export class IncidentsQueryService extends BaseQueryService<Incident, IncidentQu
           qb.where("LOWER(incident.message) LIKE LOWER(:search)", {
             search: `%${search}%`
           })
-            .orWhere("LOWER(incident.type) LIKE LOWER(:search)", {
+            .orWhere("LOWER(incident.name) LIKE LOWER(:search)", {
               search: `%${search}%`
             })
             .orWhere("LOWER(incident.status) LIKE LOWER(:search)", {

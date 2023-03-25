@@ -63,13 +63,13 @@ export const RecentIncidentsSection = () => {
                   </Tooltip>
                   <Space direction="vertical" className="pl-3">
                     <Typography weight="semibold" className="text-primary">
-                      {item.type}
+                      {item.name}
                     </Typography>
                     <Typography size="xs">{item.message}</Typography>
                   </Space>
                 </Space>
                 <Space>
-                  <Typography size="xs">{dateUtils.fromNow(item.lastError)}</Typography>
+                  <Typography size="xs">{dateUtils.fromNow(item.lastEventAt)}</Typography>
                   <RightOutlined className="cursor-pointer text-gray-800" />
                 </Space>
               </Space>

@@ -21,7 +21,7 @@ const RuntimePage = () => {
           }
         >
           <Descriptions>
-            {Object.entries(application?.runtimeConfig?.data || {}).map(
+            {Object.entries(application?.runtimeConfig || {}).map(
               ([settingName, settingValue], index) => (
                 <>
                   <DescriptionRow

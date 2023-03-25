@@ -32,7 +32,7 @@ export class InfluxService extends BaseProviderService {
   }
 
   public async checkProviderConnection(datasource: Datasource): Promise<DataSourceConnStatus> {
-    const details = datasource.details as IInfluxConfigDto;
+    const details = datasource.details as unknown as IInfluxConfigDto;
 
     if (!details?.bucket || !details?.org || !datasource?.url) {
       const message = "Missing required fields. Check your configuration.";
@@ -66,7 +66,7 @@ export class InfluxService extends BaseProviderService {
 
   public async writeData(datasource: Datasource, data: ISDKMetrics): Promise<void> {
     const url = datasource?.url;
-    const { bucket, token, org } = datasource.details as IInfluxConfigDto;
+    const { bucket, token, org } = datasource.details as unknown as IInfluxConfigDto;
 
     if (!url) {
       this.logger.error(`InfluxDB [${this.queryData.name}] URL are required!`);
@@ -113,7 +113,7 @@ export class InfluxService extends BaseProviderService {
     dtoQuery: MetricQueryDto
   ): Promise<MetricsResponse[]> {
     const url = datasource?.url;
-    const { token, org, bucket } = datasource.details as IInfluxConfigDto;
+    const { token, org, bucket } = datasource.details as unknown as IInfluxConfigDto;
     const { from, to, fields } = dtoQuery;
 
     if (!url || !token) {

@@ -53,11 +53,11 @@ export const InfoSection = () => {
       </FieldLabel>
       <FieldLabel label="Last seen">
         <Typography size="sm" weight="normal">
-          {dateUtils.formatDate(incident?.lastError, "DD MMM YYYY, HH:mm")}
+          {dateUtils.formatDate(incident?.lastEventAt, "DD MMM YYYY, HH:mm")}
         </Typography>
       </FieldLabel>
       <FieldLabel label="Total errors">
-        <Typography weight="normal">{incident?.errorsCount}</Typography>
+        <Typography weight="normal">{incident?.eventsCount}</Typography>
       </FieldLabel>
     </Card>
   );

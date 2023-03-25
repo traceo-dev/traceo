@@ -39,11 +39,11 @@ export const IncidentPageWrapper = ({ children }) => {
       icon: <StockOutlined />
     },
     {
-      href: "/app/:id/incidents/:iid/errors",
-      label: `Errors`,
+      href: "/app/:id/incidents/:iid/events",
+      label: "Events",
       badge: (
         <div className="bg-yellow-600 text-black text-xs border rounded-full px-2 font-semibold">
-          {incident.errorsCount}
+          {incident.eventsCount}
         </div>
       ),
       key: "errors",
@@ -78,7 +78,7 @@ export const IncidentPageWrapper = ({ children }) => {
               <span>INCIDENTS</span>
             </div>
             <div className="flex flex-col">
-              <span>{incident.type}</span>
+              <span>{incident.name}</span>
               <div className="flex flex-row items-center pt-2 text-xs">
                 <span className="text-sm mr-1">{mapHeaderStatusIcon[incident.status]}</span>
                 <span className="text-2xs">{mapIncidentStatus[incident.status]}</span>

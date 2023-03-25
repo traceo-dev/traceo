@@ -15,8 +15,8 @@ export const AppCard: FC<Props> = ({ app }) => {
     navigate(`/app/${app.appId}/overview`);
   };
 
-  const lastError = app?.lastIncidentAt
-    ? "Last error " + dateUtils.fromNow(app?.lastIncidentAt)
+  const lastEventAt = app?.lastEventAt
+    ? "Last error " + dateUtils.fromNow(app?.lastEventAt)
     : "-- : --";
 
   return (
@@ -30,7 +30,7 @@ export const AppCard: FC<Props> = ({ app }) => {
           <Typography className="cursor-pointer" weight="semibold">
             {app.name}
           </Typography>
-          <span className="text-xs text-primary">{lastError}</span>
+          <span className="text-xs text-primary">{lastEventAt}</span>
         </div>
       </div>
 

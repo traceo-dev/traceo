@@ -17,6 +17,16 @@ export class ApplicationQueryService extends BaseQueryService<Application, BaseD
     this.logger = new Logger(ApplicationQueryService.name);
   }
 
+  public override async getApiDto(id: string): Promise<ApiResponse<Application>> {
+    const resp = await this.entityManager.getRepository(Application)
+      .createQueryBuilder('application')
+      .where('application.id = :id', { id })
+      .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
+      .getOne();
+
+    return new ApiResponse("success", undefined, resp);
+  }
+
   public get builderAlias(): string {
     return "application";
   }
@@ -44,13 +54,14 @@ export class ApplicationQueryService extends BaseQueryService<Application, BaseD
     builder
       .leftJoinAndSelect("application.owner", "owner")
       .loadRelationCountAndMap("application.membersCount", "application.members")
+      .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
       .addSelect("owner.name", "owner.email");
 
     return builder;
   }
 
   public selectedColumns(): string[] {
-    return ["id", "name", "gravatar", "lastIncidentAt", "incidentsCount", "isIntegrated"];
+    return ["id", "name", "gravatar", "lastEventAt", "incidentsCount", "isIntegrated"];
   }
 
   public async getApplicationLogs(query: ApplicationLogsQuery): Promise<ApiResponse<ILog[]>> {
@@ -68,7 +79,7 @@ export class ApplicationQueryService extends BaseQueryService<Application, BaseD
       const response = await this.entityManager
         .getRepository(Log)
         .createQueryBuilder("log")
-        .where("log.applicationId = :id", { id })
+        .where("log.application_id = :id", { id })
         .andWhere("log.receiveTimestamp > :startDate", { startDate })
         .andWhere("log.receiveTimestamp < :endDate", { endDate })
         .andWhere("log.level in (:...levels)", { levels: query.levels || [] })

@@ -39,6 +39,7 @@ export class User extends BaseEntity implements IUser {
   })
   applications: IMember[];
 
+  // incidents assigned to this user
   @OneToMany(() => Incident, (incident) => incident.assigned)
   incidents: Incident[];
 

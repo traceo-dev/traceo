@@ -3,7 +3,7 @@ import { User } from "./user.entity";
 import { Member } from "./member.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IApplication, ISecurity, IRuntime, IUser, IMember, IIncident, SDK } from "@traceo/types";
+import { IApplication, ISecurity, IUser, IMember, IIncident, SDK, IMetric, Dictionary } from "@traceo/types";
 import { Metric } from "./metric.entity";
 
 @Entity()
@@ -37,9 +37,9 @@ export class Application extends BaseEntity implements IApplication {
 
   @Column({
     nullable: true,
-    name: "last_incident_at"
+    name: "last_event_at"
   })
-  lastIncidentAt?: number;
+  lastEventAt?: number;
 
   @Column({
     nullable: false,
@@ -70,19 +70,11 @@ export class Application extends BaseEntity implements IApplication {
   incidentsCount: number = 0;
 
   @Column({
-    type: "bigint",
-    nullable: false,
-    name: "errors_count",
-    default: 0
-  })
-  errorsCount: number = 0;
-
-  @Column({
     type: "simple-json",
     nullable: true,
     name: "runtime_config"
   })
-  runtimeConfig?: IRuntime;
+  runtimeConfig?: Dictionary<string | number | undefined | null>;
 
   @Column({
     nullable: true,
@@ -95,5 +87,5 @@ export class Application extends BaseEntity implements IApplication {
     onUpdate: "CASCADE",
     onDelete: "CASCADE"
   })
-  metrics?: Metric[];
+  metrics?: IMetric[];
 }

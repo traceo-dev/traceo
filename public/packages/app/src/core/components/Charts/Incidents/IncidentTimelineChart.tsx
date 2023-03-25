@@ -3,7 +3,7 @@ import { LocalStorage } from "../../../lib/localStorage/types";
 import dateUtils from "../../../utils/date";
 import { statisticUtils } from "../../../utils/statistics";
 import { normalizePlotData } from "../utils";
-import { ErrorDetails } from "@traceo/types";
+import { ErrorDetails, IEvent } from "@traceo/types";
 import { FC, useMemo } from "react";
 import { BaseChart } from "../BaseChart";
 import { BaseTooltip } from "../BaseTooltip";
@@ -11,17 +11,17 @@ import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 
 interface Props {
-  errors: ErrorDetails[];
+  events: IEvent[];
 }
 
 const PLOT_COLOR = "#04785A";
 
-const IncidentTimelineChart: FC<Props> = ({ errors }) => {
+const IncidentTimelineChart: FC<Props> = ({ events }) => {
   const plotType = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
 
   const dataSource = useMemo(() => {
-    return normalizePlotData(statisticUtils.parseIncidentsTablePlotData(errors));
-  }, [errors]);
+    return normalizePlotData(statisticUtils.parseIncidentsTablePlotData(events));
+  }, [events]);
 
   return (
     <BaseChart

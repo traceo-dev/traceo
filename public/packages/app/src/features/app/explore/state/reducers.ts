@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { TraceoLog } from "@traceo/types";
+import { LogEventPayload } from "@traceo/types";
 
 export interface LogsState {
-  logs: TraceoLog[];
+  logs: LogEventPayload[];
   hasFetched: boolean;
 }
 
@@ -15,7 +15,7 @@ const logsSlice = createSlice({
   name: "logs",
   initialState: initialState,
   reducers: {
-    logsLoaded: (state, action: PayloadAction<TraceoLog[]>): LogsState => ({
+    logsLoaded: (state, action: PayloadAction<LogEventPayload[]>): LogsState => ({
       ...state,
       hasFetched: true,
       logs: action.payload
