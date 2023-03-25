@@ -46,7 +46,7 @@ export const IncidentConversationPage = () => {
             <AlertOutlined className="text-3xl pr-2 text-red-700" />
             <Space className="w-full gap-0" direction="vertical">
               <Typography size="xxl" weight="normal">
-                {incident?.type}
+                {incident?.name}
               </Typography>
               <Typography weight="normal">{incident?.message}</Typography>
             </Space>

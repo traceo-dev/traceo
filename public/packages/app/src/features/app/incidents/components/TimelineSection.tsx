@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import IncidentTimelineChart from "../../../../core/components/Charts/Incidents/IncidentTimelineChart";
 
 export const TimelineSection = () => {
-  const { incident } = useSelector((state: StoreState) => state.incident);
+  const { incident, events } = useSelector((state: StoreState) => state.incident);
   const { application } = useSelector((state: StoreState) => state.application);
 
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export const TimelineSection = () => {
         </Link>
       }
     >
-      <IncidentTimelineChart errors={incident?.errorsDetails} />
+      <IncidentTimelineChart events={events} />
     </Card>
   );
 };

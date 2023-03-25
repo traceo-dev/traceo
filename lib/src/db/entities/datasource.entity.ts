@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { BaseEntity } from "../../common/base/base.entity";
-import { DatasourceProvider, IDatasource } from "@traceo/types";
+import { DatasourceProvider, Dictionary, IDatasource } from "@traceo/types";
 
 @Entity()
 export class Datasource extends BaseEntity implements IDatasource {
@@ -36,5 +36,5 @@ export class Datasource extends BaseEntity implements IDatasource {
     type: "simple-json",
     nullable: true
   })
-  details: { [key: string]: any };
+  details: Dictionary<string | number | undefined>;
 }

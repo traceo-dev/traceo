@@ -102,17 +102,15 @@ export class MemberQueryService {
 
       const appsMember = await queryBuilder
         .addSelect(["owner.name", "owner.email", "owner.id", "owner.gravatar"])
-        .orderBy(`application.${sortBy || "lastIncidentAt"}`, order, "NULLS LAST")
+        .orderBy(`application.${sortBy || "lastEventAt"}`, order, "NULLS LAST")
         .skip((page - 1) * take)
         .limit(take)
         .getMany();
 
       const response = appsMember.map((member) => ({
         ...member.application,
-        //Member id
-        id: member.id,
-        //Application id
-        appId: member.application.id,
+        id: member.id, //member id
+        appId: member.application.id, //application id
         role: member.role
       }));
 

@@ -41,7 +41,7 @@ export const StacktraceSection = () => {
   return (
     <Card title="Stack Trace" className="h-auto">
       <Alert
-        title={<span className="text-white">{incident.type}</span>}
+        title={<span className="text-white">{incident.name}</span>}
         message={incident.message}
         type="error"
       />

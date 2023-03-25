@@ -1,5 +1,5 @@
 import dateUtils from "./date";
-import { LogLevel, TraceoLog, ErrorDetails, DailyStats } from "@traceo/types";
+import { LogLevel, LogEventPayload, ErrorDetails, DailyStats } from "@traceo/types";
 import dayjs from "dayjs";
 
 /**
@@ -65,7 +65,7 @@ const parseIncidentsAnalyticsTodayPlotData = (errorsDetails: ErrorDetails[]) => 
   };
 };
 
-const parseLogs = (range: [number, number], logs: TraceoLog[]) => {
+const parseLogs = (range: [number, number], logs: LogEventPayload[]) => {
   let date = range[0];
   const endPlotDate = range[1];
 

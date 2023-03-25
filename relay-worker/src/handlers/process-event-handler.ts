@@ -66,8 +66,9 @@ const captureEvent = async ({
         const event = await db.createEvent({
             date: now,
             incident,
+            application: app,
 
-            browser: payload?.browser || undefined
+            browser: payload?.browser || undefined,
         }, client);
 
 

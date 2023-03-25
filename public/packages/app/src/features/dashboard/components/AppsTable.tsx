@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",
   CREATED_AT = "createdAt",
-  LAST_ERROR = "lastIncidentAt"
+  LAST_ERROR = "lastEventAt"
 }
 
 export const mapAppSortLabel: Record<AppsSortBy, string> = {

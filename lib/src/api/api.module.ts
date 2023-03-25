@@ -18,8 +18,6 @@ import { MetricsController } from "./metrics/metrics.controller";
 import { MetricsModule } from "./metrics/metrics.module";
 import { StatisticsController } from "./statistics/statistics.controller";
 import { StatisticsModule } from "./statistics/statistics.module";
-import { WorkerController } from "./worker/worker.controller";
-import { WorkerModule } from "./worker/worker.module";
 import { UsersController } from "./user/users.controller";
 import { ApplicationsController } from "./application/applications.controller";
 import { IncidentCommentsModule } from "./incidents/incident-comments/incident-comments.module";
@@ -27,6 +25,9 @@ import { RequestContextMiddleware } from "../common/middlewares/request-context/
 import { AuthController } from "../auth/auth.controller";
 import { ViewController } from "./view/view.controller";
 import { ViewModule } from "./view/view.module";
+import { CaptureController } from "./capture/capture.controller";
+import { CaptureModule } from "./capture/capture.module";
+import { EventModule } from './event/event.module';
 
 const apiControllers = [
   UserController,
@@ -38,10 +39,10 @@ const apiControllers = [
   IncidentCommentsController,
   IncidentsController,
   StatisticsController,
-  WorkerController,
   MetricsController,
   AuthController,
-  ViewController
+  ViewController,
+  CaptureController
 ];
 @Module({
   imports: [
@@ -54,10 +55,11 @@ const apiControllers = [
     IncidentsModule,
     IncidentCommentsModule,
     StatisticsModule,
-    WorkerModule,
     HttpModule,
     MetricsModule,
-    ViewModule
+    ViewModule,
+    CaptureModule,
+    EventModule
   ],
   controllers: apiControllers,
   providers: [InfluxService]

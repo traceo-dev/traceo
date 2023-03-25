@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IComment, IIncident } from "@traceo/types";
+import { IComment, IEvent, IIncident } from "@traceo/types";
+import { Action } from "history";
 
 export interface IncidentsState {
   incidents: IIncident[];
@@ -31,14 +32,18 @@ export interface IncidentState {
   incident: IIncident;
   hasFetched: boolean;
   hasCommentsFetched: boolean;
+  hasEventsFetched: boolean;
   comments: IComment[];
+  events: IEvent[];
 }
 
 const initialIncidentState: IncidentState = {
   incident: {} as IIncident,
   hasFetched: false,
   hasCommentsFetched: false,
-  comments: [] as IComment[]
+  hasEventsFetched: false,
+  comments: [] as IComment[],
+  events: [] as IEvent[]
 };
 
 const incidentSlice = createSlice({
@@ -55,12 +60,21 @@ const incidentSlice = createSlice({
       hasCommentsFetched: true,
       comments: action.payload
     }),
+    incidentEventsLoaded: (state, action: PayloadAction<IEvent[]>): IncidentState => ({
+      ...state,
+      hasEventsFetched: true,
+      events: action.payload
+    }),
     resetIncidentState: (): IncidentState => ({ ...initialIncidentState })
   }
 });
 
-export const { incidentLoaded, incidentCommentsLoaded, resetIncidentState } =
-  incidentSlice.actions;
+export const {
+  incidentLoaded,
+  incidentCommentsLoaded,
+  resetIncidentState,
+  incidentEventsLoaded
+} = incidentSlice.actions;
 export const incidentReducer = incidentSlice.reducer;
 
 export default {

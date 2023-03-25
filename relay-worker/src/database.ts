@@ -84,6 +84,10 @@ export class DatabaseService {
         return result.rows[0];
     }
 
+    private async updateApplicationLastEventAt(appId: string, date: number, client: PoolClient = this.client): Promise<void> {
+        await client.query(`UPDATE application SET last_event_at = '${date}' WHERE id = '${appId}'`)
+    }
+
     public async createIncident({
         sdk, status, stack, name, message, createdAt, application, platform, traces
     }: Partial<IIncident>, {
@@ -108,7 +112,7 @@ export class DatabaseService {
                 name, 
                 message, 
                 created_at,
-                last_error,
+                last_event_at,
                 application_id, 
                 platform
             )
@@ -127,11 +131,12 @@ export class DatabaseService {
             platform
         ]);
 
-        await client.query(`UPDATE application SET last_incident_at = '${date}' WHERE id = '${application.id}'`);
+        await this.updateApplicationLastEventAt(application.id, date);
 
         const insertedRow = result.rows[0];
         await this.createEvent({
             incident: insertedRow,
+            application,
             date,
             browser
         }, client);
@@ -139,21 +144,24 @@ export class DatabaseService {
         return insertedRow;
     }
 
-    public async createEvent({ date, browser, incident }: Partial<IEvent>, client: PoolClient = this.client): Promise<IEvent> {
+    public async createEvent({ date, browser, incident, application }: Partial<IEvent>, client: PoolClient = this.client): Promise<IEvent> {
         const result = await client.query<IEvent>(`
             INSERT INTO event (
                 date,
                 incident_id,
+                application_id,
                 browser
-            ) VALUES ($1, $2, $3) 
+            ) VALUES ($1, $2, $3, $4) 
             RETURNING *        
         `, [
             date,
             incident.id,
+            application.id,
             browser
         ]);
 
-        await client.query(`UPDATE incident SET last_error = '${date}' WHERE id = '${incident.id}'`)
+        await client.query(`UPDATE incident SET last_event_at = '${date}' WHERE id = '${incident.id}'`)
+        await this.updateApplicationLastEventAt(application.id, date);
 
         return result.rows[0];
     }

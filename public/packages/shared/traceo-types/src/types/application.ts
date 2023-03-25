@@ -1,3 +1,4 @@
+import { Dictionary } from ".";
 import { SortOrder } from "./api";
 import { DatasourceProvider } from "./datasource";
 import { MemberRole } from "./member";
@@ -9,24 +10,25 @@ export interface IApplication {
   id?: string;
   name: string;
   sdk: SDK;
+
   owner: Owner;
   gravatar?: string;
-  lastIncidentAt?: number;
-  incidentsCount: number;
-  errorsCount: number;
-  membersCount: number;
+  
+  lastEventAt?: number;
   createdAt?: number;
   updatedAt?: number;
+
+  incidentsCount: number;
+  membersCount: number;
+
   tsdbDatasource?: string;
   isIntegrated: boolean;
-  runtimeConfig?: {
-    data: { [key: string]: any };
-  };
-  security?: {
-    apiKey: string;
-    lastUpdate: number;
-    generatedBy: string;
-  };
+
+// field only for server-side SDKs
+// overrided after every application startup
+  runtimeConfig?: Dictionary<string | number | undefined | null>;
+
+  security?: ISecurity;
 }
 
 export interface ISecurity {

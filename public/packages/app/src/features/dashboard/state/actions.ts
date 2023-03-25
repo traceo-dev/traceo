@@ -9,7 +9,7 @@ export const loadApplications = (query?: SearchApplicationQueryParams): ThunkRes
     if (!query) {
       query = {
         order: "DESC",
-        sortBy: "lastIncidentAt"
+        sortBy: "lastEventAt"
       };
     }
 

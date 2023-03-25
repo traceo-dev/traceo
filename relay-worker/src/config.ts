@@ -32,9 +32,9 @@ const defaultConfig = (): RelayWorkerConfig => {
         PG_PASS: "postgres",
         PG_PORT: 5432,
         PG_USER: "postgres",
-        TRACEO_API_KEY: "b688d77a-49b6-47f3-80b4-b440ce48abf8",
-        TRACEO_APP_ID: "9zYbDNsAjJyWXqZ",
-        TRACEO_HOST: "http://ec2-3-71-18-115.eu-central-1.compute.amazonaws.com"
+        TRACEO_API_KEY: "e7a11d2d-d45b-4d23-a0be-ac79c435c5b3",
+        TRACEO_APP_ID: "Pkh1qXCPj7jaz1D",
+        TRACEO_HOST: "http://localhost:3000"
     }
 }
 

@@ -40,7 +40,7 @@ export class Log extends BaseEntity implements ILog {
     onDelete: "CASCADE"
   })
   @JoinColumn({
-    name: "applicationId"
+    name: "application_id"
   })
   application: IApplication;
 }

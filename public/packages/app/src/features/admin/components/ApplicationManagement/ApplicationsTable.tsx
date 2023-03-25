@@ -1,5 +1,5 @@
 import dateUtils from "../../../../core/utils/date";
-import { BugOutlined, TeamOutlined, WarningOutlined } from "@ant-design/icons";
+import { BugOutlined, TeamOutlined } from "@ant-design/icons";
 import { IApplication } from "@traceo/types";
 import { Avatar, Table, TableColumn } from "@traceo/ui";
 import { FC } from "react";
@@ -24,20 +24,13 @@ export const ApplicationsTable: FC<Props> = ({ applications, hasFetched }) => {
       </TableColumn>
       <TableColumn name="Name" value="name" />
       <TableColumn name="ID" value="id" />
-      <TableColumn name="Last error">
-        {({ item }) => dateUtils.fromNow(item?.lastIncidentAt)}
+      <TableColumn name="Last event">
+        {({ item }) => dateUtils.fromNow(item?.lastEventAt)}
       </TableColumn>
       <TableColumn name="Incidents count">
         {({ item }) => (
           <span>
             <BugOutlined className="pr-2" /> {item.incidentsCount}
-          </span>
-        )}
-      </TableColumn>
-      <TableColumn name="Errors count">
-        {({ item }) => (
-          <span>
-            <WarningOutlined className="pr-2" /> {item.errorsCount}
           </span>
         )}
       </TableColumn>

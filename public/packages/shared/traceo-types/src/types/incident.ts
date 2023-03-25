@@ -1,30 +1,9 @@
 import { IApplication } from "./application";
 import { BrowserInfoType } from "./browser";
 import { IComment } from "./comment";
+import { IEvent } from "./event";
 import { SDK } from "./sdk";
 import { IUser } from "./user";
-
-export type SDKIncidentPayload = IncomingBrowserIncidentType | IncomingNodeIncidentType;
-
-export type RequestMethodType = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-
-export enum CatchType {
-  /**
-   * Exception handled by middleware, eq. Middleware.errorMiddleware()
-   */
-  MIDDLEWARE = "middleware",
-
-  /**
-   * Exception handled by function catchException() in interceptors or try/catch clause
-   */
-  INTERNAL = "internal"
-}
-
-export enum ExceptionPriority {
-  MINOR = "minor",
-  IMPORTANT = "important",
-  CRITICAL = "critical"
-}
 
 export enum IncidentStatus {
   RESOLVED = "resolved",
@@ -36,47 +15,52 @@ export enum IncidentStatusSearch {
   RESOLVED = "resolved",
   UNRESOLVED = "unresolved",
   IN_PROGRESS = "in_progress",
-  // ARCHIVED = "archived", //TODO: to implement
-  // MUTED = "muted", //TODO: to implement
   ALL = "all"
 }
 
 export interface IIncident {
   id?: string;
+
   sdk: SDK;
   status: IncidentStatus;
   stack: string;
-  type: string;
+  // eq. BadRequestException
+  name: string;
+  // eq. 
   message: string;
-  lastError: number;
-  errorsCount: number;
+  
+  // time when last error occur for this incident
+  lastEventAt: number;
+  createdAt?: number;
+
   application: IApplication;
   assigned: Pick<IUser, "id" | "name" | "gravatar">;
+  // information about incident platform only for backend SDKs
+  // for browsers this infomation is persisted inside IError structure
+  platform?: Platform;
+
   comments: IComment[];
   commentsCount: number;
-  platform: Platform;
-  errorsDetails: Array<ErrorDetails>;
+
+  events: IEvent[];
+  eventsCount: number;
+
   traces: Array<Trace>;
-  createdAt?: number;
 }
 
 /**
  * Payload received from SDK
  */
 
-export interface BaseIncidentType {
-  type: string;
-  message: string;
-  stack: string;
+export interface IncidentEventPayload {
   sdk: SDK;
-}
-
-export interface IncomingNodeIncidentType extends BaseIncidentType {
+  name: string;
+  message: string;
+  
+  stack: string;
   stackFrames?: StackFrame[];
-}
 
-export interface IncomingBrowserIncidentType extends BaseIncidentType {
-  browser: BrowserInfoType
+  browser?: BrowserInfoType
 }
 
 export interface StackFrame {
@@ -122,15 +106,15 @@ export const mapIncidentStatus: Record<IncidentStatusSearch, string> = {
 };
 
 export enum IncidentSortBy {
-  LAST_SEEN = "last_error",
+  LAST_SEEN = "last_event_at",
   FIRST_SEEN = "created_at",
   STATUS = "status",
-  ERRORS_COUNT = "errors_count"
+  ERRORS_COUNT = "events_count"
 }
 
 export const mapIncidentSort: Record<IncidentSortBy, string> = {
   [IncidentSortBy.LAST_SEEN]: "Last seen",
   [IncidentSortBy.FIRST_SEEN]: "First seen",
   [IncidentSortBy.STATUS]: "Status",
-  [IncidentSortBy.ERRORS_COUNT]: "Errors count"
+  [IncidentSortBy.ERRORS_COUNT]: "Events count"
 };

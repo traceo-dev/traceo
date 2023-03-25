@@ -1,7 +1,7 @@
 import api from "../../../../core/lib/api";
 import { logsLoaded, resetState } from "./reducers";
 import { ThunkResult } from "@store/types";
-import { ApiResponse, TraceoLog } from "@traceo/types";
+import { ApiResponse, LogEventPayload } from "@traceo/types";
 
 interface LogsProps {
   startDate: number;
@@ -17,7 +17,7 @@ export const loadApplicationLogs = (appId: string, props: LogsProps): ThunkResul
       appId = application.id;
     }
 
-    const { data } = await api.get<ApiResponse<TraceoLog[]>>("/api/application/logs", {
+    const { data } = await api.get<ApiResponse<LogEventPayload[]>>("/api/application/logs", {
       id: appId,
       ...props
     });

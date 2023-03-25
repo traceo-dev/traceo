@@ -7,10 +7,8 @@ import {
   TeamOutlined
 } from "@ant-design/icons";
 import { FC } from "react";
-import { SDK } from "@traceo/types";
+import { BROWSER_SDK } from "@traceo/types";
 import { useApplication } from "../../../../core/hooks/useApplication";
-
-const BROWSER_SDKS = [SDK.REACT, SDK.VUE];
 
 export const SettingsPageWrapper: FC = ({ children }) => {
   const { application } = useApplication();
@@ -33,7 +31,7 @@ export const SettingsPageWrapper: FC = ({ children }) => {
       label: "Data source",
       key: "datasource",
       icon: <DatabaseOutlined />,
-      hidden: BROWSER_SDKS.includes(application.sdk)
+      hidden: BROWSER_SDK.includes(application.sdk)
     }
   ];
 

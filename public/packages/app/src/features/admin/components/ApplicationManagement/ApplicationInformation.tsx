@@ -64,14 +64,11 @@ export const ApplicationInformation = ({ application }: Props) => {
           <FieldLabel label="Name">
             <Input defaultValue={application?.name} disabled />
           </FieldLabel>
-          <FieldLabel label="Last error at">
-            <Input defaultValue={dateUtils.fromNow(application?.lastIncidentAt)} disabled />
+          <FieldLabel label="Last event at">
+            <Input defaultValue={dateUtils.fromNow(application?.lastEventAt)} disabled />
           </FieldLabel>
           <FieldLabel label="Incidents count">
             <Input defaultValue={application?.incidentsCount} disabled />
-          </FieldLabel>
-          <FieldLabel label="Errors count">
-            <Input defaultValue={application?.errorsCount} disabled />
           </FieldLabel>
         </div>
       </ColumnSection>

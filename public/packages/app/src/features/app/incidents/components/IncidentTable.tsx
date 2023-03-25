@@ -44,7 +44,7 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
           <Space direction="vertical" className="gap-0">
             <div className="w-full flex flex-row gap-x-3 items-center">
               <span className="text-[16px] leading-3 font-semibold hover:text-white">
-                {item?.type}
+                {item?.name}
               </span>
               {isNewIncident(item) && (
                 <NewIncidentPill>
@@ -70,16 +70,16 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
         {({ item }) => (
           // TODO: echarts chart is very bad when we want to resize him...
           <div style={{ width: 200 }}>
-            <IncidentsListChart errors={item?.errorsDetails} />
+            <IncidentsListChart id={item?.id} />
           </div>
         )}
       </TableColumn>
-      <TableColumn name="Errors">
-        {({ item }) => <span className="text-xs">{item?.errorsCount}</span>}
+      <TableColumn name="Events">
+        {({ item }) => <span className="text-xs">{item?.eventsCount}</span>}
       </TableColumn>
       <TableColumn name="Last error">
         {({ item }) => (
-          <span className="text-xs whitespace-nowrap">{dateUtils.fromNow(item?.lastError)}</span>
+          <span className="text-xs whitespace-nowrap">{dateUtils.fromNow(item?.lastEventAt)}</span>
         )}
       </TableColumn>
       <TableColumn name="Assigned">

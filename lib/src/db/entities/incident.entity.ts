@@ -8,9 +8,10 @@ import {
 } from "typeorm";
 import { User } from "./user.entity";
 import { Comment } from "./comment.entity";
+import { Event } from "./event.entity";
 import { Application } from "./application.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { ErrorDetails, IComment, IIncident, Platform, SDK, Trace } from "@traceo/types";
+import { IApplication, IComment, IEvent, IIncident, Platform, SDK, Trace } from "@traceo/types";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",
@@ -42,9 +43,10 @@ export class Incident extends BaseEntity implements IIncident {
   stack: string;
 
   @Column({
-    type: "varchar"
+    type: "varchar",
+    nullable: true
   })
-  type: string;
+  name: string;
 
   @Column({
     type: "varchar"
@@ -54,16 +56,9 @@ export class Incident extends BaseEntity implements IIncident {
   @Column({
     type: "bigint",
     nullable: true,
-    name: "last_error"
+    name: "last_event_at"
   })
-  lastError: number;
-
-  @Column({
-    type: "int",
-    name: "errors_count",
-    default: 0
-  })
-  errorsCount: number;
+  lastEventAt: number;
 
   @ManyToOne(() => Application, {
     onUpdate: "CASCADE",
@@ -72,7 +67,7 @@ export class Incident extends BaseEntity implements IIncident {
   @JoinColumn({
     name: "application_id"
   })
-  application: Application;
+  application: IApplication;
 
   @ManyToOne(() => User, (user) => user.incidents, {
     onDelete: "SET NULL"
@@ -82,22 +77,19 @@ export class Incident extends BaseEntity implements IIncident {
   })
   assigned: User;
 
-  @OneToMany(() => Comment, (comment) => comment.incident, { nullable: true })
+  @OneToMany(() => Comment, (comment) => comment.incident)
   comments: IComment[];
   commentsCount: number;
+
+  @OneToMany(() => Event, (error) => error.incident)
+  events: IEvent[];
+  eventsCount: number;
 
   @Column({
     type: "simple-json",
     nullable: true
   })
   platform: Platform;
-
-  @Column({
-    type: "simple-json",
-    nullable: true,
-    name: "errors_details"
-  })
-  errorsDetails: Array<ErrorDetails>;
 
   @Column({
     type: "simple-json",
