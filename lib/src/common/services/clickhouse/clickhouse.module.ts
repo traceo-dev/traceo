@@ -12,7 +12,7 @@ import { ClickHouseClientConfigOptions } from "@clickhouse/client";
                     host: process.env.CLICKHOUSE_HOST,
                     username: process.env.CLICKHOUSE_USER,
                     password: process.env.CLICKHOUSE_PASSWORD,
-                    database: process.env.CLICKHOUSE_DATABASE
+                    database: `${process.env.CLICKHOUSE_DATABASE}_${process.env.NODE_ENV}`
                 };
                 const clickhouse = new ClickhouseService(configs);
                 await clickhouse.connect();
