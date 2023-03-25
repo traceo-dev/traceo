@@ -30,8 +30,8 @@ export const LogsHistogram = () => {
 
   useEffect(() => {
     const props = {
-      startDate: ranges[0],
-      endDate: ranges[1],
+      from: ranges[0],
+      to: ranges[1],
       levels
     };
 

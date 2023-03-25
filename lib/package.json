@@ -19,6 +19,7 @@
     "../public/packages/shared/traceo-types"
   ],
   "dependencies": {
+    "@clickhouse/client": "^0.0.14",
     "@influxdata/influxdb-client": "^1.33.0",
     "@nestjs/axios": "^0.0.7",
     "@nestjs/common": "9.0.5",

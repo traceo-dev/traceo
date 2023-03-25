@@ -1,5 +1,4 @@
 import { Dictionary } from ".";
-import { IApplication } from "./application";
 
 export enum LogLevel {
   Debug = "debug",
@@ -12,12 +11,23 @@ export enum LogLevel {
 export interface ILog {
   id?: string;
   message: string;
+  // Timestamp in string without miliseconds eq. 25.03.2023, 21:42:08
   timestamp: string;
-  resources: object;
+  // Precise timestamp in unix
+  precise_timestamp: number;
+  // Timestamp of receiving log from sdk/kafka
+  receive_timestamp: number;
   level: LogLevel;
-  application: IApplication;
+  application_id: string;
+  // JSON object with some informations from SDK saved as string to clickhouse
+  resources: string;
 }
 
+/**
+ * Payload incoming from SDK
+ * 
+ * TODO: unix -> precise_timestamp
+ */
 export interface LogEventPayload {
   message: string;
   level: LogLevel;
@@ -26,16 +36,17 @@ export interface LogEventPayload {
   // to take miliseconds use unix field
   timestamp: string;
   receiveTimestamp: number;
-  // TODO: ???
+  // TODO: precise timestamp
   unix: number;
 
   // Information about eq. application like packageVersion
   resources: Dictionary<string>;
 }
 
-export interface ApplicationLogsQuery {
+export interface LogsQuery {
+  // application id
   id: number;
-  startDate: number;
-  endDate: number;
+  from: number;
+  to: number;
   levels: LogLevel[];
 }

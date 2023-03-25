@@ -3,16 +3,19 @@ import { BaseQueryService } from "../../../common/base/query/base-query.service"
 import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { ApplicationLogsQuery, ILog } from "@traceo/types";
+import { LogsQuery, ILog } from "@traceo/types";
 import { Application } from "../../../db/entities/application.entity";
-import { Log } from "../../../db/entities/log.entity";
 import { EntityManager, SelectQueryBuilder } from "typeorm";
+import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 
 @Injectable()
 export class ApplicationQueryService extends BaseQueryService<Application, BaseDtoQuery> {
   private logger: Logger;
 
-  constructor(readonly entityManager: EntityManager) {
+  constructor(
+    readonly entityManager: EntityManager,
+    readonly clickhouseClient: ClickhouseService
+  ) {
     super(entityManager, Application);
     this.logger = new Logger(ApplicationQueryService.name);
   }
@@ -64,37 +67,14 @@ export class ApplicationQueryService extends BaseQueryService<Application, BaseD
     return ["id", "name", "gravatar", "lastEventAt", "incidentsCount", "isIntegrated"];
   }
 
-  public async getApplicationLogs(query: ApplicationLogsQuery): Promise<ApiResponse<ILog[]>> {
-    const { startDate, endDate, id, levels } = query;
-
-    if (!id) {
-      throw new Error(`[${this.getApplicationLogs.name}] Application ID is required!`);
-    }
-
-    if (!levels || levels.length === 0) {
+  public async getApplicationLogs(query: LogsQuery): Promise<ApiResponse<ILog[]>> {
+    if (!query.levels || query.levels.length === 0) {
       return new ApiResponse("success", undefined, []);
     }
 
     try {
-      const response = await this.entityManager
-        .getRepository(Log)
-        .createQueryBuilder("log")
-        .where("log.application_id = :id", { id })
-        .andWhere("log.receiveTimestamp > :startDate", { startDate })
-        .andWhere("log.receiveTimestamp < :endDate", { endDate })
-        .andWhere("log.level in (:...levels)", { levels: query.levels || [] })
-        .orderBy("log.receiveTimestamp", "DESC", "NULLS LAST")
-        .select([
-          "log.timestamp",
-          "log.message",
-          "log.level",
-          "log.resources",
-          "log.receiveTimestamp"
-        ])
-        .take(1000)
-        .getMany();
-
-      return new ApiResponse("success", undefined, response);
+      const logs = await this.clickhouseClient.loadLogs(query);
+      return new ApiResponse("success", undefined, logs);
     } catch (error) {
       this.logger.error(`[${this.getApplicationLogs.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);

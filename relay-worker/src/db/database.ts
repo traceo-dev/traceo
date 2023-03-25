@@ -1,35 +1,25 @@
 import { Pool, PoolClient, QueryResult } from "pg";
-import { RelayWorkerConfig } from "./config";
 import { ExceptionHandlers } from "@traceo-sdk/node";
-import { logger } from ".";
+import { logger } from "..";
 import { Dictionary, IApplication, IEvent, IIncident, LogEventPayload, SafeReturnType } from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
-
-export const createPostgresPool = (configs: RelayWorkerConfig): Pool => {
-    const pgPool = new Pool({
-        database: configs.PG_DB_NAME,
-        user: configs.PG_USER,
-        port: configs.PG_PORT,
-        host: configs.PG_HOST,
-        password: configs.PG_PASS,
-        max: 10,
-        idleTimeoutMillis: 500
-    });
-
-    return pgPool;
-}
+import { ClickHouseClient } from "@clickhouse/client";
+import { CLICKHOUSE_TABLE } from "./clickhouse";
 
 export class DatabaseService {
     pool: Pool;
     client: PoolClient;
+    clickClient: ClickHouseClient;
 
     constructor(
         pool: Pool,
-        postgres: PoolClient
+        postgres: PoolClient,
+        clickClient: ClickHouseClient
     ) {
         this.pool = pool;
         this.client = postgres;
+        this.clickClient = clickClient;
     }
 
     /**
@@ -169,19 +159,23 @@ export class DatabaseService {
     public async insertBulkLogs({ logs, appId }: { logs: LogEventPayload[], appId: string }): Promise<number> {
         const now = dayjs().unix();
 
-        const values = logs.map(({ level, message, resources, timestamp, unix }) => [
-            level,
-            message,
-            timestamp,
-            unix,
-            now,
-            appId,
-            JSON.stringify(resources),
-        ]);
+        const values = logs.map((log) => ({
+            message: log.message,
+            timestamp: log.timestamp,
+            receive_timestamp: now,
+            precise_timestamp: log.unix,
+            level: log.level,
+            application_id: appId,
+            resources: JSON.stringify(log.resources)
+        }));
 
-        const query = 'INSERT INTO log (level, message, timestamp, receive_timestamp, created_at, application_id, resources)';
-        const rowsCount = await this.postgrseBulkInsert(query, values);
-        return rowsCount;
+        await this.clickClient.insert({
+            table: CLICKHOUSE_TABLE.LOGS,
+            format: "JSONEachRow",
+            values: values,
+        });
+
+        return values.length;
     }
 
     public async insertRuntimeConfigs({ config, appId }: { config: Dictionary<SafeReturnType>, appId: string }): Promise<any> {

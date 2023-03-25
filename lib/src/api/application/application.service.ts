@@ -13,7 +13,6 @@ import { uuidService } from "../../common/helpers/uuid";
 import { CreateApplicationDto, ApplicationDto } from "../../common/types/dto/application.dto";
 import { Application } from "../../db/entities/application.entity";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { Log } from "../../db/entities/log.entity";
 import { MemberRole, SDK } from "@traceo/types";
 import { MetricsService } from "../metrics/metrics.service";
 import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
@@ -173,21 +172,23 @@ export class ApplicationService {
     }
   }
 
+  // TODO: handle remove in clickhouse
+  // TODO: schduled crons should be in worker
   @Cron(CronExpression.EVERY_6_HOURS)
   private async handleLogDelete() {
-    try {
-      const maxRetentionDate = dayjs().subtract(MAX_RETENTION_LOGS, "d").unix();
-      const logs = await this.entityManager
-        .getRepository(Log)
-        .createQueryBuilder("log")
-        .where("log.receiveTimestamp < :maxRetentionDate", { maxRetentionDate })
-        .getMany();
+    // try {
+    //   const maxRetentionDate = dayjs().subtract(MAX_RETENTION_LOGS, "d").unix();
+    //   const logs = await this.entityManager
+    //     .getRepository(Log)
+    //     .createQueryBuilder("log")
+    //     .where("log.receiveTimestamp < :maxRetentionDate", { maxRetentionDate })
+    //     .getMany();
 
-      await this.entityManager.getRepository(Log).remove(logs);
+    //   await this.entityManager.getRepository(Log).remove(logs);
 
-      this.logger.log(`[handleLogDelete] Deleted logs: ${logs.length}`);
-    } catch (error) {
-      throw new Error(error);
-    }
+    //   this.logger.log(`[handleLogDelete] Deleted logs: ${logs.length}`);
+    // } catch (error) {
+    //   throw new Error(error);
+    // }
   }
 }

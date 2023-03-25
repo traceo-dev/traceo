@@ -7,8 +7,10 @@ import { ExceptionHandlers } from "@traceo-sdk/node";
 import { Core } from "./types";
 
 export const createKafkaClient = async (configs: RelayWorkerConfig) => {
+    logger.log('☢ Connection to Kafka ...');
+
     const kafka = new Kafka({
-        brokers: configs.KAFKA_HOSTS,
+        brokers: configs.KAFKA_HOSTS.split(","),
         clientId: configs.KAFKA_CLIENT_ID,
         connectionTimeout: 9000,
         authenticationTimeout: 9000,
@@ -29,13 +31,25 @@ export const createKafkaClient = async (configs: RelayWorkerConfig) => {
     }
     await admin.disconnect()
 
-    return kafka;
+    const producer = kafka.producer({
+        retry: {
+            retries: 10,
+            initialRetryTime: 1000,
+            maxRetryTime: 30
+        }
+    });
+
+    await producer.connect();
+
+    logger.log('✔ Kafka is ready.')
+
+    return { kafka, producer };
 }
 
 export const startEventConsumer = async (
     { configs, core }: { configs: RelayWorkerConfig, core: Core }
 ): Promise<Consumer> => {
-    const kafka: Kafka = core?.kafka ?? await createKafkaClient(configs);
+    const kafka: Kafka = core?.kafka;
     const consumer = kafka.consumer({
         groupId: configs.KAFKA_CLIENT_ID,
         sessionTimeout: configs.KAFKA_SESSION_TIMEOUT
@@ -74,7 +88,7 @@ export const startEventConsumer = async (
         const message = `❌ Error while running kafka consumer: ${err}`;
         logger.error(message);
         ExceptionHandlers.catchException(message);
-        
+
         throw err;
     }
 

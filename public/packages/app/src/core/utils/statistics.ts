@@ -1,5 +1,5 @@
 import dateUtils from "./date";
-import { LogLevel, LogEventPayload, ErrorDetails, DailyStats } from "@traceo/types";
+import { LogLevel, LogEventPayload, ErrorDetails, DailyStats, ILog } from "@traceo/types";
 import dayjs from "dayjs";
 
 /**
@@ -65,7 +65,7 @@ const parseIncidentsAnalyticsTodayPlotData = (errorsDetails: ErrorDetails[]) => 
   };
 };
 
-const parseLogs = (range: [number, number], logs: LogEventPayload[]) => {
+const parseLogs = (range: [number, number], logs: ILog[]) => {
   let date = range[0];
   const endPlotDate = range[1];
 
@@ -74,8 +74,8 @@ const parseLogs = (range: [number, number], logs: LogEventPayload[]) => {
 
   while (date <= endPlotDate) {
     const currentLogs = logs?.filter(
-      ({ receiveTimestamp }) =>
-        dateUtils.formatDate(receiveTimestamp, "HH:mm") === dateUtils.formatDate(date, "HH:mm")
+      ({ precise_timestamp }) =>
+        dateUtils.formatDate(precise_timestamp, "HH:mm") === dateUtils.formatDate(date, "HH:mm")
     );
 
     Object.values(LogLevel).map((level) => {

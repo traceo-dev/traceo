@@ -13,7 +13,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { BaseDtoQuery } from "../../common/base/query/base-query.model";
 import { CreateApplicationDto, ApplicationDto } from "../../common/types/dto/application.dto";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { IApplication, ILog, ApplicationLogsQuery } from "@traceo/types";
+import { IApplication, ILog, LogsQuery } from "@traceo/types";
 import { ApplicationQueryService } from "./application-query/application-query.service";
 import { ApplicationService } from "./application.service";
 import { AuthGuard } from "../../common/decorators/auth-guard.decorator";
@@ -38,7 +38,7 @@ export class ApplicationController {
   }
 
   @Get("/logs")
-  async getApplicationLogs(@Query() query: ApplicationLogsQuery): Promise<ApiResponse<ILog[]>> {
+  async getApplicationLogs(@Query() query: LogsQuery): Promise<ApiResponse<ILog[]>> {
     return await this.applicationQueryService.getApplicationLogs({ ...query });
   }
 

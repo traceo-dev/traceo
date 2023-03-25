@@ -2,7 +2,7 @@ import { ExceptionHandlers } from "@traceo-sdk/node";
 import { IIncident, IncidentEventPayload, IncidentStatus, SDK } from "@traceo/types";
 import dayjs from "dayjs";
 import { PoolClient } from "pg";
-import { DatabaseService } from "../database";
+import { DatabaseService } from "../db/database";
 import { Core, RelayEventType } from "../types";
 import { logger } from "..";
 

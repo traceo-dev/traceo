@@ -9,9 +9,13 @@ import { UserQueryService } from "../user/user-query/user-query.service";
 import { MetricsService } from "../metrics/metrics.service";
 import { ApplicationsController } from "./applications.controller";
 import { DataSourceService } from "../datasource/dataSource.service";
+import { ClickhouseModule } from "src/common/services/clickhouse/clickhouse.module";
 
 @Module({
-  imports: [PassportModule.register({ defaultStrategy: "jwt" })],
+  imports: [
+    PassportModule.register({ defaultStrategy: "jwt" }),
+    ClickhouseModule
+  ],
   providers: [
     ApplicationService,
     ApplicationQueryService,
