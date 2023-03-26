@@ -100,7 +100,7 @@ const MetricPreviewChart: FC<Props> = ({
             showMaxLabel: true
           },
           labelFormatter: (v: unknown) => dayjs.unix(Number(v)).format("HH:mm"),
-          pointerFormatter: (v: unknown) => dayjs(v as any).format("HH:mm, DD MMM"),
+          pointerFormatter: (v: unknown) => dayjs.unix(Number(v)).format("HH:mm, DD MMM"),
           data: metric?.datasource?.time || []
         })}
         yAxis={BaseYAxis({
