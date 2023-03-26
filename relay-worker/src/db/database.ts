@@ -1,11 +1,13 @@
 import { Pool, PoolClient, QueryResult } from "pg";
 import { ExceptionHandlers } from "@traceo-sdk/node";
 import { logger } from "..";
-import { Dictionary, IApplication, IEvent, IIncident, LogEventPayload, SafeReturnType } from "@traceo/types";
+import { Dictionary, IApplication, IEvent, IIncident, LogEventPayload, MetricsEventPayload, SafeReturnType, TimeSerieMetric } from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
 import { ClickHouseClient } from "@clickhouse/client";
 import { CLICKHOUSE_TABLE } from "./clickhouse";
+import { randomUUID } from "crypto";
+import { flatObject } from "../utils";
 
 export class DatabaseService {
     pool: Pool;
@@ -156,10 +158,18 @@ export class DatabaseService {
         return result.rows[0];
     }
 
-    public async insertBulkLogs({ logs, appId }: { logs: LogEventPayload[], appId: string }): Promise<number> {
+    public async insertRuntimeConfigs({ config, appId }: { config: Dictionary<SafeReturnType>, appId: string }): Promise<any> {
+        const insertedRows = await this.postgresQuery<Dictionary<SafeReturnType>>(`UPDATE application SET runtime_config = '${JSON.stringify(config)}' WHERE id = '${appId}'`)
+        return insertedRows.rows[0];
+    }
+
+    // Clickhouse queries
+
+    public async insertClickhouseLogs({ logs, appId }: { logs: LogEventPayload[], appId: string }): Promise<number> {
         const now = dayjs().unix();
 
         const values = logs.map((log) => ({
+            id: randomUUID(),
             message: log.message,
             timestamp: log.timestamp,
             receive_timestamp: now,
@@ -178,8 +188,24 @@ export class DatabaseService {
         return values.length;
     }
 
-    public async insertRuntimeConfigs({ config, appId }: { config: Dictionary<SafeReturnType>, appId: string }): Promise<any> {
-        const insertedRows = await this.postgresQuery<Dictionary<SafeReturnType>>(`UPDATE application SET runtime_config = '${JSON.stringify(config)}' WHERE id = '${appId}'`)
-        return insertedRows.rows[0];
+    public async insertClickhouseMetrics({ app_id, payload }: { app_id: string, payload: MetricsEventPayload }) {
+        const now = dayjs().unix();
+
+        const metrics = Object.entries(flatObject(payload)).map(([key, value]) => ({
+            id: randomUUID(),
+            name: key,
+            value: value,
+            application_id: app_id,
+            // TODO: return metrics capture time from SDK and pass here
+            timestamp: now
+        })) as TimeSerieMetric[];
+
+        await this.clickClient.insert({
+            table: CLICKHOUSE_TABLE.MERICS,
+            format: "JSONEachRow",
+            values: metrics
+        });
+
+        return metrics.length;
     }
 }

@@ -1,6 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { ClickHouseClient, createClient } from "@clickhouse/client";
 import { Logger } from "@nestjs/common";
+import { CREATE_DATABASE, CREATE_LOGS_TABLE, CREATE_METRICS_TABLE } from "src/common/services/clickhouse/queries";
 
 export class ClickhouseMigration implements MigrationInterface {
     name?: string;
@@ -14,38 +15,27 @@ export class ClickhouseMigration implements MigrationInterface {
         this.clickhouseClient = createClient({
             host: process.env.CLICKHOUSE_HOST,
             username: process.env.CLICKHOUSE_USER,
-            password: process.env.CLICKHOUSE_PASSWORD,
-            clickhouse_settings: {
-                allow_experimental_object_type: 1
-            }
+            password: process.env.CLICKHOUSE_PASSWORD
         })
     }
 
     async up(_queryRunner: QueryRunner): Promise<any> {
         try {
-            // Create traceo database if it does not exist
-            const db_name = `${process.env.CLICKHOUSE_DATABASE}_${process.env.NODE_ENV}`;
 
+            // Create table if not exists
             await this.clickhouseClient.query({
-                query: `CREATE DATABASE IF NOT EXISTS ${db_name}`
+                query: CREATE_DATABASE
             });
 
-            // Create log table if it does not exist
+            // Log table
             await this.clickhouseClient.query({
-                query: `
-                    CREATE TABLE IF NOT EXISTS ${db_name}.logs (
-                        id UUID,
-                        message String,
-                        timestamp String,
-                        precise_timestamp UInt128,
-                        receive_timestamp UInt128,
-                        level String,
-                        application_id String,
-                        resources String
-                    ) 
-                    ENGINE = MergeTree() 
-                    ORDER BY id
-                `});
+                query: CREATE_LOGS_TABLE
+            });
+
+            // Metrics table
+            await this.clickhouseClient.query({
+                query: CREATE_METRICS_TABLE
+            })
 
             this.logger.log(`[Traceo] Clickhouse migration end with success.`)
         } catch (err) {

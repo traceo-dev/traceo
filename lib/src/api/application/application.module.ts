@@ -8,7 +8,6 @@ import { MemberQueryService } from "../member/member-query/member-query.service"
 import { UserQueryService } from "../user/user-query/user-query.service";
 import { MetricsService } from "../metrics/metrics.service";
 import { ApplicationsController } from "./applications.controller";
-import { DataSourceService } from "../datasource/dataSource.service";
 import { ClickhouseModule } from "src/common/services/clickhouse/clickhouse.module";
 
 @Module({
@@ -22,8 +21,7 @@ import { ClickhouseModule } from "src/common/services/clickhouse/clickhouse.modu
     MemberService,
     MemberQueryService,
     UserQueryService,
-    MetricsService,
-    DataSourceService
+    MetricsService
   ],
   controllers: [ApplicationsController, ApplicationController],
   exports: [ApplicationService, ApplicationQueryService]

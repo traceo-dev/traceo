@@ -9,7 +9,6 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { CommonModule } from "./common/common.module";
 import { ApiModule } from "./api/api.module";
-import { ProvidersModule } from "./providers/providers.module";
 import { ServicesModule } from "./common/services/services.module";
 
 const staticRootPath = () => {
@@ -24,7 +23,6 @@ const staticRootPath = () => {
     AuthModule,
     ApiModule,
     CommonModule,
-    ProvidersModule,
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService
     }),

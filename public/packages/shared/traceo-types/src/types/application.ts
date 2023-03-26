@@ -1,9 +1,7 @@
 import { Dictionary } from ".";
 import { SortOrder } from "./api";
-import { DatasourceProvider } from "./datasource";
 import { MemberRole } from "./member";
 import { SDK } from "./sdk";
-import { ConnectionStatus } from "./tsdb";
 import { IUser } from "./user";
 
 export interface IApplication {
@@ -21,7 +19,6 @@ export interface IApplication {
   incidentsCount: number;
   membersCount: number;
 
-  tsdbDatasource?: string;
   isIntegrated: boolean;
 
 // field only for server-side SDKs
@@ -40,10 +37,6 @@ export interface ISecurity {
 export interface IApplicationResponse extends Omit<IApplication, "influxDS" | "owner"> {
   member: {
     role: MemberRole;
-  };
-  influxDS?: {
-    connStatus: ConnectionStatus;
-    connError?: string;
   };
   owner?: {
     name: string;
@@ -86,9 +79,6 @@ export type MemberApplication = {
 export type CreateApplicationProps = {
   name: string;
   sdk: SDK;
-  tsdbProvider: DatasourceProvider;
-  url: string;
-  tsdbConfiguration: { [key: string]: any };
 };
 
 export type UpdateApplicationProps = Pick<IApplication, "name">;

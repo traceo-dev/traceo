@@ -1,18 +1,9 @@
 import { Page } from "../../../../core/components/Page";
 import { MenuRoute } from "../../../../core/types/navigation";
-import {
-  DatabaseOutlined,
-  InfoCircleOutlined,
-  SettingOutlined,
-  TeamOutlined
-} from "@ant-design/icons";
+import { InfoCircleOutlined, SettingOutlined, TeamOutlined } from "@ant-design/icons";
 import { FC } from "react";
-import { BROWSER_SDK } from "@traceo/types";
-import { useApplication } from "../../../../core/hooks/useApplication";
 
 export const SettingsPageWrapper: FC = ({ children }) => {
-  const { application } = useApplication();
-
   const menu: MenuRoute[] = [
     {
       href: "/app/:id/settings/details",
@@ -25,13 +16,6 @@ export const SettingsPageWrapper: FC = ({ children }) => {
       label: "Access",
       key: "access",
       icon: <TeamOutlined />
-    },
-    {
-      href: "/app/:id/settings/datasource",
-      label: "Data source",
-      key: "datasource",
-      icon: <DatabaseOutlined />,
-      hidden: BROWSER_SDK.includes(application.sdk)
     }
   ];
 

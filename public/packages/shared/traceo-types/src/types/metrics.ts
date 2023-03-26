@@ -1,3 +1,26 @@
+import { Dictionary } from ".";
+
+export type UUIntType = Uint32Array | Uint16Array | Uint8Array | BigInt64Array | BigInt;
+export type MetricsEventPayload = {
+  // Basic metrics scrapped from software like CPU/RAM/etc.
+  default: Dictionary<string | UUIntType>;
+
+  // Metrics scrapped by client sdk
+  counter: Record<string, number>;
+  meauserement: Record<string, number>;
+  gauge: Record<string, number>;
+  timeSeries: Record<string, number>;
+}
+
+export type TimeSerieMetric = {
+  id: string,
+  name: string,
+  value: string | UUIntType,
+  application_id: string,
+  // TODO: return metrics capture time from SDK and pass here
+  timestamp: number,
+  receive_timestamp: number
+}
 export type IMetric = {
   id?: string;
   name: string;
@@ -25,7 +48,8 @@ export type IMetric = {
 export type IMetricSerie = {
   name: string;
   field: string;
-  type: MetricValueEnum | string;
+  // TODO: change this from string to some type
+  type: string;
   config: {
     lineWidth?: number;
     barWidth?: number;
@@ -75,62 +99,24 @@ export enum METRIC_UNIT {
 
 export type LegendOrientType = "vertical" | "horizontal";
 
-export type IDefaultSDKMetrics = {
-  cpu_usage: number;
-  load_avg: number;
-} & EventLoopMetricType &
-  HeapMetricType &
-  MemoryUsageMetricType;
-
-export type MemoryUsageMetricType = {
-  memory_usage_mb: number;
-  memory_usage_percentage: number;
-};
-
-export type EventLoopMetricType = {
-  loop_min: number;
-  loop_max: number;
-  loop_mean: number;
-  loop_stddev: number;
-};
-
-export type HeapMetricType = {
-  heap_used: number;
-  heap_total: number;
-  heap_rss: number;
-};
-
 export interface MetricsQuery {
   id: string;
   fields: string[];
   hrCount: number;
 }
 
-export type MetricsResponse = {
-  _time: string;
+export type MetricResponseType = {
+  time: number[]
 } & {
-  [key: string]: number;
-};
-
-export enum MetricValueEnum {
-  FLOAT_FIELD = "floatField",
-  INT_FIELD = "intField"
+  [x: string]: number[]
 }
 
 export type MetricPreviewType = {
   options: IMetric;
-  datasource: MetricsResponse[];
+  datasource: MetricResponseType[];
 };
 
 export type TOOLTIP_PLACEMENT = "bottom" | "inside" | "left" | "right" | "top";
-
-export type ISDKMetrics = {
-  default: IDefaultSDKMetrics;
-  counter: Record<string, number>;
-  meauserement: Record<string, number>;
-  gauge: Record<string, number>;
-  timeSeries: Record<string, number>;
-};
 
 export interface MetricsQuery {
   id: string;

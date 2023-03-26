@@ -15,7 +15,7 @@ export const handleLogsEvent = async (core: Core, message: string): Promise<any>
         const payload = logsEvent.payload;
         const app_id = logsEvent.appId;
 
-        const rowsCount = await db.insertBulkLogs({ logs: payload, appId: app_id })
+        const rowsCount = await db.insertClickhouseLogs({ logs: payload, appId: app_id })
         logger.log(`✔ Inserted ${rowsCount} logs to application: ${app_id}`);
 
         return rowsCount;

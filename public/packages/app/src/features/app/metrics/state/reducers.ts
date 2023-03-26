@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IMetric, MetricsResponse } from "@traceo/types";
+import { IMetric, MetricResponseType } from "@traceo/types";
 
 type MetricType = {
   options: IMetric;
-  datasource: MetricsResponse[];
+  datasource: MetricResponseType;
 };
 
 export interface MetricsState {

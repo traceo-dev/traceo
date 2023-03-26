@@ -1,4 +1,4 @@
-import { DeepPartial, IMetric, IMetricSerie, MetricsResponse, METRIC_UNIT } from "@traceo/types";
+import { DeepPartial, IMetric, IMetricSerie, MetricResponseType, METRIC_UNIT } from "@traceo/types";
 import dayjs from "dayjs";
 import {
   EChartsOption,
@@ -10,32 +10,17 @@ import { BaseTooltip } from "../BaseTooltip";
 
 export type SerieType = "bar" | "line" | "scatter";
 
-export const buildDatasource = (datasource: MetricsResponse[], series: IMetricSerie[]) => {
-  if (!datasource || !series) {
-    return [];
-  }
-
-  const commonSource = {
-    time: datasource?.map((t) => t._time)
-  };
-
-  series.map(({ field }) =>
-    Object.assign(commonSource, {
-      [field]: datasource?.map((m) => m[field])
-    })
-  );
-
-  return commonSource;
-};
 export const buildSeries = (
   series: DeepPartial<IMetricSerie[]>,
   options: DeepPartial<IMetric>,
+  datasource?: MetricResponseType,
   type: "card" | "preview" = "preview"
 ): SeriesOption[] => {
   const showSymbol = options.config.line.marker.show || false;
   return series?.map((serie) => ({
     type: serie.config.type,
     name: serie.name,
+    data: datasource?.[serie.field] || [],
     showSymbol: showSymbol,
     color: serie.config.color,
     lineStyle: {

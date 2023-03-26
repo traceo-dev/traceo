@@ -1,6 +1,6 @@
 import { Body, Controller, Param, Post, Headers, Req } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { LogEventPayload, ISDKMetrics, RuntimeEventPayload, IncidentEventPayload, Dictionary } from "@traceo/types";
+import { LogEventPayload, MetricsEventPayload, RuntimeEventPayload, IncidentEventPayload, Dictionary } from "@traceo/types";
 import { Request } from "express";
 import { ApiResponse } from "src/common/types/dto/response.dto";
 import { CaptureService, CAPTURE_ROUTE } from "./capture.service";
@@ -72,7 +72,7 @@ export class CaptureController {
     @Post("/metrics/:id")
     async handleMetrics(
         @Param("id") id: string,
-        @Body() data: ISDKMetrics,
+        @Body() data: MetricsEventPayload,
         @Headers() headers: Dictionary<string>,
         @Req() req: Request
     ): Promise<ApiResponse<string> | undefined | void> {
@@ -80,11 +80,11 @@ export class CaptureController {
             return;
         }
 
-        // return await this.captureService.process({
-        //     route: CAPTURE_ROUTE.METRICS,
-        //     appId: id,
-        //     payload: data,
-        //     headers
-        // });
+        return await this.captureService.process({
+            route: CAPTURE_ROUTE.METRICS,
+            appId: id,
+            payload: data,
+            headers
+        });
     }
 }

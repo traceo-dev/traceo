@@ -3,7 +3,6 @@ import { SDK } from "@traceo/types";
 import { Type } from "class-transformer";
 import { IsString, IsNotEmpty, IsOptional, MaxLength, ValidateNested } from "class-validator";
 import { BaseDtoQuery } from "../../base/query/base-query.model";
-import { BaseDataSourceDto } from "./data-source";
 
 export class ApplicationDtoQuery extends BaseDtoQuery {}
 
@@ -17,11 +16,6 @@ export class CreateApplicationDto {
   @IsNotEmpty()
   @ApiPropertyOptional({ description: "technology" })
   public sdk: SDK;
-
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => BaseDataSourceDto)
-  public tsdbConfiguration: BaseDataSourceDto;
 }
 
 export class ApplicationDto {

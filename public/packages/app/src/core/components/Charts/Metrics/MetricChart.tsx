@@ -2,8 +2,8 @@ import { useApplication } from "../../../hooks/useApplication";
 import { useRequest } from "../../../hooks/useRequest";
 import { ConditionalWrapper } from "../../ConditionLayout";
 import { DataNotFound } from "../../DataNotFound";
-import { buildDatasource, buildSeries } from "./utils";
-import { IMetric, MetricsResponse } from "@traceo/types";
+import { buildSeries } from "./utils";
+import { IMetric, MetricResponseType } from "@traceo/types";
 import { FC, useEffect } from "react";
 import { BaseChart } from "../BaseChart";
 import { BaseXAxis } from "../BaseXAxis";
@@ -17,18 +17,12 @@ interface Props {
 const MetricChart: FC<Props> = ({ metric, ranges }) => {
   const { application } = useApplication();
 
-  const seriesFields =
-    metric?.series?.reduce<string[]>((acc, serie) => {
-      acc.push(serie.field);
-
-      return acc;
-    }, []) || [];
-
+  const seriesFields = metric.series.map(({ field }) => field);
   const {
     data: datasource,
     execute,
     isLoading
-  } = useRequest<MetricsResponse[]>({
+  } = useRequest<MetricResponseType>({
     url: `/api/metrics/${application?.id}/datasource`,
     params: {
       fields: seriesFields,
@@ -44,7 +38,7 @@ const MetricChart: FC<Props> = ({ metric, ranges }) => {
   return (
     <ConditionalWrapper
       isLoading={isLoading}
-      isEmpty={datasource?.length === 0 || !datasource}
+      isEmpty={!datasource || datasource?.time?.length === 0}
       emptyView={<DataNotFound className="text-2xs" label="Data not found" />}
     >
       <BaseChart
@@ -53,12 +47,12 @@ const MetricChart: FC<Props> = ({ metric, ranges }) => {
         xAxis={BaseXAxis({
           offset: 12,
           axisLabel: {
-            formatter: (v: string) => dayjs(v).format("HH:mm"),
+            formatter: (v: string) => dayjs.unix(Number(v)).format("HH:mm"),
             fontSize: 11,
-            // interval: 50,
             showMaxLabel: true
           },
-          pointerFormatter: (v: unknown) => dayjs(Number(v)).format("HH:mm, DD MMM")
+          pointerFormatter: (v: unknown) => dayjs(Number(v)).format("HH:mm, DD MMM"),
+          data: datasource?.time
         })}
         yAxis={BaseYAxis({
           axisLabel: {
@@ -80,10 +74,7 @@ const MetricChart: FC<Props> = ({ metric, ranges }) => {
           bottom: 15,
           top: 10
         }}
-        series={buildSeries(metric.series, metric, "card")}
-        dataset={{
-          source: buildDatasource(datasource, metric.series)
-        }}
+        series={buildSeries(metric.series, metric, datasource, "card")}
       />
     </ConditionalWrapper>
   );

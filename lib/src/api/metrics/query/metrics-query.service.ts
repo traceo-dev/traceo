@@ -6,53 +6,33 @@ import {
   IMetric,
   IMetricSerie,
   MetricPreviewType,
-  MetricsResponse,
-  DatasourceProvider
+  MetricResponseType,
+  TimeSerieMetric
 } from "@traceo/types";
 import { Metric } from "../../../db/entities/metric.entity";
-import { InfluxService } from "../../../providers/influx/influx.service";
 import { Brackets, EntityManager } from "typeorm";
-import { BaseProviderService } from "../../../common/base/provider/base-provider.service";
-import { Datasource } from "../../../db/entities/datasource.entity";
-import { Application } from "../../../db/entities/application.entity";
+import { ClickhouseService } from "src/common/services/clickhouse/clickhouse.service";
 
 @Injectable()
 export class MetricsQueryService {
   private readonly logger: Logger;
 
-  constructor(private readonly entityManager: EntityManager) {
+  constructor(
+    private readonly entityManager: EntityManager,
+    private readonly clickhouseService: ClickhouseService
+  ) {
     this.logger = new Logger(MetricsQueryService.name);
   }
 
   async getMetricData(
     appId: string,
     query: MetricQueryDto
-  ): Promise<ApiResponse<MetricsResponse[]>> {
+  ): Promise<ApiResponse<MetricResponseType[]>> {
     try {
-      const app = await this.entityManager.getRepository(Application).findOneBy({ id: appId });
-      if (!app?.tsdbDatasource) {
-        this.logger.error(`[${this.getMetricData.name}] Not connected time series db.`);
-        return;
-      }
+      const response = await this.clickhouseService.loadMetric(appId, query);
+      const groupedMetrics = this.groupMetrics(response);
 
-      const datasource = await this.entityManager
-        .getRepository(Datasource)
-        .findOneBy({ id: app.tsdbDatasource });
-      if (!datasource) {
-        return;
-      }
-
-      const services = new Map<DatasourceProvider, BaseProviderService>([
-        [DatasourceProvider.INLFUX_DB, new InfluxService(this.entityManager)]
-      ]);
-
-      const service = services.get(datasource.type);
-      if (!service) {
-        throw new Error("Service not implemented!");
-      }
-
-      const response = await service.queryData(datasource, query);
-      return new ApiResponse("success", undefined, response);
+      return new ApiResponse("success", undefined, groupedMetrics);
     } catch (err) {
       this.logger.error(`[${this.getMetricData.name}] Caused by: ${err}`);
       return new ApiResponse("error", undefined, []);
@@ -64,8 +44,6 @@ export class MetricsQueryService {
     query: MetricsQueryDto
   ): Promise<ApiResponse<IMetric[]>> {
     try {
-      // await this.influxService.checkConnection(appId);
-
       const queryBuilder = this.entityManager
         .getRepository(Metric)
         .createQueryBuilder("metric")
@@ -135,5 +113,31 @@ export class MetricsQueryService {
         return acc;
       }, []) || []
     );
+  }
+
+  /**
+   * Group metrics to return values already parsed for charts:
+   * {
+   *   time: [...],
+   *   heap_used: [...],
+   *   heap_total: [...]
+   * }
+   */
+  private groupMetrics(data: TimeSerieMetric[]): any {
+    const time = new Set();
+    const result = data.reduce((acc, val) => {
+      acc[val.name] = acc[val.name] || [];
+      acc[val.name].push(val.value);
+
+      // time can be duplicated from clickhouse response, so we use Set to avoid duplicates
+      time.add(val.timestamp);
+
+      return acc;
+    }, {})
+
+    return {
+      ...result,
+      time: Array.from(time)
+    };
   }
 }

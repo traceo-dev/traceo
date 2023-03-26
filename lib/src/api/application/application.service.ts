@@ -5,7 +5,6 @@ import * as crypto from "crypto";
 import { ApplicationQueryService } from "./application-query/application-query.service";
 import { UserQueryService } from "../user/user-query/user-query.service";
 import { Cron, CronExpression } from "@nestjs/schedule";
-import dayjs from "dayjs";
 import { ADMIN_NAME, ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from "../../common/helpers/constants";
 import dateUtils from "../../common/helpers/dateUtils";
 import { gravatar } from "../../common/helpers/gravatar";
@@ -13,13 +12,9 @@ import { uuidService } from "../../common/helpers/uuid";
 import { CreateApplicationDto, ApplicationDto } from "../../common/types/dto/application.dto";
 import { Application } from "../../db/entities/application.entity";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { MemberRole, SDK } from "@traceo/types";
+import { BROWSER_SDK, MemberRole, SDK } from "@traceo/types";
 import { MetricsService } from "../metrics/metrics.service";
 import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
-import { DataSourceService } from "../datasource/dataSource.service";
-
-const MAX_RETENTION_LOGS = 3;
-const SDK_WITH_METRICS_COLLECTION = [SDK.NODE];
 
 @Injectable()
 export class ApplicationService {
@@ -30,8 +25,7 @@ export class ApplicationService {
     private readonly awrService: MemberService,
     private readonly applicationQueryService: ApplicationQueryService,
     private readonly userQueryService: UserQueryService,
-    private readonly metricsService: MetricsService,
-    private readonly datasourceService: DataSourceService
+    private readonly metricsService: MetricsService
   ) {
     this.logger = new Logger(ApplicationService.name);
   }
@@ -64,18 +58,8 @@ export class ApplicationService {
         };
 
         const application = await manager.getRepository(Application).save(payload);
-        if (SDK_WITH_METRICS_COLLECTION.includes(data.sdk)) {
-          if (data?.tsdbConfiguration?.provider) {
-            await this.datasourceService.saveDatasource(
-              {
-                ...data.tsdbConfiguration,
-                appId: application.id,
-                provider: data.tsdbConfiguration?.provider
-              },
-              manager
-            );
-          }
-
+        if (!BROWSER_SDK.includes(data.sdk)) {
+          // In server-apps we have to create default metrics configurations
           await this.metricsService.addDefaultMetrics(application, manager);
         }
 
@@ -170,25 +154,5 @@ export class ApplicationService {
       this.logger.error(`[${this.delete.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     }
-  }
-
-  // TODO: handle remove in clickhouse
-  // TODO: schduled crons should be in worker
-  @Cron(CronExpression.EVERY_6_HOURS)
-  private async handleLogDelete() {
-    // try {
-    //   const maxRetentionDate = dayjs().subtract(MAX_RETENTION_LOGS, "d").unix();
-    //   const logs = await this.entityManager
-    //     .getRepository(Log)
-    //     .createQueryBuilder("log")
-    //     .where("log.receiveTimestamp < :maxRetentionDate", { maxRetentionDate })
-    //     .getMany();
-
-    //   await this.entityManager.getRepository(Log).remove(logs);
-
-    //   this.logger.log(`[handleLogDelete] Deleted logs: ${logs.length}`);
-    // } catch (error) {
-    //   throw new Error(error);
-    // }
   }
 }

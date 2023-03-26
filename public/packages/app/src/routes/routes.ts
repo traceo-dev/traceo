@@ -125,11 +125,6 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       path: "/app/:id/settings/details",
       component: lazy(() => import("../features/app/settings/AppSettingsDetailsPage")),
       wrapper: AppDashboardPage
-    },
-    {
-      path: "/app/:id/settings/datasource",
-      component: lazy(() => import("../features/app/settings/AppSettingsDataSourcePage")),
-      wrapper: AppDashboardPage
     }
   ];
 };

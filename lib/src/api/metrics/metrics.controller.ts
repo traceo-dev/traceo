@@ -9,7 +9,7 @@ import {
   UpdateMetricDto
 } from "../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { IMetric, MetricPreviewType, MetricsResponse } from "@traceo/types";
+import { IMetric, MetricPreviewType, MetricResponseType } from "@traceo/types";
 import { MetricsService } from "./metrics.service";
 import { MetricsQueryService } from "./query/metrics-query.service";
 
@@ -44,7 +44,7 @@ export class MetricsController {
   async getMetricValues(
     @Param("id") appId: string,
     @Query() query: MetricQueryDto
-  ): Promise<ApiResponse<MetricsResponse[]>> {
+  ): Promise<ApiResponse<MetricResponseType[]>> {
     return await this.metricsQueryService.getMetricData(appId, query);
   }
 

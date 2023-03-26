@@ -4,7 +4,8 @@ import { ExceptionHandlers } from "@traceo-sdk/node";
 import { logger } from "..";
 
 export enum CLICKHOUSE_TABLE {
-    LOGS = "logs"
+    LOGS = "logs",
+    MERICS = "metrics"
 }
 
 export const createClickhouseClient = async (configs: RelayWorkerConfig): Promise<ClickHouseClient> => {

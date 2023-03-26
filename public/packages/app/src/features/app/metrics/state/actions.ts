@@ -1,7 +1,7 @@
 import api from "../../../../core/lib/api";
 import { metricLoaded, metricsLoaded } from "./reducers";
 import { ThunkResult } from "@store/types";
-import { ApiResponse, IMetric, MetricsResponse } from "@traceo/types";
+import { ApiResponse, IMetric, MetricResponseType } from "@traceo/types";
 
 type MetricsQuery = {
   search: string;
@@ -19,7 +19,7 @@ export const loadMetrics = (query?: MetricsQuery): ThunkResult<void> => {
 
 type MetricPreviewType = {
   options: IMetric;
-  datasource: MetricsResponse[];
+  datasource: MetricResponseType;
 };
 
 type LoadMetricType = {

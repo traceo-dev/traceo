@@ -11,7 +11,9 @@ export const traceo = new TraceoClient({
     apiKey: configs.TRACEO_API_KEY,
     appId: configs.TRACEO_APP_ID,
     url: configs.TRACEO_HOST,
-    scrapLogsInterval: 15
+    scrapLogsInterval: 15,
+    collectMetrics: true,
+    scrapMetricsInterval: 15
 });
 
 export const logger = traceo.logger;

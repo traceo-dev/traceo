@@ -1,11 +1,10 @@
-import { InfluxForm } from "../../core/components/Forms/InfluxForm";
 import { Page } from "../../core/components/Page";
 import api from "../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../core/utils/constants";
 import { useAppDispatch } from "../../store/index";
 import { hideNavbar } from "../../store/internal/navbar/actions";
 import { loadApplication } from "../app/state/application/actions";
-import { ApiResponse, CreateApplicationProps, DatasourceProvider, SDK } from "@traceo/types";
+import { ApiResponse, CreateApplicationProps, SDK } from "@traceo/types";
 import {
   Alert,
   Button,
@@ -27,14 +26,6 @@ type CreateAppPayload = {
   id: string;
   error?: string;
 };
-
-const providersOptions: SelectOptionProps[] = [
-  {
-    label: "InfluxDB",
-    value: DatasourceProvider.INLFUX_DB,
-    icon: <img src={`/img/svg/influx.svg`} width="40" />
-  }
-];
 
 const technologyOptions: SelectOptionProps[] = [
   {
@@ -68,9 +59,6 @@ const CreateApplicationPage = () => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
   const [selectedPlatform, setSelectedPlatform] = useState<SDK>(SDK.NODE);
-  const [selectedTsdb, setSelectedTsdb] = useState<DatasourceProvider>(
-    DatasourceProvider.INLFUX_DB
-  );
 
   useEffect(() => {
     dispatch(resetApplicationState());
@@ -78,15 +66,10 @@ const CreateApplicationPage = () => {
 
   const onFinish = async (form: CreateApplicationProps) => {
     setLoading(true);
-    const { name, tsdbProvider, tsdbConfiguration, url } = form;
+    const { name } = form;
     const payload = {
       name,
-      sdk: selectedPlatform,
-      tsdbConfiguration: {
-        url,
-        provider: tsdbProvider,
-        details: tsdbConfiguration
-      }
+      sdk: selectedPlatform
     };
     await api
       .post<ApiResponse<CreateAppPayload>>("/api/application", payload)
@@ -142,7 +125,7 @@ const CreateApplicationPage = () => {
           />
           <Form onSubmit={onFinish} className="w-full" id="create-app-form">
             {({ register, errors }) => (
-              <>
+              <div>
                 <Typography className="text-white" size="xl" weight="semibold">
                   2. Name your app
                 </Typography>
@@ -158,47 +141,12 @@ const CreateApplicationPage = () => {
                     })}
                   />
                 </FormItem>
-
-                {[SDK.NESTJS, SDK.NODE].includes(selectedPlatform) && (
-                  <div className="pt-9 w-full">
-                    <Typography className="text-white" size="xl" weight="semibold">
-                      3. Connect time series database
-                    </Typography>
-                    <div className="mt-6 w-1/2">
-                      <Alert
-                        type="info"
-                        message="To collect metrics from the software, you must first connect to the time series database to store them. You can do it anytime."
-                      />
-                    </div>
-                    <ChooseElementGrid
-                      options={providersOptions}
-                      onSelect={(v) => setSelectedTsdb(v)}
-                      selected={selectedTsdb}
-                    />
-
-                    {selectedTsdb === DatasourceProvider.INLFUX_DB && (
-                      <div className="w-1/2">
-                        <InfluxForm
-                          required={false}
-                          errors={errors}
-                          register={register}
-                        />
-                      </div>
-                    )}
-
-                    {error && (
-                      <Alert
-                        className="font-semibold"
-                        type="error"
-                        showIcon
-                        title={errorMessage}
-                      />
-                    )}
-                  </div>
-                )}
-              </>
+              </div>
             )}
           </Form>
+          {error && (
+            <Alert className="font-semibold" type="error" showIcon title={errorMessage} />
+          )}
           <ButtonContainer className="pt-5" justify="start">
             <Button type="submit" form="create-app-form" loading={loading}>
               Save

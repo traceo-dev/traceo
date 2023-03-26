@@ -2,15 +2,12 @@ import { HttpModule } from "@nestjs/axios";
 import { MiddlewareConsumer, Module, RequestMethod } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
 import { AuthModule } from "../auth/auth.module";
-import { InfluxService } from "../providers/influx/influx.service";
 import { UserController } from "./user/user.controller";
 import { UserModule } from "./user/user.module";
 import { MemberController } from "./member/member.controller";
 import { MemberModule } from "./member/member.module";
 import { ApplicationController } from "./application/application.controller";
 import { ApplicationModule } from "./application/application.module";
-import { DataSourceController } from "./datasource/dataSource.controller";
-import { DataSourceModule } from "./datasource/dataSource.module";
 import { IncidentCommentsController } from "./incidents/incident-comments/incident-comments.controller";
 import { IncidentsController } from "./incidents/incidents.controller";
 import { IncidentsModule } from "./incidents/incidents.module";
@@ -35,7 +32,6 @@ const apiControllers = [
   ApplicationController,
   ApplicationsController,
   MemberController,
-  DataSourceController,
   IncidentCommentsController,
   IncidentsController,
   StatisticsController,
@@ -51,7 +47,6 @@ const apiControllers = [
     UserModule,
     ApplicationModule,
     MemberModule,
-    DataSourceModule,
     IncidentsModule,
     IncidentCommentsModule,
     StatisticsModule,
@@ -61,8 +56,7 @@ const apiControllers = [
     CaptureModule,
     EventModule
   ],
-  controllers: apiControllers,
-  providers: [InfluxService]
+  controllers: apiControllers
 })
 export class ApiModule {
   configure(consumer: MiddlewareConsumer) {

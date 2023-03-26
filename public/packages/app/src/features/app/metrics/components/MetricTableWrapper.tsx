@@ -1,13 +1,12 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { IMetric, MetricsResponse, DeepPartial } from "@traceo/types";
-import { Typography, Card, Space, Switch, Table, TableColumn } from "@traceo/ui";
-import dayjs from "dayjs";
+import { IMetric, MetricResponseType, DeepPartial } from "@traceo/types";
+import { Typography, Card, Space, Switch } from "@traceo/ui";
 import { FC, useState } from "react";
 
 interface Props {
   metric: DeepPartial<IMetric>;
-  metricData: MetricsResponse[];
+  metricData: MetricResponseType;
 }
 export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
   const [isFormattedTime, setFormattedTime] = useState<boolean>(true);
@@ -23,11 +22,11 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
         </Space>
       }
     >
-      <ConditionalWrapper isEmpty={metricData?.length === 0} emptyView={<DataNotFound />}>
-        <Table collection={metricData} hovered>
+      <ConditionalWrapper isEmpty={metricData?.time?.length === 0} emptyView={<DataNotFound />}>
+        {/* <Table collection={metricData} hovered pageSize={100}>
           <TableColumn name="Time">
             {({ item }) =>
-              isFormattedTime ? dayjs(item._time).format("YYYY-MM-DD HH:mm:ss") : item._time
+              isFormattedTime ? dayjs.unix(Number(item.time)).format("YYYY-MM-DD HH:mm:ss") : item.timestamp
             }
           </TableColumn>
           {metric?.series?.map((serie, index) => (
@@ -39,7 +38,7 @@ export const MetricTableWrapper: FC<Props> = ({ metric, metricData }) => {
               )}
             </TableColumn>
           ))}
-        </Table>
+        </Table> */}
       </ConditionalWrapper>
     </Card>
   );

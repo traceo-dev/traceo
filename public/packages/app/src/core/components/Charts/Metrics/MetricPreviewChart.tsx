@@ -1,4 +1,4 @@
-import { buildDatasource, buildSeries } from "./utils";
+import { buildSeries } from "./utils";
 import { StoreState } from "@store/types";
 import { IMetric, DeepPartial } from "@traceo/types";
 import { FC, useMemo } from "react";
@@ -30,16 +30,12 @@ const MetricPreviewChart: FC<Props> = ({
   const showLegend = options?.config.legend.show;
   const legendOrient = options?.config.legend.orient;
   const unit = options?.unit;
-
-  const dataSourceOptions = useMemo(
-    () => buildDatasource(metric.datasource, metric.options.series),
-    [metric]
-  );
-
+  
   const echartOptions = useMemo(() => {
     const seriesOptions = buildSeries(
       options?.series || metric.options.series,
       options || metric.options,
+      metric.datasource,
       "preview"
     );
 
@@ -68,19 +64,16 @@ const MetricPreviewChart: FC<Props> = ({
         bottom: showLegend ? (legendOrient === "vertical" ? 10 : 50) : 10,
         top: 10
       },
-      series: seriesOptions,
-      dataset: {
-        source: dataSourceOptions
-      }
+      series: seriesOptions
     };
   }, [metric, options]);
 
   const onDataZoom = (params: EchartDataZoomProps) => {
     const { startValue, endValue } = params.batch[0];
-    if (startValue && endValue && dataSourceOptions["time"]) {
-      const selected = dataSourceOptions["time"].slice(startValue, endValue);
-      const from = dayjs(selected[0]).unix();
-      const to = dayjs(selected[selected.length - 1]).unix();
+    if (startValue && endValue) {
+      const selected = metric?.datasource?.time.slice(startValue, endValue);
+      const from = dayjs.unix(selected[0]).unix();
+      const to = dayjs.unix(selected[selected.length - 1]).unix();
 
       setRanges([from, to]);
     }
@@ -88,7 +81,7 @@ const MetricPreviewChart: FC<Props> = ({
 
   return (
     <ConditionalWrapper
-      isEmpty={metric?.datasource.length === 0}
+      isEmpty={!metric?.datasource || !metric.datasource?.time || metric?.datasource.time.length === 0}
       isLoading={!hasFetchedMetric || !metric || !options}
       emptyView={<DataNotFound />}
     >
@@ -97,7 +90,6 @@ const MetricPreviewChart: FC<Props> = ({
         renderer="canvas"
         onDataZoom={onDataZoom}
         activeZoomSelect={activeZoomSelect}
-        dataset={echartOptions.dataset}
         series={echartOptions.series}
         tooltip={echartOptions.tooltip}
         legend={echartOptions.legend}
@@ -107,8 +99,9 @@ const MetricPreviewChart: FC<Props> = ({
           axisLabel: {
             showMaxLabel: true
           },
-          labelFormatter: (v: unknown) => dayjs(v as any).format("HH:mm"),
-          pointerFormatter: (v: unknown) => dayjs(v as any).format("HH:mm, DD MMM")
+          labelFormatter: (v: unknown) => dayjs.unix(Number(v)).format("HH:mm"),
+          pointerFormatter: (v: unknown) => dayjs(v as any).format("HH:mm, DD MMM"),
+          data: metric?.datasource?.time || []
         })}
         yAxis={BaseYAxis({
           axisLabel: {

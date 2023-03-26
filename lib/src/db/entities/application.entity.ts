@@ -60,13 +60,6 @@ export class Application extends BaseEntity implements IApplication {
     onDelete: "CASCADE"
   })
   incidents?: IIncident[];
-
-  @Column({
-    type: "bigint",
-    nullable: false,
-    name: "incidents_count",
-    default: 0
-  })
   incidentsCount: number = 0;
 
   @Column({
@@ -75,13 +68,6 @@ export class Application extends BaseEntity implements IApplication {
     name: "runtime_config"
   })
   runtimeConfig?: Dictionary<string | number | undefined | null>;
-
-  @Column({
-    nullable: true,
-    name: "tsdb_datasource_id",
-    type: "varchar"
-  })
-  tsdbDatasource?: string;
 
   @OneToMany(() => Metric, (metric) => metric.application, {
     onUpdate: "CASCADE",
