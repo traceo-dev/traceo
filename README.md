@@ -36,7 +36,6 @@ docker volume create traceo-volume
 docker run -d --name=traceo -v traceo-volume:/usr/traceo -p 3000:3000 traceo/traceo
 ```
 
-
 If you want to integrate with the PostgreSQL database you have to set the environment variables as below:
 
 ```
