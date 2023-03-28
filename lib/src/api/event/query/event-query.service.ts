@@ -16,7 +16,6 @@ export class EventQueryService {
     }
 
     public async getEventsForIncident(incidentId: string): Promise<ApiResponse<IEvent[]>> {
-        console.log("incident: ", incidentId)
         try {
             const result: IEvent[] = await this.entityManger.query(`
                 SELECT * 

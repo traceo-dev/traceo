@@ -1,6 +1,6 @@
-import { BrowserInfoType, IApplication, IEvent, IIncident } from "@traceo/types";
+import { BrowserInfoType, IProject, IEvent, IIncident } from "@traceo/types";
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Application } from "./application.entity";
+import { Project } from "./project.entity";
 import { Incident } from "./incident.entity";
 
 @Entity()
@@ -20,14 +20,14 @@ export class Event extends BaseEntity implements IEvent {
     })
     browser?: BrowserInfoType;
 
-    @ManyToOne(() => Application, {
+    @ManyToOne(() => Project, {
         onUpdate: "CASCADE",
         onDelete: "CASCADE"
     })
     @JoinColumn({
-        name: "application_id"
+        name: "project_id"
     })
-    application: IApplication;
+    project: IProject;
 
     @ManyToOne(() => Incident, {
         onUpdate: "CASCADE",

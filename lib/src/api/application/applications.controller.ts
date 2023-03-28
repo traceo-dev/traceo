@@ -2,7 +2,7 @@ import { Controller, Get, Query, UseGuards } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { BaseDtoQuery } from "../../common/base/query/base-query.model";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { IApplication } from "@traceo/types";
+import { IProject } from "@traceo/types";
 import { ApplicationQueryService } from "./application-query/application-query.service";
 import { ApplicationService } from "./application.service";
 import { AuthGuard } from "../../common/decorators/auth-guard.decorator";
@@ -17,7 +17,7 @@ export class ApplicationsController {
   ) {}
 
   @Get("/search")
-  async getApplications(@Query() query: BaseDtoQuery): Promise<ApiResponse<IApplication[]>> {
+  async getApplications(@Query() query: BaseDtoQuery): Promise<ApiResponse<IProject[]>> {
     return await this.applicationQueryService.getApiListDto(query);
   }
 }

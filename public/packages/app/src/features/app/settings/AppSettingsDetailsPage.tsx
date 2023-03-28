@@ -64,14 +64,14 @@ export const AppSettingsDetailsPage = () => {
     }
 
     return (
-      <>
+      <div>
         <Button size="xs" onClick={onUpdateName}>
           Save
         </Button>
         <Button size="xs" variant="ghost" onClick={() => setNameEdit(false)}>
           Cancel
         </Button>
-      </>
+      </div>
     );
   };
 

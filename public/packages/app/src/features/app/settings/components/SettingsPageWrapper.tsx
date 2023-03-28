@@ -6,13 +6,13 @@ import { FC } from "react";
 export const SettingsPageWrapper: FC = ({ children }) => {
   const menu: MenuRoute[] = [
     {
-      href: "/app/:id/settings/details",
+      href: "/project/:id/settings/details",
       label: "Details",
       key: "details",
       icon: <InfoCircleOutlined />
     },
     {
-      href: "/app/:id/settings/access",
+      href: "/project/:id/settings/access",
       label: "Access",
       key: "access",
       icon: <TeamOutlined />

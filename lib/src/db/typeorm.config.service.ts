@@ -2,21 +2,21 @@ import { Injectable } from "@nestjs/common";
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 import { Member } from "./entities/member.entity";
 import { User } from "./entities/user.entity";
-import { Application } from "./entities/application.entity";
+import { Project } from "./entities/project.entity";
 import { Comment } from "./entities/comment.entity";
 import { Incident } from "./entities/incident.entity";
 import { Session } from "./entities/session.entity";
-import { StartupMigration } from "./migrations/StartupMigration";
+import { PostgresMigration } from "./migrations/postgres.migration";
 import { Metric } from "./entities/metric.entity";
 import { Event } from "./entities/event.entity";
-import { ClickhouseMigration } from "./migrations/ClickhouseMigration";
+import { ClickhouseMigration } from "./migrations/clickhouse.migration";
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
     return {
       migrations: [
-        StartupMigration,
+        PostgresMigration,
         ClickhouseMigration
       ],
       migrationsTransactionMode: "each",
@@ -25,7 +25,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       autoLoadEntities: true,
       synchronize: false,
       entities: [
-        Application,
+        Project,
         Comment,
         Incident,
         Member,

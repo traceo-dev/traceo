@@ -1,7 +1,7 @@
 import { Pool, PoolClient, QueryResult } from "pg";
 import { ExceptionHandlers } from "@traceo-sdk/node";
 import { logger } from "..";
-import { Dictionary, IApplication, IEvent, IIncident, LogEventPayload, MetricsEventPayload, SafeReturnType, TimeSerieMetric } from "@traceo/types";
+import { Dictionary, IProject, IEvent, IIncident, LogEventPayload, MetricsEventPayload, SafeReturnType, TimeSerieMetric } from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
 import { ClickHouseClient } from "@clickhouse/client";
@@ -66,8 +66,8 @@ export class DatabaseService {
         }
     }
 
-    public async getApplicationById(id: string, client: PoolClient = this.client): Promise<IApplication | undefined> {
-        const result = await client.query<IApplication>(`SELECT * FROM application WHERE id = '${id}'`);
+    public async getApplicationById(id: string, client: PoolClient = this.client): Promise<IProject | undefined> {
+        const result = await client.query<IProject>(`SELECT * FROM application WHERE id = '${id}'`);
         return result.rows[0];
     }
 

@@ -15,15 +15,23 @@ export enum UserStatus {
 
 export interface IUser {
   id?: string;
+
   name: string;
   username: string;
   email: string;
-  gravatar: string;
+
   password: string;
+  isPasswordUpdated: boolean;
+
   status: UserStatus;
   isAdmin: boolean;
-  applications: IMember[];
-  isPasswordUpdated: boolean;
+
+  gravatar: string;
+
   lastActiveAt?: number;
   createdAt?: number;
+  
+  defaultOrganizationId: string;
+
+  organizations: IMember[];
 }

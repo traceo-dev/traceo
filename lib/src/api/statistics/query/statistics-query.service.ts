@@ -20,7 +20,7 @@ export class StatisticsQueryService {
       const result = await this.entityManger.query(`
         SELECT date
         FROM event
-        WHERE application_id = $1
+        WHERE project_id = $1
         AND date >= $2
       `, [applicationId, today])
 
@@ -40,7 +40,7 @@ export class StatisticsQueryService {
       const result = await this.entityManger.query(`
         SELECT date
         FROM event
-        WHERE application_id = $1
+        WHERE project_id = $1
       `, [appId])
 
       return new ApiResponse("success", undefined, {

@@ -22,7 +22,7 @@ export class MemberQueryService {
    * @returns
    */
   public async getMembers(
-    appId: string,
+    projectId: string,
     pageOptionsDto: BaseDtoQuery
   ): Promise<ApiResponse<Member[]>> {
     const { order, take, search, page } = pageOptionsDto;
@@ -31,7 +31,7 @@ export class MemberQueryService {
       const queryBuilder = this.entityManager
         .getRepository(Member)
         .createQueryBuilder("member")
-        .innerJoin("member.application", "app", "app.id = :appId", { appId })
+        .innerJoin("member.project", "project", "project.id = :projectId", { projectId })
         .leftJoin("member.user", "user");
 
       if (search) {
@@ -86,13 +86,13 @@ export class MemberQueryService {
         .getRepository(Member)
         .createQueryBuilder("member")
         .innerJoin("member.user", "user", "user.id = :userId", { userId: id })
-        .leftJoinAndSelect("member.application", "application")
-        .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
-        .leftJoin("application.owner", "owner");
+        .leftJoinAndSelect("member.project", "project")
+        .loadRelationCountAndMap("project.incidentsCount", "project.incidents")
+        .leftJoin("project.owner", "owner");
 
       if (search) {
         queryBuilder
-          .where("LOWER(application.name) LIKE LOWER(:name)", {
+          .where("LOWER(project.name) LIKE LOWER(:name)", {
             name: `%${search}%`
           })
           .orWhere("LOWER(owner.name) LIKE LOWER(:name)", {
@@ -102,15 +102,15 @@ export class MemberQueryService {
 
       const appsMember = await queryBuilder
         .addSelect(["owner.name", "owner.email", "owner.id", "owner.gravatar"])
-        .orderBy(`application.${sortBy || "lastEventAt"}`, order, "NULLS LAST")
+        .orderBy(`project.${sortBy || "lastEventAt"}`, order, "NULLS LAST")
         .skip((page - 1) * take)
         .limit(take)
         .getMany();
 
       const response = appsMember.map((member) => ({
-        ...member.application,
-        id: member.id, //member id
-        appId: member.application.id, //application id
+        ...member.project,
+        id: member.id,
+        appId: member.project.id,
         role: member.role
       }));
 
@@ -122,32 +122,32 @@ export class MemberQueryService {
   }
 
   public async memberExists(
-    { userId, applicationId }: { userId: string; applicationId: string },
+    { userId, projectId }: { userId: string; projectId: string },
     manager: EntityManager = this.entityManager
   ): Promise<boolean> {
     const count = await manager
       .getRepository(Member)
       .createQueryBuilder("member")
-      .where("member.user = :userId AND member.application = :applicationId", {
+      .where("member.user = :userId AND member.project = :projectId", {
         userId,
-        applicationId
+        projectId
       })
       .getCount();
     return count > 0;
   }
 
-  public async getPermission(appId: string): Promise<any> {
+  public async getPermission(projectId: string): Promise<any> {
     const { id } = RequestContext.user;
     try {
       const applicationQuery = await this.entityManager
         .getRepository(Member)
         .createQueryBuilder("member")
-        .where("member.application = :appId", { appId })
+        .where("member.project = :projectId", { projectId })
         .innerJoin("member.user", "user", "user.id = :id", { id })
         .getOne();
 
       if (!applicationQuery) {
-        return new ApiResponse("error", undefined, "No permissions for this application!");
+        return new ApiResponse("error", undefined, "No permissions for this project!");
       }
 
       return new ApiResponse("success", undefined, {

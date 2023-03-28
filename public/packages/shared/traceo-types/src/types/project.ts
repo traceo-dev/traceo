@@ -4,25 +4,25 @@ import { MemberRole } from "./member";
 import { SDK } from "./sdk";
 import { IUser } from "./user";
 
-export interface IApplication {
+export interface IProject {
   id?: string;
   name: string;
   sdk: SDK;
 
   owner: Owner;
   gravatar?: string;
-  
+
   lastEventAt?: number;
   createdAt?: number;
   updatedAt?: number;
 
   incidentsCount: number;
-  membersCount: number;
+  // membersCount: number;
 
   isIntegrated: boolean;
 
-// field only for server-side SDKs
-// overrided after every application startup
+  // field only for server-side SDKs
+  // overrided after every application startup
   runtimeConfig?: Dictionary<string | number | undefined | null>;
 
   security?: ISecurity;
@@ -34,7 +34,7 @@ export interface ISecurity {
   generatedBy: string;
 }
 
-export interface IApplicationResponse extends Omit<IApplication, "influxDS" | "owner"> {
+export interface IProjectResponse extends Omit<IProject, "influxDS" | "owner"> {
   member: {
     role: MemberRole;
   };
@@ -74,14 +74,14 @@ export type MemberApplication = {
   id: string;
   appId: string;
   role: MemberRole;
-} & IApplication;
+} & IProject;
 
 export type CreateApplicationProps = {
   name: string;
   sdk: SDK;
 };
 
-export type UpdateApplicationProps = Pick<IApplication, "name">;
+export type UpdateApplicationProps = Pick<IProject, "name">;
 
 export interface SearchApplicationQueryParams {
   order?: SortOrder;

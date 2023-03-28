@@ -10,9 +10,9 @@ import dateUtils from "../../common/helpers/dateUtils";
 import { gravatar } from "../../common/helpers/gravatar";
 import { uuidService } from "../../common/helpers/uuid";
 import { CreateApplicationDto, ApplicationDto } from "../../common/types/dto/application.dto";
-import { Application } from "../../db/entities/application.entity";
+import { Project } from "../../db/entities/project.entity";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { BROWSER_SDK, MemberRole, SDK } from "@traceo/types";
+import { BROWSER_SDK, MemberRole } from "@traceo/types";
 import { MetricsService } from "../metrics/metrics.service";
 import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
 
@@ -30,7 +30,7 @@ export class ApplicationService {
     this.logger = new Logger(ApplicationService.name);
   }
 
-  public async create(data: CreateApplicationDto): Promise<ApiResponse<Application>> {
+  public async create(data: CreateApplicationDto): Promise<ApiResponse<Project>> {
     const { id, username } = RequestContext.user;
 
     return this.entityManager
@@ -48,7 +48,7 @@ export class ApplicationService {
         }
 
         const url = gravatar.url(data.name, "identicon");
-        const payload: Partial<Application> = {
+        const payload: Partial<Project> = {
           ...data,
           id: uuidService.generate(),
           createdAt: dateUtils.toUnix(),
@@ -57,7 +57,7 @@ export class ApplicationService {
           gravatar: url
         };
 
-        const application = await manager.getRepository(Application).save(payload);
+        const application = await manager.getRepository(Project).save(payload);
         if (!BROWSER_SDK.includes(data.sdk)) {
           // In server-apps we have to create default metrics configurations
           await this.metricsService.addDefaultMetrics(application, manager);
@@ -76,7 +76,7 @@ export class ApplicationService {
         await this.awrService.createMember(user, application, MemberRole.ADMINISTRATOR, manager);
 
         return new ApiResponse("success", "Application successfully created", {
-          redirectUrl: `/app/${application.id}/overview`,
+          redirectUrl: `/project/${application.id}/overview`,
           id: application.id
         });
       })
@@ -116,10 +116,10 @@ export class ApplicationService {
 
   public async update(
     id: string,
-    update: Partial<Application>,
+    update: Partial<Project>,
     manager: EntityManager = this.entityManager
   ): Promise<void> {
-    await manager.getRepository(Application).update(
+    await manager.getRepository(Project).update(
       { id },
       {
         updatedAt: dateUtils.toUnix(),
@@ -128,7 +128,7 @@ export class ApplicationService {
     );
   }
 
-  public async updateApplication(appBody: ApplicationDto | Partial<Application>) {
+  public async updateApplication(appBody: ApplicationDto | Partial<Project>) {
     const { id, ...rest } = appBody;
 
     try {
@@ -143,7 +143,7 @@ export class ApplicationService {
   public async delete(appId: string): Promise<ApiResponse<unknown>> {
     try {
       await this.entityManager
-        .getRepository(Application)
+        .getRepository(Project)
         .createQueryBuilder("application")
         .where("application.id = :appId", { appId })
         .delete()

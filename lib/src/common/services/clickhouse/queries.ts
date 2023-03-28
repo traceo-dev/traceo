@@ -10,7 +10,7 @@ export const CREATE_LOGS_TABLE = `
         precise_timestamp UInt128,
         receive_timestamp UInt128,
         level String,
-        application_id String,
+        project_id String,
         resources String
     ) 
     ENGINE = MergeTree() 
@@ -24,7 +24,7 @@ export const CREATE_METRICS_TABLE = `
         value Float64,
         timestamp UInt128,
         receive_timestamp DateTime,
-        application_id String,
+        project_id String,
         resources String
     )
     ENGINE = MergeTree()

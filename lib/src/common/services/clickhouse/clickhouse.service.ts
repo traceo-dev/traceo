@@ -27,7 +27,7 @@ export class ClickhouseService {
         const metrics = await this.query({
             query: `
                 SELECT name, value, timestamp FROM metrics
-                WHERE application_id = '${appId}'
+                WHERE project_id = '${appId}'
                 AND name IN (${query.fields.map((e) => `'${e}'`)})
                 AND timestamp >= ${query.from}
                 AND timestamp <= ${query.to}
@@ -43,7 +43,7 @@ export class ClickhouseService {
         const logs = await this.query({
             query: `
               SELECT * FROM logs 
-              WHERE application_id = '${query.id}'
+              WHERE project_id = '${query.id}'
               AND precise_timestamp >= ${query.from}
               AND precise_timestamp <= ${query.to}
               AND level IN (${query.levels.map((e) => `'${e}'`)})

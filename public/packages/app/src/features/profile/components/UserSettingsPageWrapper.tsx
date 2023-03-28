@@ -29,7 +29,7 @@ export const UserSettingsPageWrapper = ({ children }) => {
     <Page
       menuRoutes={menu}
       header={{
-        icon: <Avatar size="lg" src={user?.gravatar} alt={user.username} />,
+        icon: <Avatar size="md" src={user?.gravatar} alt={user.username} />,
         title: user.username,
         description: "Your account settings"
       }}

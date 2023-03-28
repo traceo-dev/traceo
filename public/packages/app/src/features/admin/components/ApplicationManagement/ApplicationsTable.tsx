@@ -1,12 +1,12 @@
 import dateUtils from "../../../../core/utils/date";
 import { BugOutlined, TeamOutlined } from "@ant-design/icons";
-import { IApplication } from "@traceo/types";
+import { IProject } from "@traceo/types";
 import { Avatar, Table, TableColumn } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
-  applications: IApplication[];
+  applications: IProject[];
   hasFetched?: boolean;
 }
 export const ApplicationsTable: FC<Props> = ({ applications, hasFetched }) => {

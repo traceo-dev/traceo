@@ -9,9 +9,9 @@ import {
 import { User } from "./user.entity";
 import { Comment } from "./comment.entity";
 import { Event } from "./event.entity";
-import { Application } from "./application.entity";
+import { Project } from "./project.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IApplication, IComment, IEvent, IIncident, Platform, SDK, Trace } from "@traceo/types";
+import { IComment, IEvent, IIncident, IProject, Platform, SDK, Trace } from "@traceo/types";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",
@@ -60,14 +60,14 @@ export class Incident extends BaseEntity implements IIncident {
   })
   lastEventAt: number;
 
-  @ManyToOne(() => Application, {
+  @ManyToOne(() => Project, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE"
   })
   @JoinColumn({
-    name: "application_id"
+    name: "project_id"
   })
-  application: IApplication;
+  project: IProject;
 
   @ManyToOne(() => User, (user) => user.incidents, {
     onDelete: "SET NULL"

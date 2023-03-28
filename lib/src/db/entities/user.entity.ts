@@ -34,10 +34,10 @@ export class User extends BaseEntity implements IUser {
   @IsBoolean()
   isAdmin: boolean;
 
-  @OneToMany(() => Member, (app) => app.user, {
+  @OneToMany(() => Member, (org) => org.user, {
     cascade: true
   })
-  applications: IMember[];
+  organizations: IMember[];
 
   // incidents assigned to this user
   @OneToMany(() => Incident, (incident) => incident.assigned)
@@ -57,4 +57,7 @@ export class User extends BaseEntity implements IUser {
     name: "last_active_at"
   })
   lastActiveAt?: number;
+
+  @Column({ type: "varchar", nullable: true })
+  defaultOrganizationId: string;
 }

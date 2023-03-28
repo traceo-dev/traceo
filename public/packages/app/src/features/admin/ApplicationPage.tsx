@@ -2,12 +2,12 @@ import { useRequest } from "../../core/hooks/useRequest";
 import { ApplicationInformation } from "./components/ApplicationManagement/ApplicationInformation";
 import { ApplicationMembers } from "./components/ApplicationManagement/ApplicationMembers";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
-import { IApplication } from "@traceo/types";
+import { IProject } from "@traceo/types";
 import { useParams } from "react-router-dom";
 
 export const ApplicationPage = () => {
   const { id } = useParams();
-  const { data, isLoading } = useRequest<IApplication>({
+  const { data, isLoading } = useRequest<IProject>({
     url: "/api/application",
     params: {
       id

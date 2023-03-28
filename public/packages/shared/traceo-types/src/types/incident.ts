@@ -1,4 +1,4 @@
-import { IApplication } from "./application";
+import { IProject } from "./project";
 import { BrowserInfoType } from "./browser";
 import { IComment } from "./comment";
 import { IEvent } from "./event";
@@ -33,7 +33,7 @@ export interface IIncident {
   lastEventAt: number;
   createdAt?: number;
 
-  application: IApplication;
+  project: IProject;
   assigned: Pick<IUser, "id" | "name" | "gravatar">;
   // information about incident platform only for backend SDKs
   // for browsers this infomation is persisted inside IError structure

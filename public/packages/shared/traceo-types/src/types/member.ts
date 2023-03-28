@@ -1,4 +1,4 @@
-import { IApplication } from "./application";
+import { IProject } from "./project";
 import { IUser } from "./user";
 
 export enum MemberRole {
@@ -11,5 +11,5 @@ export interface IMember {
   id?: string;
   role: MemberRole;
   user: IUser;
-  application: IApplication;
+  project: IProject;
 }

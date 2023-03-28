@@ -8,6 +8,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("./button.css");
+
 :root {
   --color-text-primary: rgb(204, 204, 220);
   --color-text-secondary: rgba(204, 204, 220, 0.65);

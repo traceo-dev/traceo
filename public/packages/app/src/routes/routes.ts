@@ -1,16 +1,14 @@
 import NotFound from "../core/components/Layout/Pages/NotFound";
-import AppDashboardPage from "../core/components/Layout/Wrappers/AppDashboardWrapper";
-import PublicPageWrapper from "../core/components/Layout/Wrappers/PublicPageWrapper";
 import { RouteDescriptor } from "../core/types/navigation";
 import Login from "../features/auth/login";
 import { lazy } from "react";
+import AppDashboardPage from "src/core/components/Layout/Wrappers/AppDashboardWrapper";
 
 const getPublicRoutes = (): RouteDescriptor[] => {
   return [
     {
       path: "/",
-      component: Login,
-      wrapper: PublicPageWrapper
+      component: Login
     },
     {
       path: "*",
@@ -67,62 +65,62 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
 const getApplicationRoutes = (): RouteDescriptor[] => {
   return [
     {
-      path: "/app/:id/overview",
+      path: "/project/:id/overview",
       component: lazy(() => import("../features/app/overview/AppOverviewPage")),
       wrapper: AppDashboardPage
     },
     {
-      path: "/app/:id/incidents",
+      path: "/project/:id/incidents",
       component: lazy(() => import("../features/app/incidents/IncidentsListPage")),
       wrapper: AppDashboardPage
     },
     {
-      path: "/app/:id/incidents/:iid/details",
+      path: "/project/:id/incidents/:iid/details",
       component: lazy(() => import("../features/app/incidents/IncidentDetailsPage")),
       wrapper: AppDashboardPage
     },
     {
-      path: "/app/:id/incidents/:iid/analytics",
+      path: "/project/:id/incidents/:iid/analytics",
       component: lazy(() => import("../features/app/incidents/IncidentAnalyticsPage")),
       wrapper: AppDashboardPage
     },
     {
-      path: "/app/:id/incidents/:iid/events",
+      path: "/project/:id/incidents/:iid/events",
       component: lazy(() => import("../features/app/incidents/IncidentEventsPage")),
       wrapper: AppDashboardPage
     },
     {
-      path: "/app/:id/incidents/:iid/conversation",
+      path: "/project/:id/incidents/:iid/conversation",
       component: lazy(() => import("../features/app/incidents/IncidentConversationPage")),
       wrapper: AppDashboardPage
     },
     {
-      path: "/app/:id/explore/runtime",
+      path: "/project/:id/explore/runtime",
       component: lazy(() => import("../features/app/explore/RuntimePage")),
       wrapper: AppDashboardPage
     },
     {
-      path: "/app/:id/explore/logs",
+      path: "/project/:id/explore/logs",
       component: lazy(() => import("../features/app/explore/LogsPage")),
       wrapper: AppDashboardPage
     },
     {
-      path: "/app/:id/metrics",
+      path: "/project/:id/metrics",
       component: lazy(() => import("../features/app/metrics/MetricsPage")),
       wrapper: AppDashboardPage
     },
     {
-      path: "/app/:id/metrics/preview/:metricId",
+      path: "/project/:id/metrics/preview/:metricId",
       component: lazy(() => import("../features/app/metrics/MetricPreviewPage")),
       wrapper: AppDashboardPage
     },
     {
-      path: "/app/:id/settings/access",
+      path: "/project/:id/settings/access",
       component: lazy(() => import("../features/app/settings/AppMembersListPage")),
       wrapper: AppDashboardPage
     },
     {
-      path: "/app/:id/settings/details",
+      path: "/project/:id/settings/details",
       component: lazy(() => import("../features/app/settings/AppSettingsDetailsPage")),
       wrapper: AppDashboardPage
     }

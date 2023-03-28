@@ -9,7 +9,7 @@ import { CreateMemberDto, UpdateMemberDto } from "../../common/types/dto/member.
 import { Member } from "../../db/entities/member.entity";
 import { ApiResponse } from "../../common/types/dto/response.dto";
 import { MemberRole } from "@traceo/types";
-import { Application } from "../../db/entities/application.entity";
+import { Project } from "../../db/entities/project.entity";
 import { User } from "../../db/entities/user.entity";
 
 /**
@@ -34,7 +34,7 @@ export class MemberService {
     return this.entityManager
       .transaction(async (manager) => {
         const exists = await this.awrQueryService.memberExists(
-          { userId, applicationId },
+          { userId, projectId: applicationId },
           manager
         );
         if (exists) {
@@ -81,13 +81,13 @@ export class MemberService {
 
   public async createMember(
     user: User,
-    application: Application,
+    project: Project,
     role: MemberRole = MemberRole.VIEWER,
     manager: EntityManager = this.entityManager
   ): Promise<void> {
     await manager.getRepository(Member).save({
       user,
-      application,
+      project,
       role,
       createdAt: dateUtils.toUnix(),
       updatedAt: dateUtils.toUnix()

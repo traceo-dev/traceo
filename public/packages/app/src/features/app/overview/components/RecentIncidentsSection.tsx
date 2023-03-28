@@ -36,7 +36,7 @@ export const RecentIncidentsSection = () => {
       title="Recent Incidents"
       extra={
         <Link
-          onClick={() => navigate(`/app/${application.id}/incidents`)}
+          onClick={() => navigate(`/project/${application.id}/incidents`)}
           className="text-xs font-semibold"
         >
           View
@@ -54,7 +54,7 @@ export const RecentIncidentsSection = () => {
           dataSource={incidents || []}
           renderItem={(item: IIncident) => (
             <ListCard
-              onClick={() => navigate(`/app/${application.id}/incidents/${item.id}/details`)}
+              onClick={() => navigate(`/project/${application.id}/incidents/${item.id}/details`)}
             >
               <Space className="w-full justify-between py-2">
                 <Space direction="horizontal" className="gap-0">

@@ -29,7 +29,7 @@ export class IncidentsQueryService extends BaseQueryService<Incident, IncidentQu
     const { appId } = query;
 
     builder
-      .where("incident.application_id = :appId", { appId })
+      .where("incident.project_id = :appId", { appId })
       .leftJoin("incident.assigned", "assigned")
       .loadRelationCountAndMap("incident.commentsCount", "incident.comments")
       .loadRelationCountAndMap("incident.eventsCount", "incident.events")

@@ -1,13 +1,13 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from "typeorm";
 import { User } from "./user.entity";
-import { Member } from "./member.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IApplication, ISecurity, IUser, IMember, IIncident, SDK, IMetric, Dictionary } from "@traceo/types";
+import { ISecurity, IUser, IIncident, SDK, IMetric, Dictionary, IProject, IMember } from "@traceo/types";
 import { Metric } from "./metric.entity";
+import { Member } from "./member.entity";
 
 @Entity()
-export class Application extends BaseEntity implements IApplication {
+export class Project extends BaseEntity implements IProject {
   @PrimaryColumn("varchar", {
     unique: true,
     nullable: false
@@ -48,14 +48,7 @@ export class Application extends BaseEntity implements IApplication {
   })
   isIntegrated: boolean;
 
-  @OneToMany(() => Member, (member) => member.application, {
-    onUpdate: "CASCADE",
-    onDelete: "CASCADE"
-  })
-  members?: IMember[];
-  membersCount: number;
-
-  @OneToMany(() => Incident, (incident) => incident.application, {
+  @OneToMany(() => Incident, (incident) => incident.project, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE"
   })
@@ -69,9 +62,16 @@ export class Application extends BaseEntity implements IApplication {
   })
   runtimeConfig?: Dictionary<string | number | undefined | null>;
 
-  @OneToMany(() => Metric, (metric) => metric.application, {
+  @OneToMany(() => Metric, (metric) => metric.project, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE"
   })
   metrics?: IMetric[];
+
+  @OneToMany(() => Member, (member) => member.project, {
+    onUpdate: "CASCADE",
+    onDelete: "CASCADE"
+  })
+  members?: IMember[];
+  membersCount: number;
 }

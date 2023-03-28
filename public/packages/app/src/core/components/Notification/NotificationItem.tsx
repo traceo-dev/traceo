@@ -50,7 +50,7 @@ export const NotificationItem: FC<NotificationItemProps> = ({ notification }) =>
     <div
       onClick={() => dispatch(hideNotify(notification))}
       className={joinClasses(
-        "rounded-md py-3 px-5 flex flex-row items-center cursor-pointer w-64",
+        "rounded-md py-3 px-5 flex flex-row items-center cursor-pointer w-64 z-50",
         "transition duration-300 ease-in-out transform",
         mapNotifyStyle[type]
       )}

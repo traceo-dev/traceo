@@ -19,7 +19,7 @@ export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
   const { application } = useApplication();
 
   const handleOnRowClick = (incident: IIncident) => {
-    navigate(`/app/${application.id}/incidents/${incident.id}/details`);
+    navigate(`/project/${application.id}/incidents/${incident.id}/details`);
   };
 
   const isNewIncident = (inc: IIncident): boolean => {

@@ -1,7 +1,7 @@
 import { BaseEntity } from "../../common/base/base.entity";
 import { IMetric, IMetricConfiguration, IMetricSerie, METRIC_UNIT } from "@traceo/types";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Application } from "./application.entity";
+import { Project } from "./project.entity";
 
 @Entity()
 export class Metric extends BaseEntity implements IMetric {
@@ -32,12 +32,12 @@ export class Metric extends BaseEntity implements IMetric {
   @Column({ type: "simple-json", nullable: false })
   config: IMetricConfiguration;
 
-  @ManyToOne(() => Application, {
+  @ManyToOne(() => Project, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE"
   })
   @JoinColumn({
-    name: "application_id"
+    name: "project_id"
   })
-  application: Application;
+  project: Project;
 }

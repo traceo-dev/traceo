@@ -1,7 +1,7 @@
 import api, { ApiQueryParams } from "../../../../core/lib/api";
 import { applicationsLoaded } from "./reducers";
 import { ThunkResult } from "@store/types";
-import { IApplication, ApiResponse } from "@traceo/types";
+import { IProject, ApiResponse } from "@traceo/types";
 
 export const loadServerApplications = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch) => {
@@ -11,7 +11,7 @@ export const loadServerApplications = (query?: ApiQueryParams): ThunkResult<void
         order: "DESC"
       };
     }
-    const { data } = await api.get<ApiResponse<IApplication[]>>(
+    const { data } = await api.get<ApiResponse<IProject[]>>(
       "/api/applications/search",
       query
     );

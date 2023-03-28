@@ -13,7 +13,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { BaseDtoQuery } from "../../common/base/query/base-query.model";
 import { CreateApplicationDto, ApplicationDto } from "../../common/types/dto/application.dto";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { IApplication, ILog, LogsQuery } from "@traceo/types";
+import { IProject, ILog, LogsQuery } from "@traceo/types";
 import { ApplicationQueryService } from "./application-query/application-query.service";
 import { ApplicationService } from "./application.service";
 import { AuthGuard } from "../../common/decorators/auth-guard.decorator";
@@ -28,12 +28,12 @@ export class ApplicationController {
   ) {}
 
   @Get()
-  async getApplication(@Query("id") id: string): Promise<ApiResponse<IApplication>> {
+  async getApplication(@Query("id") id: string): Promise<ApiResponse<IProject>> {
     return await this.applicationQueryService.getApiDto(id);
   }
 
   @Get("/all")
-  async getApplications(@Query() query: BaseDtoQuery): Promise<ApiResponse<IApplication[]>> {
+  async getApplications(@Query() query: BaseDtoQuery): Promise<ApiResponse<IProject[]>> {
     return await this.applicationQueryService.getApiListDto(query);
   }
 
@@ -45,7 +45,7 @@ export class ApplicationController {
   @Post()
   async createApplication(
     @Body() body: CreateApplicationDto
-  ): Promise<ApiResponse<IApplication>> {
+  ): Promise<ApiResponse<IProject>> {
     return await this.applicationService.create(body);
   }
 

@@ -65,7 +65,7 @@ const CreateUserPage = () => {
               Create a new user in the Traceo application by providing basic information.
             </p>
             <p className="m-0">
-              Remember the entered data, because they will be useful for a this user to log in.
+              Remember the entered data, because they will be useful for this user to log in.
             </p>
           </div>
         )

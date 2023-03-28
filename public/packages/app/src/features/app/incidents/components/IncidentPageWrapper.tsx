@@ -27,19 +27,19 @@ export const IncidentPageWrapper = ({ children }) => {
 
   const menu: MenuRoute[] = [
     {
-      href: "/app/:id/incidents/:iid/details",
+      href: "/project/:id/incidents/:iid/details",
       label: "Details",
       key: "details",
       icon: <InfoCircleOutlined />
     },
     {
-      href: "/app/:id/incidents/:iid/analytics",
+      href: "/project/:id/incidents/:iid/analytics",
       label: "Analytics",
       key: "analytics",
       icon: <StockOutlined />
     },
     {
-      href: "/app/:id/incidents/:iid/events",
+      href: "/project/:id/incidents/:iid/events",
       label: "Events",
       badge: (
         <div className="bg-yellow-600 text-black text-xs border rounded-full px-2 font-semibold">
@@ -50,7 +50,7 @@ export const IncidentPageWrapper = ({ children }) => {
       icon: <WarningOutlined />
     },
     {
-      href: "/app/:id/incidents/:iid/conversation",
+      href: "/project/:id/incidents/:iid/conversation",
       label: "Conversation",
       key: "conversation",
       icon: <CommentOutlined />
@@ -61,9 +61,7 @@ export const IncidentPageWrapper = ({ children }) => {
     dispatch(loadIncident(iid));
   }, []);
 
-  const onBack = () => {
-    navigate(`/app/${application.id}/incidents`);
-  };
+  const onBack = () => navigate(`/project/${application.id}/incidents`);
 
   return (
     <Page

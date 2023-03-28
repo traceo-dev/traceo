@@ -1,9 +1,7 @@
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./assets/styles/main.css";
 import "@traceo/ui/dist/styles.css";
-import { NavBar } from "./core/components/Layout/Navbar";
 import Maintenance from "./core/components/Layout/Pages/Maintenance";
-import { MainViewWrapper } from "./core/components/Layout/Wrappers/MainViewWrapper";
 import { NotificationContainer } from "./core/components/Notification/NotificationContainer";
 import { Page } from "./core/components/Page";
 import { PageCenter } from "./core/components/PageCenter";
@@ -16,6 +14,8 @@ import { Suspense } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { LiveContextProvider } from "./core/contexts/LiveContextProvider";
+import Header from "./core/components/Layout/Header";
+import { TraceoAppWrapper } from "./core/components/Layout/Wrappers/TraceoAppWrapper";
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
@@ -54,14 +54,13 @@ export const App = () => {
     );
   };
 
-  const renderNavbar = () => {
-    // Navbar should be visible only in base and app views
+  const renderHeader = () => {
     const paths = window.location.pathname.split("/");
-    if (!paths.includes("app") && !paths.includes("dashboard")) {
+    if (!paths.includes("project") && !paths.includes("dashboard")) {
       return null;
     }
 
-    return <NavBar />;
+    return <Header />;
   };
 
   return (
@@ -72,11 +71,9 @@ export const App = () => {
             <ConfigsContextProvider>
               <LiveContextProvider>
                 <div className="flex flex-col">
+                  {renderHeader()}
                   <NotificationContainer />
-                  <div className="flex items-strech absolute w-full h-full top-0 left-0">
-                    {renderNavbar()}
-                    <MainViewWrapper>{renderRoutes()}</MainViewWrapper>
-                  </div>
+                  <TraceoAppWrapper>{renderRoutes()}</TraceoAppWrapper>
                 </div>
               </LiveContextProvider>
             </ConfigsContextProvider>

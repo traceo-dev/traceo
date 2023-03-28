@@ -1,13 +1,13 @@
 import { BaseEntity } from "../../common/base/base.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
-import { Application } from "./application.entity";
+import { Project } from "./project.entity";
 import { IMember, MemberRole } from "@traceo/types";
 
 @Entity()
 export class Member extends BaseEntity implements IMember {
   @PrimaryGeneratedColumn("uuid")
-  id?: string;
+  id: string;
 
   @Column("simple-enum", {
     enum: MemberRole,
@@ -20,16 +20,16 @@ export class Member extends BaseEntity implements IMember {
     onDelete: "CASCADE"
   })
   @JoinColumn({
-    name: "user"
+    name: "user_id"
   })
   user: User;
 
-  @ManyToOne(() => Application, {
+  @ManyToOne(() => Project, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE"
   })
   @JoinColumn({
-    name: "application"
+    name: "project_id"
   })
-  application: Application;
+  project: Project;
 }

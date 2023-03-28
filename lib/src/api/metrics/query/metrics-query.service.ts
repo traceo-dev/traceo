@@ -40,15 +40,15 @@ export class MetricsQueryService {
   }
 
   public async getApplicationMetrics(
-    appId: string,
+    projectId: string,
     query: MetricsQueryDto
   ): Promise<ApiResponse<IMetric[]>> {
     try {
       const queryBuilder = this.entityManager
         .getRepository(Metric)
         .createQueryBuilder("metric")
-        .innerJoinAndSelect("metric.application", "application", "application.id = :appId", {
-          appId
+        .innerJoinAndSelect("metric.project", "project", "project.id = :projectId", {
+          projectId
         });
 
       if (query?.search) {
@@ -84,7 +84,7 @@ export class MetricsQueryService {
     try {
       const metric = await this.entityManager.getRepository(Metric).findOneBy({
         id: metricId,
-        application: {
+        project: {
           id: appId
         }
       });

@@ -51,7 +51,7 @@ export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
       header={{
         icon: <SettingOutlined />,
         title: "Admin panel",
-        description: "Manage your server resources"
+        description: "Manage your instance resources"
       }}
       isLoading={isLoading}
       menuRoutes={menu}

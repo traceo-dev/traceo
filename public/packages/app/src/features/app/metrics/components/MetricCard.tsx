@@ -15,7 +15,7 @@ export const MetricCard: FC<MetricCardProps> = ({ metric, ranges }) => {
 
   const onClick = () => {
     navigate({
-      pathname: `/app/${id}/metrics/preview/${metric.id}`,
+      pathname: `/project/${id}/metrics/preview/${metric.id}`,
       search: `?from=${ranges[0]}&to=${ranges[1]}`
     });
   };

@@ -2,26 +2,19 @@ import dateUtils from "../../../core/utils/date";
 import { MemberApplication } from "@traceo/types";
 import { Typography, Avatar } from "@traceo/ui";
 import { FC } from "react";
-import { useNavigate } from "react-router-dom";
 import AppListIncidentsChart from "../../../core/components/Charts/Incidents/AppListIncidentsChart";
 
 interface Props {
   app: MemberApplication;
 }
 export const AppCard: FC<Props> = ({ app }) => {
-  const navigate = useNavigate();
-
-  const openApplication = () => {
-    navigate(`/app/${app.appId}/overview`);
-  };
-
   const lastEventAt = app?.lastEventAt
     ? "Last error " + dateUtils.fromNow(app?.lastEventAt)
     : "-- : --";
 
   return (
     <div
-      onClick={openApplication}
+      onClick={() => (window.location.href = `/project/${app.appId}/overview`)}
       className="md:col-span-2 lg:col-span-4 flex flex-col p-5 m-2 bg-secondary rounded-md cursor-pointer min-h-[190px]"
     >
       <div className="flex flex-row items-center">

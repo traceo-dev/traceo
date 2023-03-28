@@ -15,7 +15,7 @@ import { BaseDtoQuery } from "../../common/base/query/base-query.model";
 import { CreateMemberDto, UpdateMemberDto } from "../../common/types/dto/member.dto";
 import { ApplicationDtoQuery } from "../../common/types/dto/application.dto";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { IMember, IApplicationResponse } from "@traceo/types";
+import { IMember, IProjectResponse } from "@traceo/types";
 import { MemberQueryService } from "./member-query/member-query.service";
 import { MemberService } from "./member.service";
 
@@ -29,7 +29,7 @@ export class MemberController {
   ) {}
 
   @Get("/permission")
-  async getPermission(@Query("id") id: string): Promise<ApiResponse<IApplicationResponse>> {
+  async getPermission(@Query("id") id: string): Promise<ApiResponse<IProjectResponse>> {
     return await this.amrQueryService.getPermission(id);
   }
 

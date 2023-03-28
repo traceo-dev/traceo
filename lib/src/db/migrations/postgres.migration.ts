@@ -5,24 +5,35 @@ import tokenService from "../../common/helpers/tokens";
 import { User } from "../entities/user.entity";
 import { UserStatus } from "@traceo/types";
 import { MigrationInterface, QueryRunner } from "typeorm";
+import { Logger } from "@nestjs/common";
 
-export class StartupMigration implements MigrationInterface {
+export class PostgresMigration implements MigrationInterface {
   name?: string;
+  private readonly logger: Logger;
 
   constructor() {
     this.name = `StartupMigration${Date.now()}`;
+    this.logger = new Logger(PostgresMigration.name);
   }
 
   async up(queryRunner: QueryRunner): Promise<any> {
     const connection = queryRunner.connection;
 
-    try {
-      await connection.synchronize();
+    await connection.synchronize();
 
-      const user = await connection.getRepository(User).findOneBy({ email: ADMIN_EMAIL });
+    /**
+     * If there is not user then we have to configure everything like:
+     * 
+     * 1. Create admin user with admin/admin
+     */
+
+    await connection.transaction(async (manager) => {
+      const user = await manager.getRepository(User).findOneBy({ email: ADMIN_EMAIL });
       if (!user) {
+        const now = dateUtils.toUnix();
         const password = tokenService.generate("admin");
         const url = gravatar.url("admin", "retro");
+
         const user: Partial<User> = {
           email: ADMIN_EMAIL,
           name: "admin",
@@ -31,15 +42,13 @@ export class StartupMigration implements MigrationInterface {
           gravatar: url,
           password,
           isPasswordUpdated: false,
-          createdAt: dateUtils.toUnix(),
+          createdAt: now,
           status: UserStatus.ACTIVE
         };
-        await connection.getRepository(User).insert(user);
-        console.log(`[Traceo] Migration run successfully. Admin user created.`);
+        await manager.getRepository(User).save(user);
       }
-    } catch (err) {
-      console.error(`[Traceo] Cannot run migration. Admin user not created. Caused by: ${err}`);
-    }
+    }).then(() => this.logger.log(`[Traceo] Postgres migration run successfully.`))
+      .catch((err) => this.logger.error(`[Traceo] Cannot run Postgres migration. Caused by: ${err}`));
   }
 
   async down(queryRunner: QueryRunner): Promise<any> {

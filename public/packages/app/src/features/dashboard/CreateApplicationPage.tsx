@@ -76,7 +76,7 @@ const CreateApplicationPage = () => {
       .then(({ data, status }) => {
         if (status === "success") {
           dispatch(loadApplication({ id: data.id }));
-          navigate(data.redirectUrl);
+          window.location.href = data.redirectUrl;
         } else {
           setError(true);
           setErrorMessage(data?.error || TRY_AGAIN_LATER_ERROR);

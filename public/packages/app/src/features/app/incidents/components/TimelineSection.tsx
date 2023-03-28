@@ -16,7 +16,7 @@ export const TimelineSection = () => {
       className="h-auto"
       extra={
         <Link
-          onClick={() => navigate(`/app/${application.id}/incidents/${incident.id}/analytics`)}
+          onClick={() => navigate(`/project/${application.id}/incidents/${incident.id}/analytics`)}
           className="text-xs font-semibold"
         >
           More

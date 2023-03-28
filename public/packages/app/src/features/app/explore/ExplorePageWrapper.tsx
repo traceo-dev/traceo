@@ -6,13 +6,13 @@ import { FC } from "react";
 export const ExplorePageWrapper: FC = ({ children }) => {
   const menu: MenuRoute[] = [
     {
-      href: "/app/:id/explore/logs",
+      href: "/project/:id/explore/logs",
       label: "Logs",
       key: "logs",
       icon: <AlignLeftOutlined />
     },
     {
-      href: "/app/:id/explore/runtime",
+      href: "/project/:id/explore/runtime",
       label: "Runtime configuration",
       key: "runtime",
       icon: <DeploymentUnitOutlined />

@@ -62,7 +62,7 @@ export const MetricPreviewHeader: FC<Props> = ({
 
   const onBack = () => {
     navigate({
-      pathname: `/app/${id}/metrics`,
+      pathname: `/project/${id}/metrics`,
       search: `?from=${ranges[0]}&to=${ranges[1]}`
     });
     dispatch(hideNavbar(false));

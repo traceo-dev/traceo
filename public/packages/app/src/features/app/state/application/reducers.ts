@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IApplication, MemberRole } from "@traceo/types";
+import { IProject, MemberRole } from "@traceo/types";
 
 export interface ApplicationState {
-  application: IApplication;
+  application: IProject;
   permission: MemberRole;
   hasFetched: boolean;
 }
 
 const initialState: ApplicationState = {
-  application: {} as IApplication,
+  application: {} as IProject,
   permission: null,
   hasFetched: false
 };
@@ -17,7 +17,7 @@ const applicationSlice = createSlice({
   name: "application",
   initialState: initialState,
   reducers: {
-    applicationLoaded: (state, action: PayloadAction<IApplication>): ApplicationState => ({
+    applicationLoaded: (state, action: PayloadAction<IProject>): ApplicationState => ({
       ...state,
       application: action.payload
     }),

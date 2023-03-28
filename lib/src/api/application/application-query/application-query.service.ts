@@ -4,34 +4,34 @@ import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { LogsQuery, ILog } from "@traceo/types";
-import { Application } from "../../../db/entities/application.entity";
+import { Project } from "../../../db/entities/project.entity";
 import { EntityManager, SelectQueryBuilder } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 
 @Injectable()
-export class ApplicationQueryService extends BaseQueryService<Application, BaseDtoQuery> {
+export class ApplicationQueryService extends BaseQueryService<Project, BaseDtoQuery> {
   private logger: Logger;
 
   constructor(
     readonly entityManager: EntityManager,
     readonly clickhouseClient: ClickhouseService
   ) {
-    super(entityManager, Application);
+    super(entityManager, Project);
     this.logger = new Logger(ApplicationQueryService.name);
   }
 
-  public override async getApiDto(id: string): Promise<ApiResponse<Application>> {
-    const resp = await this.entityManager.getRepository(Application)
-      .createQueryBuilder('application')
-      .where('application.id = :id', { id })
-      .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
+  public override async getApiDto(id: string): Promise<ApiResponse<Project>> {
+    const resp = await this.entityManager.getRepository(Project)
+      .createQueryBuilder('project')
+      .where('project.id = :id', { id })
+      .loadRelationCountAndMap("project.incidentsCount", "project.incidents")
       .getOne();
 
     return new ApiResponse("success", undefined, resp);
   }
 
   public get builderAlias(): string {
-    return "application";
+    return "project";
   }
 
   public async checkAppExists(id: string) {
@@ -43,28 +43,28 @@ export class ApplicationQueryService extends BaseQueryService<Application, BaseD
   }
 
   public extendQueryBuilder(
-    builder: SelectQueryBuilder<Application>,
+    builder: SelectQueryBuilder<Project>,
     query: BaseDtoQuery
-  ): SelectQueryBuilder<Application> {
+  ): SelectQueryBuilder<Project> {
     const { search } = query;
 
     if (search) {
-      builder.where("LOWER(application.name) LIKE LOWER(:name)", {
+      builder.where("LOWER(project.name) LIKE LOWER(:name)", {
         name: `%${search}%`
       });
     }
 
     builder
-      .leftJoinAndSelect("application.owner", "owner")
-      .loadRelationCountAndMap("application.membersCount", "application.members")
-      .loadRelationCountAndMap("application.incidentsCount", "application.incidents")
+      .leftJoinAndSelect("project.owner", "owner")
+      .loadRelationCountAndMap("project.membersCount", "project.members")
+      .loadRelationCountAndMap("project.incidentsCount", "project.incidents")
       .addSelect("owner.name", "owner.email");
 
     return builder;
   }
 
   public selectedColumns(): string[] {
-    return ["id", "name", "gravatar", "lastEventAt", "incidentsCount", "isIntegrated"];
+    return ["id", "name", "gravatar", "lastEventAt", "isIntegrated"];
   }
 
   public async getApplicationLogs(query: LogsQuery): Promise<ApiResponse<ILog[]>> {

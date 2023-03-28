@@ -1,0 +1,9 @@
+.icon-btn {
+    padding: 6px;
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.icon-btn:hover {
+    background-color: var(--color-bg-secondary);
+}
