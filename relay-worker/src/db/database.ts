@@ -197,7 +197,8 @@ export class DatabaseService {
             value: value,
             project_id: project_id,
             // TODO: return metrics capture time from SDK and pass here
-            timestamp: now
+            timestamp: now,
+            receive_timestamp: now
         })) as TimeSerieMetric[];
 
         await this.clickClient.insert({

@@ -22,7 +22,6 @@ export const MetricPreviewPage = () => {
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
   const [options, setOptions] = useImmer<DeepPartial<IMetric>>(metric?.options);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
-  const [isExpandMode, setExpandMode] = useState<boolean>(false);
 
   useEffect(() => {
     const payload = {
@@ -56,17 +55,14 @@ export const MetricPreviewPage = () => {
               extra={
                 <MetricToolbar
                   isCustomizeMode={isCustomizeMode}
-                  isExpandMode={isExpandMode}
                   ranges={ranges}
                   setCustomizeMode={setCustomizeMode}
-                  setExpandMode={setExpandMode}
                   setRanges={setRanges}
                 />
               }
             >
               <MetricPreviewChart
                 setRanges={setRanges}
-                isExpandMode={isExpandMode}
                 options={options}
                 activeZoomSelect={!isCustomizeMode}
               />

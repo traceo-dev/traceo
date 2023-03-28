@@ -4,7 +4,6 @@ import { EntityManager } from "typeorm";
 import * as crypto from "crypto";
 import { ApplicationQueryService } from "./application-query/application-query.service";
 import { UserQueryService } from "../user/user-query/user-query.service";
-import { Cron, CronExpression } from "@nestjs/schedule";
 import { ADMIN_NAME, ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from "../../common/helpers/constants";
 import dateUtils from "../../common/helpers/dateUtils";
 import { gravatar } from "../../common/helpers/gravatar";
@@ -133,23 +132,23 @@ export class ApplicationService {
 
     try {
       await this.update(id, rest);
-      return new ApiResponse("success", "Application updated");
+      return new ApiResponse("success", "Project updated");
     } catch (err) {
       this.logger.error(`[${this.update.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     }
   }
 
-  public async delete(appId: string): Promise<ApiResponse<unknown>> {
+  public async delete(projectId: string): Promise<ApiResponse<unknown>> {
     try {
       await this.entityManager
         .getRepository(Project)
-        .createQueryBuilder("application")
-        .where("application.id = :appId", { appId })
+        .createQueryBuilder("project")
+        .where("project.id = :projectId", { projectId })
         .delete()
         .execute();
 
-      return new ApiResponse("success", "Application removed");
+      return new ApiResponse("success", "Project removed");
     } catch (err) {
       this.logger.error(`[${this.delete.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);

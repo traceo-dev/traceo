@@ -15,7 +15,7 @@ export const handleMetricsEvent = async (core: Core, message: string): Promise<a
 
         if (!project_id) {
             const msg = 'Cannot process incoming metrics without project id!'
-            ExceptionHandlers.catchException(msg);
+            ExceptionHandlers.catchException(new Error(msg));
             return;
         }
 

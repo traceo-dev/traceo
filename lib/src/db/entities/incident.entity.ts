@@ -44,12 +44,13 @@ export class Incident extends BaseEntity implements IIncident {
 
   @Column({
     type: "varchar",
-    nullable: true
+    nullable: false
   })
   name: string;
 
   @Column({
-    type: "varchar"
+    type: "varchar",
+    nullable: true
   })
   message: string;
 

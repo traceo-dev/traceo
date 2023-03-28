@@ -54,6 +54,7 @@ export const Header = () => {
       <span className="text-sm p-2 border-bottom">Switch project</span>
       {applications?.map((app, key) => (
         <span
+          key={key}
           onClick={() => (window.location.href = `/project/${app?.appId}/overview`)}
           className="text-sm p-2 hover:bg-secondary cursor-pointer flex flex-row items-center gap-x-3"
         >
@@ -183,6 +184,7 @@ const HeaderButton = styled.div`
   border: 1px solid var(--color-traceo-primary);
   border-radius: 20px;
   cursor: pointer;
+  color: var(--color-traceo-primary);
   padding-inline: 15px;
   padding-top: 3px;
   padding-bottom: 3px;

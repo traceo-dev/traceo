@@ -14,13 +14,11 @@ import { EchartDataZoomProps } from "../types";
 
 interface Props {
   options: DeepPartial<IMetric>;
-  isExpandMode: boolean;
   setRanges: (val: [number, number]) => void;
   activeZoomSelect?: boolean;
 }
 const MetricPreviewChart: FC<Props> = ({
   options,
-  isExpandMode = false,
   activeZoomSelect = false,
   setRanges
 }) => {
@@ -86,7 +84,7 @@ const MetricPreviewChart: FC<Props> = ({
       emptyView={<DataNotFound />}
     >
       <BaseChart
-        height={isExpandMode ? "500px" : "300px"}
+        height={"300px"}
         renderer="canvas"
         onDataZoom={onDataZoom}
         activeZoomSelect={activeZoomSelect}

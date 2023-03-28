@@ -15,8 +15,6 @@ export class EventController {
     async getEventsForApp(
         @Param("id") id: string
     ): Promise<ApiResponse<IEvent[]>> {
-        console.log("event alksjdn ===========  ==========")
-        console.log("id: ", id)
         return await this.eventQueryService.getEventsForIncident(id);
     }
 }
