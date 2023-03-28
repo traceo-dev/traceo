@@ -13,10 +13,10 @@ export const handleLogsEvent = async (core: Core, message: string): Promise<any>
         const logsEvent = JSON.parse(message) as RelayEventType<LogEventPayload[]>;
 
         const payload = logsEvent.payload;
-        const app_id = logsEvent.appId;
+        const project_id = logsEvent.projectId;
 
-        const rowsCount = await db.insertClickhouseLogs({ logs: payload, appId: app_id })
-        logger.log(`✔ Inserted ${rowsCount} logs to application: ${app_id}`);
+        const rowsCount = await db.insertClickhouseLogs({ logs: payload, projectId: project_id })
+        logger.log(`✔ Inserted ${rowsCount} logs to project: ${project_id}`);
 
         return rowsCount;
     } catch (error) {

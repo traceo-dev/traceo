@@ -19,14 +19,14 @@ const mapRouteToTopic: Record<CAPTURE_ROUTE, KAFKA_TOPIC> = {
 
 export type CaptureType = {
     route: CAPTURE_ROUTE,
-    appId: string;
+    projectId: string;
     payload: any,
     headers: Dictionary<string>,
 }
 
 type KafkaEventPayload = {
     sdk: string | SDK;
-    appId: string;
+    projectId: string;
     payload: any;
 }
 
@@ -45,14 +45,14 @@ export class CaptureService {
     }
 
     public async process(data: CaptureType): Promise<ApiResponse<string> | undefined | void> {
-        const { appId: app_id, headers, payload, route } = data;
+        const { projectId: project_id, headers, payload, route } = data;
 
         if (process.env.DEMO === "true") {
             return this.exceptionResponse('Cannot process events in demo version of the Traceo Platform.')
         }
 
-        if (app_id === undefined) {
-            return this.exceptionResponse('App ID is not provided. You can find your app ID in application settings.')
+        if (project_id === undefined) {
+            return this.exceptionResponse('Project ID is not provided. You can find your ID in project settings.')
         }
 
         const api_key = headers["x-sdk-key"] || null;
@@ -76,7 +76,7 @@ export class CaptureService {
 
         const kafkaPayload: KafkaEventPayload = {
             sdk: sdk_name,
-            appId: app_id,
+            projectId: project_id,
             payload
         }
 

@@ -66,22 +66,22 @@ export class DatabaseService {
         }
     }
 
-    public async getApplicationById(id: string, client: PoolClient = this.client): Promise<IProject | undefined> {
-        const result = await client.query<IProject>(`SELECT * FROM application WHERE id = '${id}'`);
+    public async getProjectById(id: string, client: PoolClient = this.client): Promise<IProject | undefined> {
+        const result = await client.query<IProject>(`SELECT * FROM project WHERE id = '${id}'`);
         return result.rows[0];
     }
 
-    public async getIncident({ name, message, appId }: { name: string, message: string, appId: string }, client: PoolClient = this.client): Promise<IIncident | undefined> {
-        const result = await client.query<IIncident>(`SELECT * FROM incident WHERE name = $1 AND message = $2 AND application_id = $3`, [name, message, appId]);
+    public async getIncident({ name, message, projectId }: { name: string, message: string, projectId: string }, client: PoolClient = this.client): Promise<IIncident | undefined> {
+        const result = await client.query<IIncident>(`SELECT * FROM incident WHERE name = $1 AND message = $2 AND project_id = $3`, [name, message, projectId]);
         return result.rows[0];
     }
 
-    private async updateApplicationLastEventAt(appId: string, date: number, client: PoolClient = this.client): Promise<void> {
-        await client.query(`UPDATE application SET last_event_at = '${date}' WHERE id = '${appId}'`)
+    private async updateProjectLastEventAt(projectId: string, date: number, client: PoolClient = this.client): Promise<void> {
+        await client.query(`UPDATE project SET last_event_at = '${date}' WHERE id = '${projectId}'`)
     }
 
     public async createIncident({
-        sdk, status, stack, name, message, createdAt, application, platform, traces
+        sdk, status, stack, name, message, createdAt, project, platform, traces
     }: Partial<IIncident>, {
         browser, date
     }: Partial<IEvent>,
@@ -92,7 +92,7 @@ export class DatabaseService {
          * using postgresTransaction and this same client instance passed to function attribute.
          * 
          * 1. Insert new incident 
-         * 2. Update last_incident_at in application table
+         * 2. Update last_incident_at in project table
          * 3. Insert new event
          */
         const result = await client.query<IIncident>(`
@@ -105,7 +105,7 @@ export class DatabaseService {
                 message, 
                 created_at,
                 last_event_at,
-                application_id, 
+                project_id, 
                 platform
             )
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
@@ -119,16 +119,16 @@ export class DatabaseService {
             message,
             createdAt,
             date,
-            application.id,
+            project.id,
             platform
         ]);
 
-        await this.updateApplicationLastEventAt(application.id, date);
+        await this.updateProjectLastEventAt(project.id, date);
 
         const insertedRow = result.rows[0];
         await this.createEvent({
             incident: insertedRow,
-            application,
+            project,
             date,
             browser
         }, client);
@@ -136,36 +136,36 @@ export class DatabaseService {
         return insertedRow;
     }
 
-    public async createEvent({ date, browser, incident, application }: Partial<IEvent>, client: PoolClient = this.client): Promise<IEvent> {
+    public async createEvent({ date, browser, incident, project }: Partial<IEvent>, client: PoolClient = this.client): Promise<IEvent> {
         const result = await client.query<IEvent>(`
             INSERT INTO event (
                 date,
                 incident_id,
-                application_id,
+                project_id,
                 browser
             ) VALUES ($1, $2, $3, $4) 
             RETURNING *        
         `, [
             date,
             incident.id,
-            application.id,
+            project.id,
             browser
         ]);
 
         await client.query(`UPDATE incident SET last_event_at = '${date}' WHERE id = '${incident.id}'`)
-        await this.updateApplicationLastEventAt(application.id, date);
+        await this.updateProjectLastEventAt(project.id, date);
 
         return result.rows[0];
     }
 
-    public async insertRuntimeConfigs({ config, appId }: { config: Dictionary<SafeReturnType>, appId: string }): Promise<any> {
-        const insertedRows = await this.postgresQuery<Dictionary<SafeReturnType>>(`UPDATE application SET runtime_config = '${JSON.stringify(config)}' WHERE id = '${appId}'`)
+    public async insertRuntimeConfigs({ config, projectId }: { config: Dictionary<SafeReturnType>, projectId: string }): Promise<any> {
+        const insertedRows = await this.postgresQuery<Dictionary<SafeReturnType>>(`UPDATE project SET runtime_config = '${JSON.stringify(config)}' WHERE id = '${projectId}'`)
         return insertedRows.rows[0];
     }
 
     // Clickhouse queries
 
-    public async insertClickhouseLogs({ logs, appId }: { logs: LogEventPayload[], appId: string }): Promise<number> {
+    public async insertClickhouseLogs({ logs, projectId }: { logs: LogEventPayload[], projectId: string }): Promise<number> {
         const now = dayjs().unix();
 
         const values = logs.map((log) => ({
@@ -175,7 +175,7 @@ export class DatabaseService {
             receive_timestamp: now,
             precise_timestamp: log.unix,
             level: log.level,
-            application_id: appId,
+            project_id: projectId,
             resources: JSON.stringify(log.resources)
         }));
 
@@ -188,14 +188,14 @@ export class DatabaseService {
         return values.length;
     }
 
-    public async insertClickhouseMetrics({ app_id, payload }: { app_id: string, payload: MetricsEventPayload }) {
+    public async insertClickhouseMetrics({ project_id, payload }: { project_id: string, payload: MetricsEventPayload }) {
         const now = dayjs().unix();
 
         const metrics = Object.entries(flatObject(payload)).map(([key, value]) => ({
             id: randomUUID(),
             name: key,
             value: value,
-            application_id: app_id,
+            project_id: project_id,
             // TODO: return metrics capture time from SDK and pass here
             timestamp: now
         })) as TimeSerieMetric[];

@@ -16,7 +16,7 @@ export type TimeSerieMetric = {
   id: string,
   name: string,
   value: string | UUIntType,
-  application_id: string,
+  project_id: string,
   // TODO: return metrics capture time from SDK and pass here
   timestamp: number,
   receive_timestamp: number

@@ -11,11 +11,17 @@ export const handleMetricsEvent = async (core: Core, message: string): Promise<a
         const logsEvent = JSON.parse(message) as RelayEventType<MetricsEventPayload>;
 
         const payload = logsEvent.payload;
-        const app_id = logsEvent.appId;
+        const project_id = logsEvent.projectId;
 
-        const count = await db.insertClickhouseMetrics({ app_id, payload })
+        if (!project_id) {
+            const msg = 'Cannot process incoming metrics without project id!'
+            ExceptionHandlers.catchException(msg);
+            return;
+        }
 
-        logger.log(`✔ Inserted ${count} metrics to Clickohuse for app: ${app_id}`)
+        const count = await db.insertClickhouseMetrics({ project_id, payload })
+
+        logger.log(`✔ Inserted ${count} metrics to Clickhuse for project: ${project_id}`)
 
         return count;
     } catch (error) {

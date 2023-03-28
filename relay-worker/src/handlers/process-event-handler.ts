@@ -26,24 +26,24 @@ export const handleIncidentEvent = async (core: Core, message: string) => {
 }
 
 const captureEvent = async ({
-    appId: app_id,
+    projectId: project_id,
     sdk,
     payload
 }: IncidentEvent, db: DatabaseService) => {
     const now = dayjs().unix();
 
     const processedIncident = await db.postgresTransaction(async (client: PoolClient) => {
-        const app = await db.getApplicationById(app_id, client);
+        const project = await db.getProjectById(project_id, client);
 
-        if (!app) {
-            logger.error(`❌ Cannot process incident event. Caused by: Cannot find app with provided id: ${app_id}.`);
+        if (!project) {
+            logger.error(`❌ Cannot process incident event. Caused by: Cannot find project with provided id: ${project_id}.`);
             return;
         }
 
         const incident = await db.getIncident({
             name: payload["type"],
             message: payload.message,
-            appId: app_id
+            projectId: project_id
         }, client);
 
         if (!incident) {
@@ -51,14 +51,14 @@ const captureEvent = async ({
                 ...payload,
                 sdk: sdk as SDK,
                 status: IncidentStatus.UNRESOLVED,
-                application: app,
+                project: project,
                 createdAt: now,
                 name: payload["type"],
             };
 
             await db.createIncident(incident, payload, client);
 
-            logger.info(`✔ New incident created for app: ${app_id}, sdk: ${sdk}, name: ${payload["type"]}`);
+            logger.info(`✔ New incident created for project: ${project_id}, sdk: ${sdk}, name: ${payload["type"]}`);
 
             return;
         }
@@ -66,7 +66,7 @@ const captureEvent = async ({
         const event = await db.createEvent({
             date: now,
             incident,
-            application: app,
+            project: project,
 
             browser: payload?.browser || undefined,
         }, client);

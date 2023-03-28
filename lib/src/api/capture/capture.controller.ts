@@ -25,7 +25,7 @@ export class CaptureController {
 
         return await this.captureService.process({
             route: CAPTURE_ROUTE.INCIDENT,
-            appId: id,
+            projectId: id,
             payload: data,
             headers
         });
@@ -44,7 +44,7 @@ export class CaptureController {
 
         return await this.captureService.process({
             route: CAPTURE_ROUTE.RUNTIME,
-            appId: id,
+            projectId: id,
             payload: data,
             headers
         });
@@ -63,7 +63,7 @@ export class CaptureController {
 
         return await this.captureService.process({
             route: CAPTURE_ROUTE.LOGS,
-            appId: id,
+            projectId: id,
             payload: data,
             headers
         });
@@ -82,7 +82,7 @@ export class CaptureController {
 
         return await this.captureService.process({
             route: CAPTURE_ROUTE.METRICS,
-            appId: id,
+            projectId: id,
             payload: data,
             headers
         });

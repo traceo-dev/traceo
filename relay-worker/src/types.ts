@@ -11,7 +11,7 @@ export interface Core {
 };
 
 export type RelayEventType<T> = {
-    appId: string;
+    projectId: string;
     sdk: string | SDK;
     payload: T
 };

@@ -11,11 +11,11 @@ export const handleRuntimeEvent = async (core: Core, message: string): Promise<a
         const logsEvent = JSON.parse(message) as RelayEventType<RuntimeEventPayload>;
 
         const payload = logsEvent.payload;
-        const app_id = logsEvent.appId;
+        const project_id = logsEvent.projectId;
 
-        const ret = await db.insertRuntimeConfigs({ config: payload, appId: app_id });
+        const ret = await db.insertRuntimeConfigs({ config: payload, projectId: project_id });
 
-        logger.log(`✔ Runtime configuration inserted to application: ${app_id}`);
+        logger.log(`✔ Runtime configuration inserted to project: ${project_id}`);
         return ret;
     } catch (error) {
         const message = `❌ Cannot process incoming event. Caused by: ${error}`;
