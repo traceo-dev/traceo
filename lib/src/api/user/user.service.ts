@@ -1,6 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { MemberService } from "../member/member.service";
-import { ApplicationQueryService } from "../application/application-query/application-query.service";
+import { ProjectQueryService } from "../project/project-query/project-query.service";
 import { HttpService } from "@nestjs/axios";
 import { INTERNAL_SERVER_ERROR, ADMIN_EMAIL } from "../../common/helpers/constants";
 import dateUtils from "../../common/helpers/dateUtils";
@@ -20,7 +20,7 @@ export class UserService {
 
   constructor(
     readonly entityManager: EntityManager,
-    readonly applicationQueryService: ApplicationQueryService,
+    readonly projectQueryService: ProjectQueryService,
     readonly awrService: MemberService,
     readonly httpService: HttpService,
     readonly tokenService: AuthTokenService

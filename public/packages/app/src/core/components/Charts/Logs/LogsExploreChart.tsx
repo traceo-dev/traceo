@@ -2,7 +2,7 @@ import {
   commonSeriesOptions,
   mapLogBarsColor,
   mapLogName
-} from "../../../../features/app/explore/components/utils";
+} from "../../../../features/project/explore/components/utils";
 import { Dictionary, LogLevel } from "@traceo/types";
 import { FC } from "react";
 import dateUtils from "../../../utils/date";

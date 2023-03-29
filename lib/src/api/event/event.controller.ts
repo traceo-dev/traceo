@@ -12,7 +12,7 @@ export class EventController {
     ) { }
 
     @Get('/incident/:id')
-    async getEventsForApp(
+    async getEventsForIncident(
         @Param("id") id: string
     ): Promise<ApiResponse<IEvent[]>> {
         return await this.eventQueryService.getEventsForIncident(id);

@@ -8,7 +8,7 @@ import { UserService } from "../api/user/user.service";
 import { UserQueryService } from "../api/user/user-query/user-query.service";
 import { MemberQueryService } from "../api/member/member-query/member-query.service";
 import { MemberService } from "../api/member/member.service";
-import { ApplicationQueryService } from "../api/application/application-query/application-query.service";
+import { ProjectQueryService } from "../api/project/project-query/project-query.service";
 import { JwtStrategy } from "./jwt/jwt.strategy";
 import { AuthTokenService } from "./auth-token.service";
 
@@ -26,7 +26,7 @@ import { AuthTokenService } from "./auth-token.service";
     UserService,
     JwtStrategy,
     UserQueryService,
-    ApplicationQueryService,
+    ProjectQueryService,
     MemberService,
     MemberQueryService
   ],

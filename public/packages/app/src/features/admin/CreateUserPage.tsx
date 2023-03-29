@@ -3,7 +3,6 @@ import api from "../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../core/utils/constants";
 import { useAppDispatch } from "../../store/index";
 import { hideNavbar } from "../../store/internal/navbar/actions";
-import { ArrowLeftOutlined } from "@ant-design/icons";
 import { AddUserProps, ApiResponse } from "@traceo/types";
 import {
   Alert,
@@ -62,7 +61,7 @@ const CreateUserPage = () => {
         description: (
           <div>
             <p className="m-0 pt-3">
-              Create a new user in the Traceo application by providing basic information.
+              Create a new user in the Traceo project by providing basic information.
             </p>
             <p className="m-0">
               Remember the entered data, because they will be useful for this user to log in.

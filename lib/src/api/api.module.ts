@@ -6,8 +6,8 @@ import { UserController } from "./user/user.controller";
 import { UserModule } from "./user/user.module";
 import { MemberController } from "./member/member.controller";
 import { MemberModule } from "./member/member.module";
-import { ApplicationController } from "./application/application.controller";
-import { ApplicationModule } from "./application/application.module";
+import { ProjectController } from "./project/project.controller";
+import { ProjectModule } from "./project/project.module";
 import { IncidentCommentsController } from "./incidents/incident-comments/incident-comments.controller";
 import { IncidentsController } from "./incidents/incidents.controller";
 import { IncidentsModule } from "./incidents/incidents.module";
@@ -16,7 +16,7 @@ import { MetricsModule } from "./metrics/metrics.module";
 import { StatisticsController } from "./statistics/statistics.controller";
 import { StatisticsModule } from "./statistics/statistics.module";
 import { UsersController } from "./user/users.controller";
-import { ApplicationsController } from "./application/applications.controller";
+import { ProjectsController } from "./project/projects.controller";
 import { IncidentCommentsModule } from "./incidents/incident-comments/incident-comments.module";
 import { RequestContextMiddleware } from "../common/middlewares/request-context/request-context.middleware";
 import { AuthController } from "../auth/auth.controller";
@@ -29,8 +29,8 @@ import { EventModule } from './event/event.module';
 const apiControllers = [
   UserController,
   UsersController,
-  ApplicationController,
-  ApplicationsController,
+  ProjectController,
+  ProjectsController,
   MemberController,
   IncidentCommentsController,
   IncidentsController,
@@ -45,7 +45,7 @@ const apiControllers = [
     AuthModule,
     PassportModule.register({ defaultStrategy: "jwt" }),
     UserModule,
-    ApplicationModule,
+    ProjectModule,
     MemberModule,
     IncidentsModule,
     IncidentCommentsModule,

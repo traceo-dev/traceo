@@ -1,4 +1,4 @@
-import { useApplication } from "../../../hooks/useApplication";
+import { useProject } from "../../../hooks/useProject";
 import { MenuRoute } from "../../../types/navigation";
 import { joinClasses, conditionClass } from "../../../utils/classes";
 import { StoreState } from "@store/types";
@@ -12,7 +12,7 @@ interface Props {
   menu: MenuRoute;
 }
 export const MenuItem: FC<Props> = ({ menu }) => {
-  const { application } = useApplication();
+  const { project } = useProject();
   const { incident } = useSelector((state: StoreState) => state.incident);
 
   const isActive = (currentKey: string) => {
@@ -21,7 +21,7 @@ export const MenuItem: FC<Props> = ({ menu }) => {
   };
 
   const handlePath = (link: string) =>
-    link.replace(":id", String(application.id)).replace(":iid", incident.id);
+    link.replace(":id", String(project.id)).replace(":iid", incident.id);
 
   return (
     <NavLink to={handlePath(menu.href)} className="text-inherit">

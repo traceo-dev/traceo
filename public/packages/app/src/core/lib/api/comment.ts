@@ -1,23 +1,23 @@
 import api from "../api";
 
-const send = async (incidentId: string, applicationId: string, message: string) => {
+const send = async (incidentId: string, projectId: string, message: string) => {
   await api.post("/api/comments/send", {
     incidentId,
-    applicationId,
+    projectId,
     message
   });
 };
 
-const update = async (commentId: string, message: string, applicationId: string) => {
+const update = async (commentId: string, message: string, projectId: string) => {
   await api.patch(`/api/comments/update/${commentId}`, {
     message: message,
-    applicationId
+    projectId
   });
 };
 
-const remove = async (commentId: string, applicationId: string) => {
+const remove = async (commentId: string, projectId: string) => {
   await api.delete(`/api/comments/remove/${commentId}`, {
-    applicationId
+    projectId
   });
 };
 

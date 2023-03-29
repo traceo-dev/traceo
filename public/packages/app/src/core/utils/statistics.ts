@@ -5,9 +5,9 @@ import dayjs from "dayjs";
 /**
  * TODO: This utils are to total refactoring. Rubbish.
  *
- * QA: Why data to plots are parsing on app?
+ * QA: Why data to plots are parsing on project?
  * Because I need to use local timezone instead of utc. Maybe I should save used timezone
- * in app object and parse this on backend side?
+ * in project object and parse this on backend side?
  */
 
 const parseIncidentsTablePlotData = (errorsDetails: ErrorDetails[]) => {

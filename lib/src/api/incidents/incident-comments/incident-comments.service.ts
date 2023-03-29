@@ -17,7 +17,7 @@ export class IncidentCommentsService {
   }
 
   public async saveComment(comment: PatchCommentDto): Promise<ApiResponse<unknown>> {
-    const { message, incidentId, applicationId } = comment;
+    const { message, incidentId, projectId } = comment;
     const { id } = RequestContext.user;
 
     try {
@@ -33,7 +33,7 @@ export class IncidentCommentsService {
         }
       });
 
-      this.live.publish(applicationId, {
+      this.live.publish(projectId, {
         action: "new_comment",
         message: comment
       });
@@ -49,7 +49,7 @@ export class IncidentCommentsService {
     id: string,
     comment: PatchCommentDto
   ): Promise<ApiResponse<unknown>> {
-    const { message, applicationId } = comment;
+    const { message, projectId } = comment;
 
     return await this.entityManager
       .transaction(async (manager) => {
@@ -61,7 +61,7 @@ export class IncidentCommentsService {
 
         const updatedComment = await this.getComment(id, manager);
 
-        this.live.publish(applicationId, {
+        this.live.publish(projectId, {
           action: "update_comment",
           message: updatedComment
         });
@@ -74,7 +74,7 @@ export class IncidentCommentsService {
       });
   }
 
-  public async removeComment(id: string, applicationId: string): Promise<ApiResponse<unknown>> {
+  public async removeComment(id: string, projectId: string): Promise<ApiResponse<unknown>> {
     return await this.entityManager
       .transaction(async (manager) => {
         await manager.getRepository(Comment).save({
@@ -85,7 +85,7 @@ export class IncidentCommentsService {
         });
 
         const updatedComment = await this.getComment(id, manager);
-        this.live.publish(applicationId, {
+        this.live.publish(projectId, {
           action: "remove_comment",
           message: updatedComment
         });

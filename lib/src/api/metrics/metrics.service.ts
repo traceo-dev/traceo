@@ -17,7 +17,7 @@ export class MetricsService {
   }
 
   public async addDefaultMetrics(
-    application: Project,
+    project: Project,
     entityManager: EntityManager = this.entityManager
   ): Promise<void> {
     if (!default_metrics || !default_metrics.metrics) {
@@ -30,7 +30,7 @@ export class MetricsService {
       const newMetric: Metric = {
         ...metric,
         createdAt: dateUtils.toUnix(),
-        project: application
+        project
       };
 
       await entityManager.getRepository(Metric).save(newMetric);

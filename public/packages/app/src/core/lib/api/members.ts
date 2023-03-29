@@ -1,8 +1,8 @@
 import api from "../api";
-import { ApplicationMember, MemberRole } from "@traceo/types";
+import { ProjectMember, MemberRole } from "@traceo/types";
 
 const onUpdateRole = async (
-  member: ApplicationMember,
+  member: ProjectMember,
   role: MemberRole,
   postExecute: () => void
 ) => {
@@ -14,7 +14,7 @@ const onUpdateRole = async (
     .finally(() => postExecute());
 };
 
-const onRemoveFromApp = async (member: ApplicationMember, postExecute: () => void) => {
+const onRemoveFromProject = async (member: ProjectMember, postExecute: () => void) => {
   await api
     .delete("/api/member", {
       id: member.id
@@ -22,4 +22,4 @@ const onRemoveFromApp = async (member: ApplicationMember, postExecute: () => voi
     .finally(() => postExecute());
 };
 
-export const membersAction = { onUpdateRole, onRemoveFromApp };
+export const membersAction = { onUpdateRole, onRemoveFromProject };

@@ -6,7 +6,7 @@ export const useLive = () => {
 
   if (!context) {
     console.warn(
-      "Socket connection not found. Make sure to wrap your app with SocketContextProvider."
+      "Socket connection not found. Make sure to wrap your project with SocketContextProvider."
     );
   }
 

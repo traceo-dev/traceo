@@ -1,30 +1,30 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { MemberApplication } from "@traceo/types";
+import { MemberProject } from "@traceo/types";
 
 export interface ApplicationsState {
-  applications: MemberApplication[];
+  projects: MemberProject[];
   hasFetched: boolean;
 }
 
 const initialState = {
-  applications: [],
+  projects: [],
   hasFetched: false
 };
 
 const applicationsSlice = createSlice({
-  name: "applications",
+  name: "projects",
   initialState: initialState,
   reducers: {
-    applicationsLoaded: (
+    projectsLoaded: (
       state,
-      action: PayloadAction<MemberApplication[]>
-    ): ApplicationsState => ({ ...state, hasFetched: true, applications: action.payload })
+      action: PayloadAction<MemberProject[]>
+    ): ApplicationsState => ({ ...state, hasFetched: true, projects: action.payload })
   }
 });
 
-export const { applicationsLoaded } = applicationsSlice.actions;
+export const { projectsLoaded } = applicationsSlice.actions;
 export const applicationReducer = applicationsSlice.reducer;
 
 export default {
-  applications: applicationReducer
+  projects: applicationReducer
 };

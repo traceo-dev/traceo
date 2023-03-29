@@ -53,8 +53,8 @@ export class IncidentCommentsController {
   @Delete("/remove/:id")
   async removeComment(
     @Param("id") commentId: string,
-    @Query("applicationId") applicationId: string
+    @Query("projectId") projectId: string
   ): Promise<ApiResponse<unknown>> {
-    return await this.commentsService.removeComment(commentId, applicationId);
+    return await this.commentsService.removeComment(commentId, projectId);
   }
 }

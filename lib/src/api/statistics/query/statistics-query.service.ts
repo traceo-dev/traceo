@@ -13,7 +13,7 @@ export class StatisticsQueryService {
     this.logger = new Logger(StatisticsQueryService.name);
   }
 
-  public async getTodayEvents(applicationId: string): Promise<ApiResponse<ErrorDetails[]>> {
+  public async getTodayEvents(projectId: string): Promise<ApiResponse<ErrorDetails[]>> {
     const today = dayjs().startOf("day").utc().unix();
 
     try {
@@ -22,7 +22,7 @@ export class StatisticsQueryService {
         FROM event
         WHERE project_id = $1
         AND date >= $2
-      `, [applicationId, today])
+      `, [projectId, today])
 
       return new ApiResponse("success", undefined, result);
     } catch (error) {
@@ -31,7 +31,7 @@ export class StatisticsQueryService {
     }
   }
 
-  public async getTotalOverview(appId: string): Promise<
+  public async getTotalOverview(projectId: string): Promise<
     ApiResponse<{
       errors: ErrorDetails[];
     }>
@@ -41,7 +41,7 @@ export class StatisticsQueryService {
         SELECT date
         FROM event
         WHERE project_id = $1
-      `, [appId])
+      `, [projectId])
 
       return new ApiResponse("success", undefined, {
         errors: result

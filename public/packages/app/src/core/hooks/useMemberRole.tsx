@@ -1,8 +1,8 @@
-import { useApplication } from "./useApplication";
+import { useProject } from "./useProject";
 import { MemberRole } from "@traceo/types";
 
 export const useMemberRole = () => {
-  const { application, permission } = useApplication();
+  const { project, permission } = useProject();
 
   const initialState = {
     isViewer: true,
@@ -10,7 +10,7 @@ export const useMemberRole = () => {
     isMaintainer: true
   };
 
-  if (!application || !permission) {
+  if (!project || !permission) {
     return initialState;
   }
 

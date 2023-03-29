@@ -9,7 +9,7 @@ export class CommentDto {
 
   @Type(() => String)
   @IsString()
-  readonly applicationId: string;
+  readonly projectId: string;
 }
 
 export class PatchCommentDto extends CommentDto {

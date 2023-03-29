@@ -57,7 +57,7 @@ export class CaptureService {
 
         const api_key = headers["x-sdk-key"] || null;
         if (api_key === undefined || api_key === null) {
-            return this.exceptionResponse('Api key is not provided. You can generate your API KEY in application settings.')
+            return this.exceptionResponse('Api key is not provided. You can generate your API KEY in project settings.')
         } else {
             const isValid: boolean = this.isValidApiKey(api_key);
             if (!isValid) {

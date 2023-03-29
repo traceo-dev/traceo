@@ -1,6 +1,6 @@
 import { loadUsers } from "../../../features/admin/state/users/actions";
 import { useAppDispatch } from "../../../store";
-import { useApplication } from "../../hooks/useApplication";
+import { useProject } from "../../hooks/useProject";
 import api from "../../lib/api";
 import { StoreState } from "@store/types";
 import { MemberRole } from "@traceo/types";
@@ -12,7 +12,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   const dispatch = useAppDispatch();
 
   const { users, hasFetched } = useSelector((state: StoreState) => state.users);
-  const { application } = useApplication();
+  const { project } = useProject();
   const { members } = useSelector((state: StoreState) => state.members);
 
   const [role, setRole] = useState<MemberRole>(null);
@@ -29,10 +29,10 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
 
     setLoading(true);
     await api
-      .post("/api/member/application/add", {
+      .post("/api/member/project/add", {
         userId,
         role: role,
-        applicationId: application.id
+        projectId: project.id
       })
       .finally(() => {
         setLoading(false);

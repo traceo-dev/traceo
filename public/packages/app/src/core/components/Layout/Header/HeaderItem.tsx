@@ -1,4 +1,4 @@
-import { useApplication } from "../../../hooks/useApplication";
+import { useProject } from "../../../hooks/useProject";
 import { MenuRoute } from "../../../types/navigation";
 import { StoreState } from "@store/types";
 import { useSelector } from "react-redux";
@@ -9,7 +9,7 @@ export interface HeaderItemProps {
   route: MenuRoute;
 }
 export const HeaderItem = ({ route }: HeaderItemProps) => {
-  const { application } = useApplication();
+  const { project } = useProject();
   const { incident } = useSelector((state: StoreState) => state.incident);
   const location = useLocation();
 
@@ -22,7 +22,7 @@ export const HeaderItem = ({ route }: HeaderItemProps) => {
     return location.pathname.split("/").includes(key);
   };
 
-  const parsePath = () => href.replace(":id", application?.id).replace(":iid", incident?.id);
+  const parsePath = () => href.replace(":id", project?.id).replace(":iid", incident?.id);
 
   const handleOnClick = () => onClick && onClick();
 

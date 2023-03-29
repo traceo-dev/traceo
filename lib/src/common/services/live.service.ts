@@ -15,7 +15,7 @@ export type EventType = {
   action: EventActionType;
 };
 
-type SubscribeAppType = {
+type SubscribeProjectType = {
   id: string;
 };
 
@@ -34,9 +34,9 @@ export class LiveService {
   @WebSocketServer()
   private server: Server;
 
-  @SubscribeMessage("subscribe_app")
+  @SubscribeMessage("subscribe_project")
   public subscribe(
-    @MessageBody() body: SubscribeAppType,
+    @MessageBody() body: SubscribeProjectType,
     @ConnectedSocket() socket: Socket
   ): void {
     if (!body || !body.id) {
@@ -53,10 +53,10 @@ export class LiveService {
     });
   }
 
-  public publish(appId: string, data: EventType) {
-    if (!appId) {
-      throw new Error(`[${this.publish.name}] Application id is required!`);
+  public publish(projectId: string, data: EventType) {
+    if (!projectId) {
+      throw new Error(`[${this.publish.name}] Project id is required!`);
     }
-    this.server.to(`ws:${appId}`).emit(data.action, data.message);
+    this.server.to(`ws:${projectId}`).emit(data.action, data.message);
   }
 }

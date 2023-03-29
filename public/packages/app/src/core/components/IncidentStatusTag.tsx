@@ -1,7 +1,7 @@
 import {
   mapIncidentStatusIcon,
   mapIncidentTwBgColor
-} from "../../features/app/incidents/components/utils";
+} from "../../features/project/incidents/components/utils";
 import { joinClasses } from "../utils/classes";
 import { mapIncidentStatus, IncidentStatus } from "@traceo/types";
 import { Tag, TagColorType } from "@traceo/ui";

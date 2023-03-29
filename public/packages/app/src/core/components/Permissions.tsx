@@ -1,5 +1,5 @@
 import { useConfig } from "../contexts/ConfigsContextProvider";
-import { useApplication } from "../hooks/useApplication";
+import { useProject } from "../hooks/useProject";
 import { MemberRole } from "@traceo/types";
 import { FC, ReactNode } from "react";
 
@@ -9,7 +9,7 @@ interface PermissionsProps {
 }
 
 export const Permissions: FC<PermissionsProps> = ({ statuses, children }) => {
-  const { permission } = useApplication();
+  const { permission } = useProject();
   const configs = useConfig();
 
   const isDemo = !configs.demoMode && !configs.user.isAdmin;

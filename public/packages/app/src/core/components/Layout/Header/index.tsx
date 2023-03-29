@@ -3,30 +3,32 @@ import {
   LoadingOutlined,
   LogoutOutlined,
   PlusOutlined,
+  QuestionCircleOutlined,
   SettingOutlined,
   SwapOutlined,
   UserOutlined
 } from "@ant-design/icons";
 import { Avatar, Popover } from "@traceo/ui";
-import { useApplication } from "../../../../core/hooks/useApplication";
+import { useProject } from "../../../hooks/useProject";
 import { HeaderItem } from "./HeaderItem";
 import { buildHeaderItems } from "./utils";
 import styled from "styled-components";
 import { useAppDispatch } from "../../../../store/index";
 import { useEffect } from "react";
-import { loadApplications } from "src/features/dashboard/state/actions";
+import { loadProjects } from "src/features/dashboard/state/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../store/types";
 import { logout } from "src/core/utils/logout";
 import { TraceoLogo } from "../../Icons/TraceoLogo";
 import { MenuRoute } from "src/core/types/navigation";
 import ServerPermissions from "../../ServerPermissions";
+import { GH_REPO_LINK } from "src/core/utils/constants";
 
 const createNewOptions: MenuRoute[] = [
   {
     label: "Project",
     icon: <AppstoreOutlined />,
-    href: "/dashboard/new-app"
+    href: "/dashboard/new-project"
   },
   {
     label: "User",
@@ -35,12 +37,12 @@ const createNewOptions: MenuRoute[] = [
   }
 ];
 export const Header = () => {
-  const { application } = useApplication();
-  const { applications, hasFetched } = useSelector((state: StoreState) => state.applications);
+  const { project } = useProject();
+  const { projects, hasFetched } = useSelector((state: StoreState) => state.projects);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(loadApplications());
+    dispatch(loadProjects());
   }, []);
 
   const isProjectDashboard = window.location.pathname.split("/").includes("project");
@@ -51,15 +53,15 @@ export const Header = () => {
     </div>
   ) : (
     <div className="flex flex-col min-w-[230px] max-h-[200px]">
-      <span className="text-sm p-2 border-bottom">Switch project</span>
-      {applications?.map((app, key) => (
+      <span className="text-sm p-2 border-bottom text-primary">Switch project</span>
+      {projects?.map((project, key) => (
         <span
           key={key}
-          onClick={() => (window.location.href = `/project/${app?.appId}/overview`)}
+          onClick={() => (window.location.href = `/project/${project?.projectId}/overview`)}
           className="text-sm p-2 hover:bg-secondary cursor-pointer flex flex-row items-center gap-x-3"
         >
-          <Avatar size="sm" shape="square" alt={app?.name} src={app?.gravatar} />
-          <span>{app?.name}</span>
+          <Avatar size="sm" shape="square" alt={project?.name} src={project?.gravatar} />
+          <span>{project?.name}</span>
         </span>
       ))}
     </div>
@@ -67,7 +69,7 @@ export const Header = () => {
 
   const createNewContent = (
     <div className="min-w-[180px] flex flex-col">
-      <span className="text-sm p-2 border-bottom">Create new</span>
+      <span className="text-sm p-2 border-bottom text-primary">Create new</span>
       {createNewOptions.map((route, key) => (
         <span
           key={key}
@@ -100,10 +102,10 @@ export const Header = () => {
                     <Avatar
                       shape="square"
                       size="sm"
-                      alt={application?.name}
-                      src={application?.gravatar}
+                      alt={project?.name}
+                      src={project?.gravatar}
                     />
-                    <span className="text-xs font-semibold">{application?.name}</span>
+                    <span className="text-xs font-semibold">{project?.name}</span>
                     <Popover
                       placement="bottom-end"
                       showArrow={false}
@@ -121,7 +123,7 @@ export const Header = () => {
             )}
           </div>
         </div>
-        <div className="flex flex-row gap-x-5 items-center">
+        <div className="flex flex-row gap-x-5 items-center text-primary">
           <ServerPermissions>
             <Popover
               placement="bottom-end"
@@ -146,6 +148,10 @@ export const Header = () => {
             )}
           </ServerPermissions>
 
+          <a href={GH_REPO_LINK} target="blank" className="text-primary">
+            <QuestionCircleOutlined className="icon-btn" />
+          </a>
+
           {isProjectDashboard && (
             <UserOutlined
               onClick={() => (window.location.href = `/dashboard/profile/settings`)}
@@ -153,11 +159,11 @@ export const Header = () => {
             />
           )}
 
-          <LogoutOutlined onClick={() => logout()} className="icon-btn hover:text-red-600" />
+          <LogoutOutlined onClick={() => logout()} className="icon-btn hover:text-red-400" />
         </div>
       </header>
       <SecondaryHeader>
-        {buildHeaderItems(application).map((route, key) => (
+        {buildHeaderItems(project).map((route, key) => (
           <HeaderItem key={key} route={route} />
         ))}
       </SecondaryHeader>
@@ -189,6 +195,7 @@ const HeaderButton = styled.div`
   padding-top: 3px;
   padding-bottom: 3px;
   gap: 8px;
+  transition-duration: 200ms;
 
   &:hover {
     background-color: var(--color-traceo-primary);

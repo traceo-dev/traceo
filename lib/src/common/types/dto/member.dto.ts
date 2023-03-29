@@ -11,7 +11,7 @@ export class CreateMemberDto {
   @IsString()
   @IsNotEmpty()
   @ApiProperty()
-  applicationId: string;
+  projectId: string;
 
   @IsEnum(MemberRole)
   @IsNotEmpty()

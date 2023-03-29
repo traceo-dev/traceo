@@ -62,8 +62,7 @@ export class UserCredentialsDto {
     this.password = password;
   }
 
-  @IsOptional()
-  @IsString()
+  @IsNotEmpty()
   @ApiPropertyOptional({ type: String, description: "username" })
   readonly username: string;
 

@@ -16,7 +16,7 @@ export const AuthLayout: FC<Props> = ({ children, title }) => {
             <TraceoLogo size="medium" />
             <div className="flex flex-col text-primary pl-3">
               <span className="text-[24px] font-semibold">Traceo</span>
-              <span className="text-xs">Take control of your applications</span>
+              <span className="text-xs">Take control of your projects</span>
             </div>
           </div>
         </div>

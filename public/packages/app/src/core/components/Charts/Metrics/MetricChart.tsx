@@ -1,4 +1,4 @@
-import { useApplication } from "../../../hooks/useApplication";
+import { useProject } from "../../../hooks/useProject";
 import { useRequest } from "../../../hooks/useRequest";
 import { ConditionalWrapper } from "../../ConditionLayout";
 import { DataNotFound } from "../../DataNotFound";
@@ -15,7 +15,7 @@ interface Props {
   ranges: [number, number];
 }
 const MetricChart: FC<Props> = ({ metric, ranges }) => {
-  const { application } = useApplication();
+  const { project } = useProject();
 
   const seriesFields = metric.series.map(({ field }) => field);
   const {
@@ -23,7 +23,7 @@ const MetricChart: FC<Props> = ({ metric, ranges }) => {
     execute,
     isLoading
   } = useRequest<MetricResponseType>({
-    url: `/api/metrics/${application?.id}/datasource`,
+    url: `/api/metrics/${project?.id}/datasource`,
     params: {
       fields: seriesFields,
       from: ranges[0],

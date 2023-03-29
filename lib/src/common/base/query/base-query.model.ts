@@ -10,7 +10,7 @@ enum Order {
 export class BaseDtoQuery {
   @IsString()
   @IsOptional()
-  readonly appId?: string;
+  readonly projectId?: string;
 
   @ApiPropertyOptional({ enum: Order, default: Order.ASC })
   @IsEnum(Order)

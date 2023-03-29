@@ -1,7 +1,7 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
-import { ApplicationDtoQuery } from "../../../common/types/dto/application.dto";
+import { ProjectDtoQuery } from "../../../common/types/dto/project.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { Member } from "../../../db/entities/member.entity";
 import { EntityManager } from "typeorm";
@@ -15,9 +15,9 @@ export class MemberQueryService {
   }
 
   /**
-   * Return pageable list of the members assigned to app
+   * Return pageable list of the members assigned to project
    *
-   * @param appId
+   * @param projectId
    * @param pageOptionsDto
    * @returns
    */
@@ -63,16 +63,16 @@ export class MemberQueryService {
   }
 
   /**
-   * Return pageable list of the Apps assigned to user
+   * Return pageable list of the projects assigned to user
    *
    * @param userId
    * @param pageOptionsDto
    * @returns
    */
 
-  public async getUserApps(
+  public async getUserProjects(
     userId: string,
-    pageOptionsDto: ApplicationDtoQuery
+    pageOptionsDto: ProjectDtoQuery
   ): Promise<ApiResponse<Member[]>> {
     const { page, take, order, search, sortBy } = pageOptionsDto;
 
@@ -100,23 +100,23 @@ export class MemberQueryService {
           });
       }
 
-      const appsMember = await queryBuilder
+      const projectsMember = await queryBuilder
         .addSelect(["owner.name", "owner.email", "owner.id", "owner.gravatar"])
         .orderBy(`project.${sortBy || "lastEventAt"}`, order, "NULLS LAST")
         .skip((page - 1) * take)
         .limit(take)
         .getMany();
 
-      const response = appsMember.map((member) => ({
+      const response = projectsMember.map((member) => ({
         ...member.project,
         id: member.id,
-        appId: member.project.id,
+        projectId: member.project.id,
         role: member.role
       }));
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {
-      this.logger.error(`[${this.getUserApps.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.getUserProjects.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR);
     }
   }
@@ -139,19 +139,19 @@ export class MemberQueryService {
   public async getPermission(projectId: string): Promise<any> {
     const { id } = RequestContext.user;
     try {
-      const applicationQuery = await this.entityManager
+      const query = await this.entityManager
         .getRepository(Member)
         .createQueryBuilder("member")
         .where("member.project = :projectId", { projectId })
         .innerJoin("member.user", "user", "user.id = :id", { id })
         .getOne();
 
-      if (!applicationQuery) {
+      if (!query) {
         return new ApiResponse("error", undefined, "No permissions for this project!");
       }
 
       return new ApiResponse("success", undefined, {
-        role: applicationQuery.role
+        role: query.role
       });
     } catch (error) {
       this.logger.error(`[${this.getPermission.name}] Caused by: ${error}`);

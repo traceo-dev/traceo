@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { PassportModule } from "@nestjs/passport";
-import { ApplicationQueryService } from "../application/application-query/application-query.service";
+import { ProjectQueryService } from "../project/project-query/project-query.service";
 import { MemberService } from "../member/member.service";
 import { MemberQueryService } from "../member/member-query/member-query.service";
 import { HttpModule } from "@nestjs/axios";
@@ -16,7 +16,7 @@ import { UsersController } from "./users.controller";
   providers: [
     UserService,
     UserQueryService,
-    ApplicationQueryService,
+    ProjectQueryService,
     MemberService,
     MemberQueryService,
     AuthTokenService

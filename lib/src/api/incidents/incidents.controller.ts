@@ -41,7 +41,7 @@ export class IncidentsController {
     @Query() query: IncidentQueryDto
   ): Promise<ApiResponse<IIncident[]>> {
     return await this.incidentsQueryService.getApiListDto({
-      appId: id,
+      projectId: id,
       ...query
     });
   }

@@ -27,25 +27,25 @@ export class MetricsController {
     @Param("id") id: string,
     @Query() query: MetricsQueryDto
   ): Promise<ApiResponse<IMetric[]>> {
-    return await this.metricsQueryService.getApplicationMetrics(id, query);
+    return await this.metricsQueryService.getProjectMetrics(id, query);
   }
 
   @Get("/:id/preview/:metricId")
-  async getApplicationMetricPreviewData(
+  async getProjectMetricPreviewData(
     @Param("id") id: string,
     @Param("metricId") metricId: string,
     @Query("from") from: number,
     @Query("to") to: number
   ): Promise<ApiResponse<MetricPreviewType>> {
-    return await this.metricsQueryService.getApplicationMetricPreviewData(id, metricId, from, to);
+    return await this.metricsQueryService.getProjectMetricPreviewData(id, metricId, from, to);
   }
 
   @Get("/:id/datasource")
   async getMetricValues(
-    @Param("id") appId: string,
+    @Param("id") projectId: string,
     @Query() query: MetricQueryDto
   ): Promise<ApiResponse<MetricResponseType[]>> {
-    return await this.metricsQueryService.getMetricData(appId, query);
+    return await this.metricsQueryService.getMetricData(projectId, query);
   }
 
   @Patch("/:metricId/update")

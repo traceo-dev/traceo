@@ -13,7 +13,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "../../common/decorators/auth-guard.decorator";
 import { BaseDtoQuery } from "../../common/base/query/base-query.model";
 import { CreateMemberDto, UpdateMemberDto } from "../../common/types/dto/member.dto";
-import { ApplicationDtoQuery } from "../../common/types/dto/application.dto";
+import { ProjectDtoQuery } from "../../common/types/dto/project.dto";
 import { ApiResponse } from "../../common/types/dto/response.dto";
 import { IMember, IProjectResponse } from "@traceo/types";
 import { MemberQueryService } from "./member-query/member-query.service";
@@ -41,19 +41,19 @@ export class MemberController {
     return await this.amrQueryService.getMembers(id, query);
   }
 
-  @Get("/applications")
-  public async getUserApps(
-    @Query() pageOptionsDto: ApplicationDtoQuery,
+  @Get("/projects")
+  public async getUserProjects(
+    @Query() pageOptionsDto: ProjectDtoQuery,
     @Query("userId") userId: string
   ): Promise<ApiResponse<IMember[]>> {
-    return await this.amrQueryService.getUserApps(userId, pageOptionsDto);
+    return await this.amrQueryService.getUserProjects(userId, pageOptionsDto);
   }
 
-  @Post("/application/add")
-  public async addUserToApplication(
+  @Post("/project/add")
+  public async addUserToProject(
     @Body() body: CreateMemberDto
   ): Promise<ApiResponse<unknown>> {
-    return await this.amrService.addUserToApplication(body);
+    return await this.amrService.addUserToProject(body);
   }
 
   @Patch()

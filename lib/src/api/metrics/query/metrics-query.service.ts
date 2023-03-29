@@ -25,11 +25,11 @@ export class MetricsQueryService {
   }
 
   async getMetricData(
-    appId: string,
+    projectId: string,
     query: MetricQueryDto
   ): Promise<ApiResponse<MetricResponseType[]>> {
     try {
-      const response = await this.clickhouseService.loadMetric(appId, query);
+      const response = await this.clickhouseService.loadMetric(projectId, query);
       const groupedMetrics = this.groupMetrics(response);
 
       return new ApiResponse("success", undefined, groupedMetrics);
@@ -39,7 +39,7 @@ export class MetricsQueryService {
     }
   }
 
-  public async getApplicationMetrics(
+  public async getProjectMetrics(
     projectId: string,
     query: MetricsQueryDto
   ): Promise<ApiResponse<IMetric[]>> {
@@ -66,30 +66,30 @@ export class MetricsQueryService {
       const metrics = await queryBuilder.getMany();
       return new ApiResponse("success", undefined, metrics);
     } catch (err) {
-      this.logger.error(`[${this.getApplicationMetrics.name}] Caused by: ${err}`);
+      this.logger.error(`[${this.getProjectMetrics.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     }
   }
 
-  public async getApplicationMetricPreviewData(
-    appId: string,
+  public async getProjectMetricPreviewData(
+    projectId: string,
     metricId: string,
     from: number,
     to: number
   ): Promise<ApiResponse<MetricPreviewType>> {
-    if (!appId || !metricId) {
-      throw new Error("App and metric ids are required!");
+    if (!projectId || !metricId) {
+      throw new Error("Project and metric ids are required!");
     }
 
     try {
       const metric = await this.entityManager.getRepository(Metric).findOneBy({
         id: metricId,
         project: {
-          id: appId
+          id: projectId
         }
       });
 
-      const datasource = await this.getMetricData(appId, {
+      const datasource = await this.getMetricData(projectId, {
         fields: this.parseSeries(metric.series),
         from,
         to
@@ -100,7 +100,7 @@ export class MetricsQueryService {
         datasource: datasource.data || []
       });
     } catch (err) {
-      this.logger.error(`[${this.getApplicationMetricPreviewData.name}] Caused by: ${err}`);
+      this.logger.error(`[${this.getProjectMetricPreviewData.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     }
   }

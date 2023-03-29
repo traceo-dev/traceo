@@ -49,41 +49,41 @@ export interface Owner {
   username: string;
 }
 
-export interface AddUserToApplication {
-  role: {
-    value: MemberRole;
-  };
-  application: {
-    value: string;
-  };
-  userId: string;
-}
+// export interface AddUserToApplication {
+//   role: {
+//     value: MemberRole;
+//   };
+//   project: {
+//     value: string;
+//   };
+//   userId: string;
+// }
 
-export interface ApplicationMemberUpdateProps {
-  memberId: string;
-  role: MemberRole;
-}
+// export interface ApplicationMemberUpdateProps {
+//   memberId: string;
+//   role: MemberRole;
+// }
 
-export type ApplicationMember = {
+export type ProjectMember = {
   id: string;
   userId: string;
   role: MemberRole;
 } & IUser;
 
-export type MemberApplication = {
+export type MemberProject = {
   id: string;
-  appId: string;
+  projectId: string;
   role: MemberRole;
 } & IProject;
 
-export type CreateApplicationProps = {
+export type CreateProjectProps = {
   name: string;
   sdk: SDK;
 };
 
-export type UpdateApplicationProps = Pick<IProject, "name">;
+export type UpdateProjectProps = Pick<IProject, "name">;
 
-export interface SearchApplicationQueryParams {
+export interface SearchProjectQueryParams {
   order?: SortOrder;
   sortBy?: string;
   search?: string;

@@ -21,13 +21,13 @@ export class ClickhouseService {
     }
 
     public async loadMetric(
-        appId: string,
+        projectId: string,
         query: MetricQueryDto
     ): Promise<TimeSerieMetric[]> {
         const metrics = await this.query({
             query: `
                 SELECT name, value, timestamp FROM metrics
-                WHERE project_id = '${appId}'
+                WHERE project_id = '${projectId}'
                 AND name IN (${query.fields.map((e) => `'${e}'`)})
                 AND timestamp >= ${query.from}
                 AND timestamp <= ${query.to}

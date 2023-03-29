@@ -1,12 +1,12 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { Confirm } from "../../../../core/components/Confirm";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { AddToApplicationModal } from "../../../../core/components/Modals/AddToApplicationModal";
+import { AddToProjectModal } from "../../../../core/components/Modals/AddToProjectModal";
 import { useRequest } from "../../../../core/hooks/useRequest";
 import { membersAction } from "../../../../core/lib/api/members";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { StoreState } from "@store/types";
-import { ApplicationMember, MemberApplication, MemberRole } from "@traceo/types";
+import { ProjectMember, MemberProject, MemberRole } from "@traceo/types";
 import { Button, Card, Space, Table, TableColumn, Avatar, Select } from "@traceo/ui";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -18,11 +18,11 @@ export const UserApplications = () => {
   const isAdmin = user.email === ADMIN_EMAIL;
 
   const {
-    data: applications = [],
+    data: projects = [],
     execute: postExecute,
     isLoading
-  } = useRequest<MemberApplication[]>({
-    url: "/api/member/applications",
+  } = useRequest<MemberProject[]>({
+    url: "/api/member/projects",
     params: {
       userId: user.id
     }
@@ -34,12 +34,12 @@ export const UserApplications = () => {
     { label: "Viewer", value: MemberRole.VIEWER }
   ];
 
-  const onUpdateRole = async (member: ApplicationMember, role: MemberRole) => {
+  const onUpdateRole = async (member: ProjectMember, role: MemberRole) => {
     await membersAction.onUpdateRole(member, role, () => postExecute());
   };
 
-  const onRemoveFromApp = async (member: ApplicationMember) => {
-    await membersAction.onRemoveFromApp(member, () => postExecute());
+  const onRemoveFromProject = async (member: ProjectMember) => {
+    await membersAction.onRemoveFromProject(member, () => postExecute());
   };
 
   return (
@@ -49,17 +49,17 @@ export const UserApplications = () => {
         extra={
           !isAdmin && (
             <Space className="w-full justify-end">
-              <Button onClick={() => setOpenAddAppDrawer(true)}>Add user to application</Button>
+              <Button onClick={() => setOpenAddAppDrawer(true)}>Add user to project</Button>
             </Space>
           )
         }
       >
         <ConditionalWrapper
-          emptyView={<DataNotFound label="No applications found" />}
-          isEmpty={applications?.length === 0}
+          emptyView={<DataNotFound label="No projects found" />}
+          isEmpty={projects?.length === 0}
           isLoading={isLoading}
         >
-          <Table collection={applications} striped>
+          <Table collection={projects} striped>
             <TableColumn width={15}>
               {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.name} />}
             </TableColumn>
@@ -89,8 +89,8 @@ export const UserApplications = () => {
                 if (user.email !== ADMIN_EMAIL) {
                   return (
                     <Confirm
-                      description="Are you sure you want to remove this user from app?"
-                      onOk={() => onRemoveFromApp(item)}
+                      description="Are you sure you want to remove this user from project?"
+                      onOk={() => onRemoveFromProject(item)}
                     >
                       <Button size="xs" variant="danger">
                         Remove
@@ -103,7 +103,7 @@ export const UserApplications = () => {
           </Table>
         </ConditionalWrapper>
 
-        <AddToApplicationModal
+        <AddToProjectModal
           isOpen={isOpenAddAppDrawer}
           onCancel={() => setOpenAddAppDrawer(false)}
           postExecute={() => postExecute()}

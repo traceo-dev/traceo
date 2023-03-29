@@ -1,9 +1,9 @@
 import api from "../../../core/lib/api";
-import { applicationsLoaded } from "./reducers";
+import { projectsLoaded } from "./reducers";
 import { ThunkResult } from "@store/types";
-import { MemberApplication, SearchApplicationQueryParams, ApiResponse } from "@traceo/types";
+import { MemberProject, SearchProjectQueryParams, ApiResponse } from "@traceo/types";
 
-export const loadApplications = (query?: SearchApplicationQueryParams): ThunkResult<void> => {
+export const loadProjects = (query?: SearchProjectQueryParams): ThunkResult<void> => {
   return async (dispatch, getStore) => {
     const user = getStore().user.user;
     if (!query) {
@@ -13,10 +13,10 @@ export const loadApplications = (query?: SearchApplicationQueryParams): ThunkRes
       };
     }
 
-    const { data } = await api.get<ApiResponse<MemberApplication[]>>("/api/member/applications", {
+    const { data } = await api.get<ApiResponse<MemberProject[]>>("/api/member/projects", {
       userId: query?.userId || user?.id,
       ...query
     });
-    dispatch(applicationsLoaded(data));
+    dispatch(projectsLoaded(data));
   };
 };
