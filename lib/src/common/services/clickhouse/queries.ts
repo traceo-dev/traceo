@@ -31,3 +31,19 @@ export const CREATE_METRICS_TABLE = `
     TTL receive_timestamp + INTERVAL ${process.env.CLICKHOUSE_TTL || 14} DAY
     ORDER BY (id, timestamp)
 `;
+
+export const CREATE_BROWSER_PERFS_TABLE = `
+    CREATE TABLE IF NOT EXISTS ${CLICKHOUSE_DB_NAME}.browser_perfs (
+        id UUID,
+        name String,
+        value Float64,
+        unit String,
+        event String,
+        timestamp UInt128,
+        receive_timestamp DateTime,
+        project_id String
+    )
+    ENGINE = MergeTree()
+    TTL receive_timestamp + INTERVAL ${process.env.CLICKHOUSE_TTL || 14} DAY
+    ORDER BY (id, timestamp)
+`;

@@ -12,6 +12,11 @@ const IncidentEventsPage = () => {
 
   const isBrowserSDK = BROWSER_SDK.includes(incident.sdk);
 
+  const getPathname = (url: string): string => {
+    const parsed = new URL(url);
+    return parsed?.pathname ?? url;
+  };
+
   return (
     <IncidentPageWrapper>
       <Card className="h-auto">
@@ -24,7 +29,8 @@ const IncidentEventsPage = () => {
               <TableColumn name="Browser">
                 {({ item }) => (
                   <span>
-                    {item.browser.browser.name} ({item.browser.browser.version})
+                    {JSON.parse(item.browser)?.browser?.name} (
+                    {JSON.parse(item.browser)?.browser?.version})
                   </span>
                 )}
               </TableColumn>
@@ -33,12 +39,21 @@ const IncidentEventsPage = () => {
               <TableColumn name="OS">
                 {({ item }) => (
                   <span>
-                    {item.browser.os.name} ({item.browser.os.version})
+                    {JSON.parse(item.browser)?.os?.name} ({JSON.parse(item.browser).os?.version})
                   </span>
                 )}
               </TableColumn>
             )}
-            {isBrowserSDK && <TableColumn name="URL" value="browser.url" />}
+            {isBrowserSDK && (
+              <TableColumn name="Platform">
+                {({ item }) => <span>{JSON.parse(item.browser)?.platform?.type}</span>}
+              </TableColumn>
+            )}
+            {isBrowserSDK && (
+              <TableColumn name="URL">
+                {({ item }) => <span>{getPathname(JSON.parse(item.browser)?.url)}</span>}
+              </TableColumn>
+            )}
           </Table>
         </div>
       </Card>

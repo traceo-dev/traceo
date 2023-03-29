@@ -7,6 +7,7 @@ import { handleLogsEvent } from "./process-logs-handler";
 import { Core } from "../types";
 import { handleRuntimeEvent } from "./process-runtime-handler";
 import { handleMetricsEvent } from "./process-metrics-handler";
+import { handleBrowserPerformance } from "./process-browser-perfs-handler";
 
 type EventHandlerType = {
     core: Core,
@@ -18,7 +19,8 @@ const handlers: Record<KAFKA_TOPIC, (core: Core, message: string) => Promise<voi
     [KAFKA_TOPIC.INCIDENT_EVENT]: handleIncidentEvent,
     [KAFKA_TOPIC.LOGS_EVENT]: handleLogsEvent,
     [KAFKA_TOPIC.RUNTIME_EVENT]: handleRuntimeEvent,
-    [KAFKA_TOPIC.METRICS_EVENT]: handleMetricsEvent
+    [KAFKA_TOPIC.METRICS_EVENT]: handleMetricsEvent,
+    [KAFKA_TOPIC.BROWSER_PERFS_EVENT]: handleBrowserPerformance
 };
 
 export const eventHandler = async ({

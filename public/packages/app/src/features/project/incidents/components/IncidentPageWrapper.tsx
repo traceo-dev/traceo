@@ -46,7 +46,7 @@ export const IncidentPageWrapper = ({ children }) => {
           {incident.eventsCount}
         </div>
       ),
-      key: "errors",
+      key: "events",
       icon: <WarningOutlined />
     },
     {

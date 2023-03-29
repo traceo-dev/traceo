@@ -1,7 +1,7 @@
 import { Pool, PoolClient, QueryResult } from "pg";
 import { ExceptionHandlers } from "@traceo-sdk/node";
 import { logger } from "..";
-import { Dictionary, IProject, IEvent, IIncident, LogEventPayload, MetricsEventPayload, SafeReturnType, TimeSerieMetric } from "@traceo/types";
+import { Dictionary, IProject, IEvent, IIncident, LogEventPayload, MetricsEventPayload, SafeReturnType, TimeSerieMetric, BrowserPerfsPayloadEvent } from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
 import { ClickHouseClient } from "@clickhouse/client";
@@ -196,7 +196,6 @@ export class DatabaseService {
             name: key,
             value: value,
             project_id: project_id,
-            // TODO: return metrics capture time from SDK and pass here
             timestamp: now,
             receive_timestamp: now
         })) as TimeSerieMetric[];
@@ -208,5 +207,28 @@ export class DatabaseService {
         });
 
         return metrics.length;
+    }
+
+    public async insertClickhouseBrowserPerformance({ projectId, payload }: { projectId: string, payload: BrowserPerfsPayloadEvent[] }) {
+        const now = dayjs().unix();
+
+        const perfs = payload.flatMap(item => item.performance.map(perf => ({
+            id: randomUUID(),
+            name: perf.name,
+            value: perf.value,
+            unit: perf.unit,
+            event: item.event,
+            timestamp: item.timestamp,
+            receive_timestamp: now,
+            project_id: projectId
+        })));
+
+        await this.clickClient.insert({
+            table: CLICKHOUSE_TABLE.BROWSER_PERFS,
+            format: "JSONEachRow",
+            values: perfs
+        });
+
+        return perfs.length;
     }
 }

@@ -5,7 +5,8 @@ import { logger } from "..";
 
 export enum CLICKHOUSE_TABLE {
     LOGS = "logs",
-    MERICS = "metrics"
+    MERICS = "metrics",
+    BROWSER_PERFS = "browser_perfs"
 }
 
 export const createClickhouseClient = async (configs: RelayWorkerConfig): Promise<ClickHouseClient> => {

@@ -63,7 +63,7 @@ export class ApiModule {
     consumer
       .apply(RequestContextMiddleware)
       .exclude(
-        { path: "/api/worker/(.*)", method: RequestMethod.ALL },
+        { path: "/api/capture/(.*)", method: RequestMethod.ALL },
         { path: "/api/view/(.*)", method: RequestMethod.ALL },
         { path: "/api/auth/login", method: RequestMethod.POST }
       )
