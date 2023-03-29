@@ -45,7 +45,7 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
     },
     {
       path: "/dashboard/admin/apps",
-      component: lazy(() => import("../features/admin/ProjectsListPage"))
+      component: lazy(() => import("../features/admin/AdminProjectsListPage"))
     },
     {
       path: "/dashboard/admin/apps/:id",

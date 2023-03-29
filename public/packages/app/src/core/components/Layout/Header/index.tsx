@@ -54,16 +54,18 @@ export const Header = () => {
   ) : (
     <div className="flex flex-col min-w-[230px] max-h-[200px]">
       <span className="text-sm p-2 border-bottom text-primary">Switch project</span>
-      {projects?.map((project, key) => (
-        <span
-          key={key}
-          onClick={() => (window.location.href = `/project/${project?.projectId}/overview`)}
-          className="text-sm p-2 hover:bg-secondary cursor-pointer flex flex-row items-center gap-x-3"
-        >
-          <Avatar size="sm" shape="square" alt={project?.name} src={project?.gravatar} />
-          <span>{project?.name}</span>
-        </span>
-      ))}
+      {projects
+        ?.filter((e) => e.projectId !== project.id)
+        .map((project, key) => (
+          <span
+            key={key}
+            onClick={() => (window.location.href = `/project/${project?.projectId}/overview`)}
+            className="text-sm p-2 hover:bg-secondary cursor-pointer flex flex-row items-center gap-x-3"
+          >
+            <Avatar size="sm" shape="square" alt={project?.name} src={project?.gravatar} />
+            <span>{project?.name}</span>
+          </span>
+        ))}
     </div>
   );
 

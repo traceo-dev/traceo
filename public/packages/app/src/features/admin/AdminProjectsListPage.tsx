@@ -13,7 +13,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-export const ProjectsListPage = () => {
+export const AdminProjectsListPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { projects, hasFetched } = useSelector((state: StoreState) => state.instanceApplications);
@@ -59,4 +59,4 @@ export const ProjectsListPage = () => {
   );
 };
 
-export default ProjectsListPage;
+export default AdminProjectsListPage;

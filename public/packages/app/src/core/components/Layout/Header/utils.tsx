@@ -20,12 +20,7 @@ export const buildHeaderItems = (project: IProject): MenuRoute[] => {
       {
         key: "incidents",
         href: "/project/:id/incidents",
-        label: "Incidents",
-        badge: project.incidentsCount > 0 && (
-          <div className="text-black text-xs border rounded-full px-2 font-semibold bg-yellow-600">
-            {project.incidentsCount}
-          </div>
-        )
+        label: "Incidents"
       },
       {
         key: "settings",
