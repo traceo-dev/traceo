@@ -13,10 +13,7 @@ export const handleIncidentEvent = async (core: Core, message: string) => {
 
     try {
         const incidentEvent = JSON.parse(message) as IncidentEvent;
-        return;
-
         const event = await captureEvent(incidentEvent, core.db);
-
         
         return event;
     } catch (error) {
