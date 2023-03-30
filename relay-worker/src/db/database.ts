@@ -224,7 +224,7 @@ export class DatabaseService {
         })));
 
         await this.clickClient.insert({
-            table: CLICKHOUSE_TABLE.BROWSER_PERFS,
+            table: CLICKHOUSE_TABLE.PERFORMANCE,
             format: "JSONEachRow",
             values: perfs
         });

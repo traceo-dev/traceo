@@ -33,7 +33,7 @@ export const CREATE_METRICS_TABLE = `
 `;
 
 export const CREATE_BROWSER_PERFS_TABLE = `
-    CREATE TABLE IF NOT EXISTS ${CLICKHOUSE_DB_NAME}.browser_perfs (
+    CREATE TABLE IF NOT EXISTS ${CLICKHOUSE_DB_NAME}.performance (
         id UUID,
         name String,
         value Float64,

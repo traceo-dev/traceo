@@ -25,6 +25,7 @@ import { ViewModule } from "./view/view.module";
 import { CaptureController } from "./capture/capture.controller";
 import { CaptureModule } from "./capture/capture.module";
 import { EventModule } from './event/event.module';
+import { PerformanceModule } from './performance/performance.module';
 
 const apiControllers = [
   UserController,
@@ -54,7 +55,8 @@ const apiControllers = [
     MetricsModule,
     ViewModule,
     CaptureModule,
-    EventModule
+    EventModule,
+    PerformanceModule
   ],
   controllers: apiControllers
 })

@@ -17,6 +17,7 @@ export * from "./browser";
 export * from "./sdk";
 export * from "./kafka";
 export * from "./event";
+export * from "./performance";
 
 export type SafeReturnType = string | number;
 

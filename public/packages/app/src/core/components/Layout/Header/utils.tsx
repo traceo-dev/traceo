@@ -41,6 +41,12 @@ export const buildHeaderItems = (project: IProject): MenuRoute[] => {
         href: "/project/:id/metrics",
         label: "Metrics"
       });
+    } else {
+      navItems.splice(2, 0, {
+        key: "performance",
+        href: "/project/:id/performance",
+        label: "Performance"
+      });
     }
 
     return navItems;

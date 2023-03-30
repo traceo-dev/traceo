@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ClickHouseClient, ClickHouseClientConfigOptions, createClient, QueryParams } from "@clickhouse/client";
-import { LogsQuery, ILog, TimeSerieMetric } from "@traceo/types";
+import { LogsQuery, ILog, TimeSerieMetric, PerformanceQuery, Performance } from "@traceo/types";
 import { MetricQueryDto } from "src/common/types/dto/metrics.dto";
 
 @Injectable()
@@ -52,5 +52,22 @@ export class ClickhouseService {
         });
 
         return logs.json<ILog[]>();
+    }
+
+    public async loadPermormance(projectId: string, query: PerformanceQuery): Promise<Performance[]> {
+        const perfs = await this.query({
+            query: `
+                SELECT * FROM performance
+                WHERE project_id = '${projectId}'
+                AND timestamp >= ${query.from}
+                AND timestamp <= ${query.to}
+                AND name in (${query.fields.map((e) => `'${e.toUpperCase()}'`)})
+                ORDER BY timestamp DESC
+            `,
+            format: "JSONEachRow"
+        })
+
+
+        return perfs.json<Performance[]>();
     }
 }
