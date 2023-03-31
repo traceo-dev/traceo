@@ -26,6 +26,7 @@ import { CaptureController } from "./capture/capture.controller";
 import { CaptureModule } from "./capture/capture.module";
 import { EventModule } from './event/event.module';
 import { PerformanceModule } from './performance/performance.module';
+import { PerformanceController } from "./performance/performance.controller";
 
 const apiControllers = [
   UserController,
@@ -39,7 +40,8 @@ const apiControllers = [
   MetricsController,
   AuthController,
   ViewController,
-  CaptureController
+  CaptureController,
+  PerformanceController
 ];
 @Module({
   imports: [

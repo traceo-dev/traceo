@@ -13,6 +13,8 @@ interface VitalsChart {
 export const VitalsChart = ({ data, field }: VitalsChart) => {
   return (
     <BaseChart
+      animation={true}
+      activeZoomSelect={true}
       height="200px"
       tooltip={BaseTooltip()}
       dataset={{
@@ -28,9 +30,6 @@ export const VitalsChart = ({ data, field }: VitalsChart) => {
         show: true,
         splitLine: {
           show: false
-        },
-        axisLabel: {
-          interval: 4
         },
         pointerFormatter: (value: any) => vitalsFormatter(field, value) as string,
         labelFormatter: (value: any) => vitalsFormatter(field, value) as string

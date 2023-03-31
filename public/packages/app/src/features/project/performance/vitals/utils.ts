@@ -1,4 +1,4 @@
-import { VitalsEnum } from "@traceo/types";
+import { VitalsBinType, VitalsEnum } from "@traceo/types";
 
 export enum HEALTH_COLOR {
     GOOD = "#0CCE6B",
@@ -76,4 +76,29 @@ export const barColor = (field: VitalsEnum, value: number) => {
         default:
             return HEALTH_COLOR.GOOD;
     }
+}
+
+export const calculateVitalsAvg = (field: VitalsEnum, data: VitalsBinType[]): string => {
+    if (!data || data.length === 0) {
+        return "-"
+    }
+
+    const totalCount = data.reduce((acc, val) => acc += val.count, 0);
+    const totalTime = data.reduce((acc, val) => acc += val.bin * val.count, 0);
+
+    const avg = round(totalTime) / totalCount;
+
+    if (field === VitalsEnum.CLS) {
+        return avg.toFixed(3);
+    }
+
+    if (avg > 1000) {
+        return `${formatMsToSeconds(avg)} s`;
+    }
+
+    return `${avg.toFixed(0)} ms`;
+}
+
+const formatMsToSeconds = (ms: number): string => {
+    return (ms / 1000).toFixed(2);
 }

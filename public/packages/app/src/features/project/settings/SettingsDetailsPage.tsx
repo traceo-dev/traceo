@@ -80,7 +80,7 @@ export const SettingsDetailsPage = () => {
       <Card title="Basic Informations">
         <ColumnSection subtitle="Basic information about the project. Only users managing the project have the ability to edit its resources.">
           <div className="w-2/3 flex flex-col">
-            <FieldLabel label="project ID">
+            <FieldLabel label="ID">
               <Input defaultValue={project?.id} disabled={true} />
             </FieldLabel>
             <FieldLabel label="Name">
