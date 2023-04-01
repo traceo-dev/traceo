@@ -83,7 +83,7 @@ export class DatabaseService {
     public async createIncident({
         sdk, status, stack, name, message, createdAt, project, platform, traces
     }: Partial<IIncident>, {
-        browser, date
+        details, date
     }: Partial<IEvent>,
         client: PoolClient = this.client
     ): Promise<IIncident> {
@@ -130,26 +130,26 @@ export class DatabaseService {
             incident: insertedRow,
             project,
             date,
-            browser
+            details
         }, client);
 
         return insertedRow;
     }
 
-    public async createEvent({ date, browser, incident, project }: Partial<IEvent>, client: PoolClient = this.client): Promise<IEvent> {
+    public async createEvent({ date, details, incident, project }: Partial<IEvent>, client: PoolClient = this.client): Promise<IEvent> {
         const result = await client.query<IEvent>(`
             INSERT INTO event (
                 date,
                 incident_id,
                 project_id,
-                browser
+                details
             ) VALUES ($1, $2, $3, $4) 
             RETURNING *        
         `, [
             date,
             incident.id,
             project.id,
-            browser
+            details
         ]);
 
         await client.query(`UPDATE incident SET last_event_at = '${date}' WHERE id = '${incident.id}'`)
@@ -218,7 +218,11 @@ export class DatabaseService {
             value: perf.value,
             unit: perf.unit,
             event: item.event,
+            browser_name: item.browser.name,
+            browser_version: item.browser.version,
+            platform_type: item.platform.type,
             timestamp: item.timestamp,
+            view: item.view,
             receive_timestamp: now,
             project_id: projectId
         })));

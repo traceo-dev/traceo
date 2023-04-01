@@ -68,7 +68,7 @@ const captureEvent = async ({
             incident,
             project: project,
 
-            browser: payload?.browser || undefined,
+            details: payload?.details || undefined,
         }, client);
 
 

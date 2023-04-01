@@ -60,7 +60,7 @@ export interface IncidentEventPayload {
   stack: string;
   stackFrames?: StackFrame[];
 
-  browser?: BrowserInfoType
+  details?: object
 }
 
 export interface StackFrame {

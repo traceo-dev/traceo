@@ -100,6 +100,11 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       wrapper: ProjectDashboardWrapper
     },
     {
+      path: "/project/:id/performance/:name",
+      component: lazy(() => import("../features/project/performance/vitals/VitalsPreviewPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
       path: "/project/:id/explore/runtime",
       component: lazy(() => import("../features/project/explore/RuntimePage")),
       wrapper: ProjectDashboardWrapper

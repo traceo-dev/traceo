@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common/decorators";
 import { Logger } from "@nestjs/common";
 import { EntityManager } from "typeorm";
 import { IEvent } from "@traceo/types";
+import { Event } from "../../../db/entities/event.entity";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 
@@ -17,11 +18,10 @@ export class EventQueryService {
 
     public async getEventsForIncident(incidentId: string): Promise<ApiResponse<IEvent[]>> {
         try {
-            const result: IEvent[] = await this.entityManger.query(`
-                SELECT * 
-                FROM event 
-                WHERE incident_id = $1
-            `, [incidentId]);
+            const result = await this.entityManger.getRepository(Event)
+                .createQueryBuilder('event')
+                .where('event.incident_id = :id', { id: incidentId })
+                .getMany();
 
             return new ApiResponse("success", undefined, result);
         } catch (error) {

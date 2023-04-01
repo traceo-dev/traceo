@@ -1,5 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PerformanceQuery, VitalsEnum, VitalsResponse } from '@traceo/types';
+import { PerformanceQuery, VitalsEnum, VitalsResponse, Performance } from '@traceo/types';
 import { INTERNAL_SERVER_ERROR } from 'src/common/helpers/constants';
 import { ClickhouseService } from '../../common/services/clickhouse/clickhouse.service';
 import { ApiResponse } from '../../common/types/dto/response.dto';
@@ -9,15 +9,15 @@ const INTERVAL: Record<VitalsEnum, number> = {
     [VitalsEnum.FID]: 0.20,
     [VitalsEnum.FCP]: 100,
     [VitalsEnum.FP]: 100,
-    [VitalsEnum.LCP]: 100
+    [VitalsEnum.LCP]: 200
 };
 
 const MAX_VALUE: Record<VitalsEnum, number> = {
-    [VitalsEnum.CLS]: 1,
+    [VitalsEnum.CLS]: 0.50,
     [VitalsEnum.FID]: 10,
     [VitalsEnum.FCP]: 1000,
     [VitalsEnum.FP]: 1000,
-    [VitalsEnum.LCP]: 1000
+    [VitalsEnum.LCP]: 2000
 };
 
 @Injectable()
@@ -27,7 +27,17 @@ export class PerformanceService {
         private readonly clickhouseService: ClickhouseService
     ) { }
 
-    public async getWebPerformances(projectId: string, query: PerformanceQuery): Promise<ApiResponse<VitalsResponse>> {
+    public async getPerformanceList(projectId: string, query: PerformanceQuery): Promise<ApiResponse<Performance[]>> {
+        try {
+            const perfs = await this.clickhouseService.loadPermormance(projectId, query);
+            return new ApiResponse("success", undefined, perfs);
+        } catch (error) {
+            this.logger.error(`[${this.getPerformanceList.name}] Caused by: ${error}`);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+        }
+    }
+
+    public async getPerformanceBins(projectId: string, query: PerformanceQuery): Promise<ApiResponse<VitalsResponse>> {
         try {
             const perfs = await this.clickhouseService.loadPermormance(projectId, query);
             const vitals = perfs
@@ -46,7 +56,7 @@ export class PerformanceService {
 
             return new ApiResponse("success", undefined, result);
         } catch (error) {
-            this.logger.error(`[${this.getWebPerformances.name}] Caused by: ${error}`);
+            this.logger.error(`[${this.getPerformanceBins.name}] Caused by: ${error}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
         }
     }

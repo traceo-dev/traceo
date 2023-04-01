@@ -40,7 +40,17 @@ export class ClickhouseMigration implements MigrationInterface {
             // Browser perfs table
             await this.clickhouseClient.query({
                 query: CREATE_BROWSER_PERFS_TABLE
-            })
+            });
+
+            await this.clickhouseClient.query({
+                query: `ALTER TABLE traceo_development.performance ADD COLUMN browser_name String DEFAULT '';`
+            });
+            await this.clickhouseClient.query({
+                query: `ALTER TABLE traceo_development.performance ADD COLUMN browser_version String DEFAULT '';`
+            });
+            await this.clickhouseClient.query({
+                query: `ALTER TABLE traceo_development.performance ADD COLUMN platform_type String DEFAULT '';`
+            });
 
             this.logger.log(`[Traceo] Clickhouse migration end with success.`)
         } catch (err) {

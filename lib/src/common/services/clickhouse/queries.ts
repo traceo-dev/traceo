@@ -41,6 +41,10 @@ export const CREATE_BROWSER_PERFS_TABLE = `
         event String,
         timestamp UInt128,
         receive_timestamp DateTime,
+        view String,
+        browser_name String,
+        browser_version String,
+        platform_type String,
         project_id String
     )
     ENGINE = MergeTree()

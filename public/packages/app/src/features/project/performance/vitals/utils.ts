@@ -1,9 +1,16 @@
-import { VitalsBinType, VitalsEnum } from "@traceo/types";
+import { VitalsBinType, VitalsEnum, Performance } from "@traceo/types";
+import { VITALS_THRESHOLD, Range, ThresholdRange, VitalsHealthType } from "./types";
 
 export enum HEALTH_COLOR {
     GOOD = "#0CCE6B",
     NEED_IMPROVEMENT = "#FFA400",
     POOR = "#FF4E42"
+}
+
+export const healthColor: Record<VitalsHealthType, HEALTH_COLOR> = {
+    good: HEALTH_COLOR.GOOD,
+    need_improvement: HEALTH_COLOR.NEED_IMPROVEMENT,
+    poor: HEALTH_COLOR.POOR
 }
 
 // 0.300000000004 -> 0.3
@@ -101,4 +108,46 @@ export const calculateVitalsAvg = (field: VitalsEnum, data: VitalsBinType[]): st
 
 const formatMsToSeconds = (ms: number): string => {
     return (ms / 1000).toFixed(2);
+}
+
+// Function to return percentage of the all thresholds in veb-witals
+export const calculateHealthPercentage = (type: VitalsEnum, list: Performance[]): Record<VitalsHealthType, number> => {
+    if (!list || list.length === 0) {
+        return;
+    }
+
+    const totalCount = list.length;
+    const threshold = VITALS_THRESHOLD[type];
+
+    const result = Object.entries(threshold).reduce((acc, [key, range]) => {
+        const thresholdRange = range as Range;
+        const count =
+            list.filter(
+                (t) => t.value >= thresholdRange.min && t.value < thresholdRange.max
+            )?.length || 0;
+
+        acc[key] = Math.round((count / totalCount) * 100);
+
+        return acc;
+    }, {}) as Record<VitalsHealthType, number>;
+
+    return result;
+};
+
+export const getHealthByValue = (type: VitalsEnum, value: number): VitalsHealthType => {
+    const threshold = VITALS_THRESHOLD[type];
+
+    if ((value >= threshold.good.min) && (value <= threshold.good.max)) {
+        return "good"
+    }
+
+    if ((value >= threshold.need_improvement.min) && (value <= threshold.need_improvement.max)) {
+        return "need_improvement"
+    }
+
+    if ((value >= threshold.poor.min) && (value <= threshold.poor.max)) {
+        return "poor"
+    }
+
+    return undefined;
 }

@@ -1,10 +1,9 @@
-import { LoadingOutlined, RocketOutlined } from "@ant-design/icons";
+import { EyeOutlined, LoadingOutlined, RocketOutlined } from "@ant-design/icons";
 import { VitalsEnum, VitalsResponse } from "@traceo/types";
-import { Card, Space } from "@traceo/ui";
+import { Alert, Card } from "@traceo/ui";
 import dayjs from "dayjs";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { DataNotFound } from "src/core/components/DataNotFound";
+import { useNavigate, useParams } from "react-router-dom";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { Page } from "../../../core/components/Page";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
@@ -13,7 +12,7 @@ import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { MetricTimeRangePicker } from "../metrics/components/MetricTimeRangePicker";
 import { VITALS_DETAILS } from "./vitals/types";
 import { calculateVitalsAvg } from "./vitals/utils";
-import { VitalsChart } from "./vitals/VitalsChart";
+import { renderChart } from "./vitals/VitalsChart";
 
 const SUPPORTED_WEB_VITALS = [
   VitalsEnum.CLS,
@@ -33,13 +32,14 @@ const WEB_VITALS_DOCS_URL: Record<VitalsEnum, string> = {
 
 const PerformancePage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { ranges, setRanges } = useTimeRange({
     from: dayjs().subtract(24, "h").unix(),
     to: dayjs().unix()
   });
 
   const { data, isLoading, execute } = useRequest<VitalsResponse>({
-    url: `/api/performance/vitals/${id}`,
+    url: `/api/performance/vitals/bins/${id}`,
     params: {
       from: ranges[0],
       to: ranges[1],
@@ -50,27 +50,6 @@ const PerformancePage = () => {
   useEffect(() => {
     execute();
   }, [ranges]);
-
-  const renderChart = (field: VitalsEnum) => {
-    if (isLoading) {
-      return (
-        <Space className="w-full justify-center flex flex-col">
-          <LoadingOutlined className="mt-12" />
-          <span>Loading...</span>
-        </Space>
-      );
-    }
-
-    if (!data || !data[field]) {
-      return <DataNotFound className="mt-12" label="Performance data not found" />;
-    }
-
-    return (
-      <Space className="w-full justify-center">
-        <VitalsChart field={field} data={data[field]} />
-      </Space>
-    );
-  };
 
   const renderAvg = (field: VitalsEnum) => {
     if (isLoading || !data) {
@@ -85,7 +64,11 @@ const PerformancePage = () => {
       <div className="flex flex-col w-full">
         <span className="text-5xl font-semibold my-3">{renderAvg(field)}</span>
         <span>{description}</span>
-        <a target="_blank" href={WEB_VITALS_DOCS_URL[field]} className="mt-5 text-xs text-sky-500 font-semibold">
+        <a
+          target="_blank"
+          href={WEB_VITALS_DOCS_URL[field]}
+          className="mt-5 text-xs text-sky-500 font-semibold"
+        >
           Read more
         </a>
       </div>
@@ -101,6 +84,11 @@ const PerformancePage = () => {
           "A collection of data about the performance of your application. It is based on scrapped web-vitals data from browser."
       }}
     >
+      <Alert
+        type="warning"
+        title="Beta"
+        message="At this point, the performance feature is being tested. Please report potential bugs on the Github Issue."
+      />
       <Card>
         <SearchWrapper className="justify-end">
           <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
@@ -108,9 +96,19 @@ const PerformancePage = () => {
       </Card>
       <div className="flex flex-col w-full">
         {VITALS_DETAILS.map(({ description, field, name }, key) => (
-          <Card className="mb-1" key={key}>
-            <ColumnSection title={name} subtitle={subtitle(field, description)}>
-              {renderChart(field)}
+          <Card
+            className="mb-1 flex flex-col"
+            title={name}
+            key={key}
+            extra={
+              <EyeOutlined
+                className="cursor-pointer"
+                onClick={() => navigate(`/project/${id}/performance/${field}`)}
+              />
+            }
+          >
+            <ColumnSection subtitle={subtitle(field, description)}>
+              {renderChart({ data: data[field], field, isLoading })}
             </ColumnSection>
           </Card>
         ))}

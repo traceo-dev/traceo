@@ -1,4 +1,7 @@
+import { LoadingOutlined } from "@ant-design/icons";
 import { VitalsBinType, VitalsEnum } from "@traceo/types";
+import { Space } from "@traceo/ui";
+import { DataNotFound } from "src/core/components/DataNotFound";
 import { BaseChart } from "../../../../core/components/Charts/BaseChart";
 import { BaseTooltip } from "../../../../core/components/Charts/BaseTooltip";
 import { BaseXAxis } from "../../../../core/components/Charts/BaseXAxis";
@@ -10,7 +13,7 @@ interface VitalsChart {
   data: VitalsBinType[];
 }
 
-export const VitalsChart = ({ data, field }: VitalsChart) => {
+const VitalsChart = ({ data, field }: VitalsChart) => {
   return (
     <BaseChart
       animation={true}
@@ -51,5 +54,34 @@ export const VitalsChart = ({ data, field }: VitalsChart) => {
         }
       }}
     />
+  );
+};
+
+export const renderChart = ({
+  field,
+  isLoading,
+  data
+}: {
+  field: VitalsEnum;
+  isLoading: boolean;
+  data: VitalsBinType[];
+}) => {
+  if (isLoading) {
+    return (
+      <Space className="w-full justify-center flex flex-col">
+        <LoadingOutlined className="mt-12" />
+        <span>Loading...</span>
+      </Space>
+    );
+  }
+
+  if (!data || !data[field]) {
+    return <DataNotFound className="mt-12" label="Performance data not found" />;
+  }
+
+  return (
+    <Space className="w-full justify-center">
+      <VitalsChart field={field} data={data[field]} />
+    </Space>
   );
 };

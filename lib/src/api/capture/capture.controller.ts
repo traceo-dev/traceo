@@ -1,6 +1,6 @@
 import { Body, Controller, Param, Post, Headers, Req } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { LogEventPayload, MetricsEventPayload, RuntimeEventPayload, IncidentEventPayload, Dictionary } from "@traceo/types";
+import { LogEventPayload, MetricsEventPayload, RuntimeEventPayload, IncidentEventPayload, Dictionary, BrowserPerfsPayloadEvent } from "@traceo/types";
 import { Request } from "express";
 import { ApiResponse } from "src/common/types/dto/response.dto";
 import { CaptureService, CAPTURE_ROUTE } from "./capture.service";
@@ -91,7 +91,7 @@ export class CaptureController {
     @Post("/browser/perfs/:id")
     async handleBrowserPerfs(
         @Param("id") id: string,
-        @Body() data: MetricsEventPayload,
+        @Body() data: BrowserPerfsPayloadEvent[],
         @Headers() headers: Dictionary<string>,
         @Req() req: Request
     ): Promise<ApiResponse<string> | undefined | void> {

@@ -18,7 +18,7 @@ export class Event extends BaseEntity implements IEvent {
         type: "simple-json",
         nullable: true
     })
-    browser?: BrowserInfoType;
+    details?: object;
 
     @ManyToOne(() => Project, {
         onUpdate: "CASCADE",
