@@ -99,6 +99,7 @@ export class DatabaseService {
     }: Partial<IEvent>,
         client: PoolClient = this.client
     ): Promise<IIncident> {
+        const now = dayjs().unix();
         /**
          * Function to insert new incident in postgres db. Should be run within new transaction by
          * using postgresTransaction and this same client instance passed to function attribute.
@@ -107,6 +108,7 @@ export class DatabaseService {
          * 2. Update last_incident_at in project table
          * 3. Insert new event
          */
+        const incDate = date ?? now;
         const result = await client.query<IIncident>(`
             INSERT INTO incident (
                 sdk, 
@@ -127,15 +129,15 @@ export class DatabaseService {
             status,
             stack,
             JSON.stringify(traces),
-            name,
+            name ?? "<incident>",
             message,
             createdAt,
-            date,
+            incDate,
             project.id,
             platform
         ]);
 
-        await this.updateProjectLastEventAt(project.id, date);
+        await this.updateProjectLastEventAt(project.id, incDate);
 
         const insertedRow = result.rows[0];
         await this.createEvent({
@@ -149,6 +151,7 @@ export class DatabaseService {
     }
 
     public async createEvent({ date, details, incident, project }: Partial<IEvent>, client: PoolClient = this.client): Promise<IEvent> {
+        const eDate = date ?? dayjs().unix();
         const result = await client.query<IEvent>(`
             INSERT INTO event (
                 date,
@@ -158,14 +161,14 @@ export class DatabaseService {
             ) VALUES ($1, $2, $3, $4) 
             RETURNING *        
         `, [
-            date,
+            eDate,
             incident.id,
             project.id,
             details
         ]);
 
-        await client.query(`UPDATE incident SET last_event_at = '${date}' WHERE id = '${incident.id}'`)
-        await this.updateProjectLastEventAt(project.id, date);
+        await client.query(`UPDATE incident SET last_event_at = '${eDate}' WHERE id = '${incident.id}'`)
+        await this.updateProjectLastEventAt(project.id, eDate);
 
         return result.rows[0];
     }

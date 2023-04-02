@@ -25,14 +25,15 @@ export interface IProject {
   // overrided after every application startup
   runtimeConfig?: Dictionary<string | number | undefined | null>;
 
-  security?: ISecurity;
+  // security?: ISecurity;
+  apiKey: string;
 }
 
-export interface ISecurity {
-  apiKey: string;
-  lastUpdate: number;
-  generatedBy: string;
-}
+// export interface ISecurity {
+//   apiKey: string;
+//   lastUpdate: number;
+//   generatedBy: string;
+// }
 
 export interface IProjectResponse extends Omit<IProject, "influxDS" | "owner"> {
   member: {

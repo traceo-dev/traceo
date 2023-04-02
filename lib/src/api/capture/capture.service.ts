@@ -1,5 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Dictionary, KAFKA_TOPIC, SDK } from "@traceo/types";
+import { EntityManager } from "typeorm";
 import { KafkaService } from "../../common/services/kafka/kafka.service";
 import { ApiResponse } from "../../common/types/dto/response.dto";
 
@@ -21,7 +22,6 @@ const mapRouteToTopic: Record<CAPTURE_ROUTE, KAFKA_TOPIC> = {
 
 export type CaptureType = {
     route: CAPTURE_ROUTE,
-    projectId: string;
     payload: any,
     headers: Dictionary<string>,
 }
@@ -36,7 +36,8 @@ type KafkaEventPayload = {
 export class CaptureService {
     private readonly logger: Logger;
     constructor(
-        private readonly kafka: KafkaService
+        private readonly kafka: KafkaService,
+        private readonly entityManager: EntityManager
     ) {
         this.logger = new Logger(CaptureService.name);
     }
@@ -47,14 +48,10 @@ export class CaptureService {
     }
 
     public async process(data: CaptureType): Promise<ApiResponse<string> | undefined | void> {
-        const { projectId: project_id, headers, payload, route } = data;
+        const { headers, payload, route } = data;
 
         if (process.env.DEMO === "true") {
             return this.exceptionResponse('Cannot process events in demo version of the Traceo Platform.')
-        }
-
-        if (project_id === undefined) {
-            return this.exceptionResponse('Project ID is not provided. You can find your ID in project settings.')
         }
 
         const api_key = headers["x-sdk-key"] || null;
@@ -76,11 +73,16 @@ export class CaptureService {
 
         const topic = mapRouteToTopic[route];
 
+        const project_id = await this.retrieveProjectId(api_key);
+        if (!project_id) {
+            return this.exceptionResponse('Provided Api key is incorrect.')
+        }
+
         const kafkaPayload: KafkaEventPayload = {
             sdk: sdk_name,
             projectId: project_id,
             payload
-        }
+        };
 
         try {
             this.kafka.send(topic, [{
@@ -97,6 +99,15 @@ export class CaptureService {
 
     private isValidApiKey(uuid: string): boolean {
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-        return uuidRegex.test(uuid)
+        return uuidRegex.test(uuid.substring(3, uuid.length))
+    }
+
+    private async retrieveProjectId(uuid: string): Promise<string> {
+        const project = await this.entityManager.query(`SELECT id from project WHERE api_key = '${uuid}'`);
+        if (project.length === 0) {
+            return null;
+        }
+
+        return project[0].id;
     }
 }

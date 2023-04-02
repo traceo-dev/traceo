@@ -14,7 +14,7 @@ export const handleIncidentEvent = async (core: Core, message: string) => {
     try {
         const incidentEvent = JSON.parse(message) as IncidentEvent;
         const event = await captureEvent(incidentEvent, core.db);
-        
+
         return event;
     } catch (error) {
         const message = `❌ Cannot process incoming event. Caused by: ${error}`;
@@ -41,7 +41,7 @@ const captureEvent = async ({
         }
 
         const incident = await db.getIncident({
-            name: payload["type"],
+            name: payload.name,
             message: payload.message,
             projectId: project_id
         }, client);
@@ -53,7 +53,7 @@ const captureEvent = async ({
                 status: IncidentStatus.UNRESOLVED,
                 project: project,
                 createdAt: now,
-                name: payload["type"],
+                name: payload.name,
             };
 
             await db.createIncident(incident, payload, client);

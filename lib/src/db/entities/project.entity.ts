@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 
 import { User } from "./user.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { ISecurity, IUser, IIncident, SDK, IMetric, Dictionary, IProject, IMember } from "@traceo/types";
+import { IUser, IIncident, SDK, IMetric, Dictionary, IProject, IMember } from "@traceo/types";
 import { Metric } from "./metric.entity";
 import { Member } from "./member.entity";
 
@@ -21,10 +21,11 @@ export class Project extends BaseEntity implements IProject {
   sdk: SDK;
 
   @Column({
-    type: "simple-json",
-    nullable: true
+    type: "varchar",
+    nullable: true,
+    name: "api_key"
   })
-  security?: ISecurity;
+  apiKey: string;
 
   @ManyToOne(() => User)
   @JoinColumn({

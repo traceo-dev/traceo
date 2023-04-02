@@ -86,16 +86,9 @@ export class ProjectService {
   }
 
   public async generateApiKey(id: string): Promise<ApiResponse<string>> {
-    const user = RequestContext.user;
-    const apiKey = crypto.randomUUID();
+    const apiKey = `tr_${crypto.randomUUID()}`;
     try {
-      await this.update(id, {
-        security: {
-          apiKey,
-          lastUpdate: dateUtils.toUnix(),
-          generatedBy: user.username
-        }
-      });
+      await this.update(id, { apiKey });
       return new ApiResponse("success", "API Key Generated.", apiKey);
     } catch (err) {
       this.logger.error(`[${this.generateApiKey.name}] Caused by: ${err}`);
@@ -105,7 +98,7 @@ export class ProjectService {
 
   public async removeApiKey(id: string): Promise<ApiResponse<unknown>> {
     try {
-      await this.update(id, { security: null });
+      await this.update(id, { apiKey: null });
       return new ApiResponse("success", "API Key Removed.");
     } catch (err) {
       this.logger.error(`[${this.removeApiKey.name}] Caused by: ${err}`);
