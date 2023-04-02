@@ -36,6 +36,7 @@ export const CREATE_BROWSER_PERFS_TABLE = `
     CREATE TABLE IF NOT EXISTS ${CLICKHOUSE_DB_NAME}.performance (
         id UUID,
         name String,
+        health String,
         value Float64,
         unit String,
         event String,

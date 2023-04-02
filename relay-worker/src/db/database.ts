@@ -1,7 +1,19 @@
 import { Pool, PoolClient, QueryResult } from "pg";
 import { ExceptionHandlers } from "@traceo-sdk/node";
 import { logger } from "..";
-import { Dictionary, IProject, IEvent, IIncident, LogEventPayload, MetricsEventPayload, SafeReturnType, TimeSerieMetric, BrowserPerfsPayloadEvent } from "@traceo/types";
+import {
+    Dictionary,
+    IProject,
+    IEvent,
+    IIncident,
+    LogEventPayload,
+    MetricsEventPayload,
+    SafeReturnType,
+    TimeSerieMetric,
+    BrowserPerfsPayloadEvent,
+    getHealthByValue,
+    VitalsEnum
+} from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
 import { ClickHouseClient } from "@clickhouse/client";
@@ -216,6 +228,7 @@ export class DatabaseService {
             id: randomUUID(),
             name: perf.name,
             value: perf.value,
+            health: perf.name && perf.value ? getHealthByValue(perf.name as VitalsEnum, perf.value as number) : undefined,
             unit: perf.unit,
             event: item.event,
             browser_name: item.browser.name,

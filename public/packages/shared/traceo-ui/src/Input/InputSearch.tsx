@@ -5,19 +5,20 @@ import { ChangeEvent, forwardRef, HTMLProps } from "react";
 
 interface Props extends Omit<HTMLProps<HTMLInputElement>, "onChange"> {
   value: string;
-  onChange: (val: string) => void;
+  onChange?: (val: string) => void;
   loading?: boolean;
 }
 
 export const InputSearch = forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { value, placeholder = "Search", onChange, className } = props;
+  const { value, placeholder = "Search", onChange, className, ...rest } = props;
 
   const onChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange(event.target.value);
+    onChange && onChange(event.target.value);
   };
 
   return (
     <Input
+      {...rest}
       ref={ref}
       placeholder={placeholder}
       prefix={<SearchOutlined />}

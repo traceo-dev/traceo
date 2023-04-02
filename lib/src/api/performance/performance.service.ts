@@ -1,31 +1,17 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { PerformanceQuery, VitalsEnum, VitalsResponse, Performance } from '@traceo/types';
+import { PerformanceQuery, VitalsResponse, Performance, MAP_INTERVAL, MAP_MAX_VALUE } from '@traceo/types';
 import { INTERNAL_SERVER_ERROR } from 'src/common/helpers/constants';
 import { ClickhouseService } from '../../common/services/clickhouse/clickhouse.service';
 import { ApiResponse } from '../../common/types/dto/response.dto';
-
-const INTERVAL: Record<VitalsEnum, number> = {
-    [VitalsEnum.CLS]: 0.01,
-    [VitalsEnum.FID]: 0.20,
-    [VitalsEnum.FCP]: 100,
-    [VitalsEnum.FP]: 100,
-    [VitalsEnum.LCP]: 200
-};
-
-const MAX_VALUE: Record<VitalsEnum, number> = {
-    [VitalsEnum.CLS]: 0.50,
-    [VitalsEnum.FID]: 10,
-    [VitalsEnum.FCP]: 1000,
-    [VitalsEnum.FP]: 1000,
-    [VitalsEnum.LCP]: 2000
-};
 
 @Injectable()
 export class PerformanceService {
     private readonly logger: Logger;
     constructor(
         private readonly clickhouseService: ClickhouseService
-    ) { }
+    ) {
+        this.logger = new Logger(PerformanceService.name);
+    }
 
     public async getPerformanceList(projectId: string, query: PerformanceQuery): Promise<ApiResponse<Performance[]>> {
         try {
@@ -50,7 +36,7 @@ export class PerformanceService {
                 }, {});
 
             const result = Object.entries(vitals).reduce((acc, [key, value]) => {
-                acc[key] = this.pushToBins(value as number[], INTERVAL[key], MAX_VALUE[key]);
+                acc[key] = this.pushToBins(value as number[], MAP_INTERVAL[key], MAP_MAX_VALUE[key]);
                 return acc;
             }, {});
 

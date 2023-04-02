@@ -1,5 +1,13 @@
-import { VitalsBinType, VitalsEnum, Performance } from "@traceo/types";
-import { VITALS_THRESHOLD, Range, ThresholdRange, VitalsHealthType } from "./types";
+import {
+    VitalsBinType,
+    VitalsEnum,
+    Performance,
+    MAP_INTERVAL,
+    MAP_MAX_VALUE,
+    VitalsHealthType,
+    VITALS_THRESHOLD,
+    Range
+} from "@traceo/types";
 
 export enum HEALTH_COLOR {
     GOOD = "#0CCE6B",
@@ -36,7 +44,7 @@ export const vitalsFormatter = (field: VitalsEnum, value: number) => {
 export const barColor = (field: VitalsEnum, value: number) => {
     switch (field) {
         case VitalsEnum.LCP: {
-            if (value >= 0 && value <= 2500) {
+            if (value >= 0 && value < 2500) {
                 return HEALTH_COLOR.GOOD;
             }
 
@@ -47,22 +55,22 @@ export const barColor = (field: VitalsEnum, value: number) => {
             return HEALTH_COLOR.POOR;
         }
         case VitalsEnum.FID: {
-            if (value >= 0 && value <= 100) {
+            if (value >= 0 && value < 100) {
                 return HEALTH_COLOR.GOOD;
             }
 
-            if (value > 100 && value <= 300) {
+            if (value >= 100 && value <= 300) {
                 return HEALTH_COLOR.NEED_IMPROVEMENT;
             }
 
             return HEALTH_COLOR.POOR;
         }
         case VitalsEnum.CLS: {
-            if (value >= 0 && value <= 0.1) {
+            if (value >= 0 && value < 0.1) {
                 return HEALTH_COLOR.GOOD;
             }
 
-            if (value > 0.1 && value <= 0.25) {
+            if (value >= 0.1 && value <= 0.25) {
                 return HEALTH_COLOR.NEED_IMPROVEMENT;
             }
 
@@ -70,11 +78,11 @@ export const barColor = (field: VitalsEnum, value: number) => {
         }
         case VitalsEnum.FP:
         case VitalsEnum.FCP: {
-            if (value >= 0 && value <= 1000) {
+            if (value >= 0 && value < 1000) {
                 return HEALTH_COLOR.GOOD;
             }
 
-            if (value > 1000 && value <= 3000) {
+            if (value >= 1000 && value <= 3000) {
                 return HEALTH_COLOR.NEED_IMPROVEMENT;
             }
 
@@ -112,12 +120,15 @@ const formatMsToSeconds = (ms: number): string => {
 
 // Function to return percentage of the all thresholds in veb-witals
 export const calculateHealthPercentage = (type: VitalsEnum, list: Performance[]): Record<VitalsHealthType, number> => {
-    if (!list || list.length === 0) {
+    if (!list || list.length === 0 || !type) {
         return;
     }
 
     const totalCount = list.length;
     const threshold = VITALS_THRESHOLD[type];
+    if (!threshold) {
+        return;
+    }
 
     const result = Object.entries(threshold).reduce((acc, [key, range]) => {
         const thresholdRange = range as Range;
@@ -134,20 +145,51 @@ export const calculateHealthPercentage = (type: VitalsEnum, list: Performance[])
     return result;
 };
 
-export const getHealthByValue = (type: VitalsEnum, value: number): VitalsHealthType => {
-    const threshold = VITALS_THRESHOLD[type];
-
-    if ((value >= threshold.good.min) && (value <= threshold.good.max)) {
-        return "good"
+/**
+ * Pushing perfs to bins is doing here because of trying to have sync between data in table and in graph
+ * 
+ * TODO: put this funciton to utils in traceo/types and reuse also in performance.service in backendF
+ */
+export const parseToBins = (perfs: Performance[]) => {
+    if (!perfs || perfs.length === 0) {
+        return;
     }
 
-    if ((value >= threshold.need_improvement.min) && (value <= threshold.need_improvement.max)) {
-        return "need_improvement"
+    const vitals = perfs
+        .sort((a, b) => a.value - b.value)
+        .reduce((acc, val) => {
+            acc[val.name] = acc[val.name] || [];
+            acc[val.name].push(val.value);
+
+            return acc;
+        }, {});
+
+    const pushToBins = (values: number[], INTERVAL = 100, MAX_VALUE = 100) => {
+        const bins = [];
+
+        // iterate to the max value in array
+        const LAST_VALUE = values[values.length - 1];
+        // last_value multipled by 3 get some space in chart after last value 
+        const MAX = LAST_VALUE > MAX_VALUE ? LAST_VALUE + INTERVAL * 3 : MAX_VALUE;
+
+        for (let i = 0; i <= MAX; i += INTERVAL) {
+            const count = values
+                .filter((value) => value >= i && value <= i + INTERVAL)
+                .length;
+
+            bins.push({
+                bin: i,
+                count
+            });
+        }
+
+        return bins;
     }
 
-    if ((value >= threshold.poor.min) && (value <= threshold.poor.max)) {
-        return "poor"
-    }
+    const result = Object.entries(vitals).reduce((acc, [key, value]) => {
+        acc[key] = pushToBins(value as number[], MAP_INTERVAL[key], MAP_MAX_VALUE[key]);
+        return acc;
+    }, {});
 
-    return undefined;
+    return result;
 }

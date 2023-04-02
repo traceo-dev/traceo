@@ -108,7 +108,7 @@ const PerformancePage = () => {
             }
           >
             <ColumnSection subtitle={subtitle(field, description)}>
-              {renderChart({ data: data[field], field, isLoading })}
+              {renderChart({ data, field, isLoading })}
             </ColumnSection>
           </Card>
         ))}

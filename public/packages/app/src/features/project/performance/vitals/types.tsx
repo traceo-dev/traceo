@@ -1,5 +1,6 @@
 import { FrownOutlined, MehOutlined, SmileOutlined } from "@ant-design/icons";
-import { VitalsEnum } from "@traceo/types";
+import { VitalsEnum, VitalsHealthType } from "@traceo/types";
+import { SelectOptionProps } from "@traceo/ui";
 import { healthColor } from "./utils";
 
 export type VitalsDetailsType = {
@@ -40,99 +41,32 @@ export const VITALS_DETAILS: VitalsDetailsType[] = [
   }
 ];
 
-export type VitalsHealthType = "good" | "need_improvement" | "poor";
-
-export type Range = {
-  min: number;
-  max: number;
-};
-export type ThresholdRange = {
-  good: Range;
-  need_improvement: Range;
-  poor: Range;
-};
-
-export const VITALS_THRESHOLD: Record<VitalsEnum, ThresholdRange> = {
-  [VitalsEnum.CLS]: {
-    good: {
-      min: 0,
-      max: 0.1
-    },
-    need_improvement: {
-      min: 0.11,
-      max: 0.25
-    },
-    poor: {
-      min: 0.26,
-      max: Infinity
-    }
-  },
-  [VitalsEnum.FCP]: {
-    good: {
-      min: 0,
-      max: 1000
-    },
-    need_improvement: {
-      min: 1001,
-      max: 3000
-    },
-    poor: {
-      min: 3001,
-      max: Infinity
-    }
-  },
-  [VitalsEnum.FP]: {
-    good: {
-      min: 0,
-      max: 1000
-    },
-    need_improvement: {
-      min: 1001,
-      max: 3000
-    },
-    poor: {
-      min: 3001,
-      max: Infinity
-    }
-  },
-  [VitalsEnum.FID]: {
-    good: {
-      min: 0,
-      max: 100
-    },
-    need_improvement: {
-      min: 101,
-      max: 300
-    },
-    poor: {
-      min: 301,
-      max: Infinity
-    }
-  },
-  [VitalsEnum.LCP]: {
-    good: {
-      min: 0,
-      max: 2500
-    },
-    need_improvement: {
-      min: 2501,
-      max: 4000
-    },
-    poor: {
-      min: 4001,
-      max: Infinity
-    }
-  }
-};
-
 export const mapHealthToName: Record<VitalsHealthType, string> = {
   good: "Good",
   need_improvement: "Need improvement",
   poor: "Poor"
 };
 
-export const maphealthToIcon: Record<VitalsHealthType, JSX.Element> = {
+export const mapHealthToIcon: Record<VitalsHealthType, JSX.Element> = {
   good: <SmileOutlined style={{ color: healthColor["good"] }} />,
   need_improvement: <MehOutlined style={{ color: healthColor["need_improvement"] }} />,
   poor: <FrownOutlined style={{ color: healthColor["poor"] }} />
 };
+
+export const selectHealthOptions: SelectOptionProps[] = [
+  {
+    label: mapHealthToName["good"],
+    icon: mapHealthToIcon["good"],
+    value: "good"
+  },
+  {
+    label: mapHealthToName["need_improvement"],
+    icon: mapHealthToIcon["need_improvement"],
+    value: "need_improvement"
+  },
+  {
+    label: mapHealthToName["poor"],
+    icon: mapHealthToIcon["poor"],
+    value: "poor"
+  }
+];

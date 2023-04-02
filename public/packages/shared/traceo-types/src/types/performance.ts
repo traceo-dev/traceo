@@ -15,9 +15,13 @@ export type VitalsResponse = {
     [x: string]: VitalsBinType[];
 }
 
+// Search for performances query
 export type PerformanceQuery = {
     from: number;
     to: number;
+
+    search: string;
+    health: VitalsHealthType;
 
     // List of names (like FID, CLS, FCP) from clickhouse performance table and name column
     fields: string[];
@@ -30,6 +34,7 @@ export type Performance = {
     id: string;
     // Name of the saved performance data eq. FID, CLS, FCP
     name: string;
+    health: VitalsHealthType;
     value: number;
     // In long term definition eq. miliseconds, seconds etc.
     unit: string;
@@ -41,3 +46,122 @@ export type Performance = {
     receive_timestamp: string;
     project_id: string;
 }
+
+export const MAP_INTERVAL: Record<VitalsEnum, number> = {
+    [VitalsEnum.CLS]: 0.01,
+    [VitalsEnum.FID]: 0.20,
+    [VitalsEnum.FCP]: 100,
+    [VitalsEnum.FP]: 100,
+    [VitalsEnum.LCP]: 200
+};
+
+export const MAP_MAX_VALUE: Record<VitalsEnum, number> = {
+    [VitalsEnum.CLS]: 0.50,
+    [VitalsEnum.FID]: 10,
+    [VitalsEnum.FCP]: 1000,
+    [VitalsEnum.FP]: 1000,
+    [VitalsEnum.LCP]: 2000
+};
+
+export const getHealthByValue = (type: VitalsEnum, value: number): VitalsHealthType => {
+    const threshold = VITALS_THRESHOLD[type];
+
+    if ((value >= threshold.good.min) && (value <= threshold.good.max)) {
+        return "good"
+    }
+
+    if ((value >= threshold.need_improvement.min) && (value <= threshold.need_improvement.max)) {
+        return "need_improvement"
+    }
+
+    if ((value >= threshold.poor.min) && (value <= threshold.poor.max)) {
+        return "poor"
+    }
+
+    return undefined;
+}
+
+export type VitalsHealthType = "good" | "need_improvement" | "poor";
+
+export type Range = {
+    min: number;
+    max: number;
+};
+export type ThresholdRange = {
+    good: Range;
+    need_improvement: Range;
+    poor: Range;
+};
+
+export const VITALS_THRESHOLD: Record<VitalsEnum, ThresholdRange> = {
+    [VitalsEnum.CLS]: {
+        good: {
+            min: 0,
+            max: 0.09
+        },
+        need_improvement: {
+            min: 0.10,
+            max: 0.24
+        },
+        poor: {
+            min: 0.25,
+            max: Infinity
+        }
+    },
+    [VitalsEnum.FCP]: {
+        good: {
+            min: 0,
+            max: 999
+        },
+        need_improvement: {
+            min: 1000,
+            max: 2999
+        },
+        poor: {
+            min: 3000,
+            max: Infinity
+        }
+    },
+    [VitalsEnum.FP]: {
+        good: {
+            min: 0,
+            max: 999
+        },
+        need_improvement: {
+            min: 1000,
+            max: 2999
+        },
+        poor: {
+            min: 3000,
+            max: Infinity
+        }
+    },
+    [VitalsEnum.FID]: {
+        good: {
+            min: 0,
+            max: 99
+        },
+        need_improvement: {
+            min: 100,
+            max: 299
+        },
+        poor: {
+            min: 300,
+            max: Infinity
+        }
+    },
+    [VitalsEnum.LCP]: {
+        good: {
+            min: 0,
+            max: 2499
+        },
+        need_improvement: {
+            min: 2500,
+            max: 3999
+        },
+        poor: {
+            min: 4000,
+            max: Infinity
+        }
+    }
+};

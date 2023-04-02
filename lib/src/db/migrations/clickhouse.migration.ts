@@ -42,16 +42,6 @@ export class ClickhouseMigration implements MigrationInterface {
                 query: CREATE_BROWSER_PERFS_TABLE
             });
 
-            await this.clickhouseClient.query({
-                query: `ALTER TABLE traceo_development.performance ADD COLUMN browser_name String DEFAULT '';`
-            });
-            await this.clickhouseClient.query({
-                query: `ALTER TABLE traceo_development.performance ADD COLUMN browser_version String DEFAULT '';`
-            });
-            await this.clickhouseClient.query({
-                query: `ALTER TABLE traceo_development.performance ADD COLUMN platform_type String DEFAULT '';`
-            });
-
             this.logger.log(`[Traceo] Clickhouse migration end with success.`)
         } catch (err) {
             this.logger.error(`[Traceo] Cannot run clickhouse migration. Caused by: ${err}`);

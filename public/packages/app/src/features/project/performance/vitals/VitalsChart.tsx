@@ -1,7 +1,7 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { VitalsBinType, VitalsEnum } from "@traceo/types";
+import { VitalsBinType, VitalsEnum, VitalsResponse } from "@traceo/types";
 import { Space } from "@traceo/ui";
-import { DataNotFound } from "src/core/components/DataNotFound";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { BaseChart } from "../../../../core/components/Charts/BaseChart";
 import { BaseTooltip } from "../../../../core/components/Charts/BaseTooltip";
 import { BaseXAxis } from "../../../../core/components/Charts/BaseXAxis";
@@ -17,7 +17,6 @@ const VitalsChart = ({ data, field }: VitalsChart) => {
   return (
     <BaseChart
       animation={true}
-      activeZoomSelect={true}
       height="200px"
       tooltip={BaseTooltip()}
       dataset={{
@@ -64,7 +63,7 @@ export const renderChart = ({
 }: {
   field: VitalsEnum;
   isLoading: boolean;
-  data: VitalsBinType[];
+  data: VitalsResponse;
 }) => {
   if (isLoading) {
     return (

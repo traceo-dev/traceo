@@ -10,7 +10,6 @@ const VitalBar = styled.div`
   display: flex;
   flex-direction: row;
   margin-bottom: 4px;
-  gap: 5px;
 `;
 
 const BarPart = styled.div<{
@@ -20,21 +19,20 @@ const BarPart = styled.div<{
   height: 100%;
   width: ${(p) => p.width}%;
   background-color: ${(p) => p.color};
-  border-radius: 2px;
 `;
 
 interface Props {
   list: Performance[];
 }
 export const VitalsHealthBar = ({ list }: Props) => {
-  const { slug } = useParams();
+  const { name } = useParams();
+
+  if (!list || list.length === 0) {
+    return null;
+  }
 
   const health = useMemo(() => {
-    if (!list || list.length === 0) {
-      return;
-    }
-
-    const type = slug as VitalsEnum;
+    const type = name as VitalsEnum;
     const barHealth = calculateHealthPercentage(type, list);
     return barHealth;
   }, [list]);

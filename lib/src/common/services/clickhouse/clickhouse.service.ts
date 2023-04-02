@@ -55,18 +55,33 @@ export class ClickhouseService {
     }
 
     public async loadPermormance(projectId: string, query: PerformanceQuery): Promise<Performance[]> {
-        const perfs = await this.query({
-            query: `
-                SELECT * FROM performance
-                WHERE project_id = '${projectId}'
-                AND timestamp >= ${query.from}
-                AND timestamp <= ${query.to}
-                AND name in (${query.fields.map((e) => `'${e.toUpperCase()}'`)})
-                ORDER BY timestamp DESC
-            `,
-            format: "JSONEachRow"
-        })
+        const from = query.from;
+        const to = query.to;
+        const names = query.fields.map((e) => `'${e}'`);
+        const healths = query.health ? `'${query.health}'` : `'good', 'need_improvement', 'poor'`;
 
+        let sqlQuery = `
+            SELECT * FROM performance
+            WHERE project_id = '${projectId}'
+            AND timestamp >= ${from}
+            AND timestamp <= ${to}
+            AND name in (${names})
+            AND health in (${healths})
+        `;
+
+        if (query.search) {
+            const search = query.search.toLowerCase();
+            sqlQuery += `AND (multiSearchAny(lower(browser_name), ['${search}'])`;
+            sqlQuery += `OR multiSearchAny(lower(platform_type), ['${search}'])`;
+            sqlQuery += `OR multiSearchAny(lower(view), ['${search}']))`;
+        }
+
+        sqlQuery += 'ORDER BY receive_timestamp DESC';
+
+        const perfs = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
 
         return perfs.json<Performance[]>();
     }
