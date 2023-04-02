@@ -98,14 +98,15 @@ const PerformancePage = () => {
         {VITALS_DETAILS.map(({ description, field, name }, key) => (
           <Card
             className="mb-1 flex flex-col"
-            title={name}
-            key={key}
-            extra={
-              <EyeOutlined
+            title={
+              <span
                 className="cursor-pointer"
                 onClick={() => navigate(`/project/${id}/performance/${field}`)}
-              />
+              >
+                {name}
+              </span>
             }
+            key={key}
           >
             <ColumnSection subtitle={subtitle(field, description)}>
               {renderChart({ data, field, isLoading })}
