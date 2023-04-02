@@ -7,7 +7,7 @@ import { localStorageService } from "../../../core/lib/localStorage";
 import { LocalStorage } from "../../../core/lib/localStorage/types";
 import { useAppDispatch } from "../../../store";
 import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
-import { IncidentTable } from "./components/IncidentTable";
+import { IncidentsTable } from "./components/IncidentTable";
 import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
 import { loadIncidents } from "./state/actions";
 import { resetIncidentState } from "./state/reducers";
@@ -58,6 +58,8 @@ export const IncidentsListPage = () => {
     localStorageService.set(LocalStorage.PlotType, type);
   };
 
+  const onKeyDown = (event: any) => event.keyCode === 13 && setSearch(event.target.value);
+
   return (
     <Page
       header={{
@@ -72,7 +74,7 @@ export const IncidentsListPage = () => {
             <InputSearch
               placeholder="Search incidents by type, message, status or assigned user"
               value={search}
-              onChange={setSearch}
+              onKeyDown={onKeyDown}
             />
             <Select
               placeholder="Select status"
@@ -104,7 +106,7 @@ export const IncidentsListPage = () => {
             isLoading={!hasFetched}
             emptyView={<EmptyIncidentsList constraints={search} />}
           >
-            <IncidentTable isLoading={!hasFetched} incidents={incidents} />
+            <IncidentsTable isLoading={!hasFetched} incidents={incidents} />
           </ConditionalWrapper>
         </Card>
       </Page.Content>

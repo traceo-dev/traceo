@@ -14,7 +14,7 @@ interface Props {
   incidents: IIncident[];
   isLoading: boolean;
 }
-export const IncidentTable: FC<Props> = ({ incidents, isLoading }) => {
+export const IncidentsTable: FC<Props> = ({ incidents, isLoading }) => {
   const navigate = useNavigate();
   const { project } = useProject();
 

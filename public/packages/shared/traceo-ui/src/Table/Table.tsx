@@ -1,10 +1,9 @@
 import { Space } from "../Space";
 import { Typography } from "../Typography";
-import { joinClasses } from "../utils/classes";
 import { TablePagination } from "./TablePagination";
 import { TableRow } from "./TableRow";
 import { PaginationPositionType, PageSizeType, TableRowSize } from "./types";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, SearchOutlined } from "@ant-design/icons";
 import React, { FC, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
@@ -33,6 +32,7 @@ interface TableProps {
   showPagination?: boolean;
   paginationPosition?: PaginationPositionType;
   pageSize?: PageSizeType;
+  emptyLabel?: string;
   onRowClick?: (item: any) => void;
 }
 export const Table: FC<TableProps> = (props: TableProps) => {
@@ -47,7 +47,8 @@ export const Table: FC<TableProps> = (props: TableProps) => {
     onRowClick,
     pageSize = 15,
     showPagination = false,
-    paginationPosition = "right"
+    paginationPosition = "right",
+    emptyLabel = "Not found"
   } = props;
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -103,6 +104,12 @@ export const Table: FC<TableProps> = (props: TableProps) => {
         <Space className="py-12 justify-center w-full">
           <Typography className="pr-2">Loading</Typography>
           <LoadingOutlined />
+        </Space>
+      )}
+      {collection && collection.length === 0 && (
+        <Space className="py-12 justify-center flex flex-col w-full">
+          <SearchOutlined className="text-2xl" />
+          <Typography className="font-semibold">{emptyLabel}</Typography>
         </Space>
       )}
       {showPagination && (
