@@ -100,7 +100,7 @@ const PerformancePage = () => {
             className="mb-1 flex flex-col"
             title={
               <span
-                className="cursor-pointer"
+                className="cursor-pointer font-semibold"
                 onClick={() => navigate(`/project/${id}/performance/${field}`)}
               >
                 {name}

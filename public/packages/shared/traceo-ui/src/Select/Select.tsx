@@ -82,9 +82,15 @@ const Option: FC<SelectMenuOptionProps> = ({ data, innerProps, innerRef, isSelec
       )}
       {...innerProps}
     >
-      {data.icon && <div className="pr-2 text-lg">{data.icon}</div>}
+      {data.icon && (
+        <div
+          className={joinClasses("pr-2", conditionClass(data.description, "text-lg", "text-md"))}
+        >
+          {data.icon}
+        </div>
+      )}
       <div className="flex flex-col">
-        <span className="font-semibold">{data.label}</span>
+        <span className="text-sm">{data.label}</span>
         <span className="text-xs font-normal">{data.description}</span>
       </div>
     </div>
