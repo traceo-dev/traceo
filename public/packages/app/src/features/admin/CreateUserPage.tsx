@@ -75,12 +75,9 @@ const CreateUserPage = () => {
           <Form onSubmit={onFinish} id="add-user-form">
             {({ register, errors }) => (
               <>
-                <Typography className="text-white" size="xl" weight="semibold">
-                  1. Basic informations
-                </Typography>
                 <FormItem
                   showRequiredMark={true}
-                  className="pt-9"
+                  className="pt-5"
                   label="Username"
                   error={errors.username}
                 >

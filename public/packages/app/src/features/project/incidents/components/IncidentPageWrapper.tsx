@@ -60,10 +60,9 @@ export const IncidentPageWrapper = ({ children }) => {
   }, []);
 
   return (
-    <Page menuRoutes={menu} isLoading={!hasFetched}>
-      <PageHeader
-        className="mb-5"
-        title={
+    <Page
+      header={{
+        title: (
           <PreviewPageHeader
             page="incident"
             title={incident.name}
@@ -76,8 +75,11 @@ export const IncidentPageWrapper = ({ children }) => {
               </div>
             }
           />
-        }
-      />
+        )
+      }}
+      menuRoutes={menu}
+      isLoading={!hasFetched}
+    >
       <Page.Content>{children}</Page.Content>
     </Page>
   );

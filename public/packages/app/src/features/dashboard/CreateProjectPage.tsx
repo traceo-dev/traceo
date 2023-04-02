@@ -116,7 +116,7 @@ const CreateProjectPage = () => {
       <Page.Content>
         <Card>
           <Typography className="text-white" size="xl" weight="semibold">
-            1. Choose yout platform
+            1. Choose your platform
           </Typography>
           <ChooseElementGrid
             options={technologyOptions}
