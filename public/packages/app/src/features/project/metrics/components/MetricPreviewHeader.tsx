@@ -4,15 +4,15 @@ import api from "../../../../core/lib/api";
 import { useAppDispatch } from "../../../../store";
 import { hideNavbar } from "../../../../store/internal/navbar/actions";
 import { loadMetric } from "../state/actions";
-import { ArrowLeftOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
 import { ApiResponse, IMetric } from "@traceo/types";
-import { PageHeader, Button, Typography, Space } from "@traceo/ui";
+import { PageHeader, Button, Space } from "@traceo/ui";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
+import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
 
 interface Props {
   currentOptions: DeepPartial<IMetric>;
@@ -60,36 +60,20 @@ export const MetricPreviewHeader: FC<Props> = ({
     dispatch(hideNavbar(false));
   };
 
-  const onBack = () => {
-    navigate({
-      pathname: `/project/${id}/metrics`,
-      search: `?from=${ranges[0]}&to=${ranges[1]}`
-    });
-    dispatch(hideNavbar(false));
-  };
-
   return (
     <PageHeader
       className="mb-5"
       title={
-        <Space direction="vertical" className="gap-0 w-full">
-          <Space
-            onClick={onBack}
-            className="max-w-min text-2xs cursor-pointer font-semibold text-primary rounded-lg py-0 hover:text-white"
-          >
-            <ArrowLeftOutlined />
-            <Typography size="xxs" weight="semibold">
-              METRICS
-            </Typography>
-          </Space>
-          <span className="text-white text-3xl font-semibold">{currentOptions?.name}</span>
-          <Typography className="pt-2">{currentOptions?.description}</Typography>
-        </Space>
+        <PreviewPageHeader
+          page="metrics"
+          title={currentOptions?.name}
+          description={currentOptions?.description}
+        />
       }
       suffix={
         <Space>
           {isCustomizeMode && (
-            <>
+            <div className="flex flex-row gap-x-1">
               {!isDemo && (
                 <Button loading={saveLoading} variant="ghost" onClick={() => onSave()}>
                   Save
@@ -99,7 +83,7 @@ export const MetricPreviewHeader: FC<Props> = ({
               <Button variant="danger" onClick={() => onDiscard()}>
                 Discard
               </Button>
-            </>
+            </div>
           )}
         </Space>
       }

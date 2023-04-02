@@ -1,10 +1,8 @@
 import { Page } from "../../../../core/components/Page";
-import { useProject } from "../../../../core/hooks/useProject";
 import { MenuRoute } from "../../../../core/types/navigation";
 import { useAppDispatch } from "../../../../store";
 import { loadIncident } from "../state/actions";
 import {
-  ArrowLeftOutlined,
   CommentOutlined,
   InfoCircleOutlined,
   RightOutlined,
@@ -14,15 +12,15 @@ import {
 import { StoreState } from "@store/types";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { mapIncidentStatus } from "@traceo/types";
 import { mapHeaderStatusIcon } from "./utils";
+import { PageHeader } from "@traceo/ui";
+import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
 
 export const IncidentPageWrapper = ({ children }) => {
   const { iid } = useParams();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { project } = useProject();
   const { incident, hasFetched } = useSelector((state: StoreState) => state.incident);
 
   const menu: MenuRoute[] = [
@@ -61,36 +59,25 @@ export const IncidentPageWrapper = ({ children }) => {
     dispatch(loadIncident(iid));
   }, []);
 
-  const onBack = () => navigate(`/project/${project.id}/incidents`);
-
   return (
-    <Page
-      header={{
-        title: (
-          <div className="flex flex-col">
-            <div
-              onClick={() => onBack()}
-              className="text-[9px] flex flex-row leading-3 gap-x-2 items-center cursor-pointer max-w-min"
-            >
-              <ArrowLeftOutlined />
-              <span>INCIDENTS</span>
-            </div>
-            <div className="flex flex-col">
-              <span>{incident.name}</span>
+    <Page menuRoutes={menu} isLoading={!hasFetched}>
+      <PageHeader
+        className="mb-5"
+        title={
+          <PreviewPageHeader
+            page="incident"
+            title={incident.name}
+            description={
               <div className="flex flex-row items-center pt-2 text-xs">
                 <span className="text-sm mr-1">{mapHeaderStatusIcon[incident.status]}</span>
                 <span className="text-2xs">{mapIncidentStatus[incident.status]}</span>
                 <RightOutlined className="text-[8px] px-2" />
                 <span className="font-normal">{incident?.message}</span>
               </div>
-            </div>
-          </div>
-        ),
-        className: "mb-5"
-      }}
-      menuRoutes={menu}
-      isLoading={!hasFetched}
-    >
+            }
+          />
+        }
+      />
       <Page.Content>{children}</Page.Content>
     </Page>
   );
