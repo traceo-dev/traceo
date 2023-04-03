@@ -1,17 +1,20 @@
+import { QuestionCircleOutlined } from "@ant-design/icons";
 import { VitalsEnum, Performance, VitalsHealthType } from "@traceo/types";
 import { Card, InputSearch, PageHeader, Select } from "@traceo/ui";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
+import { HrefIcon } from "../../../../core/components/HrefIcon";
 import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
 import { Page } from "../../../../core/components/Page";
 import { SearchWrapper } from "../../../../core/components/SearchWrapper";
 import { useRequest } from "../../../../core/hooks/useRequest";
 import { useTimeRange } from "../../../../core/hooks/useTimeRange";
 import { MetricTimeRangePicker } from "../../metrics/components/MetricTimeRangePicker";
-import { selectHealthOptions, VITALS_DETAILS } from "./types";
+import { selectHealthOptions, VITALS_DETAILS, WEB_VITALS_DOCS_URL } from "./types";
 import { parseToBins } from "./utils";
 import { renderChart } from "./VitalsChart";
+import { VitalsGraphBar } from "./VitalsGraphBar";
 import { VitalsHealthBar } from "./VitalsHealthBar";
 import { VitalsRawData } from "./VitalsRawData";
 
@@ -61,6 +64,7 @@ const VitalsPreviewPage = () => {
     <Page>
       <PageHeader
         className="mb-5"
+        suffix={<HrefIcon href={WEB_VITALS_DOCS_URL[name]} icon={<QuestionCircleOutlined />} />}
         title={
           <PreviewPageHeader
             page="performance"
@@ -87,7 +91,7 @@ const VitalsPreviewPage = () => {
             <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
           </SearchWrapper>
         </Card>
-        <Card title="Graph">
+        <Card title="Graph" extra={<VitalsGraphBar name={name} performances={performances} />}>
           {renderChart({
             data: dataSource,
             field: name as VitalsEnum,

@@ -27,7 +27,7 @@ export const round = (val: number): number => {
     return Math.round(val * 10) / 10;
 };
 
-export const vitalsFormatter = (field: VitalsEnum, value: number) => {
+export const vitalsFormatter = (field: string, value: number) => {
     if (field === VitalsEnum.CLS) {
         return Number(value).toFixed(2);
     }
@@ -93,7 +93,7 @@ export const barColor = (field: VitalsEnum, value: number) => {
     }
 }
 
-export const calculateVitalsAvg = (field: VitalsEnum, data: VitalsBinType[]): string => {
+export const calculateVitalsAvg = (field: string, data: VitalsBinType[]): string => {
     if (!data || data.length === 0) {
         return "-"
     }
@@ -192,4 +192,30 @@ export const parseToBins = (perfs: Performance[]) => {
     }, {});
 
     return result;
+}
+
+type PercentileCoreType = {
+    value: number;
+}
+export const calculatePercentile = <T extends PercentileCoreType>(data: T[], percentile = 0.75) => {
+    if (!data) {
+        return;
+    }
+
+    const sortedData = data.sort((a, b) => a.value - b.value);
+
+    // Find the index of the value at the percentile
+    const percentileIndex = Math.floor(percentile * sortedData.length);
+
+    if (percentileIndex % 1 === 0) {
+        return sortedData[percentileIndex - 1]?.value;
+    }
+
+    const lowerIndex = Math.floor(percentileIndex);
+    const upperIndex = Math.ceil(percentileIndex);
+    const lowerValue = sortedData[lowerIndex - 1].value;
+    const upperValue = sortedData[upperIndex - 1].value;
+    const interpolationFactor = percentileIndex - lowerIndex;
+
+    return lowerValue + interpolationFactor * (upperValue - lowerValue);
 }

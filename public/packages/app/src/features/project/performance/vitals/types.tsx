@@ -9,6 +9,14 @@ export type VitalsDetailsType = {
   field: VitalsEnum;
 };
 
+export const WEB_VITALS_DOCS_URL: Record<VitalsEnum, string> = {
+  [VitalsEnum.CLS]: "https://web.dev/cls/",
+  [VitalsEnum.FCP]: "https://web.dev/fcp/",
+  [VitalsEnum.FID]: "https://web.dev/fid/",
+  [VitalsEnum.FP]: "https://developer.mozilla.org/en-US/docs/Glossary/First_paint",
+  [VitalsEnum.LCP]: "https://web.dev/lcp/"
+};
+
 export const VITALS_DETAILS: VitalsDetailsType[] = [
   {
     field: VitalsEnum.FID,

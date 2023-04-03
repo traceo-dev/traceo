@@ -1,4 +1,4 @@
-import { EyeOutlined, LoadingOutlined, RocketOutlined } from "@ant-design/icons";
+import { LoadingOutlined, RocketOutlined } from "@ant-design/icons";
 import { VitalsEnum, VitalsResponse } from "@traceo/types";
 import { Alert, Card } from "@traceo/ui";
 import dayjs from "dayjs";
@@ -10,7 +10,7 @@ import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { useRequest } from "../../../core/hooks/useRequest";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { MetricTimeRangePicker } from "../metrics/components/MetricTimeRangePicker";
-import { VITALS_DETAILS } from "./vitals/types";
+import { VITALS_DETAILS, WEB_VITALS_DOCS_URL } from "./vitals/types";
 import { calculateVitalsAvg } from "./vitals/utils";
 import { renderChart } from "./vitals/VitalsChart";
 
@@ -21,14 +21,6 @@ const SUPPORTED_WEB_VITALS = [
   VitalsEnum.FP,
   VitalsEnum.LCP
 ];
-
-const WEB_VITALS_DOCS_URL: Record<VitalsEnum, string> = {
-  [VitalsEnum.CLS]: "https://web.dev/cls/",
-  [VitalsEnum.FCP]: "https://web.dev/fcp/",
-  [VitalsEnum.FID]: "https://web.dev/fid/",
-  [VitalsEnum.FP]: "https://developer.mozilla.org/en-US/docs/Glossary/First_paint",
-  [VitalsEnum.LCP]: "https://web.dev/lcp/"
-};
 
 const PerformancePage = () => {
   const { id } = useParams();
@@ -101,7 +93,12 @@ const PerformancePage = () => {
             title={
               <span
                 className="cursor-pointer font-semibold"
-                onClick={() => navigate(`/project/${id}/performance/${field}`)}
+                onClick={() =>
+                  navigate({
+                    pathname: `/project/${id}/performance/${field}`,
+                    search: `?from=${ranges[0]}&to=${ranges[1]}`
+                  })
+                }
               >
                 {name}
               </span>

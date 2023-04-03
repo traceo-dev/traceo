@@ -97,70 +97,70 @@ export const VITALS_THRESHOLD: Record<VitalsEnum, ThresholdRange> = {
     [VitalsEnum.CLS]: {
         good: {
             min: 0,
-            max: 0.09
+            max: 0.1
         },
         need_improvement: {
-            min: 0.10,
-            max: 0.24
+            min: 0.11,
+            max: 0.25
         },
         poor: {
-            min: 0.25,
+            min: 0.26,
             max: Infinity
         }
     },
     [VitalsEnum.FCP]: {
         good: {
             min: 0,
-            max: 999
+            max: 1000
         },
         need_improvement: {
-            min: 1000,
-            max: 2999
+            min: 1001,
+            max: 3000
         },
         poor: {
-            min: 3000,
+            min: 3001,
             max: Infinity
         }
     },
     [VitalsEnum.FP]: {
         good: {
             min: 0,
-            max: 999
+            max: 1000
         },
         need_improvement: {
-            min: 1000,
-            max: 2999
+            min: 1001,
+            max: 3000
         },
         poor: {
-            min: 3000,
+            min: 3001,
             max: Infinity
         }
     },
     [VitalsEnum.FID]: {
         good: {
             min: 0,
-            max: 99
+            max: 100
         },
         need_improvement: {
-            min: 100,
-            max: 299
+            min: 101,
+            max: 300
         },
         poor: {
-            min: 300,
+            min: 301,
             max: Infinity
         }
     },
     [VitalsEnum.LCP]: {
         good: {
             min: 0,
-            max: 2499
+            max: 2500
         },
         need_improvement: {
-            min: 2500,
-            max: 3999
+            min: 2501,
+            max: 4000
         },
         poor: {
-            min: 4000,
+            min: 4001,
             max: Infinity
         }
     }
