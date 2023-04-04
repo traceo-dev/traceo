@@ -1,6 +1,5 @@
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { useProject } from "../../../../core/hooks/useProject";
-import { GH_SDK_REPO_LINK } from "../../../../core/utils/constants";
 import { Space, Button, Typography, Card } from "@traceo/ui";
 import { SDK } from "@traceo/types";
 
@@ -40,19 +39,17 @@ export const NotIntegratedSection = () => {
           subtitle={
             <Space className="w-full" direction="vertical">
               <Typography size="xs">
-                We noticed that the Traceo SDK has not yet been integrated into this project.
-                To do this, use the example code on the right and restart your software.
+                We noticed that the Traceo SDK has not yet been integrated into this project. To
+                do this, use the example code on the right and restart your software.
               </Typography>
               <Space className="w-full mt-5">
-                <Button
-                  onClick={() => window.open(mapDocumentationLink[project.sdk], "_blank")}
-                >
+                <Button onClick={() => window.open(mapDocumentationLink[project.sdk], "_blank")}>
                   Documentation
                 </Button>
               </Space>
               <Typography size="xxs">
-                This section will be hidden after receiving the first information from the
-                project via the SDK.
+                This section will be hidden after receiving the first information from your
+                project using the SDK.
               </Typography>
             </Space>
           }

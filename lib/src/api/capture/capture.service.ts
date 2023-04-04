@@ -103,9 +103,17 @@ export class CaptureService {
     }
 
     private async retrieveProjectId(uuid: string): Promise<string> {
-        const project = await this.entityManager.query(`SELECT id from project WHERE api_key = '${uuid}'`);
+        const project = await this.entityManager.query(`SELECT id, is_integrated from project WHERE api_key = '${uuid}'`);
         if (project.length === 0) {
             return null;
+        }
+
+        console.log(project);
+
+        const id = project[0].id;
+        const is_integrated = project[0].is_integrated;
+        if (!is_integrated) {
+            await this.entityManager.query(`UPDATE project SET is_integrated = 'true' WHERE id = '${id}'`);
         }
 
         return project[0].id;
