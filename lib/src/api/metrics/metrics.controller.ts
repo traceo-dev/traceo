@@ -20,7 +20,7 @@ export class MetricsController {
   constructor(
     private readonly metricsService: MetricsService,
     private readonly metricsQueryService: MetricsQueryService
-  ) {}
+  ) { }
 
   @Get("/:id")
   async getMetrics(
@@ -46,6 +46,14 @@ export class MetricsController {
     @Query() query: MetricQueryDto
   ): Promise<ApiResponse<MetricResponseType[]>> {
     return await this.metricsQueryService.getMetricData(projectId, query);
+  }
+
+  @Get("/:id/datasource/table")
+  async getMetricTableValues(
+    @Param("id") projectId: string,
+    @Query() query: MetricQueryDto
+  ): Promise<ApiResponse<MetricResponseType[]>> {
+    return await this.metricsQueryService.getMetricTableData(projectId, query);
   }
 
   @Patch("/:metricId/update")

@@ -106,7 +106,7 @@ export interface MetricsQuery {
 }
 
 export type MetricResponseType = {
-  time: number[]
+  timestamp: number[]
 } & {
   [x: string]: number[]
 }

@@ -24,13 +24,28 @@ export class MetricsQueryService {
     this.logger = new Logger(MetricsQueryService.name);
   }
 
-  async getMetricData(
+  public async getMetricData(
     projectId: string,
     query: MetricQueryDto
   ): Promise<ApiResponse<MetricResponseType[]>> {
     try {
       const response = await this.clickhouseService.loadMetric(projectId, query);
       const groupedMetrics = this.groupMetrics(response);
+
+      return new ApiResponse("success", undefined, groupedMetrics);
+    } catch (err) {
+      this.logger.error(`[${this.getMetricData.name}] Caused by: ${err}`);
+      return new ApiResponse("error", undefined, []);
+    }
+  }
+
+  public async getMetricTableData(
+    projectId: string,
+    query: MetricQueryDto
+  ): Promise<ApiResponse<MetricResponseType[]>> {
+    try {
+      const response = await this.clickhouseService.loadMetric(projectId, query);
+      const groupedMetrics = this.groupMetricsByTimestamp(response);
 
       return new ApiResponse("success", undefined, groupedMetrics);
     } catch (err) {
@@ -139,5 +154,33 @@ export class MetricsQueryService {
       ...result,
       time: Array.from(time)
     };
+  }
+
+
+  /**
+   * Group metrics from clickhouse by timestamp
+   * 
+   * {
+   *    timestamp: number,
+   *    [x: string]: number,
+   *    [y: string]: number,
+   *    [z: string]: number
+   * }
+   */
+  private groupMetricsByTimestamp(data: TimeSerieMetric[]): MetricResponseType[] {
+    const result = data.reduce((acc, cur) => {
+      const existing = acc.find(item => item.timestamp === cur.timestamp);
+      if (existing) {
+        existing[cur.name] = cur.value;
+      } else {
+        acc.push({
+          timestamp: cur.timestamp,
+          [cur.name]: cur.value
+        });
+      }
+      return acc;
+    }, []);
+
+    return result;
   }
 }
