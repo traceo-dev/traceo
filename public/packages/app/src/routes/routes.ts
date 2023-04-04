@@ -29,7 +29,7 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
     },
     {
       path: "/dashboard/new-project",
-      component: lazy(() => import("../features/dashboard/CreateProjectPage"))
+      component: lazy(() => import("../features/admin/CreateProjectPage"))
     },
     {
       path: "/dashboard/new-user",

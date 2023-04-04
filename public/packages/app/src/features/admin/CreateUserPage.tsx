@@ -17,6 +17,7 @@ import {
 } from "@traceo/ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserAddOutlined, UserOutlined } from "@ant-design/icons";
 
 type CreateUserPayload = {
   id: string;
@@ -57,6 +58,7 @@ const CreateUserPage = () => {
   return (
     <Page
       header={{
+        icon: <UserAddOutlined />,
         title: "Create new user",
         description: (
           <div>

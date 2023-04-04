@@ -1,5 +1,5 @@
 import dateUtils from "./date";
-import { LogLevel, LogEventPayload, ErrorDetails, DailyStats, ILog } from "@traceo/types";
+import { LogLevel, ErrorDetails, DailyStats, ILog } from "@traceo/types";
 import dayjs from "dayjs";
 
 /**
@@ -21,7 +21,7 @@ const parseIncidentsTablePlotData = (errorsDetails: ErrorDetails[]) => {
   const sortedDates = errors?.sort((a, b) => a?.date - b?.date);
   const beginDate = errorsDetails[0];
 
-  let currentDate = dateUtils.endOf(dayjs.unix(beginDate?.date).subtract(3, "day").unix());
+  let currentDate = dateUtils.endOf(dayjs.unix(beginDate?.date).subtract(7, "day").unix());
   while (currentDate <= dateUtils.endOf()) {
     const currentErrors = sortedDates.filter(
       ({ date }) => dateUtils.endOf(date) === dateUtils.endOf(currentDate)

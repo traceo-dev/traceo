@@ -4,12 +4,13 @@ import dateUtils from "../../../utils/date";
 import { statisticUtils } from "../../../utils/statistics";
 import { normalizePlotData } from "../utils";
 import { IEvent } from "@traceo/types";
-import { FC, useMemo } from "react";
+import { FC, useEffect, useMemo } from "react";
 import { BaseChart } from "../BaseChart";
 import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import { useRequest } from "src/core/hooks/useRequest";
+import { LoadingOutlined } from "@ant-design/icons";
 
 interface Props {
   id: string;
@@ -20,11 +21,27 @@ const PLOT_COLOR = "#04785A";
 const IncidentsListChart: FC<Props> = ({ id }) => {
   const plotType = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
 
-  const { data: events } = useRequest<IEvent[]>({ url: `/api/event/incident/${id}`});
+  const {
+    data: events,
+    execute,
+    isLoading
+  } = useRequest<IEvent[]>({ url: `/api/event/incident/${id}` });
+
+  useEffect(() => {
+    execute();
+  }, [id]);
 
   const dataSource = useMemo(() => {
     return normalizePlotData(statisticUtils.parseIncidentsTablePlotData(events));
   }, [events]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full text-center justify-center">
+        <LoadingOutlined />
+      </div>
+    );
+  }
 
   return (
     <BaseChart

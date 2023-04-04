@@ -13,6 +13,7 @@ import { SearchOutlined } from "@ant-design/icons";
 interface Props {
   id: string;
 }
+const PLOT_COLOR = "#04785A";
 const IncidentListOverviewChart: FC<Props> = ({ id }) => {
   const { data: stats, execute } = useRequest<TotalOverviewType>({
     url: "/api/statistics/total",

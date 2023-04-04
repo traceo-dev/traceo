@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChooseElementGrid } from "../../core/components/ChooseElementGrid";
 import { resetProjectState } from "../project/state/project/reducers";
+import { AppstoreAddOutlined } from "@ant-design/icons";
 
 type CreateAppPayload = {
   redirectUrl: string;
@@ -99,12 +100,13 @@ const CreateProjectPage = () => {
   return (
     <Page
       header={{
+        icon: <AppstoreAddOutlined />,
         title: "Create new project",
         description: (
           <div>
             <p className="m-0 pt-3">
-              Create a new project and then connect it to your software to track its
-              performance and capture any unwanted behavior.
+              Create a new project and then connect it to your software to track its performance
+              and capture any unwanted behavior.
             </p>
             <p className="m-0">
               Information on how to connect the SDK to your software can be found here.
