@@ -30,13 +30,13 @@ const stacktraceTypeOptions = [
 ];
 export const StacktraceSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
+  const [type, setType] = useState<StackTraceType>("traces");
+
   const isTraces = incident?.traces?.length > 0;
 
   if (!isTraces) {
     return null;
   }
-
-  const [type, setType] = useState<StackTraceType>("traces");
 
   return (
     <Card title="Stack Trace" className="h-auto">

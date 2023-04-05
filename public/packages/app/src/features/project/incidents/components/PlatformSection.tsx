@@ -7,17 +7,14 @@ export const PlatformSection = () => {
 
   return (
     <Card title="Platform" className="h-auto">
-      {/* <FieldLabel label="Version">
-        <Typography>{incident?.platform.version}</Typography>
-      </FieldLabel> */}
       <FieldLabel label="Platform">
-        <Typography>{incident?.platform.platform}</Typography>
+        <Typography>{incident?.platform?.platform}</Typography>
       </FieldLabel>
       <FieldLabel label="Arch">
-        <Typography>{incident?.platform.arch}</Typography>
+        <Typography>{incident?.platform?.arch}</Typography>
       </FieldLabel>
       <FieldLabel label="Release">
-        <Typography>{incident?.platform.release}</Typography>
+        <Typography>{incident?.platform?.release}</Typography>
       </FieldLabel>
     </Card>
   );

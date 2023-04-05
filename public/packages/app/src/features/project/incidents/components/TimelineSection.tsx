@@ -1,12 +1,12 @@
 import { StoreState } from "@store/types";
 import { Card, Link } from "@traceo/ui";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import IncidentTimelineChart from "../../../../core/components/Charts/Incidents/IncidentTimelineChart";
 
 export const TimelineSection = () => {
-  const { incident, events } = useSelector((state: StoreState) => state.incident);
-  const { project } = useSelector((state: StoreState) => state.project);
+  const { id, iid } = useParams();
+  const { groupedEvents, isLoading } = useSelector((state: StoreState) => state.groupedEvents);
 
   const navigate = useNavigate();
 
@@ -16,14 +16,14 @@ export const TimelineSection = () => {
       className="h-auto"
       extra={
         <Link
-          onClick={() => navigate(`/project/${project.id}/incidents/${incident.id}/analytics`)}
+          onClick={() => navigate(`/project/${id}/incidents/${iid}/analytics`)}
           className="text-xs font-semibold"
         >
           More
         </Link>
       }
     >
-      <IncidentTimelineChart events={events} />
+      <IncidentTimelineChart isLoading={isLoading} events={groupedEvents} />
     </Card>
   );
 };

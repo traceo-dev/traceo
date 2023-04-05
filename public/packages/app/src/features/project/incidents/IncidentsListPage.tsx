@@ -1,4 +1,3 @@
-import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { Page } from "../../../core/components/Page";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { SortIcons } from "../../../core/components/SortIcons";
@@ -6,11 +5,9 @@ import { ApiQueryParams } from "../../../core/lib/api";
 import { localStorageService } from "../../../core/lib/localStorage";
 import { LocalStorage } from "../../../core/lib/localStorage/types";
 import { useAppDispatch } from "../../../store";
-import { EmptyIncidentsList } from "./components/EmptyIncidentsList";
-import { IncidentsTable } from "./components/IncidentTable";
+import { IncidentsTable } from "./components/IncidentsTable";
 import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
 import { loadIncidents } from "./state/actions";
-import { resetIncidentState } from "./state/reducers";
 import { StoreState } from "@store/types";
 import {
   IncidentSortBy,
@@ -23,11 +20,14 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AlertOutlined } from "@ant-design/icons";
+import { resetIncidentState } from "./state/slices/incident.slice";
+import { resetEventsState } from "./state/slices/events.slice";
+import { resetGroupedEvents } from "./state/slices/grouped-events.slice";
 
 export const IncidentsListPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const { incidents, hasFetched } = useSelector((state: StoreState) => state.incidents);
+  const { incidents, isLoading } = useSelector((state: StoreState) => state.incidents);
 
   const [search, setSearch] = useState<string>(null);
   const [order, setOrder] = useState<SortOrder>("DESC");
@@ -47,6 +47,8 @@ export const IncidentsListPage = () => {
 
   useEffect(() => {
     dispatch(resetIncidentState());
+    dispatch(resetEventsState());
+    dispatch(resetGroupedEvents());
   }, []);
 
   useEffect(() => {
@@ -101,13 +103,7 @@ export const IncidentsListPage = () => {
             <SortIcons order={order} setOrder={setOrder} />
           </SearchWrapper>
 
-          <ConditionalWrapper
-            isEmpty={incidents?.length === 0}
-            isLoading={!hasFetched}
-            emptyView={<EmptyIncidentsList constraints={search} />}
-          >
-            <IncidentsTable isLoading={!hasFetched} incidents={incidents} />
-          </ConditionalWrapper>
+          <IncidentsTable isLoading={isLoading} incidents={incidents} />
         </Card>
       </Page.Content>
     </Page>

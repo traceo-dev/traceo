@@ -1,10 +1,8 @@
 import { localStorageService } from "../../../lib/localStorage";
 import { LocalStorage } from "../../../lib/localStorage/types";
 import dateUtils from "../../../utils/date";
-import { statisticUtils } from "../../../utils/statistics";
-import { normalizePlotData } from "../utils";
 import { IEvent } from "@traceo/types";
-import { FC, useEffect, useMemo } from "react";
+import { FC, useEffect } from "react";
 import { BaseChart } from "../BaseChart";
 import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
@@ -22,18 +20,16 @@ const IncidentsListChart: FC<Props> = ({ id }) => {
   const plotType = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
 
   const {
-    data: events,
-    execute,
-    isLoading
-  } = useRequest<IEvent[]>({ url: `/api/event/incident/${id}` });
+    data: groupedEvents = [],
+    isLoading,
+    execute
+  } = useRequest<IEvent[]>({
+    url: `/api/event/incident/${id}/grouped`
+  });
 
   useEffect(() => {
     execute();
   }, [id]);
-
-  const dataSource = useMemo(() => {
-    return normalizePlotData(statisticUtils.parseIncidentsTablePlotData(events));
-  }, [events]);
 
   if (isLoading) {
     return (
@@ -47,11 +43,11 @@ const IncidentsListChart: FC<Props> = ({ id }) => {
     <BaseChart
       height="50px"
       dataset={{
-        source: dataSource
+        source: groupedEvents || []
       }}
       tooltip={BaseTooltip()}
       grid={{
-        left: "20px",
+        left: "30px",
         right: "10px",
         top: "10px",
         bottom: "10px"

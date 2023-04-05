@@ -3,12 +3,12 @@ import { useDemo } from "../../../../../core/hooks/useDemo";
 import { useUser } from "../../../../../core/hooks/useUser";
 import api from "../../../../../core/lib/api";
 import { useAppDispatch } from "../../../../../store";
-import { loadIncidentComments } from "../../state/actions";
 import { FileMarkdownFilled } from "@ant-design/icons";
 import { StoreState } from "@store/types";
 import { InputArea, Button, Link, Card, Space, Avatar } from "@traceo/ui";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { loadIncidentComments } from "../../state/actions";
 
 export const CommentInput = () => {
   const dispatch = useAppDispatch();

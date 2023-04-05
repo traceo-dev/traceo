@@ -1,3 +1,4 @@
+import { LoadingOutlined } from "@ant-design/icons";
 import {
   EChartsCoreOption,
   EChartsOption,
@@ -22,6 +23,7 @@ export interface BaseChartProps {
   height?: string | number;
   legend?: EChartsOption["legend"];
   legendPosition?: "vertical" | "horizontal";
+  isLoading?: boolean;
   forwardedRef?: React.Ref<EChartsReactCore>;
   renderer?: "svg" | "canvas";
   series?: SeriesOption | SeriesOption[];
@@ -49,6 +51,7 @@ const BaseChartComponent = ({
   xAxis = {},
   yAxis = {},
   series = {},
+  isLoading = false,
   legend = null,
   legendPosition = "horizontal",
   dataZoom = null,
@@ -118,6 +121,14 @@ const BaseChartComponent = ({
     datazoom: (props) => onDataZoom?.(props),
     legendselectchanged: (props) => onLegendChange?.(props)
   };
+
+  if (isLoading) {
+    return (
+      <div className="w-full text-center justify-center">
+        <LoadingOutlined />
+      </div>
+    );
+  }
 
   return (
     <ReactECharts

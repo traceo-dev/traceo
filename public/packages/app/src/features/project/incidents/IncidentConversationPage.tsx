@@ -4,20 +4,23 @@ import { CommentInput } from "./components/Comments/CommentInput";
 import { CommentsBox } from "./components/Comments/CommentsBox";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { AlertOutlined } from "@ant-design/icons";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../store/types";
 import { Typography, Space, Card, Divider } from "@traceo/ui";
 import { useSelector } from "react-redux";
 import { useLive } from "../../../core/hooks/useLive";
-import { incidentCommentsLoaded } from "./state/reducers";
 import { IComment } from "@traceo/types";
+import { setIncidentComments } from "./state/slices/comments.slice";
 
 export const IncidentConversationPage = () => {
   const live = useLive();
   const dispatch = useAppDispatch();
-  const { comments, incident, hasFetched } = useSelector((state: StoreState) => state.incident);
+  const { incident, isLoading: isLoadingIncident } = useSelector(
+    (state: StoreState) => state.incident
+  );
+  const { comments } = useSelector((state: StoreState) => state.comments);
 
   live.listen("new_comment", (comment: IComment) => {
-    dispatch(incidentCommentsLoaded([...comments, comment]));
+    dispatch(setIncidentComments([...comments, comment]));
   });
 
   live.listen("update_comment", (comment: IComment) => {
@@ -25,7 +28,7 @@ export const IncidentConversationPage = () => {
     const index = commentsUpdate.findIndex((f) => f.id === comment.id);
     commentsUpdate[index] = comment;
     if (index !== -1) {
-      dispatch(incidentCommentsLoaded(commentsUpdate));
+      dispatch(setIncidentComments(commentsUpdate));
     }
   });
 
@@ -34,13 +37,13 @@ export const IncidentConversationPage = () => {
     const index = commentsUpdate.findIndex((f) => f.id === comment.id);
     commentsUpdate.splice(index, 1);
     if (index !== -1) {
-      dispatch(incidentCommentsLoaded(commentsUpdate));
+      dispatch(setIncidentComments(commentsUpdate));
     }
   });
 
   return (
     <IncidentPageWrapper>
-      <ConditionalWrapper isLoading={!hasFetched}>
+      <ConditionalWrapper isLoading={isLoadingIncident}>
         <Card className="w-full p-1 rounded-md mb-5 bg-primary">
           <Space className="w-full">
             <AlertOutlined className="text-3xl pr-2 text-red-700" />

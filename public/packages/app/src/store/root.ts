@@ -1,7 +1,13 @@
 import projectsReducer from "../features/admin/state/projects/reducers";
 import accountsReducer from "../features/admin/state/users/reducers";
 import logsReducer from "../features/project/explore/state/reducers";
-import incidentsReducer from "../features/project/incidents/state/reducers";
+
+import commentsReducer from "../features/project/incidents/state/slices/comments.slice";
+import incidentReducer from "../features/project/incidents/state/slices/incident.slice";
+import incidentsReducer from "../features/project/incidents/state/slices/incidents.slice";
+import eventsReducer from "../features/project/incidents/state/slices/events.slice";
+import groupedEventsReducer from "../features/project/incidents/state/slices/grouped-events.slice";
+
 import metricsReducer from "../features/project/metrics/state/reducers";
 import membersReducer from "../features/project/settings/state/members/reducers";
 import applicationReducer from "../features/project/state/project/reducers";
@@ -11,16 +17,23 @@ import navbarReducer from "./internal/navbar/reducers";
 import notifyReducer from "./internal/notify/notifyReducer";
 import { combineReducers, AnyAction } from "redux";
 
+const incidentReducers = {
+  ...commentsReducer,
+  ...incidentReducer,
+  ...incidentsReducer,
+  ...eventsReducer,
+  ...groupedEventsReducer
+}
 const rootReducers = {
   ...userReducer,
-  ...incidentsReducer,
   ...membersReducer,
   ...applicationReducer,
   ...dashboardReducer,
   ...logsReducer,
   ...navbarReducer,
   ...metricsReducer,
-  ...notifyReducer
+  ...notifyReducer,
+  ...incidentReducers
 };
 
 const adminReducers = {

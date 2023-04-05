@@ -9,6 +9,8 @@ import { mapHeaderStatusIcon } from "./utils";
 import IncidentsListChart from "../../../../core/components/Charts/Incidents/IncidentsListChart";
 import styled from "styled-components";
 import dayjs from "dayjs";
+import { loadIncident } from "../state/actions";
+import { useAppDispatch } from "../../../../store";
 
 interface Props {
   incidents: IIncident[];
@@ -16,9 +18,11 @@ interface Props {
 }
 export const IncidentsTable: FC<Props> = ({ incidents, isLoading }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { project } = useProject();
 
   const handleOnRowClick = (incident: IIncident) => {
+    dispatch(loadIncident(incident.id));
     navigate(`/project/${project.id}/incidents/${incident.id}/details`);
   };
 
@@ -77,9 +81,11 @@ export const IncidentsTable: FC<Props> = ({ incidents, isLoading }) => {
       <TableColumn name="Events">
         {({ item }) => <span className="text-xs">{item?.eventsCount}</span>}
       </TableColumn>
-      <TableColumn name="Last error">
+      <TableColumn name="Last event">
         {({ item }) => (
-          <span className="text-xs whitespace-nowrap">{dateUtils.fromNow(item?.lastEventAt)}</span>
+          <span className="text-xs whitespace-nowrap">
+            {dateUtils.fromNow(item?.lastEventAt)}
+          </span>
         )}
       </TableColumn>
       <TableColumn name="Assigned">

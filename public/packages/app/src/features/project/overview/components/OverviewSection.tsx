@@ -2,7 +2,7 @@ import { ConditionalWrapper } from "../../../../core/components/ConditionLayout"
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { useRequest } from "../../../../core/hooks/useRequest";
 import { SyncOutlined } from "@ant-design/icons";
-import { ErrorDetails } from "@traceo/types";
+import { ErrorDetails, PlotData } from "@traceo/types";
 import { Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
 import IncidentsOverviewChart from "../../../../core/components/Charts/Incidents/IncidentsOverviewChart";
@@ -15,28 +15,25 @@ export const OverviewSection = () => {
   const { id } = useParams();
 
   const {
-    data: dataSource,
+    data = [],
     isLoading,
-    execute: reload
-  } = useRequest<TotalOverviewType>({
-    url: "/api/statistics/total",
-    params: {
-      id
-    }
+    execute
+  } = useRequest<PlotData[]>({
+    url: `/api/event/project/${id}/grouped`
   });
 
   return (
     <div className="w-full h-full">
       <Card
-        title="App overview"
-        extra={<SyncOutlined className="text-xs" onClick={() => reload()} />}
+        title="Project overview"
+        extra={<SyncOutlined className="text-xs" onClick={() => execute()} />}
       >
         <ConditionalWrapper
           emptyView={<DataNotFound />}
-          isEmpty={dataSource?.errors?.length === 0}
+          isEmpty={data && data?.length === 0}
           isLoading={isLoading}
         >
-          <IncidentsOverviewChart stats={dataSource?.errors} />
+          <IncidentsOverviewChart data={data} />
         </ConditionalWrapper>
       </Card>
     </div>

@@ -1,13 +1,10 @@
-import { TotalOverviewType } from "../../../../features/project/overview/components/OverviewSection";
 import { useRequest } from "../../../hooks/useRequest";
 import dateUtils from "../../../utils/date";
-import { statisticUtils } from "../../../utils/statistics";
 import { FC, useEffect } from "react";
 import { BaseChart } from "../BaseChart";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import { BaseTooltip } from "../BaseTooltip";
-import { normalizePlotData } from "../utils";
 import { SearchOutlined } from "@ant-design/icons";
 
 interface Props {
@@ -15,23 +12,17 @@ interface Props {
 }
 const PLOT_COLOR = "#04785A";
 const IncidentListOverviewChart: FC<Props> = ({ id }) => {
-  const { data: stats, execute } = useRequest<TotalOverviewType>({
-    url: "/api/statistics/total",
-    params: {
-      id
-    }
+  const { data, isLoading, execute } = useRequest<any>({
+    url: `/api/event/project/${id}/grouped`
   });
 
   useEffect(() => {
     execute();
   }, [id]);
 
-  const plotData = statisticUtils.parseIncidentsTablePlotData(stats?.errors);
-  const datasource = normalizePlotData(plotData);
-
   const formatter = (v: unknown) => dateUtils.formatDate(Number(v), "MMM D, YYYY");
 
-  if (stats && stats.errors.length === 0) {
+  if (!isLoading && (!data || data.length === 0)) {
     return (
       <div className="w-full text-center flex flex-col text-primary">
         <SearchOutlined className="text-lg" />
@@ -39,18 +30,20 @@ const IncidentListOverviewChart: FC<Props> = ({ id }) => {
       </div>
     );
   }
+
   return (
     <BaseChart
       height="70px"
+      isLoading={isLoading}
       dataset={{
-        source: datasource
+        source: data || []
       }}
       series={{
         name: "Errors",
         type: "bar",
-        color: "#04785A",
+        color: PLOT_COLOR,
         itemStyle: {
-          borderColor: "#04785A",
+          borderColor: PLOT_COLOR,
           borderWidth: 2,
           borderRadius: 0
         },

@@ -1,13 +1,14 @@
 import { Page } from "../../core/components/Page";
 import { useAppDispatch } from "../../store";
 import { hideNavbar } from "../../store/internal/navbar/actions";
-import { resetIncidentsState, resetIncidentState } from "../project/incidents/state/reducers";
 import { resetProjectState } from "../project/state/project/reducers";
 import { loadSignedInUser } from "../auth/state/actions";
 import { ProjectsTable } from "./components/ProjectsTable";
 import { Card } from "@traceo/ui";
 import { useEffect } from "react";
 import { useLive } from "../../core/hooks/useLive";
+import { resetIncidentState } from "../project/incidents/state/slices/incident.slice";
+import { resetIncidentsState } from "../project/incidents/state/slices/incidents.slice";
 
 export const ProjectsListPage = () => {
   const dispatch = useAppDispatch();

@@ -1,33 +1,20 @@
 import { localStorageService } from "../../../lib/localStorage";
 import { LocalStorage } from "../../../lib/localStorage/types";
 import dateUtils from "../../../utils/date";
-import { statisticUtils } from "../../../utils/statistics";
-import { normalizePlotData } from "../utils";
-import { ErrorDetails, IEvent } from "@traceo/types";
-import { FC, useMemo } from "react";
 import { BaseChart } from "../BaseChart";
 import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 
-interface Props {
-  events: IEvent[];
-}
-
 const PLOT_COLOR = "#04785A";
-
-const IncidentTimelineChart: FC<Props> = ({ events }) => {
+const IncidentTimelineChart = ({ events, isLoading }) => {
   const plotType = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
-
-  const dataSource = useMemo(() => {
-    return normalizePlotData(statisticUtils.parseIncidentsTablePlotData(events));
-  }, [events]);
-
   return (
     <BaseChart
+      isLoading={isLoading}
       height="70px"
       dataset={{
-        source: dataSource
+        source: events || []
       }}
       tooltip={BaseTooltip({
         pointer: "shadow"
@@ -45,7 +32,7 @@ const IncidentTimelineChart: FC<Props> = ({ events }) => {
         axisLabel: {
           interval: "auto",
           formatter: function (value, index) {
-            if (index === 0 || index === dataSource.x.length - 1) {
+            if (index === 0 || index === events.length - 1) {
               return dateUtils.formatDate(Number(value), "DD-MM");
             } else {
               return "";

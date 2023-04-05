@@ -2,38 +2,6 @@ import dateUtils from "./date";
 import { LogLevel, ErrorDetails, DailyStats, ILog } from "@traceo/types";
 import dayjs from "dayjs";
 
-/**
- * TODO: This utils are to total refactoring. Rubbish.
- *
- * QA: Why data to plots are parsing on project?
- * Because I need to use local timezone instead of utc. Maybe I should save used timezone
- * in project object and parse this on backend side?
- */
-
-const parseIncidentsTablePlotData = (errorsDetails: ErrorDetails[]) => {
-  const data: PlotData[] = []; //initial values
-
-  if (!errorsDetails) {
-    return;
-  }
-
-  const errors = [...errorsDetails];
-  const sortedDates = errors?.sort((a, b) => a?.date - b?.date);
-  const beginDate = errorsDetails[0];
-
-  let currentDate = dateUtils.endOf(dayjs.unix(beginDate?.date).subtract(7, "day").unix());
-  while (currentDate <= dateUtils.endOf()) {
-    const currentErrors = sortedDates.filter(
-      ({ date }) => dateUtils.endOf(date) === dateUtils.endOf(currentDate)
-    );
-    data.push({ date: dateUtils.endOf(currentDate), count: currentErrors?.length });
-    currentDate = dateUtils.endOf(dayjs.unix(currentDate).add(1, "day").unix());
-  }
-
-  // const response = normalizePlotData(data)
-  return data;
-};
-
 export interface PlotData {
   date: any;
   count: number;
@@ -149,8 +117,7 @@ const formatHourToPlotAxis = (h: number): string => {
 };
 
 export const statisticUtils = {
-  parseIncidentsAnalyticsTodayPlotData,
   parseLogs,
-  parseIncidentsTablePlotData,
-  parseErrorsToTodayPlotSource
+  parseErrorsToTodayPlotSource,
+  parseIncidentsAnalyticsTodayPlotData
 };

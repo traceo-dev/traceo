@@ -1,7 +1,5 @@
 import { Page } from "../../../../core/components/Page";
 import { MenuRoute } from "../../../../core/types/navigation";
-import { useAppDispatch } from "../../../../store";
-import { loadIncident } from "../state/actions";
 import {
   CommentOutlined,
   InfoCircleOutlined,
@@ -10,18 +8,13 @@ import {
   WarningOutlined
 } from "@ant-design/icons";
 import { StoreState } from "@store/types";
-import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { mapIncidentStatus } from "@traceo/types";
 import { mapHeaderStatusIcon } from "./utils";
-import { PageHeader } from "@traceo/ui";
 import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
 
 export const IncidentPageWrapper = ({ children }) => {
-  const { iid } = useParams();
-  const dispatch = useAppDispatch();
-  const { incident, hasFetched } = useSelector((state: StoreState) => state.incident);
+  const { incident, isLoading } = useSelector((state: StoreState) => state.incident);
 
   const menu: MenuRoute[] = [
     {
@@ -55,10 +48,6 @@ export const IncidentPageWrapper = ({ children }) => {
     }
   ];
 
-  useEffect(() => {
-    dispatch(loadIncident(iid));
-  }, []);
-
   return (
     <Page
       header={{
@@ -78,7 +67,7 @@ export const IncidentPageWrapper = ({ children }) => {
         )
       }}
       menuRoutes={menu}
-      isLoading={!hasFetched}
+      isLoading={isLoading}
     >
       <Page.Content>{children}</Page.Content>
     </Page>

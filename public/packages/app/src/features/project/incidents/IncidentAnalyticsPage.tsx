@@ -10,7 +10,8 @@ import IncidentsOverviewChart from "../../../core/components/Charts/Incidents/In
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 
 export const IncidentAnalyticsPage = () => {
-  const { hasEventsFetched, events } = useSelector((state: StoreState) => state.incident);
+  const { events } = useSelector((state: StoreState) => state.events);
+  const { groupedEvents } = useSelector((state: StoreState) => state.groupedEvents);
 
   const dataSource = useMemo(() => {
     return statisticUtils.parseIncidentsAnalyticsTodayPlotData(events || []);
@@ -21,13 +22,13 @@ export const IncidentAnalyticsPage = () => {
       <div className="grid grid-cols-5 w-full mb-1">
         <div className="col-span-4 h-full">
           <Card title="Today" className="h-full">
-            <ConditionalWrapper isLoading={!hasEventsFetched}>
+            <ConditionalWrapper>
               <IncidentsTodayChart stats={dataSource?.data} />
             </ConditionalWrapper>
           </Card>
         </div>
         <div className="col-span-1 ml-1">
-          <ConditionalWrapper isLoading={!hasEventsFetched}>
+          <ConditionalWrapper>
             <div className="flex flex-col items-stretch h-full">
               <div className="h-full mb-1">
                 <Card title="Errors count" className="h-full">
@@ -48,8 +49,8 @@ export const IncidentAnalyticsPage = () => {
         </div>
       </div>
       <Card title="Total overview">
-        <ConditionalWrapper isLoading={!hasEventsFetched}>
-          <IncidentsOverviewChart stats={events} />
+        <ConditionalWrapper>
+          <IncidentsOverviewChart data={groupedEvents} />
         </ConditionalWrapper>
       </Card>
     </IncidentPageWrapper>
