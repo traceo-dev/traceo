@@ -23,6 +23,8 @@ const getEndOf = (date: number = toUnix(), unit: UnitType = "d") =>
   dayjs.unix(date).utc().endOf(unit);
 const getStartOf = (date: number = toUnix(), unit: UnitType = "h") =>
   dayjs.unix(date).utc().startOf(unit);
+const endOf = (date: number = toUnix(), unit: dayjs.OpUnitType = "day") =>
+  dayjs.unix(date).endOf(unit).unix();
 
 const dateUtils = {
   toUnix,
@@ -32,7 +34,8 @@ const dateUtils = {
   getHour,
   getEndOf,
   getStartOf,
-  getDayInUnix
+  getDayInUnix,
+  endOf
 };
 
 export default dateUtils;

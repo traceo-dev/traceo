@@ -4,7 +4,7 @@ import { EntityManager } from "typeorm";
 import dayjs from "dayjs";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { ErrorDetails } from "@traceo/types";
+import { IEvent } from "@traceo/types";
 
 @Injectable()
 export class StatisticsQueryService {
@@ -13,7 +13,7 @@ export class StatisticsQueryService {
     this.logger = new Logger(StatisticsQueryService.name);
   }
 
-  public async getTodayEvents(projectId: string): Promise<ApiResponse<ErrorDetails[]>> {
+  public async getTodayEvents(projectId: string): Promise<ApiResponse<IEvent[]>> {
     const today = dayjs().startOf("day").utc().unix();
 
     try {
@@ -22,7 +22,7 @@ export class StatisticsQueryService {
         FROM event
         WHERE project_id = $1
         AND date >= $2
-      `, [projectId, today])
+      `, [projectId, today]);
 
       return new ApiResponse("success", undefined, result);
     } catch (error) {
@@ -33,7 +33,7 @@ export class StatisticsQueryService {
 
   public async getTotalOverview(projectId: string): Promise<
     ApiResponse<{
-      errors: ErrorDetails[];
+      errors: IEvent[];
     }>
   > {
     try {

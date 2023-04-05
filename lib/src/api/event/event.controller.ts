@@ -17,4 +17,18 @@ export class EventController {
     ): Promise<ApiResponse<IEvent[]>> {
         return await this.eventQueryService.getEventsForIncident(id);
     }
+
+    @Get('/incident/:id/grouped')
+    async getGroupedEventsForIncident(
+        @Param("id") id: string
+    ): Promise<ApiResponse<IEvent[]>> {
+        return await this.eventQueryService.getGroupedEventsForIncident(id);
+    }
+
+    @Get('/project/:id/grouped')
+    async getGroupedEventsForProject(
+        @Param("id") id: string
+    ): Promise<ApiResponse<IEvent[]>> {
+        return await this.eventQueryService.getGroupedEventsForProject(id);
+    }
 }
