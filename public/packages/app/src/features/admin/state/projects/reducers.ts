@@ -1,31 +1,30 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IProject } from "@traceo/types";
 
-export interface UsersState {
-  projects: IProject[];
-  hasFetched: boolean;
+export interface State {
+    project: IProject;
+    isLoading: boolean;
 }
 
 const initialState = {
-  projects: [],
-  hasFetched: false
+    project: {} as IProject,
+    isLoading: false
 };
 
-const projectsSlice = createSlice({
-  name: "projects",
-  initialState: initialState,
-  reducers: {
-    projectsLoaded: (state, action: PayloadAction<IProject[]>): UsersState => ({
-      ...state,
-      hasFetched: true,
-      projects: action.payload
-    })
-  }
+const slice = createSlice({
+    name: "users",
+    initialState: initialState,
+    reducers: {
+        beginProjectFetch: (state): State => ({ ...state, isLoading: true }),
+        setProject: (state, action: PayloadAction<IProject>): State => {
+            return { ...state, isLoading: false, project: action.payload };
+        }
+    }
 });
 
-export const { projectsLoaded } = projectsSlice.actions;
-export const instanceApplications = projectsSlice.reducer;
+export const { setProject, beginProjectFetch } = slice.actions;
+export const reducer = slice.reducer;
 
 export default {
-  instanceApplications
+    adminProject: reducer
 };

@@ -1,5 +1,5 @@
 import api from "../../../../core/lib/api";
-import { projectLoaded, projectPermission, resetProjectState } from "./reducers";
+import { beginProjectFetch, setPermission, setProject, resetProjectState } from "./reducers";
 import { ThunkResult } from "@store/types";
 import { ApiResponse, IProject, MemberRole, UpdateProjectProps } from "@traceo/types";
 
@@ -10,6 +10,8 @@ export type LoadApplicationType = {
 export const initProject = (props: LoadApplicationType): ThunkResult<void> => {
   return async (dispatch) => {
     dispatch(resetProjectState());
+
+    dispatch(beginProjectFetch());
     dispatch(loadPermission({ id: props.id }));
     dispatch(loadProject({ id: props.id }));
   };
@@ -26,7 +28,7 @@ export const loadProject = (props?: LoadApplicationType): ThunkResult<void> => {
       id: currId
     });
 
-    dispatch(projectLoaded(data));
+    dispatch(setProject(data));
   };
 };
 
@@ -40,7 +42,7 @@ export const loadPermission = (props?: LoadApplicationType): ThunkResult<void> =
       >("/api/member/permission", {
         id: props.id
       });
-      dispatch(projectPermission(data.role));
+      dispatch(setPermission(data.role));
     } catch (err) {
       //
     }

@@ -18,17 +18,21 @@ import { updateAplication } from "../state/project/actions";
 export const SettingsDetailsPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { isViewer } = useMemberRole();
+
   const isDemo = useDemo();
+
+  const { isViewer } = useMemberRole();
   const { project } = useProject();
+
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
   const [isNameEdit, setNameEdit] = useState<boolean>(false);
+
   const ref = useRef<HTMLInputElement>();
 
   const onUpdateName = () => {
     const name = ref.current.value;
     if (!name) {
-      notify.error("project name cannot be empty.");
+      notify.error("Project name cannot be empty.");
       return;
     }
 

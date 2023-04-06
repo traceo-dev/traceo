@@ -1,20 +1,32 @@
 import dateUtils from "../../../core/utils/date";
 import { statisticUtils } from "../../../core/utils/statistics";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
-import { StoreState } from "@store/types";
 import { Typography, Card } from "@traceo/ui";
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
 import IncidentsTodayChart from "../../../core/components/Charts/Incidents/IncidentsTodayChart";
 import IncidentsOverviewChart from "../../../core/components/Charts/Incidents/IncidentsOverviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
+import { useIncidentSelector } from "../../../core/hooks/useIncidentSelector";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
+import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
 
 export const IncidentAnalyticsPage = () => {
-  const { events } = useSelector((state: StoreState) => state.events);
-  const { groupedEvents } = useSelector((state: StoreState) => state.groupedEvents);
+  const { iid } = useParams();
+  const { groupedEvents } = useIncidentSelector();
+
+  const {
+    data: events = [],
+    isLoading,
+    isRefetching
+  } = useReactQuery({
+    queryKey: ["today_events"],
+    url: `/api/event/incident/${iid}/today`,
+    params: { from: dayjs().startOf("d").local().unix() }
+  });
 
   const dataSource = useMemo(() => {
-    return statisticUtils.parseIncidentsAnalyticsTodayPlotData(events || []);
+    return statisticUtils.parseTodayEvents(events);
   }, [events]);
 
   return (
@@ -22,7 +34,7 @@ export const IncidentAnalyticsPage = () => {
       <div className="grid grid-cols-5 w-full mb-1">
         <div className="col-span-4 h-full">
           <Card title="Today" className="h-full">
-            <ConditionalWrapper>
+            <ConditionalWrapper isLoading={isLoading || isRefetching}>
               <IncidentsTodayChart stats={dataSource?.data} />
             </ConditionalWrapper>
           </Card>

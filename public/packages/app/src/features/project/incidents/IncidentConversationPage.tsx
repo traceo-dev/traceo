@@ -10,6 +10,9 @@ import { useSelector } from "react-redux";
 import { useLive } from "../../../core/hooks/useLive";
 import { IComment } from "@traceo/types";
 import { setIncidentComments } from "./state/slices/comments.slice";
+import { useIncidentSelector } from "../../../core/hooks/useIncidentSelector";
+import { useEffect } from "react";
+import { loadIncidentComments } from "./state/actions";
 
 export const IncidentConversationPage = () => {
   const live = useLive();
@@ -17,7 +20,11 @@ export const IncidentConversationPage = () => {
   const { incident, isLoading: isLoadingIncident } = useSelector(
     (state: StoreState) => state.incident
   );
-  const { comments } = useSelector((state: StoreState) => state.comments);
+  const { comments } = useIncidentSelector();
+
+  useEffect(() => {
+    dispatch(loadIncidentComments());
+  }, []);
 
   live.listen("new_comment", (comment: IComment) => {
     dispatch(setIncidentComments([...comments, comment]));

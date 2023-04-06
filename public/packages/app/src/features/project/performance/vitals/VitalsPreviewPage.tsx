@@ -8,7 +8,6 @@ import { HrefIcon } from "../../../../core/components/HrefIcon";
 import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
 import { Page } from "../../../../core/components/Page";
 import { SearchWrapper } from "../../../../core/components/SearchWrapper";
-import { useRequest } from "../../../../core/hooks/useRequest";
 import { useTimeRange } from "../../../../core/hooks/useTimeRange";
 import { MetricTimeRangePicker } from "../../metrics/components/MetricTimeRangePicker";
 import { selectHealthOptions, VITALS_DETAILS, WEB_VITALS_DOCS_URL } from "./types";
@@ -17,6 +16,7 @@ import { renderChart } from "./VitalsChart";
 import { VitalsGraphBar } from "./VitalsGraphBar";
 import { VitalsHealthBar } from "./VitalsHealthBar";
 import { VitalsRawData } from "./VitalsRawData";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 const VitalsPreviewPage = () => {
   const { id, name } = useParams();
@@ -36,8 +36,9 @@ const VitalsPreviewPage = () => {
   const {
     data: performances = [],
     isLoading,
-    execute
-  } = useRequest<Performance[]>({
+    refetch
+  } = useReactQuery<Performance[]>({
+    queryKey: [`vitals_${id}`],
     url: `/api/performance/vitals/${id}`,
     params: {
       from: ranges[0],
@@ -49,7 +50,7 @@ const VitalsPreviewPage = () => {
   });
 
   useEffect(() => {
-    execute();
+    refetch();
   }, [ranges, selectedHealth, search]);
 
   const dataSource = useMemo(() => {

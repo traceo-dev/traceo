@@ -1,25 +1,27 @@
 import { SearchWrapper } from "../../core/components/SearchWrapper";
-import { useAppDispatch } from "../../store";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { UsersTable } from "./components/UserManagement/UsersTable";
-import { loadUsers } from "./state/users/actions";
 import { PlusOutlined } from "@ant-design/icons";
-import { StoreState } from "@store/types";
 import { InputSearch, Button, Card } from "@traceo/ui";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { IUser } from "@traceo/types";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 const UsersListPage = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { users, hasFetched } = useSelector((state: StoreState) => state.users);
   const [search, setSearch] = useState<string>(null);
 
-  useEffect(() => {
-    dispatch(loadUsers({ search }));
-  }, [search]);
+  const {
+    data: users = [],
+    isLoading,
+    isRefetching
+  } = useReactQuery<IUser[]>({
+    queryKey: ["users", search],
+    url: "/api/users/search",
+    params: { search }
+  });
 
   const onCreateNew = () => {
     navigate("/dashboard/new-user");
@@ -40,9 +42,10 @@ const UsersListPage = () => {
             placeholder="Search user by username, name or email"
             value={search}
             onChange={setSearch}
+            loading={isRefetching}
           />
         </SearchWrapper>
-        <UsersTable users={users} hasFetched={hasFetched} />
+        <UsersTable users={users} isLoading={isLoading} />
       </Card>
     </DashboardPageWrapper>
   );

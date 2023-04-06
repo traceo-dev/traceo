@@ -1,35 +1,25 @@
 import dateUtils from "./date";
-import { LogLevel, ErrorDetails, DailyStats, ILog } from "@traceo/types";
+import { LogLevel, ErrorDetails, DailyStats, ILog, IEvent } from "@traceo/types";
 import dayjs from "dayjs";
 
 export interface PlotData {
   date: any;
   count: number;
 }
-const parseIncidentsAnalyticsTodayPlotData = (errorsDetails: ErrorDetails[]) => {
+const parseTodayEvents = (events: IEvent[]) => {
   const response: PlotData[] = [];
 
-  const todayErrors = errorsDetails?.filter(({ date }) => dateUtils.isTodayDate(date));
-  todayErrors?.map(({ date }) => dateUtils.getHour(date));
-
   for (let i = 0; i <= 23; i++) {
-    const currentHourErrors = todayErrors?.filter(({ date }) => dateUtils.getHour(date) === i);
+    const currentHourErrors = events?.filter(({ date }) => dateUtils.getHour(date) === i);
     response.push({ date: formatHourToPlotAxis(i), count: currentHourErrors?.length });
   }
 
-  const yesterdayErrors = errorsDetails.filter(({ date }) => dateUtils.isYesterdayDate(date));
-
-  const isMore = todayErrors?.length > yesterdayErrors?.length;
-  const lastError = todayErrors[todayErrors?.length - 1]?.date || null;
+  const lastError = events[events?.length - 1]?.date || null;
 
   return {
     data: response,
-    count: todayErrors?.length,
-    last: lastError,
-    diff: {
-      isMore,
-      value: String(todayErrors?.length - yesterdayErrors?.length)
-    }
+    count: events?.length,
+    last: lastError
   };
 };
 
@@ -119,5 +109,5 @@ const formatHourToPlotAxis = (h: number): string => {
 export const statisticUtils = {
   parseLogs,
   parseErrorsToTodayPlotSource,
-  parseIncidentsAnalyticsTodayPlotData
+  parseTodayEvents
 };

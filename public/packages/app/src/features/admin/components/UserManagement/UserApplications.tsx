@@ -2,7 +2,6 @@ import { ConditionalWrapper } from "../../../../core/components/ConditionLayout"
 import { Confirm } from "../../../../core/components/Confirm";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { AddToProjectModal } from "../../../../core/components/Modals/AddToProjectModal";
-import { useRequest } from "../../../../core/hooks/useRequest";
 import { membersAction } from "../../../../core/lib/api/members";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { StoreState } from "@store/types";
@@ -10,22 +9,22 @@ import { ProjectMember, MemberProject, MemberRole } from "@traceo/types";
 import { Button, Card, Space, Table, TableColumn, Avatar, Select } from "@traceo/ui";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 export const UserApplications = () => {
-  const { user } = useSelector((state: StoreState) => state.users);
+  const { user } = useSelector((state: StoreState) => state.adminUser);
   const [isOpenAddAppDrawer, setOpenAddAppDrawer] = useState<boolean>(false);
 
   const isAdmin = user.email === ADMIN_EMAIL;
 
   const {
     data: projects = [],
-    execute: postExecute,
+    refetch,
     isLoading
-  } = useRequest<MemberProject[]>({
+  } = useReactQuery<MemberProject[]>({
+    queryKey: ["user_projects"],
     url: "/api/member/projects",
-    params: {
-      userId: user.id
-    }
+    params: { userId: user.id }
   });
 
   const options = [
@@ -35,11 +34,11 @@ export const UserApplications = () => {
   ];
 
   const onUpdateRole = async (member: ProjectMember, role: MemberRole) => {
-    await membersAction.onUpdateRole(member, role, () => postExecute());
+    await membersAction.onUpdateRole(member, role, () => refetch());
   };
 
   const onRemoveFromProject = async (member: ProjectMember) => {
-    await membersAction.onRemoveFromProject(member, () => postExecute());
+    await membersAction.onRemoveFromProject(member, () => refetch());
   };
 
   return (
@@ -106,7 +105,7 @@ export const UserApplications = () => {
         <AddToProjectModal
           isOpen={isOpenAddAppDrawer}
           onCancel={() => setOpenAddAppDrawer(false)}
-          postExecute={() => postExecute()}
+          postExecute={() => refetch()}
         />
       </Card>
     </>

@@ -7,14 +7,19 @@ import {
   StockOutlined,
   WarningOutlined
 } from "@ant-design/icons";
-import { StoreState } from "@store/types";
-import { useSelector } from "react-redux";
 import { mapIncidentStatus } from "@traceo/types";
 import { mapHeaderStatusIcon } from "./utils";
 import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
+import { loadIncident } from "../state/actions";
+import { useAppDispatch } from "../../../../store";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useIncidentSelector } from "../../../../core/hooks/useIncidentSelector";
 
-export const IncidentPageWrapper = ({ children }) => {
-  const { incident, isLoading } = useSelector((state: StoreState) => state.incident);
+const IncidentPageWrapper = ({ children }) => {
+  const { iid } = useParams();
+  const { incident, isLoading } = useIncidentSelector();
+  const dispatch = useAppDispatch();
 
   const menu: MenuRoute[] = [
     {
@@ -47,6 +52,10 @@ export const IncidentPageWrapper = ({ children }) => {
       icon: <CommentOutlined />
     }
   ];
+
+  useEffect(() => {
+    dispatch(loadIncident(iid));
+  }, []);
 
   return (
     <Page

@@ -7,14 +7,14 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   projects: IProject[];
-  hasFetched?: boolean;
+  isLoading: boolean;
 }
-export const AdminProjectsTable: FC<Props> = ({ projects, hasFetched }) => {
+export const AdminProjectsTable: FC<Props> = ({ projects, isLoading }) => {
   const navigate = useNavigate();
   return (
     <Table
       collection={projects}
-      loading={!hasFetched}
+      loading={isLoading}
       onRowClick={(item) => navigate(`/dashboard/admin/apps/${item.id}`)}
       striped
       showPagination

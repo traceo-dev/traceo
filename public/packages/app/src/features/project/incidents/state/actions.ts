@@ -2,38 +2,28 @@ import api, { ApiQueryParams } from "../../../../core/lib/api";
 import { ThunkResult } from "@store/types";
 import { ApiResponse, IComment, IEvent, IIncident, PlotData } from "@traceo/types";
 import { beginCommentsFetch, setIncidentComments } from "./slices/comments.slice";
-import { beginEventsFetch, setIncidentEvents } from "./slices/events.slice";
-import { beginIncidentFetch, setIncident } from "./slices/incident.slice";
-import { beginIncidentsFetch, setIncidents } from "./slices/incidents.slice";
+import { beginIncidentFetch, endIncidentFetch, setIncident } from "./slices/incident.slice";
 import { beginGroupedEventsFetch, setGroupedEvents } from "./slices/grouped-events.slice";
-
-export const loadIncidents = (query?: ApiQueryParams): ThunkResult<void> => {
-  return async (dispatch, getStore) => {
-    const project = getStore().project.project;
-    if (!query) {
-      query = {
-        id: project.id,
-        order: "DESC",
-        sortBy: "lastEventAt"
-      };
-    }
-
-    dispatch(beginIncidentsFetch());
-    const { data } = await api.get<ApiResponse<IIncident[]>>("/api/incidents", query);
-    dispatch(setIncidents(data));
-  };
-};
+import { isEmptyObject } from "src/core/utils/object";
 
 export const loadIncident = (id: string): ThunkResult<void> => {
-  return async (dispatch) => {
+  return async (dispatch, getStore) => {
     if (!id) {
       return;
     }
 
-    dispatch(beginIncidentFetch());
+    const currentIncident = getStore().incident.incident;
+    if (!currentIncident || isEmptyObject(currentIncident)) {
+      // due to UX we shouldn't show loading indicator on already fetched incident
+      // data is fetching in background without loading indicator
+      dispatch(beginIncidentFetch());
+    }
+
     const { data } = await api.get<ApiResponse<IIncident>>(`/api/incidents/${id}`);
     dispatch(setIncident(data));
     dispatch(loadGroupedEvents());
+
+    dispatch(endIncidentFetch());
   };
 };
 
@@ -62,19 +52,15 @@ export const updateIncident = (update: any): ThunkResult<void> => {
   };
 };
 
-export const loadIncidentEvents = (id: string): ThunkResult<void> => {
-  return async (dispatch) => {
-    dispatch(beginEventsFetch());
-    const { data } = await api.get<ApiResponse<IEvent[]>>(`/api/event/incident/${id}`);
-    dispatch(setIncidentEvents(data));
-  }
-}
-
 export const loadGroupedEvents = (): ThunkResult<void> => {
   return async (dispatch, getStore) => {
     const incident = getStore().incident.incident;
+    const groupedEvents = getStore().groupedEvents.groupedEvents;
 
-    dispatch(beginGroupedEventsFetch());
+    if (!groupedEvents) {
+      dispatch(beginGroupedEventsFetch());
+    }
+
     const { data } = await api.get<ApiResponse<PlotData[]>>(`/api/event/incident/${incident.id}/grouped`);
     dispatch(setGroupedEvents(data));
   }

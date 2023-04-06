@@ -1,6 +1,5 @@
-import { StoreState } from "@store/types";
 import { SDK } from "@traceo/types";
-import { useSelector } from "react-redux";
+import { useIncidentSelector } from "../../../core/hooks/useIncidentSelector";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { InfoSection } from "./components/InfoSection";
 import { PlatformSection } from "./components/PlatformSection";
@@ -8,7 +7,7 @@ import { StacktraceSection } from "./components/StacktraceSection";
 import { TimelineSection } from "./components/TimelineSection";
 
 export const IncidentDetailsPage = () => {
-  const { incident } = useSelector((state: StoreState) => state.incident);
+  const { incident } = useIncidentSelector();
 
   return (
     <IncidentPageWrapper>

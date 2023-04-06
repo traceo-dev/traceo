@@ -1,4 +1,3 @@
-import { useRequest } from "../../../hooks/useRequest";
 import dateUtils from "../../../utils/date";
 import { FC, useEffect } from "react";
 import { BaseChart } from "../BaseChart";
@@ -6,18 +5,20 @@ import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import { BaseTooltip } from "../BaseTooltip";
 import { SearchOutlined } from "@ant-design/icons";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 interface Props {
   id: string;
 }
 const PLOT_COLOR = "#04785A";
 const IncidentListOverviewChart: FC<Props> = ({ id }) => {
-  const { data, isLoading, execute } = useRequest<any>({
+  const { data, isLoading, refetch } = useReactQuery({
+    queryKey: ["grouped_events"],
     url: `/api/event/project/${id}/grouped`
   });
 
   useEffect(() => {
-    execute();
+    refetch();
   }, [id]);
 
   const formatter = (v: unknown) => dateUtils.formatDate(Number(v), "MMM D, YYYY");

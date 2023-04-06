@@ -4,10 +4,10 @@ import { Alert, Card } from "@traceo/ui";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { Page } from "../../../core/components/Page";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
-import { useRequest } from "../../../core/hooks/useRequest";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { MetricTimeRangePicker } from "../metrics/components/MetricTimeRangePicker";
 import { VITALS_DETAILS, WEB_VITALS_DOCS_URL } from "./vitals/types";
@@ -30,21 +30,18 @@ const PerformancePage = () => {
     to: dayjs().unix()
   });
 
-  const { data, isLoading, execute } = useRequest<VitalsResponse>({
+  const { data, isLoading, refetch } = useReactQuery<VitalsResponse>({
+    queryKey: ["vitals"],
     url: `/api/performance/vitals/bins/${id}`,
-    params: {
-      from: ranges[0],
-      to: ranges[1],
-      fields: SUPPORTED_WEB_VITALS
-    }
+    params: { from: ranges[0], to: ranges[1], fields: SUPPORTED_WEB_VITALS }
   });
 
   useEffect(() => {
-    execute();
+    refetch();
   }, [ranges]);
 
   const renderAvg = (field: VitalsEnum) => {
-    if (isLoading || !data) {
+    if (isLoading) {
       return <LoadingOutlined />;
     }
 

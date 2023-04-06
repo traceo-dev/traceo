@@ -16,9 +16,8 @@ const slice = createSlice({
     initialState,
     reducers: {
         beginIncidentFetch: (state): State => ({ ...state, isLoading: true }),
-        setIncident: (state, action: PayloadAction<IIncident>): State => ({
-            ...state, incident: action.payload, isLoading: false
-        }),
+        endIncidentFetch: (state): State => ({ ...state, isLoading: false }),
+        setIncident: (state, action: PayloadAction<IIncident>): State => ({ ...state, incident: action.payload }),
         resetIncidentState: (): State => ({ ...initialState })
     }
 });
@@ -27,6 +26,7 @@ export const {
     setIncident,
     resetIncidentState,
     beginIncidentFetch,
+    endIncidentFetch
 } = slice.actions;
 export const reducer = slice.reducer;
 

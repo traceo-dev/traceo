@@ -1,5 +1,4 @@
 import { useProject } from "../../../hooks/useProject";
-import { useRequest } from "../../../hooks/useRequest";
 import { ConditionalWrapper } from "../../ConditionLayout";
 import { DataNotFound } from "../../DataNotFound";
 import { buildSeries } from "./utils";
@@ -9,6 +8,7 @@ import { BaseChart } from "../BaseChart";
 import { BaseXAxis } from "../BaseXAxis";
 import dayjs from "dayjs";
 import { BaseYAxis } from "../BaseYAxis";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 interface Props {
   metric: IMetric;
@@ -17,12 +17,13 @@ interface Props {
 const MetricChart: FC<Props> = ({ metric, ranges }) => {
   const { project } = useProject();
 
-  const seriesFields = metric.series.map(({ field }) => field);
+  const seriesFields = metric.series.map(({ field }) => field) || [""];
   const {
     data: datasource,
-    execute,
-    isLoading
-  } = useRequest<MetricResponseType>({
+    refetch,
+    isFetching
+  } = useReactQuery<MetricResponseType>({
+    queryKey: [`metric_ds_${metric.id}`],
     url: `/api/metrics/${project?.id}/datasource`,
     params: {
       fields: seriesFields,
@@ -32,12 +33,12 @@ const MetricChart: FC<Props> = ({ metric, ranges }) => {
   });
 
   useEffect(() => {
-    execute();
+    refetch();
   }, [ranges, metric]);
 
   return (
     <ConditionalWrapper
-      isLoading={isLoading}
+      isLoading={isFetching}
       isEmpty={!datasource || datasource?.time?.length === 0}
       emptyView={<DataNotFound className="text-2xs" label="Data not found" />}
     >

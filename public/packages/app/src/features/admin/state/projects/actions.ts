@@ -1,20 +1,13 @@
-import api, { ApiQueryParams } from "../../../../core/lib/api";
-import { projectsLoaded } from "./reducers";
+import api from "../../../../core/lib/api";
 import { ThunkResult } from "@store/types";
-import { IProject, ApiResponse } from "@traceo/types";
+import { ApiResponse, IProject } from "@traceo/types";
+import { beginProjectFetch, setProject } from "./reducers";
 
-export const loadInstanceProjects = (query?: ApiQueryParams): ThunkResult<void> => {
-  return async (dispatch) => {
-    if (!query?.sortBy) {
-      query = {
-        sortBy: "createdAt",
-        order: "DESC"
-      };
-    }
-    const { data } = await api.get<ApiResponse<IProject[]>>(
-      "/api/projects/search",
-      query
-    );
-    dispatch(projectsLoaded(data));
-  };
+export const loadProject = (id: string): ThunkResult<void> => {
+    return async (dispatch) => {
+        dispatch(beginProjectFetch());
+
+        const { data } = await api.get<ApiResponse<IProject>>("/api/project", { id });
+        dispatch(setProject(data));
+    };
 };

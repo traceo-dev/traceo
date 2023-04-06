@@ -1,37 +1,35 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IProject, MemberRole } from "@traceo/types";
 
-export interface ProjectState {
+interface State {
   project: IProject;
   permission: MemberRole;
-  hasFetched: boolean;
+  isLoading: boolean;
 }
 
-const initialState: ProjectState = {
+const initialState: State = {
   project: {} as IProject,
   permission: null,
-  hasFetched: false
+  isLoading: false
 };
 
 const projectSlice = createSlice({
   name: "project",
   initialState: initialState,
   reducers: {
-    projectLoaded: (state, action: PayloadAction<IProject>): ProjectState => ({
-      ...state,
-      project: action.payload
+    beginProjectFetch: (state): State => ({ ...state, isLoading: true }),
+    endProjectFetch: (state): State => ({ ...state, isLoading: false }),
+    setProject: (state, action: PayloadAction<IProject>): State => ({
+      ...state, project: action.payload, isLoading: false
     }),
-    projectPermission: (state, action: PayloadAction<MemberRole>): ProjectState => ({
-      ...state,
-      hasFetched: true,
-      permission: action.payload
+    setPermission: (state, action: PayloadAction<MemberRole>): State => ({
+      ...state, permission: action.payload
     }),
-    resetProjectState: (): ProjectState => ({ ...initialState })
+    resetProjectState: (): State => ({ ...initialState })
   }
 });
 
-export const { projectLoaded, projectPermission, resetProjectState } =
-projectSlice.actions;
+export const { setProject, setPermission, resetProjectState, beginProjectFetch, endProjectFetch } = projectSlice.actions;
 export const projectReducer = projectSlice.reducer;
 
 export default {

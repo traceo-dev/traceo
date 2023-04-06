@@ -3,8 +3,6 @@ import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { useAppDispatch } from "../../../../store";
-import { updateUser } from "../../state/users/actions";
-import { LeftOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
 import { UserStatus, ApiResponse } from "@traceo/types";
 import {
@@ -20,6 +18,7 @@ import {
 } from "@traceo/ui";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { updateUser } from "../../state/users/actions";
 
 interface UserProps {
   email: string;
@@ -29,7 +28,7 @@ interface UserProps {
 
 export const UserInformation = () => {
   const dispatch = useAppDispatch();
-  const { user } = useSelector((state: StoreState) => state.users);
+  const { user } = useSelector((state: StoreState) => state.adminUser);
   const navigate = useNavigate();
 
   const defaultValues: UserProps = {
@@ -113,16 +112,7 @@ export const UserInformation = () => {
 
       {isDisabled && <Alert type="info" message="This user is disabled." className="my-1" />}
 
-      <Card
-        icon={
-          <LeftOutlined
-            onClick={() => navigate(-1)}
-            className="px-2 py-1 hover:bg-secondary cursor-pointer duration-200 rounded"
-          />
-        }
-        title="Basic informations"
-        extra={renderButtons()}
-      >
+      <Card title="Basic informations" extra={renderButtons()}>
         <ColumnSection subtitle="You can edit user details if needed. Remember to do it responsibly and only as a last resort.">
           <Form
             id="edit-user-form"

@@ -9,9 +9,9 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   users: IUser[];
-  hasFetched?: boolean;
+  isLoading: boolean;
 }
-export const UsersTable: FC<Props> = ({ users, hasFetched }) => {
+export const UsersTable: FC<Props> = ({ users, isLoading }) => {
   const user = useUser();
   const navigate = useNavigate();
 
@@ -42,7 +42,7 @@ export const UsersTable: FC<Props> = ({ users, hasFetched }) => {
     <Table
       collection={users}
       striped
-      loading={!hasFetched}
+      loading={isLoading}
       onRowClick={({ id }) => navigate(`/dashboard/admin/users/${id}`)}
       showPagination
       pageSize={15}

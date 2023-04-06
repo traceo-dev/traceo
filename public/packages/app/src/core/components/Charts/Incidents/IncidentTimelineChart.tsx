@@ -52,6 +52,9 @@ const IncidentTimelineChart = ({ events, isLoading }) => {
           fontSize: 10,
           color: "#CCCCDC"
         },
+        splitLine: {
+          show: false
+        },
         alignTicks: true,
         min: 0,
         max: (e) => {

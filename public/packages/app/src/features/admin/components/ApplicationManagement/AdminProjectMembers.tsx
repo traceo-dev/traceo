@@ -1,9 +1,9 @@
 import { ProjectMembersTable } from "../../../../core/components/ProjectMembersTable";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { useRequest } from "../../../../core/hooks/useRequest";
 import { ProjectMember } from "@traceo/types";
 import { Space, Typography, Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 export const AdminProjectMembers = () => {
   const { id } = useParams();
@@ -11,12 +11,11 @@ export const AdminProjectMembers = () => {
   const {
     data: members = [],
     isLoading,
-    execute
-  } = useRequest<ProjectMember[]>({
+    refetch
+  } = useReactQuery<ProjectMember[]>({
+    queryKey: ["members"],
     url: "/api/member/search",
-    params: {
-      id
-    }
+    params: { id }
   });
 
   return (
@@ -30,7 +29,7 @@ export const AdminProjectMembers = () => {
         }
         isLoading={isLoading}
       >
-        <ProjectMembersTable collection={members} postExecute={() => execute()} />
+        <ProjectMembersTable collection={members} postExecute={() => refetch()} />
       </ConditionalWrapper>
     </Card>
   );

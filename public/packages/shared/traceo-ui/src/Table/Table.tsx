@@ -106,7 +106,7 @@ export const Table: FC<TableProps> = (props: TableProps) => {
           <LoadingOutlined />
         </Space>
       )}
-      {collection && collection.length === 0 && (
+      {!loading && (!collection || collection.length === 0) && (
         <Space className="py-12 justify-center flex flex-col w-full">
           <SearchOutlined className="text-2xl" />
           <Typography className="font-semibold">{emptyLabel}</Typography>

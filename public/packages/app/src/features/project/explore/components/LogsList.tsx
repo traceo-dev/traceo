@@ -1,48 +1,42 @@
 import { MinusOutlined, PlusOutlined, QuestionCircleOutlined } from "@ant-design/icons";
-import { StoreState } from "@store/types";
-import { LogLevel, LogEventPayload, ILog } from "@traceo/types";
+import { LogLevel, ILog } from "@traceo/types";
 import { Card, Space, Tooltip } from "@traceo/ui";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { Descriptions, DescriptionRow } from "../../../../core/components/Descriptions";
 import { mapLogBarsColor, mapLogColor } from "./utils";
 import styled from "styled-components";
 
-export const LogsList = () => {
-  const { logs, hasFetched } = useSelector((state: StoreState) => state.logs);
+export const LogsList = ({ logs, isLoading }: { logs: ILog[]; isLoading: boolean }) => (
+  <Card
+    title="Logs list"
+    bodyClassName="m-0 p-0"
+    extra={
+      <div className="flex flex-row gap-x-3 items-center">
+        <Tooltip title="At the moment, Traceo Platform has support for fetching only 1000 logs per request. For this reason, you may need to set filters with more details, such as occurrence time and log level in histogram legend to find your log.">
+          <QuestionCircleOutlined />
+        </Tooltip>
 
-  return (
-    <Card
-      title="Logs list"
-      bodyClassName="m-0 p-0"
-      extra={
-        <div className="flex flex-row gap-x-3 items-center">
-          <Tooltip title="At the moment, Traceo Platform has support for fetching only 1000 logs per request. For this reason, you may need to set filters with more details, such as occurrence time and log level in histogram legend to find your log.">
-            <QuestionCircleOutlined />
-          </Tooltip>
-
-          <span className="text-xs whitespace-nowrap">
-            <b>{logs.length}</b> logs fetched
-          </span>
-        </div>
-      }
+        <span className="text-xs whitespace-nowrap">
+          <b>{logs.length}</b> logs fetched
+        </span>
+      </div>
+    }
+  >
+    <ConditionalWrapper
+      emptyView={<DataNotFound label="Logs not found" />}
+      isEmpty={!isLoading && logs?.length === 0}
+      isLoading={isLoading}
     >
-      <ConditionalWrapper
-        emptyView={<DataNotFound label="Logs not found" />}
-        isEmpty={hasFetched && logs?.length === 0}
-        isLoading={!hasFetched}
-      >
-        <ul className="w-full block overflow-y-scroll h-80 pl-0">
-          {logs?.map((log, index) => (
-            <LogRow key={index} {...log} />
-          ))}
-        </ul>
-      </ConditionalWrapper>
-    </Card>
-  );
-};
+      <ul className="w-full block overflow-y-scroll h-80 pl-0">
+        {logs?.map((log, index) => (
+          <LogRow key={index} {...log} />
+        ))}
+      </ul>
+    </ConditionalWrapper>
+  </Card>
+);
 
 const LogRow = (log: ILog) => {
   const [isSelected, setSelected] = useState<boolean>(false);

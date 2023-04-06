@@ -1,6 +1,5 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useProject } from "../../../../core/hooks/useProject";
-import { useRequest } from "../../../../core/hooks/useRequest";
 import dateUtils from "../../../../core/utils/date";
 import { statisticUtils } from "../../../../core/utils/statistics";
 import { SyncOutlined } from "@ant-design/icons";
@@ -9,6 +8,7 @@ import { Typography, Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
 import IncidentsTodayChart from "../../../../core/components/Charts/Incidents/IncidentsTodayChart";
 import { useMemo } from "react";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 export const TodaySection = () => {
   const { id } = useParams();
@@ -17,8 +17,9 @@ export const TodaySection = () => {
   const {
     data: dataSource,
     isLoading,
-    execute: reloadDailyStats
-  } = useRequest<ErrorDetails[]>({
+    refetch
+  } = useReactQuery<ErrorDetails[]>({
+    queryKey: [`daily_stats_${id}`],
     url: "/api/statistics/daily",
     params: {
       id
@@ -47,9 +48,9 @@ export const TodaySection = () => {
         <div className="flex flex-col items-stretch h-full">
           <div className="h-full mb-1">
             <Card
-              title="Errors count"
+              title="Events count"
               className="h-full"
-              extra={<SyncOutlined className="text-xs" onClick={() => reloadDailyStats()} />}
+              extra={<SyncOutlined className="text-xs" onClick={() => refetch()} />}
             >
               <ConditionalWrapper isLoading={isLoading}>
                 <Typography size="xxl" weight="semibold">

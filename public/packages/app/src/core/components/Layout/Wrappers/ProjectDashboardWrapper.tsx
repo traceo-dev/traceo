@@ -1,7 +1,5 @@
 import { useAppDispatch } from "../../../../store";
 import { useProject } from "../../../hooks/useProject";
-import { isEmptyObject } from "../../../utils/object";
-import NotFound from "../Pages/NotFound";
 import { FC, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLive } from "../../../hooks/useLive";
@@ -14,7 +12,7 @@ const ProjectDashboardWrapper: FC = ({ children }) => {
   const live = useLive();
 
   const { id } = useParams();
-  const { hasFetched, permission, project } = useProject();
+  const { isLoading, permission } = useProject();
 
   useEffect(() => {
     dispatch(
@@ -27,10 +25,14 @@ const ProjectDashboardWrapper: FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (hasFetched && !permission) {
-      navigate("/not-found");
-    }
-  }, [hasFetched, permission]);
+    // if (!isLoading && !permission) {
+    //   navigate("/not-found");
+    // }
+  }, [isLoading, permission]);
+  
+  if (isLoading) {
+    return <TraceoLoading />;
+  }
 
   return <div>{children}</div>;
 };

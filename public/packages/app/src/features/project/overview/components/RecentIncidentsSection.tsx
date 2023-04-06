@@ -1,7 +1,6 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { useProject } from "../../../../core/hooks/useProject";
-import { useRequest } from "../../../../core/hooks/useRequest";
 import dateUtils from "../../../../core/utils/date";
 import { RightOutlined } from "@ant-design/icons";
 import {
@@ -13,6 +12,7 @@ import {
 import { Link, Typography, Card, ListCard, Space, List, Tooltip } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
 import { mapHeaderStatusIcon } from "../../incidents/components/utils";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 export const RecentIncidentsSection = () => {
   const { project } = useProject();
@@ -26,7 +26,8 @@ export const RecentIncidentsSection = () => {
     take: 5
   };
 
-  const { data: incidents = [], isLoading } = useRequest<IIncident[]>({
+  const { data: incidents = [], isLoading } = useReactQuery<IIncident[]>({
+    queryKey: ["recent_incidents"],
     url: "/api/incidents",
     params: queryParams
   });

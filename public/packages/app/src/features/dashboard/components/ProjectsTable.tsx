@@ -2,15 +2,12 @@ import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { SortIcons } from "../../../core/components/SortIcons";
 import { useUser } from "../../../core/hooks/useUser";
-import { useAppDispatch } from "../../../store";
-import { loadProjects } from "../state/actions";
 import { ProjectCard } from "./ProjectCard";
 import { EmptyProjectsList } from "./EmptyProjectsList";
-import { StoreState } from "@store/types";
-import { SortOrder, SearchProjectQueryParams } from "@traceo/types";
+import { SortOrder, MemberProject } from "@traceo/types";
 import { InputSearch, Select } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",
@@ -30,30 +27,36 @@ const sortOptions = Object.values(AppsSortBy).map((sort) => ({
 }));
 
 export const ProjectsTable = () => {
-  const dispatch = useAppDispatch();
-  const { projects, hasFetched } = useSelector((state: StoreState) => state.projects);
   const user = useUser();
 
   const [order, setOrder] = useState<SortOrder>("DESC");
   const [search, setSearch] = useState<string>("");
   const [sortBy, setSortBy] = useState<AppsSortBy>(AppsSortBy.LAST_ERROR);
 
-  const fetchApplications = () => {
-    const queryParams: SearchProjectQueryParams = {
-      order,
-      sortBy,
-      search: search,
-      userId: user?.id
-    };
-    dispatch(loadProjects(queryParams));
-  };
+  const {
+    data: projects = [],
+    isLoading,
+    isRefetching,
+    refetch
+  } = useReactQuery<MemberProject[]>({
+    queryKey: ["projects"],
+    url: "/api/member/projects",
+    params: { order, sortBy, search: search, userId: user.id }
+  });
 
-  useEffect(() => fetchApplications(), [order, sortBy, search]);
+  useEffect(() => {
+    refetch();
+  }, [order, sortBy, search]);
 
   return (
     <div>
       <SearchWrapper>
-        <InputSearch placeholder="Search by name" value={search} onChange={setSearch} />
+        <InputSearch
+          placeholder="Search by name"
+          value={search}
+          onChange={setSearch}
+          loading={isRefetching}
+        />
         <Select
           width={150}
           options={sortOptions}
@@ -64,7 +67,7 @@ export const ProjectsTable = () => {
         <SortIcons order={order} setOrder={setOrder} />
       </SearchWrapper>
       <ConditionalWrapper
-        isLoading={!hasFetched}
+        isLoading={isLoading}
         isEmpty={projects?.length === 0}
         emptyView={<EmptyProjectsList constraints={search} />}
       >

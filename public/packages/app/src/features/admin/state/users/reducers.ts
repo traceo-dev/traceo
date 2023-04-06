@@ -1,40 +1,30 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IUser } from "@traceo/types";
 
-export interface UsersState {
-  users: IUser[];
+interface State {
   user: IUser;
-  hasFetched: boolean;
+  isLoading: boolean;
 }
 
 const initialState = {
-  users: [],
   user: {} as IUser,
-  hasFetched: false
+  isLoading: false
 };
 
-const userSlice = createSlice({
+const slice = createSlice({
   name: "users",
   initialState: initialState,
   reducers: {
-    usersLoaded: (state, action: PayloadAction<IUser[]>): UsersState => {
-      return { ...state, hasFetched: true, users: action.payload };
-    },
-    userLoaded: (state, action: PayloadAction<IUser>): UsersState => {
-      return { ...state, hasFetched: true, user: action.payload };
-    },
-    userFetchedAction: (state, action: PayloadAction<boolean>): UsersState => {
-      return {
-        ...state,
-        hasFetched: action.payload
-      };
+    beginUserFetch: (state): State => ({ ...state, isLoading: true }),
+    setUser: (state, action: PayloadAction<IUser>): State => {
+      return { ...state, isLoading: false, user: action.payload };
     }
   }
 });
 
-export const { usersLoaded, userLoaded, userFetchedAction } = userSlice.actions;
-export const userReducer = userSlice.reducer;
+export const { setUser, beginUserFetch } = slice.actions;
+export const reducer = slice.reducer;
 
 export default {
-  users: userReducer
+  adminUser: reducer
 };

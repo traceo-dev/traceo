@@ -1,14 +1,14 @@
 import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { useAppDispatch } from "../../../../store";
-import { updateUser } from "../../state/users/actions";
 import { StoreState } from "@store/types";
 import { Card, Select, FieldLabel } from "@traceo/ui";
 import { useSelector } from "react-redux";
+import { updateUser } from "../../state/users/actions";
 
 export const UserPermissions = () => {
   const dispatch = useAppDispatch();
-  const { user } = useSelector((state: StoreState) => state.users);
+  const { user } = useSelector((state: StoreState) => state.adminUser);
 
   const isCoreAdmin = user.email === ADMIN_EMAIL;
 

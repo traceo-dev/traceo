@@ -1,33 +1,29 @@
 import { Page } from "../../../core/components/Page";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { SortIcons } from "../../../core/components/SortIcons";
-import { ApiQueryParams } from "../../../core/lib/api";
 import { localStorageService } from "../../../core/lib/localStorage";
 import { LocalStorage } from "../../../core/lib/localStorage/types";
 import { useAppDispatch } from "../../../store";
 import { IncidentsTable } from "./components/IncidentsTable";
 import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
-import { loadIncidents } from "./state/actions";
-import { StoreState } from "@store/types";
 import {
   IncidentSortBy,
   IncidentStatusSearch,
   SortOrder,
-  INCIDENT_PLOT_TYPE
+  INCIDENT_PLOT_TYPE,
+  IIncident
 } from "@traceo/types";
 import { InputSearch, Select, Card, RadioButtonGroup } from "@traceo/ui";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { AlertOutlined } from "@ant-design/icons";
 import { resetIncidentState } from "./state/slices/incident.slice";
-import { resetEventsState } from "./state/slices/events.slice";
 import { resetGroupedEvents } from "./state/slices/grouped-events.slice";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 export const IncidentsListPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const { incidents, isLoading } = useSelector((state: StoreState) => state.incidents);
 
   const [search, setSearch] = useState<string>(null);
   const [order, setOrder] = useState<SortOrder>("DESC");
@@ -37,22 +33,25 @@ export const IncidentsListPage = () => {
   const plot = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
   const [plotType, setPlotType] = useState<INCIDENT_PLOT_TYPE>(plot);
 
-  const queryParams: ApiQueryParams = {
-    id,
-    search: search ?? null,
-    order,
-    sortBy,
-    status
-  };
+  const {
+    data: incidents,
+    isLoading,
+    isRefetching,
+    refetch
+  } = useReactQuery<IIncident[]>({
+    queryKey: ["incidents"],
+    url: "/api/incidents",
+    params: { id, search: search ?? null, order, sortBy, status }
+  });
 
   useEffect(() => {
+    // cleanning incident store
     dispatch(resetIncidentState());
-    dispatch(resetEventsState());
     dispatch(resetGroupedEvents());
   }, []);
 
   useEffect(() => {
-    dispatch(loadIncidents(queryParams));
+    refetch();
   }, [order, sortBy, status, search]);
 
   const onChangePlotType = (type: INCIDENT_PLOT_TYPE) => {
@@ -77,6 +76,7 @@ export const IncidentsListPage = () => {
               placeholder="Search incidents by type, message, status or assigned user"
               value={search}
               onKeyDown={onKeyDown}
+              loading={isRefetching}
             />
             <Select
               placeholder="Select status"

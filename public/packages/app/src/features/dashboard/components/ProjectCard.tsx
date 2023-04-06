@@ -2,7 +2,6 @@ import dateUtils from "../../../core/utils/date";
 import { MemberProject } from "@traceo/types";
 import { Typography, Avatar } from "@traceo/ui";
 import { FC } from "react";
-import IncidentListOverviewChart from "../../../core/components/Charts/Incidents/IncidentListOverviewChart";
 
 interface Props {
   project: MemberProject;
@@ -15,7 +14,7 @@ export const ProjectCard: FC<Props> = ({ project }) => {
   return (
     <div
       onClick={() => (window.location.href = `/project/${project.projectId}/overview`)}
-      className="md:col-span-2 lg:col-span-4 flex flex-col p-5 m-2 bg-secondary rounded-md cursor-pointer min-h-[190px]"
+      className="md:col-span-2 lg:col-span-4 flex flex-col p-5 m-2 bg-secondary rounded-md cursor-pointer hover:bg-light-secondary"
     >
       <div className="flex flex-row items-center">
         <Avatar alt={project.name} src={project?.gravatar} />
@@ -25,10 +24,6 @@ export const ProjectCard: FC<Props> = ({ project }) => {
           </Typography>
           <span className="text-xs text-primary">{lastEventAt}</span>
         </div>
-      </div>
-
-      <div className="pt-9">
-        <IncidentListOverviewChart id={project.projectId} />
       </div>
     </div>
   );

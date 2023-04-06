@@ -15,14 +15,15 @@ import { buildHeaderItems } from "./utils";
 import styled from "styled-components";
 import { useAppDispatch } from "../../../../store/index";
 import { useEffect } from "react";
-import { loadProjects } from "src/features/dashboard/state/actions";
-import { useSelector } from "react-redux";
-import { StoreState } from "../../../../store/types";
 import { logout } from "src/core/utils/logout";
 import { TraceoLogo } from "../../Icons/TraceoLogo";
 import { MenuRoute } from "src/core/types/navigation";
 import ServerPermissions from "../../ServerPermissions";
 import { GH_REPO_LINK } from "src/core/utils/constants";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { MemberProject } from "@traceo/types";
+import { useUser } from "src/core/hooks/useUser";
+import { useNavigate } from "react-router-dom";
 
 const createNewOptions: MenuRoute[] = [
   {
@@ -37,17 +38,20 @@ const createNewOptions: MenuRoute[] = [
   }
 ];
 export const Header = () => {
-  const { project } = useProject();
-  const { projects, hasFetched } = useSelector((state: StoreState) => state.projects);
-  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    dispatch(loadProjects());
-  }, []);
+  const { project } = useProject();
+  const { id } = useUser();
 
   const isProjectDashboard = window.location.pathname.split("/").includes("project");
 
-  const projectSwitcherContent = !hasFetched ? (
+  const { data: projects = [], isLoading } = useReactQuery<MemberProject[]>({
+    queryKey: ["projects"],
+    url: "/api/member/projects",
+    params: { userId: id }
+  });
+
+  const projectSwitcherContent = isLoading ? (
     <div className="min-w-[100px] min-h-[100px] text-center">
       <LoadingOutlined />
     </div>
@@ -93,13 +97,16 @@ export const Header = () => {
         <div className="flex flex-row items-center gap-x-5">
           <div className="flex flex-row items-center gap-x-2">
             {!isProjectDashboard ? (
-              <>
+              <div
+                className="flex flex-row gap-x-3 cursor-pointer items-center"
+                onClick={() => navigate("/dashboard/projects")}
+              >
                 <TraceoLogo size="small" />
                 <span className="text-sm font-semibold">Traceo</span>
-              </>
+              </div>
             ) : (
               <>
-                {!hasFetched ? (
+                {isLoading ? (
                   <LoadingOutlined />
                 ) : (
                   <>

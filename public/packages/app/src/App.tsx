@@ -15,6 +15,17 @@ import { PersistGate } from "redux-persist/integration/react";
 import { LiveContextProvider } from "./core/contexts/LiveContextProvider";
 import Header from "./core/components/Layout/Header";
 import { TraceoAppWrapper } from "./core/components/Layout/Wrappers/TraceoAppWrapper";
+import { QueryClient, QueryClientProvider, QueryCache } from "react-query";
+
+const queryCache = new QueryCache();
+const queryClient = new QueryClient({
+  queryCache,
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false
+    }
+  }
+});
 
 export const App = () => {
   const renderRoute = (route: RouteDescriptor) => {
@@ -69,11 +80,13 @@ export const App = () => {
           <BrowserRouter>
             <ConfigsContextProvider>
               <LiveContextProvider>
-                <div className="flex flex-col">
-                  {renderHeader()}
-                  <NotificationContainer />
-                  <TraceoAppWrapper>{renderRoutes()}</TraceoAppWrapper>
-                </div>
+                <QueryClientProvider client={queryClient}>
+                  <div className="flex flex-col">
+                    {renderHeader()}
+                    <NotificationContainer />
+                    <TraceoAppWrapper>{renderRoutes()}</TraceoAppWrapper>
+                  </div>
+                </QueryClientProvider>
               </LiveContextProvider>
             </ConfigsContextProvider>
           </BrowserRouter>

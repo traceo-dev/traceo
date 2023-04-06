@@ -2,7 +2,6 @@ import { ColumnSection } from "../../../../core/components/ColumnSection";
 import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import dateUtils from "../../../../core/utils/date";
-import { LeftOutlined } from "@ant-design/icons";
 import { ApiResponse, IProject } from "@traceo/types";
 import { Space, Button, Card, FieldLabel, Input } from "@traceo/ui";
 import { useState } from "react";
@@ -46,16 +45,7 @@ export const AdminProjectInformation = ({ project }: Props) => {
   };
 
   return (
-    <Card
-      icon={
-        <LeftOutlined
-          onClick={() => navigate(-1)}
-          className="px-2 py-1 hover:bg-secondary cursor-pointer duration-200 rounded"
-        />
-      }
-      title="Basic informations"
-      extra={renderButtons()}
-    >
+    <Card title="Basic informations" extra={renderButtons()}>
       <ColumnSection subtitle="Basic information about the project. To edit his details, go to his settings on the dashboard.">
         <div className="flex flex-col w-2/3">
           <FieldLabel label="ID">

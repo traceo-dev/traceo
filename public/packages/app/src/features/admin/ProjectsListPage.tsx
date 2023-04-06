@@ -1,32 +1,28 @@
 import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 import { DataNotFound } from "../../core/components/DataNotFound";
 import { SearchWrapper } from "../../core/components/SearchWrapper";
-import { ApiQueryParams } from "../../core/lib/api";
-import { useAppDispatch } from "../../store";
 import { AdminProjectsTable } from "./components/ApplicationManagement/AdminProjectsTable";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
-import { loadInstanceProjects } from "./state/projects/actions";
 import { PlusOutlined } from "@ant-design/icons";
-import { StoreState } from "@store/types";
 import { InputSearch, Button, Card } from "@traceo/ui";
-import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useReactQuery } from "../../core/hooks/useReactQuery";
+import { IProject } from "@traceo/types";
 
-export const AdminProjectsListPage = () => {
-  const dispatch = useAppDispatch();
+export const ProjectsListPage = () => {
   const navigate = useNavigate();
-  const { projects, hasFetched } = useSelector((state: StoreState) => state.instanceApplications);
   const [search, setSearch] = useState<string>(null);
-  const queryParams: ApiQueryParams = { search, order: "DESC", sortBy: "createdAt" };
 
-  useEffect(() => {
-    fetchApplications();
-  }, [search]);
-
-  const fetchApplications = () => {
-    dispatch(loadInstanceProjects(queryParams));
-  };
+  const {
+    data: projects = [],
+    isLoading,
+    isRefetching
+  } = useReactQuery<IProject[]>({
+    queryKey: ["projects", search],
+    url: "/api/projects/search",
+    params: { search, order: "DESC", sortBy: "createdAt" }
+  });
 
   const onNewApp = () => navigate("/dashboard/new-project");
 
@@ -45,18 +41,19 @@ export const AdminProjectsListPage = () => {
             placeholder="Search project by name"
             value={search}
             onChange={setSearch}
+            loading={isRefetching}
           />
         </SearchWrapper>
         <ConditionalWrapper
           isEmpty={projects?.length === 0}
-          isLoading={!hasFetched}
+          isLoading={isLoading}
           emptyView={<DataNotFound label="Applications not found. Create first one!" />}
         >
-          <AdminProjectsTable projects={projects} hasFetched={hasFetched} />
+          <AdminProjectsTable projects={projects} isLoading={isLoading} />
         </ConditionalWrapper>
       </Card>
     </DashboardPageWrapper>
   );
 };
 
-export default AdminProjectsListPage;
+export default ProjectsListPage;

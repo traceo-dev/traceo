@@ -14,8 +14,8 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
-import { useRequest } from "src/core/hooks/useRequest";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
@@ -35,25 +35,21 @@ export const MetricPreviewPage = () => {
     dispatch(loadMetric(payload));
   }, [ranges]);
 
-  const fields = metric?.options?.series.map(({ field }) => field);
+  const fields = metric?.options?.series.map(({ field }) => field) || [""];
   const {
     data: datasource,
-    execute,
-    isLoading
-  } = useRequest<any>({
+    refetch,
+    isFetching
+  } = useReactQuery<any>({
+    queryKey: [`metrc_${id}`],
     url: `/api/metrics/${id}/datasource/table`,
-    params: {
-      fields,
-      from: ranges[0],
-      to: ranges[1]
-    },
-    executeOnInit: false
+    params: { fields, from: ranges[0], to: ranges[1] }
   });
 
   useEffect(() => {
     if (metric) {
       setOptions(metric.options);
-      execute();
+      refetch();
     }
   }, [metric]);
 
@@ -88,7 +84,7 @@ export const MetricPreviewPage = () => {
             <MetricTableWrapper
               metric={metric?.options}
               metricData={datasource}
-              isLoading={isLoading}
+              isLoading={isFetching}
             />
           </div>
           {isCustomizeMode && <MetricCustomizeForm setOptions={setOptions} options={options} />}

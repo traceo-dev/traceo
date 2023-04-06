@@ -33,8 +33,8 @@ export const VitalsGraphBar = ({ name, performances }: Props) => {
     <div className="flex flex-row gap-x-5 justify-end">
       {p75 && <span className="whitespace-nowrap font-semibold">p75 ({p75})</span>}
       {healthPercentage ? (
-        Object.entries(healthPercentage).map(([key, value]) => (
-          <div className="flex flex-row gap-x-2 items-center" style={{ color: healthColor[key] }}>
+        Object.entries(healthPercentage).map(([key, value], index) => (
+          <div key={index} className="flex flex-row gap-x-2 items-center" style={{ color: healthColor[key] }}>
             {mapHealthToIcon[key]}
             <span className="whitespace-nowrap font-semibold">{value}%</span>
           </div>

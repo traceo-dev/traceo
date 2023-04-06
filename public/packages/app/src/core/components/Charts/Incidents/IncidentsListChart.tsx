@@ -7,8 +7,8 @@ import { BaseChart } from "../BaseChart";
 import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
-import { useRequest } from "src/core/hooks/useRequest";
 import { LoadingOutlined } from "@ant-design/icons";
+import { useReactQuery } from "../../../hooks/useReactQuery";
 
 interface Props {
   id: string;
@@ -19,17 +19,10 @@ const PLOT_COLOR = "#04785A";
 const IncidentsListChart: FC<Props> = ({ id }) => {
   const plotType = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
 
-  const {
-    data: groupedEvents = [],
-    isLoading,
-    execute
-  } = useRequest<IEvent[]>({
+  const { data: groupedEvents = [], isLoading } = useReactQuery<IEvent[]>({
+    queryKey: [`grouped_events_${id}`],
     url: `/api/event/incident/${id}/grouped`
   });
-
-  useEffect(() => {
-    execute();
-  }, [id]);
 
   if (isLoading) {
     return (
@@ -41,7 +34,7 @@ const IncidentsListChart: FC<Props> = ({ id }) => {
 
   return (
     <BaseChart
-      height="50px"
+      height="40px"
       dataset={{
         source: groupedEvents || []
       }}

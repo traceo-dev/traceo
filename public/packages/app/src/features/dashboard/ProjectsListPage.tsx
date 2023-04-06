@@ -8,7 +8,6 @@ import { Card } from "@traceo/ui";
 import { useEffect } from "react";
 import { useLive } from "../../core/hooks/useLive";
 import { resetIncidentState } from "../project/incidents/state/slices/incident.slice";
-import { resetIncidentsState } from "../project/incidents/state/slices/incidents.slice";
 
 export const ProjectsListPage = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +19,6 @@ export const ProjectsListPage = () => {
 
     // Cleaning project stores
     dispatch(resetIncidentState());
-    dispatch(resetIncidentsState());
     dispatch(resetProjectState());
 
     // Reset socket connections after exiting the project

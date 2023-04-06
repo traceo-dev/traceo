@@ -27,20 +27,20 @@ interface Props {
 export const VitalsHealthBar = ({ list }: Props) => {
   const { name } = useParams();
 
-  if (!list || list.length === 0) {
-    return null;
-  }
-
   const health = useMemo(() => {
     const type = name as VitalsEnum;
     const barHealth = calculateHealthPercentage(type, list);
     return barHealth;
   }, [list]);
 
+  if (!list || list.length === 0) {
+    return null;
+  }
+
   return (
     <VitalBar>
-      {Object.entries(health).map(([key, value]) => (
-        <BarPart width={value} color={healthColor[key]} />
+      {Object.entries(health).map(([key, value], index) => (
+        <BarPart key={index} width={value} color={healthColor[key]} />
       ))}
     </VitalBar>
   );

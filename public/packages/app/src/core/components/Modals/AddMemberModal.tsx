@@ -1,17 +1,15 @@
-import { loadUsers } from "../../../features/admin/state/users/actions";
+// import { loadUsers } from "../../../features/admin/state/users/actions";
 import { useAppDispatch } from "../../../store";
 import { useProject } from "../../hooks/useProject";
 import api from "../../lib/api";
 import { StoreState } from "@store/types";
-import { MemberRole } from "@traceo/types";
+import { IUser, MemberRole } from "@traceo/types";
 import { Select, FormItem, Button, ButtonContainer, Space, Avatar, Modal } from "@traceo/ui";
 import { useEffect, useState, FormEvent } from "react";
 import { useSelector } from "react-redux";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 export const AddMemberModal = ({ isOpen, onCancel }) => {
-  const dispatch = useAppDispatch();
-
-  const { users, hasFetched } = useSelector((state: StoreState) => state.users);
   const { project } = useProject();
   const { members } = useSelector((state: StoreState) => state.members);
 
@@ -20,9 +18,10 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    dispatch(loadUsers());
-  }, []);
+  const { data: users = [], isLoading } = useReactQuery<IUser[]>({
+    queryKey: ["users"],
+    url: "/api/users/search"
+  });
 
   const onFinish = async (e: FormEvent) => {
     e.preventDefault();
@@ -72,7 +71,7 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
               <Select
                 value={userId}
                 onChange={(opt) => onChangeUser(opt?.value)}
-                isLoading={!hasFetched}
+                isLoading={isLoading}
                 options={usersOptions}
               />
             </FormItem>

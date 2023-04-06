@@ -1,10 +1,10 @@
-import { useRequest } from "../../hooks/useRequest";
 import api from "../../lib/api";
 import { StoreState } from "@store/types";
 import { IProject, MemberRole } from "@traceo/types";
 import { Select, FormItem, ButtonContainer, Button, Space, Avatar, Modal } from "@traceo/ui";
 import { FC, useState, FormEvent } from "react";
 import { useSelector } from "react-redux";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
 
 const roleOptions = Object.values(MemberRole).map((role) => ({
   label: role,
@@ -17,18 +17,16 @@ interface Props {
   postExecute: () => void;
 }
 export const AddToProjectModal: FC<Props> = ({ isOpen, onCancel, postExecute }) => {
-  const { user } = useSelector((state: StoreState) => state.users);
+  const { user } = useSelector((state: StoreState) => state.adminUser);
   const [project, setApplication] = useState<string>(null);
   const [role, setRole] = useState<MemberRole>(MemberRole.VIEWER);
 
   const [loading, setLoading] = useState<boolean>(false);
 
-  const { data: projects = [], isLoading } = useRequest<IProject[]>({
+  const { data: projects = [], isLoading } = useReactQuery<IProject[]>({
+    queryKey: [`projects`],
     url: "/api/projects/search",
-    params: {
-      order: "DESC",
-      sortBy: "createdAt"
-    }
+    params: { order: "DESC", sortBy: "createdAt" }
   });
 
   const onFinish = async (e: FormEvent) => {
