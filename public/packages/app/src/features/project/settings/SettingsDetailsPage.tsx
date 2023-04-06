@@ -43,7 +43,7 @@ export const SettingsDetailsPage = () => {
   const remove = async () => {
     setLoadingDelete(true);
     await api
-      .delete<ApiResponse<unknown>>(`/api/projects/${project.id}`)
+      .delete<ApiResponse<unknown>>(`/api/project/${project.id}`)
       .then((response) => {
         if (response.status === "success") {
           navigate("/dashboard/projects");

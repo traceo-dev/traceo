@@ -2,6 +2,7 @@ import dateUtils from "../../../core/utils/date";
 import { MemberProject } from "@traceo/types";
 import { Typography, Avatar } from "@traceo/ui";
 import { FC } from "react";
+import IncidentListOverviewChart from "src/core/components/Charts/Incidents/IncidentListOverviewChart";
 
 interface Props {
   project: MemberProject;

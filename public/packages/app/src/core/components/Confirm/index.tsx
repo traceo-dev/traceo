@@ -10,6 +10,7 @@ import {
   Modal
 } from "@traceo/ui";
 import { FC, useState } from "react";
+import { useUser } from "src/core/hooks/useUser";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;
@@ -28,6 +29,7 @@ export const Confirm: FC<Props> = ({
   onOk,
   auth = false
 }) => {
+  const user = useUser();
   const [isOpen, setOpen] = useState<boolean>(false);
   const [isError, setError] = useState<boolean>(false);
   const [password, setPassword] = useState<string>(null);
@@ -35,7 +37,8 @@ export const Confirm: FC<Props> = ({
   const confirm = async () => {
     if (auth) {
       const props = {
-        password
+        password,
+        username: user.username
       };
 
       const resp: ApiResponse<CheckCredentialsResponse> = await api.post(

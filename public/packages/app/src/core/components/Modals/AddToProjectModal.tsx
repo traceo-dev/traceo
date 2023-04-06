@@ -56,7 +56,7 @@ export const AddToProjectModal: FC<Props> = ({ isOpen, onCancel, postExecute }) 
     <Modal title="Add to project" open={isOpen} onCancel={onCancel}>
       <Space direction="vertical" className="pt-0 px-4 w-full h-full justify-between text-center">
         <form onSubmit={onFinish} id="add-to-project-form">
-          <FormItem label="project">
+          <FormItem label="Project">
             <Select
               isLoading={isLoading}
               value={project}

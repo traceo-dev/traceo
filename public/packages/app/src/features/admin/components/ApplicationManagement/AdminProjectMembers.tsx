@@ -13,13 +13,13 @@ export const AdminProjectMembers = () => {
     isLoading,
     refetch
   } = useReactQuery<ProjectMember[]>({
-    queryKey: ["members"],
+    queryKey: [`members_${id}`],
     url: "/api/member/search",
     params: { id }
   });
 
   return (
-    <Card title="project members">
+    <Card title="Project members">
       <ConditionalWrapper
         isEmpty={members?.length === 0}
         emptyView={

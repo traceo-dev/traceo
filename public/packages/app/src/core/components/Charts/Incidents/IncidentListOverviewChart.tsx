@@ -13,7 +13,7 @@ interface Props {
 const PLOT_COLOR = "#04785A";
 const IncidentListOverviewChart: FC<Props> = ({ id }) => {
   const { data, isLoading, refetch } = useReactQuery({
-    queryKey: ["grouped_events"],
+    queryKey: [`grouped_events_${id}`],
     url: `/api/event/project/${id}/grouped`
   });
 

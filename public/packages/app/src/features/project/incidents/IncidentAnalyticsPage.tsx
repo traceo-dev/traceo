@@ -15,6 +15,7 @@ export const IncidentAnalyticsPage = () => {
   const { iid } = useParams();
   const { groupedEvents } = useIncidentSelector();
 
+  const from = dayjs().startOf("d").local().unix();
   const {
     data: events = [],
     isLoading,
@@ -22,7 +23,7 @@ export const IncidentAnalyticsPage = () => {
   } = useReactQuery({
     queryKey: ["today_events"],
     url: `/api/event/incident/${iid}/today`,
-    params: { from: dayjs().startOf("d").local().unix() }
+    params: { from }
   });
 
   const dataSource = useMemo(() => {

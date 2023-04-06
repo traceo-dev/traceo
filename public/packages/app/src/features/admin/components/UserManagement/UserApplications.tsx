@@ -22,7 +22,7 @@ export const UserApplications = () => {
     refetch,
     isLoading
   } = useReactQuery<MemberProject[]>({
-    queryKey: ["user_projects"],
+    queryKey: [`user_projects_${user.id}`],
     url: "/api/member/projects",
     params: { userId: user.id }
   });
