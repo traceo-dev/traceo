@@ -21,7 +21,8 @@ export class EventQueryService {
     public async getEventsForIncident(incidentId: string): Promise<ApiResponse<IEvent[]>> {
         try {
             const events = await this.entityManger.query(`SELECT * FROM event WHERE incident_id = '${incidentId}'`);
-            return new ApiResponse("success", undefined, events);
+            const response = events.map((event) => ({ ...event, details: JSON.parse(event.details) }))
+            return new ApiResponse("success", undefined, response);
         } catch (error) {
             this.logger.error(`[${this.getEventsForIncident.name}] Caused by: ${error}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR);
@@ -75,6 +76,23 @@ export class EventQueryService {
             return new ApiResponse("success", undefined, response);
         } catch (error) {
             this.logger.error(`[${this.getEventsForIncident.name}] Caused by: ${error}`);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public async getTodaysEventsForIncident(id: string, query: { from: number }): Promise<ApiResponse<IEvent[]>> {
+        try {
+            const events: IEvent[] = await this.entityManger.query(`
+                SELECT id, date 
+                FROM event 
+                WHERE incident_id = '${id}'
+                AND date >= ${query.from}
+                ORDER BY date DESC
+            `);
+
+            return new ApiResponse("success", undefined, events);
+        } catch (error) {
+            this.logger.error(`[${this.getTodaysEventsForIncident.name}] Caused by: ${error}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR);
         }
     }
