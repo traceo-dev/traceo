@@ -108,8 +108,6 @@ export class CaptureService {
             return null;
         }
 
-        console.log(project);
-
         const id = project[0].id;
         const is_integrated = project[0].is_integrated;
         if (!is_integrated) {
