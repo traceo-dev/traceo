@@ -6,7 +6,7 @@ import { InputSearch, Button, Card } from "@traceo/ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { IUser } from "@traceo/types";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../core/hooks/useReactQuery";
 
 const UsersListPage = () => {
   const navigate = useNavigate();

@@ -1,11 +1,7 @@
 import api from "../api";
 import { ProjectMember, MemberRole } from "@traceo/types";
 
-const onUpdateRole = async (
-  member: ProjectMember,
-  role: MemberRole,
-  postExecute: () => void
-) => {
+const onUpdateRole = async (member: ProjectMember, role: MemberRole, postExecute: () => void) => {
   await api
     .patch("/api/member", {
       memberId: member.id,

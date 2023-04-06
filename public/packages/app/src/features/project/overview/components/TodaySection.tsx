@@ -8,7 +8,7 @@ import { Typography, Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
 import IncidentsTodayChart from "../../../../core/components/Charts/Incidents/IncidentsTodayChart";
 import { useMemo } from "react";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 
 export const TodaySection = () => {
   const { id } = useParams();

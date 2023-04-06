@@ -15,7 +15,7 @@ import { useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../core/hooks/useReactQuery";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();

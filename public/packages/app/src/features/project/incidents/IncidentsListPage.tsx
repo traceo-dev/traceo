@@ -19,7 +19,7 @@ import { useParams } from "react-router-dom";
 import { AlertOutlined } from "@ant-design/icons";
 import { resetIncidentState } from "./state/slices/incident.slice";
 import { resetGroupedEvents } from "./state/slices/grouped-events.slice";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../core/hooks/useReactQuery";
 
 export const IncidentsListPage = () => {
   const { id } = useParams();

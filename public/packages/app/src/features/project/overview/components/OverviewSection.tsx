@@ -5,7 +5,7 @@ import { ErrorDetails, PlotData } from "@traceo/types";
 import { Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
 import IncidentsOverviewChart from "../../../../core/components/Charts/Incidents/IncidentsOverviewChart";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 
 export interface TotalOverviewType {
   errors: ErrorDetails[];

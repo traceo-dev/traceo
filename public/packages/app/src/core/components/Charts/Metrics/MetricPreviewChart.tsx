@@ -17,18 +17,14 @@ interface Props {
   setRanges: (val: [number, number]) => void;
   activeZoomSelect?: boolean;
 }
-const MetricPreviewChart: FC<Props> = ({
-  options,
-  activeZoomSelect = false,
-  setRanges
-}) => {
+const MetricPreviewChart: FC<Props> = ({ options, activeZoomSelect = false, setRanges }) => {
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
 
   const showTooltip = options?.config.tooltip.show;
   const showLegend = options?.config.legend.show;
   const legendOrient = options?.config.legend.orient;
   const unit = options?.unit;
-  
+
   const echartOptions = useMemo(() => {
     const seriesOptions = buildSeries(
       options?.series || metric.options.series,
@@ -79,7 +75,9 @@ const MetricPreviewChart: FC<Props> = ({
 
   return (
     <ConditionalWrapper
-      isEmpty={!metric?.datasource || !metric.datasource?.time || metric?.datasource.time.length === 0}
+      isEmpty={
+        !metric?.datasource || !metric.datasource?.time || metric?.datasource.time.length === 0
+      }
       isLoading={!hasFetchedMetric || !metric || !options}
       emptyView={<DataNotFound />}
     >

@@ -19,7 +19,7 @@ const incidentReducers = {
   ...commentsReducer,
   ...incidentReducer,
   ...groupedEventsReducer
-}
+};
 
 const adminReducers = {
   ...adminUserReducer,

@@ -3,7 +3,7 @@ import { Card, Table, TableColumn } from "@traceo/ui";
 import dateUtils from "../../../core/utils/date";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { useIncidentSelector } from "../../../core/hooks/useIncidentSelector";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../core/hooks/useReactQuery";
 
 const IncidentEventsPage = () => {
   const { incident } = useIncidentSelector();

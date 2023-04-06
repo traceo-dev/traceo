@@ -7,7 +7,7 @@ import IncidentsTodayChart from "../../../core/components/Charts/Incidents/Incid
 import IncidentsOverviewChart from "../../../core/components/Charts/Incidents/IncidentsOverviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useIncidentSelector } from "../../../core/hooks/useIncidentSelector";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 

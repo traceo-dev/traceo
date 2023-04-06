@@ -1,5 +1,5 @@
 import { IProject, BROWSER_SDK } from "@traceo/types";
-import { MenuRoute } from "src/core/types/navigation";
+import { MenuRoute } from "../../../../core/types/navigation";
 
 export const buildHeaderItems = (project: IProject): MenuRoute[] => {
   const isProject = window.location.pathname.split("/").includes("project");

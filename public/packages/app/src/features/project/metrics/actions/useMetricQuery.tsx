@@ -1,8 +1,8 @@
 import { IMetric, MetricResponseType } from "@traceo/types";
 import { useEffect } from "react";
-import { useProject } from "src/core/hooks/useProject";
+import { useProject } from "../../../../core/hooks/useProject";
 import { useQuery } from "react-query";
-import api from "src/core/lib/api";
+import api from "../../../../core/lib/api";
 
 interface Props {
   metricId: string;

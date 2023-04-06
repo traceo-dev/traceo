@@ -9,10 +9,7 @@ type MetricsQuery = {
 export const loadMetrics = (query?: MetricsQuery): ThunkResult<void> => {
   return async (dispatch, getStore) => {
     const project = getStore().project.project;
-    const { data } = await api.get<ApiResponse<IMetric[]>>(
-      `/api/metrics/${project.id}`,
-      query
-    );
+    const { data } = await api.get<ApiResponse<IMetric[]>>(`/api/metrics/${project.id}`, query);
     dispatch(metricsLoaded(data));
   };
 };

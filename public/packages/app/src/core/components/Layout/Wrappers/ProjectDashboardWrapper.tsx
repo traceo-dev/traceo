@@ -29,7 +29,7 @@ const ProjectDashboardWrapper: FC = ({ children }) => {
     //   navigate("/not-found");
     // }
   }, [isLoading, permission]);
-  
+
   if (isLoading) {
     return <TraceoLoading />;
   }

@@ -12,7 +12,7 @@ import {
 import { Link, Typography, Card, ListCard, Space, List, Tooltip } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
 import { mapHeaderStatusIcon } from "../../incidents/components/utils";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 
 export const RecentIncidentsSection = () => {
   const { project } = useProject();

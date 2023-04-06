@@ -1,10 +1,10 @@
-import api, { ApiQueryParams } from "../../../../core/lib/api";
+import api from "../../../../core/lib/api";
 import { ThunkResult } from "@store/types";
-import { ApiResponse, IComment, IEvent, IIncident, PlotData } from "@traceo/types";
+import { ApiResponse, IComment, IIncident, PlotData } from "@traceo/types";
 import { beginCommentsFetch, setIncidentComments } from "./slices/comments.slice";
 import { beginIncidentFetch, endIncidentFetch, setIncident } from "./slices/incident.slice";
 import { beginGroupedEventsFetch, setGroupedEvents } from "./slices/grouped-events.slice";
-import { isEmptyObject } from "src/core/utils/object";
+import { isEmptyObject } from "../../../../core/utils/object";
 
 export const loadIncident = (id: string): ThunkResult<void> => {
   return async (dispatch, getStore) => {
@@ -61,7 +61,9 @@ export const loadGroupedEvents = (): ThunkResult<void> => {
       dispatch(beginGroupedEventsFetch());
     }
 
-    const { data } = await api.get<ApiResponse<PlotData[]>>(`/api/event/incident/${incident.id}/grouped`);
+    const { data } = await api.get<ApiResponse<PlotData[]>>(
+      `/api/event/incident/${incident.id}/grouped`
+    );
     dispatch(setGroupedEvents(data));
-  }
-}
+  };
+};

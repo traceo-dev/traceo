@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { HrefIcon } from "../../../../core/components/HrefIcon";
-import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
+import { PreviewPageHeader } from "../../../../core/components/PreviewPageHeader";
 import { Page } from "../../../../core/components/Page";
 import { SearchWrapper } from "../../../../core/components/SearchWrapper";
 import { useTimeRange } from "../../../../core/hooks/useTimeRange";
@@ -16,7 +16,7 @@ import { renderChart } from "./VitalsChart";
 import { VitalsGraphBar } from "./VitalsGraphBar";
 import { VitalsHealthBar } from "./VitalsHealthBar";
 import { VitalsRawData } from "./VitalsRawData";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 
 const VitalsPreviewPage = () => {
   const { id, name } = useParams();

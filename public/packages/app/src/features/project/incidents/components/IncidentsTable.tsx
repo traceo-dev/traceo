@@ -18,7 +18,7 @@ export const IncidentsTable: FC<Props> = ({ incidents, isLoading }) => {
   const navigate = useNavigate();
   const { project } = useProject();
 
-  const handleOnRowClick = (incident: IIncident) => {  
+  const handleOnRowClick = (incident: IIncident) => {
     navigate(`/project/${project.id}/incidents/${incident.id}/details`);
   };
 

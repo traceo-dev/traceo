@@ -8,7 +8,7 @@ import { BaseChart } from "../BaseChart";
 import { BaseXAxis } from "../BaseXAxis";
 import dayjs from "dayjs";
 import { BaseYAxis } from "../BaseYAxis";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 
 interface Props {
   metric: IMetric;

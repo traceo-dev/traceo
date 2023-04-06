@@ -9,7 +9,7 @@ import { ProjectMember, MemberProject, MemberRole } from "@traceo/types";
 import { Button, Card, Space, Table, TableColumn, Avatar, Select } from "@traceo/ui";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 
 export const UserApplications = () => {
   const { user } = useSelector((state: StoreState) => state.adminUser);

@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
-import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
+import { PreviewPageHeader } from "../../../../core/components/PreviewPageHeader";
 
 interface Props {
   currentOptions: DeepPartial<IMetric>;

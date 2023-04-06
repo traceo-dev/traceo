@@ -7,7 +7,7 @@ import { EmptyProjectsList } from "./EmptyProjectsList";
 import { SortOrder, MemberProject } from "@traceo/types";
 import { InputSearch, Select } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../core/hooks/useReactQuery";
 
 export enum AppsSortBy {
   LAST_UPDATE = "updatedAt",

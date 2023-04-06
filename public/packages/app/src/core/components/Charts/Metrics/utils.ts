@@ -1,4 +1,10 @@
-import { DeepPartial, IMetric, IMetricSerie, MetricResponseType, METRIC_UNIT } from "@traceo/types";
+import {
+  DeepPartial,
+  IMetric,
+  IMetricSerie,
+  MetricResponseType,
+  METRIC_UNIT
+} from "@traceo/types";
 import dayjs from "dayjs";
 import {
   EChartsOption,

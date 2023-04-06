@@ -2,7 +2,7 @@ import NotFound from "../core/components/Layout/Pages/NotFound";
 import { RouteDescriptor } from "../core/types/navigation";
 import Login from "../features/auth/login";
 import { lazy } from "react";
-import ProjectDashboardWrapper from "src/core/components/Layout/Wrappers/ProjectDashboardWrapper";
+import ProjectDashboardWrapper from "../core/components/Layout/Wrappers/ProjectDashboardWrapper";
 
 const getPublicRoutes = (): RouteDescriptor[] => {
   return [

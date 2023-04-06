@@ -20,16 +20,25 @@ const projectSlice = createSlice({
     beginProjectFetch: (state): State => ({ ...state, isLoading: true }),
     endProjectFetch: (state): State => ({ ...state, isLoading: false }),
     setProject: (state, action: PayloadAction<IProject>): State => ({
-      ...state, project: action.payload, isLoading: false
+      ...state,
+      project: action.payload,
+      isLoading: false
     }),
     setPermission: (state, action: PayloadAction<MemberRole>): State => ({
-      ...state, permission: action.payload
+      ...state,
+      permission: action.payload
     }),
     resetProjectState: (): State => ({ ...initialState })
   }
 });
 
-export const { setProject, setPermission, resetProjectState, beginProjectFetch, endProjectFetch } = projectSlice.actions;
+export const {
+  setProject,
+  setPermission,
+  resetProjectState,
+  beginProjectFetch,
+  endProjectFetch
+} = projectSlice.actions;
 export const projectReducer = projectSlice.reducer;
 
 export default {

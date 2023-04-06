@@ -4,7 +4,7 @@ import { IProject, MemberRole } from "@traceo/types";
 import { Select, FormItem, ButtonContainer, Button, Space, Avatar, Modal } from "@traceo/ui";
 import { FC, useState, FormEvent } from "react";
 import { useSelector } from "react-redux";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../core/hooks/useReactQuery";
 
 const roleOptions = Object.values(MemberRole).map((role) => ({
   label: role,

@@ -13,16 +13,14 @@ import { useProject } from "../../../hooks/useProject";
 import { HeaderItem } from "./HeaderItem";
 import { buildHeaderItems } from "./utils";
 import styled from "styled-components";
-import { useAppDispatch } from "../../../../store/index";
-import { useEffect } from "react";
-import { logout } from "src/core/utils/logout";
+import { logout } from "../../../../core/utils/logout";
 import { TraceoLogo } from "../../Icons/TraceoLogo";
-import { MenuRoute } from "src/core/types/navigation";
+import { MenuRoute } from "../../../../core/types/navigation";
 import ServerPermissions from "../../ServerPermissions";
-import { GH_REPO_LINK } from "src/core/utils/constants";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { GH_REPO_LINK } from "../../../../core/utils/constants";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { MemberProject } from "@traceo/types";
-import { useUser } from "src/core/hooks/useUser";
+import { useUser } from "../../../../core/hooks/useUser";
 import { useNavigate } from "react-router-dom";
 
 const createNewOptions: MenuRoute[] = [

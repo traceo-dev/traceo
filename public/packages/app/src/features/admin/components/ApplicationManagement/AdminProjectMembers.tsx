@@ -3,7 +3,7 @@ import { ConditionalWrapper } from "../../../../core/components/ConditionLayout"
 import { ProjectMember } from "@traceo/types";
 import { Space, Typography, Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 
 export const AdminProjectMembers = () => {
   const { id } = useParams();

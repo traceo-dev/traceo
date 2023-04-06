@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import { mapIncidentStatus } from "@traceo/types";
 import { mapHeaderStatusIcon } from "./utils";
-import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
+import { PreviewPageHeader } from "../../../../core/components/PreviewPageHeader";
 import { loadIncident } from "../state/actions";
 import { useAppDispatch } from "../../../../store";
 import { useEffect } from "react";
