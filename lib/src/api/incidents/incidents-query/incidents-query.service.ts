@@ -45,7 +45,7 @@ export class IncidentsQueryService extends BaseQueryService<Incident, IncidentQu
   }
 
   public selectedColumns(): string[] {
-    return ["id", "status", "name", "message", "lastEventAt"];
+    return ["name", "message"];
   }
 
   public commonQuery(builder: SelectQueryBuilder<Incident>, query: IncidentQueryDto) {

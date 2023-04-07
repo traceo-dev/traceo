@@ -40,7 +40,7 @@ export class IncidentsController {
     @Query("id") id: string,
     @Query() query: IncidentQueryDto
   ): Promise<ApiResponse<IIncident[]>> {
-    return await this.incidentsQueryService.getApiListDto({
+    return await this.incidentsQueryService.getPaginateApiListDto({
       projectId: id,
       ...query
     });

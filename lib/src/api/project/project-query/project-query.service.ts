@@ -64,7 +64,7 @@ export class ProjectQueryService extends BaseQueryService<Project, BaseDtoQuery>
   }
 
   public selectedColumns(): string[] {
-    return ["id", "name", "gravatar", "lastEventAt", "isIntegrated"];
+    return ["name", "gravatar", "lastEventAt", "isIntegrated"];
   }
 
   public async getProjectLogs(query: LogsQuery): Promise<ApiResponse<ILog[]>> {

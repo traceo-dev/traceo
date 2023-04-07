@@ -10,6 +10,7 @@ import { BaseDtoQuery } from "./base-query.model";
 import { BaseEntity } from "../base.entity";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { InternalServerError } from "../../../common/helpers/errors";
+import { PaginateType } from "@traceo/types";
 
 @Injectable()
 export abstract class BaseQueryService<ENTITY extends BaseEntity, QUERY extends BaseDtoQuery> {
@@ -29,6 +30,25 @@ export abstract class BaseQueryService<ENTITY extends BaseEntity, QUERY extends 
   }
 
   public async getApiListDto(query: QUERY): Promise<ApiResponse<ENTITY[]>> {
+    try {
+      const response = await this.listDto(query);
+      return new ApiResponse("success", undefined, response.result);
+    } catch (error) {
+      throw new InternalServerError(error);
+    }
+  }
+
+  /**
+   * Using in order to return paginated response.
+   * {
+   *    result: [],
+   *    totalCount: number;
+   *    page: number
+   * }
+   * 
+   * Wrapped by ApiResponse.
+   */
+  public async getPaginateApiListDto(query: QUERY): Promise<ApiResponse<PaginateType<ENTITY>>> {
     try {
       const response = await this.listDto(query);
       return new ApiResponse("success", undefined, response);
@@ -63,7 +83,7 @@ export abstract class BaseQueryService<ENTITY extends BaseEntity, QUERY extends 
    */
   public abstract selectedColumns(): string[];
 
-  public async listDto(query: QUERY): Promise<ENTITY[]> {
+  public async listDto(query: QUERY): Promise<PaginateType<ENTITY>> {
     const { sortBy, order, take, page } = query;
 
     const queryBuilder: SelectQueryBuilder<ENTITY> = this.createQueryBuilder(query);
@@ -73,11 +93,16 @@ export abstract class BaseQueryService<ENTITY extends BaseEntity, QUERY extends 
       queryBuilder.orderBy(`${this.builderAlias}.${sortBy}`, order || "DESC", "NULLS LAST");
     }
 
-    queryBuilder.limit(take).skip(page > 0 ? (page - 1) * take : 0);
+    const count = await queryBuilder.getCount();
+    queryBuilder.take(take).skip(page > 0 ? (page - 1) * take : 0);
 
     const { entities } = await queryBuilder.getRawAndEntities();
 
-    return entities;
+    return {
+      totalCount: count,
+      result: entities,
+      page: page
+    };
   }
 
   private addSelectToQueryBuilder(
