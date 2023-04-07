@@ -65,6 +65,10 @@ Metrics are a set of data taken from a given source, correlated with the time of
 
 <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-metrics.PNG">
 
+### ***Performance (v. > 1.0.0)***
+Control the performance of your application by collecting web-vitals data from your browser.
+
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf.PNG">
 # Support
 
 Feel free to create Issues or Pull Request.
