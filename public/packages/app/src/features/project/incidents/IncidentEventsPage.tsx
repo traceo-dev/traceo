@@ -1,4 +1,4 @@
-import { BROWSER_SDK } from "@traceo/types";
+import { BROWSER_SDK, IEvent } from "@traceo/types";
 import { Card, Table, TableColumn } from "@traceo/ui";
 import dateUtils from "../../../core/utils/date";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
@@ -14,7 +14,7 @@ const IncidentEventsPage = () => {
     data: events = [],
     isLoading,
     isRefetching
-  } = useReactQuery({
+  } = useReactQuery<IEvent[]>({
     queryKey: ["events"],
     url: `/api/event/incident/${incident.id}`
   });

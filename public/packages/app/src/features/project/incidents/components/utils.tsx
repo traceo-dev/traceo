@@ -58,7 +58,7 @@ export const statusOptions: SelectOptionProps[] = Object.values(IncidentStatus).
 export const mapIncidentSortName: Record<IncidentSortBy, string> = {
   [IncidentSortBy.FIRST_SEEN]: "First seen",
   [IncidentSortBy.LAST_SEEN]: "Last seen",
-  [IncidentSortBy.ERRORS_COUNT]: "Errors count",
+  // [IncidentSortBy.ERRORS_COUNT]: "Errors count",
   [IncidentSortBy.STATUS]: "Status"
 };
 

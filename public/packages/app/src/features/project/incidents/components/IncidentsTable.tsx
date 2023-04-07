@@ -13,8 +13,17 @@ import dayjs from "dayjs";
 interface Props {
   incidents: IIncident[];
   isLoading: boolean;
+  onPageChange?: (page: number) => void;
+  rowsCount?: number;
+  page?: number;
 }
-export const IncidentsTable: FC<Props> = ({ incidents, isLoading }) => {
+export const IncidentsTable: FC<Props> = ({
+  incidents,
+  isLoading,
+  onPageChange,
+  rowsCount,
+  page
+}) => {
   const navigate = useNavigate();
   const { project } = useProject();
 
@@ -38,12 +47,16 @@ export const IncidentsTable: FC<Props> = ({ incidents, isLoading }) => {
       striped
       loading={isLoading}
       rowSize="lg"
+      onPageChange={onPageChange}
+      pageSize={15}
+      currentPage={page}
+      rowsCount={rowsCount}
     >
       <TableColumn name="Details" width={700}>
         {({ item }) => (
           <Space direction="vertical" className="gap-0">
             <div className="w-full flex flex-row gap-x-3 items-center">
-              <span className="text-[16px] leading-3 font-semibold hover:text-white">
+              <span className="text-[16px] leading-5 font-semibold hover:text-white">
                 {item?.name}
               </span>
               {isNewIncident(item) && (

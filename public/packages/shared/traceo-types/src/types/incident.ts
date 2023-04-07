@@ -28,7 +28,7 @@ export interface IIncident {
   name: string;
   // eq. 
   message: string;
-  
+
   // time when last error occur for this incident
   lastEventAt: number;
   createdAt?: number;
@@ -56,7 +56,7 @@ export interface IncidentEventPayload {
   sdk: SDK;
   name: string;
   message: string;
-  
+
   stack: string;
   stackFrames?: StackFrame[];
 
@@ -106,15 +106,15 @@ export const mapIncidentStatus: Record<IncidentStatusSearch, string> = {
 };
 
 export enum IncidentSortBy {
-  LAST_SEEN = "last_event_at",
-  FIRST_SEEN = "created_at",
+  LAST_SEEN = "lastEventAt",
+  FIRST_SEEN = "createdAt",
   STATUS = "status",
-  ERRORS_COUNT = "events_count"
+  // ERRORS_COUNT = "eventsCount"
 }
 
 export const mapIncidentSort: Record<IncidentSortBy, string> = {
   [IncidentSortBy.LAST_SEEN]: "Last seen",
   [IncidentSortBy.FIRST_SEEN]: "First seen",
   [IncidentSortBy.STATUS]: "Status",
-  [IncidentSortBy.ERRORS_COUNT]: "Events count"
+  // [IncidentSortBy.ERRORS_COUNT]: "Events count"
 };

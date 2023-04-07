@@ -1,5 +1,5 @@
 import dateUtils from "../../../../core/utils/date";
-import { BugOutlined, TeamOutlined } from "@ant-design/icons";
+import { AlertOutlined, TeamOutlined } from "@ant-design/icons";
 import { IProject } from "@traceo/types";
 import { Avatar, Table, TableColumn } from "@traceo/ui";
 import { FC } from "react";
@@ -30,7 +30,7 @@ export const AdminProjectsTable: FC<Props> = ({ projects, isLoading }) => {
       <TableColumn name="Incidents count">
         {({ item }) => (
           <span>
-            <BugOutlined className="pr-2" /> {item.incidentsCount}
+            <AlertOutlined className="pr-2" /> {item.incidentsCount}
           </span>
         )}
       </TableColumn>

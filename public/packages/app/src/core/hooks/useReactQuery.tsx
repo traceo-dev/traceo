@@ -1,4 +1,4 @@
-import { Dictionary } from "@traceo/types";
+import { ApiResponse, Dictionary } from "@traceo/types";
 import { useQuery, UseQueryOptions } from "react-query";
 import api from "../lib/api";
 
@@ -13,11 +13,11 @@ export function useReactQuery<T>({
   url = "",
   options = {},
   params = {}
-}: QueryClientParams<T>) {
-  const query = useQuery(queryKey, () => api.get<T>(url, params), options);
+}: QueryClientParams<ApiResponse<T>>) {
+  const query = useQuery(queryKey, () => api.get<ApiResponse<T>>(url, params), options);
 
   return {
     ...query,
-    data: query.data?.["data"] || []
+    data: query.data?.data
   };
 }

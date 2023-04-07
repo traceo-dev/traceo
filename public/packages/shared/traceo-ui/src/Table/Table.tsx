@@ -33,7 +33,10 @@ interface TableProps {
   paginationPosition?: PaginationPositionType;
   pageSize?: PageSizeType;
   emptyLabel?: string;
+  rowsCount?: number;
+  currentPage?: number;
   onRowClick?: (item: any) => void;
+  onPageChange?: (page: number) => void;
 }
 export const Table: FC<TableProps> = (props: TableProps) => {
   const {
@@ -45,34 +48,43 @@ export const Table: FC<TableProps> = (props: TableProps) => {
     loading = false,
     rowSize = "md",
     onRowClick,
+    onPageChange,
     pageSize = 15,
+    currentPage = 1,
+    rowsCount = undefined,
     showPagination = false,
     paginationPosition = "right",
     emptyLabel = "Not found"
   } = props;
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [page, setPage] = useState(currentPage);
   const [itemsPerPage, _] = useState(pageSize);
 
   const pagination = useMemo(() => {
-    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfLastItem = page * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = collection?.slice(indexOfFirstItem, indexOfLastItem);
 
-    const pagesCount = Math.ceil(collection?.length / itemsPerPage);
+    /**
+     * When there is onPageChange then we know that data is fetching before trigger this function.
+     * In this case we have to use full collection. Slice is doing when pagination is made on raw result
+     * without pagination from API.
+     */
+    const currentItems = onPageChange
+      ? collection
+      : collection?.slice(indexOfFirstItem, indexOfLastItem);
+
+    const totalItemsCount = rowsCount ?? collection?.length;
+    const pagesCount = Math.ceil(totalItemsCount / itemsPerPage);
 
     return {
       currentItems,
       pagesCount
     };
-  }, [collection, pageSize, currentPage]);
+  }, [collection, pageSize, currentPage, page]);
 
-  /**
-   * For case when user search records via InputSearch
-   */
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [collection]);
+  // useEffect(() => {
+  //   setPage(currentPage);
+  // }, [collection]);
 
   return (
     <div className="w-full flex flex-col">
@@ -114,10 +126,13 @@ export const Table: FC<TableProps> = (props: TableProps) => {
       )}
       {showPagination && (
         <TablePagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
+          currentPage={page}
+          setCurrentPage={setPage}
           position={paginationPosition}
           pagesCount={pagination.pagesCount}
+          onPageChange={onPageChange}
+          totalRowsCount={rowsCount}
+          pageSize={pageSize}
         />
       )}
     </div>

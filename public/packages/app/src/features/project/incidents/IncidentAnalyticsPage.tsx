@@ -10,6 +10,7 @@ import { useIncidentSelector } from "../../../core/hooks/useIncidentSelector";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
+import { IEvent } from "@traceo/types";
 
 export const IncidentAnalyticsPage = () => {
   const { iid } = useParams();
@@ -20,7 +21,7 @@ export const IncidentAnalyticsPage = () => {
     data: events = [],
     isLoading,
     isRefetching
-  } = useReactQuery({
+  } = useReactQuery<IEvent[]>({
     queryKey: ["today_events"],
     url: `/api/event/incident/${iid}/today`,
     params: { from }

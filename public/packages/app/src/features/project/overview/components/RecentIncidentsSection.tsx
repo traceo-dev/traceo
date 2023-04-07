@@ -7,13 +7,15 @@ import {
   IIncident,
   IncidentSortBy,
   IncidentStatusSearch,
-  mapIncidentStatus
+  mapIncidentStatus,
+  PaginateType
 } from "@traceo/types";
 import { Link, Typography, Card, ListCard, Space, List, Tooltip } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
 import { mapHeaderStatusIcon } from "../../incidents/components/utils";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 
+const RECENT_INCIDENTS_MAX_COUNT = 5;
 export const RecentIncidentsSection = () => {
   const { project } = useProject();
   const navigate = useNavigate();
@@ -21,12 +23,12 @@ export const RecentIncidentsSection = () => {
   const queryParams = {
     id: project.id,
     order: "DESC",
-    sortBy: IncidentSortBy.LAST_SEEN,
+    sortBy: IncidentSortBy.FIRST_SEEN,
     status: IncidentStatusSearch.ALL,
-    take: 5
+    take: RECENT_INCIDENTS_MAX_COUNT
   };
 
-  const { data: incidents = [], isLoading } = useReactQuery<IIncident[]>({
+  const { data: response, isLoading } = useReactQuery<PaginateType<IIncident>>({
     queryKey: ["recent_incidents"],
     url: "/api/incidents",
     params: queryParams
@@ -46,13 +48,13 @@ export const RecentIncidentsSection = () => {
     >
       <ConditionalWrapper
         isLoading={isLoading}
-        isEmpty={incidents && incidents.length === 0}
+        isEmpty={response && response?.result.length === 0}
         emptyView={<DataNotFound label="Incidents not found" />}
       >
         <List
           loading={isLoading}
           className="pt-2"
-          dataSource={incidents || []}
+          dataSource={(response && response?.result) || []}
           renderItem={(item: IIncident) => (
             <ListCard
               onClick={() => navigate(`/project/${project.id}/incidents/${item.id}/details`)}

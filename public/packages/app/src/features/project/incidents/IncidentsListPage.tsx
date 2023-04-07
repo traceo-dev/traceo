@@ -11,7 +11,8 @@ import {
   IncidentStatusSearch,
   SortOrder,
   INCIDENT_PLOT_TYPE,
-  IIncident
+  IIncident,
+  PaginateType
 } from "@traceo/types";
 import { InputSearch, Select, Card, RadioButtonGroup } from "@traceo/ui";
 import { useState, useEffect } from "react";
@@ -21,6 +22,8 @@ import { resetIncidentState } from "./state/slices/incident.slice";
 import { resetGroupedEvents } from "./state/slices/grouped-events.slice";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 
+const INCIDENT_PAGE_SIZE = 15;
+
 export const IncidentsListPage = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
@@ -29,19 +32,20 @@ export const IncidentsListPage = () => {
   const [order, setOrder] = useState<SortOrder>("DESC");
   const [sortBy, setSortBy] = useState<IncidentSortBy>(IncidentSortBy.LAST_SEEN);
   const [status, setStatus] = useState<IncidentStatusSearch>(IncidentStatusSearch.ALL);
+  const [page, setPage] = useState<number>(1);
 
   const plot = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
   const [plotType, setPlotType] = useState<INCIDENT_PLOT_TYPE>(plot);
 
   const {
-    data: incidents,
+    data: response,
     isLoading,
-    isRefetching,
+    isFetching,
     refetch
-  } = useReactQuery<IIncident[]>({
+  } = useReactQuery<PaginateType<IIncident>>({
     queryKey: ["incidents"],
     url: "/api/incidents",
-    params: { id, search: search ?? null, order, sortBy, status }
+    params: { id, search: search ?? null, order, sortBy, status, page, take: INCIDENT_PAGE_SIZE }
   });
 
   useEffect(() => {
@@ -52,6 +56,12 @@ export const IncidentsListPage = () => {
 
   useEffect(() => {
     refetch();
+  }, [order, sortBy, status, search, page]);
+
+  useEffect(() => {
+    // After criteria mutation we have to back to first page,
+    // to avoid use case that with eq. single row we are on x page
+    setPage(1);
   }, [order, sortBy, status, search]);
 
   const onChangePlotType = (type: INCIDENT_PLOT_TYPE) => {
@@ -73,10 +83,10 @@ export const IncidentsListPage = () => {
         <Card>
           <SearchWrapper className="pt-2 pb-12">
             <InputSearch
-              placeholder="Search incidents by type, message, status or assigned user"
+              placeholder="Search incidents by name, message, status or assigned user"
               value={search}
               onKeyDown={onKeyDown}
-              loading={isRefetching}
+              loading={isFetching}
             />
             <Select
               placeholder="Select status"
@@ -103,7 +113,13 @@ export const IncidentsListPage = () => {
             <SortIcons order={order} setOrder={setOrder} />
           </SearchWrapper>
 
-          <IncidentsTable isLoading={isLoading} incidents={incidents} />
+          <IncidentsTable
+            onPageChange={setPage}
+            isLoading={isLoading || isFetching}
+            incidents={response?.result}
+            rowsCount={response?.totalCount}
+            page={page}
+          />
         </Card>
       </Page.Content>
     </Page>

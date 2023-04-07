@@ -24,6 +24,10 @@ const parseTodayEvents = (events: IEvent[]) => {
 };
 
 const parseLogs = (range: [number, number], logs: ILog[]) => {
+  if (!logs) {
+    return;
+  }
+
   let date = range[0];
   const endPlotDate = range[1];
 

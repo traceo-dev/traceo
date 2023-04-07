@@ -26,7 +26,7 @@ const LogsPage = () => {
   });
 
   const {
-    data: logs,
+    data: logs = [],
     isLoading,
     refetch
   } = useReactQuery<ILog[]>({

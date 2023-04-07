@@ -31,21 +31,41 @@ const mapPaginationPostion: Record<PaginationPositionType, string> = {
 interface TablePaginationProps {
   currentPage: number;
   pagesCount: number;
+  totalRowsCount?: number;
+  pageSize?: number;
   setCurrentPage: (page: number) => void;
   position: PaginationPositionType;
+  onPageChange?: (page: number) => void;
 }
 export const TablePagination: FC<TablePaginationProps> = ({
   currentPage,
+  totalRowsCount = undefined,
+  pageSize,
   pagesCount,
   position,
-  setCurrentPage
+  setCurrentPage,
+  onPageChange
 }) => {
+  const handlePageChange = (page: number) => {
+    onPageChange && onPageChange(page);
+    setCurrentPage(page);
+  };
   return (
-    <div className={joinClasses("w-full mt-12 flex", mapPaginationPostion[position])}>
+    <div
+      className={joinClasses(
+        "w-full mt-12 flex flex-row items-center",
+        mapPaginationPostion[position]
+      )}
+    >
+      {totalRowsCount && (
+        <span className="text-xs whitespace-nowrap pr-5">
+          Showing {pageSize * (currentPage - 1)}-{pageSize * currentPage} from {totalRowsCount} incidents
+        </span>
+      )}
       <div className="border border-solid rounded border-light-secondary items-center flex flex-row max-w-min">
         <PaginationButton
           disabled={currentPage === 1}
-          onClick={() => setCurrentPage(currentPage - 1)}
+          onClick={() => handlePageChange(currentPage - 1)}
         >
           <LeftOutlined />
         </PaginationButton>
@@ -54,7 +74,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
         </div>
         <PaginationButton
           disabled={currentPage === pagesCount}
-          onClick={() => setCurrentPage(currentPage + 1)}
+          onClick={() => handlePageChange(currentPage + 1)}
         >
           <RightOutlined />
         </PaginationButton>
