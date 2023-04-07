@@ -56,8 +56,8 @@ docker run \
 Capture all exceptions and errors occurs in your software. Each incident is unique and if another incident of the same type occurs, then it is grouped with the first one. 
 
 <p align="center">
-  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-incidents-list.PNG" width="500">
-  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-incident-preview.PNG" width="500">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-incidents-list.PNG" width="45">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-incident-preview.PNG" width="450">
 </p>
 
 ### ***Logs analysis***
@@ -74,8 +74,8 @@ Record data about your server, like eq. CPU utilization or RAM usage.
 Control the performance of your application by collecting web-vitals data from your browser.
 
 <p align="center">
-  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf-list.PNG" width="500">
-  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf.PNG" width="500">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf-list.PNG" width="450">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf.PNG" width="450">
 </p>
 
 # Support
