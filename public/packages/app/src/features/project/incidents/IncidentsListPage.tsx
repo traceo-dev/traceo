@@ -56,12 +56,16 @@ export const IncidentsListPage = () => {
 
   useEffect(() => {
     refetch();
-  }, [order, sortBy, status, search, page]);
+  }, [page]);
 
   useEffect(() => {
     // After criteria mutation we have to back to first page,
     // to avoid use case that with eq. single row we are on x page
     setPage(1);
+    // Using setTimeout because setters are async, so we wait 250ms after setPage to trigger refetch
+    setTimeout(() => {
+      refetch();
+    }, 250);
   }, [order, sortBy, status, search]);
 
   const onChangePlotType = (type: INCIDENT_PLOT_TYPE) => {
@@ -86,7 +90,6 @@ export const IncidentsListPage = () => {
               placeholder="Search incidents by name, message, status or assigned user"
               value={search}
               onKeyDown={onKeyDown}
-              loading={isFetching}
             />
             <Select
               placeholder="Select status"

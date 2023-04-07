@@ -94,9 +94,7 @@ export abstract class BaseQueryService<ENTITY extends BaseEntity, QUERY extends 
     }
 
     const count = await queryBuilder.getCount();
-    queryBuilder.take(take).skip(page > 0 ? (page - 1) * take : 0);
-
-    const { entities } = await queryBuilder.getRawAndEntities();
+    const { entities } = await queryBuilder.take(take).skip(page > 0 ? (page - 1) * take : 0).getRawAndEntities();
 
     return {
       totalCount: count,

@@ -59,7 +59,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
     >
       {totalRowsCount && (
         <span className="text-xs whitespace-nowrap pr-5">
-          Showing {pageSize * (currentPage - 1)}-{pageSize * currentPage} from {totalRowsCount} incidents
+          Showing {pageSize * (currentPage - 1)}-{pageSize * currentPage} from {totalRowsCount} rows
         </span>
       )}
       <div className="border border-solid rounded border-light-secondary items-center flex flex-row max-w-min">

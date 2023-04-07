@@ -82,9 +82,9 @@ export const Table: FC<TableProps> = (props: TableProps) => {
     };
   }, [collection, pageSize, currentPage, page]);
 
-  // useEffect(() => {
-  //   setPage(currentPage);
-  // }, [collection]);
+  useEffect(() => {
+    setPage(currentPage);
+  }, [collection]);
 
   return (
     <div className="w-full flex flex-col">
