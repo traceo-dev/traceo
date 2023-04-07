@@ -3,6 +3,7 @@ Traceo is an open-source, self-hosted set of tools for monitoring application he
 
 # Development status
 Not ready for production use.
+
 Estimated release time for the production-ready version (1.0.0): 01.05.2023
 
 # SDK
