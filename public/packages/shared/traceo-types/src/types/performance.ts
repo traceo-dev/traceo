@@ -52,7 +52,7 @@ export const MAP_INTERVAL: Record<VitalsEnum, number> = {
     [VitalsEnum.FID]: 0.20,
     [VitalsEnum.FCP]: 100,
     [VitalsEnum.FP]: 100,
-    [VitalsEnum.LCP]: 200
+    [VitalsEnum.LCP]: 100
 };
 
 export const MAP_MAX_VALUE: Record<VitalsEnum, number> = {
@@ -60,7 +60,7 @@ export const MAP_MAX_VALUE: Record<VitalsEnum, number> = {
     [VitalsEnum.FID]: 10,
     [VitalsEnum.FCP]: 1000,
     [VitalsEnum.FP]: 1000,
-    [VitalsEnum.LCP]: 2000
+    [VitalsEnum.LCP]: 1000
 };
 
 export const getHealthByValue = (type: VitalsEnum, value: number): VitalsHealthType => {

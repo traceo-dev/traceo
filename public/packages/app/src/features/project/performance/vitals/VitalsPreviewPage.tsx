@@ -35,7 +35,7 @@ const VitalsPreviewPage = () => {
 
   const {
     data: performances = [],
-    isLoading,
+    isFetching,
     refetch
   } = useReactQuery<Performance[]>({
     queryKey: [`vitals_${id}`],
@@ -49,6 +49,8 @@ const VitalsPreviewPage = () => {
     }
   });
 
+  console.log("perfs: ", performances);
+  
   useEffect(() => {
     refetch();
   }, [ranges, selectedHealth, search]);
@@ -96,11 +98,11 @@ const VitalsPreviewPage = () => {
           {renderChart({
             data: dataSource,
             field: name as VitalsEnum,
-            isLoading: isLoading
+            isLoading: isFetching
           })}
         </Card>
         <VitalsHealthBar list={performances} />
-        <VitalsRawData isLoading={isLoading} performances={performances} />
+        <VitalsRawData isLoading={isFetching} performances={performances} />
       </Page.Content>
     </Page>
   );

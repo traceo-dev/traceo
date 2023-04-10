@@ -30,7 +30,7 @@ const PerformancePage = () => {
     to: dayjs().unix()
   });
 
-  const { data, isLoading, refetch } = useReactQuery<VitalsResponse>({
+  const { data, isFetching, refetch } = useReactQuery<VitalsResponse>({
     queryKey: ["vitals"],
     url: `/api/performance/vitals/bins/${id}`,
     params: { from: ranges[0], to: ranges[1], fields: SUPPORTED_WEB_VITALS }
@@ -41,7 +41,7 @@ const PerformancePage = () => {
   }, [ranges]);
 
   const renderAvg = (field: VitalsEnum) => {
-    if (isLoading) {
+    if (isFetching) {
       return <LoadingOutlined />;
     }
 
@@ -103,7 +103,7 @@ const PerformancePage = () => {
             key={key}
           >
             <ColumnSection subtitle={subtitle(field, description)}>
-              {renderChart({ data, field, isLoading })}
+              {renderChart({ data, field, isLoading: isFetching })}
             </ColumnSection>
           </Card>
         ))}

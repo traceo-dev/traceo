@@ -105,8 +105,7 @@ const CreateProjectPage = () => {
         description: (
           <div>
             <p className="m-0 pt-3">
-              Create a new project and then connect it to your software to track its performance
-              and capture any unwanted behavior.
+              Create new project inside your Traceo instance.
             </p>
             <p className="m-0">
               Information on how to connect the SDK to your software can be found here.

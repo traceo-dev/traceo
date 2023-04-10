@@ -63,7 +63,7 @@ const CreateUserPage = () => {
         description: (
           <div>
             <p className="m-0 pt-3">
-              Create a new user in the Traceo project by providing basic information.
+              Create new user in your Traceo instance.
             </p>
             <p className="m-0">
               Remember the entered data, because they will be useful for this user to log in.

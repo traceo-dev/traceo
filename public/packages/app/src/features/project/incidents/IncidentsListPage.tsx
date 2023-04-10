@@ -59,13 +59,17 @@ export const IncidentsListPage = () => {
   }, [page]);
 
   useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
     // After criteria mutation we have to back to first page,
     // to avoid use case that with eq. single row we are on x page
     setPage(1);
     // Using setTimeout because setters are async, so we wait 250ms after setPage to trigger refetch
     setTimeout(() => {
       refetch();
-    }, 250);
+    }, 0);
   }, [order, sortBy, status, search]);
 
   const onChangePlotType = (type: INCIDENT_PLOT_TYPE) => {
