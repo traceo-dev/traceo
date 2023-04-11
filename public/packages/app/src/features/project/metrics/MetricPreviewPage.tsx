@@ -16,6 +16,7 @@ import { useImmer } from "use-immer";
 import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
+import { ConditionalWrapper } from "src/core/components/ConditionLayout";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
@@ -75,11 +76,13 @@ export const MetricPreviewPage = () => {
                 />
               }
             >
-              <MetricPreviewChart
-                setRanges={setRanges}
-                options={options}
-                activeZoomSelect={!isCustomizeMode}
-              />
+              <ConditionalWrapper isLoading={isFetching}>
+                <MetricPreviewChart
+                  setRanges={setRanges}
+                  options={options}
+                  activeZoomSelect={!isCustomizeMode}
+                />
+              </ConditionalWrapper>
             </Card>
             <MetricTableWrapper
               metric={metric?.options}

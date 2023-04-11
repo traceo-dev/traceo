@@ -2,7 +2,7 @@ import { ConditionalWrapper } from "../../../../core/components/ConditionLayout"
 import { useProject } from "../../../../core/hooks/useProject";
 import dateUtils from "../../../../core/utils/date";
 import { statisticUtils } from "../../../../core/utils/statistics";
-import { SyncOutlined } from "@ant-design/icons";
+import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { ErrorDetails } from "@traceo/types";
 import { Typography, Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
@@ -17,6 +17,7 @@ export const TodaySection = () => {
   const {
     data: dataSource,
     isLoading,
+    isFetching,
     refetch
   } = useReactQuery<ErrorDetails[]>({
     queryKey: [`daily_stats_${id}`],
@@ -38,7 +39,7 @@ export const TodaySection = () => {
   return (
     <div className="grid grid-cols-5 w-full mb-1">
       <div className="col-span-4 h-full">
-        <Card title="Today" className="h-full">
+        <Card title="Today" className="h-full" extra={isFetching && <LoadingOutlined />}>
           <ConditionalWrapper isLoading={isLoading}>
             <IncidentsTodayChart stats={payload.data} />
           </ConditionalWrapper>
@@ -50,7 +51,13 @@ export const TodaySection = () => {
             <Card
               title="Events count"
               className="h-full"
-              extra={<SyncOutlined className="text-xs" onClick={() => refetch()} />}
+              extra={
+                isFetching ? (
+                  <LoadingOutlined />
+                ) : (
+                  <SyncOutlined className="text-xs" onClick={() => refetch()} />
+                )
+              }
             >
               <ConditionalWrapper isLoading={isLoading}>
                 <Typography size="xxl" weight="semibold">

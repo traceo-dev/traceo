@@ -1,6 +1,6 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { SyncOutlined } from "@ant-design/icons";
+import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
 import { ErrorDetails, PlotData } from "@traceo/types";
 import { Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
@@ -17,6 +17,7 @@ export const OverviewSection = () => {
   const {
     data = [],
     isLoading,
+    isFetching,
     refetch
   } = useReactQuery<PlotData[]>({
     queryKey: [`evets_grouped_${id}`],
@@ -27,7 +28,13 @@ export const OverviewSection = () => {
     <div className="w-full h-full">
       <Card
         title="Project overview"
-        extra={<SyncOutlined className="text-xs" onClick={() => refetch()} />}
+        extra={
+          isFetching ? (
+            <LoadingOutlined />
+          ) : (
+            <SyncOutlined className="text-xs" onClick={() => refetch()} />
+          )
+        }
       >
         <ConditionalWrapper
           emptyView={<DataNotFound />}

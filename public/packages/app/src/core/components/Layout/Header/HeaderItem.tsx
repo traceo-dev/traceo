@@ -29,7 +29,7 @@ export const HeaderItem = ({ route }: HeaderItemProps) => {
   return (
     <NavLink to={parsePath()} className="text-inherit">
       <Wrapper onClick={handleOnClick} isActive={key && isActivePath(key)}>
-        <div className="w-full flex flex-row items-center px-2">
+        <div className="w-full flex flex-row items-center px-1">
           {<span className="pl-3 cursor-pointer text-sm">{label}</span>}
           <div className="pr-2">{badge}</div>
         </div>
