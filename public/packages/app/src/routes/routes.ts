@@ -115,6 +115,16 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       wrapper: ProjectDashboardWrapper
     },
     {
+      path: "/project/:id/alerting",
+      component: lazy(() => import("../features/project/alerting/AlertingPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/alerting/create",
+      component: lazy(() => import("../features/project/alerting/CreateAlertPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
       path: "/project/:id/metrics",
       component: lazy(() => import("../features/project/metrics/MetricsPage")),
       wrapper: ProjectDashboardWrapper

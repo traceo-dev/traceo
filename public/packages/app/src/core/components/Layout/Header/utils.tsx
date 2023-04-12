@@ -23,6 +23,11 @@ export const buildHeaderItems = (project: IProject): MenuRoute[] => {
         label: "Incidents"
       },
       {
+        key: "alerting",
+        href: "/project/:id/alerting",
+        label: "Alerting"
+      },
+      {
         key: "settings",
         href: "/project/:id/settings/details",
         label: "Settings"
