@@ -8,14 +8,14 @@ interface Props {
 }
 export const ChooseElementGrid = ({ onSelect, options, selected }: Props) => {
   return (
-    <div className="grid grid-cols-8 py-9">
+    <div className="grid grid-cols-8 py-9 gap-x-3">
       {options.map(({ icon, label, value }, index) => (
         <div
           onClick={() => onSelect(value)}
           key={index}
           className={joinClasses(
-            "col-span-1 w-full flex flex-col items-center rounded cursor-pointer p-5 hover:bg-secondary",
-            conditionClass(selected === value, "bg-secondary")
+            "col-span-1 w-full flex flex-col items-center rounded cursor-pointer p-5 hover:bg-secondary border rounded border-light-secondary border-solid",
+            conditionClass(selected === value, "ring-2 ring-blue-400")
           )}
         >
           {icon}
