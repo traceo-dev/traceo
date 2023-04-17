@@ -1,10 +1,11 @@
 import { BellOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Card } from "@traceo/ui";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Page } from "src/core/components/Page";
 
 const AlertingPage = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   return (
     <Page
       header={{
@@ -14,9 +15,9 @@ const AlertingPage = () => {
         suffix: (
           <Button
             icon={<PlusOutlined />}
-            onClick={() => navigate("/project/:id/alerting/create")}
+            onClick={() => navigate(`/project/${id}/alerting/create`)}
           >
-            Create new
+            Create new rule
           </Button>
         )
       }}
