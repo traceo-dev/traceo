@@ -23,6 +23,7 @@
     "react-dom": "17.0.2",
     "react-query": "^3.39.3",
     "tailwindcss": "^3.2.1",
+    "uuid": "^9.0.0",
     "web-vitals": "^3.3.0"
   },
   "devDependencies": {

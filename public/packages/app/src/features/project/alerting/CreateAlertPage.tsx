@@ -8,7 +8,6 @@ import {
 import {
   Button,
   Card,
-  Checkbox,
   Form,
   FormItem,
   Input,
@@ -16,6 +15,7 @@ import {
   RadioButton,
   Select,
   SelectOptionProps,
+  Switch,
   Typography
 } from "@traceo/ui";
 import { useNavigate, useParams } from "react-router-dom";
@@ -23,65 +23,18 @@ import { ChooseElementGrid } from "src/core/components/ChooseElementGrid";
 import { Page } from "src/core/components/Page";
 import { useState } from "react";
 import { IncidentTriggerBuilder } from "./trigger-builders/IncidentTriggerBuilder";
+import { AlertEnumType, AlertRule, Condition, LogicOperator } from "./trigger-builders/utils";
+import { v4 as uuid } from "uuid";
+import styled from "styled-components";
+import { ProjectMember } from "@traceo/types";
+import { AlertRecipients } from "./AlertRecipients";
+import { notify } from "src/core/utils/notify";
 
 type AlertType = {
   name: string;
   description: string;
   severity: string;
 };
-
-export enum AlertEnumType {
-  INCIDENT = "incident",
-  PERFORMANCE = "performance",
-  METRIC = "metric",
-  LOGS = "logs"
-}
-
-enum IncidentTriggerCondition {
-  CONDITION_1 = "",
-  CONDITION_2 = "",
-  CONDITION_3 = "",
-  CONDITION_4 = "",
-  CONDITION_5 = "",
-  CONDITION_6 = "",
-  CONDITION_7 = "",
-  CONDITION_8 = ""
-}
-
-const triggerOptions: SelectOptionProps[] = [
-  {
-    label: "WHEN NEW INCIDENT OCCUR",
-    value: ""
-  },
-  {
-    label: "WHEN NEW INCIDENT OCCUR WHERE NAME = $1",
-    value: ""
-  },
-  {
-    label: "WHEN NEW INCIDENT OCCUR WHERE NAME = $1 OR type = $2",
-    value: ""
-  },
-  {
-    label: "WHEN NEW INCIDENT OCCUR WHERE NAME LIKE $1",
-    value: ""
-  },
-  {
-    label: "WHEN NEW INCIDENT OCCUR WHERE NAME STARTSWITH $1",
-    value: ""
-  },
-  {
-    label: "WHEN NEW EVENT OCCUR FOR INCIDENT = $1",
-    value: ""
-  },
-  {
-    label: "WHEN NEW EVENT OCCUR FOR INCIDENT = $1 $2 THAN $3 TIMES",
-    value: ""
-  },
-  {
-    label: "WHEN NEW EVENT OCCUR FOR INCIDENT = $1 MORE THAN $2 TIMES IN LAST $3 $4",
-    value: ""
-  }
-];
 
 const alertOptions: SelectOptionProps[] = [
   {
@@ -116,10 +69,38 @@ const CreateAlertPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [alertType, setAlertType] = useState<AlertEnumType>(AlertEnumType.INCIDENT);
+  const [logicOperator, setLogicOperator] = useState<LogicOperator>(LogicOperator.ANY);
+  const [conditions, setConditions] = useState<Condition[]>([]);
+
+  // notifications
+  const [isInAppNotify, setInAppNotify] = useState<boolean>(true);
+  const [isEmailNotify, setEmailNotify] = useState<boolean>(false);
+
+  const [isAllMembers, setAllMembers] = useState<boolean>(false);
+  const [selectedMembers, setSelectedMembers] = useState<ProjectMember[]>([]);
 
   const onFinish = (alertProps: AlertType) => {
-    console.log("props: ", alertProps);
+    const alertPayload: AlertRule = {
+      conditions,
+      description: alertProps.description,
+      name: alertProps.name,
+      severity: alertProps.severity,
+      logicOperator,
+      type: alertType,
+      recipients: selectedMembers,
+      isForAllMembers: isAllMembers,
+      notifications: {
+        in_app: isInAppNotify,
+        email: isEmailNotify
+      }
+    };
+
+    console.log("alert: ", alertPayload);
   };
+
+  const onAddCondition = () => setConditions([...conditions, { uuid: uuid() }]);
+  const onRemoveCondition = (condition: Condition) =>
+    setConditions(conditions.filter(({ uuid }) => uuid !== condition.uuid));
 
   return (
     <Page
@@ -132,88 +113,153 @@ const CreateAlertPage = () => {
             <Button variant="danger" onClick={() => navigate(`/project/${id}/alerting`)}>
               Cancel
             </Button>
-            <Button variant="primary">Save</Button>
+            <Button type="submit" form="add-alert-form" variant="primary">
+              Save
+            </Button>
           </div>
         )
       }}
     >
       <Page.Content>
         <Card>
-          <div className="flex flex-col mb-9">
-            <span className="font-semibold text-xl text-primary">1. Choose alert type</span>
-            <ChooseElementGrid
-              options={alertOptions}
-              onSelect={setAlertType}
-              selected={alertType}
+          <Section>
+            <SectionHeader
+              index={1}
+              title="Choose alert type"
+              description="The creation of conditions to trigger alerts depends on the selected alert type. Choose the one that suits your needs."
             />
-          </div>
+            <SectionContent>
+              <ChooseElementGrid
+                options={alertOptions}
+                onSelect={setAlertType}
+                selected={alertType}
+              />
+            </SectionContent>
+          </Section>
 
-          <div className="flex flex-col mb-9">
-            <span className="font-semibold text-xl pb-9 text-primary">
-              2. Provide basic informations
-            </span>
-            <Form onSubmit={onFinish} id="add-alert-form">
-              {({ register, errors }) => (
-                <>
-                  <FormItem showRequiredMark={true} label="Severity" error={errors.name}>
-                    {/* <Input
-                      {...register("severity", {
-                        required: true
-                      })}
-                    /> */}
+          <Section>
+            <SectionHeader
+              index={2}
+              title="Provide basic informations"
+              description="Provide basic information about the alert you are creating. This data will be used, for example, to inform about the occurrence of this alert in e-mails."
+            />
+            <SectionContent>
+              <Form onSubmit={onFinish} id="add-alert-form">
+                {({ register, errors, setValue }) => (
+                  <>
+                    <FormItem showRequiredMark={true} label="Severity" error={errors.name}>
+                      <Select
+                        {...register("severity", {
+                          required: true
+                        })}
+                        onChange={(e) => setValue("severity", e?.value)}
+                        placeholder="Select severity for this alert"
+                        options={Object.values(AlertSeverity).map((severity) => ({
+                          label: severity,
+                          value: severity
+                        }))}
+                      />
+                    </FormItem>
+                    <FormItem showRequiredMark={true} label="Name" error={errors.name}>
+                      <Input
+                        {...register("name", {
+                          required: true
+                        })}
+                      />
+                    </FormItem>
+                    <FormItem label="Description" error={errors.description}>
+                      <InputArea {...register("description")} />
+                    </FormItem>
+                  </>
+                )}
+              </Form>
+            </SectionContent>
+          </Section>
 
-                    <Select
-                      {...register("severity", {
-                        required: true
-                      })}
-                      placeholder="Select severity for this alert"
-                      options={Object.values(AlertSeverity).map((severity) => ({
-                        label: severity,
-                        value: severity
-                      }))}
-                    />
-                  </FormItem>
-                  <FormItem showRequiredMark={true} label="Name" error={errors.name}>
-                    <Input
-                      {...register("name", {
-                        required: true
-                      })}
-                    />
-                  </FormItem>
-                  <FormItem
-                    showRequiredMark={true}
-                    className="pt-5"
-                    label="Description"
-                    error={errors.description}
-                  >
-                    <InputArea
-                      {...register("description", {
-                        required: true
-                      })}
-                    />
-                  </FormItem>
-                </>
+          <Section>
+            <SectionHeader
+              index={3}
+              title="Trigger condition"
+              description="Create a condition to tell us when this alert should be triggered"
+            />
+            <SectionContent>
+              <IncidentTriggerBuilder
+                conditions={conditions}
+                onAddCondition={onAddCondition}
+                onRemove={onRemoveCondition}
+                setLogicOperator={setLogicOperator}
+              />
+            </SectionContent>
+          </Section>
+
+          <Section>
+            <SectionHeader
+              index={4}
+              title="Notifications"
+              description="Select a notification type and assign users who should be notified when this alert occurs."
+            />
+            <SectionContent>
+              <NotificationSwitchWrapper>
+                <div className="flex flex-col">
+                  <Typography size="md" weight="semibold">
+                    In-app
+                  </Typography>
+                  <Typography size="xs">
+                    Delivery of internal notifications in the Traceo application.
+                  </Typography>
+                </div>
+                <Switch
+                  value={isInAppNotify}
+                  onChange={(e) => setInAppNotify(e.target["checked"])}
+                />
+              </NotificationSwitchWrapper>
+              <NotificationSwitchWrapper>
+                <div className="flex flex-col">
+                  <Typography size="md" weight="semibold">
+                    Email notifications
+                  </Typography>
+                  <Typography size="xs">
+                    An emails will be sent containing the information about this alert provided in
+                    the basic informations section.
+                  </Typography>
+                </div>
+                <Switch
+                  value={isEmailNotify}
+                  onChange={(e) => setEmailNotify(e.target["checked"])}
+                />
+              </NotificationSwitchWrapper>
+            </SectionContent>
+          </Section>
+          <Section>
+            <SectionHeader
+              index={5}
+              title="Alert recipients"
+              description="Choose who should receive alert notifications or check the box below to select
+              all members of this app."
+            />
+            <SectionContent>
+              <NotificationSwitchWrapper>
+                <div className="flex flex-col">
+                  <Typography size="md" weight="semibold">
+                    All members
+                  </Typography>
+                  <Typography size="xs">
+                    Send an alert notification to all members of this project.
+                  </Typography>
+                </div>
+                <Switch
+                  value={isAllMembers}
+                  onChange={(e) => setAllMembers(e.target["checked"])}
+                />
+              </NotificationSwitchWrapper>
+              {!isAllMembers && (
+                <AlertRecipients
+                  selectedMembers={selectedMembers}
+                  setSelectedMembers={setSelectedMembers}
+                />
               )}
-            </Form>
-          </div>
-
-          <div className="flex flex-col mb-12">
-            <div className="flex flex-row pb-12">
-              <span className="text-xl">3.</span>
-              <div className="flex flex-col pl-3">
-                <span className="font-semibold text-xl text-primary">Trigger condition</span>
-                <span className="text-md text-primary">
-                  Create a condition to tell us when this alert should be triggered
-                </span>
-              </div>
-            </div>
-
-            <IncidentTriggerBuilder />
-          </div>
-
-          <div className="flex flex-col mb-9">
-            <span className="font-semibold text-xl text-primary">4. Notifications</span>
-          </div>
+            </SectionContent>
+          </Section>
         </Card>
       </Page.Content>
     </Page>
@@ -221,3 +267,51 @@ const CreateAlertPage = () => {
 };
 
 export default CreateAlertPage;
+
+const Section = styled.div`
+  width: 100%;
+  padding-bottom: 65px;
+  display: flex;
+  flex-direction: column;
+  color: var(--color-text-primary);
+`;
+
+const SectionContent = styled.div`
+  padding-inline: 25px;
+`;
+
+const SectionHeader = ({ title, description = null, index }) => {
+  return (
+    <div className="flex flex-row text-primary mb-5">
+      <span className="text-xl font-semibold">{index}.</span>
+      <div className="flex flex-col pl-3">
+        <span className="font-semibold text-xl text-primary">{title}</span>
+        {description && <span className="text-md text-primary">{description}</span>}
+      </div>
+    </div>
+  );
+};
+
+const NotificationSwitchWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 15px;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export const RowContainer = styled.div`
+  width: 100%;
+  justify-content: space-between;
+  color: var(--color-text-primary);
+  display: flex;
+  flex-direction: row;
+  gap-row: 12px;
+  border: 1px solid var(--color-bg-light-secondary);
+  border-radius: 6px;
+  padding: 6px;
+  padding-inline: 12px;
+  align-items: center;
+  margin-bottom: 9px;
+`;
