@@ -22,18 +22,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ChooseElementGrid } from "src/core/components/ChooseElementGrid";
 import { Page } from "src/core/components/Page";
 import { useState } from "react";
-import { IncidentTriggerBuilder } from "./trigger-builders/IncidentTriggerBuilder";
-import { AlertEnumType, AlertRule, Condition, LogicOperator } from "./trigger-builders/utils";
+import { IncidentTriggerBuilder } from "./rules/IncidentTriggerBuilder";
+import { AlertEnumType, AlertRule, LogicOperator } from "./rules/utils";
 import { v4 as uuid } from "uuid";
 import styled from "styled-components";
-import { ProjectMember } from "@traceo/types";
+import { AlertSeverity, ApiResponse, IAlert, ProjectMember } from "@traceo/types";
 import { AlertRecipients } from "./AlertRecipients";
-import { notify } from "src/core/utils/notify";
+import api from "src/core/lib/api";
 
 type AlertType = {
   name: string;
   description: string;
-  severity: string;
+  severity: AlertSeverity;
 };
 
 const alertOptions: SelectOptionProps[] = [
@@ -59,18 +59,12 @@ const alertOptions: SelectOptionProps[] = [
   }
 ];
 
-enum AlertSeverity {
-  INFO = "info",
-  WARNING = "warning",
-  CRITICAl = "critical"
-}
-
 const CreateAlertPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [alertType, setAlertType] = useState<AlertEnumType>(AlertEnumType.INCIDENT);
   const [logicOperator, setLogicOperator] = useState<LogicOperator>(LogicOperator.ANY);
-  const [conditions, setConditions] = useState<Condition[]>([]);
+  const [rules, setRules] = useState<AlertRule[]>([]);
 
   // notifications
   const [isInAppNotify, setInAppNotify] = useState<boolean>(true);
@@ -79,28 +73,26 @@ const CreateAlertPage = () => {
   const [isAllMembers, setAllMembers] = useState<boolean>(false);
   const [selectedMembers, setSelectedMembers] = useState<ProjectMember[]>([]);
 
-  const onFinish = (alertProps: AlertType) => {
-    const alertPayload: AlertRule = {
-      conditions,
-      description: alertProps.description,
+  const onFinish = async (alertProps: AlertType) => {
+    const alertPayload = {
+      type: alertType,
       name: alertProps.name,
+      description: alertProps.description,
       severity: alertProps.severity,
       logicOperator,
-      type: alertType,
-      recipients: selectedMembers,
-      isForAllMembers: isAllMembers,
-      notifications: {
-        in_app: isInAppNotify,
-        email: isEmailNotify
-      }
+      inAppNotification: isInAppNotify,
+      emailNotification: isEmailNotify,
+      rules,
+      recipients: selectedMembers.map((e) => e.id)
     };
 
-    console.log("alert: ", alertPayload);
+    const resp: ApiResponse<unknown> = await api.post("/api/alert", alertPayload);
+    console.log("resp: ", resp);
   };
 
-  const onAddCondition = () => setConditions([...conditions, { uuid: uuid() }]);
-  const onRemoveCondition = (condition: Condition) =>
-    setConditions(conditions.filter(({ uuid }) => uuid !== condition.uuid));
+  const onAddRule = () => setRules([...rules, { uuid: uuid() }]);
+  const onRemoveRule = (rule: AlertRule) =>
+    setRules(rules.filter(({ uuid }) => uuid !== rule.uuid));
 
   return (
     <Page
@@ -179,14 +171,14 @@ const CreateAlertPage = () => {
           <Section>
             <SectionHeader
               index={3}
-              title="Trigger condition"
-              description="Create a condition to tell us when this alert should be triggered"
+              title="Rules"
+              description="Create a rules to tell us when this alert should be triggered"
             />
             <SectionContent>
               <IncidentTriggerBuilder
-                conditions={conditions}
-                onAddCondition={onAddCondition}
-                onRemove={onRemoveCondition}
+                rules={rules}
+                onAddRule={onAddRule}
+                onRemove={onRemoveRule}
                 setLogicOperator={setLogicOperator}
               />
             </SectionContent>

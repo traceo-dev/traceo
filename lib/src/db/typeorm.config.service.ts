@@ -10,6 +10,8 @@ import { PostgresMigration } from "./migrations/postgres.migration";
 import { Metric } from "./entities/metric.entity";
 import { Event } from "./entities/event.entity";
 import { ClickhouseMigration } from "./migrations/clickhouse.migration";
+import { Alert } from "./entities/alert.entity";
+import { AlertRule } from "./entities/alert-rule.entity";
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -25,6 +27,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       autoLoadEntities: true,
       synchronize: false,
       entities: [
+        Alert,
+        AlertRule,
         Project,
         Comment,
         Incident,

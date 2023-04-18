@@ -5,7 +5,7 @@ import {
   IncidentPrimaryCondition,
   INCIDENT_FIELD_OPTIONS,
   OPERATOR_OPTIONS,
-  Condition,
+  AlertRule,
   TIME_OPTIONS,
   IncidentField,
   OperatorEnum
@@ -15,9 +15,9 @@ import { useReactQuery } from "src/core/hooks/useReactQuery";
 import { useParams } from "react-router-dom";
 
 interface Props {
-  condition: Condition;
-  setCondition?: (c: Condition) => void;
-  onRemove: (e: Condition) => void;
+  condition: AlertRule;
+  setCondition?: (c: AlertRule) => void;
+  onRemove: (e: AlertRule) => void;
 }
 
 const BASE_CONDITIONS: SelectOptionProps[] = [
@@ -45,7 +45,7 @@ const BASE_CONDITIONS: SelectOptionProps[] = [
 ];
 
 interface ConditionComponentProps {
-  condition: Condition;
+  condition: AlertRule;
 }
 
 const EventsNumberIntervalComponent = ({ condition }: ConditionComponentProps) => {
