@@ -1,20 +1,20 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Alert, Button, Select } from "@traceo/ui";
 import React, { useState } from "react";
-import { Condition, LOGICAL_OPERATORS_OPTIONS, LogicOperator } from "./utils";
-import { IncidentConditionRow } from "./IncidentConditionRow";
+import { AlertRule, LOGICAL_OPERATORS_OPTIONS, LogicOperator } from "./utils";
+import { IncidentConditionRow } from "./IncidentRuleRow";
 import { RowContainer } from "../CreateAlertPage";
 
 interface Props {
-  conditions: Condition[];
+  rules: AlertRule[];
   setLogicOperator: (o: LogicOperator) => void;
-  onRemove: (c: Condition) => void;
-  onAddCondition: () => void;
+  onRemove: (c: AlertRule) => void;
+  onAddRule: () => void;
 }
 export const IncidentTriggerBuilder = ({
-  conditions,
+  rules,
   onRemove,
-  onAddCondition,
+  onAddRule,
   setLogicOperator
 }: Props) => {
   return (
@@ -26,30 +26,26 @@ export const IncidentTriggerBuilder = ({
           width={70}
           options={LOGICAL_OPERATORS_OPTIONS}
         />
-        <span>of the following conditions</span>
+        <span>of the following rules</span>
       </div>
 
-      {conditions.length === 0 && (
+      {rules.length === 0 && (
         <RowContainer>
           <div className="w-full text-center justify-center py-5">
-            <span>Conditions not defined</span>
+            <span>Rules not defined</span>
           </div>
         </RowContainer>
       )}
 
-      {conditions?.map((condition) => (
+      {rules?.map((condition) => (
         <IncidentConditionRow key={condition.uuid} condition={condition} onRemove={onRemove} />
       ))}
 
-      {conditions?.length === 5 && (
-        <span className="text-xs text-primary">You can provide at most 5 conditions.</span>
+      {rules?.length === 5 && (
+        <span className="text-xs text-primary">You can provide at most 5 rules.</span>
       )}
 
-      <Button
-        disabled={conditions?.length === 5}
-        icon={<PlusOutlined />}
-        onClick={onAddCondition}
-      >
+      <Button disabled={rules?.length === 5} icon={<PlusOutlined />} onClick={onAddRule}>
         Add new condition
       </Button>
     </div>

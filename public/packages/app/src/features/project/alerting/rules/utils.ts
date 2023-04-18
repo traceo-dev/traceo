@@ -1,25 +1,10 @@
 import { ProjectMember } from "@traceo/types";
 import { SelectOptionProps } from "@traceo/ui";
 
-export interface Condition {
+export interface AlertRule {
     uuid?: string;
     type?: string; //enum
     [x: string]: any;
-}
-
-export interface AlertRule {
-    type: AlertEnumType;
-    name: string;
-    description: string;
-    severity: string; //enum
-    logicOperator: string; //enum
-    conditions: Condition[];
-    recipients: ProjectMember[];
-    isForAllMembers?: boolean;
-    notifications: {
-        in_app: boolean;
-        email: boolean;
-    }
 }
 
 export enum AlertEnumType {

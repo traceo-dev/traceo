@@ -1,8 +1,9 @@
 import { BaseEntity } from "../../common/base/base.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
 import { IMember, MemberRole } from "@traceo/types";
+import { Alert } from "./alert.entity";
 
 @Entity()
 export class Member extends BaseEntity implements IMember {
@@ -32,4 +33,7 @@ export class Member extends BaseEntity implements IMember {
     name: "project_id"
   })
   project: Project;
+
+  @ManyToMany(() => Alert)
+  alerts: Alert[];
 }

@@ -27,6 +27,8 @@ import { CaptureModule } from "./capture/capture.module";
 import { EventModule } from './event/event.module';
 import { PerformanceModule } from './performance/performance.module';
 import { PerformanceController } from "./performance/performance.controller";
+import { AlertModule } from './alert/alert.module';
+import { AlertController } from "./alert/alert.controller";
 
 const apiControllers = [
   UserController,
@@ -41,7 +43,8 @@ const apiControllers = [
   AuthController,
   ViewController,
   CaptureController,
-  PerformanceController
+  PerformanceController,
+  AlertController
 ];
 @Module({
   imports: [
@@ -58,7 +61,8 @@ const apiControllers = [
     ViewModule,
     CaptureModule,
     EventModule,
-    PerformanceModule
+    PerformanceModule,
+    AlertModule
   ],
   controllers: apiControllers
 })

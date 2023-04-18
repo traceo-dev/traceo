@@ -34,6 +34,7 @@ export class User extends BaseEntity implements IUser {
   @IsBoolean()
   isAdmin: boolean;
 
+  // todo: remove
   @OneToMany(() => Member, (org) => org.user, {
     cascade: true
   })
@@ -58,6 +59,7 @@ export class User extends BaseEntity implements IUser {
   })
   lastActiveAt?: number;
 
+  // todo: remove
   @Column({ type: "varchar", nullable: true })
   defaultOrganizationId: string;
 }
