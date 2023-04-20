@@ -7,13 +7,6 @@ export interface AlertRule {
     [x: string]: any;
 }
 
-export enum AlertEnumType {
-    INCIDENT = "incident",
-    PERFORMANCE = "performance",
-    METRIC = "metric",
-    LOGS = "logs"
-}
-
 export enum IncidentPrimaryCondition {
     OCCUR_NEW_INCIDENT = "occur_new_incident",
     OCCUR_NEW_INCIDENT_WITH = "occur_new_incident_with",
