@@ -1,8 +1,10 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlertRule } from "./alert-rule.entity";
 import { Member } from "./member.entity";
-import { AlertEnumType, AlertSeverity, AlertStatus, IAlert, IMember, LogicOperator, ProjectMember } from "@traceo/types";
-import { BaseEntity } from "src/common/base/base.entity";
+import { AlertEnumType, AlertSeverity, AlertStatus, IAlert, IMember, IProject, LogicOperator } from "@traceo/types";
+import { BaseEntity } from "../../common/base/base.entity";
+import { Project } from "./project.entity";
+import { AlertHistory } from "./alert-history";
 
 @Entity()
 export class Alert extends BaseEntity implements IAlert {
@@ -11,6 +13,12 @@ export class Alert extends BaseEntity implements IAlert {
 
     @Column({ type: "varchar", nullable: false })
     status: AlertStatus;
+
+    @Column({ type: "bigint", nullable: true, name: "last_triggered" })
+    lastTriggered: number;
+
+    @Column({ type: "bigint", nullable: true, name: "muted_end_at" })
+    mutedEndAt: number;
 
     @Column({ type: "varchar", nullable: false })
     type: AlertEnumType;
@@ -39,7 +47,25 @@ export class Alert extends BaseEntity implements IAlert {
     })
     rules: AlertRule[];
 
+    @OneToMany(() => AlertHistory, (history) => history.alert, {
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
+    })
+    history: AlertHistory[];
+
     @ManyToMany(() => Member)
-    @JoinTable()
+    @JoinTable({
+        joinColumn: { name: 'alert_id' },
+        inverseJoinColumn: { name: 'member_id' },
+    })
     recipients: IMember[];
+
+    @ManyToOne(() => Project, {
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
+    })
+    @JoinColumn({
+        name: "project_id"
+    })
+    project: IProject;
 }

@@ -78,7 +78,7 @@ const EventsNumberIntervalComponent = ({ condition }: ConditionComponentProps) =
     condition.type = IncidentPrimaryCondition.EVENTS_NUMBER_INTERVAL;
     condition["count"] = count;
     condition["time"] = time;
-    condition["incident"] = incident;
+    condition["incidentId"] = incident;
   }, [count, time, incident]);
 
   return (

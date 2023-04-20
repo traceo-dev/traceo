@@ -8,6 +8,9 @@ export class AlertRule extends BaseEntity implements IAlertRule {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
+    @Column({ type: "bigint", nullable: true, name: "last_triggered" })
+    lastTriggered: number;
+
     @Column({ type: "varchar", nullable: false })
     type: string;
 

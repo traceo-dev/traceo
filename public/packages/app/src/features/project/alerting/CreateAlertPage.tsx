@@ -1,10 +1,4 @@
-import {
-  AlertOutlined,
-  AlignLeftOutlined,
-  BarChartOutlined,
-  BellOutlined,
-  RocketOutlined
-} from "@ant-design/icons";
+import { BellOutlined } from "@ant-design/icons";
 import {
   Button,
   Card,
@@ -12,9 +6,7 @@ import {
   FormItem,
   Input,
   InputArea,
-  RadioButton,
   Select,
-  SelectOptionProps,
   Switch,
   Typography
 } from "@traceo/ui";
@@ -23,41 +15,21 @@ import { ChooseElementGrid } from "src/core/components/ChooseElementGrid";
 import { Page } from "src/core/components/Page";
 import { useState } from "react";
 import { IncidentTriggerBuilder } from "./rules/IncidentTriggerBuilder";
-import { AlertEnumType, AlertRule, LogicOperator } from "./rules/utils";
+import { AlertRule, LogicOperator } from "./rules/utils";
 import { v4 as uuid } from "uuid";
 import styled from "styled-components";
-import { AlertSeverity, ApiResponse, IAlert, ProjectMember } from "@traceo/types";
+import { AlertEnumType, AlertSeverity, ApiResponse, ProjectMember } from "@traceo/types";
 import { AlertRecipients } from "./AlertRecipients";
 import api from "src/core/lib/api";
+import { notify } from "../../../core/utils/notify";
+import { TRY_AGAIN_LATER_ERROR } from "src/core/utils/constants";
+import { alertOptions } from "./utils";
 
 type AlertType = {
   name: string;
   description: string;
   severity: AlertSeverity;
 };
-
-const alertOptions: SelectOptionProps[] = [
-  {
-    label: "Incidents",
-    value: AlertEnumType.INCIDENT,
-    icon: <AlertOutlined className="text-3xl text-yellow-500" />
-  },
-  {
-    label: "Web performance",
-    value: AlertEnumType.PERFORMANCE,
-    icon: <RocketOutlined className="text-3xl text-yellow-500" />
-  },
-  {
-    label: "Metrics",
-    value: AlertEnumType.METRIC,
-    icon: <BarChartOutlined className="text-3xl text-yellow-500" />
-  },
-  {
-    label: "Logs",
-    value: AlertEnumType.LOGS,
-    icon: <AlignLeftOutlined className="text-3xl text-yellow-500" />
-  }
-];
 
 const CreateAlertPage = () => {
   const navigate = useNavigate();
@@ -74,20 +46,39 @@ const CreateAlertPage = () => {
   const [selectedMembers, setSelectedMembers] = useState<ProjectMember[]>([]);
 
   const onFinish = async (alertProps: AlertType) => {
+    if (rules.length === 0) {
+      notify.error("You have to add at least one rule!");
+      return;
+    }
+
+    if (!isAllMembers && selectedMembers.length === 0) {
+      notify.error(
+        "You have to add at least one member or switch 'All members' options for recipient!"
+      );
+      return;
+    }
+
     const alertPayload = {
+      ...alertProps,
+      projectId: id,
       type: alertType,
-      name: alertProps.name,
-      description: alertProps.description,
-      severity: alertProps.severity,
       logicOperator,
       inAppNotification: isInAppNotify,
       emailNotification: isEmailNotify,
       rules,
-      recipients: selectedMembers.map((e) => e.id)
+      recipients: !isAllMembers ? selectedMembers.map((e) => e.id) : []
     };
 
-    const resp: ApiResponse<unknown> = await api.post("/api/alert", alertPayload);
-    console.log("resp: ", resp);
+    try {
+      const resp: ApiResponse<unknown> = await api.post("/api/alert", alertPayload);
+      notify[resp.status](resp.message);
+
+      if (resp.status === "success") {
+        navigate(`/project/${id}/alerting`);
+      }
+    } catch (err) {
+      notify.error(TRY_AGAIN_LATER_ERROR);
+    }
   };
 
   const onAddRule = () => setRules([...rules, { uuid: uuid() }]);

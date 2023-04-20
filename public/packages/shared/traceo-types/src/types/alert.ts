@@ -1,5 +1,4 @@
 import { IMember } from "./member";
-import { ProjectMember } from "./project";
 
 export enum AlertStatus {
     ACTIVE = "active",
@@ -10,7 +9,7 @@ export enum AlertStatus {
 export enum AlertSeverity {
     INFO = "info",
     WARNING = "warning",
-    CRITICAl = "critical"
+    CRITICAL = "critical"
 }
 
 export enum AlertEnumType {
@@ -40,6 +39,8 @@ export enum TimeUnit {
 export interface IAlertRule {
     id: string;
 
+    lastTriggered: number;
+
     type: string;
 
     field: string;
@@ -63,6 +64,11 @@ export interface IAlertRule {
 export interface IAlert {
     id: string;
 
+    lastTriggered: number;
+
+    // time when alert should change status from muted to active
+    mutedEndAt: number;
+
     status: AlertStatus;
 
     type: AlertEnumType;
@@ -81,7 +87,21 @@ export interface IAlert {
 
     rules: IAlertRule[];
 
+    history: IAlertHistory[];
+
     recipients: IMember[];
 
     createdAt?: number;
+}
+
+export interface IAlertHistory {
+    id: string;
+
+    reason: string;
+
+    triggeredAt: number;
+
+    createdAt?: number;
+
+    alert: IAlert;
 }
