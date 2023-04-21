@@ -14,6 +14,7 @@ interface Props {
 export const MenuItem: FC<Props> = ({ menu }) => {
   const { project } = useProject();
   const { incident } = useSelector((state: StoreState) => state.incident);
+  const { alert } = useSelector((state: StoreState) => state.alert);
 
   const isActive = (currentKey: string) => {
     const paths = window.location.pathname.split("/");
@@ -21,7 +22,10 @@ export const MenuItem: FC<Props> = ({ menu }) => {
   };
 
   const handlePath = (link: string) =>
-    link.replace(":id", String(project.id)).replace(":iid", incident.id);
+    link
+      .replace(":id", String(project.id))
+      .replace(":iid", incident.id)
+      .replace(":aid", alert.id);
 
   return (
     <NavLink to={handlePath(menu.href)} className="text-inherit">

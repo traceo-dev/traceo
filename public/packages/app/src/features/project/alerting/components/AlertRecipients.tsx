@@ -1,14 +1,14 @@
 import { ProjectMember } from "@traceo/types";
 import { Avatar, FieldLabel, Select, SelectOptionProps, Typography } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { loadMembers } from "../settings/state/members/actions";
+import { loadMembers } from "../../settings/state/members/actions";
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "../../../store/index";
-import { StoreState } from "../../../store/types";
+import { useAppDispatch } from "../../../../store/index";
+import { StoreState } from "../../../../store/types";
 import { useSelector } from "react-redux";
 import { BellOutlined, MailOutlined, MinusOutlined, RedEnvelopeFilled } from "@ant-design/icons";
 import styled from "styled-components";
-import { RowContainer } from "./CreateAlertPage";
+import { RowContainer } from "../CreateAlertPage";
 import { SearchWrapper } from "src/core/components/SearchWrapper";
 
 type AlertRecipient = {

@@ -1,6 +1,7 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Alert } from "./alert.entity";
 import { IAlert, IAlertHistory } from "@traceo/types";
+import { BaseEntity } from "src/common/base/base.entity";
 
 @Entity()
 export class AlertHistory extends BaseEntity implements IAlertHistory {

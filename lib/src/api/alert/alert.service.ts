@@ -14,14 +14,14 @@ export class AlertService {
     private readonly logger: Logger;
 
     constructor(
-        private readonly entityManger: EntityManager
+        private readonly entityManager: EntityManager
     ) {
         this.logger = new Logger(AlertService.name);
     }
 
     public async createAlert(dto: CreateAlertDto): Promise<ApiResponse<unknown>> {
         try {
-            await this.entityManger.transaction(async (manager) => {
+            await this.entityManager.transaction(async (manager) => {
                 let recipients: Member[] = [];
                 if (dto.recipients && dto.recipients.length > 0) {
                     recipients = await manager
@@ -49,6 +49,22 @@ export class AlertService {
         } catch (error) {
             this.logger.error(`[${this.createAlert.name}] Caused by: ${error}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+        }
+    }
+
+    public async delete(alertId: string): Promise<ApiResponse<unknown>> {
+        try {
+            await this.entityManager
+                .getRepository(Alert)
+                .createQueryBuilder("alert")
+                .where("alert.id = :alertId", { alertId })
+                .delete()
+                .execute();
+
+            return new ApiResponse("success", "Alert removed");
+        } catch (err) {
+            this.logger.error(`[${this.delete.name}] Caused by: ${err}`);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
         }
     }
 }

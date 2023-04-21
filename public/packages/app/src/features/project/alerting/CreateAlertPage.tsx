@@ -19,7 +19,7 @@ import { AlertRule, LogicOperator } from "./rules/utils";
 import { v4 as uuid } from "uuid";
 import styled from "styled-components";
 import { AlertEnumType, AlertSeverity, ApiResponse, ProjectMember } from "@traceo/types";
-import { AlertRecipients } from "./AlertRecipients";
+import { AlertRecipients } from "./components/AlertRecipients";
 import api from "src/core/lib/api";
 import { notify } from "../../../core/utils/notify";
 import { TRY_AGAIN_LATER_ERROR } from "src/core/utils/constants";

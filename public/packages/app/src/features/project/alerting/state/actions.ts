@@ -1,0 +1,25 @@
+import { ThunkResult } from "@store/types";
+import { ApiResponse, IAlert, IIncident } from "@traceo/types";
+import api from "src/core/lib/api";
+import { isEmptyObject } from "src/core/utils/object";
+import { beginAlertFetch, endAlertFetch, setAlert } from "./alert.slice";
+
+export const loadAlert = (id: string): ThunkResult<void> => {
+    return async (dispatch, getStore) => {
+        if (!id) {
+            return;
+        }
+
+        const currentAlert = getStore().alert.alert;
+        if (!currentAlert || isEmptyObject(currentAlert)) {
+            // due to UX we shouldn't show loading indicator on already fetched alert
+            // data is fetching in background without loading indicator
+            dispatch(beginAlertFetch());
+        }
+
+        const { data } = await api.get<ApiResponse<IAlert>>(`/api/alert/${id}`);
+        dispatch(setAlert(data));
+
+        dispatch(endAlertFetch());
+    };
+};

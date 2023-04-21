@@ -1,11 +1,12 @@
-import { Body, Controller, Post, Get, UseGuards, Query } from '@nestjs/common';
+import { Body, Controller, Post, Get, UseGuards, Query, Param, Delete } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
 import { AlertService } from './alert.service';
-import { AlertQueryDto, CreateAlertDto } from 'src/common/types/dto/alert.dto';
+import { AlertHistoryQueryDto, AlertQueryDto, CreateAlertDto } from 'src/common/types/dto/alert.dto';
 import { ApiResponse } from 'src/common/types/dto/response.dto';
-import { AlertQueryService } from './query/alert-query.service';
+import { AlertQueryService } from './alert-query/alert-query.service';
 import { IAlert } from '@traceo/types';
+import { AlertHistoryQueryService } from './alert-history/alert-history-query.service';
 
 @Controller('alert')
 @ApiTags('alert')
@@ -14,13 +15,27 @@ export class AlertController {
     constructor(
         private readonly alertService: AlertService,
         private readonly alertQueryService: AlertQueryService,
+        private readonly alertHistoryQueryService: AlertHistoryQueryService
     ) { }
+
+    @Get('/history')
+    public async getAlertHistory(
+        @Query() query: AlertHistoryQueryDto
+    ): Promise<ApiResponse<IAlert[]>> {
+        return this.alertHistoryQueryService.getPaginateApiListDto(query);
+    }
+
+    @Get('/:id')
+    public async getAlert(
+        @Param("id") id: string
+    ): Promise<ApiResponse<IAlert[]>> {
+        return this.alertQueryService.getApiDto(id);
+    }
 
     @Get()
     public async getAlertsForProject(
         @Query() query: AlertQueryDto
     ): Promise<ApiResponse<IAlert[]>> {
-        console.log("query: ", query);
         return this.alertQueryService.getPaginateApiListDto(query);
     }
 
@@ -29,5 +44,10 @@ export class AlertController {
         @Body() dto: CreateAlertDto
     ): Promise<ApiResponse<unknown>> {
         return await this.alertService.createAlert(dto);
+    }
+
+    @Delete("/:id")
+    public async deleteAlert(@Param("id") id: string): Promise<ApiResponse<unknown>> {
+        return await this.alertService.delete(id);
     }
 }

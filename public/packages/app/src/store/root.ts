@@ -8,6 +8,7 @@ import incidentReducer from "../features/project/incidents/state/slices/incident
 import groupedEventsReducer from "../features/project/incidents/state/slices/grouped-events.slice";
 
 import metricsReducer from "../features/project/metrics/state/reducers";
+import alertsSlice from "../features/project/alerting/state/alert.slice";
 import membersReducer from "../features/project/settings/state/members/reducers";
 import applicationReducer from "../features/project/state/project/reducers";
 import userReducer from "../features/auth/state/reducers";
@@ -29,6 +30,7 @@ const adminReducers = {
 const rootReducers = {
   ...userReducer,
   ...membersReducer,
+  ...alertsSlice,
   ...applicationReducer,
   ...logsReducer,
   ...navbarReducer,

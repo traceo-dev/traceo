@@ -1,17 +1,20 @@
 import { BellOutlined, PlusOutlined } from "@ant-design/icons";
 import { AlertStatus, IAlert, PaginateType, SortOrder } from "@traceo/types";
 import { Button, Card, InputSearch, Select, Table, TableColumn } from "@traceo/ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Page } from "src/core/components/Page";
 import { SearchWrapper } from "src/core/components/SearchWrapper";
 import { useReactQuery } from "src/core/hooks/useReactQuery";
 import dateUtils from "src/core/utils/date";
 import { mapAlertTypeToName, mapSeverityToSpan, mapStatusToTag } from "./utils";
+import { useAppDispatch } from "src/store/index";
+import { resetAlertState } from "./state/alert.slice";
 
 const ALERT_PAGE_SIZE = 15;
-const AlertingPage = () => {
+const AlertsListPage = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
 
   const [search, setSearch] = useState<string>(null);
@@ -38,6 +41,10 @@ const AlertingPage = () => {
       take: ALERT_PAGE_SIZE
     }
   });
+
+  useEffect(() => {
+    dispatch(resetAlertState());
+  }, []);
 
   return (
     <Page
@@ -73,16 +80,17 @@ const AlertingPage = () => {
             loading={isLoading}
             currentPage={page}
             pageSize={ALERT_PAGE_SIZE}
+            onRowClick={(alert) => navigate(`/project/${id}/alerting/${alert.id}/details`)}
           >
             <TableColumn name="Name" value="name" />
             <TableColumn name="Status">{({ item }) => mapStatusToTag[item.status]}</TableColumn>
-            <TableColumn name="Type">{({ item }) => mapAlertTypeToName[item.type]}</TableColumn>
             <TableColumn name="Severity">
               {({ item }) => mapSeverityToSpan[item.severity]}
             </TableColumn>
             <TableColumn name="Last triggered">
               {({ item }) => <span>{dateUtils.fromNow(item.lastTriggered)}</span>}
             </TableColumn>
+            <TableColumn name="Type">{({ item }) => mapAlertTypeToName[item.type]}</TableColumn>
             <TableColumn name="Rules count">
               {({ item }) => <span>{item?.rules.length} rules</span>}
             </TableColumn>
@@ -93,4 +101,4 @@ const AlertingPage = () => {
   );
 };
 
-export default AlertingPage;
+export default AlertsListPage;
