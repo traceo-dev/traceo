@@ -116,7 +116,17 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
     },
     {
       path: "/project/:id/alerting",
-      component: lazy(() => import("../features/project/alerting/AlertingPage")),
+      component: lazy(() => import("../features/project/alerting/AlertsListPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/alerting/:aid/details",
+      component: lazy(() => import("../features/project/alerting/AlertPreviewPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/alerting/:aid/history",
+      component: lazy(() => import("../features/project/alerting/AlertHistoryPage")),
       wrapper: ProjectDashboardWrapper
     },
     {

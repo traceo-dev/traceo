@@ -10,6 +10,16 @@ export class AlertQueryService extends BaseQueryService<Alert, AlertQueryDto> {
         super(entityManager, Alert);
     }
 
+    override async getDto(id: string): Promise<Alert> {
+        return await this.repository
+            .createQueryBuilder("alert")
+            .where("alert.id = :id", { id })
+            .leftJoinAndSelect("alert.rules", "rules")
+            .leftJoinAndSelect("alert.recipients", "recipients")
+            .leftJoinAndSelect("recipients.user", "user")
+            .getOne();
+    }
+
     public extendQueryBuilder(builder: SelectQueryBuilder<Alert>, query: AlertQueryDto): SelectQueryBuilder<Alert> {
         builder
             .where("alert.project_id = :projectId", { projectId: query.projectId })

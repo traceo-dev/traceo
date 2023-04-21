@@ -26,7 +26,7 @@ export const mapRuleTypeToString = (rule: Partial<IAlertRule>) => {
     case "occur_new_incident_with":
       return `When new incident occur with ${rule.field} ${rule.operator} ${rule.value}`;
     case "occur_more_than":
-      return `The number of new incident is more than ${rule.value} in last ${rule.time}`;
+      return `The number of new incident is more than ${rule.value} in last ${rule.time} minutes`;
     case "incident_changed_status":
       return `When incident change state from resolved to unresolved`;
     case "events_number_interval":
@@ -45,19 +45,19 @@ export const mapStatusToTag: Record<AlertStatus, JSX.Element> = {
 export const mapSeverityToSpan: Record<AlertSeverity, JSX.Element> = {
   [AlertSeverity.INFO]: (
     <div className="flex flex-row gap-x-2 items-center">
-      <InfoCircleOutlined className="text-sky-500" />
+      <InfoCircleOutlined />
       <span>Info</span>
     </div>
   ),
   [AlertSeverity.WARNING]: (
     <div className="flex flex-row gap-x-2 items-center">
-      <WarningOutlined className="text-orange-500" />
+      <WarningOutlined />
       <span>Warning</span>
     </div>
   ),
   [AlertSeverity.CRITICAl]: (
     <div className="flex flex-row gap-x-2 items-center">
-      <StopOutlined className="text-red-600" />
+      <StopOutlined />
       <span>Critical</span>
     </div>
   )

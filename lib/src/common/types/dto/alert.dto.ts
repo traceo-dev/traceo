@@ -10,6 +10,13 @@ export class AlertQueryDto extends BaseDtoQuery {
     @ApiPropertyOptional()
     status: AlertStatus;
 }
+
+export class AlertHistoryQueryDto extends BaseDtoQuery {
+    @IsString()
+    @IsNotEmpty()
+    alertId: string;
+}
+
 export class CreateAlertDto {
     @IsString()
     @IsNotEmpty()
