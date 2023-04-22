@@ -55,7 +55,7 @@ export const mapSeverityToSpan: Record<AlertSeverity, JSX.Element> = {
       <span>Warning</span>
     </div>
   ),
-  [AlertSeverity.CRITICAl]: (
+  [AlertSeverity.CRITICAL]: (
     <div className="flex flex-row gap-x-2 items-center">
       <StopOutlined />
       <span>Critical</span>

@@ -35,6 +35,9 @@ export class CreateAlertDto {
     @ApiPropertyOptional()
     description: string;
 
+    @IsNotEmpty()
+    minTimeInterval: number;
+
     @IsString()
     @IsNotEmpty()
     severity: AlertSeverity;

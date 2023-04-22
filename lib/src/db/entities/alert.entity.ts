@@ -41,6 +41,9 @@ export class Alert extends BaseEntity implements IAlert {
     @Column({ type: "boolean", nullable: false, name: "email_notification" })
     emailNotification: boolean;
 
+    @Column({ type: "bigint", nullable: true, name: "min_time_interval" })
+    minTimeInterval: number;
+
     @OneToMany(() => AlertRule, (rule) => rule.alert, {
         onUpdate: "CASCADE",
         onDelete: "CASCADE"

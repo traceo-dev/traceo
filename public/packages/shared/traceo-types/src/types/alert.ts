@@ -85,6 +85,8 @@ export interface IAlert {
 
     emailNotification: boolean;
 
+    minTimeInterval: number;
+
     rules: IAlertRule[];
 
     history: IAlertHistory[];

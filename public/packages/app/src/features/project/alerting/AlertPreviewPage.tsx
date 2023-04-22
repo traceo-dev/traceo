@@ -81,6 +81,11 @@ const AlertPreviewPage = () => {
                 {dateUtils.formatDate(alert?.lastTriggered, "DD MMM YYYY, HH:mm")}
               </Typography>
             </FieldLabel>
+            <FieldLabel label="Min. time interval">
+              <Typography size="sm" weight="normal">
+                {alert?.minTimeInterval}m
+              </Typography>
+            </FieldLabel>
             <FieldLabel label="In-app notification">
               <span>{alert?.inAppNotification ? <CheckOutlined /> : <CloseOutlined />}</span>
             </FieldLabel>

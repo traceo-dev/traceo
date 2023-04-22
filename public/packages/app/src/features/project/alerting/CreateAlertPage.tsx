@@ -29,6 +29,7 @@ type AlertType = {
   name: string;
   description: string;
   severity: AlertSeverity;
+  minTimeInterval: number;
 };
 
 const CreateAlertPage = () => {
@@ -69,15 +70,9 @@ const CreateAlertPage = () => {
       recipients: !isAllMembers ? selectedMembers.map((e) => e.id) : []
     };
 
-    try {
-      const resp: ApiResponse<unknown> = await api.post("/api/alert", alertPayload);
-      notify[resp.status](resp.message);
-
-      if (resp.status === "success") {
-        navigate(`/project/${id}/alerting`);
-      }
-    } catch (err) {
-      notify.error(TRY_AGAIN_LATER_ERROR);
+    const resp: ApiResponse<unknown> = await api.post("/api/alert", alertPayload);
+    if (resp.status === "success") {
+      navigate(`/project/${id}/alerting`);
     }
   };
 
@@ -152,6 +147,20 @@ const CreateAlertPage = () => {
                     </FormItem>
                     <FormItem label="Description" error={errors.description}>
                       <InputArea {...register("description")} />
+                    </FormItem>
+                    <FormItem
+                      className="w-1/4"
+                      label="Min. time interval"
+                      error={errors.minTimeInterval}
+                      tooltip="The minimum time interval to receive the next alert of the same type. Value passed in minutes."
+                    >
+                      <Input
+                        min={1}
+                        type="number"
+                        {...register("minTimeInterval", {
+                          required: true
+                        })}
+                      />
                     </FormItem>
                   </>
                 )}
