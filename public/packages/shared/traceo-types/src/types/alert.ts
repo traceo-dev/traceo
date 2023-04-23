@@ -1,4 +1,5 @@
 import { IMember } from "./member";
+import { ProjectMember } from "./project";
 
 export enum AlertStatus {
     ACTIVE = "active",

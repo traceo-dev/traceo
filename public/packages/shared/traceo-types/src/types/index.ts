@@ -32,3 +32,6 @@ export type Dictionary<T> = {
     [key: string]: T;
 };
 
+export type Setter<S> = (arg: S) => void;
+
+export type TriggerType = () => void;

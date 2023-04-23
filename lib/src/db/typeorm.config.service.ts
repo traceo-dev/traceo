@@ -12,7 +12,7 @@ import { Event } from "./entities/event.entity";
 import { ClickhouseMigration } from "./migrations/clickhouse.migration";
 import { Alert } from "./entities/alert.entity";
 import { AlertRule } from "./entities/alert-rule.entity";
-import { AlertHistory } from "./entities/alert-history";
+import { AlertHistory } from "./entities/alert-history.entity";
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {

@@ -1,10 +1,10 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { AlertRule } from "./alert-rule.entity";
 import { Member } from "./member.entity";
-import { AlertEnumType, AlertSeverity, AlertStatus, IAlert, IMember, IProject, LogicOperator } from "@traceo/types";
+import { AlertEnumType, AlertSeverity, AlertStatus, IAlert, IMember, IProject, LogicOperator, ProjectMember } from "@traceo/types";
 import { BaseEntity } from "../../common/base/base.entity";
 import { Project } from "./project.entity";
-import { AlertHistory } from "./alert-history";
+import { AlertHistory } from "./alert-history.entity";
 
 @Entity()
 export class Alert extends BaseEntity implements IAlert {

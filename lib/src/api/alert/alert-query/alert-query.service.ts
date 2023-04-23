@@ -11,7 +11,14 @@ export class AlertQueryService extends BaseQueryService<Alert, AlertQueryDto> {
     }
 
     override async getDto(id: string): Promise<Alert> {
-        return await this.repository
+        return await this.getTransactionalDto(id);
+    }
+
+    /**
+     * Method to use in transactional operations. Pass manager parameter as your transaction instance.
+     */
+    public async getTransactionalDto(id: string, manager: EntityManager = this.entityManager) {
+        return await manager.getRepository(Alert)
             .createQueryBuilder("alert")
             .where("alert.id = :id", { id })
             .leftJoinAndSelect("alert.rules", "rules")

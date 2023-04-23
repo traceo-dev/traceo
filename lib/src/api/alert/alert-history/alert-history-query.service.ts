@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { BaseQueryService } from "src/common/base/query/base-query.service";
 import { AlertHistoryQueryDto } from "src/common/types/dto/alert.dto";
-import { AlertHistory } from "src/db/entities/alert-history";
+import { AlertHistory } from "src/db/entities/alert-history.entity";
 import { EntityManager, SelectQueryBuilder } from "typeorm";
 
 @Injectable()

@@ -48,8 +48,6 @@ const VitalsPreviewPage = () => {
       search
     }
   });
-
-  console.log("perfs: ", performances);
   
   useEffect(() => {
     refetch();
