@@ -1,13 +1,6 @@
-import { ProjectMember } from "@traceo/types";
 import { SelectOptionProps } from "@traceo/ui";
 
-export interface AlertRule {
-    uuid?: string;
-    type?: string; //enum
-    [x: string]: any;
-}
-
-export enum IncidentPrimaryCondition {
+export enum IncidentRule {
     OCCUR_NEW_INCIDENT = "occur_new_incident",
     OCCUR_NEW_INCIDENT_WITH = "occur_new_incident_with",
     OCCUR_MORE_THAN = "occur_more_than",
@@ -71,4 +64,28 @@ export enum LogicOperator {
 export const LOGICAL_OPERATORS_OPTIONS: SelectOptionProps[] = [
     { label: "all", value: LogicOperator.ALL },
     { label: "any", value: LogicOperator.ANY }
+];
+
+export const INCIDENT_BASE_RULES: SelectOptionProps[] = [
+    {
+        label: "When occur a new incident",
+        value: IncidentRule.OCCUR_NEW_INCIDENT
+    },
+    {
+        label: "When occur a new incident with {field} {operator} {value}",
+        value: IncidentRule.OCCUR_NEW_INCIDENT_WITH
+    },
+    {
+        label: "The number of new incident is more than {value} in last {time_period}",
+        value: IncidentRule.OCCUR_MORE_THAN
+    },
+    {
+        label: "When incident change state from resolved to unresolved",
+        value: IncidentRule.INCIDENT_CHANGED_STATUS
+    },
+    {
+        label:
+            "The number of events for incident {incident} is more than {value} in last {time_period}",
+        value: IncidentRule.EVENTS_NUMBER_INTERVAL
+    }
 ];

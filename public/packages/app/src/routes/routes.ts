@@ -130,6 +130,11 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       wrapper: ProjectDashboardWrapper
     },
     {
+      path: "/project/:id/alerting/:aid/edit",
+      component: lazy(() => import("../features/project/alerting/EditAlertPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
       path: "/project/:id/alerting/create",
       component: lazy(() => import("../features/project/alerting/CreateAlertPage")),
       wrapper: ProjectDashboardWrapper

@@ -17,9 +17,10 @@ export class AlertHistoryQueryDto extends BaseDtoQuery {
     alertId: string;
 }
 
-export class CreateAlertDto {
+export class AlertDto {
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
+    @ApiPropertyOptional()
     projectId: string;
 
     @IsString()
@@ -31,9 +32,16 @@ export class CreateAlertDto {
     name: string;
 
     @IsString()
+    @IsNotEmpty()
+    status: AlertStatus;
+
+    @IsString()
     @IsOptional()
     @ApiPropertyOptional()
     description: string;
+
+    @IsNotEmpty()
+    minTimeInterval: number;
 
     @IsString()
     @IsNotEmpty()
@@ -64,6 +72,14 @@ export class CreateAlertDto {
 }
 
 class AlertRuleDto {
+    /**
+     * This field is filled in only in edit
+     */
+    @IsString()
+    @IsOptional()
+    @ApiPropertyOptional()
+    id: string;
+
     @IsString()
     @IsNotEmpty()
     type: string;

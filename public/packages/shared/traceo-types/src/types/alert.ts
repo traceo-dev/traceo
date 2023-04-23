@@ -1,4 +1,5 @@
 import { IMember } from "./member";
+import { ProjectMember } from "./project";
 
 export enum AlertStatus {
     ACTIVE = "active",
@@ -84,6 +85,8 @@ export interface IAlert {
     inAppNotification: boolean;
 
     emailNotification: boolean;
+
+    minTimeInterval: number;
 
     rules: IAlertRule[];
 

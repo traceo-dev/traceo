@@ -7,8 +7,23 @@ import {
   WarningOutlined,
   StopOutlined
 } from "@ant-design/icons";
-import { AlertEnumType, IAlertRule, AlertStatus, AlertSeverity } from "@traceo/types";
+import {
+  AlertEnumType,
+  IAlertRule,
+  AlertStatus,
+  AlertSeverity,
+  OperatorEnum
+} from "@traceo/types";
 import { SelectOptionProps, Tag } from "@traceo/ui";
+import styled from "styled-components";
+import { TIME_OPTIONS } from "./rules/utils";
+
+export type AlertFormType = {
+  name: string;
+  description: string;
+  severity: AlertSeverity;
+  minTimeInterval: number;
+};
 
 export const mapAlertTypeToIcon: Record<AlertEnumType, JSX.Element> = {
   [AlertEnumType.INCIDENT]: <AlertOutlined />,
@@ -20,17 +35,27 @@ export const mapAlertTypeToIcon: Record<AlertEnumType, JSX.Element> = {
 export const mapRuleTypeToString = (rule: Partial<IAlertRule>) => {
   const type = rule.type;
 
+  const time = TIME_OPTIONS.find(({ value }) => value === Number(rule.time));
+
+  const mapOperator: Record<OperatorEnum, string> = {
+    [OperatorEnum.EQUALS]: "equals",
+    [OperatorEnum.LIKE]: "like",
+    [OperatorEnum.STARTS_WITH]: "starts with"
+  };
+
   switch (type) {
     case "occur_new_incident":
       return "When new incident occur";
     case "occur_new_incident_with":
-      return `When new incident occur with ${rule.field} ${rule.operator} ${rule.value}`;
+      return `When new incident occur with ${rule.field} ${mapOperator[rule.operator]} ${
+        rule.value
+      }`;
     case "occur_more_than":
-      return `The number of new incident is more than ${rule.value} in last ${rule.time} minutes`;
+      return `The number of new incident is more than ${rule.count} in last ${time?.label}`;
     case "incident_changed_status":
       return `When incident change state from resolved to unresolved`;
     case "events_number_interval":
-      return `The number of events for incident ${rule.incidentId} is more than ${rule.count} in last ${rule.time} mintues`;
+      return `The number of events for incident ${rule.incidentId} is more than ${rule.count} in last ${time?.label}`;
     default:
       return type;
   }
@@ -55,7 +80,7 @@ export const mapSeverityToSpan: Record<AlertSeverity, JSX.Element> = {
       <span>Warning</span>
     </div>
   ),
-  [AlertSeverity.CRITICAl]: (
+  [AlertSeverity.CRITICAL]: (
     <div className="flex flex-row gap-x-2 items-center">
       <StopOutlined />
       <span>Critical</span>
@@ -92,3 +117,51 @@ export const alertOptions: SelectOptionProps[] = [
     icon: <AlignLeftOutlined className="text-3xl text-yellow-500" />
   }
 ];
+
+export const Section = styled.div`
+  width: 100%;
+  padding-bottom: 65px;
+  display: flex;
+  flex-direction: column;
+  color: var(--color-text-primary);
+`;
+
+export const SectionContent = styled.div`
+  padding-inline: 25px;
+`;
+
+export const SectionHeader = ({ title, description = null, index }) => {
+  return (
+    <div className="flex flex-row text-primary mb-5">
+      <span className="text-xl font-semibold">{index}.</span>
+      <div className="flex flex-col pl-3">
+        <span className="font-semibold text-xl text-primary">{title}</span>
+        {description && <span className="text-md text-primary">{description}</span>}
+      </div>
+    </div>
+  );
+};
+
+export const NotificationSwitchWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 15px;
+  justify-content: space-between;
+  width: 100%;
+`;
+
+export const RowContainer = styled.div`
+  width: 100%;
+  justify-content: space-between;
+  color: var(--color-text-primary);
+  display: flex;
+  flex-direction: row;
+  gap-row: 12px;
+  border: 1px solid var(--color-bg-light-secondary);
+  border-radius: 6px;
+  padding: 6px;
+  padding-inline: 12px;
+  align-items: center;
+  margin-bottom: 9px;
+`;

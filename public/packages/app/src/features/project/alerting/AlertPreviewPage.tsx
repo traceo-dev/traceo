@@ -16,6 +16,9 @@ import { mapRuleTypeToString } from "./utils";
 import AlertPageWrapper from "./components/AlertPageWrapper";
 import { StoreState } from "@store/types";
 import { useSelector } from "react-redux";
+import api from "src/core/lib/api";
+import { useAppDispatch } from "src/store";
+import { loadAlert } from "./state/actions";
 
 const statusOptions: SelectOptionProps[] = Object.values(AlertStatus).map((e) => ({
   label: e,
@@ -23,8 +26,16 @@ const statusOptions: SelectOptionProps[] = Object.values(AlertStatus).map((e) =>
 }));
 
 const AlertPreviewPage = () => {
+  const dispatch = useAppDispatch();
   const { alert } = useSelector((state: StoreState) => state.alert);
   const recipientsSize = alert?.recipients?.length;
+
+  const onChangeStatus = async (status: AlertStatus) => {
+    console.log(status)
+    await api.patch(`/api/alert/${alert.id}`, { ...alert, status }).then(() => {
+      dispatch(loadAlert(alert.id));
+    });
+  };
 
   return (
     <AlertPageWrapper>
@@ -74,11 +85,20 @@ const AlertPreviewPage = () => {
         <div className="col-span-3 ml-1">
           <Card title="Info">
             <FieldLabel label="Status">
-              <Select value={alert?.status} options={statusOptions} />
+              <Select
+                onChange={(e) => onChangeStatus(e?.value)}
+                value={alert?.status}
+                options={statusOptions}
+              />
             </FieldLabel>
             <FieldLabel label="Last triggered at">
               <Typography size="sm" weight="normal">
                 {dateUtils.formatDate(alert?.lastTriggered, "DD MMM YYYY, HH:mm")}
+              </Typography>
+            </FieldLabel>
+            <FieldLabel label="Min. time interval">
+              <Typography size="sm" weight="normal">
+                {alert?.minTimeInterval}m
               </Typography>
             </FieldLabel>
             <FieldLabel label="In-app notification">

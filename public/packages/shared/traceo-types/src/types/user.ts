@@ -31,7 +31,7 @@ export interface IUser {
   lastActiveAt?: number;
   createdAt?: number;
   
-  defaultOrganizationId: string;
+  // defaultOrganizationId: string;
 
-  organizations: IMember[];
+  // organizations: IMember[];
 }

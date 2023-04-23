@@ -1,8 +1,8 @@
-import { Body, Controller, Post, Get, UseGuards, Query, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Post, Get, UseGuards, Query, Param, Delete, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
 import { AlertService } from './alert.service';
-import { AlertHistoryQueryDto, AlertQueryDto, CreateAlertDto } from 'src/common/types/dto/alert.dto';
+import { AlertHistoryQueryDto, AlertQueryDto, AlertDto } from 'src/common/types/dto/alert.dto';
 import { ApiResponse } from 'src/common/types/dto/response.dto';
 import { AlertQueryService } from './alert-query/alert-query.service';
 import { IAlert } from '@traceo/types';
@@ -41,9 +41,14 @@ export class AlertController {
 
     @Post()
     public async createAlert(
-        @Body() dto: CreateAlertDto
+        @Body() dto: AlertDto
     ): Promise<ApiResponse<unknown>> {
         return await this.alertService.createAlert(dto);
+    }
+
+    @Patch("/:id")
+    public async update(@Param("id") id: string, @Body() update: AlertDto): Promise<ApiResponse<unknown>> {
+        return await this.alertService.update(id, update);
     }
 
     @Delete("/:id")
