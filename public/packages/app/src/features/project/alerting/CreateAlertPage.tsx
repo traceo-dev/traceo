@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   AlertEnumType,
   AlertSeverity,
+  AlertStatus,
   ApiResponse,
   Dictionary,
   IAlert,
@@ -29,7 +30,10 @@ const CreateAlertPage = () => {
   const { id } = useParams();
 
   const onFinish = async (alert: Dictionary<any>) => {
-    const resp: ApiResponse<unknown> = await api.post("/api/alert", alert);
+    const resp: ApiResponse<unknown> = await api.post("/api/alert", {
+      ...alert,
+      status: AlertStatus.ACTIVE
+    });
     if (resp.status === "success") {
       navigate(`/project/${id}/alerting`);
     }

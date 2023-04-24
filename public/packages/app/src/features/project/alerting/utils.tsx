@@ -77,23 +77,29 @@ export const mapStatusToTag = (alert: IAlert) => {
   return tag[alert.status];
 };
 
+export const mapSeverityIcon: Record<AlertSeverity, JSX.Element> = {
+  [AlertSeverity.INFO]: <InfoCircleOutlined className="text-blue-500" />,
+  [AlertSeverity.WARNING]: <WarningOutlined className="text-yellow-500" />,
+  [AlertSeverity.CRITICAL]: <StopOutlined className="text-red-500" />
+};
+
 export const mapSeverityToSpan: Record<AlertSeverity, JSX.Element> = {
   [AlertSeverity.INFO]: (
     <div className="flex flex-row gap-x-2 items-center">
-      <InfoCircleOutlined />
-      <span>Info</span>
+      {mapSeverityIcon[AlertSeverity.INFO]}
+      <span className="text-2xs">Info</span>
     </div>
   ),
   [AlertSeverity.WARNING]: (
     <div className="flex flex-row gap-x-2 items-center">
-      <WarningOutlined />
-      <span>Warning</span>
+      {mapSeverityIcon[AlertSeverity.WARNING]}
+      <span className="text-2xs">Warning</span>
     </div>
   ),
   [AlertSeverity.CRITICAL]: (
     <div className="flex flex-row gap-x-2 items-center">
-      <StopOutlined />
-      <span>Critical</span>
+      {mapSeverityIcon[AlertSeverity.CRITICAL]}
+      <span className="text-2xs">Critical</span>
     </div>
   )
 };

@@ -11,7 +11,7 @@ import {
   alertSortOptions,
   alertStatusOptions,
   mapAlertTypeToName,
-  mapSeverityToSpan,
+  mapSeverityIcon,
   mapStatusToTag
 } from "./utils";
 import { useAppDispatch } from "src/store/index";
@@ -119,11 +119,9 @@ const AlertsListPage = () => {
             pageSize={ALERT_PAGE_SIZE}
             onRowClick={(alert) => navigate(`/project/${id}/alerting/${alert.id}/details`)}
           >
+            <TableColumn width={15}>{({ item }) => mapSeverityIcon[item.severity]}</TableColumn>
             <TableColumn name="Name" value="name" />
             <TableColumn name="Status">{({ item }) => mapStatusToTag(item)}</TableColumn>
-            <TableColumn name="Severity">
-              {({ item }) => mapSeverityToSpan[item.severity]}
-            </TableColumn>
             <TableColumn name="Last triggered">
               {({ item }) => <span>{dateUtils.fromNow(item.lastTriggered)}</span>}
             </TableColumn>
