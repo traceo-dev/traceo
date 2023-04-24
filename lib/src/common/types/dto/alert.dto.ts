@@ -35,6 +35,10 @@ export class AlertDto {
     @IsNotEmpty()
     status: AlertStatus;
 
+    @IsOptional()
+    @ApiPropertyOptional()
+    mutedEndAt: number;
+
     @IsString()
     @IsOptional()
     @ApiPropertyOptional()

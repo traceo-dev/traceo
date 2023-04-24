@@ -23,3 +23,19 @@ export const loadAlert = (id: string): ThunkResult<void> => {
         dispatch(endAlertFetch());
     };
 };
+
+type AlertDto = Omit<IAlert, "recipients"> & {
+    recipients: string[];
+}
+
+export const updateAlert = (update: Partial<AlertDto>): ThunkResult<void> => {
+    return async (dispatch, getStore) => {
+        const currentAlert = getStore().alert.alert;
+        if (!currentAlert) {
+            return;
+        }
+
+        await api.patch<ApiResponse<IAlert>>(`/api/alert/${currentAlert.id}`, update);
+        dispatch(loadAlert(currentAlert.id));
+    }
+}

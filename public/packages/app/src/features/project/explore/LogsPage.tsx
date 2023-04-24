@@ -17,6 +17,8 @@ const LazyLogsExplorePlot = lazy(
   () => import("../../../core/components/Charts/Logs/LogsExploreChart")
 );
 
+const MAX_DATE = new Date(dayjs().unix() * 1e3);
+
 const LogsPage = () => {
   const { id } = useParams();
   const { levels, setLevels } = useLogLevels();
@@ -62,6 +64,7 @@ const LogsPage = () => {
         options={relativeTimeOptions}
         maxHourPeriod={3}
         submit={(val: [number, number]) => setRanges(val)}
+        maxDate={MAX_DATE}
       />
     </div>
   );

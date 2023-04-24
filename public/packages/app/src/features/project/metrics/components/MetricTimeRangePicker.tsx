@@ -1,4 +1,5 @@
 import { RelativeTimeOption, TimeRangePicker } from "@traceo/ui";
+import dayjs from "dayjs";
 
 interface Props {
   ranges: [number, number];
@@ -58,11 +59,13 @@ const relativeTimeOptions: RelativeTimeOption[] = [
   }
 ];
 
+const MAX_DATE = new Date(dayjs().unix() * 1e3);
 export const MetricTimeRangePicker = ({ ranges, setRanges }: Props) => (
   <TimeRangePicker
     datesRange={true}
     value={ranges}
     options={relativeTimeOptions}
     submit={(val: [number, number]) => setRanges(val)}
+    maxDate={MAX_DATE}
   />
 );

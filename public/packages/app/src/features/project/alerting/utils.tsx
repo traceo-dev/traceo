@@ -12,11 +12,13 @@ import {
   IAlertRule,
   AlertStatus,
   AlertSeverity,
-  OperatorEnum
+  OperatorEnum,
+  IAlert
 } from "@traceo/types";
-import { SelectOptionProps, Tag } from "@traceo/ui";
+import { SelectOptionProps, Tag, Tooltip, toTitleCase } from "@traceo/ui";
 import styled from "styled-components";
-import { TIME_OPTIONS } from "./rules/utils";
+import { TIME_OPTIONS } from "./rules/types";
+import dayjs from "dayjs";
 
 export type AlertFormType = {
   name: string;
@@ -61,10 +63,18 @@ export const mapRuleTypeToString = (rule: Partial<IAlertRule>) => {
   }
 };
 
-export const mapStatusToTag: Record<AlertStatus, JSX.Element> = {
-  [AlertStatus.ACTIVE]: <Tag color="green">Active</Tag>,
-  [AlertStatus.INACTIVE]: <Tag color="gray">Inactive</Tag>,
-  [AlertStatus.MUTED]: <Tag>Muted</Tag>
+export const mapStatusToTag = (alert: IAlert) => {
+  const tag: Record<AlertStatus, JSX.Element> = {
+    [AlertStatus.ACTIVE]: <Tag color="green">Active</Tag>,
+    [AlertStatus.INACTIVE]: <Tag color="gray">Inactive</Tag>,
+    [AlertStatus.MUTED]: (
+      <Tooltip title={`Mute end at ${dayjs.unix(alert.mutedEndAt).format("DD-MM-YYYY HH:mm")}`}>
+        <Tag>Muted</Tag>
+      </Tooltip>
+    )
+  };
+
+  return tag[alert.status];
 };
 
 export const mapSeverityToSpan: Record<AlertSeverity, JSX.Element> = {
@@ -165,3 +175,27 @@ export const RowContainer = styled.div`
   align-items: center;
   margin-bottom: 9px;
 `;
+
+export const alertStatusOptions: SelectOptionProps[] = Object.values(AlertStatus).map((e) => ({
+  label: toTitleCase(e),
+  value: e
+}));
+
+export enum AlertSortBy {
+  LAST_TRIGGERED = "lastTriggered",
+  CREATED = "createdAt",
+  STATUS = "status",
+  SEVERITY = "severity"
+}
+
+export const mapSortOptionsLabel: Record<AlertSortBy, string> = {
+  [AlertSortBy.LAST_TRIGGERED]: "Last triggered",
+  [AlertSortBy.CREATED]: "Create date",
+  [AlertSortBy.STATUS]: "Status",
+  [AlertSortBy.SEVERITY]: "Severity"
+};
+
+export const alertSortOptions: SelectOptionProps[] = Object.values(AlertSortBy).map((e) => ({
+  label: mapSortOptionsLabel[e],
+  value: e
+}));

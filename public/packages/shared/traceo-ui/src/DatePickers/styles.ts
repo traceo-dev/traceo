@@ -6,16 +6,6 @@ export const PickerWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const PickerFooter = styled.div`
-  width: 100%;
-  padding: 12px;
-  justify-content: flex-end;
-  align-items: center;
-  border-top: 1px solid var(--color-bg-secondary);
-  text-align: end;
-  background-color: var(--color-bg-primary);
-`;
-
 export const TimeWrapper = styled.div`
   display: flex;
   flex-direction: row;

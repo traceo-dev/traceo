@@ -17,6 +17,10 @@ export const validateInput = (from: Dayjs, to: Dayjs, maxTimePeriod: number) => 
     return null;
 };
 
+export const parseDateTime = (value: number, format: string = "DD-MM-YYYY HH:mm"): string => {
+    return dayjs.unix(value).format(format);
+}
+
 export const parseInputValue = (value: [number, number], range: boolean): string => {
     const from = dayjs.unix(value[0]);
     const to = dayjs.unix(value[1]);
