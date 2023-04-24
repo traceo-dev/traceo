@@ -71,7 +71,6 @@ export class AlertService {
     }
 
     public async update(alertId: string, update: AlertDto) {
-        console.log({ alertId, update })
         return await this.entityManager.transaction(async (manager) => {
             const alert = await this.alertQueryService.getTransactionalDto(alertId, manager);
             const alertRules = await manager.getRepository(AlertRule).find({ where: { alert: { id: alertId } } });
@@ -118,8 +117,11 @@ export class AlertService {
                     .execute();
             })
 
-
-            // remove removed recipients
+            // Case when there was set Muted status and we have to remove mutedEndAt field on change status
+            let mutedEndAt = update.mutedEndAt;
+            if (alert.status === AlertStatus.MUTED && update.status !== AlertStatus.MUTED) {
+                mutedEndAt = null;
+            }
 
             // Update alert
             await manager.getRepository(Alert).update({ id: alertId }, {
@@ -131,7 +133,8 @@ export class AlertService {
                 status: update.status,
                 logicOperator: update.logicOperator,
                 inAppNotification: update.inAppNotification,
-                emailNotification: update.emailNotification
+                emailNotification: update.emailNotification,
+                mutedEndAt
             });
         }).then(() => {
             return new ApiResponse("success", "Alert updated");

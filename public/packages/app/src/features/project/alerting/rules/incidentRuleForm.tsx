@@ -1,6 +1,6 @@
 import { SelectOptionProps, Select, Input } from "@traceo/ui";
 import { Updater } from "use-immer";
-import { IncidentRule, TIME_OPTIONS, INCIDENT_FIELD_OPTIONS, OPERATOR_OPTIONS } from "./utils";
+import { IncidentRule, TIME_OPTIONS, INCIDENT_FIELD_OPTIONS, OPERATOR_OPTIONS } from "./types";
 import { IAlertRule } from "@traceo/types";
 
 type BuilderForm = {

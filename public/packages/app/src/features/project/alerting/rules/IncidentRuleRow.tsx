@@ -1,7 +1,7 @@
 import { MinusOutlined } from "@ant-design/icons";
 import { Select, SelectOptionProps } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { INCIDENT_BASE_RULES } from "./utils";
+import { INCIDENT_BASE_RULES } from "./types";
 import { Updater } from "use-immer";
 import { incidentRulesForm } from "./incidentRuleForm";
 import { IAlertRule, Setter } from "@traceo/types";

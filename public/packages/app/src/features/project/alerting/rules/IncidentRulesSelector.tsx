@@ -1,6 +1,6 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, Select, SelectOptionProps } from "@traceo/ui";
-import { LOGICAL_OPERATORS_OPTIONS, LogicOperator } from "./utils";
+import { LOGICAL_OPERATORS_OPTIONS, LogicOperator } from "./types";
 import { IncidentRuleRow } from "./IncidentRuleRow";
 import { RowContainer } from "../utils";
 import { Updater } from "use-immer";

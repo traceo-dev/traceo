@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { FC } from "react";
 import Calendar from "react-calendar";
 import styled from "styled-components";
@@ -6,32 +5,41 @@ import { parseUnixToDate } from "./utils";
 
 export type CalendarDatesType = number | [number, number] | Date[] | Date;
 interface Props {
-  value: number | [number, number];
+  value?: number;
+  values?: [number, number];
   onChange?: (val: CalendarDatesType) => void;
   range?: boolean;
   width?: number;
   className?: string;
+  minDate?: Date;
+  maxDate?: Date;
 }
 
 export const CalendarBody: FC<Props> = ({
   value,
+  values,
   onChange,
   range = false,
   width = null,
-  className = ""
+  className = "",
+  minDate = null,
+  maxDate = null
 }) => {
-  const calendarValue = parseUnixToDate(value, range);
-
+  const parseValueToDate = () => {
+    if (value) return new Date(value * 1e3);
+    if (values) return parseUnixToDate(values, range);
+  };
   return (
     <CalendarWrapper className={className} width={width}>
       <Calendar
-        value={calendarValue}
+        value={parseValueToDate()}
         onChange={onChange}
         selectRange={range}
         next2Label={null}
         prev2Label={null}
         locale="en"
-        maxDate={new Date(dayjs().unix() * 1e3)}
+        maxDate={maxDate}
+        minDate={minDate}
       />
     </CalendarWrapper>
   );

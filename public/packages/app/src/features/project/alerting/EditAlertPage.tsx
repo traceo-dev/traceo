@@ -14,14 +14,17 @@ const EditAlertPage = () => {
   const dispatch = useAppDispatch();
 
   const { id, aid } = useParams();
-  const { alert, isLoading } = useSelector((state: StoreState) => state.alert);
+  const { alert } = useSelector((state: StoreState) => state.alert);
 
   useEffect(() => {
     dispatch(loadAlert(aid));
   }, []);
 
   const onFinish = async (alertProps: Dictionary<any>) => {
-    const resp: ApiResponse<unknown> = await api.patch(`/api/alert/${aid}`, alertProps);
+    const resp: ApiResponse<unknown> = await api.patch(`/api/alert/${aid}`, {
+      ...alertProps,
+      status: alert.status
+    });
     if (resp.status === "success") {
       navigate(`/project/${id}/alerting/${aid}/details`);
     }

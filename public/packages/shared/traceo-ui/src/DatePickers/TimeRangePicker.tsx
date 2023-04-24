@@ -1,20 +1,14 @@
-import { Alert, Button, FieldLabel, Input } from "../index";
+import { Alert, FieldLabel, Input } from "../index";
 import { useEffect, useState, useCallback } from "react";
-import styled from "styled-components";
 import { CalendarDatesType, CalendarBody } from "./CalendarBody";
 import dayjs, { ManipulateType } from "dayjs";
 import { conditionClass, joinClasses } from "../utils/classes";
-import { PickerWrapper, PickerFooter, TimeWrapper } from "./styles";
+import { PickerWrapper, TimeWrapper } from "./styles";
 import { TimePickerInput } from "./TimePickerInput";
 import { setTimeToUnix, validateInput } from "./utils";
 import { CalendarHeader } from "./CalendarHeader";
-
-export type RelativeTimeOption = {
-  label: string;
-  value: number;
-  unit: ManipulateType;
-  onClick?: () => void;
-};
+import { CalendarFooter } from "./CalendarFooter";
+import { OptionsContainer, RelativeTimeOption } from "./OptionsContainer";
 
 interface Props {
   value: [number, number];
@@ -26,6 +20,10 @@ interface Props {
   disabled?: boolean;
   // Enable checking range time between two dates in calendar
   datesRange?: boolean;
+  // Min date available on calendar
+  minDate?: Date;
+  // Max date available on calendar
+  maxDate?: Date;
 }
 
 export const TimeRangePicker = ({
@@ -34,7 +32,9 @@ export const TimeRangePicker = ({
   options = [],
   maxHourPeriod = null,
   disabled = false,
-  datesRange = false
+  datesRange = false,
+  maxDate = null,
+  minDate = null
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>(null);
@@ -123,24 +123,16 @@ export const TimeRangePicker = ({
     <PickerWrapper>
       <CalendarHeader title="Select time range" />
       <div className="flex flex-row grid grid-cols-12">
-        {hasOptions && (
-          <RelativeTimeWrapper>
-            <ul className="pl-0 list-none overflow-y-scroll">
-              {options.map(({ label, unit, value }, index) => (
-                <RelativeTimeOption key={index} onClick={() => handleOnClickOption(value, unit)}>
-                  {label}
-                </RelativeTimeOption>
-              ))}
-            </ul>
-          </RelativeTimeWrapper>
-        )}
+        {hasOptions && <OptionsContainer options={options} onSelect={handleOnClickOption} />}
         <div className={joinClasses(conditionClass(hasOptions, "col-span-8", "col-span-12"))}>
           <CalendarBody
             className="p-3"
             width={300}
             range={datesRange}
-            value={selectedValue}
+            values={selectedValue}
             onChange={(date) => handleOnChangeCalendar(date)}
+            maxDate={maxDate}
+            minDate={minDate}
           />
           <TimeWrapper>
             <FieldLabel labelSize="xs" label="Time from" className="w-full">
@@ -153,11 +145,7 @@ export const TimeRangePicker = ({
           {error && <Alert type="error" message={error} />}
         </div>
       </div>
-      <PickerFooter>
-        <Button disabled={!!error} size="xs" onClick={handleOnSubmit}>
-          Apply
-        </Button>
-      </PickerFooter>
+      <CalendarFooter disabledApplyBtn={!!error} onSubmit={handleOnSubmit} />
     </PickerWrapper>
   );
 
@@ -165,30 +153,10 @@ export const TimeRangePicker = ({
     <TimePickerInput
       open={open}
       popoverContent={popoverContent}
-      value={value}
+      values={value}
       range={datesRange}
       onClick={() => setOpen(true)}
       disabled={disabled}
     />
   );
 };
-
-const RelativeTimeWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid var(--color-bg-secondary);
-  width: 10rem; /* 160px */
-  grid-column: span 4 / span 4;
-`;
-
-const RelativeTimeOption = styled.li`
-  cursor: pointer;
-  padding-left: 0.75rem; /* 12px */
-  padding-right: 0.75rem; /* 12px */
-  padding-top: 0.5rem; /* 8px */
-  padding-bottom: 0.5rem; /* 8px */
-
-  &:hover {
-    background-color: var(--color-bg-secondary);
-  }
-`;

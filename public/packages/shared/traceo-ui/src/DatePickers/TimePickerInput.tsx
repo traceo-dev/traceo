@@ -1,10 +1,11 @@
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Popover } from "../Popover";
 import { Input } from "../Input";
-import { parseInputValue } from "./utils";
+import { parseDateTime, parseInputValue } from "./utils";
 
 interface Props {
-  value: [number, number];
+  value?: number;
+  values?: [number, number];
   onClick: () => void;
   open: boolean;
   popoverContent: JSX.Element;
@@ -16,11 +17,14 @@ export const TimePickerInput = ({
   onClick,
   open = false,
   value = null,
+  values = null,
   disabled = false,
   range = false
 }: Props) => {
-  const inputValue = parseInputValue(value, range);
-
+  const parseInput = () => {
+    if (value) return parseDateTime(value);
+    if (values) return parseInputValue(values, range);
+  };
   return (
     <Popover
       disabled={disabled}
@@ -35,7 +39,7 @@ export const TimePickerInput = ({
         prefix={<ClockCircleOutlined />}
         readOnly
         disabled={disabled}
-        value={inputValue}
+        value={parseInput()}
         onClick={onClick}
       />
     </Popover>
