@@ -1,4 +1,4 @@
-import { InfoCircleOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined, RightOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { Page } from "src/core/components/Page";
 import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
@@ -12,6 +12,7 @@ import { Button } from "@traceo/ui";
 import api from "src/core/lib/api";
 import { Confirm } from "src/core/components/Confirm";
 import { ApiResponse } from "@traceo/types";
+import { mapSeverityToSpan } from "../utils";
 
 const AlertPageWrapper = ({ children }) => {
   const { id, aid } = useParams();
@@ -57,7 +58,17 @@ const AlertPageWrapper = ({ children }) => {
           <PreviewPageHeader
             page="alerting"
             title={alert?.name}
-            description={alert?.description}
+            description={
+              <div className="flex flex-row items-center pt-2 text-xs">
+                <span className="text-sm mr-1">{mapSeverityToSpan[alert?.severity]}</span>
+                {alert?.description && (
+                  <>
+                    <RightOutlined className="text-[8px] px-2" />
+                    <span className="font-normal">{alert?.description}</span>
+                  </>
+                )}
+              </div>
+            }
           />
         ),
         suffix: (
