@@ -32,6 +32,21 @@ export const CREATE_METRICS_TABLE = `
     ORDER BY (id, timestamp)
 `;
 
+export const CREATE_NOTIFICATIONS_TABLE = `
+    CREATE TABLE IF NOT EXISTS ${CLICKHOUSE_DB_NAME}.notifications (
+        id UUID,
+        title String,
+        description String,
+        href String,
+        user_id String,
+        created_at UInt128,
+        timestamp DateTime
+    )
+    ENGINE = MergeTree()
+    TTL timestamp + INTERVAL ${process.env.CLICKHOUSE_TTL || 14} DAY
+    ORDER BY (id, timestamp)
+`;
+
 export const CREATE_BROWSER_PERFS_TABLE = `
     CREATE TABLE IF NOT EXISTS ${CLICKHOUSE_DB_NAME}.performance (
         id UUID,

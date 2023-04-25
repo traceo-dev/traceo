@@ -1,6 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { NotifyItem } from "@traceo/types";
 import { v4 } from "uuid";
+
+export type NotifyType = "success" | "warning" | "error" | "info";
+export type NotifyItem = {
+  id?: string;
+  title: string;
+  description?: string;
+  type: NotifyType;
+};
 
 export interface NotificationState {
   notifications: NotifyItem[];

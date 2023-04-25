@@ -1,16 +1,25 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { BaseQueryService } from "../../../common/base/query/base-query.service";
 import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
 import { User } from "../../../db/entities/user.entity";
 import { EntityManager, SelectQueryBuilder } from "typeorm";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { IUser } from "@traceo/types";
+import { IUser, Notification } from "@traceo/types";
 import { RequestContext } from "../../../common/middlewares/request-context/request-context.model";
+import { ClickhouseService } from "src/common/services/clickhouse/clickhouse.service";
+import { INTERNAL_SERVER_ERROR } from "src/common/helpers/constants";
 
 @Injectable()
 export class UserQueryService extends BaseQueryService<User, BaseDtoQuery> {
-  constructor(private readonly entityManager: EntityManager) {
+  private logger: Logger;
+
+  constructor(
+    private readonly entityManager: EntityManager,
+    private readonly clickhouseService: ClickhouseService
+  ) {
     super(entityManager, User);
+
+    this.logger = new Logger(UserQueryService.name);
   }
 
   public async getSignedInUser(): Promise<ApiResponse<IUser>> {
@@ -65,5 +74,18 @@ export class UserQueryService extends BaseQueryService<User, BaseDtoQuery> {
       "isAdmin",
       "isPasswordUpdated"
     ];
+  }
+
+  public async getUserNotifications() {
+    try {
+      const userId = RequestContext.user.id;
+      const notifications: Notification[] = await this.clickhouseService.loadUserNotifications(userId);
+      console.log("n: ", notifications);
+      
+      return new ApiResponse("success", undefined, notifications);
+    } catch (error) {
+      this.logger.error(`[${this.getUserNotifications.name}] Caused by: ${error}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+    }
   }
 }

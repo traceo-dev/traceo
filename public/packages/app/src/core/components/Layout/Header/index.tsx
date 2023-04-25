@@ -1,5 +1,8 @@
 import {
+  AlertOutlined,
   AppstoreOutlined,
+  BellFilled,
+  BellOutlined,
   LoadingOutlined,
   LogoutOutlined,
   PlusOutlined,
@@ -22,6 +25,9 @@ import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { MemberProject } from "@traceo/types";
 import { useUser } from "../../../../core/hooks/useUser";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import dateUtils from "src/core/utils/date";
+import { NotificationPopover } from "./Notifications/NotificationPopover";
 
 const createNewOptions: MenuRoute[] = [
   {
@@ -157,9 +163,11 @@ export const Header = () => {
             )}
           </ServerPermissions>
 
-          <a href={GH_REPO_LINK} target="blank" className="text-primary">
+          <NotificationPopover />
+
+          {/* <a href={GH_REPO_LINK} target="blank" className="text-primary">
             <QuestionCircleOutlined className="icon-btn" />
-          </a>
+          </a> */}
 
           {isProjectDashboard && (
             <UserOutlined

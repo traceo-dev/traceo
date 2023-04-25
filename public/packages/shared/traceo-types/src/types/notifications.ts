@@ -1,7 +1,8 @@
-export type NotifyType = "success" | "warning" | "error" | "info";
-export type NotifyItem = {
-  id?: string;
+export interface Notification {
+  id: string;
   title: string;
-  description?: string;
-  type: NotifyType;
-};
+  description: string;
+  created_at: string;
+  user_id: string;
+  href: string;
+}

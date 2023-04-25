@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ClickHouseClient, ClickHouseClientConfigOptions, createClient, QueryParams } from "@clickhouse/client";
-import { LogsQuery, ILog, TimeSerieMetric, PerformanceQuery, Performance } from "@traceo/types";
+import { LogsQuery, ILog, TimeSerieMetric, PerformanceQuery, Performance, Notification } from "@traceo/types";
 import { MetricQueryDto } from "src/common/types/dto/metrics.dto";
 
 @Injectable()
@@ -84,5 +84,19 @@ export class ClickhouseService {
         });
 
         return perfs.json<Performance[]>();
+    }
+
+    public async loadUserNotifications(userId: string): Promise<Notification[]> {
+        const sqlQuery = `
+            SELECT * FROM notifications WHERE user_id = '${userId}'
+            ORDER BY timestamp DESC
+        `;
+
+        const notifications = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        return notifications.json<Notification[]>();
     }
 }
