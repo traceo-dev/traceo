@@ -28,7 +28,7 @@ export const NotificationPopover = () => {
       overrideStyles={{ transitionDuration: 0, marginTop: "10px" }}
       content={
         <div className="w-full flex flex-col" style={{ minWidth: "350px" }}>
-          <span className="font-semibold p-2">Notifications</span>
+          <span className="font-semibold p-2 text-sm">Notifications</span>
           <div
             className="w-full flex flex-col gap-y-2 overflow-y-scroll"
             style={{ maxHeight: "400px" }}
