@@ -33,9 +33,8 @@ export const NotIntegratedSection = () => {
 
   return (
     !project.isIntegrated && (
-      <Card>
+      <Card title="Welcome to your new project">
         <ColumnSection
-          title="Welcome to your new project"
           subtitle={
             <Space className="w-full" direction="vertical">
               <Typography size="xs">
@@ -47,10 +46,6 @@ export const NotIntegratedSection = () => {
                   Documentation
                 </Button>
               </Space>
-              <Typography size="xxs">
-                This section will be hidden after receiving the first information from your
-                project using the SDK.
-              </Typography>
             </Space>
           }
         >

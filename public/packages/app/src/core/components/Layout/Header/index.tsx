@@ -163,11 +163,11 @@ export const Header = () => {
             )}
           </ServerPermissions>
 
-          <NotificationPopover />
+          {/* <NotificationPopover /> */}
 
-          {/* <a href={GH_REPO_LINK} target="blank" className="text-primary">
+          <a href={GH_REPO_LINK} target="blank" className="text-primary">
             <QuestionCircleOutlined className="icon-btn" />
-          </a> */}
+          </a>
 
           {isProjectDashboard && (
             <UserOutlined
