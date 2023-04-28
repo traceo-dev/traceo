@@ -11,7 +11,7 @@ import {
 } from "@traceo/types";
 import { Metric } from "../../../db/entities/metric.entity";
 import { Brackets, EntityManager } from "typeorm";
-import { ClickhouseService } from "src/common/services/clickhouse/clickhouse.service";
+import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 
 @Injectable()
 export class MetricsQueryService {

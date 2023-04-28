@@ -1,4 +1,4 @@
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../../../core/utils/date";
 import styled from "styled-components";
 
 const ItemWrapper = styled.div`

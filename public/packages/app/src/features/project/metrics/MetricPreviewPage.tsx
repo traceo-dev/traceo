@@ -16,7 +16,7 @@ import { useImmer } from "use-immer";
 import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
-import { ConditionalWrapper } from "src/core/components/ConditionLayout";
+import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();

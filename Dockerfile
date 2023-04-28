@@ -36,6 +36,21 @@ COPY /lib .
 
 RUN tsc -p tsconfig.build.json
 
+# RELAY WORKER
+FROM ${NODE_IMAGE} as worker-builder
+
+WORKDIR /traceo
+
+RUN apk add curl
+
+COPY /relay-worker/package*.json ./
+COPY /public/packages/shared/traceo-types /public/packages/shared/traceo-types
+
+RUN yarn install --production=true && yarn global add typescript
+
+COPY /relay-worker .
+RUN tsc -p tsconfig.build.json
+
 # FINAL
 FROM ${FINAL_IMAGE}
 
@@ -44,9 +59,13 @@ WORKDIR /traceo
 # RUN apk add --no-cache ca-certificates bash tzdata musl-utils
 # RUN apk add --no-cache openssl ncurses-libs ncurses-terminfo-base --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
 
+# RUN apk --no-cache add nodejs --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 RUN apk --no-cache add nodejs --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
-
+RUN apk --no-cache add npm
+RUN npm install -g pm2
+    
 ENV NODE_OPTIONS=--max_old_space_size=8000
+ENV NODE_ENV=production
 
 COPY --from=app-builder /traceo/packages/app/build ./app
 
@@ -54,8 +73,11 @@ COPY --from=backend-builder /traceo/dist ./dist
 COPY --from=backend-builder /traceo/node_modules ./node_modules
 COPY --from=backend-builder /public/packages/shared/traceo-types ./node_modules/@traceo/types
 
+COPY --from=worker-builder /traceo/dist ./worker/dist
+COPY --from=worker-builder /traceo/node_modules ./worker/node_modules
+
+COPY ./bin ./bin/
+
 EXPOSE 3000
 
-COPY ./scripts/docker/run.sh /run.sh
-
-ENTRYPOINT [ "/run.sh" ]
+CMD ["sh", "./bin/docker"]

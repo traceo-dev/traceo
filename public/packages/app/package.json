@@ -21,6 +21,8 @@
     "@types/node": "^17.0.8",
     "axios": "^0.24.0",
     "babel-eslint": "^10.1.0",
+    "babel-loader": "^9.1.2",
+    "style-loader": "^3.3.1",
     "classnames": "^2.3.2",
     "crypto-js": "^4.1.1",
     "dayjs": "1.11.6",

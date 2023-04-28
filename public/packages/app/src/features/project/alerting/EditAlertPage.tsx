@@ -6,7 +6,7 @@ import { loadAlert } from "./state/actions";
 import { useAppDispatch } from "../../../store/index";
 import { StoreState } from "@store/types";
 import { useSelector } from "react-redux";
-import api from "src/core/lib/api";
+import api from "../../../core/lib/api";
 import { AlertMutableForm } from "./AlertMutableForm";
 
 const EditAlertPage = () => {

@@ -10,15 +10,15 @@ import {
   TableColumn,
   Typography
 } from "@traceo/ui";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../core/utils/date";
 import { alertStatusOptions, mapRuleTypeToString } from "./utils";
 import AlertPageWrapper from "./components/AlertPageWrapper";
 import { StoreState } from "@store/types";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "src/store";
+import { useAppDispatch } from "../../../store";
 import { updateAlert } from "./state/actions";
 import { useState } from "react";
-import { MuteAlertModal } from "src/core/components/Modals/MuteAlertModal";
+import { MuteAlertModal } from "../../../core/components/Modals/MuteAlertModal";
 
 const AlertPreviewPage = () => {
   const dispatch = useAppDispatch();

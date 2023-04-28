@@ -1,0 +1,108 @@
+version: "3.9"
+
+x-traceo-image: &traceo-image traceo/traceo:1.0.35-docker-test
+x-traceo-environment: &traceo-environment
+  PG_HOST: postgres
+  PG_PORT: 5432
+  PG_DB_NAME: traceo
+  PG_PASS: traceo
+  PG_USER: traceo
+  KAFKA_AUTOCOMMIT_INTERVAL: 1000
+  KAFKA_AUTOCOMMIT_TRESHOLD: 1000
+  KAFKA_CLIENT_ID: traceo-kafka
+  KAFKA_BROKERS: kafka:29092
+  KAFKA_HOSTS: kafka:29092
+  KAFKA_SESSION_TIMEOUT: 6000
+  KAFKA_GROUP_ID: traceo-kafka-group
+  KAFKA_LOG_LEVEL: warn
+  CLICKHOUSE_USER: default
+  CLICKHOUSE_HOST: http://clickhouse:8123
+  CLICKHOUSE_PASSWORD:
+  CLICKHOUSE_DATABASE: traceo_production
+  JWT_SECRET: traceo
+
+services:
+  traceo:
+    container_name: traceo
+    image: *traceo-image
+    restart: unless-stopped
+    # env_file: bin/.env
+    environment:
+      <<: *traceo-environment
+    ports:
+      - "3000:3000"
+    depends_on:
+      kafka:
+        condition: service_healthy
+      postgres: 
+        condition: service_healthy
+
+  postgres:
+    container_name: traceo-db
+    image: postgres:14
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    volumes:
+      - traceo:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=traceo
+      - POSTGRES_USER=traceo
+      - POSTGRES_PASSWORD=traceo
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "traceo"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  clickhouse:
+    container_name: traceo-clickhouse
+    image: clickhouse/clickhouse-server:22.8
+    restart: on-failure
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+      - "9440:9440"
+      - "9009:9009"
+    depends_on:
+      - kafka
+    volumes:
+      - clickhouse-data:/var/lib/clickhouse
+
+  zookeeper:
+    container_name: traceo-zookeeper
+    image: zookeeper:3.7.0
+    restart: on-failure
+    volumes:
+      - zookeeper-datalog:/datalog
+      - zookeeper-data:/data
+      - zookeeper-logs:/logs
+
+  kafka:
+    container_name: traceo-kafka
+    image: bitnami/kafka:2.8.1-debian-10-r99
+    restart: on-failure
+    depends_on:
+        - zookeeper
+    healthcheck:
+      test: ["CMD", "kafka-topics.sh", "--list", "--bootstrap-server", "kafka:29092"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    ports:
+      # - "9092:9092"
+      - "29092:29092"
+    environment:
+      - KAFKA_BROKER_ID=1001
+      - KAFKA_CFG_RESERVED_BROKER_MAX_ID=1001
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:29092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29092
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=true
+
+volumes:
+  traceo:
+  clickhouse-data:
+  zookeeper-datalog:
+  zookeeper-data:
+  zookeeper-logs:

@@ -8,7 +8,7 @@ import { MemberQueryService } from "../member/member-query/member-query.service"
 import { UserQueryService } from "../user/user-query/user-query.service";
 import { MetricsService } from "../metrics/metrics.service";
 import { ProjectsController } from "./projects.controller";
-import { ClickhouseModule } from "src/common/services/clickhouse/clickhouse.module";
+import { ClickhouseModule } from "../../common/services/clickhouse/clickhouse.module";
 
 @Module({
   imports: [
@@ -26,4 +26,4 @@ import { ClickhouseModule } from "src/common/services/clickhouse/clickhouse.modu
   controllers: [ProjectsController, ProjectController],
   exports: [ProjectService, ProjectQueryService]
 })
-export class ProjectModule {}
+export class ProjectModule { }

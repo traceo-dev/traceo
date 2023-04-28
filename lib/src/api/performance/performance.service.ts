@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { PerformanceQuery, VitalsResponse, Performance, MAP_INTERVAL, MAP_MAX_VALUE } from '@traceo/types';
-import { INTERNAL_SERVER_ERROR } from 'src/common/helpers/constants';
+import { INTERNAL_SERVER_ERROR } from '../../common/helpers/constants';
 import { ClickhouseService } from '../../common/services/clickhouse/clickhouse.service';
 import { ApiResponse } from '../../common/types/dto/response.dto';
 

@@ -1,16 +1,16 @@
 import { InfoCircleOutlined, RightOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
-import { Page } from "src/core/components/Page";
-import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
-import { MenuRoute } from "src/core/types/navigation";
+import { Page } from "../../../../core/components/Page";
+import { PreviewPageHeader } from "../../../../core/components/PreviewPageHeader";
+import { MenuRoute } from "../../../../core/types/navigation";
 import { loadAlert } from "../state/actions";
 import { useAppDispatch } from "../../../../store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
 import { Button } from "@traceo/ui";
-import api from "src/core/lib/api";
-import { Confirm } from "src/core/components/Confirm";
+import api from "../../../../core/lib/api";
+import { Confirm } from "../../../../core/components/Confirm";
 import { ApiResponse } from "@traceo/types";
 import { mapSeverityToSpan } from "../utils";
 

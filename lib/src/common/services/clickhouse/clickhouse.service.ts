@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ClickHouseClient, ClickHouseClientConfigOptions, createClient, QueryParams } from "@clickhouse/client";
 import { LogsQuery, ILog, TimeSerieMetric, PerformanceQuery, Performance, Notification } from "@traceo/types";
-import { MetricQueryDto } from "src/common/types/dto/metrics.dto";
+import { MetricQueryDto } from "../../../common/types/dto/metrics.dto";
 
 @Injectable()
 export class ClickhouseService {

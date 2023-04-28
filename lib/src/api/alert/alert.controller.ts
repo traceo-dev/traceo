@@ -2,8 +2,8 @@ import { Body, Controller, Post, Get, UseGuards, Query, Param, Delete, Patch } f
 import { ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
 import { AlertService } from './alert.service';
-import { AlertHistoryQueryDto, AlertQueryDto, AlertDto } from 'src/common/types/dto/alert.dto';
-import { ApiResponse } from 'src/common/types/dto/response.dto';
+import { AlertHistoryQueryDto, AlertQueryDto, AlertDto } from '../../common/types/dto/alert.dto';
+import { ApiResponse } from '../../common/types/dto/response.dto';
 import { AlertQueryService } from './alert-query/alert-query.service';
 import { IAlert } from '@traceo/types';
 import { AlertHistoryQueryService } from './alert-history/alert-history-query.service';

@@ -1,7 +1,7 @@
-import { BellFilled, BellOutlined, LoadingOutlined, SearchOutlined } from "@ant-design/icons";
+import { BellOutlined, LoadingOutlined, SearchOutlined } from "@ant-design/icons";
 import { NotificationItem } from "./NotificationItem";
 import { Popover, Typography } from "@traceo/ui";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
 import { Notification } from "@traceo/types";
 import styled from "styled-components";
 

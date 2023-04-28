@@ -1,8 +1,8 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { AlertEnumType, AlertSeverity, AlertStatus, LogicOperator } from "@traceo/types";
 import { Type } from "class-transformer";
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsArray, IsNumber, ValidateNested } from "class-validator";
-import { BaseDtoQuery } from "src/common/base/query/base-query.model";
+import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsArray, ValidateNested } from "class-validator";
+import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
 
 export class AlertQueryDto extends BaseDtoQuery {
     @IsString()

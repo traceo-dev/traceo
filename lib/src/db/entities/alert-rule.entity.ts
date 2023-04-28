@@ -1,7 +1,7 @@
 import { IAlert, IAlertRule } from "@traceo/types";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Alert } from "./alert.entity";
-import { BaseEntity } from "src/common/base/base.entity";
+import { BaseEntity } from "../../common/base/base.entity";
 
 @Entity()
 export class AlertRule extends BaseEntity implements IAlertRule {

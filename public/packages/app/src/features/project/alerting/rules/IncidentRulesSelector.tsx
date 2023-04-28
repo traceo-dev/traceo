@@ -6,7 +6,7 @@ import { RowContainer } from "../utils";
 import { Updater } from "use-immer";
 import { IAlertRule, IIncident, PaginateType, Setter } from "@traceo/types";
 import { useParams } from "react-router-dom";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { v4 as uuid } from "uuid";
 
 interface Props {

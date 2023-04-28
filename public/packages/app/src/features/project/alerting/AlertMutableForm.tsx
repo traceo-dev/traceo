@@ -10,7 +10,7 @@ import {
 import { Card } from "@traceo/ui";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { Page } from "src/core/components/Page";
+import { Page } from "../../../core/components/Page";
 import { useImmer } from "use-immer";
 import { AlertBasicForm } from "./components/AlertBasicForm";
 import { AlertNotificationForm } from "./components/AlertNotificationForm";
@@ -18,7 +18,7 @@ import { AlertRecipientsForm } from "./components/AlertRecipientsForm";
 import { AlertRulesForm } from "./components/AlertRulesForm";
 import { AlertTypeForm } from "./components/AlertTypeForm";
 import { AlertFormType } from "./utils";
-import { notify } from "src/core/utils/notify";
+import { notify } from "../../../core/utils/notify";
 
 interface Props {
   headerTitle?: string;

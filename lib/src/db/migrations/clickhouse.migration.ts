@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 import { ClickHouseClient, createClient } from "@clickhouse/client";
 import { Logger } from "@nestjs/common";
-import { CREATE_BROWSER_PERFS_TABLE, CREATE_DATABASE, CREATE_LOGS_TABLE, CREATE_METRICS_TABLE, CREATE_NOTIFICATIONS_TABLE } from "src/common/services/clickhouse/queries";
+import { CREATE_BROWSER_PERFS_TABLE, CREATE_DATABASE, CREATE_LOGS_TABLE, CREATE_METRICS_TABLE, CREATE_NOTIFICATIONS_TABLE } from "../../common/services/clickhouse/queries";
 
 export class ClickhouseMigration implements MigrationInterface {
     name?: string;

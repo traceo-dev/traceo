@@ -6,8 +6,8 @@ import { EntityManager, SelectQueryBuilder } from "typeorm";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { IUser, Notification } from "@traceo/types";
 import { RequestContext } from "../../../common/middlewares/request-context/request-context.model";
-import { ClickhouseService } from "src/common/services/clickhouse/clickhouse.service";
-import { INTERNAL_SERVER_ERROR } from "src/common/helpers/constants";
+import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
+import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 
 @Injectable()
 export class UserQueryService extends BaseQueryService<User, BaseDtoQuery> {

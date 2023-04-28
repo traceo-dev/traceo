@@ -2,7 +2,7 @@ import { Body, Controller, Post, Headers, Req } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { LogEventPayload, MetricsEventPayload, RuntimeEventPayload, IncidentEventPayload, Dictionary, BrowserPerfsPayloadEvent } from "@traceo/types";
 import { Request } from "express";
-import { ApiResponse } from "src/common/types/dto/response.dto";
+import { ApiResponse } from "../../common/types/dto/response.dto";
 import { CaptureService, CAPTURE_ROUTE } from "./capture.service";
 
 @ApiTags("capture")

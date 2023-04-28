@@ -11,10 +11,10 @@ import {
 } from "@traceo/ui";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { loadAlert } from "src/features/project/alerting/state/actions";
+import { loadAlert } from "../../../features/project/alerting/state/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
-import api from "src/core/lib/api";
+import api from "../../../core/lib/api";
 
 const MIN_DATE = new Date(dayjs().unix() * 1e3);
 const DEFAULT_DATE = dayjs().add(1, "d").unix();

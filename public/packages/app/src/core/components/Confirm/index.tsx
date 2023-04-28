@@ -10,7 +10,7 @@ import {
   Modal
 } from "@traceo/ui";
 import { FC, useState } from "react";
-import { useUser } from "src/core/hooks/useUser";
+import { useUser } from "../../../core/hooks/useUser";
 
 interface CheckCredentialsResponse {
   isCorrect: boolean;

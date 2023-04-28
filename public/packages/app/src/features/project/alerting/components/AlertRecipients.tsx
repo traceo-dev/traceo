@@ -7,7 +7,7 @@ import { useAppDispatch } from "../../../../store/index";
 import { StoreState } from "../../../../store/types";
 import { useSelector } from "react-redux";
 import { BellOutlined, MailOutlined, MinusOutlined } from "@ant-design/icons";
-import { SearchWrapper } from "src/core/components/SearchWrapper";
+import { SearchWrapper } from "../../../../core/components/SearchWrapper";
 import { RowContainer } from "../utils";
 
 interface Props {

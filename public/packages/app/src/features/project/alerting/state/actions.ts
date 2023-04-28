@@ -1,7 +1,7 @@
 import { ThunkResult } from "@store/types";
-import { ApiResponse, IAlert, IIncident } from "@traceo/types";
-import api from "src/core/lib/api";
-import { isEmptyObject } from "src/core/utils/object";
+import { ApiResponse, IAlert } from "@traceo/types";
+import api from "../../../../core/lib/api";
+import { isEmptyObject } from "../../../../core/utils/object";
 import { beginAlertFetch, endAlertFetch, setAlert } from "./alert.slice";
 
 export const loadAlert = (id: string): ThunkResult<void> => {

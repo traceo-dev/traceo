@@ -9,7 +9,7 @@ import {
   IAlert,
   LogicOperator
 } from "@traceo/types";
-import api from "src/core/lib/api";
+import api from "../../../core/lib/api";
 import { AlertMutableForm } from "./AlertMutableForm";
 
 const initialAlert: Partial<IAlert> = {

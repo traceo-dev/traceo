@@ -26,7 +26,7 @@ import { MemberProject } from "@traceo/types";
 import { useUser } from "../../../../core/hooks/useUser";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../../core/utils/date";
 import { NotificationPopover } from "./Notifications/NotificationPopover";
 
 const createNewOptions: MenuRoute[] = [

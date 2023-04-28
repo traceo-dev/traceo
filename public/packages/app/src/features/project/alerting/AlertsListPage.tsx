@@ -3,10 +3,10 @@ import { AlertStatus, IAlert, PaginateType, SortOrder } from "@traceo/types";
 import { Button, Card, InputSearch, Select, Table, TableColumn } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Page } from "src/core/components/Page";
-import { SearchWrapper } from "src/core/components/SearchWrapper";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
-import dateUtils from "src/core/utils/date";
+import { Page } from "../../../core/components/Page";
+import { SearchWrapper } from "../../../core/components/SearchWrapper";
+import { useReactQuery } from "../../../core/hooks/useReactQuery";
+import dateUtils from "../../../core/utils/date";
 import {
   alertSortOptions,
   alertStatusOptions,
@@ -14,9 +14,9 @@ import {
   mapSeverityIcon,
   mapStatusToTag
 } from "./utils";
-import { useAppDispatch } from "src/store/index";
+import { useAppDispatch } from "../../../store/index";
 import { resetAlertState } from "./state/alert.slice";
-import { SortIcons } from "src/core/components/SortIcons";
+import { SortIcons } from "../../../core/components/SortIcons";
 
 const ALERT_PAGE_SIZE = 15;
 const AlertsListPage = () => {

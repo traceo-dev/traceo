@@ -1,6 +1,6 @@
 import { ExceptionHandlers } from "@traceo-sdk/node";
 import { BrowserPerfsPayloadEvent } from "@traceo/types";
-import { Core, RelayEventType } from "src/types";
+import { Core, RelayEventType } from "../types";
 import { logger } from "..";
 
 export const handleBrowserPerformance = async (core: Core, message: string): Promise<any> => {

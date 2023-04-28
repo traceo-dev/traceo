@@ -1,4 +1,4 @@
-import { ChooseElementGrid } from "src/core/components/ChooseElementGrid";
+import { ChooseElementGrid } from "../../../../core/components/ChooseElementGrid";
 import { Section, SectionHeader, SectionContent, alertOptions } from "../utils";
 import { AlertEnumType, Setter } from "@traceo/types";
 

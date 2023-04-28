@@ -1,10 +1,10 @@
 import { Card, Table, TableColumn } from "@traceo/ui";
 import AlertPageWrapper from "./components/AlertPageWrapper";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { useParams } from "react-router-dom";
 import { IAlertHistory, PaginateType } from "@traceo/types";
 import { useState } from "react";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../core/utils/date";
 
 const ALERT_HISTORY_PAGE_SIZE = 15;
 const AlertHistoryPage = () => {
