@@ -1,0 +1,15 @@
+#!/bin/bash
+
+SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
+
+# Start traceo app
+echo "Starting traceo ..."
+# NODE_ENV=production JWT_SECRET=$SECRET 
+pm2 start dist/main.js --name traceo --wait-ready
+
+# Start the worker
+echo "Starting relay-worker ..."
+pm2 start worker/dist --name traceo-worker
+
+# Monitor both processes
+pm2 monit

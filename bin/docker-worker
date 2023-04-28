@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Stop any background jobs on exit
+trap 'kill $(jobs -p)' EXIT
+
+# cd relay-worker
+
+echo "Starting relay-worker ..."
+node ./worker/dist
+
+# Exit if any processes exit, and exit with it's exit code
+wait -n
+exit $?
