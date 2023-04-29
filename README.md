@@ -14,7 +14,7 @@ To start using the Traceo platform, you need to integrate with [Traceo SDK](http
 
 
 # Installation
-Full instalation guide can be found [here](https://github.com/traceo-dev/traceo/edit/develop/INSTALL.md).
+Full instalation guide can be found [here](https://github.com/traceo-dev/traceo/blob/develop/INSTALL.md).
 
 # Features
 ### ***Incidents capture***
