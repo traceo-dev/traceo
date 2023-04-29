@@ -50,6 +50,10 @@ docker compose up
 ```
 
 The first boot may take several minutes. 
+
+
+
+
 Traceo uses [pm2](https://pm2.keymetrics.io/) to run the application and worker. In case you need to view the logs, you can do it like this:
 
 1. Run this command from the root of the repository:
