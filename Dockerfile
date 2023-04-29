@@ -1,3 +1,15 @@
+#
+# Dockerfile for self-hosted traceo. This image contains builders:
+#
+# - app-builder -> public/packages/app (frontend)
+# - backend-builder -> lib (backend lol)
+# - worker-builder -> relay-worker (worker)
+#
+# At the end everything from builders are copied to final image and up with bash scripts (and pm2).
+#
+# Final image is hosted also in docker registry as: traceo/traceo:${TAG:latest}
+#
+
 ARG NODE_IMAGE=node:16-alpine3.15
 ARG FINAL_IMAGE=alpine:3.15
 
@@ -59,13 +71,14 @@ WORKDIR /traceo
 # RUN apk add --no-cache ca-certificates bash tzdata musl-utils
 # RUN apk add --no-cache openssl ncurses-libs ncurses-terminfo-base --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
 
-# RUN apk --no-cache add nodejs --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 RUN apk --no-cache add nodejs --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
 RUN apk --no-cache add npm
 RUN npm install -g pm2
     
-ENV NODE_OPTIONS=--max_old_space_size=8000
-ENV NODE_ENV=production
+ENV NODE_OPTIONS=--max_old_space_size=8000 \
+    NODE_ENV=production \
+    # Generate random UUID with unix uuidgen and pass as JWT_SECRET
+    JWT_SECRET=$(uuidgen)
 
 COPY --from=app-builder /traceo/packages/app/build ./app
 
@@ -76,6 +89,7 @@ COPY --from=backend-builder /public/packages/shared/traceo-types ./node_modules/
 COPY --from=worker-builder /traceo/dist ./worker/dist
 COPY --from=worker-builder /traceo/node_modules ./worker/node_modules
 
+# bash scripts
 COPY ./bin ./bin/
 
 EXPOSE 3000

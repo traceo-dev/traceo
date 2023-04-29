@@ -1,46 +1,15 @@
 version: "3.9"
 
-# Images
-x-traceo-image: &traceo-image traceo/traceo:latest
-x-postgres-image: &postgres-image postgres:14
-x-clickhouse-image: &clickhouse-image clickhouse/clickhouse-server:22.8
-x-zookeeper-image: &zookeeper-image zookeeper:3.7.0
-x-kafka-image: &kafka-image bitnami/kafka:2.8.1-debian-10-r99
-
-# Envs
-x-traceo-environment: &traceo-environment
-  NODE_ENV: production
-  PG_HOST: postgres
-  PG_PORT: 5432
-  PG_DB_NAME: traceo
-  PG_PASS: traceo
-  PG_USER: traceo
-  KAFKA_CLIENT_ID: traceo-kafka
-  KAFKA_HOSTS: kafka:29092
-  KAFKA_GROUP_ID: traceo-kafka-group
-  CLICKHOUSE_USER: default
-  CLICKHOUSE_HOST: http://clickhouse:8123
-  CLICKHOUSE_PASSWORD:
-  CLICKHOUSE_DATABASE: traceo_production
+#
+# Docker compose without services for traceo and worker. 
+# To using probably only in development.
+# Fill in envs from configs/backend/.env-example in order to use this services.
+#
 
 services:
-  traceo:
-    container_name: traceo
-    image: *traceo-image
-    restart: unless-stopped
-    environment:
-      <<: *traceo-environment
-    ports:
-      - "3000:3000"
-    depends_on:
-      kafka:
-        condition: service_healthy
-      postgres: 
-        condition: service_healthy
-
   postgres:
     container_name: traceo-db
-    image: *postgres-image
+    image: postgres:14
     restart: unless-stopped
     ports:
       - "5432:5432"
@@ -50,15 +19,10 @@ services:
       - POSTGRES_DB=traceo
       - POSTGRES_USER=traceo
       - POSTGRES_PASSWORD=traceo
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "traceo"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
   clickhouse:
     container_name: traceo-clickhouse
-    image: *clickhouse-image
+    image: clickhouse/clickhouse-server:22.8
     restart: on-failure
     ports:
       - "8123:8123"
@@ -72,7 +36,7 @@ services:
 
   zookeeper:
     container_name: traceo-zookeeper
-    image: *zookeeper-image
+    image: zookeeper:3.7.0
     restart: on-failure
     volumes:
       - zookeeper-datalog:/datalog
@@ -81,7 +45,7 @@ services:
 
   kafka:
     container_name: traceo-kafka
-    image: *kafka-image
+    image: bitnami/kafka:2.8.1-debian-10-r99
     restart: on-failure
     depends_on:
         - zookeeper

@@ -1,4 +1,4 @@
-import { Consumer, Kafka } from "kafkajs";
+import { Consumer, Kafka, logLevel } from "kafkajs";
 import { RelayWorkerConfig } from "./config";
 import { eventHandler } from "./handlers";
 import { KAFKA_TOPIC } from "@traceo/types";
@@ -14,7 +14,7 @@ export const createKafkaClient = async (configs: RelayWorkerConfig) => {
         clientId: configs.KAFKA_CLIENT_ID,
         connectionTimeout: 9000,
         authenticationTimeout: 9000,
-        logLevel: configs.KAFKA_LOG_LEVEL
+        logLevel: logLevel.WARN
     });
 
     // Reload topics and create new one if not already exists
@@ -52,7 +52,7 @@ export const startEventConsumer = async (
     const kafka: Kafka = core?.kafka;
     const consumer = kafka.consumer({
         groupId: configs.KAFKA_CLIENT_ID,
-        sessionTimeout: configs.KAFKA_SESSION_TIMEOUT
+        sessionTimeout: 6000
     });
 
     consumer.on('consumer.group_join', ({ payload }) => {
@@ -74,8 +74,8 @@ export const startEventConsumer = async (
         await consumer.subscribe({ topics });
         await consumer.run({
             eachBatchAutoResolve: false,
-            autoCommitInterval: configs.KAFKA_AUTOCOMMIT_INTERVAL,
-            autoCommitThreshold: configs.KAFKA_AUTOCOMMIT_TRESHOLD,
+            autoCommitInterval: 1000,
+            autoCommitThreshold: 1000,
             eachMessage: async ({ message, topic }) => {
                 await eventHandler({
                     core,

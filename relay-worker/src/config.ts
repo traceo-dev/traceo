@@ -4,10 +4,6 @@ export interface RelayWorkerConfig {
     KAFKA_HOSTS: string;
     KAFKA_CLIENT_ID: string;
     KAFKA_GROUP_ID: string;
-    KAFKA_AUTOCOMMIT_INTERVAL: number;
-    KAFKA_AUTOCOMMIT_TRESHOLD: number;
-    KAFKA_SESSION_TIMEOUT: number;
-    KAFKA_LOG_LEVEL: logLevel;
     PG_HOST: string;
     PG_PORT: number;
     PG_DB_NAME: string;
@@ -24,13 +20,9 @@ export interface RelayWorkerConfig {
 
 const defaultConfig = (): RelayWorkerConfig => {
     return {
-        KAFKA_AUTOCOMMIT_INTERVAL: 1000,
-        KAFKA_AUTOCOMMIT_TRESHOLD: 1000,
         KAFKA_CLIENT_ID: "traceo-kafka",
         KAFKA_HOSTS: "localhost:29092",
-        KAFKA_SESSION_TIMEOUT: 6000,
         KAFKA_GROUP_ID: "traceo-kafka-group",
-        KAFKA_LOG_LEVEL: logLevel.WARN,
         PG_DB_NAME: "traceo_local",
         PG_HOST: "localhost",
         PG_PASS: "postgres",

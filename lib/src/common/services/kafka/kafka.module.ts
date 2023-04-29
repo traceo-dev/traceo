@@ -10,7 +10,7 @@ import { KafkaConfig } from 'kafkajs';
             useFactory: async () => {
                 const kafkaConfig: KafkaConfig = {
                     clientId: process.env.KAFKA_CLIENT_ID,
-                    brokers: process.env.KAFKA_BROKERS.split(","),
+                    brokers: process.env.KAFKA_HOSTS.split(","),
                 };
                 const kafkaService = new KafkaService(kafkaConfig);
                 await kafkaService.connect();
