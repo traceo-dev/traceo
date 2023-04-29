@@ -14,51 +14,13 @@ To start using the Traceo platform, you need to integrate with [Traceo SDK](http
 
 
 # Installation
-At this point, the installation of the Traceo platform is done by using the docker image.
+Full instalation guide can be found [here](https://github.com/traceo-dev/traceo/edit/develop/INSTALL.md).
 
-To pull or run already existing docker image:
-```
-docker run -d --name=traceo -p 3000:3000 traceo/traceo
-```
-
-The application will be available at http://localhost:3000.
-
-The default user is `admin/admin`. 
-
-If you want to use a custom `port` then you should use:
-```
-docker run -d --name=traceo -p <port>:3000 traceo/traceo
-```
-
-### ***Database***
-By default, Traceo Platform uses the SQLite database. Once the container is stopped, all your data will be deleted. To avoid this, create a docker volume and mount it at application startup.
-```
-docker volume create traceo-volume
-
-docker run -d --name=traceo -v traceo-volume:/usr/traceo -p 3000:3000 traceo/traceo
-```
-
-If you want to integrate with the PostgreSQL database you have to set the environment variables as below:
-
-```
-docker run \
-  -d -p 3000:3000 \
-  -e PG_HOST="POSTGRES_HOST" \
-  -e PG_PORT="POSTGRES_PORT" \
-  -e PG_DB_NAME="POSTGRSES_DB_NAME" \
-  -e PG_PASS="POSTGRES_PASSWORD" \
-  -e PG_USER="POSTGRES_USER" \
-  --name=traceo \
-  traceo/traceo
-```
 # Features
 ### ***Incidents capture***
 Capture all exceptions and errors occurs in your software. Each incident is unique and if another incident of the same type occurs, then it is grouped with the first one. 
 
-<p align="center">
-  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-incidents-list.PNG" width="400">
-  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-incident-preview.PNG" width="400">
-</p>
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-incident-preview.PNG">
 
 ### ***Logs analysis***
 Monitor all the important and sensitive places in your software, recording the relevant information, which is then sent to Traceo so that you can later efficiently search for the information you need.
@@ -71,12 +33,9 @@ Record data about your server, like eq. CPU utilization or RAM usage.
 <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-metrics.PNG">
 
 ### ***Performance (v. > 1.0.0)***
-Control the performance of your application by collecting web-vitals data from your browser.
+Control the performance of your application by collecting web-vitals data from your app.
 
-<p align="center">
-  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf-list.PNG" width="400">
-  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf.PNG" width="400">
-</p>
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf.PNG">
 
 # Support
 
