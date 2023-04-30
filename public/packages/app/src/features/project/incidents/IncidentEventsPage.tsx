@@ -30,7 +30,7 @@ const IncidentEventsPage = () => {
           loading={isLoading || isRefetching}
         >
           <TableColumn name="Time" className="py-5">
-            {({ item }) => dateUtils.formatDate(item?.date, "DD MMM YYYY HH:mm:ss:mmm")}
+            {({ item }) => dateUtils.formatDate(item?.date, "DD MMM YYYY HH:mm:ss:SSS")}
           </TableColumn>
           {isBrowserSDK && (
             <TableColumn name="Browser">

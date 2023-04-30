@@ -74,7 +74,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
           <span>{currentPage}</span>
         </div>
         <PaginationButton
-          disabled={currentPage === pagesCount}
+          disabled={currentPage === pagesCount || totalRowsCount === 0}
           onClick={() => handlePageChange(currentPage + 1)}
         >
           <RightOutlined />

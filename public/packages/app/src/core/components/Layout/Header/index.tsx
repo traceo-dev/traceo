@@ -24,10 +24,7 @@ import { GH_REPO_LINK } from "../../../../core/utils/constants";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { MemberProject } from "@traceo/types";
 import { useUser } from "../../../../core/hooks/useUser";
-import { useNavigate } from "react-router-dom";
-import dayjs from "dayjs";
-import dateUtils from "../../../../core/utils/date";
-import { NotificationPopover } from "./Notifications/NotificationPopover";
+import { Link, useNavigate } from "react-router-dom";
 
 const createNewOptions: MenuRoute[] = [
   {
@@ -62,7 +59,7 @@ export const Header = () => {
   ) : (
     <div className="flex flex-col min-w-[230px]">
       <span className="text-sm p-2 border-bottom text-primary">Switch project</span>
-      <div className=" max-h-[200px] overflow-auto">
+      <div className="max-h-[200px] overflow-auto">
         {projects
           ?.filter((e) => e.projectId !== project.id)
           .map((project, key) => (
@@ -75,6 +72,14 @@ export const Header = () => {
               <span>{project?.name}</span>
             </span>
           ))}
+      </div>
+      <div className="w-full border-top">
+        <Link to={"/dashboard/projects"}>
+          <div className="py-1 hover:text-white px-2 text-sm cursor-pointer text-primary flex flex-row gap-x-1 items-center">
+            <AppstoreOutlined />
+            <span>Show list</span>
+          </div>
+        </Link>
       </div>
     </div>
   );
