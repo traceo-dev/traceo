@@ -5,6 +5,7 @@ import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import compression from "compression";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
+import { welcomeBanner } from "./common/helpers/banners";
 
 const cors = require("cors");
 
@@ -38,8 +39,8 @@ async function bootstrap() {
   );
 
   const PORT = process.env.PORT || 3000;
-  await app.listen(PORT, () =>
-    console.log(`Application started in ${process.env.NODE_ENV} mode.`)
-  );
+  await app.listen(PORT, () => {
+    welcomeBanner();
+  });
 }
 bootstrap();
