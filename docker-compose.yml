@@ -51,7 +51,12 @@ services:
       - POSTGRES_USER=traceo
       - POSTGRES_PASSWORD=traceo
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "traceo"]
+      test: [
+        "CMD", 
+        "pg_isready", 
+        "-U", 
+        "traceo"
+      ]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -86,7 +91,13 @@ services:
     depends_on:
         - zookeeper
     healthcheck:
-      test: ["CMD", "kafka-topics.sh", "--list", "--bootstrap-server", "kafka:29092"]
+      test: [
+        "CMD", 
+        "kafka-topics.sh", 
+        "--list", 
+        "--bootstrap-server", 
+        "kafka:29092"
+      ]
       interval: 10s
       timeout: 10s
       retries: 5
