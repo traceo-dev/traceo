@@ -5,11 +5,20 @@
 
 version: 2
 updates:
-  - package-ecosystem: "npm" # See documentation for possible values
-    directory:
-      - "lib"
-      - "relay-worker"
-      - "public"
+  - package-ecosystem: "npm"
+    directory: "/lib"
+    target-branch: "develop"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
+    directory: "/relay-worker"
+    target-branch: "develop"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
+    directory: "/public"
     target-branch: "develop"
     schedule:
       interval: "weekly"
