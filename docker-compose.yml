@@ -21,7 +21,6 @@ x-traceo-environment: &traceo-environment
   CLICKHOUSE_USER: default
   CLICKHOUSE_HOST: http://clickhouse:8123
   CLICKHOUSE_PASSWORD:
-  CLICKHOUSE_DATABASE: traceo_production
 
 services:
   traceo:

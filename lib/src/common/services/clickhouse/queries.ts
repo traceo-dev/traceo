@@ -1,4 +1,4 @@
-export const CLICKHOUSE_DB_NAME = `${process.env.CLICKHOUSE_DATABASE}_${process.env.NODE_ENV}`;
+export const CLICKHOUSE_DB_NAME = `traceo_${process.env.NODE_ENV}`;
 
 export const CREATE_DATABASE = `CREATE DATABASE IF NOT EXISTS ${CLICKHOUSE_DB_NAME}`;
 

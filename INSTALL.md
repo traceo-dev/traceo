@@ -11,9 +11,12 @@ Traceo is an open-source, self-hosted set of tools for monitoring application he
 
 In the case of installing the Traceo instance on your own device, the most convenient way is to use docker compose. However, other installation methods are also supported:
 
-- [Docker Compose](#docker-compose)
-- [Docker](#docker)
-- [Kubernetes](#kubernetes)
+- [Installation guide](#installation-guide)
+  - [Docker compose](#docker-compose)
+    - [Basic](#basic)
+    - [Manually](#manually)
+  - [Docker](#docker)
+  - [Kubernetes](#kubernetes)
 
 After successfully instalation you can log in to your account with this credentials:
 ```
@@ -106,7 +109,6 @@ KAFKA_GROUP_ID=traceo-kafka-group
 CLICKHOUSE_USER=default
 CLICKHOUSE_HOST=[your-clickhouse-host]
 CLICKHOUSE_PASSWORD=
-CLICKHOUSE_DATABASE=traceo
 ```
 2. Set values for `PG_HOST`, `KAFKA_HOSTS` and `CLICKHOUSE_HOST` depending on your own installed instances. You can also replace other envs if you need it.
 
@@ -133,7 +135,6 @@ docker run \
   -e KAFKA_GROUP_ID=[env] \
   -e CLICKHOUSE_USER=default \
   -e CLICKHOUSE_HOST=[env] \
-  -e CLICKHOUSE_DATABASE=traceo \
   --name=traceo \
   traceo/traceo
 ```

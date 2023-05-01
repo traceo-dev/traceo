@@ -1,5 +1,3 @@
-import { logLevel } from "kafkajs";
-
 export interface RelayWorkerConfig {
     KAFKA_HOSTS: string;
     KAFKA_CLIENT_ID: string;
