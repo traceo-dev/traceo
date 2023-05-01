@@ -14,7 +14,7 @@
     "@traceo/types": "0.0.0",
     "@types/jest": "^29.5.1",
     "@types/multer": "^1.4.7",
-    "@types/node": "^14.14.6",
+    "@types/node": "^18.16.3",
     "@types/pg": "^8.6.6",
     "@types/pg-format": "^1.0.2",
     "crypto": "^1.0.1",
