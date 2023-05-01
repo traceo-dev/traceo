@@ -4,13 +4,11 @@ import { UsersTable } from "./components/UserManagement/UsersTable";
 import { PlusOutlined } from "@ant-design/icons";
 import { InputSearch, Button, Card } from "@traceo/ui";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { IUser } from "@traceo/types";
 import { useReactQuery } from "../../core/hooks/useReactQuery";
+import { RouterLink } from "../../core/components/RouterLink";
 
 const UsersListPage = () => {
-  const navigate = useNavigate();
-
   const [search, setSearch] = useState<string>(null);
 
   const {
@@ -23,18 +21,14 @@ const UsersListPage = () => {
     params: { search }
   });
 
-  const onCreateNew = () => {
-    navigate("/dashboard/new-user");
-  };
-
   return (
     <DashboardPageWrapper>
       <Card
         title="Users list"
         extra={
-          <Button onClick={() => onCreateNew()} icon={<PlusOutlined />}>
-            New user
-          </Button>
+          <RouterLink to={"/dashboard/new-user"}>
+            <Button icon={<PlusOutlined />}>New user</Button>
+          </RouterLink>
         }
       >
         <SearchWrapper className="pb-5">

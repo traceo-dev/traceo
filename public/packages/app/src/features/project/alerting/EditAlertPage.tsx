@@ -1,5 +1,5 @@
 import { Button } from "@traceo/ui";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { ApiResponse, Dictionary } from "@traceo/types";
 import { loadAlert } from "./state/actions";
@@ -8,6 +8,7 @@ import { StoreState } from "@store/types";
 import { useSelector } from "react-redux";
 import api from "../../../core/lib/api";
 import { AlertMutableForm } from "./AlertMutableForm";
+import { RouterLink } from "../../../core/components/RouterLink";
 
 const EditAlertPage = () => {
   const navigate = useNavigate();
@@ -37,12 +38,10 @@ const EditAlertPage = () => {
       onSubmit={(alert) => onFinish(alert)}
       headerSuffix={
         <div className="flex flex-row gap-x-3">
-          <Button
-            variant="danger"
-            onClick={() => navigate(`/project/${id}/alerting/${alert?.id}/details`)}
-          >
-            Cancel
-          </Button>
+          <RouterLink to={`/project/${id}/alerting/${alert?.id}/details`}>
+            <Button variant="danger">Cancel</Button>
+          </RouterLink>
+
           <Button type="submit" form="alert-form" variant="primary">
             Save
           </Button>

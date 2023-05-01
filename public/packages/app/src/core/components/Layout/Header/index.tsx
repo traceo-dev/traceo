@@ -7,6 +7,7 @@ import {
   LogoutOutlined,
   PlusOutlined,
   QuestionCircleOutlined,
+  SearchOutlined,
   SettingOutlined,
   SwapOutlined,
   UserOutlined
@@ -25,6 +26,7 @@ import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { MemberProject } from "@traceo/types";
 import { useUser } from "../../../../core/hooks/useUser";
 import { Link, useNavigate } from "react-router-dom";
+import { RouterLink } from "../../RouterLink";
 
 const createNewOptions: MenuRoute[] = [
   {
@@ -42,7 +44,7 @@ export const Header = () => {
   const navigate = useNavigate();
 
   const { project } = useProject();
-  const { id } = useUser();
+  const { id, isAdmin } = useUser();
 
   const isProjectDashboard = window.location.pathname.split("/").includes("project");
 
@@ -52,6 +54,8 @@ export const Header = () => {
     params: { userId: id }
   });
 
+  const availableProjects = projects?.filter((e) => e.projectId !== project.id);
+
   const projectSwitcherContent = isLoading ? (
     <div className="min-w-[100px] min-h-[100px] text-center">
       <LoadingOutlined />
@@ -60,18 +64,22 @@ export const Header = () => {
     <div className="flex flex-col min-w-[230px]">
       <span className="text-sm p-2 border-bottom text-primary">Switch project</span>
       <div className="max-h-[200px] overflow-auto">
-        {projects
-          ?.filter((e) => e.projectId !== project.id)
-          .map((project, key) => (
-            <span
-              key={key}
-              onClick={() => (window.location.href = `/project/${project?.projectId}/overview`)}
-              className="text-sm p-2 hover:bg-secondary cursor-pointer flex flex-row items-center gap-x-3"
-            >
-              <Avatar size="sm" shape="square" alt={project?.name} src={project?.gravatar} />
-              <span>{project?.name}</span>
-            </span>
-          ))}
+        {project && availableProjects.length === 0 && (
+          <div className="w-full flex flex-col text-center py-5 text-primary">
+            <SearchOutlined />
+            <span className="text-sm">Not found</span>
+          </div>
+        )}
+        {availableProjects.map((project, key) => (
+          <span
+            key={key}
+            onClick={() => (window.location.href = `/project/${project?.projectId}/overview`)}
+            className="text-sm p-2 hover:bg-secondary cursor-pointer flex flex-row items-center gap-x-3"
+          >
+            <Avatar size="sm" shape="square" alt={project?.name} src={project?.gravatar} />
+            <span>{project?.name}</span>
+          </span>
+        ))}
       </div>
       <div className="w-full border-top">
         <Link to={"/dashboard/projects"}>
@@ -161,31 +169,29 @@ export const Header = () => {
             </Popover>
 
             {isProjectDashboard && (
-              <SettingOutlined
-                onClick={() => (window.location.href = `/dashboard/admin/users`)}
-                className="icon-btn"
-              />
+              <RouterLink to={`/dashboard/admin/users`}>
+                <SettingOutlined className="icon-btn" />
+              </RouterLink>
             )}
           </ServerPermissions>
 
           {/* <NotificationPopover /> */}
 
-          <a href={GH_REPO_LINK} target="blank" className="text-primary">
+          <a href={GH_REPO_LINK} target="blank" className="text-primary hover:text-white">
             <QuestionCircleOutlined className="icon-btn" />
           </a>
 
           {isProjectDashboard && (
-            <UserOutlined
-              onClick={() => (window.location.href = `/dashboard/profile/settings`)}
-              className="icon-btn"
-            />
+            <RouterLink to={`/dashboard/profile/settings`}>
+              <UserOutlined className="icon-btn" />
+            </RouterLink>
           )}
 
           <LogoutOutlined onClick={() => logout()} className="icon-btn hover:text-red-400" />
         </div>
       </header>
       <SecondaryHeader>
-        {buildHeaderItems(project).map((route, key) => (
+        {buildHeaderItems(isAdmin, project).map((route, key) => (
           <HeaderItem key={key} route={route} />
         ))}
       </SecondaryHeader>

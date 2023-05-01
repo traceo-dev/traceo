@@ -9,7 +9,7 @@ import { ApiResponse, IMetric } from "@traceo/types";
 import { PageHeader, Button, Space } from "@traceo/ui";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
 import { PreviewPageHeader } from "../../../../core/components/PreviewPageHeader";
@@ -27,7 +27,6 @@ export const MetricPreviewHeader: FC<Props> = ({
   setOptions
 }) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { id } = useParams();
   const isDemo = useDemo();
   const { metric } = useSelector((state: StoreState) => state.metrics);

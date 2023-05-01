@@ -13,6 +13,7 @@ import api from "../../../../core/lib/api";
 import { Confirm } from "../../../../core/components/Confirm";
 import { ApiResponse } from "@traceo/types";
 import { mapSeverityToSpan } from "../utils";
+import { RouterLink } from "../../../../core/components/RouterLink";
 
 const AlertPageWrapper = ({ children }) => {
   const { id, aid } = useParams();
@@ -47,10 +48,6 @@ const AlertPageWrapper = ({ children }) => {
     }
   };
 
-  const onEdit = () => {
-    navigate(`/project/${id}/alerting/${aid}/edit`);
-  };
-
   return (
     <Page
       header={{
@@ -73,7 +70,9 @@ const AlertPageWrapper = ({ children }) => {
         ),
         suffix: (
           <div className="flex flex-row gap-x-3">
-            <Button onClick={onEdit}>Edit</Button>
+            <RouterLink to={`/project/${id}/alerting/${aid}/edit`}>
+              <Button>Edit</Button>
+            </RouterLink>
             <Confirm
               onOk={onDelete}
               description="Are you sure that you want to remove this alert?"

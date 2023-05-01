@@ -106,7 +106,7 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
     },
     {
       path: "/project/:id/explore/runtime",
-      component: lazy(() => import("../features/project/explore/RuntimePage")),
+      component: lazy(() => import("../features/project/explore/ConfigurationPage")),
       wrapper: ProjectDashboardWrapper
     },
     {

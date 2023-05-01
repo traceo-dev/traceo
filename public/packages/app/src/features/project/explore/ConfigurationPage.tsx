@@ -3,19 +3,20 @@ import { DataNotFound } from "../../../core/components/DataNotFound";
 import { DescriptionRow, Descriptions } from "../../../core/components/Descriptions";
 import { useProject } from "../../../core/hooks/useProject";
 import ExplorePageWrapper from "./ExplorePageWrapper";
-import { Card } from "@traceo/ui";
+import { Alert, Card } from "@traceo/ui";
 
-const RuntimePage = () => {
+const ConfigurationPage = () => {
   const { project } = useProject();
 
   return (
     <ExplorePageWrapper>
-      <Card title="Runtime configuration">
+      <Card title="Configuration">
+        <Alert className="mb-5" type="info" message="A set of informations about this project fetched at the last time this program was run." />
         <ConditionalWrapper
           isEmpty={!project?.runtimeConfig}
           emptyView={
             <DataNotFound
-              label="Runtime configuration not found"
+              label="Configuration not found"
               explanation="To collect this information, run the project with connected Traceo SDK."
             />
           }
@@ -45,4 +46,4 @@ const RuntimePage = () => {
   );
 };
 
-export default RuntimePage;
+export default ConfigurationPage;

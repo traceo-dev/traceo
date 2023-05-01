@@ -1,7 +1,7 @@
 import { IProject, BROWSER_SDK } from "@traceo/types";
 import { MenuRoute } from "../../../../core/types/navigation";
 
-export const buildHeaderItems = (project: IProject): MenuRoute[] => {
+export const buildHeaderItems = (isAdmin: boolean, project: IProject): MenuRoute[] => {
   const isProject = window.location.pathname.split("/").includes("project");
 
   if (isProject && !project) {
@@ -63,17 +63,21 @@ export const buildHeaderItems = (project: IProject): MenuRoute[] => {
       label: "Overview",
       href: "/dashboard/projects"
     },
-    {
-      key: "admin",
-      label: "Admin panel",
-      href: "/dashboard/admin/users"
-    },
+
     {
       key: "profile",
       label: "Profile",
       href: "/dashboard/profile/settings"
     }
   ];
+
+  if (isAdmin) {
+    navItems.splice(1, 0, {
+      key: "admin",
+      label: "Admin panel",
+      href: "/dashboard/admin/users"
+    });
+  }
 
   return navItems;
 };

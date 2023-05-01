@@ -64,6 +64,13 @@ const PerformancePage = () => {
     );
   };
 
+  const onClick = (field: VitalsEnum) => {
+    navigate({
+      pathname: `/project/${id}/performance/${field}`,
+      search: `?from=${ranges[0]}&to=${ranges[1]}`
+    });
+  };
+
   return (
     <Page
       header={{
@@ -88,15 +95,7 @@ const PerformancePage = () => {
           <Card
             className="mb-1 flex flex-col"
             title={
-              <span
-                className="cursor-pointer font-semibold"
-                onClick={() =>
-                  navigate({
-                    pathname: `/project/${id}/performance/${field}`,
-                    search: `?from=${ranges[0]}&to=${ranges[1]}`
-                  })
-                }
-              >
+              <span className="cursor-pointer font-semibold" onClick={() => onClick(field)}>
                 {name}
               </span>
             }

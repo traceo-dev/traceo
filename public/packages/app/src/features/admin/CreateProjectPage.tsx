@@ -2,7 +2,6 @@ import { Page } from "../../core/components/Page";
 import api from "../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../core/utils/constants";
 import { useAppDispatch } from "../../store/index";
-import { hideNavbar } from "../../store/internal/navbar/actions";
 import { loadProject } from "../project/state/project/actions";
 import { ApiResponse, CreateProjectProps, SDK } from "@traceo/types";
 import {
@@ -17,10 +16,10 @@ import {
   Typography
 } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { ChooseElementGrid } from "../../core/components/ChooseElementGrid";
 import { resetProjectState } from "../project/state/project/reducers";
 import { AppstoreAddOutlined } from "@ant-design/icons";
+import { RouterLink } from "../../core/components/RouterLink";
 
 type CreateAppPayload = {
   redirectUrl: string;
@@ -53,7 +52,6 @@ const technologyOptions: SelectOptionProps[] = [
 
 const CreateProjectPage = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -92,11 +90,6 @@ const CreateProjectPage = () => {
       });
   };
 
-  const onBack = () => {
-    dispatch(hideNavbar(false));
-    navigate("/dashboard/projects");
-  };
-
   return (
     <Page
       header={{
@@ -104,9 +97,7 @@ const CreateProjectPage = () => {
         title: "Create new project",
         description: (
           <div>
-            <p className="m-0 pt-3">
-              Create new project inside your Traceo instance.
-            </p>
+            <p className="m-0 pt-3">Create new project inside your Traceo instance.</p>
             <p className="m-0">
               Information on how to connect the SDK to your software can be found here.
             </p>
@@ -152,9 +143,9 @@ const CreateProjectPage = () => {
             <Button type="submit" form="create-project-form" loading={loading}>
               Save
             </Button>
-            <Button variant="ghost" onClick={() => onBack()}>
-              Cancel
-            </Button>
+            <RouterLink to={"/dashboard/projects"}>
+              <Button variant="ghost">Cancel</Button>
+            </RouterLink>
           </ButtonContainer>
         </Card>
       </Page.Content>

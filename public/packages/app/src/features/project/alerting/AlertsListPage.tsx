@@ -2,7 +2,7 @@ import { BellOutlined, PlusOutlined } from "@ant-design/icons";
 import { AlertStatus, IAlert, PaginateType, SortOrder } from "@traceo/types";
 import { Button, Card, InputSearch, Select, Table, TableColumn } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Page } from "../../../core/components/Page";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
@@ -17,6 +17,7 @@ import {
 import { useAppDispatch } from "../../../store/index";
 import { resetAlertState } from "./state/alert.slice";
 import { SortIcons } from "../../../core/components/SortIcons";
+import { RouterLink } from "../../../core/components/RouterLink";
 
 const ALERT_PAGE_SIZE = 15;
 const AlertsListPage = () => {
@@ -73,12 +74,9 @@ const AlertsListPage = () => {
         description: "Get informed about disturbing behavior as soon as it occurs.",
         icon: <BellOutlined />,
         suffix: (
-          <Button
-            icon={<PlusOutlined />}
-            onClick={() => navigate(`/project/${id}/alerting/create`)}
-          >
-            Create new
-          </Button>
+          <RouterLink to={`/project/${id}/alerting/create`}>
+            <Button icon={<PlusOutlined />}>Create new</Button>
+          </RouterLink>
         )
       }}
     >

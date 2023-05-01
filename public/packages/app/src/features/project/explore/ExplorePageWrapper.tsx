@@ -13,7 +13,7 @@ export const ExplorePageWrapper: FC = ({ children }) => {
     },
     {
       href: "/project/:id/explore/runtime",
-      label: "Runtime configuration",
+      label: "Configuration",
       key: "runtime",
       icon: <DeploymentUnitOutlined />
     }

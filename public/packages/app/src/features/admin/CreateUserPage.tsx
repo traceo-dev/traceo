@@ -12,12 +12,12 @@ import {
   Form,
   FormItem,
   Input,
-  InputSecret,
-  Typography
+  InputSecret
 } from "@traceo/ui";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserAddOutlined, UserOutlined } from "@ant-design/icons";
+import { UserAddOutlined } from "@ant-design/icons";
+import { RouterLink } from "../../core/components/RouterLink";
 
 type CreateUserPayload = {
   id: string;
@@ -53,8 +53,6 @@ const CreateUserPage = () => {
       });
   };
 
-  const onBack = () => navigate("/dashboard/admin/users");
-
   return (
     <Page
       header={{
@@ -62,9 +60,7 @@ const CreateUserPage = () => {
         title: "Create new user",
         description: (
           <div>
-            <p className="m-0 pt-3">
-              Create new user in your Traceo instance.
-            </p>
+            <p className="m-0 pt-3">Create new user in your Traceo instance.</p>
             <p className="m-0">
               Remember the entered data, because they will be useful for this user to log in.
             </p>
@@ -130,9 +126,9 @@ const CreateUserPage = () => {
             <Button type="submit" form="add-user-form" loading={loading}>
               Confirm
             </Button>
-            <Button variant="ghost" onClick={() => onBack()}>
-              Cancel
-            </Button>
+            <RouterLink to={"/dashboard/admin/users"}>
+              <Button variant="ghost">Cancel</Button>
+            </RouterLink>
           </ButtonContainer>
         </Card>
       </Page.Content>

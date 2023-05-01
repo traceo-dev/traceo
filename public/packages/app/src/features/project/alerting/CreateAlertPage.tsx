@@ -11,6 +11,7 @@ import {
 } from "@traceo/types";
 import api from "../../../core/lib/api";
 import { AlertMutableForm } from "./AlertMutableForm";
+import { RouterLink } from "../../../core/components/RouterLink";
 
 const initialAlert: Partial<IAlert> = {
   type: AlertEnumType.INCIDENT,
@@ -46,9 +47,10 @@ const CreateAlertPage = () => {
       onSubmit={(alert) => onFinish(alert)}
       headerSuffix={
         <div className="flex flex-row gap-x-3">
-          <Button variant="danger" onClick={() => navigate(`/project/${id}/alerting`)}>
-            Cancel
-          </Button>
+          <RouterLink to={`/project/${id}/alerting`}>
+            <Button variant="danger">Cancel</Button>
+          </RouterLink>
+
           <Button type="submit" form="alert-form" variant="primary">
             Save
           </Button>

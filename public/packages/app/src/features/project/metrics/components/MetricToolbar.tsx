@@ -3,6 +3,8 @@ import { hideNavbar } from "../../../../store/internal/navbar/actions";
 import { MetricTimeRangePicker } from "./MetricTimeRangePicker";
 import { SettingOutlined } from "@ant-design/icons";
 import { Tooltip } from "@traceo/ui";
+import { useProject } from "../../../../core/hooks/useProject";
+import { MemberRole } from "@traceo/types";
 
 interface Props {
   isCustomizeMode: boolean;
@@ -17,6 +19,7 @@ export const MetricToolbar = ({
   setRanges
 }: Props) => {
   const dispatch = useAppDispatch();
+  const { permission } = useProject();
 
   const onCustomize = () => {
     setCustomizeMode(true);
@@ -30,11 +33,13 @@ export const MetricToolbar = ({
       return [];
     }
 
-    tools.push({
-      title: "Customize graph",
-      icon: <SettingOutlined />,
-      onClick: () => onCustomize()
-    });
+    if (permission !== MemberRole.VIEWER) {
+      tools.push({
+        title: "Customize graph",
+        icon: <SettingOutlined />,
+        onClick: () => onCustomize()
+      });
+    }
 
     return tools;
   };
