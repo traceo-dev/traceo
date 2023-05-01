@@ -1,7 +1,7 @@
 export const ADMIN_EMAIL = "admin@localhost";
 export const ADMIN_NAME = "admin";
 
-export const VERSION = "0.3.3";
+export const VERSION = "1.0.0";
 
 export const SESSION_NAME = "traceo_session";
 export const SESSION_EXPIRY_TIME = 7200000; //2h
