@@ -9,7 +9,7 @@
     "../public/packages/shared/traceo-types"
   ],
   "dependencies": {
-    "@clickhouse/client": "^0.0.14",
+    "@clickhouse/client": "^0.0.15",
     "@traceo-sdk/node": "^0.31.9",
     "@traceo/types": "0.0.0",
     "@types/jest": "^29.5.1",
