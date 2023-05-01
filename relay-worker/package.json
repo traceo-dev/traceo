@@ -30,7 +30,7 @@
   "devDependencies": {
     "pg": "^8.10.0",
     "prettier": "^2.8.4",
-    "ts-jest": "^26.4.3",
+    "ts-jest": "^29.1.0",
     "ts-loader": "^8.0.8",
     "ts-node": "10.8.1",
     "tsconfig-paths": "^3.9.0",
