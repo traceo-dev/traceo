@@ -1,11 +1,6 @@
 # Traceo
 Traceo is an open-source, self-hosted set of tools for monitoring application health by collecting and aggregating data from the software. 
 
-# Development status
-Not ready for production use.
-
-<!-- Estimated release time for the production-ready version (1.0.0): 01.05.2023 -->
-
 # SDK
 To start using the Traceo platform, you need to integrate with [Traceo SDK](https://github.com/traceo-io/traceo-node). Informations about the process of implementation SDK inside your software is in README of the each SDK.
 - [`@traceo-sdk/node`](https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/node) - NodeJS
@@ -32,7 +27,7 @@ Record data about your server, like eq. CPU utilization or RAM usage.
 
 <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-metrics.PNG">
 
-### ***Performance (v. > 1.0.0)***
+### ***Performance***
 Control the performance of your application by collecting web-vitals data from your app.
 
 <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf.PNG">
