@@ -28,7 +28,7 @@ Docker-compose installation instructions can be found [here](https://docs.docker
 ### Basic
 The easiest possible way to install using docker compose is to use the following one-liner:
 ```
-$ curl -L https://raw.githubusercontent.com/traceo-dev/traceo/develop/docker-compose.yml -o docker-compose2.yml && docker compose up
+$ curl -L https://raw.githubusercontent.com/traceo-dev/traceo/develop/docker-compose.yml -o docker-compose.yml && docker compose up
 ```
 After invoking this command, the docker-compose.yml file will be downloaded and run on your machine.
 
