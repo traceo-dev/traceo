@@ -45,7 +45,7 @@
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.9",
     "redux-persist": "^6.0.0",
-    "redux-persist-transform-encrypt": "^4.0.0",
+    "redux-persist-transform-encrypt": "^5.0.0",
     "redux-thunk": "^2.4.1",
     "socket.io-client": "^4.4.1",
     "styled-components": "^5.3.6",
