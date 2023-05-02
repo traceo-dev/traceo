@@ -680,6 +680,11 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
+"@lukeed/csprng@^1.0.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@lukeed/csprng/-/csprng-1.1.0.tgz#1e3e4bd05c1cc7a0b2ddbd8a03f39f6e4b5e6cfe"
+  integrity sha512-Z7C/xXCiGWsg0KuKsHTKJxbWhpI3Vs5GwLfOean7MGyVFGqdRgBbAjOCh6u4bbjPc/8MJ2pZmK/0DLdCbivLDA==
+
 "@nestjs/axios@^0.0.7":
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/@nestjs/axios/-/axios-0.0.7.tgz#7f134636db13c2c1e8299365c7eceb73cd782b67"
@@ -734,18 +739,17 @@
     lodash "4.17.21"
     uuid "9.0.0"
 
-"@nestjs/core@9.0.5":
-  version "9.0.5"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-9.0.5.tgz#b4cb8f8b0c1d234a840f06e265717d4a24f8d224"
-  integrity sha512-41BBJlsquasVrGeRWNYb74Fwsc+oB5EmKC/hioQJAhGqIw5Kr5AcdEoEFaMKFzNLAPbU6c/nVW8T8CrvtQbQww==
+"@nestjs/core@9.4.0":
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-9.4.0.tgz#bca5128138fcf9b4668bc524b578f3805a325183"
+  integrity sha512-yTLryCgFD0462wPe4HIzhyTcDgibt8Stfwb5YzcX7Ma0NM4m8uBIpcPG109KBubp8ZmV85e5mw4rl20qLQQVsQ==
   dependencies:
+    uid "2.0.2"
     "@nuxtjs/opencollective" "0.3.2"
     fast-safe-stringify "2.1.1"
     iterare "1.2.1"
-    object-hash "3.0.0"
     path-to-regexp "3.2.0"
-    tslib "2.4.0"
-    uuid "8.3.2"
+    tslib "2.5.0"
 
 "@nestjs/jwt@^8.0.0":
   version "8.0.1"
@@ -7568,6 +7572,13 @@ typescript@4.9.5:
   version "4.9.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
+
+uid@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/uid/-/uid-2.0.2.tgz#4b5782abf0f2feeefc00fa88006b2b3b7af3e3b9"
+  integrity sha512-u3xV3X7uzvi5b1MncmZo3i2Aw222Zk1keqLA1YkHldREkAhAqi65wuPfe7lHx8H/Wzy+8CE7S7uS3jekIM5s8g==
+  dependencies:
+    "@lukeed/csprng" "^1.0.0"
 
 unbox-primitive@^1.0.2:
   version "1.0.2"
