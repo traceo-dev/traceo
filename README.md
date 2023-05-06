@@ -1,3 +1,5 @@
+<img src="https://github.com/traceo-dev/traceo/blob/develop/public/packages/app/public/traceo-fav.PNG" width="100px">
+
 # Traceo
 Traceo is an open-source, self-hosted set of tools for monitoring application health by collecting and aggregating data from the software. 
 
