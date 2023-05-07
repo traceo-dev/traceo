@@ -12,7 +12,7 @@ To start using the Traceo platform, you need to integrate with the [Traceo SDK](
 
 
 # Installation
-Full instalation guide can be found [here](https://github.com/traceo-dev/traceo/blob/develop/INSTALL.md).
+Full installation guide can be found [here](https://github.com/traceo-dev/traceo/blob/develop/INSTALL.md).
 
 # Features
 ### ***Incidents capture***
