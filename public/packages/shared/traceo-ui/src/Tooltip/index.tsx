@@ -21,7 +21,8 @@ export const Tooltip = forwardRef<any, TooltipProps>(
       );
 
     const overrideStyles = {
-      maxWidth: "250px"
+      maxWidth: "250px",
+      marginTop: "10px"
     };
 
     return (
@@ -33,6 +34,7 @@ export const Tooltip = forwardRef<any, TooltipProps>(
           content={tooltipTitle}
           placement={placement}
           overrideStyles={overrideStyles}
+          showArrow={false}
         >
           {/* React.cloneElement(children, { onMouse... }) */}
           {children}

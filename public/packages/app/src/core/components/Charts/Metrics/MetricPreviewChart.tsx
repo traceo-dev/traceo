@@ -1,6 +1,6 @@
 import { buildSeries } from "./utils";
 import { StoreState } from "@store/types";
-import { IMetric, DeepPartial } from "@traceo/types";
+import { IMetric, DeepPartial, METRIC_UNIT } from "@traceo/types";
 import { FC, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../ConditionLayout";
@@ -14,22 +14,31 @@ import { EchartDataZoomProps } from "../types";
 
 interface Props {
   options: DeepPartial<IMetric>;
-  setRanges: (val: [number, number]) => void;
+  setRanges?: (val: [number, number]) => void;
   activeZoomSelect?: boolean;
+  isNewMetric?: boolean;
 }
-const MetricPreviewChart: FC<Props> = ({ options, activeZoomSelect = false, setRanges }) => {
+const MetricPreviewChart: FC<Props> = ({
+  options,
+  activeZoomSelect = false,
+  isNewMetric = false,
+  setRanges
+}) => {
   const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
 
   const showTooltip = options?.config.tooltip.show;
   const showLegend = options?.config.legend.show;
+  const showXAxis = options?.config.axis.showX;
+  const showYAxis = options?.config.axis.showY;
+  const showGridLines = options?.config.axis.showGridLines;
   const legendOrient = options?.config.legend.orient;
-  const unit = options?.unit;
+  const unit = options?.unit === METRIC_UNIT.NONE ? "" : options?.unit;
 
   const echartOptions = useMemo(() => {
     const seriesOptions = buildSeries(
       options?.series || metric.options.series,
       options || metric.options,
-      metric.datasource,
+      metric?.datasource,
       "preview"
     );
 
@@ -63,6 +72,10 @@ const MetricPreviewChart: FC<Props> = ({ options, activeZoomSelect = false, setR
   }, [metric, options]);
 
   const onDataZoom = (params: EchartDataZoomProps) => {
+    if (isNewMetric) {
+      return;
+    }
+
     const { startValue, endValue } = params.batch[0];
     if (startValue && endValue) {
       const selected = metric?.datasource?.time.slice(startValue, endValue);
@@ -73,14 +86,12 @@ const MetricPreviewChart: FC<Props> = ({ options, activeZoomSelect = false, setR
     }
   };
 
+  const isLoading = isNewMetric ? false : !hasFetchedMetric || !metric || !options;
+  const isEmpty =
+    !metric?.datasource || !metric.datasource?.time || metric?.datasource.time.length === 0;
+
   return (
-    <ConditionalWrapper
-      isEmpty={
-        !metric?.datasource || !metric.datasource?.time || metric?.datasource.time.length === 0
-      }
-      isLoading={!hasFetchedMetric || !metric || !options}
-      emptyView={<DataNotFound />}
-    >
+    <ConditionalWrapper isEmpty={isEmpty} isLoading={isLoading} emptyView={<DataNotFound />}>
       <BaseChart
         height={"300px"}
         renderer="canvas"
@@ -91,8 +102,12 @@ const MetricPreviewChart: FC<Props> = ({ options, activeZoomSelect = false, setR
         legend={echartOptions.legend}
         grid={echartOptions.grid}
         xAxis={BaseXAxis({
+          splitLine: {
+            show: showGridLines
+          },
           offset: 12,
           axisLabel: {
+            show: showXAxis,
             showMaxLabel: true
           },
           labelFormatter: (v: unknown) => dayjs.unix(Number(v)).format("HH:mm"),
@@ -100,7 +115,11 @@ const MetricPreviewChart: FC<Props> = ({ options, activeZoomSelect = false, setR
           data: metric?.datasource?.time || []
         })}
         yAxis={BaseYAxis({
+          splitLine: {
+            show: showGridLines
+          },
           axisLabel: {
+            show: showYAxis,
             formatter: `{value} ${unit}`,
             interval: "auto"
           },

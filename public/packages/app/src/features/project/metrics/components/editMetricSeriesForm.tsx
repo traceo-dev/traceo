@@ -1,23 +1,7 @@
-import { BarChartOutlined, LineChartOutlined } from "@ant-design/icons";
-import { DeepPartial, IMetric, IMetricSerie, PLOT_TYPE } from "@traceo/types";
-import { Input, InputColor, LabelPosition, Select, Switch } from "@traceo/ui";
+import { DeepPartial, IMetric, IMetricSerie, METRIC_UNIT } from "@traceo/types";
+import { Input, InputArea, InputColor, LabelPosition, Select, Switch } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-
-const mapPlotName: Record<PLOT_TYPE, string> = {
-  bar: "Bar",
-  line: "Line"
-};
-
-const mapPlotIcon: Record<PLOT_TYPE, JSX.Element> = {
-  bar: <BarChartOutlined />,
-  line: <LineChartOutlined />
-};
-
-const plotOptions = Object.values(PLOT_TYPE).map((type) => ({
-  value: type,
-  label: mapPlotName[type],
-  icon: mapPlotIcon[type]
-}));
+import { unitOptions, plotOptions } from "./utils";
 
 interface MetricEditOption {
   label: string;
@@ -65,6 +49,21 @@ export const editSerieForm = (props: SerieFormProps) => {
   });
 
   forms.push({
+    label: "Description",
+    component: (
+      <InputArea
+        value={serie.description}
+        maxLength={99}
+        onChange={(e) => {
+          setOptions((opt) => {
+            opt.series[index].description = e.target["value"];
+          });
+        }}
+      />
+    )
+  });
+
+  forms.push({
     label: "Field",
     component: (
       <Input
@@ -73,6 +72,22 @@ export const editSerieForm = (props: SerieFormProps) => {
         onChange={(e) => {
           setOptions((opt) => {
             opt.series[index].field = e.target["value"];
+          });
+        }}
+      />
+    )
+  });
+
+  forms.push({
+    label: "Unit",
+    component: (
+      <Select
+        isDisabled={isDefault}
+        options={unitOptions}
+        defaultValue={serie.unit ?? METRIC_UNIT.NONE}
+        onChange={(a) => {
+          setOptions((opt) => {
+            opt.series[index].unit = a?.value;
           });
         }}
       />

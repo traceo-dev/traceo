@@ -10,6 +10,7 @@ import {
   ValidateNested
 } from "class-validator";
 import { METRIC_UNIT, PLOT_TYPE, TOOLTIP_POSITION } from "@traceo/types";
+import { ApiPropertyOptional } from "@nestjs/swagger";
 
 export class MetricQueryDto {
   @IsArray()
@@ -74,6 +75,20 @@ class UpdateLineMetricDto {
   marker: UpdateMarkerMetricDto;
 }
 
+class UpdateMetricAxisDto {
+  @IsBoolean()
+  @IsNotEmpty()
+  showX: boolean = true;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  showY: boolean = true;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  showGridLines: boolean = true;
+}
+
 class UpdateConfigMetricDto {
   @ValidateNested()
   @Type(() => UpdateTooltipMetricDto)
@@ -90,6 +105,10 @@ class UpdateConfigMetricDto {
   @ValidateNested()
   @Type(() => UpdateLineMetricDto)
   line: UpdateLineMetricDto;
+
+  @ValidateNested()
+  @Type(() => UpdateMetricAxisDto)
+  axis: UpdateMetricAxisDto;
 }
 
 class UpdateSerieMetricConfigDto {
@@ -116,6 +135,19 @@ export class UpdateSerieMetricDto {
   @IsString()
   @IsNotEmpty()
   name: string;
+
+  @IsString()
+  @IsOptional()
+  description: string;
+
+  @IsBoolean()
+  @IsOptional()
+  show: boolean = true;
+
+  @IsEnum(METRIC_UNIT)
+  @IsOptional()
+  @ApiPropertyOptional()
+  unit: METRIC_UNIT = METRIC_UNIT.NONE;
 
   @IsString()
   @IsNotEmpty()
@@ -153,6 +185,7 @@ export class UpdateMetricDto {
 
   @IsEnum(METRIC_UNIT)
   @IsOptional()
+  @ApiPropertyOptional()
   unit: METRIC_UNIT = METRIC_UNIT.NONE;
 
   @ValidateNested()

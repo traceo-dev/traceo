@@ -85,7 +85,7 @@ export const MetricPreviewPage = () => {
               </ConditionalWrapper>
             </Card>
             <MetricTableWrapper
-              metric={metric?.options}
+              metric={options}
               metricData={datasource}
               isLoading={isFetching}
             />

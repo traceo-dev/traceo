@@ -23,22 +23,24 @@ export const buildSeries = (
   type: "card" | "preview" = "preview"
 ): SeriesOption[] => {
   const showSymbol = options.config.line.marker.show || false;
-  return series?.map((serie) => ({
-    type: serie.config.type,
-    name: serie.name,
-    data: datasource?.[serie.field] || [],
-    showSymbol: showSymbol,
-    color: serie.config.color,
-    lineStyle: {
+  return series
+    ?.filter((serie) => serie?.show)
+    .map((serie) => ({
+      type: serie.config.type,
+      name: serie.name,
+      data: datasource?.[serie.field] || [],
+      showSymbol: showSymbol,
       color: serie.config.color,
-      width: type === "card" ? 1 : serie.config.lineWidth
-    },
-    barWidth: type === "card" ? 5 : serie.config.barWidth,
-    areaStyle: {
-      color: serie.config.color,
-      opacity: serie.config.area?.show ? serie.config.area.opacity / 100 : 0
-    }
-  })) as SeriesOption[];
+      lineStyle: {
+        color: serie.config.color,
+        width: type === "card" ? 1 : serie.config.lineWidth
+      },
+      barWidth: type === "card" ? 5 : serie.config.barWidth,
+      areaStyle: {
+        color: serie.config.color,
+        opacity: serie.config.area?.show ? serie.config.area.opacity / 100 : 0
+      }
+    })) as SeriesOption[];
 };
 
 export const commonOptions = ({

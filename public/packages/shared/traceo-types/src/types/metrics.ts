@@ -40,8 +40,10 @@ export type IMetric = {
 
 export type IMetricSerie = {
   name: string;
+  description?: string;
+  unit?: METRIC_UNIT;
+  show: boolean;
   field: string;
-  // TODO: change this from string to some type
   type: string;
   config: {
     lineWidth?: number;
@@ -73,6 +75,11 @@ export type IMetricConfiguration = {
     show: boolean;
     orient: string;
   };
+  axis: {
+    showX?: boolean;
+    showY?: boolean;
+    showGridLines?: boolean;
+  },
 };
 
 export type TOOLTIP_POSITION = "bottom" | "inside" | "left" | "right" | "top";
@@ -87,7 +94,7 @@ export enum METRIC_UNIT {
   KILOBYTES = "kb",
   SECONDS = "s",
   MILISECONDS = "ms",
-  NONE = ""
+  NONE = "None"
 }
 
 export type LegendOrientType = "vertical" | "horizontal";

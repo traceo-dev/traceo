@@ -18,26 +18,50 @@ export const editMetricGraphForm = (props: Props) => {
   const { options, setOptions } = props;
   const forms: MetricEditOption[] = [];
 
-  // if (options.series.find((s) => s.config.type === "line")) {
-  //   forms.push({
-  //     label: "Line width",
-  //     component: (
-  //       <Input
-  //         type="number"
-  //         min={1}
-  //         max={10}
-  //         value={options.config.line.width}
-  //         onChange={(e) => {
-  //           if (e.target["value"] <= 10) {
-  //             setOptions((opt) => {
-  //               opt.config.line.width = Number(e.target["value"]);
-  //             });
-  //           }
-  //         }}
-  //       />
-  //     )
-  //   });
-  // }
+  forms.push({
+    label: "Show X axis",
+    labelPosition: "horizontal",
+    component: (
+      <Switch
+        value={options.config?.axis?.showX}
+        onChange={(e) => {
+          setOptions((opt) => {
+            opt.config.axis.showX = e.target["checked"];
+          });
+        }}
+      />
+    )
+  });
+
+  forms.push({
+    label: "Show Y axis",
+    labelPosition: "horizontal",
+    component: (
+      <Switch
+        value={options.config?.axis?.showY}
+        onChange={(e) => {
+          setOptions((opt) => {
+            opt.config.axis.showY = e.target["checked"];
+          });
+        }}
+      />
+    )
+  });
+
+  forms.push({
+    label: "Show grid lines",
+    labelPosition: "horizontal",
+    component: (
+      <Switch
+        value={options.config?.axis?.showGridLines}
+        onChange={(e) => {
+          setOptions((opt) => {
+            opt.config.axis.showGridLines = e.target["checked"];
+          });
+        }}
+      />
+    )
+  });
 
   forms.push({
     label: "Show markers",

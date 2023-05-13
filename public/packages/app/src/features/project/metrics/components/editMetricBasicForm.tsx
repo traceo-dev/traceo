@@ -1,15 +1,12 @@
-import { DeepPartial, IMetric, METRIC_UNIT } from "@traceo/types";
+import { DeepPartial, IMetric } from "@traceo/types";
 import { Input, InputArea, LabelPosition, Select } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-
-const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
-  value: unit,
-  label: unit
-}));
+import { unitOptions } from "./utils";
 
 interface MetricEditOption {
   label: string;
   labelPosition?: LabelPosition;
+  tooltip?: string;
   component: JSX.Element;
 }
 
@@ -56,6 +53,7 @@ export const editMetricBasicForm = (props: EditMetricType) => {
 
   forms.push({
     label: "Unit",
+    tooltip: "Base unit for Y axis and all series. You can also set custom unit for each serie.",
     component: (
       <Select
         isDisabled={options?.isDefault}
@@ -70,19 +68,5 @@ export const editMetricBasicForm = (props: EditMetricType) => {
     )
   });
 
-  // forms.push({
-  //   label: "Show description",
-  //   labelPosition: "vertical",
-  //   component: (
-  //     <Switch
-  //       value={options.showDescription}
-  //       onChange={(e) => {
-  //         setOptions((opt) => {
-  //           opt.showDescription = e.target["checked"];
-  //         });
-  //       }}
-  //     />
-  //   )
-  // });
   return forms;
 };
