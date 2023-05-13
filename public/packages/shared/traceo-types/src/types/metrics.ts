@@ -1,26 +1,19 @@
-import { Dictionary } from ".";
+import { ExponentialHistogram, Histogram } from "./opentelemetry";
 
 export type UUIntType = Uint32Array | Uint16Array | Uint8Array | BigInt64Array | BigInt;
-export type MetricsEventPayload = {
-  // Basic metrics scrapped from software like CPU/RAM/etc.
-  default: Dictionary<string | UUIntType>;
 
-  // Metrics scrapped by client sdk
-  counter: Record<string, number>;
-  meauserement: Record<string, number>;
-  gauge: Record<string, number>;
-  timeSeries: Record<string, number>;
-}
-
-export type TimeSerieMetric = {
+/**
+ * Metric value representation saved in clickhouse table row
+ */
+export type MetricPayload = {
   id: string,
   name: string,
-  value: string | UUIntType,
+  value: string | number | UUIntType | Histogram | ExponentialHistogram,
   project_id: string,
-  // TODO: return metrics capture time from SDK and pass here
   timestamp: number,
   receive_timestamp: number
 }
+
 export type IMetric = {
   id?: string;
   name: string;

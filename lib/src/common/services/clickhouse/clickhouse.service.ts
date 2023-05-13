@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ClickHouseClient, ClickHouseClientConfigOptions, createClient, QueryParams } from "@clickhouse/client";
-import { LogsQuery, ILog, TimeSerieMetric, PerformanceQuery, Performance, Notification } from "@traceo/types";
+import { LogsQuery, ILog, MetricPayload, PerformanceQuery, Performance, Notification } from "@traceo/types";
 import { MetricQueryDto } from "../../../common/types/dto/metrics.dto";
 
 @Injectable()
@@ -23,7 +23,7 @@ export class ClickhouseService {
     public async loadMetric(
         projectId: string,
         query: MetricQueryDto
-    ): Promise<TimeSerieMetric[]> {
+    ): Promise<MetricPayload[]> {
         const metrics = await this.query({
             query: `
                 SELECT name, value, timestamp FROM metrics
@@ -36,7 +36,7 @@ export class ClickhouseService {
             format: "JSONEachRow"
         });
 
-        return metrics.json<TimeSerieMetric[]>()
+        return metrics.json<MetricPayload[]>()
     }
 
     public async loadLogs(query: LogsQuery): Promise<ILog[]> {
