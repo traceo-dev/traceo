@@ -64,6 +64,10 @@ class UpdateMarkerMetricDto {
   @IsBoolean()
   @IsNotEmpty()
   show: boolean = false;
+
+  @IsString()
+  @IsOptional()
+  shape: string = "rect";
 }
 class UpdateLineMetricDto {
   @IsInt()

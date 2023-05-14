@@ -1,14 +1,7 @@
 import { DeepPartial, IMetric } from "@traceo/types";
-import { Input, InputArea, LabelPosition, Select } from "@traceo/ui";
+import { Input, InputArea, Select } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-import { unitOptions } from "./utils";
-
-interface MetricEditOption {
-  label: string;
-  labelPosition?: LabelPosition;
-  tooltip?: string;
-  component: JSX.Element;
-}
+import { MetricEditOption, unitOptions } from "./utils";
 
 type EditMetricType = {
   options: DeepPartial<IMetric>;
@@ -18,9 +11,6 @@ export const editMetricBasicForm = (props: EditMetricType) => {
   const { options, setOptions } = props;
   const forms: MetricEditOption[] = [];
 
-  /**
-   * TODO: add additional logic here based on plot type, user preferences etc.
-   */
   forms.push({
     label: "Name",
     component: (

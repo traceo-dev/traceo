@@ -57,6 +57,17 @@ export type IMetricSerie = {
   };
 };
 
+export enum MARKER_SHAPE {
+  CIRCLE = "circle",
+  RECT = "rect",
+  ROUND_RECT = "roundRect",
+  TRIANGLE = "triangle",
+  DIAMOND = "diamond",
+  PIN = "pin",
+  ARROW = "arrow"
+}
+
+
 /**
  * If values like line.width/area.show/area.opacity is not empty
  * then it overrides fields from series
@@ -65,6 +76,7 @@ export type IMetricConfiguration = {
   line?: {
     marker?: {
       show?: boolean;
+      shape?: MARKER_SHAPE;
     };
   };
   tooltip: {

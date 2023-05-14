@@ -13,7 +13,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
 import { PreviewPageHeader } from "../../../../core/components/PreviewPageHeader";
-import { notify } from "src/core/utils/notify";
+import { notify } from "../../../../core/utils/notify";
+import { Confirm } from "../../../../core/components/Confirm";
 
 interface Props {
   currentOptions: DeepPartial<IMetric>;
@@ -40,6 +41,11 @@ export const MetricPreviewHeader: FC<Props> = ({
   const { ranges } = useTimeRange(undefined, false);
 
   const onConfirm = () => {
+    if (!currentOptions.name) {
+      notify.error("Metric name is required.");
+      return;
+    }
+
     const series = currentOptions.series;
     if (series.length === 0) {
       notify.error("You have to add at least one serie to this metric.");
@@ -85,8 +91,10 @@ export const MetricPreviewHeader: FC<Props> = ({
     setSaveLoading(true);
     await api
       .post<ApiResponse<unknown>>(`/api/metrics/${id}`, currentOptions)
-      .then(() => {
-        navigate(`/project/${id}/metrics`);
+      .then((resp) => {
+        if (resp.status === "success") {
+          navigate(`/project/${id}/metrics`);
+        }
       })
       .finally(() => {
         setSaveLoading(false);
@@ -146,9 +154,14 @@ export const MetricPreviewHeader: FC<Props> = ({
 
           {!metric?.options?.isDefault && !isCustomizeMode && !isCreateMode && (
             <div className="flex flex-row gap-x-1">
-              <Button loading={removeLoading} variant="danger" onClick={() => onRemove()}>
-                Remove
-              </Button>
+              <Confirm
+                description="Are you sure that you want to remove this metric?"
+                onOk={() => onRemove()}
+              >
+                <Button loading={removeLoading} variant="danger">
+                  Remove
+                </Button>
+              </Confirm>
             </div>
           )}
         </Space>

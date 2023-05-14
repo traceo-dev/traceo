@@ -1,13 +1,7 @@
 import { DeepPartial, IMetric, IMetricSerie, METRIC_UNIT } from "@traceo/types";
-import { Input, InputArea, InputColor, LabelPosition, Select, Switch } from "@traceo/ui";
+import { Input, InputArea, InputColor, Select, Switch } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-import { unitOptions, plotOptions } from "./utils";
-
-interface MetricEditOption {
-  label: string;
-  labelPosition?: LabelPosition;
-  component: JSX.Element;
-}
+import { unitOptions, plotOptions, MetricEditOption } from "./utils";
 
 type SerieFormProps = {
   index: number;

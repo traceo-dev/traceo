@@ -28,7 +28,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {
@@ -74,7 +75,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {
@@ -120,7 +122,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {
@@ -182,7 +185,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {
@@ -260,7 +264,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {
@@ -306,7 +311,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {

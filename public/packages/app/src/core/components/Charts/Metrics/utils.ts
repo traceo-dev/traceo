@@ -23,6 +23,7 @@ export const buildSeries = (
   type: "card" | "preview" = "preview"
 ): SeriesOption[] => {
   const showSymbol = options.config.line.marker.show || false;
+  const symbol = options.config.line.marker.shape || "rect";
   return series
     ?.filter((serie) => serie?.show)
     .map((serie) => ({
@@ -30,6 +31,7 @@ export const buildSeries = (
       name: serie.name,
       data: datasource?.[serie.field] || [],
       showSymbol: showSymbol,
+      symbol: symbol,
       color: serie.config.color,
       lineStyle: {
         color: serie.config.color,

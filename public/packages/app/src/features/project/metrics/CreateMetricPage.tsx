@@ -7,6 +7,7 @@ import { Card } from "@traceo/ui";
 import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
+import { randomHexColor } from "../../../core/utils/colors";
 
 const initialMetric: DeepPartial<IMetric> = {
   name: "New metric",
@@ -30,7 +31,25 @@ const initialMetric: DeepPartial<IMetric> = {
       showGridLines: true
     }
   },
-  series: [],
+  series: [
+    {
+      config: {
+        area: {
+          opacity: 50,
+          show: false
+        },
+        barWidth: 5,
+        color: randomHexColor(),
+        lineWidth: 2,
+        type: "line"
+      },
+      name: "New serie",
+      description: "New serie description",
+      field: undefined,
+      unit: METRIC_UNIT.NONE,
+      show: true
+    }
+  ],
   isDefault: false,
   show: true,
   showDescription: true,
