@@ -11,6 +11,7 @@
         {
           "name": "Cpu",
           "field": "cpu_usage",
+          "show": true,
           "type": "floatField",
           "config": {
             "lineWidth": 1,
@@ -27,7 +28,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {
@@ -37,6 +39,11 @@
         "legend": {
           "show": false,
           "orient": "vertical"
+        },
+        "axis": {
+          "showX": true,
+          "showY": true,
+          "showGridLines": true
         }
       }
     },
@@ -51,6 +58,7 @@
         {
           "name": "Memory",
           "field": "memory_usage_percentage",
+          "show": true,
           "type": "floatField",
           "config": {
             "lineWidth": 1,
@@ -67,7 +75,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {
@@ -77,6 +86,11 @@
         "legend": {
           "show": false,
           "orient": "vertical"
+        },
+        "axis": {
+          "showX": true,
+          "showY": true,
+          "showGridLines": true
         }
       }
     },
@@ -92,6 +106,7 @@
           "name": "RSS",
           "field": "heap_rss",
           "type": "floatField",
+          "show": true,
           "config": {
             "lineWidth": 1,
             "barWidth": 20,
@@ -107,7 +122,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {
@@ -117,6 +133,11 @@
         "legend": {
           "show": false,
           "orient": "vertical"
+        },
+        "axis": {
+          "showX": true,
+          "showY": true,
+          "showGridLines": true
         }
       }
     },
@@ -131,6 +152,7 @@
         {
           "name": "Used Heap",
           "field": "heap_used",
+          "show": true,
           "type": "floatField",
           "config": {
             "lineWidth": 1,
@@ -146,6 +168,7 @@
         {
           "name": "Total Heap",
           "field": "heap_total",
+          "show": true,
           "type": "floatField",
           "config": {
             "lineWidth": 1,
@@ -162,7 +185,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {
@@ -172,6 +196,11 @@
         "legend": {
           "show": false,
           "orient": "vertical"
+        },
+        "axis": {
+          "showX": true,
+          "showY": true,
+          "showGridLines": true
         }
       }
     },
@@ -186,6 +215,7 @@
         {
           "name": "Min",
           "field": "loop_min",
+          "show": true,
           "type": "floatField",
           "config": {
             "lineWidth": 1,
@@ -201,6 +231,7 @@
         {
           "name": "Max",
           "field": "loop_max",
+          "show": true,
           "type": "floatField",
           "config": {
             "lineWidth": 1,
@@ -216,6 +247,7 @@
         {
           "name": "Mean",
           "field": "loop_mean",
+          "show": true,
           "type": "floatField",
           "config": {
             "lineWidth": 1,
@@ -232,7 +264,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {
@@ -242,6 +275,11 @@
         "legend": {
           "show": false,
           "orient": "vertical"
+        },
+        "axis": {
+          "showX": true,
+          "showY": true,
+          "showGridLines": true
         }
       }
     },
@@ -256,6 +294,7 @@
         {
           "name": "Load",
           "field": "load_avg",
+          "show": true,
           "type": "floatField",
           "config": {
             "lineWidth": 1,
@@ -272,7 +311,8 @@
       "config": {
         "line": {
           "marker": {
-            "show": false
+            "show": false,
+            "shape": "react"
           }
         },
         "tooltip": {
@@ -282,6 +322,11 @@
         "legend": {
           "show": false,
           "orient": "vertical"
+        },
+        "axis": {
+          "showX": true,
+          "showY": true,
+          "showGridLines": true
         }
       }
     }

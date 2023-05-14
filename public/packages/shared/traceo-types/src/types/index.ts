@@ -19,6 +19,7 @@ export * from "./sdk";
 export * from "./kafka";
 export * from "./event";
 export * from "./performance";
+export * from "./opentelemetry";
 
 export type SafeReturnType = string | number;
 

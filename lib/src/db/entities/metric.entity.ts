@@ -23,7 +23,7 @@ export class Metric extends BaseEntity implements IMetric {
   @Column({ type: "boolean", default: false, nullable: false, name: "is_default" })
   isDefault: boolean;
 
-  @Column({ type: "varchar", nullable: false })
+  @Column({ type: "varchar", nullable: true })
   unit: METRIC_UNIT | string;
 
   @Column({ type: "simple-json", nullable: false })

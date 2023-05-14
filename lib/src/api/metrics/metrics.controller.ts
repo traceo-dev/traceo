@@ -1,6 +1,6 @@
 import { Query } from "@nestjs/common";
 import { Controller, Get, Param } from "@nestjs/common";
-import { Body, Patch, UseGuards } from "@nestjs/common/decorators";
+import { Body, Delete, Patch, Post, UseGuards } from "@nestjs/common/decorators";
 import { ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "../../common/decorators/auth-guard.decorator";
 import {
@@ -56,11 +56,26 @@ export class MetricsController {
     return await this.metricsQueryService.getMetricTableData(projectId, query);
   }
 
+  @Post("/:id")
+  async createMetric(
+    @Param("id") projectId: string,
+    @Body() body: UpdateMetricDto
+  ): Promise<ApiResponse<string>> {
+    return await this.metricsService.createMetric(projectId, body);
+  }
+
   @Patch("/:metricId/update")
   async updateMetric(
     @Param("metricId") metricId: string,
     @Body() body: UpdateMetricDto
   ): Promise<ApiResponse<string>> {
     return await this.metricsService.updateMetric(metricId, body);
+  }
+
+  @Delete("/:id")
+  async removeMetric(
+    @Param("id") metricId: string
+  ): Promise<ApiResponse<string>> {
+    return await this.metricsService.removeMetric(metricId);
   }
 }

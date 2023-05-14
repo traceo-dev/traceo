@@ -1,43 +1,17 @@
 import { IMetric } from "@traceo/types";
-import { LabelPosition, RadioButtonGroup, Switch } from "@traceo/ui";
+import { RadioButtonGroup, Select, Switch } from "@traceo/ui";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
-
-interface MetricEditOption {
-  label: string;
-  labelPosition?: LabelPosition;
-  component: JSX.Element;
-}
+import { MetricEditOption, markerShapeOptions } from "./utils";
 
 interface Props {
   options: DeepPartial<IMetric>;
   setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
 }
 
-export const editMetricGraphForm = (props: Props) => {
+export const editMetricMarkerForm = (props: Props) => {
   const { options, setOptions } = props;
   const forms: MetricEditOption[] = [];
-
-  // if (options.series.find((s) => s.config.type === "line")) {
-  //   forms.push({
-  //     label: "Line width",
-  //     component: (
-  //       <Input
-  //         type="number"
-  //         min={1}
-  //         max={10}
-  //         value={options.config.line.width}
-  //         onChange={(e) => {
-  //           if (e.target["value"] <= 10) {
-  //             setOptions((opt) => {
-  //               opt.config.line.width = Number(e.target["value"]);
-  //             });
-  //           }
-  //         }}
-  //       />
-  //     )
-  //   });
-  // }
 
   forms.push({
     label: "Show markers",
@@ -55,6 +29,29 @@ export const editMetricGraphForm = (props: Props) => {
   });
 
   forms.push({
+    label: "Markers shape",
+    labelPosition: "vertical",
+    component: (
+      <Select
+        options={markerShapeOptions}
+        defaultValue={options.config.line.marker.shape || "rect"}
+        onChange={(a) => {
+          setOptions((opt) => {
+            opt.config.line.marker.shape = a?.value
+          });
+        }}
+      />
+    )
+  });
+
+  return forms;
+};
+
+export const editMetricTooltipForm = (props: Props) => {
+  const { options, setOptions } = props;
+  const forms: MetricEditOption[] = [];
+
+  forms.push({
     label: "Show tooltip",
     labelPosition: "horizontal",
     component: (
@@ -68,6 +65,13 @@ export const editMetricGraphForm = (props: Props) => {
       />
     )
   });
+
+  return forms;
+};
+
+export const editMetricLegendForm = (props: Props) => {
+  const { options, setOptions } = props;
+  const forms: MetricEditOption[] = [];
 
   forms.push({
     label: "Show legend",
@@ -110,41 +114,56 @@ export const editMetricGraphForm = (props: Props) => {
     });
   }
 
-  // forms.push({
-  //   label: "Show area",
-  //   labelPosition: "horizontal",
-  //   component: (
-  //     <Switch
-  //       value={options.config.area.show}
-  //       onChange={(e) => {
-  //         setOptions((opt) => {
-  //           opt.config.area.show = e.target["checked"];
-  //         });
-  //       }}
-  //     />
-  //   )
-  // });
+  return forms;
+};
+export const editMetricAxisForm = (props: Props) => {
+  const { options, setOptions } = props;
+  const forms: MetricEditOption[] = [];
 
-  // if (options.config.area.show) {
-  //   forms.push({
-  //     label: "Area opacity",
-  //     component: (
-  //       <Input
-  //         type="number"
-  //         min={0}
-  //         max={100}
-  //         value={options.config.area.opacity}
-  //         onChange={(e) => {
-  //           if (e.target["value"] <= 100) {
-  //             setOptions((opt) => {
-  //               opt.config.area.opacity = Number(e.target["value"]);
-  //             });
-  //           }
-  //         }}
-  //       />
-  //     )
-  //   });
-  // }
+  forms.push({
+    label: "Show X axis",
+    labelPosition: "horizontal",
+    component: (
+      <Switch
+        value={options.config?.axis?.showX}
+        onChange={(e) => {
+          setOptions((opt) => {
+            opt.config.axis.showX = e.target["checked"];
+          });
+        }}
+      />
+    )
+  });
+
+  forms.push({
+    label: "Show Y axis",
+    labelPosition: "horizontal",
+    component: (
+      <Switch
+        value={options.config?.axis?.showY}
+        onChange={(e) => {
+          setOptions((opt) => {
+            opt.config.axis.showY = e.target["checked"];
+          });
+        }}
+      />
+    )
+  });
+
+  forms.push({
+    label: "Show grid lines",
+    labelPosition: "horizontal",
+    component: (
+      <Switch
+        value={options.config?.axis?.showGridLines}
+        onChange={(e) => {
+          setOptions((opt) => {
+            opt.config.axis.showGridLines = e.target["checked"];
+          });
+        }}
+      />
+    )
+  });
 
   return forms;
 };

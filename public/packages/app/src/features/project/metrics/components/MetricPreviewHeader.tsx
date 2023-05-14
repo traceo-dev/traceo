@@ -9,29 +9,63 @@ import { ApiResponse, IMetric } from "@traceo/types";
 import { PageHeader, Button, Space } from "@traceo/ui";
 import { FC, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
 import { PreviewPageHeader } from "../../../../core/components/PreviewPageHeader";
+import { notify } from "../../../../core/utils/notify";
+import { Confirm } from "../../../../core/components/Confirm";
 
 interface Props {
   currentOptions: DeepPartial<IMetric>;
   isCustomizeMode: boolean;
-  setCustomizeMode: (val: boolean) => void;
+  isCreateMode?: boolean;
+  setCustomizeMode?: (val: boolean) => void;
   setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
 }
 export const MetricPreviewHeader: FC<Props> = ({
   currentOptions,
   isCustomizeMode,
+  isCreateMode = false,
   setCustomizeMode,
   setOptions
 }) => {
   const dispatch = useAppDispatch();
-  const { id } = useParams();
   const isDemo = useDemo();
+  const navigate = useNavigate();
+
+  const { id } = useParams();
   const { metric } = useSelector((state: StoreState) => state.metrics);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
-  const { ranges } = useTimeRange();
+  const [removeLoading, setRemoveLoading] = useState<boolean>(false);
+  const { ranges } = useTimeRange(undefined, false);
+
+  const onConfirm = () => {
+    if (!currentOptions.name) {
+      notify.error("Metric name is required.");
+      return;
+    }
+
+    const series = currentOptions.series;
+    if (series.length === 0) {
+      notify.error("You have to add at least one serie to this metric.");
+      return;
+    }
+
+    const missingName = series.find((serie) => !serie?.name);
+    if (missingName) {
+      notify.error("Your metric serie does not have a required name value.");
+      return;
+    }
+
+    const missingField = series.find((serie) => !serie?.field);
+    if (missingField) {
+      notify.error("Your metric serie does not have a required field value.");
+      return;
+    }
+
+    isCreateMode ? onCreate() : onSave();
+  };
 
   const onSave = async () => {
     setSaveLoading(true);
@@ -48,15 +82,48 @@ export const MetricPreviewHeader: FC<Props> = ({
       })
       .finally(() => {
         setSaveLoading(false);
-        setCustomizeMode(false);
+        setCustomizeMode && setCustomizeMode(false);
+        dispatch(hideNavbar(false));
+      });
+  };
+
+  const onCreate = async () => {
+    setSaveLoading(true);
+    await api
+      .post<ApiResponse<unknown>>(`/api/metrics/${id}`, currentOptions)
+      .then((resp) => {
+        if (resp.status === "success") {
+          navigate(`/project/${id}/metrics`);
+        }
+      })
+      .finally(() => {
+        setSaveLoading(false);
         dispatch(hideNavbar(false));
       });
   };
 
   const onDiscard = () => {
-    setOptions(metric?.options);
-    setCustomizeMode(false);
-    dispatch(hideNavbar(false));
+    if (!isCreateMode) {
+      setOptions(metric?.options);
+      setCustomizeMode && setCustomizeMode(false);
+      dispatch(hideNavbar(false));
+
+      return;
+    }
+
+    navigate(`/project/${id}/metrics`);
+  };
+
+  const onRemove = async () => {
+    setRemoveLoading(true);
+    await api
+      .delete<ApiResponse<string>>(`/api/metrics/${metric?.options.id}`)
+      .then(() => {
+        navigate(`/project/${id}/metrics`);
+      })
+      .finally(() => {
+        setRemoveLoading(false);
+      });
   };
 
   return (
@@ -71,17 +138,30 @@ export const MetricPreviewHeader: FC<Props> = ({
       }
       suffix={
         <Space>
-          {isCustomizeMode && (
+          {(isCustomizeMode || isCreateMode) && (
             <div className="flex flex-row gap-x-1">
               {!isDemo && (
-                <Button loading={saveLoading} variant="ghost" onClick={() => onSave()}>
-                  Save
+                <Button loading={saveLoading} variant="primary" onClick={() => onConfirm()}>
+                  {isCreateMode ? "Create" : "Save"}
                 </Button>
               )}
 
               <Button variant="danger" onClick={() => onDiscard()}>
-                Discard
+                {isCreateMode ? "Cancel" : "Discard"}
               </Button>
+            </div>
+          )}
+
+          {!metric?.options?.isDefault && !isCustomizeMode && !isCreateMode && (
+            <div className="flex flex-row gap-x-1">
+              <Confirm
+                description="Are you sure that you want to remove this metric?"
+                onOk={() => onRemove()}
+              >
+                <Button loading={removeLoading} variant="danger">
+                  Remove
+                </Button>
+              </Confirm>
             </div>
           )}
         </Space>

@@ -39,6 +39,27 @@ export class MetricsService {
     await Promise.all(promises);
   }
 
+  public async createMetric(
+    projectId: string,
+    dto: UpdateMetricDto,
+    manager: EntityManager = this.entityManager
+  ): Promise<ApiResponse<string>> {
+    try {
+      const metric = await manager.getRepository(Metric).save({
+        project: {
+          id: projectId
+        },
+        ...dto
+      });
+      return new ApiResponse("success", "Metric created", {
+        metricId: metric.id
+      });
+    } catch (error) {
+      this.logger.error(`[${this.createMetric.name}] Caused by: ${error}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+    }
+  }
+
   public async updateMetric(
     metricId: string,
     dto: UpdateMetricDto,
@@ -46,6 +67,21 @@ export class MetricsService {
   ): Promise<ApiResponse<string>> {
     try {
       await manager.getRepository(Metric).update({ id: metricId }, dto);
+      return new ApiResponse("success", "Metric updated", undefined);
+    } catch (error) {
+      this.logger.error(`[${this.updateMetric.name}] Caused by: ${error}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+    }
+  }
+
+  public async removeMetric(
+    metricId: string,
+    manager: EntityManager = this.entityManager
+  ): Promise<ApiResponse<string>> {
+    try {
+      await manager.getRepository(Metric).delete({
+        id: metricId
+      });
       return new ApiResponse("success", "Metric updated", undefined);
     } catch (error) {
       this.logger.error(`[${this.updateMetric.name}] Caused by: ${error}`);

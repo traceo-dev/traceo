@@ -1,17 +1,7 @@
-import { DeepPartial, IMetric, METRIC_UNIT } from "@traceo/types";
-import { Input, InputArea, LabelPosition, Select } from "@traceo/ui";
+import { DeepPartial, IMetric } from "@traceo/types";
+import { Input, InputArea, Select } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-
-const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
-  value: unit,
-  label: unit
-}));
-
-interface MetricEditOption {
-  label: string;
-  labelPosition?: LabelPosition;
-  component: JSX.Element;
-}
+import { MetricEditOption, unitOptions } from "./utils";
 
 type EditMetricType = {
   options: DeepPartial<IMetric>;
@@ -21,9 +11,6 @@ export const editMetricBasicForm = (props: EditMetricType) => {
   const { options, setOptions } = props;
   const forms: MetricEditOption[] = [];
 
-  /**
-   * TODO: add additional logic here based on plot type, user preferences etc.
-   */
   forms.push({
     label: "Name",
     component: (
@@ -56,6 +43,7 @@ export const editMetricBasicForm = (props: EditMetricType) => {
 
   forms.push({
     label: "Unit",
+    tooltip: "Base unit for Y axis and all series. You can also set custom unit for each serie.",
     component: (
       <Select
         isDisabled={options?.isDefault}
@@ -70,19 +58,5 @@ export const editMetricBasicForm = (props: EditMetricType) => {
     )
   });
 
-  // forms.push({
-  //   label: "Show description",
-  //   labelPosition: "vertical",
-  //   component: (
-  //     <Switch
-  //       value={options.showDescription}
-  //       onChange={(e) => {
-  //         setOptions((opt) => {
-  //           opt.showDescription = e.target["checked"];
-  //         });
-  //       }}
-  //     />
-  //   )
-  // });
   return forms;
 };

@@ -6,15 +6,17 @@ import { useAppDispatch } from "../../../store";
 import { MetricCard } from "./components/MetricCard";
 import { MetricTimeRangePicker } from "./components/MetricTimeRangePicker";
 import { loadMetrics } from "./state/actions";
-import { BarChartOutlined } from "@ant-design/icons";
+import { BarChartOutlined, PlusOutlined } from "@ant-design/icons";
 import { StoreState } from "@store/types";
-import { InputSearch, Card, Row, Col } from "@traceo/ui";
+import { InputSearch, Card, Row, Col, Button } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
+import { Link, useParams } from "react-router-dom";
 
 const MetricsPage = () => {
+  const { id } = useParams();
   const dispatch = useAppDispatch();
 
   const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
@@ -64,7 +66,12 @@ const MetricsPage = () => {
       header={{
         icon: <BarChartOutlined />,
         title: "Metrics",
-        description: "View metrics from your project after connecting and configuring the SDK"
+        description: "View metrics from your project after connecting and configuring the SDK",
+        suffix: (
+          <Link to={`/project/${id}/metrics/create`}>
+            <Button icon={<PlusOutlined />}>New metric</Button>
+          </Link>
+        )
       }}
     >
       <Page.Content>{renderContent()}</Page.Content>

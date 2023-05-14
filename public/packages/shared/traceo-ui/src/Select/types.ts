@@ -1,9 +1,10 @@
 import { RefCallback } from "react";
-import { Dictionary } from "../../../../../../../traceo-node/packages/browser/dist";
 
 export interface SelectOptionProps {
   label: string;
-  value: string | number | boolean | object | Dictionary<string | number | undefined>;
+  // value: string | number | boolean | object | Dictionary<string | number | undefined>;
+  // TODO:
+  value: string | number | boolean | object | any;
   description?: string;
   icon?: JSX.Element;
   // [key: string]: any;

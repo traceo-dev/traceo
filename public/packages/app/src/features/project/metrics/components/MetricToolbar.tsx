@@ -8,9 +8,9 @@ import { MemberRole } from "@traceo/types";
 
 interface Props {
   isCustomizeMode: boolean;
-  setCustomizeMode: (val: boolean) => void;
   ranges: [number, number];
   setRanges: (val: [number, number]) => void;
+  setCustomizeMode?: (val: boolean) => void;
 }
 export const MetricToolbar = ({
   isCustomizeMode,
@@ -22,7 +22,7 @@ export const MetricToolbar = ({
   const { permission } = useProject();
 
   const onCustomize = () => {
-    setCustomizeMode(true);
+    setCustomizeMode && setCustomizeMode(true);
     dispatch(hideNavbar(true));
   };
 

@@ -7,19 +7,19 @@ import {
     IEvent,
     IIncident,
     LogEventPayload,
-    MetricsEventPayload,
     SafeReturnType,
-    TimeSerieMetric,
+    MetricPayload,
     BrowserPerfsPayloadEvent,
     getHealthByValue,
-    VitalsEnum
+    VitalsEnum,
+    MetricData,
+    DataPointType
 } from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
 import { ClickHouseClient } from "@clickhouse/client";
 import { CLICKHOUSE_TABLE } from "./clickhouse";
 import { randomUUID } from "crypto";
-import { flatObject } from "../utils";
 
 export class DatabaseService {
     pool: Pool;
@@ -203,45 +203,78 @@ export class DatabaseService {
         return values.length;
     }
 
-    public async insertClickhouseMetrics({ project_id, payload }: { project_id: string, payload: MetricsEventPayload }) {
+    public async insertClickhouseMetrics({ project_id, payload }: { project_id: string, payload: MetricData[] }) {
+        if (!project_id) {
+            return;
+        }
+
         const now = dayjs().unix();
 
-        const metrics = Object.entries(flatObject(payload)).map(([key, value]) => ({
-            id: randomUUID(),
-            name: key,
-            value: value,
-            project_id: project_id,
-            timestamp: now,
-            receive_timestamp: now
-        })) as TimeSerieMetric[];
+        const insert: MetricPayload[] = [];
+        for (const metric of payload) {
+            // Temporary histogram data are not used.
+            if (metric.dataPointType === DataPointType.HISTOGRAM) {
+                continue;
+            }
+
+            const obj = {
+                id: randomUUID(),
+                name: metric.descriptor.name,
+                receive_timestamp: now,
+                project_id
+            }
+
+            const points = metric.dataPoints;
+            if (points.length === 0) {
+                insert.push({
+                    ...obj,
+                    timestamp: now,
+                    value: null
+                });
+            }
+
+            for (const point of metric.dataPoints) {
+                insert.push({
+                    ...obj,
+                    timestamp: point.startTime?.[0] || now,
+                    value: point.value
+                });
+            }
+        }
 
         await this.clickClient.insert({
             table: CLICKHOUSE_TABLE.MERICS,
             format: "JSONEachRow",
-            values: metrics
+            values: insert
         });
 
-        return metrics.length;
+        return insert.length;
     }
 
     public async insertClickhouseBrowserPerformance({ projectId, payload }: { projectId: string, payload: BrowserPerfsPayloadEvent[] }) {
         const now = dayjs().unix();
 
-        const perfs = payload.flatMap(item => item.performance.map(perf => ({
-            id: randomUUID(),
-            name: perf.name,
-            value: perf.value,
-            health: perf.name && perf.value ? getHealthByValue(perf.name as VitalsEnum, perf.value as number) : undefined,
-            unit: perf.unit,
-            event: item.event,
-            browser_name: item.browser.name,
-            browser_version: item.browser.version,
-            platform_type: item.platform.type,
-            timestamp: item.timestamp,
-            view: item.view,
-            receive_timestamp: now,
-            project_id: projectId
-        })));
+        const perfs = payload.flatMap(item => item.performance.map(perf => {
+            const health = perf.name && perf.value
+                ? getHealthByValue(perf.name as VitalsEnum, perf.value as number)
+                : undefined;
+
+            return {
+                id: randomUUID(),
+                name: perf.name,
+                value: perf.value,
+                unit: perf.unit,
+                event: item.event,
+                browser_name: item.browser.name,
+                browser_version: item.browser.version,
+                platform_type: item.platform.type,
+                timestamp: item.timestamp,
+                view: item.view,
+                receive_timestamp: now,
+                project_id: projectId,
+                health
+            }
+        }));
 
         await this.clickClient.insert({
             table: CLICKHOUSE_TABLE.PERFORMANCE,

@@ -7,7 +7,7 @@ import {
   IMetricSerie,
   MetricPreviewType,
   MetricResponseType,
-  TimeSerieMetric
+  MetricPayload
 } from "@traceo/types";
 import { Metric } from "../../../db/entities/metric.entity";
 import { Brackets, EntityManager } from "typeorm";
@@ -138,7 +138,7 @@ export class MetricsQueryService {
    *   heap_total: [...]
    * }
    */
-  private groupMetrics(data: TimeSerieMetric[]): any {
+  private groupMetrics(data: MetricPayload[]): any {
     const time = new Set();
     const result = data.reduce((acc, val) => {
       acc[val.name] = acc[val.name] || [];
@@ -167,7 +167,7 @@ export class MetricsQueryService {
    *    [z: string]: number
    * }
    */
-  private groupMetricsByTimestamp(data: TimeSerieMetric[]): MetricResponseType[] {
+  private groupMetricsByTimestamp(data: MetricPayload[]): MetricResponseType[] {
     const result = data.reduce((acc, cur) => {
       const existing = acc.find(item => item.timestamp === cur.timestamp);
       if (existing) {

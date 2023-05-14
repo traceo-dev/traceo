@@ -2,7 +2,7 @@ import { useProject } from "../../../hooks/useProject";
 import { ConditionalWrapper } from "../../ConditionLayout";
 import { DataNotFound } from "../../DataNotFound";
 import { buildSeries } from "./utils";
-import { IMetric, MetricResponseType } from "@traceo/types";
+import { IMetric, METRIC_UNIT, MetricResponseType } from "@traceo/types";
 import { FC, useEffect } from "react";
 import { BaseChart } from "../BaseChart";
 import { BaseXAxis } from "../BaseXAxis";
@@ -57,7 +57,7 @@ const MetricChart: FC<Props> = ({ metric, ranges }) => {
         })}
         yAxis={BaseYAxis({
           axisLabel: {
-            formatter: `{value} ${metric.unit}`
+            formatter: `{value} ${metric.unit === METRIC_UNIT.NONE ? "" : metric.unit}`
           },
           minInterval: 1
         })}

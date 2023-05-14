@@ -1,17 +1,17 @@
 import { ExceptionHandlers } from "@traceo-sdk/node";
-import { MetricsEventPayload } from "@traceo/types";
 import { logger } from "..";
 import { Core, RelayEventType } from "../types";
+import { MetricData } from "@traceo/types";
 
 export const handleMetricsEvent = async (core: Core, message: string): Promise<any> => {
     logger.info("☢ Processing incoming metrics event from kafka ...")
     const db = core.db;
 
     try {
-        const logsEvent = JSON.parse(message) as RelayEventType<MetricsEventPayload>;
+        const metrics = JSON.parse(message) as RelayEventType<MetricData[]>;
 
-        const payload = logsEvent.payload;
-        const project_id = logsEvent.projectId;
+        const payload = metrics.payload;
+        const project_id = metrics.projectId;
 
         if (!project_id) {
             const msg = 'Cannot process incoming metrics without project id!'

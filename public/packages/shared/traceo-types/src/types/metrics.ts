@@ -1,26 +1,19 @@
-import { Dictionary } from ".";
+import { ExponentialHistogram, Histogram } from "./opentelemetry";
 
 export type UUIntType = Uint32Array | Uint16Array | Uint8Array | BigInt64Array | BigInt;
-export type MetricsEventPayload = {
-  // Basic metrics scrapped from software like CPU/RAM/etc.
-  default: Dictionary<string | UUIntType>;
 
-  // Metrics scrapped by client sdk
-  counter: Record<string, number>;
-  meauserement: Record<string, number>;
-  gauge: Record<string, number>;
-  timeSeries: Record<string, number>;
-}
-
-export type TimeSerieMetric = {
+/**
+ * Metric value representation saved in clickhouse table row
+ */
+export type MetricPayload = {
   id: string,
   name: string,
-  value: string | UUIntType,
+  value: string | number | UUIntType | Histogram | ExponentialHistogram,
   project_id: string,
-  // TODO: return metrics capture time from SDK and pass here
   timestamp: number,
   receive_timestamp: number
 }
+
 export type IMetric = {
   id?: string;
   name: string;
@@ -47,8 +40,10 @@ export type IMetric = {
 
 export type IMetricSerie = {
   name: string;
+  description?: string;
+  unit?: METRIC_UNIT;
+  show: boolean;
   field: string;
-  // TODO: change this from string to some type
   type: string;
   config: {
     lineWidth?: number;
@@ -62,6 +57,17 @@ export type IMetricSerie = {
   };
 };
 
+export enum MARKER_SHAPE {
+  CIRCLE = "circle",
+  RECT = "rect",
+  ROUND_RECT = "roundRect",
+  TRIANGLE = "triangle",
+  DIAMOND = "diamond",
+  PIN = "pin",
+  ARROW = "arrow"
+}
+
+
 /**
  * If values like line.width/area.show/area.opacity is not empty
  * then it overrides fields from series
@@ -70,6 +76,7 @@ export type IMetricConfiguration = {
   line?: {
     marker?: {
       show?: boolean;
+      shape?: string; //MARKER_SHAPE
     };
   };
   tooltip: {
@@ -80,6 +87,11 @@ export type IMetricConfiguration = {
     show: boolean;
     orient: string;
   };
+  axis: {
+    showX?: boolean;
+    showY?: boolean;
+    showGridLines?: boolean;
+  },
 };
 
 export type TOOLTIP_POSITION = "bottom" | "inside" | "left" | "right" | "top";
@@ -94,7 +106,7 @@ export enum METRIC_UNIT {
   KILOBYTES = "kb",
   SECONDS = "s",
   MILISECONDS = "ms",
-  NONE = ""
+  NONE = "None"
 }
 
 export type LegendOrientType = "vertical" | "horizontal";
