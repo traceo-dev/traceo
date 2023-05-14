@@ -76,7 +76,7 @@ export type IMetricConfiguration = {
   line?: {
     marker?: {
       show?: boolean;
-      shape?: MARKER_SHAPE;
+      shape?: string; //MARKER_SHAPE
     };
   };
   tooltip: {
