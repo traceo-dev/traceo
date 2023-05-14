@@ -1,14 +1,5 @@
 # Installation guide
 
-
-Traceo is an open-source, self-hosted set of tools for monitoring application health by collecting and aggregating data from the software. To do its job Traceo needs a few instruments:
-
-1. Main Traceo application
-2. Worker handling incoming events from your software
-3. PostgreSQL
-4. Clickhouse (storing non-relational data as metrics or logs)
-5. Kafka
-
 In the case of installing the Traceo instance on your own device, the most convenient way is to use docker compose. However, other installation methods are also supported:
 
 - [Installation guide](#installation-guide)

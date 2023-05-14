@@ -1,3 +1,5 @@
+<img src="https://github.com/traceo-dev/traceo/blob/develop/public/packages/app/public/traceo-fav.PNG" width="100px">
+
 # Traceo
 Traceo is an open-source, self-hosted set of tools for monitoring application health by collecting and aggregating data from the software. 
 
@@ -10,7 +12,7 @@ To start using the Traceo platform, you need to integrate with the [Traceo SDK](
 
 
 # Installation
-Full instalation guide can be found [here](https://github.com/traceo-dev/traceo/blob/develop/INSTALL.md).
+Full installation guide can be found [here](https://github.com/traceo-dev/traceo/blob/develop/INSTALL.md).
 
 # Features
 ### ***Incidents capture***
