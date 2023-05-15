@@ -67,3 +67,25 @@ export const CREATE_BROWSER_PERFS_TABLE = `
     TTL receive_timestamp + INTERVAL ${process.env.CLICKHOUSE_TTL || 14} DAY
     ORDER BY (id, timestamp)
 `;
+
+export const CREATE_TRACING_TABLE = `
+    CREATE TABLE IF NOT EXISTS ${CLICKHOUSE_DB_NAME}.tracing (
+        id UUID,
+        name String,
+        trace_id String,
+        span_id String,
+        parent_span_id String,
+        service_name String,
+        start_time Float64,
+        end_time Float64,
+        duration Float64,
+        receive_timestamp DateTime,
+        kind UInt128,
+        attributes String,
+        events String,
+        project_id String
+    )
+    ENGINE = MergeTree()
+    TTL receive_timestamp + INTERVAL ${process.env.CLICKHOUSE_TTL || 14} DAY
+    ORDER BY (id, start_time)
+`;

@@ -13,7 +13,9 @@ import {
     getHealthByValue,
     VitalsEnum,
     MetricData,
-    DataPointType
+    DataPointType,
+    ReadableSpan,
+    Span
 } from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
@@ -249,6 +251,48 @@ export class DatabaseService {
         });
 
         return insert.length;
+    }
+
+    public async insertClickhouseSpans({ project_id, payload }: { project_id: string, payload: ReadableSpan[] }) {
+        const now = dayjs().unix();
+
+        const spans: Span[] = payload.map((span) => {
+            const start_time = span.startTime[0] + span.startTime[1] / 1e9;
+            const end_time = span.endTime[0] + span.endTime[1] / 1e9;
+
+            const duration = (end_time - start_time) * 1000;
+            const span_duration = Number(duration.toFixed(3));
+
+            const service_name = span.resource.attributes["service.name"] as string;
+            const span_service_name = service_name.startsWith("unknown_service") ? "unknown" : service_name;
+
+            const ctx = span.spanContext
+
+            return {
+                id: randomUUID(),
+                name: span.name,
+                kind: span.kind,
+                trace_id: ctx.traceId,
+                span_id: ctx.spanId,
+                parent_span_id: span?.parentSpanId,
+                attributes: JSON.stringify(span.attributes),
+                events: JSON.stringify(span.events),
+                service_name: span_service_name,
+                duration: span_duration,
+                start_time,
+                end_time,
+                receive_timestamp: now,
+                project_id
+            }
+        });
+
+        await this.clickClient.insert({
+            table: CLICKHOUSE_TABLE.TRACING,
+            format: "JSONEachRow",
+            values: spans
+        });
+
+        return spans.length;
     }
 
     public async insertClickhouseBrowserPerformance({ projectId, payload }: { projectId: string, payload: BrowserPerfsPayloadEvent[] }) {

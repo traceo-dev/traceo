@@ -80,6 +80,23 @@ export class CaptureController {
         });
     }
 
+    @Post("/traces")
+    async handleTracing(
+        @Body() body: MetricData[],
+        @Headers() headers: Dictionary<string>,
+        @Req() req: Request
+    ): Promise<ApiResponse<string> | undefined | void> {
+        if (req.method === "OPTIONS") {
+            return;
+        }
+
+        return await this.captureService.process({
+            route: CAPTURE_ROUTE.TRACING,
+            payload: body,
+            headers
+        });
+    }
+
     @Post("/browser/perfs")
     async handleBrowserPerfs(
         @Body() data: BrowserPerfsPayloadEvent[],
