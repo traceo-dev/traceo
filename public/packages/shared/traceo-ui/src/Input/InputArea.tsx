@@ -16,7 +16,7 @@ export const InputArea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => 
           ref={ref}
           {...restProps}
           className={joinClasses(`
-              bg-canvas border border-secondary rounded-md
+              bg-canvas border border-secondary rounded-sm
               focus:ring-blue-500 focus:border-blue-500 block w-full py-1 px-3 
               focus:outline-none focus:ring focus:ring-2 focus:ring-blue-400 focus:shadow-sm
               placeholder:text-gray-500

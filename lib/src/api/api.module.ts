@@ -29,6 +29,9 @@ import { PerformanceModule } from './performance/performance.module';
 import { PerformanceController } from "./performance/performance.controller";
 import { AlertModule } from './alert/alert.module';
 import { AlertController } from "./alert/alert.controller";
+import { TracingModule } from './tracing/tracing.module';
+import { LogsModule } from './logs/logs.module';
+import { LogsController } from "./logs/logs.controller";
 
 const apiControllers = [
   UserController,
@@ -44,7 +47,8 @@ const apiControllers = [
   ViewController,
   CaptureController,
   PerformanceController,
-  AlertController
+  AlertController,
+  LogsController
 ];
 @Module({
   imports: [
@@ -62,7 +66,9 @@ const apiControllers = [
     CaptureModule,
     EventModule,
     PerformanceModule,
-    AlertModule
+    AlertModule,
+    TracingModule,
+    LogsModule
   ],
   controllers: apiControllers
 })

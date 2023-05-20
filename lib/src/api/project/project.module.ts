@@ -8,12 +8,10 @@ import { MemberQueryService } from "../member/member-query/member-query.service"
 import { UserQueryService } from "../user/user-query/user-query.service";
 import { MetricsService } from "../metrics/metrics.service";
 import { ProjectsController } from "./projects.controller";
-import { ClickhouseModule } from "../../common/services/clickhouse/clickhouse.module";
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: "jwt" }),
-    ClickhouseModule
   ],
   providers: [
     ProjectService,

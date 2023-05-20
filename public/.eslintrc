@@ -23,6 +23,7 @@
     "curly": "error",
     "dot-notation": "off",
     "eol-last": "error",
+    "no-empty-function": "off",
     "eqeqeq": ["error", "always", { "null": "ignore" }],
     "no-console": ["error", { "allow": ["error", "log", "warn", "info"] }],
     "no-var": "error",

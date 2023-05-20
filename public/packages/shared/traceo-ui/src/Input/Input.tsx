@@ -34,7 +34,7 @@ export const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
       "focus:outline-0"
     )}
     ${conditionClass(disabled, "opacity-50")}
-      bg-canvas border border-solid border-secondary rounded-md
+      bg-canvas border border-solid border-secondary rounded-sm
       block w-full py-1 px-3 placeholder:text-gray-500
   `);
 

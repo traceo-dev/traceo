@@ -116,9 +116,13 @@ const BaseChartComponent = ({
       : {}
   };
 
+  const onZoom = (props, _chart) => {
+    onDataZoom?.(props);
+  };
+
   const events = {
     click: (props) => onClick?.(props),
-    datazoom: (props) => onDataZoom?.(props),
+    datazoom: (props, chart) => onZoom(props, chart),
     legendselectchanged: (props) => onLegendChange?.(props)
   };
 

@@ -7,7 +7,8 @@ export const defaultStyles = (width: number | string | undefined): StylesConfig 
       container: (provided) => ({
         ...provided,
         border: "1px solid #22252b",
-        width: width ? "auto" : "100%",
+        borderRadiu: "2px",
+        // width: width ? "auto" : "100%",
         display: "flex"
       }),
       indicatorSeparator: () => ({
@@ -51,7 +52,7 @@ export const defaultStyles = (width: number | string | undefined): StylesConfig 
         ...provided,
         margin: 0,
         color: "#ccccdc",
-        width: "auto",
+        // width: "auto",
         alignItems: "center"
       }),
       singleValue: (provided) => ({

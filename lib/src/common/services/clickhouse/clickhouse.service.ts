@@ -1,7 +1,9 @@
 import { Injectable } from "@nestjs/common";
 import { ClickHouseClient, ClickHouseClientConfigOptions, createClient, QueryParams } from "@clickhouse/client";
-import { LogsQuery, ILog, MetricPayload, PerformanceQuery, Performance, Notification } from "@traceo/types";
+import { ILog, MetricPayload, PerformanceQuery, Performance, Notification, Span } from "@traceo/types";
 import { MetricQueryDto } from "../../../common/types/dto/metrics.dto";
+import { QueryTracingDto } from "src/common/types/dto/tracing";
+import { LogsQuery } from "src/common/types/dto/logs.dto";
 
 @Injectable()
 export class ClickhouseService {
@@ -43,7 +45,23 @@ export class ClickhouseService {
         const logs = await this.query({
             query: `
               SELECT * FROM logs 
-              WHERE project_id = '${query.id}'
+              WHERE project_id = '${query.projectId}'
+              AND precise_timestamp >= ${query.from}
+              AND precise_timestamp <= ${query.to}
+              AND level IN (${query.levels.map((e) => `'${e}'`)})
+              ORDER BY precise_timestamp DESC
+              LIMIT ${query?.take || 250}`,
+            format: "JSONEachRow"
+        });
+
+        return logs.json<ILog[]>();
+    }
+
+    public async loadGraphLogs(query: LogsQuery): Promise<ILog[]> {
+        const logs = await this.query({
+            query: `
+              SELECT precise_timestamp, level FROM logs 
+              WHERE project_id = '${query.projectId}'
               AND precise_timestamp >= ${query.from}
               AND precise_timestamp <= ${query.to}
               AND level IN (${query.levels.map((e) => `'${e}'`)})
@@ -98,5 +116,90 @@ export class ClickhouseService {
         });
 
         return notifications.json<Notification[]>();
+    }
+
+    public async loadTracingServiceNames(projectId: string): Promise<{ service_name: string }[]> {
+        const sqlQuery = `
+            SELECT DISTINCT service_name
+            FROM tracing
+            WHERE project_id = '${projectId}'
+            AND parent_span_id = ''
+        `;
+
+        const serviceNames = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        return serviceNames.json();
+    }
+
+    public async loadSpansNames(projectId: string): Promise<{ name: string }[]> {
+        const sqlQuery = `
+            SELECT DISTINCT name
+            FROM tracing
+            WHERE project_id = '${projectId}'
+            AND parent_span_id = ''
+        `;
+
+        const serviceNames = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        return serviceNames.json();
+    }
+
+    public async loadRootTraces(query: QueryTracingDto): Promise<Span[]> {
+        let sqlQuery = `
+            SELECT * FROM tracing
+            WHERE project_id = '${query.projectId}'
+            AND parent_span_id = ''
+            AND toDateTime(receive_timestamp) > toDateTime(${query.from})
+            AND toDateTime(receive_timestamp) < toDateTime(${query.to})
+        `;
+
+        if (query?.serviceName) {
+            sqlQuery += `AND service_name = '${query.serviceName}'\n`
+        }
+
+        if (query?.spanName) {
+            sqlQuery += `AND name = '${query.spanName}'\n`
+        }
+
+        if (query?.traceStatus) {
+            sqlQuery += `AND status = '${query.traceStatus}'\n`
+        }
+
+        if (query?.traceKind) {
+            sqlQuery += `AND kind = ${query.traceKind}\n`
+        }
+
+        if (query?.durationMax) {
+            sqlQuery += `AND duration <= ${query.durationMax}\n`
+        }
+
+        if (query?.durationMin) {
+            sqlQuery += `AND duration => ${query.durationMin}\n`
+        }
+
+        const search = query?.search;
+        if (search) {
+            sqlQuery += `AND (multiSearchAny(lower(trace_id), ['${search}'])`;
+            sqlQuery += `OR multiSearchAny(lower(span_id), ['${search}'])`;
+            sqlQuery += `OR multiSearchAny(lower(service_name), ['${search}'])`;
+            sqlQuery += `OR multiSearchAny(lower(name), ['${search}']))`;
+        }
+
+        sqlQuery += 'ORDER BY receive_timestamp DESC\n';
+        sqlQuery += `LIMIT ${query?.take || 100}`;
+
+        const spans = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        const resp = await spans.json<Span[]>();
+        return resp;
     }
 }

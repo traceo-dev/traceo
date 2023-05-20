@@ -1,5 +1,5 @@
 import dateUtils from "./date";
-import { LogLevel, ErrorDetails, DailyStats, ILog, IEvent } from "@traceo/types";
+import { ErrorDetails, DailyStats, IEvent } from "@traceo/types";
 import dayjs from "dayjs";
 
 export interface PlotData {
@@ -20,63 +20,6 @@ const parseTodayEvents = (events: IEvent[]) => {
     data: response,
     count: events?.length,
     last: lastError
-  };
-};
-
-const parseLogs = (range: [number, number], logs: ILog[]) => {
-  if (!logs) {
-    return;
-  }
-
-  let date = range[0];
-  const endPlotDate = range[1];
-
-  const map = new Map<LogLevel, PlotData[]>();
-  const xAxis: number[] = [];
-
-  while (date <= endPlotDate) {
-    const currentLogs = logs?.filter(
-      ({ precise_timestamp }) =>
-        dateUtils.formatDate(precise_timestamp, "HH:mm") === dateUtils.formatDate(date, "HH:mm")
-    );
-
-    Object.values(LogLevel).map((level) => {
-      const count = currentLogs.filter((log) => log.level === level).length;
-      const mapLevel = map.get(level);
-      if (!mapLevel) {
-        map.set(level, [
-          {
-            date,
-            count
-          }
-        ]);
-      } else {
-        mapLevel.push({
-          date,
-          count
-        });
-      }
-    });
-
-    date = dayjs.unix(date).local().add(1, "minute").unix();
-    xAxis.push(date);
-  }
-
-  const result: Record<LogLevel, number[]> = {
-    [LogLevel.Debug]: [],
-    [LogLevel.Log]: [],
-    [LogLevel.Info]: [],
-    [LogLevel.Warn]: [],
-    [LogLevel.Error]: []
-  };
-
-  for (const [key, value] of map.entries()) {
-    result[key] = value?.map((plot) => plot.count) || [];
-  }
-
-  return {
-    level: result,
-    xAxis
   };
 };
 
@@ -111,7 +54,6 @@ const formatHourToPlotAxis = (h: number): string => {
 };
 
 export const statisticUtils = {
-  parseLogs,
   parseErrorsToTodayPlotSource,
   parseTodayEvents
 };

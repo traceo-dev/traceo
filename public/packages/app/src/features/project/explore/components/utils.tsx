@@ -79,5 +79,25 @@ export const relativeTimeOptions: RelativeTimeOption[] = [
     label: "Last 12 hours",
     unit: "hour",
     value: 12
+  },
+  {
+    label: "Last 24 hours",
+    unit: "hour",
+    value: 24
+  },
+  {
+    label: "Last 2 days",
+    unit: "day",
+    value: 2
+  },
+  {
+    label: "Last 3 days",
+    unit: "day",
+    value: 3
+  },
+  {
+    label: "Last 7 days",
+    unit: "day",
+    value: 7
   }
 ];

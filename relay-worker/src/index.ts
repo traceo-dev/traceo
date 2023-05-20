@@ -7,13 +7,10 @@ config();
 
 const configs = relayWorkerConfigs();
 
-export const traceo = new TraceoClient({
-    apiKey: configs.TRACEO_API_KEY,
-    appId: configs.TRACEO_PROJECT_ID,
-    url: configs.TRACEO_HOST,
-    scrapLogsInterval: 120,
-    collectMetrics: false,
-    scrapMetricsInterval: 15
+export const traceo = new TraceoClient(configs.TRACEO_API_KEY, {
+    host: configs.TRACEO_HOST,
+    exportIntervalMillis: 10000,
+    collectMetrics: true
 });
 
 export const logger = traceo.logger;

@@ -72,6 +72,8 @@ export const CREATE_TRACING_TABLE = `
     CREATE TABLE IF NOT EXISTS ${CLICKHOUSE_DB_NAME}.tracing (
         id UUID,
         name String,
+        status String,
+        status_message String,
         trace_id String,
         span_id String,
         parent_span_id String,

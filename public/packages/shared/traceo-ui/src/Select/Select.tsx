@@ -43,7 +43,7 @@ const Control = (props: any) => {
   const selectProps = props.selectProps as SelectProps;
 
   return (
-    <div className="h-[30px] bg-canvas px-2 flex rounded-md items-center" {...innerProps}>
+    <div className="h-[30px] bg-canvas px-2 flex rounded-sm items-center" {...innerProps}>
       {(selectProps.prefix || selectProps.value?.icon) && (
         <div className="px-1">{selectProps.value?.icon || selectProps.prefix}</div>
       )}
@@ -62,7 +62,7 @@ const SelectContainer = <Option, isMulti extends boolean, Group extends GroupBas
     <components.SelectContainer
       {...props}
       className={joinClasses(
-        "border border-secondary rounded-md block text-sm items-center",
+        "border border-secondary rounded-sm block text-sm items-center",
         conditionClass(isFocused, "ring-2 ring-blue-400"),
         conditionClass(isDisabled, "opacity-75 cursor-not-allowed")
       )}

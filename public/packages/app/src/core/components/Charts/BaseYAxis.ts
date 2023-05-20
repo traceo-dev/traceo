@@ -5,6 +5,7 @@ type YAxisProps = YAXisComponentOption & {
   labelFormatter?: (value: unknown) => string;
 };
 const LINE_COLOR = "#272A30";
+const LABEL_COLOR = "#CCCCDC";
 export const BaseYAxis = ({
   splitLine = {},
   axisPointer = {},
@@ -33,8 +34,8 @@ export const BaseYAxis = ({
   // TODO: fix types and use Object.assign(axisLabel,
   axisLabel: Object.assign(
     {
-      color: "white",
-      fontSize: 11,
+      color: LABEL_COLOR,
+      fontSize: 10,
       padding: 0
     },
     axisLabel as any

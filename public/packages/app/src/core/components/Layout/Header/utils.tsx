@@ -37,7 +37,7 @@ export const buildHeaderItems = (isAdmin: boolean, project: IProject): MenuRoute
     if (!BROWSER_SDK.includes(sdk)) {
       navItems.splice(2, 0, {
         key: "explore",
-        href: "/project/:id/explore/logs",
+        href: "/project/:id/explore",
         label: "Explore"
       });
 

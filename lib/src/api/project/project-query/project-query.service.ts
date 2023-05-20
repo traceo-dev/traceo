@@ -1,12 +1,9 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { BaseQueryService } from "../../../common/base/query/base-query.service";
 import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
-import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { LogsQuery, ILog } from "@traceo/types";
 import { Project } from "../../../db/entities/project.entity";
 import { EntityManager, SelectQueryBuilder } from "typeorm";
-import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 
 @Injectable()
 export class ProjectQueryService extends BaseQueryService<Project, BaseDtoQuery> {
@@ -14,7 +11,6 @@ export class ProjectQueryService extends BaseQueryService<Project, BaseDtoQuery>
 
   constructor(
     readonly entityManager: EntityManager,
-    readonly clickhouseClient: ClickhouseService
   ) {
     super(entityManager, Project);
     this.logger = new Logger(ProjectQueryService.name);
@@ -65,19 +61,5 @@ export class ProjectQueryService extends BaseQueryService<Project, BaseDtoQuery>
 
   public selectedColumns(): string[] {
     return ["name", "gravatar", "lastEventAt", "isIntegrated"];
-  }
-
-  public async getProjectLogs(query: LogsQuery): Promise<ApiResponse<ILog[]>> {
-    if (!query.levels || query.levels.length === 0) {
-      return new ApiResponse("success", undefined, []);
-    }
-
-    try {
-      const logs = await this.clickhouseClient.loadLogs(query);
-      return new ApiResponse("success", undefined, logs);
-    } catch (error) {
-      this.logger.error(`[${this.getProjectLogs.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR);
-    }
   }
 }

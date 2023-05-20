@@ -15,7 +15,8 @@ import {
     MetricData,
     DataPointType,
     ReadableSpan,
-    Span
+    Span,
+    SpanStatusCode
 } from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
@@ -272,6 +273,8 @@ export class DatabaseService {
                 id: randomUUID(),
                 name: span.name,
                 kind: span.kind,
+                status: span.status?.code.toString(),
+                status_message: span.status?.message,
                 trace_id: ctx.traceId,
                 span_id: ctx.spanId,
                 parent_span_id: span?.parentSpanId,

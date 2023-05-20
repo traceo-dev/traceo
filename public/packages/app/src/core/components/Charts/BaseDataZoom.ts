@@ -4,7 +4,7 @@ export const BaseDataZoom = (props?: DataZoomComponentOption): DataZoomComponent
   type: "inside",
   xAxisIndex: [0],
   zoomOnMouseWheel: false,
-  zoomLock: true,
+  zoomLock: false,
   throttle: 50,
   ...props
 });

@@ -2,6 +2,10 @@ export type Span = {
     id: string;
     trace_id: string;
     span_id: string;
+
+    status: string;
+    status_message?: string;
+
     parent_span_id: string;
     service_name: string; //attributes["service.name"]
     name: string;

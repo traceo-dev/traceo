@@ -13,7 +13,9 @@ import { KafkaConfig } from 'kafkajs';
                     brokers: process.env.KAFKA_HOSTS.split(","),
                 };
                 const kafkaService = new KafkaService(kafkaConfig);
-                await kafkaService.connect();
+                if (process.env.KAFKA_DISABLED !== "true") {
+                    await kafkaService.connect();
+                }
                 return kafkaService;
             },
         },

@@ -5,7 +5,7 @@ import { Attributes, HrTime } from "./metrics";
  */
 
 
-export declare enum SpanKind {
+export enum SpanKind {
     /** Default value. Indicates that the span is used internally. */
     INTERNAL = 0,
     /**
@@ -131,7 +131,7 @@ export interface SpanStatus {
 /**
  * An enumeration of status codes.
  */
-export declare enum SpanStatusCode {
+export enum SpanStatusCode {
     /**
      * The default status.
      */
@@ -187,7 +187,7 @@ export interface TimedEvent {
  * A Resource describes the entity for which a signals (metrics or trace) are
  * collected.
  */
-export declare class Resource {
+export class Resource {
     /**
      * A dictionary of attributes with string keys and values that provide
      * information about the entity as numbers, strings or booleans
@@ -195,30 +195,6 @@ export declare class Resource {
      */
     readonly attributes: Attributes;
     static readonly EMPTY: Resource;
-    /**
-     * Returns an empty Resource
-     */
-    static empty(): Resource;
-    /**
-     * Returns a Resource that indentifies the SDK in use.
-     */
-    static default(): Resource;
-    constructor(
-        /**
-         * A dictionary of attributes with string keys and values that provide
-         * information about the entity as numbers, strings or booleans
-         * TODO: Consider to add check/validation on attributes.
-         */
-        attributes: Attributes);
-    /**
-     * Returns a new, merged {@link Resource} by merging the current Resource
-     * with the other Resource. In case of a collision, other Resource takes
-     * precedence.
-     *
-     * @param other the Resource that will be merged with this.
-     * @returns the newly merged Resource.
-     */
-    merge(other: Resource | null): Resource;
 }
 
 /**
