@@ -1,16 +1,12 @@
 import { ILog } from "@traceo/types";
+import { Col, Typography } from "@traceo/ui";
+import { Field } from "../components/Field";
 
 export const LogDetailsForm = (log: ILog) => {
   return (
-    <div className="flex flex-col gap-y-5">
-      <div className="flex flex-col">
-        <span className="text-2xs font-semibold">Message</span>
-        <span className="">{log?.message}</span>
-      </div>
-      <div className="flex flex-col gap-y-1">
-        <span className="text-2xs font-semibold">Timestamp</span>
-        <span className="">{log?.timestamp}</span>
-      </div>
-    </div>
+    <Col className="gap-y-4">
+      <Field title="Message">{<Typography>{log?.message}</Typography>}</Field>
+      <Field title="Timestamp">{<Typography>{log?.timestamp}</Typography>}</Field>
+    </Col>
   );
 };

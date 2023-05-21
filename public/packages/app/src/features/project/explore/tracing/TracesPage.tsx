@@ -1,15 +1,16 @@
-import { Input, InputSearch, Select, SelectOptionProps } from "@traceo/ui";
+import { Col, Input, InputSearch, Select, SelectOptionProps } from "@traceo/ui";
 import { ExploreViewProps } from "../ExplorePage";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { Span, SpanKind, SpanStatusCode } from "@traceo/types";
 import { useParams } from "react-router-dom";
 import { OptionsCollapseGroup } from "../components/OptionsCollapseGroup";
-import { OptionField } from "../components/OptionField";
+import { Field } from "../components/Field";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { mapStatusName, mapKindName } from "./utils";
 import { tracingApi } from "./api";
 import { TracesList } from "./TracesList";
+import { InlineFields } from "../components/InlineFields";
 
 const statusOptions = Object.keys(SpanStatusCode)
   .slice(0, 3)
@@ -90,13 +91,16 @@ export const TracesPage = forwardRef(
     }));
 
     const clearQuery = () => {
-      setSearch("");
-      setDurationMax(null);
-      setDurationMin(null);
-      setServiceName(null);
-      setSpanName(null);
-      setTraceKind(null);
-      setTraceStatus(null);
+      const queries = [
+        setSearch,
+        setDurationMax,
+        setDurationMin,
+        setServiceName,
+        setSpanName,
+        setTraceKind,
+        setTraceStatus
+      ];
+      queries.map((e) => e(null));
       setLimit(100);
     };
 
@@ -116,27 +120,23 @@ export const TracesPage = forwardRef(
     };
 
     return (
-      <div className="flex flex-col">
+      <Col>
         <OptionsCollapseGroup
-          title={
-            <div className="flex flex-row gap-x-2 items-center">
-              <span>Options</span>
-              <span className="pl-5 text-xs font-normal italic">{getQueriesLabel()}</span>
-            </div>
-          }
+          title="Options"
+          collapsedText={getQueriesLabel()}
           extra={<DeleteOutlined className="icon-btn" onClick={() => clearQuery()} />}
         >
-          <div className="grid grid-cols-12 pb-3 gap-x-3">
-            <OptionField title="Search" className="col-span-12">
+          <InlineFields>
+            <Field title="Search" className="col-span-12">
               <InputSearch
                 value={search}
                 onChange={(e) => setSearch(e)}
                 placeholder="Search for traces by IDs, names or attributes"
               />
-            </OptionField>
-          </div>
-          <div className="grid grid-cols-12 pb-3 gap-x-3">
-            <OptionField title="Service name" className="col-span-3">
+            </Field>
+          </InlineFields>
+          <InlineFields>
+            <Field title="Service name" className="col-span-3">
               <Select
                 options={servicesOptions}
                 isClearable
@@ -144,8 +144,8 @@ export const TracesPage = forwardRef(
                 value={serviceName}
                 onChange={(opt) => setServiceName(opt?.value)}
               />
-            </OptionField>
-            <OptionField title="Span name" className="col-span-3">
+            </Field>
+            <Field title="Span name" className="col-span-3">
               <Select
                 options={spansOptions}
                 isClearable
@@ -153,26 +153,26 @@ export const TracesPage = forwardRef(
                 value={spanName}
                 onChange={(opt) => setSpanName(opt?.value)}
               />
-            </OptionField>
-            <OptionField title="Trace status" className="col-span-3">
+            </Field>
+            <Field title="Trace status" className="col-span-3">
               <Select
                 options={statusOptions}
                 isClearable
                 value={traceStatus}
                 onChange={(opt) => setTraceStatus(opt?.value)}
               />
-            </OptionField>
-            <OptionField title="Trace kind" className="col-span-3">
+            </Field>
+            <Field title="Trace kind" className="col-span-3">
               <Select
                 options={kindOptions}
                 isClearable
                 value={traceKind}
                 onChange={(opt) => setTraceKind(opt?.value)}
               />
-            </OptionField>
-          </div>
-          <div className="grid grid-cols-12 pb-3 gap-x-3">
-            <OptionField
+            </Field>
+          </InlineFields>
+          <InlineFields>
+            <Field
               title="Duration min."
               tooltip="Value provided in miliseconds"
               className="col-span-3"
@@ -183,8 +183,8 @@ export const TracesPage = forwardRef(
                 value={durationMin}
                 onChange={(e) => setDurationMin(e.target["value"])}
               />
-            </OptionField>
-            <OptionField
+            </Field>
+            <Field
               title="Duration max."
               tooltip="Value provided in miliseconds"
               className="col-span-3"
@@ -195,23 +195,23 @@ export const TracesPage = forwardRef(
                 value={durationMax}
                 onChange={(e) => setDurationMax(e.target["value"])}
               />
-            </OptionField>
-          </div>
-          <div className="grid grid-cols-12 pb-3 gap-x-3">
-            <OptionField
+            </Field>
+          </InlineFields>
+          <InlineFields>
+            <Field
               title="Limit"
               tooltip="The number of returned result. When empty then first 100 results are returned."
               className="col-span-3"
             >
               <Input type="number" value={limit} onChange={(e) => setLimit(e.target["value"])} />
-            </OptionField>
-          </div>
+            </Field>
+          </InlineFields>
         </OptionsCollapseGroup>
 
         <OptionsCollapseGroup title="Traces" deafultCollapsed={false}>
           <TracesList loading={loading} spans={traces} />
         </OptionsCollapseGroup>
-      </div>
+      </Col>
     );
   }
 );

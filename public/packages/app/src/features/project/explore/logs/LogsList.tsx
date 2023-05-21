@@ -3,42 +3,15 @@ import { ConditionalWrapper } from "../../../../core/components/ConditionLayout"
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import styled from "styled-components";
 
-interface ListProps {
-  logs: ILog[];
-  activeIndex: number;
-  showTime: boolean;
-  onSelectLog: Setter<{ log: ILog; index: number }>;
-}
-export const LogsList = ({ logs, activeIndex, showTime, onSelectLog }: ListProps) => {
-  const onSelect = (log: ILog, index: number) => {
-    onSelectLog({ index, log });
-  };
+const LogsTable = styled.ul`
+  width: 100%;
+  display: block;
+  overflow-y: scroll;
+  max-height: 780px;
+  padding-left: 0px;
+`;
 
-  return (
-    <ConditionalWrapper
-      emptyView={<DataNotFound label="Logs not found" />}
-      isEmpty={logs?.length === 0}
-    >
-      <ul className="w-full block overflow-y-scroll max-h-[780px] pl-0">
-        {logs?.map((log, index) => (
-          <LogWrapper
-            key={index}
-            level={log.level}
-            isSelected={index === activeIndex}
-            onClick={() => onSelect(log, index)}
-          >
-            {showTime && <span className="pl-2 pr-3 whitespace-nowrap">{log.timestamp}</span>}
-            <span className="pl-2 whitespace-nowrap overflow-hidden text-ellipsis inline-block">
-              {log.message}
-            </span>
-          </LogWrapper>
-        ))}
-      </ul>
-    </ConditionalWrapper>
-  );
-};
-
-const LogWrapper = styled.li<{
+const LogItem = styled.li<{
   level: LogLevel;
 }>`
   display: flex;
@@ -63,3 +36,38 @@ const LogWrapper = styled.li<{
 
   ${(p) => p.isSelected && `background-color: var(--color-bg-secondary)`}
 `;
+
+interface ListProps {
+  logs: ILog[];
+  activeIndex: number;
+  showTime: boolean;
+  onSelectLog: Setter<{ log: ILog; index: number }>;
+}
+export const LogsList = ({ logs, activeIndex, showTime, onSelectLog }: ListProps) => {
+  const onSelect = (log: ILog, index: number) => {
+    onSelectLog({ index, log });
+  };
+
+  return (
+    <ConditionalWrapper
+      emptyView={<DataNotFound label="Logs not found" />}
+      isEmpty={logs?.length === 0}
+    >
+      <LogsTable>
+        {logs?.map((log, index) => (
+          <LogItem
+            key={index}
+            level={log.level}
+            isSelected={index === activeIndex}
+            onClick={() => onSelect(log, index)}
+          >
+            {showTime && <span className="pl-2 pr-3 whitespace-nowrap">{log.timestamp}</span>}
+            <span className="pl-2 whitespace-nowrap overflow-hidden text-ellipsis inline-block">
+              {log.message}
+            </span>
+          </LogItem>
+        ))}
+      </LogsTable>
+    </ConditionalWrapper>
+  );
+};

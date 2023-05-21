@@ -1,5 +1,5 @@
 import { ILog } from "@traceo/types";
-import { forwardRef, lazy, useEffect, useImperativeHandle, useState } from "react";
+import { forwardRef, lazy, useImperativeHandle, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { LogsList } from "./LogsList";
@@ -8,13 +8,35 @@ import { OptionsCollapseGroup } from "../components/OptionsCollapseGroup";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { LogsQueryProps, logsApi } from "./api";
 import { CloseOutlined, DeleteOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
-import { Input, InputSearch, Switch, conditionClass, joinClasses } from "@traceo/ui";
-import { OptionField } from "../components/OptionField";
+import {
+  Col,
+  Input,
+  InputSearch,
+  Row,
+  Switch,
+  Typography,
+  conditionClass,
+  joinClasses
+} from "@traceo/ui";
+import { Field } from "../components/Field";
 import { LogDetailsForm } from "./LogDetailsForm";
+import { InlineFields } from "../components/InlineFields";
+import styled from "styled-components";
 
 const LazyLogsExplorePlot = lazy(
   () => import("../../../../core/components/Charts/Logs/LogsExploreChart")
 );
+
+const TableOptionsWrapper = styled.div`
+  padding: 9px;
+  border: 1px solid var(--color-bg-secondary);
+  border-radius: 9px;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: 38px;
+`;
 
 export const LogsPage = forwardRef(
   (
@@ -99,7 +121,8 @@ export const LogsPage = forwardRef(
     };
 
     const clearQuery = () => {
-      setSearch("");
+      const queries = [setSearch];
+      queries.map((e) => e(null));
       setLimit(250);
     };
 
@@ -131,7 +154,7 @@ export const LogsPage = forwardRef(
       };
 
       return (
-        <div className="flex flex-row items-center gap-x-1">
+        <Row>
           <UpOutlined
             className={joinClasses("icon-btn", conditionClass(!isPreviousLog(), "opacity-20"))}
             onClick={() => logUp()}
@@ -141,33 +164,29 @@ export const LogsPage = forwardRef(
             onClick={() => logDown()}
           />
           <CloseOutlined className="icon-btn" onClick={() => setSelectedLog(undefined)} />
-        </div>
+        </Row>
       );
     };
 
     return (
-      <>
+      <Col>
         <OptionsCollapseGroup
           deafultCollapsed={true}
-          title={
-            <div className="flex flex-row gap-x-2 items-center">
-              <span>Options</span>
-              <span className="pl-5 text-xs font-normal italic">{getQueriesLabel()}</span>
-            </div>
-          }
+          title="Options"
+          collapsedText={getQueriesLabel()}
           extra={<DeleteOutlined className="icon-btn" onClick={() => clearQuery()} />}
         >
-          <div className="grid grid-cols-12 pb-3 gap-x-3">
-            <OptionField title="Search" className="col-span-12">
+          <InlineFields>
+            <Field title="Search" className="col-span-12">
               <InputSearch
                 value={search}
                 onChange={(e) => setSearch(e)}
                 placeholder="Search for logs"
               />
-            </OptionField>
-          </div>
-          <div className="grid grid-cols-12 pb-3 gap-x-3">
-            <OptionField
+            </Field>
+          </InlineFields>
+          <InlineFields>
+            <Field
               title="Limit"
               tooltip="The number of returned result. When empty then first 250 results are returned. Max 2000."
               className="col-span-3"
@@ -179,8 +198,8 @@ export const LogsPage = forwardRef(
                 value={limit}
                 onChange={(e) => setLimit(e.target["value"])}
               />
-            </OptionField>
-          </div>
+            </Field>
+          </InlineFields>
         </OptionsCollapseGroup>
         <OptionsCollapseGroup
           title="Graph"
@@ -207,19 +226,19 @@ export const LogsPage = forwardRef(
                 </span>
               }
             >
-              <div className="p-3 border flex flex-row items-center gap-x-12 border-solid border-secondary rounded w-full">
-                <div className="flex flex-row items-center gap-x-1">
-                  <span className="font-semibold">Time</span>
+              <TableOptionsWrapper>
+                <Row gap="x-2">
+                  <Typography weight="semibold">Time</Typography>
                   <Switch
                     value={showLogTime}
                     onChange={(e) => setShowLogTime(e.target["checked"])}
                   />
-                </div>
-                <div className="flex flex-row items-center gap-x-1">
-                  <span className="font-semibold">Unique</span>
+                </Row>
+                <Row gap="x-2">
+                  <Typography weight="semibold">Unique</Typography>
                   <Switch />
-                </div>
-              </div>
+                </Row>
+              </TableOptionsWrapper>
               <ConditionalWrapper isLoading={loading}>
                 <LogsList
                   showTime={showLogTime}
@@ -242,7 +261,7 @@ export const LogsPage = forwardRef(
             </div>
           )}
         </div>
-      </>
+      </Col>
     );
   }
 );
