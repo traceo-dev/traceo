@@ -59,8 +59,6 @@ export class ClickhouseService {
         sqlQuery += 'ORDER BY precise_timestamp DESC\n';
         sqlQuery += `LIMIT ${query?.take || 250}`;
 
-        console.log(sqlQuery);
-
         const logs = await this.query({
             query: sqlQuery,
             format: "JSONEachRow"

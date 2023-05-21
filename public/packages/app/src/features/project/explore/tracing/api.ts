@@ -1,5 +1,5 @@
 import { ApiResponse, Span } from "@traceo/types"
-import api from "src/core/lib/api"
+import api from "../../../../core/lib/api"
 
 export type TraceQueryProps = {
     projectId: string,

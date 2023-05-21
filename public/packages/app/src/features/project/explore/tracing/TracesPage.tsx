@@ -3,10 +3,10 @@ import { ExploreViewProps } from "../ExplorePage";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { Span, SpanKind, SpanStatusCode } from "@traceo/types";
 import { useParams } from "react-router-dom";
-import { OptionsCollapseGroup } from "../OptionsCollapseGroup";
-import { OptionField } from "../OptionField";
+import { OptionsCollapseGroup } from "../components/OptionsCollapseGroup";
+import { OptionField } from "../components/OptionField";
 import { DeleteOutlined } from "@ant-design/icons";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { mapStatusName, mapKindName } from "./utils";
 import { tracingApi } from "./api";
 import { TracesList } from "./TracesList";
@@ -118,7 +118,6 @@ export const TracesPage = forwardRef(
     return (
       <div className="flex flex-col">
         <OptionsCollapseGroup
-          deafultCollapsed={false}
           title={
             <div className="flex flex-row gap-x-2 items-center">
               <span>Options</span>

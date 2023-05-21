@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { ILog, LogLevel, PlotData } from "@traceo/types";
+import { ILog } from "@traceo/types";
 import dayjs from "dayjs";
 import { INTERNAL_SERVER_ERROR } from "src/common/helpers/constants";
 import { ClickhouseService } from "src/common/services/clickhouse/clickhouse.service";
@@ -25,10 +25,6 @@ export class LogsQueryService {
     }
 
     public async getProjectLogs(query: LogsQuery): Promise<ApiResponse<LogsResponseType>> {
-        if (!query.levels || query.levels.length === 0) {
-            return new ApiResponse("success", undefined, []);
-        }
-
         try {
             const selectedFields = ["message", "timestamp"]
             const logs = await this.clickhouseClient.loadLogs(selectedFields, query);

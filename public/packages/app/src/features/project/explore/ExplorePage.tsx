@@ -1,14 +1,14 @@
 import { Button, Col, Select, SelectOptionProps } from "@traceo/ui";
 import { Page } from "../../../core/components/Page";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { AlignLeftOutlined, NodeExpandOutlined, SearchOutlined } from "@ant-design/icons";
-import { useTimeRange } from "src/core/hooks/useTimeRange";
+import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
 import { LogsPage } from "./logs/LogsPage";
 import { TracesPage } from "./tracing/TracesPage";
 import { Setter } from "@traceo/types";
 import { EXPLORE_TYPE } from "./types";
-import { ExploreRangePicker } from "./ExploreRangePicker";
+import { ExploreRangePicker } from "./components/ExploreRangePicker";
 
 const exploreOptions: SelectOptionProps[] = [
   {

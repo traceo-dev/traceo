@@ -1,6 +1,6 @@
 import { Span } from "@traceo/types";
 import { Table, TableColumn, Tooltip } from "@traceo/ui";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../../core/utils/date";
 import { mapStatusName } from "./utils";
 
 interface Props {

@@ -1,8 +1,8 @@
 import { TimeRangePicker } from "@traceo/ui";
-import { EXPLORE_TYPE } from "./types";
+import { EXPLORE_TYPE } from "../types";
 import { Setter } from "@traceo/types";
 import dayjs from "dayjs";
-import { relativeTimeOptions } from "./components/utils";
+import { relativeTimeOptions } from "./utils";
 
 interface Props {
   type: EXPLORE_TYPE;

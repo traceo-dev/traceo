@@ -1,27 +1,24 @@
-import { ILog, LogLevel } from "@traceo/types";
-import { forwardRef, lazy, useImperativeHandle, useState } from "react";
+import { ILog } from "@traceo/types";
+import { forwardRef, lazy, useEffect, useImperativeHandle, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { useLogLevels } from "../../../../core/hooks/useLogLevels";
 import { LogsList } from "./LogsList";
 import { ExploreViewProps } from "../ExplorePage";
-import { OptionsCollapseGroup } from "../OptionsCollapseGroup";
-import { DataNotFound } from "src/core/components/DataNotFound";
+import { OptionsCollapseGroup } from "../components/OptionsCollapseGroup";
+import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { LogsQueryProps, logsApi } from "./api";
 import { CloseOutlined, DeleteOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
-import { Input, InputSearch, Row, Space, Switch, conditionClass, joinClasses } from "@traceo/ui";
-import { OptionField } from "../OptionField";
+import { Input, InputSearch, Switch, conditionClass, joinClasses } from "@traceo/ui";
+import { OptionField } from "../components/OptionField";
 import { LogDetailsForm } from "./LogDetailsForm";
 
 const LazyLogsExplorePlot = lazy(
   () => import("../../../../core/components/Charts/Logs/LogsExploreChart")
 );
 
-
 export const LogsPage = forwardRef(
   (
     {
-      setError = undefined,
       setLoading = undefined,
       setRanges = undefined,
       loading = false,
@@ -32,12 +29,11 @@ export const LogsPage = forwardRef(
     const { id } = useParams();
     const [logs, setLogs] = useState<ILog[]>([]);
     const [graph, setGraph] = useState<[number, number][]>([]);
-    const { levels, setLevels } = useLogLevels();
 
     const [graphLoading, setGraphLoading] = useState<boolean>(false);
 
     const [limit, setLimit] = useState<number>(250);
-    const [search, setSearch] = useState<string>(null);
+    const [search, setSearch] = useState<string>(undefined);
 
     const [selectedLog, setSelectedLog] = useState<{ index: number; log: ILog }>(undefined);
     const [showLogTime, setShowLogTime] = useState<boolean>(true);
@@ -59,16 +55,6 @@ export const LogsPage = forwardRef(
       };
 
       await loadData(props);
-    };
-
-    const legendItems = () => {
-      const a = Object.values(LogLevel).reduce((acc, val) => {
-        const name = val.charAt(0).toUpperCase() + val.slice(1);
-        acc[name] = levels.includes(val);
-        return acc;
-      }, {});
-
-      return a;
     };
 
     const loadData = async (props: LogsQueryProps) => {
@@ -117,6 +103,7 @@ export const LogsPage = forwardRef(
       setLimit(250);
     };
 
+    // navigate to previous log
     const logUp = () => {
       const index = selectedLog.index - 1;
       if (index > -1) {
@@ -125,6 +112,7 @@ export const LogsPage = forwardRef(
       }
     };
 
+    // navigate to next log
     const logDown = () => {
       const index = selectedLog.index + 1;
       if (index < logs.length) {
@@ -133,12 +121,28 @@ export const LogsPage = forwardRef(
       }
     };
 
-    const isNextLog = () => {
-      return !!logs[selectedLog.index + 1];
-    };
+    const renderDetailsToolbar = () => {
+      const isNextLog = () => {
+        return !!logs[selectedLog.index + 1];
+      };
 
-    const isPreviousLog = () => {
-      return !!logs[selectedLog.index - 1];
+      const isPreviousLog = () => {
+        return !!logs[selectedLog.index - 1];
+      };
+
+      return (
+        <div className="flex flex-row items-center gap-x-1">
+          <UpOutlined
+            className={joinClasses("icon-btn", conditionClass(!isPreviousLog(), "opacity-20"))}
+            onClick={() => logUp()}
+          />
+          <DownOutlined
+            className={joinClasses("icon-btn", conditionClass(!isNextLog(), "opacity-20"))}
+            onClick={() => logDown()}
+          />
+          <CloseOutlined className="icon-btn" onClick={() => setSelectedLog(undefined)} />
+        </div>
+      );
     };
 
     return (
@@ -188,15 +192,7 @@ export const LogsPage = forwardRef(
             isEmpty={graph && graph.length === 0}
             emptyView={<DataNotFound label="No results for graph" />}
           >
-            <LazyLogsExplorePlot
-              legendItems={legendItems()}
-              setLegendItems={setLevels}
-              ranges={ranges}
-              setRanges={setRanges}
-              graph={graph}
-              zoom={true}
-              onZoom={onZoom}
-            />
+            <LazyLogsExplorePlot ranges={ranges} graph={graph} zoom={true} onZoom={onZoom} />
           </ConditionalWrapper>
         </OptionsCollapseGroup>
 
@@ -207,7 +203,7 @@ export const LogsPage = forwardRef(
               deafultCollapsed={false}
               extra={
                 <span className="text-xs font-semibold text-primary">
-                  {logs.length} logs found
+                  {(logs || []).length} logs found
                 </span>
               }
             >
@@ -239,28 +235,7 @@ export const LogsPage = forwardRef(
               <OptionsCollapseGroup
                 title="Log details"
                 deafultCollapsed={false}
-                extra={
-                  <div className="flex flex-row items-center gap-x-1">
-                    <UpOutlined
-                      className={joinClasses(
-                        "icon-btn",
-                        conditionClass(!isPreviousLog(), "opacity-20")
-                      )}
-                      onClick={() => logUp()}
-                    />
-                    <DownOutlined
-                      className={joinClasses(
-                        "icon-btn",
-                        conditionClass(!isNextLog(), "opacity-20")
-                      )}
-                      onClick={() => logDown()}
-                    />
-                    <CloseOutlined
-                      className="icon-btn"
-                      onClick={() => setSelectedLog(undefined)}
-                    />
-                  </div>
-                }
+                extra={renderDetailsToolbar()}
               >
                 <LogDetailsForm {...selectedLog?.log} />
               </OptionsCollapseGroup>

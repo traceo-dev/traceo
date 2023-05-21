@@ -1,27 +1,21 @@
-import {
-  commonSeriesOptions,
-  mapLogBarsColor,
-  mapLogName
-} from "../../../../features/project/explore/components/utils";
-import { Dictionary, LogLevel } from "@traceo/types";
+import { commonSeriesOptions } from "../../../../features/project/explore/components/utils";
+import { LogLevel } from "@traceo/types";
 import { FC, useEffect, useState } from "react";
-import dateUtils from "../../../utils/date";
 import { SeriesOption } from "echarts";
 import { BaseChart } from "../BaseChart";
-import { LocalStorage } from "../../../lib/localStorage/types";
-import { localStorageService } from "../../../lib/localStorage";
 import { BaseDataZoom } from "../BaseDataZoom";
-import { BaseLegend } from "../BaseLegend";
 import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import dayjs from "dayjs";
-import { EchartDataZoomProps, EchartLegendProps } from "../types";
+import { EchartDataZoomProps } from "../types";
 
 const FIVE_MINTUES = 5;
 const TWENTY_FOUR_HOURS = 1440;
-const THREE_DAYS = TWENTY_FOUR_HOURS * 3;
 const GRAPH_DIMENSIONS = ["timestamp", "log"];
+
+const BAR_COLOR = "#7c878d";
+const LABEL_COLOR = "#CCCCDC";
 
 export type LogsType = {
   level: Record<LogLevel, number[]>;
@@ -31,9 +25,6 @@ export type LogsType = {
 interface Props {
   graph: [number, number][];
   ranges: [number, number];
-  setRanges: (val: [number, number]) => void;
-  setLegendItems: (level: LogLevel[]) => void;
-  legendItems?: Dictionary<boolean>;
   zoom?: boolean;
   onZoom?: (ranges: [number, number]) => void;
 }
@@ -41,9 +32,6 @@ interface Props {
 const LogsExploreChart: FC<Props> = ({
   ranges = [undefined, undefined],
   graph = [],
-  legendItems = {},
-  setRanges = undefined,
-  setLegendItems = undefined,
   zoom,
   onZoom = undefined
 }) => {
@@ -56,11 +44,7 @@ const LogsExploreChart: FC<Props> = ({
       const e = dayjs.unix(ranges[1]);
       const diffInMinutes = e.diff(s, "minutes");
 
-      if (diffInMinutes <= FIVE_MINTUES) {
-        setActiveZoom(false);
-      } else {
-        setActiveZoom(true);
-      }
+      diffInMinutes <= FIVE_MINTUES ? setActiveZoom(false) : setActiveZoom(true);
     }
   }, [ranges]);
 
@@ -70,6 +54,10 @@ const LogsExploreChart: FC<Props> = ({
     const start = graph[startValue][0];
     const end = graph[endValue][0];
 
+    if (!start || !end) {
+      return;
+    }
+
     onZoom([start, end]);
   };
 
@@ -77,6 +65,11 @@ const LogsExploreChart: FC<Props> = ({
     return dayjs.unix(value).format("MMM D, HH:mm");
   };
 
+  /**
+   *
+   * Labels formatter depending on how much chart is zooming.
+   * When time range is over 24h then we show only date ("DD/MM") without any time.
+   */
   const labelFormatter = (value: any, index: number) => {
     const start = graph[0][0];
     const end = graph[graph.length - 1][0];
@@ -101,7 +94,7 @@ const LogsExploreChart: FC<Props> = ({
 
   const serieOption = {
     ...commonSeriesOptions,
-    color: "#7c878d",
+    color: BAR_COLOR,
     name: "logs"
   } as SeriesOption;
 
@@ -115,6 +108,11 @@ const LogsExploreChart: FC<Props> = ({
       }}
       series={serieOption}
       xAxis={BaseXAxis({
+        /**
+         *  There should be used type: "time" but EChart does not want
+         *  to cooperate when it comes to zooming the chart
+         *  (loses labels on the timeline)
+         */
         type: "category",
         offset: 12,
         splitNumber: 4,
@@ -134,7 +132,7 @@ const LogsExploreChart: FC<Props> = ({
         offset: 12,
         axisLabel: {
           showMinLabel: true,
-          color: "#CCCCDC",
+          color: LABEL_COLOR,
           fontSize: 11
         },
         minInterval: 1,

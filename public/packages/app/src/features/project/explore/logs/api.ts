@@ -1,5 +1,5 @@
-import { ApiResponse, LogLevel, ILog } from "@traceo/types";
-import api from "src/core/lib/api";
+import { ApiResponse, ILog } from "@traceo/types";
+import api from "../../../../core/lib/api";
 
 export type LogsQueryProps = {
     projectId: string;
