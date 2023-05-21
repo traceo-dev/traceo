@@ -76,7 +76,8 @@ export const ExplorePageWrapper: FC = () => {
             />
             <Button
               icon={<SearchOutlined />}
-              variant={loading ? "ghost" : "primary"}
+              className="bg-red-500"
+              variant={loading ? "danger" : "primary"}
               loading={loading}
               onClick={() => onClickSearch()}
             >

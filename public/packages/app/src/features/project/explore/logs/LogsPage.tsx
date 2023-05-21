@@ -28,9 +28,9 @@ const LazyLogsExplorePlot = lazy(
 );
 
 const TableOptionsWrapper = styled.div`
-  padding: 9px;
+  padding: 18px;
   border: 1px solid var(--color-bg-secondary);
-  border-radius: 9px;
+  border-radius: 4px;
   width: 100%;
   align-items: center;
   display: flex;
@@ -233,10 +233,6 @@ export const LogsPage = forwardRef(
                     value={showLogTime}
                     onChange={(e) => setShowLogTime(e.target["checked"])}
                   />
-                </Row>
-                <Row gap="x-2">
-                  <Typography weight="semibold">Unique</Typography>
-                  <Switch />
                 </Row>
               </TableOptionsWrapper>
               <ConditionalWrapper isLoading={loading}>
