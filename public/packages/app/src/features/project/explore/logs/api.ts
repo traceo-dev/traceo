@@ -5,15 +5,8 @@ export type LogsQueryProps = {
     projectId: string;
     from: number;
     to: number;
-    levels: LogLevel[];
     take?: number;
 }
-
-// type QueryResponseType<T> = {
-//     onCallback: (response: T) => void;
-//     onError: (error: Error) => void;
-//     onEnd: () => void;
-// }
 
 export const loadLogs = async (props: LogsQueryProps) => {
     return await api.get<ApiResponse<{ logs: ILog[] }>>("/api/logs", props);

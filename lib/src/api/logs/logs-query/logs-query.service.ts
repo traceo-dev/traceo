@@ -14,10 +14,6 @@ type GraphResposnseType = {
     graph: [number, number][]
 }
 
-type ResponseType = {
-
-}
-
 @Injectable()
 export class LogsQueryService {
     private logger: Logger;
@@ -34,7 +30,9 @@ export class LogsQueryService {
         }
 
         try {
-            const logs = await this.clickhouseClient.loadLogs(query);
+            const selectedFields = ["message", "timestamp"]
+            const logs = await this.clickhouseClient.loadLogs(selectedFields, query);
+
             return new ApiResponse("success", undefined, {
                 logs,
             });
@@ -46,7 +44,9 @@ export class LogsQueryService {
 
     public async getLogsGraphPayload(query: LogsQuery): Promise<ApiResponse<GraphResposnseType>> {
         try {
-            const logs = await this.clickhouseClient.loadGraphLogs(query);
+            const selectedFields = ["precise_timestamp"]
+            const logs = await this.clickhouseClient.loadLogs(selectedFields, query);
+
             const graph = await this.parseLogGraphData(query, logs);
 
             return new ApiResponse("success", undefined, {
@@ -66,37 +66,31 @@ export class LogsQueryService {
         const diff = dayjs.unix(to).diff(dayjs.unix(from), "hour");
 
         if (diff < 48) {
-            return 2;
+            return 1;
         }
 
         if (diff > 48 && diff < 96) {
             return 5;
         }
 
-        return 10;
+        return 15;
     }
 
-    private async parseLogGraphData(query: LogsQuery, logs: ILog[] = []): Promise<[number, number, number, number, number, number][]> {
+    private async parseLogGraphData(query: LogsQuery, logs: ILog[] = []): Promise<[number, number][]> {
         let date = query.from;
         const endPlotDate = query.to;
 
-        const xAxis: [number, number, number, number, number, number][] = [];
+        const xAxis: [number, number][] = [];
 
         while (date <= endPlotDate) {
             const interval = this.calculateInterval(query)
 
             const isBetween = (d: number) => dayjs.unix(d).isBetween(dayjs.unix(date), dayjs.unix(date).subtract(interval, "minutes"))
-            const currentLogs = logs.filter(({ precise_timestamp }) => isBetween(precise_timestamp));
+            const logsInRange = logs.filter(({ precise_timestamp }) => isBetween(precise_timestamp)) ?? [];
 
             date = dayjs.unix(date).add(interval, "minute").unix();
 
-            const logLevel = currentLogs.filter((e) => e.level === LogLevel.Log).length;
-            const debugLevel = currentLogs.filter((e) => e.level === LogLevel.Debug).length;
-            const errorLevel = currentLogs.filter((e) => e.level === LogLevel.Error).length;
-            const infoLevel = currentLogs.filter((e) => e.level === LogLevel.Info).length;
-            const warnLevel = currentLogs.filter((e) => e.level === LogLevel.Warn).length;
-
-            xAxis.push([date, logLevel, debugLevel, errorLevel, infoLevel, warnLevel]);
+            xAxis.push([date, logsInRange.length]);
         }
 
         return xAxis;

@@ -21,7 +21,7 @@ import { EchartDataZoomProps, EchartLegendProps } from "../types";
 const FIVE_MINTUES = 5;
 const TWENTY_FOUR_HOURS = 1440;
 const THREE_DAYS = TWENTY_FOUR_HOURS * 3;
-const GRAPH_DIMENSIONS = ["timestamp", "log", "debug", "error", "info", "warn"];
+const GRAPH_DIMENSIONS = ["timestamp", "log"];
 
 export type LogsType = {
   level: Record<LogLevel, number[]>;
@@ -49,7 +49,6 @@ const LogsExploreChart: FC<Props> = ({
 }) => {
   const [activeZoom, setActiveZoom] = useState<boolean>(zoom);
 
-
   // Blocking zoom feature on chart when there is too small count of series on time axis
   useEffect(() => {
     if (ranges) {
@@ -57,7 +56,7 @@ const LogsExploreChart: FC<Props> = ({
       const e = dayjs.unix(ranges[1]);
       const diffInMinutes = e.diff(s, "minutes");
 
-      if (diffInMinutes <= 5) {
+      if (diffInMinutes <= FIVE_MINTUES) {
         setActiveZoom(false);
       } else {
         setActiveZoom(true);
@@ -100,12 +99,11 @@ const LogsExploreChart: FC<Props> = ({
     return v.format("DD/MM");
   };
 
-  const series = Object.values(LogLevel).map((level) => ({
-    dataGroupId: level,
-    color: mapLogBarsColor[level],
-    name: mapLogName[level],
-    ...commonSeriesOptions
-  })) as SeriesOption[];
+  const serieOption = {
+    ...commonSeriesOptions,
+    color: "#7c878d",
+    name: "logs"
+  } as SeriesOption;
 
   return (
     <BaseChart
@@ -115,7 +113,7 @@ const LogsExploreChart: FC<Props> = ({
         source: graph,
         dimensions: GRAPH_DIMENSIONS
       }}
-      series={series}
+      series={serieOption}
       xAxis={BaseXAxis({
         type: "category",
         offset: 12,
@@ -139,10 +137,10 @@ const LogsExploreChart: FC<Props> = ({
           color: "#CCCCDC",
           fontSize: 11
         },
-        max: (e) => {
-          return e.max;
-        },
-        interval: 99999
+        minInterval: 1,
+        axisLine: {
+          show: false
+        }
       })}
       activeZoomSelect={activeZoom}
       tooltip={BaseTooltip({

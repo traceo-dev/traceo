@@ -41,31 +41,28 @@ export class ClickhouseService {
         return metrics.json<MetricPayload[]>()
     }
 
-    public async loadLogs(query: LogsQuery): Promise<ILog[]> {
-        const logs = await this.query({
-            query: `
-              SELECT * FROM logs 
-              WHERE project_id = '${query.projectId}'
-              AND precise_timestamp >= ${query.from}
-              AND precise_timestamp <= ${query.to}
-              AND level IN (${query.levels.map((e) => `'${e}'`)})
-              ORDER BY precise_timestamp DESC
-              LIMIT ${query?.take || 250}`,
-            format: "JSONEachRow"
-        });
+    public async loadLogs(fields: string[] = ["*"], query: LogsQuery): Promise<ILog[]> {
+        const selectedFields = fields.length > 0 ? fields.join(", ") : fields[0];
 
-        return logs.json<ILog[]>();
-    }
+        let sqlQuery = `
+            SELECT ${selectedFields} FROM logs 
+            WHERE project_id = '${query.projectId}'
+            AND precise_timestamp >= ${query.from}
+            AND precise_timestamp <= ${query.to}
+        `;
 
-    public async loadGraphLogs(query: LogsQuery): Promise<ILog[]> {
+        const search = query?.search;
+        if (search) {
+            sqlQuery += `AND (multiSearchAny(lower(message), ['${search}']))\n`;
+        }
+
+        sqlQuery += 'ORDER BY precise_timestamp DESC\n';
+        sqlQuery += `LIMIT ${query?.take || 250}`;
+
+        console.log(sqlQuery);
+
         const logs = await this.query({
-            query: `
-              SELECT precise_timestamp, level FROM logs 
-              WHERE project_id = '${query.projectId}'
-              AND precise_timestamp >= ${query.from}
-              AND precise_timestamp <= ${query.to}
-              AND level IN (${query.levels.map((e) => `'${e}'`)})
-              ORDER BY precise_timestamp DESC`,
+            query: sqlQuery,
             format: "JSONEachRow"
         });
 

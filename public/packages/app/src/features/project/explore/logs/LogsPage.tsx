@@ -8,18 +8,15 @@ import { ExploreViewProps } from "../ExplorePage";
 import { OptionsCollapseGroup } from "../OptionsCollapseGroup";
 import { DataNotFound } from "src/core/components/DataNotFound";
 import { LogsQueryProps, logsApi } from "./api";
-import { DeleteOutlined } from "@ant-design/icons";
-import { Button, Input } from "@traceo/ui";
+import { CloseOutlined, DeleteOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
+import { Input, InputSearch, Row, Space, Switch, conditionClass, joinClasses } from "@traceo/ui";
 import { OptionField } from "../OptionField";
+import { LogDetailsForm } from "./LogDetailsForm";
 
 const LazyLogsExplorePlot = lazy(
   () => import("../../../../core/components/Charts/Logs/LogsExploreChart")
 );
 
-type LogsResponseType = {
-  logs: ILog[];
-  graph: [number, number][];
-};
 
 export const LogsPage = forwardRef(
   (
@@ -40,6 +37,10 @@ export const LogsPage = forwardRef(
     const [graphLoading, setGraphLoading] = useState<boolean>(false);
 
     const [limit, setLimit] = useState<number>(250);
+    const [search, setSearch] = useState<string>(null);
+
+    const [selectedLog, setSelectedLog] = useState<{ index: number; log: ILog }>(undefined);
+    const [showLogTime, setShowLogTime] = useState<boolean>(true);
 
     useImperativeHandle(ref, () => ({
       fetch
@@ -47,7 +48,7 @@ export const LogsPage = forwardRef(
 
     const baseQueryProps = {
       projectId: id,
-      levels: [LogLevel.Debug, LogLevel.Error, LogLevel.Info, LogLevel.Log, LogLevel.Warn]
+      search
     };
 
     const fetch = async () => {
@@ -105,13 +106,39 @@ export const LogsPage = forwardRef(
     const getQueriesLabel = () => {
       const queries: string[] = [];
 
+      search && queries.push(`Search: ${search}`);
       limit && queries.push(`Limit: ${limit}`);
 
       return queries.join(", ");
     };
 
     const clearQuery = () => {
+      setSearch("");
       setLimit(250);
+    };
+
+    const logUp = () => {
+      const index = selectedLog.index - 1;
+      if (index > -1) {
+        const log = logs[index];
+        setSelectedLog({ index, log });
+      }
+    };
+
+    const logDown = () => {
+      const index = selectedLog.index + 1;
+      if (index < logs.length) {
+        const log = logs[index];
+        setSelectedLog({ index, log });
+      }
+    };
+
+    const isNextLog = () => {
+      return !!logs[selectedLog.index + 1];
+    };
+
+    const isPreviousLog = () => {
+      return !!logs[selectedLog.index - 1];
     };
 
     return (
@@ -124,12 +151,17 @@ export const LogsPage = forwardRef(
               <span className="pl-5 text-xs font-normal italic">{getQueriesLabel()}</span>
             </div>
           }
-          footer={
-            <Button onClick={() => clearQuery()} icon={<DeleteOutlined />} variant="ghost">
-              Clear
-            </Button>
-          }
+          extra={<DeleteOutlined className="icon-btn" onClick={() => clearQuery()} />}
         >
+          <div className="grid grid-cols-12 pb-3 gap-x-3">
+            <OptionField title="Search" className="col-span-12">
+              <InputSearch
+                value={search}
+                onChange={(e) => setSearch(e)}
+                placeholder="Search for logs"
+              />
+            </OptionField>
+          </div>
           <div className="grid grid-cols-12 pb-3 gap-x-3">
             <OptionField
               title="Limit"
@@ -167,11 +199,74 @@ export const LogsPage = forwardRef(
             />
           </ConditionalWrapper>
         </OptionsCollapseGroup>
-        <OptionsCollapseGroup title="Logs" deafultCollapsed={false}>
-          <ConditionalWrapper isLoading={loading}>
-            <LogsList logs={logs} />
-          </ConditionalWrapper>
-        </OptionsCollapseGroup>
+
+        <div className="grid grid-cols-12">
+          <div className={`col-span-${selectedLog ? "8" : "12"}`}>
+            <OptionsCollapseGroup
+              title="Logs"
+              deafultCollapsed={false}
+              extra={
+                <span className="text-xs font-semibold text-primary">
+                  {logs.length} logs found
+                </span>
+              }
+            >
+              <div className="p-3 border flex flex-row items-center gap-x-12 border-solid border-secondary rounded w-full">
+                <div className="flex flex-row items-center gap-x-1">
+                  <span className="font-semibold">Time</span>
+                  <Switch
+                    value={showLogTime}
+                    onChange={(e) => setShowLogTime(e.target["checked"])}
+                  />
+                </div>
+                <div className="flex flex-row items-center gap-x-1">
+                  <span className="font-semibold">Unique</span>
+                  <Switch />
+                </div>
+              </div>
+              <ConditionalWrapper isLoading={loading}>
+                <LogsList
+                  showTime={showLogTime}
+                  activeIndex={selectedLog?.index}
+                  onSelectLog={({ index, log }) => setSelectedLog({ index, log })}
+                  logs={logs}
+                />
+              </ConditionalWrapper>
+            </OptionsCollapseGroup>
+          </div>
+          {selectedLog && (
+            <div className={`ml-2 col-span-${selectedLog ? "4" : "0"}`}>
+              <OptionsCollapseGroup
+                title="Log details"
+                deafultCollapsed={false}
+                extra={
+                  <div className="flex flex-row items-center gap-x-1">
+                    <UpOutlined
+                      className={joinClasses(
+                        "icon-btn",
+                        conditionClass(!isPreviousLog(), "opacity-20")
+                      )}
+                      onClick={() => logUp()}
+                    />
+                    <DownOutlined
+                      className={joinClasses(
+                        "icon-btn",
+                        conditionClass(!isNextLog(), "opacity-20")
+                      )}
+                      onClick={() => logDown()}
+                    />
+                    <CloseOutlined
+                      className="icon-btn"
+                      onClick={() => setSelectedLog(undefined)}
+                    />
+                  </div>
+                }
+              >
+                <LogDetailsForm {...selectedLog?.log} />
+              </OptionsCollapseGroup>
+            </div>
+          )}
+        </div>
       </>
     );
   }

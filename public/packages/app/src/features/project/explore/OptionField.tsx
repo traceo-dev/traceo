@@ -9,7 +9,7 @@ interface Props {
 }
 export const OptionField = ({ title, children, className = "", tooltip }: Props) => {
   return (
-    <div className={joinClasses("flex flex-col w-full", className)}>
+    <div className={joinClasses("flex flex-col w-full pb-3", className)}>
       <div className="flex flex-row items-center gap-x-2">
         <label className="text-[12px] font-semibold py-1">{title}</label>
         {tooltip && (
