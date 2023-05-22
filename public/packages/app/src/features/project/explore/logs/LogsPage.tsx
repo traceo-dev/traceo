@@ -1,5 +1,5 @@
 import { ILog } from "@traceo/types";
-import { forwardRef, lazy, useImperativeHandle, useState } from "react";
+import { forwardRef, lazy, useImperativeHandle, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { LogsList } from "./LogsList";
@@ -7,35 +7,36 @@ import { ExploreViewProps } from "../ExplorePage";
 import { OptionsCollapseGroup } from "../components/OptionsCollapseGroup";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { LogsQueryProps, logsApi } from "./api";
-import { CloseOutlined, DeleteOutlined, DownOutlined, UpOutlined } from "@ant-design/icons";
 import {
-  Col,
-  Input,
-  InputSearch,
-  Row,
-  Switch,
-  Typography,
-  conditionClass,
-  joinClasses
-} from "@traceo/ui";
+  ClockCircleOutlined,
+  DeleteOutlined,
+  DownOutlined,
+  MenuUnfoldOutlined,
+  SortAscendingOutlined,
+  SortDescendingOutlined,
+  UpOutlined
+} from "@ant-design/icons";
+import { Col, Input, InputSearch } from "@traceo/ui";
 import { Field } from "../components/Field";
-import { LogDetailsForm } from "./LogDetailsForm";
 import { InlineFields } from "../components/InlineFields";
 import styled from "styled-components";
+import { ActionButton } from "../components/ActionButton";
 
 const LazyLogsExplorePlot = lazy(
   () => import("../../../../core/components/Charts/Logs/LogsExploreChart")
 );
 
 const TableOptionsWrapper = styled.div`
-  padding: 18px;
+  padding: 12px;
+  margin-bottom: 25px;
   border: 1px solid var(--color-bg-secondary);
-  border-radius: 4px;
+  border-radius: 2px;
   width: 100%;
   align-items: center;
   display: flex;
   flex-direction: row;
-  gap: 38px;
+  gap: 18px;
+  justify-content: end;
 `;
 
 export const LogsPage = forwardRef(
@@ -49,6 +50,8 @@ export const LogsPage = forwardRef(
     ref
   ) => {
     const { id } = useParams();
+    const tableRef = useRef(null);
+
     const [logs, setLogs] = useState<ILog[]>([]);
     const [graph, setGraph] = useState<[number, number][]>([]);
 
@@ -57,8 +60,8 @@ export const LogsPage = forwardRef(
     const [limit, setLimit] = useState<number>(250);
     const [search, setSearch] = useState<string>(undefined);
 
-    const [selectedLog, setSelectedLog] = useState<{ index: number; log: ILog }>(undefined);
     const [showLogTime, setShowLogTime] = useState<boolean>(true);
+    const [verboseLog, setVerboseLog] = useState<boolean>(false);
 
     useImperativeHandle(ref, () => ({
       fetch
@@ -126,46 +129,18 @@ export const LogsPage = forwardRef(
       setLimit(250);
     };
 
-    // navigate to previous log
-    const logUp = () => {
-      const index = selectedLog.index - 1;
-      if (index > -1) {
-        const log = logs[index];
-        setSelectedLog({ index, log });
+    const scrollTop = () => {
+      if (!tableRef) {
+        return;
       }
+      tableRef.current.scrollTop = 0;
     };
 
-    // navigate to next log
-    const logDown = () => {
-      const index = selectedLog.index + 1;
-      if (index < logs.length) {
-        const log = logs[index];
-        setSelectedLog({ index, log });
+    const scrollBottom = () => {
+      if (!tableRef) {
+        return;
       }
-    };
-
-    const renderDetailsToolbar = () => {
-      const isNextLog = () => {
-        return !!logs[selectedLog.index + 1];
-      };
-
-      const isPreviousLog = () => {
-        return !!logs[selectedLog.index - 1];
-      };
-
-      return (
-        <Row>
-          <UpOutlined
-            className={joinClasses("icon-btn", conditionClass(!isPreviousLog(), "opacity-20"))}
-            onClick={() => logUp()}
-          />
-          <DownOutlined
-            className={joinClasses("icon-btn", conditionClass(!isNextLog(), "opacity-20"))}
-            onClick={() => logDown()}
-          />
-          <CloseOutlined className="icon-btn" onClick={() => setSelectedLog(undefined)} />
-        </Row>
-      );
+      tableRef.current.scrollTop = tableRef.current.scrollHeight;
     };
 
     return (
@@ -215,48 +190,46 @@ export const LogsPage = forwardRef(
           </ConditionalWrapper>
         </OptionsCollapseGroup>
 
-        <div className="grid grid-cols-12">
-          <div className={`col-span-${selectedLog ? "8" : "12"}`}>
-            <OptionsCollapseGroup
-              title="Logs"
-              deafultCollapsed={false}
-              extra={
-                <span className="text-xs font-semibold text-primary">
-                  {(logs || []).length} logs found
-                </span>
-              }
-            >
-              <TableOptionsWrapper>
-                <Row gap="x-2">
-                  <Typography weight="semibold">Time</Typography>
-                  <Switch
-                    value={showLogTime}
-                    onChange={(e) => setShowLogTime(e.target["checked"])}
-                  />
-                </Row>
-              </TableOptionsWrapper>
-              <ConditionalWrapper isLoading={loading}>
-                <LogsList
-                  showTime={showLogTime}
-                  activeIndex={selectedLog?.index}
-                  onSelectLog={({ index, log }) => setSelectedLog({ index, log })}
-                  logs={logs}
-                />
-              </ConditionalWrapper>
-            </OptionsCollapseGroup>
-          </div>
-          {selectedLog && (
-            <div className={`ml-2 col-span-${selectedLog ? "4" : "0"}`}>
-              <OptionsCollapseGroup
-                title="Log details"
-                deafultCollapsed={false}
-                extra={renderDetailsToolbar()}
-              >
-                <LogDetailsForm {...selectedLog?.log} />
-              </OptionsCollapseGroup>
-            </div>
-          )}
-        </div>
+        <OptionsCollapseGroup
+          title="Logs"
+          deafultCollapsed={false}
+          extra={
+            <span className="text-xs font-semibold text-primary">
+              {(logs || []).length} logs found
+            </span>
+          }
+        >
+          <TableOptionsWrapper>
+            <ActionButton
+              icon={<DownOutlined />}
+              tooltip="Scroll to bottom"
+              isActive={false}
+              onClick={() => scrollBottom()}
+            />
+            <ActionButton
+              icon={<UpOutlined />}
+              tooltip="Scroll to top"
+              isActive={false}
+              onClick={() => scrollTop()}
+            />
+            <ActionButton
+              icon={<MenuUnfoldOutlined />}
+              tooltip="Verbose"
+              isActive={verboseLog}
+              onClick={() => setVerboseLog(!verboseLog)}
+            />
+            <ActionButton
+              icon={<ClockCircleOutlined />}
+              tooltip="Show log timestamp"
+              isActive={showLogTime}
+              onClick={() => setShowLogTime(!showLogTime)}
+            />
+          </TableOptionsWrapper>
+
+          <ConditionalWrapper isLoading={loading}>
+            <LogsList ref={tableRef} verboseLog={verboseLog} showTime={showLogTime} logs={logs} />
+          </ConditionalWrapper>
+        </OptionsCollapseGroup>
       </Col>
     );
   }

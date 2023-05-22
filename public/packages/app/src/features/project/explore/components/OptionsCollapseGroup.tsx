@@ -24,10 +24,10 @@ export const OptionsCollapseGroup = ({
   const icon = collapsed ? <RightOutlined /> : <DownOutlined />;
 
   return (
-    <div className="mb-2 p-3 pb-0 text-sm w-full flex flex-col cursor-pointer rounded bg-primary">
+    <div className="mb-2 p-3 pb-0 text-sm w-full flex flex-col rounded bg-primary">
       <div className="flex flex-row items-center gap-x-3 justify-between w-full pr-3">
         <div
-          className="flex flex-row items-center gap-x-2 text-primary"
+          className="flex flex-row items-center gap-x-2 text-primary cursor-pointer"
           onClick={() => setCollapsed(!collapsed)}
         >
           <span className="text-[8px]">{icon}</span>

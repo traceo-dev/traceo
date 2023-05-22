@@ -15,7 +15,7 @@ export const Tooltip = forwardRef<any, TooltipProps>(
 
     const tooltipTitle =
       typeof title === "string" ? (
-        <span className="text-xs font-normal text-white">{title}</span>
+        <span className="text-xs font-normal text-white select-none">{title}</span>
       ) : (
         title
       );

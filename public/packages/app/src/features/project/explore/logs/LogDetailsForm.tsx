@@ -1,12 +1,35 @@
 import { ILog } from "@traceo/types";
-import { Col, Typography } from "@traceo/ui";
-import { Field } from "../components/Field";
+import { Row } from "@traceo/ui";
+import { DescriptionRow, Descriptions } from "src/core/components/Descriptions";
+import styled from "styled-components";
+
+const DetailsWrapper = styled.div`
+  padding: 12px;
+  border: 1px solid var(--color-bg-secondary);
+  border-radius: 12px;
+  font-size: 12px;
+  // display: flex;
+  // flex-direction: col;
+`;
+
+interface DetailsProps {
+  name: string;
+  value: JSX.Element | string;
+}
+const DetailsRow = ({ name, value }: DetailsProps) => {
+  return (
+    <div className="grid grid-cols-12 font-mono pb-8 hover:bg-secondary p-3 cursor-default">
+      <div className="col-span-2">{name}</div>
+      <div className="col-span-10">{value}</div>
+    </div>
+  );
+};
 
 export const LogDetailsForm = (log: ILog) => {
   return (
-    <Col className="gap-y-4">
-      <Field title="Message">{<Typography>{log?.message}</Typography>}</Field>
-      <Field title="Timestamp">{<Typography>{log?.timestamp}</Typography>}</Field>
-    </Col>
+    <DetailsWrapper>
+      <DetailsRow name="message" value={log?.message} />
+      <DetailsRow name="timestamp" value={log?.timestamp} />
+    </DetailsWrapper>
   );
 };
