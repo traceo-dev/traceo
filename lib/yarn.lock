@@ -782,13 +782,13 @@
   resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-1.0.1.tgz#78b62041c7a407db4a90eb140567321602bed18e"
   integrity sha512-NFvofzSinp00j5rzUd4tf+xi9od6383iY0JP7o0Bnu1fuItAUkWBgc4EKuIQ3D+c2QI3i9pG1kDWAeY27EMGtg==
 
-"@nestjs/microservices@9.0.5":
-  version "9.0.5"
-  resolved "https://registry.yarnpkg.com/@nestjs/microservices/-/microservices-9.0.5.tgz#d250258a7c3d482abc4fba1f889169356e175b16"
-  integrity sha512-cGmE+Q6p4/MBLaSQNbyw7U2XJ21QMZ22C7hTh+py8iS8I1SIs/e7pPuWz6AUwJ/6N3V+lJmyLtJYfI7AXymJYw==
+"@nestjs/microservices@9.4.1":
+  version "9.4.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/microservices/-/microservices-9.4.1.tgz#73f67828860fe176d518784bd59189f2a7d7e24c"
+  integrity sha512-052P1gFdbjEnqTLY9mwhNg7Duy/6o6tLpUQHs5w3VhpBo/fwL/2n61PfG27UM57wwtDea49KnoXWJ0+bXubrqw==
   dependencies:
     iterare "1.2.1"
-    tslib "2.4.0"
+    tslib "2.5.0"
 
 "@nestjs/passport@^9.0.3":
   version "9.0.3"
