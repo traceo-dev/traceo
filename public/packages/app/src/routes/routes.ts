@@ -104,16 +104,21 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       component: lazy(() => import("../features/project/performance/vitals/VitalsPreviewPage")),
       wrapper: ProjectDashboardWrapper
     },
+    // {
+    //   path: "/project/:id/explore/runtime",
+    //   component: lazy(() => import("../features/project/explore/ConfigurationPage")),
+    //   wrapper: ProjectDashboardWrapper
+    // },
     {
-      path: "/project/:id/explore/runtime",
-      component: lazy(() => import("../features/project/explore/ConfigurationPage")),
+      path: "/project/:id/explore",
+      component: lazy(() => import("../features/project/explore/ExplorePage")),
       wrapper: ProjectDashboardWrapper
     },
-    {
-      path: "/project/:id/explore/logs",
-      component: lazy(() => import("../features/project/explore/LogsPage")),
-      wrapper: ProjectDashboardWrapper
-    },
+    // {
+    //   path: "/project/:id/explore/tracing",
+    //   component: lazy(() => import("../features/project/explore/tracing/TracesPage")),
+    //   wrapper: ProjectDashboardWrapper
+    // },
     // {
     //   path: "/project/:id/alerting",
     //   component: lazy(() => import("../features/project/alerting/AlertsListPage")),

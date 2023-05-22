@@ -1,8 +1,6 @@
 import adminUserReducer from "../features/admin/state/users/reducers";
 import adminProjectReducer from "../features/admin/state/projects/reducers";
 
-import logsReducer from "../features/project/explore/state/reducers";
-
 import commentsReducer from "../features/project/incidents/state/slices/comments.slice";
 import incidentReducer from "../features/project/incidents/state/slices/incident.slice";
 import groupedEventsReducer from "../features/project/incidents/state/slices/grouped-events.slice";
@@ -14,6 +12,7 @@ import applicationReducer from "../features/project/state/project/reducers";
 import userReducer from "../features/auth/state/reducers";
 import navbarReducer from "./internal/navbar/reducers";
 import notifyReducer from "./internal/notify/notifyReducer";
+
 import { combineReducers, AnyAction } from "redux";
 
 const incidentReducers = {
@@ -32,7 +31,6 @@ const rootReducers = {
   ...membersReducer,
   ...alertsSlice,
   ...applicationReducer,
-  ...logsReducer,
   ...navbarReducer,
   ...metricsReducer,
   ...notifyReducer,

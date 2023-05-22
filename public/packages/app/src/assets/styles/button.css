@@ -2,6 +2,7 @@
     padding: 6px;
     border-radius: 100%;
     cursor: pointer;
+    color: var(--color-text-primary);
 }
 
 .icon-btn:hover {

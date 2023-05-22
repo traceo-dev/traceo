@@ -11,8 +11,7 @@ export const Row: FC<RowProps> = ({ cols, gap, children, className }) => {
   return (
     <div
       className={joinClasses(
-        "w-full",
-        conditionClass(!!cols, `grid grid-cols-${cols}`, "flex flex-row"),
+        conditionClass(!!cols, `grid grid-cols-${cols}`, "flex flex-row items-center"),
         conditionClass(!!gap, `gap-${gap}`),
         className
       )}

@@ -11,7 +11,6 @@ export interface RelayWorkerConfig {
     CLICKHOUSE_HOST: string;
     CLICKHOUSE_PASSWORD: string;
     CLICKHOUSE_DATABASE: string;
-    TRACEO_PROJECT_ID: string;
     TRACEO_API_KEY: string;
     TRACEO_HOST: string;
 }
@@ -30,9 +29,8 @@ const defaultConfig = (): RelayWorkerConfig => {
         CLICKHOUSE_HOST: 'http://localhost:8123',
         CLICKHOUSE_PASSWORD: '',
         CLICKHOUSE_DATABASE: `traceo_${process.env.NODE_ENV}`,
-        TRACEO_API_KEY: "39ce1ecd-0e54-45fb-b478-8aefd1930d4b",
-        TRACEO_PROJECT_ID: "TWkQuQEyZ0uS9XZ",
-        TRACEO_HOST: "http://localhost:3000"
+        TRACEO_API_KEY: "tr_6a93f71e-6500-475b-a02b-f22bdae08d82",
+        TRACEO_HOST: "http://localhost:3000/"
     }
 }
 

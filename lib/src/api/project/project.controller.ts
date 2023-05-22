@@ -37,11 +37,6 @@ export class ProjectController {
     return await this.projectQueryService.getApiListDto(query);
   }
 
-  @Get("/logs")
-  async getProjectLogs(@Query() query: LogsQuery): Promise<ApiResponse<ILog[]>> {
-    return await this.projectQueryService.getProjectLogs({ ...query });
-  }
-
   @Post()
   async createProject(
     @Body() body: CreateProjectDto

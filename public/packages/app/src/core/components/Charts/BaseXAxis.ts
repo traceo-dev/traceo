@@ -2,7 +2,7 @@ import { XAXisComponentOption } from "echarts/types/dist/echarts";
 
 type XAxisProps = XAXisComponentOption & {
   pointerFormatter?: (value: string | number | unknown) => string;
-  labelFormatter?: (value: string | number) => string;
+  labelFormatter?: (value: any, index?: number) => string;
   dateFormat?: string;
 };
 
@@ -22,33 +22,25 @@ export const BaseXAxis = ({
         lineStyle: {
           color: LINE_COLOR,
           width: 1
-        }
+        },
       },
       splitLine
     ),
+    axisLine: {
+      lineStyle: {
+        color: LINE_COLOR
+      }
+    },
     axisPointer: {
       label: {
-        formatter: (value: string | number | unknown) => {
-          if (props?.pointerFormatter) {
-            return props?.pointerFormatter(value["value"]);
-          }
-
-          return value["value"];
-        }
+        formatter: props?.pointerFormatter
       }
     },
     axisLabel: Object.assign(
       {
-        formatter: (value: string | number) => {
-          if (props?.labelFormatter) {
-            return props?.labelFormatter(value);
-          }
-
-          return value;
-        },
-        color: "white",
+        formatter: props?.labelFormatter,
+        color: "#CCCCDC",
         fontSize: 11,
-        padding: 0,
         hideOverlap: true
       },
       axisLabel
