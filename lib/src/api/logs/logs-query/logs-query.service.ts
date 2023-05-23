@@ -26,7 +26,7 @@ export class LogsQueryService {
 
     public async getProjectLogs(query: LogsQuery): Promise<ApiResponse<LogsResponseType>> {
         try {
-            const selectedFields = ["message", "timestamp"]
+            const selectedFields = ["message", "precise_timestamp"]
             const logs = await this.clickhouseClient.loadLogs(selectedFields, query);
 
             return new ApiResponse("success", undefined, {
@@ -38,12 +38,60 @@ export class LogsQueryService {
         }
     }
 
+    /**
+     * Calculating interval between next values on xAxis in graph.
+     * Response is an count of seconds.
+     */
+    private calculateInterval(query: LogsQuery): number {
+        const { from, to } = query;
+
+        const hoursDiff = dayjs.unix(to).diff(dayjs.unix(from), "hour");
+        const minutesDiff = dayjs.unix(to).diff(dayjs.unix(from), "minutes");
+
+        const HOURS_IN_DAY = 24;
+        const ONE_SECOND = 1;
+        const SECONDS_IN_MINUTE = ONE_SECOND * 60;
+
+        // FROM START TO 24H
+        if (minutesDiff >= 0 && minutesDiff <= 60 * 12) {
+            return SECONDS_IN_MINUTE;
+        }
+
+        // BETWEEN 24H and 23H
+        if (minutesDiff > 60 * 12 && hoursDiff < HOURS_IN_DAY) {
+            return SECONDS_IN_MINUTE * 2;
+        }
+
+        // BETWEEN 1D and 2D
+        if (hoursDiff > HOURS_IN_DAY && hoursDiff < HOURS_IN_DAY * 2) {
+            return SECONDS_IN_MINUTE * 5;
+        }
+
+        // BETWEEN 2D and 3D
+        if (hoursDiff > HOURS_IN_DAY * 2 && hoursDiff < HOURS_IN_DAY * 3) {
+            return SECONDS_IN_MINUTE * 10;
+        }
+
+        // BETWEEN 3D and 4D
+        if (hoursDiff > HOURS_IN_DAY * 3 && hoursDiff < HOURS_IN_DAY * 4) {
+            return SECONDS_IN_MINUTE * 15;
+        }
+
+        // BETWEEN 4D and 5D
+        if (hoursDiff > HOURS_IN_DAY * 4 && hoursDiff < HOURS_IN_DAY * 5) {
+            return SECONDS_IN_MINUTE * 20;
+        }
+
+        // ABOVE 5D
+        return SECONDS_IN_MINUTE * 30;
+    }
+
     public async getLogsGraphPayload(query: LogsQuery): Promise<ApiResponse<GraphResposnseType>> {
         try {
-            const selectedFields = ["precise_timestamp"]
-            const logs = await this.clickhouseClient.loadLogs(selectedFields, query);
+            const logs = await this.clickhouseClient.loadLogsTimeSeries(query, this.calculateInterval(query));
 
-            const graph = await this.parseLogGraphData(query, logs);
+            // Mapping should be also in clickhouse query
+            const graph = logs.map((e) => [e.minute, e.count]);
 
             return new ApiResponse("success", undefined, {
                 graph
@@ -52,43 +100,5 @@ export class LogsQueryService {
             this.logger.error(`[${this.getProjectLogs.name}] Caused by: ${error}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR);
         }
-    }
-
-    /**
-     * Calculating interval between next values on xAxis in graph
-     */
-    private calculateInterval(query: LogsQuery): number {
-        const { from, to } = query;
-        const diff = dayjs.unix(to).diff(dayjs.unix(from), "hour");
-
-        if (diff < 48) {
-            return 1;
-        }
-
-        if (diff > 48 && diff < 96) {
-            return 5;
-        }
-
-        return 15;
-    }
-
-    private async parseLogGraphData(query: LogsQuery, logs: ILog[] = []): Promise<[number, number][]> {
-        let date = query.from;
-        const endPlotDate = query.to;
-
-        const xAxis: [number, number][] = [];
-
-        while (date <= endPlotDate) {
-            const interval = this.calculateInterval(query)
-
-            const isBetween = (d: number) => dayjs.unix(d).isBetween(dayjs.unix(date), dayjs.unix(date).subtract(interval, "minutes"))
-            const logsInRange = logs.filter(({ precise_timestamp }) => isBetween(precise_timestamp)) ?? [];
-
-            date = dayjs.unix(date).add(interval, "minute").unix();
-
-            xAxis.push([date, logsInRange.length]);
-        }
-
-        return xAxis;
     }
 }

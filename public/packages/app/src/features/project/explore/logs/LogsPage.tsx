@@ -57,7 +57,7 @@ export const LogsPage = forwardRef(
 
     const [graphLoading, setGraphLoading] = useState<boolean>(false);
 
-    const [limit, setLimit] = useState<number>(250);
+    const [limit, setLimit] = useState<number>(1000);
     const [search, setSearch] = useState<string>(undefined);
 
     const [showLogTime, setShowLogTime] = useState<boolean>(true);
@@ -163,7 +163,7 @@ export const LogsPage = forwardRef(
           <InlineFields>
             <Field
               title="Limit"
-              tooltip="The number of returned result. When empty then first 250 results are returned. Max 2000."
+              tooltip="The number of returned result. When empty then first 1000 results are returned. Max 2000."
               className="col-span-3"
             >
               <Input

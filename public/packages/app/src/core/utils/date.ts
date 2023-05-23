@@ -30,9 +30,14 @@ const getHour = (date: number = toUnix()) => dayjs.unix(date).local().hour();
 const endOf = (date: number = toUnix(), unit: dayjs.OpUnitType = "day") =>
   dayjs.unix(date).endOf(unit).unix();
 
+const formatToMs = (unix: number, format = "YYYY-MM-DD HH:mm:ss.SSS") => {
+  return dateUtils.formatDate(unix / 1000, format);
+};
+
 const dateUtils = {
   toUnix,
   formatDate,
+  formatToMs,
   fromNow,
   isTodayDate,
   isYesterdayDate,

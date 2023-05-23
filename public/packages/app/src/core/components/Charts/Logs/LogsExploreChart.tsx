@@ -1,6 +1,6 @@
 import { commonSeriesOptions } from "../../../../features/project/explore/components/utils";
 import { LogLevel } from "@traceo/types";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { SeriesOption } from "echarts";
 import { BaseChart } from "../BaseChart";
 import { BaseDataZoom } from "../BaseDataZoom";
@@ -14,7 +14,7 @@ const FIVE_MINTUES = 5;
 const TWENTY_FOUR_HOURS = 1440;
 const GRAPH_DIMENSIONS = ["timestamp", "log"];
 
-const BAR_COLOR = "#7c878d";
+const BAR_COLOR = "#3B82F5";
 const LABEL_COLOR = "#CCCCDC";
 
 export type LogsType = {
@@ -35,18 +35,18 @@ const LogsExploreChart: FC<Props> = ({
   zoom,
   onZoom = undefined
 }) => {
-  const [activeZoom, setActiveZoom] = useState<boolean>(zoom);
+  // const [activeZoom, setActiveZoom] = useState<boolean>(zoom);
 
   // Blocking zoom feature on chart when there is too small count of series on time axis
-  useEffect(() => {
-    if (ranges) {
-      const s = dayjs.unix(ranges[0]);
-      const e = dayjs.unix(ranges[1]);
-      const diffInMinutes = e.diff(s, "minutes");
+  // useEffect(() => {
+  //   if (ranges) {
+  //     const s = dayjs.unix(ranges[0]);
+  //     const e = dayjs.unix(ranges[1]);
+  //     const diffInMinutes = e.diff(s, "minutes");
 
-      diffInMinutes <= FIVE_MINTUES ? setActiveZoom(false) : setActiveZoom(true);
-    }
-  }, [ranges]);
+  //     diffInMinutes <= FIVE_MINTUES ? setActiveZoom(false) : setActiveZoom(true);
+  //   }
+  // }, [ranges]);
 
   const onDataZoom = (params: EchartDataZoomProps) => {
     const { startValue, endValue } = params.batch[0];
@@ -61,16 +61,7 @@ const LogsExploreChart: FC<Props> = ({
     onZoom([start, end]);
   };
 
-  const pointerFormatter = ({ value }: any) => {
-    return dayjs.unix(value).format("MMM D, HH:mm");
-  };
-
-  /**
-   *
-   * Labels formatter depending on how much chart is zooming.
-   * When time range is over 24h then we show only date ("DD/MM") without any time.
-   */
-  const labelFormatter = (value: any, index: number) => {
+  const timeFormatter = (value: any) => {
     const start = graph[0][0];
     const end = graph[graph.length - 1][0];
 
@@ -91,6 +82,17 @@ const LogsExploreChart: FC<Props> = ({
 
     return v.format("DD/MM");
   };
+
+  /**
+   * Labels formatter for tooltip.
+   */
+  const pointerFormatter = ({ value }: any) => timeFormatter(value);
+
+  /**
+   * Labels formatter depending on how much chart is zooming.
+   * When time range is over 24h then we show only date ("DD/MM") without any time.
+   */
+  const labelFormatter = (value: any, _index: number) => timeFormatter(value);
 
   const serieOption = {
     ...commonSeriesOptions,
@@ -140,7 +142,7 @@ const LogsExploreChart: FC<Props> = ({
           show: false
         }
       })}
-      activeZoomSelect={activeZoom}
+      activeZoomSelect={zoom}
       tooltip={BaseTooltip({
         pointer: "line"
       })}

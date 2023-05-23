@@ -1,9 +1,10 @@
-import { DownOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { DownOutlined, RightOutlined } from "@ant-design/icons";
 import { ILog, LogLevel } from "@traceo/types";
 import { Col, conditionClass, joinClasses } from "@traceo/ui";
 import { useState } from "react";
 import styled from "styled-components";
 import { LogDetailsForm } from "./LogDetailsForm";
+import dateUtils from "src/core/utils/date";
 
 const LogItem = styled.tr<{
   level: LogLevel;
@@ -21,7 +22,7 @@ const LogItem = styled.tr<{
   line-height: 1rem;
   border-left: 3px solid;
   padding-left: 6px;
-  border-color: #7c878d;
+  border-color: #3B82F5;
   margin-bottom: 2px;
 
   &:hover {
@@ -44,7 +45,11 @@ export const LogRow = ({ log, showTime = true, verboseLog = true }: Props) => {
     <Col>
       <LogItem isSelected={!isCollapsed} onClick={() => setCollapsed(!isCollapsed)}>
         <td className="text-[8px] pr-5">{isCollapsed ? <RightOutlined /> : <DownOutlined />}</td>
-        {showTime && <td className="pr-5 whitespace-nowrap">{log.timestamp}</td>}
+        {showTime && (
+          <td className="pr-5 whitespace-nowrap">
+            {dateUtils.formatToMs(log.precise_timestamp)}
+          </td>
+        )}
         <td
           className={joinClasses(
             conditionClass(
