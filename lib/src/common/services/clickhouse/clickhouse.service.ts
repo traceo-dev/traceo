@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { ClickHouseClient, ClickHouseClientConfigOptions, createClient, QueryParams } from "@clickhouse/client";
 import { ILog, MetricPayload, PerformanceQuery, Performance, Notification, Span } from "@traceo/types";
 import { MetricQueryDto } from "../../../common/types/dto/metrics.dto";
-import { QueryTracingDto } from "src/common/types/dto/tracing";
-import { LogsQuery } from "src/common/types/dto/logs.dto";
+import { QueryTracingDto } from "../../../common/types/dto/tracing";
+import { LogsQuery } from "../../../common/types/dto/logs.dto";
 
 @Injectable()
 export class ClickhouseService {
@@ -22,6 +22,7 @@ export class ClickhouseService {
         return await this.client.query(params)
     }
 
+    // TODO: time series aggregation
     public async loadMetric(
         projectId: string,
         query: MetricQueryDto
@@ -47,17 +48,22 @@ export class ClickhouseService {
         let sqlQuery = `
             SELECT ${selectedFields} FROM logs 
             WHERE project_id = '${query.projectId}'
-            AND precise_timestamp >= ${query.from}
-            AND precise_timestamp <= ${query.to}
+            AND receive_timestamp >= ${query.from}
+            AND receive_timestamp <= ${query.to}
         `;
 
         const search = query?.search;
         if (search) {
-            sqlQuery += `AND (multiSearchAny(lower(message), ['${search}']))\n`;
+            sqlQuery += `AND LOWER(message) LIKE '%${search.toLowerCase()}%'\n`;
         }
 
         sqlQuery += 'ORDER BY precise_timestamp DESC\n';
-        sqlQuery += `LIMIT ${query?.take || 250}`;
+
+        let limit = query.take ?? 1000;
+        if (limit && limit > 1000) {
+            limit = 2000;
+        }
+        sqlQuery += `LIMIT ${limit}`;
 
         const logs = await this.query({
             query: sqlQuery,
@@ -65,6 +71,45 @@ export class ClickhouseService {
         });
 
         return logs.json<ILog[]>();
+    };
+
+    /**
+     * 
+     * Clickhouse aggregate query to return time series 
+     * response with minute and count as interval between two unix's.
+     * 
+     * TODO: add mapping to return values in [[minute, count]] format.
+     * 
+     * @param query 
+     * @param interval in seconds
+     */
+    public async loadLogsTimeSeries(query: LogsQuery, interval: number): Promise<{ minute: number, count: number }[]> {
+        const sqlQuery = `
+            SELECT
+                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL 1 MINUTE)) as minute,
+                COUNT(*) as count
+            FROM logs
+            WHERE 
+                receive_timestamp >= toUnixTimestamp(toDateTime(${query.from})) 
+            AND 
+                receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
+            ${query.search ? `AND LOWER(message) LIKE '%${query.search?.toLowerCase() ?? ''}%'` : ''}
+            GROUP BY minute
+            ORDER BY minute ASC
+            WITH FILL
+        FROM
+        toUnixTimestamp(toStartOfMinute(toDateTime(${query.from})))
+        TO
+        toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
+            STEP ${interval}
+        `;
+
+        const logs = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        return logs.json();
     }
 
     public async loadPermormance(projectId: string, query: PerformanceQuery): Promise<Performance[]> {
@@ -74,7 +119,7 @@ export class ClickhouseService {
         const healths = query.health ? `'${query.health}'` : `'good', 'need_improvement', 'poor'`;
 
         let sqlQuery = `
-            SELECT * FROM performance
+        SELECT * FROM performance
             WHERE project_id = '${projectId}'
             AND timestamp >= ${from}
             AND timestamp <= ${to}
@@ -84,7 +129,7 @@ export class ClickhouseService {
 
         if (query.search) {
             const search = query.search.toLowerCase();
-            sqlQuery += `AND (multiSearchAny(lower(browser_name), ['${search}'])`;
+            sqlQuery += `AND(multiSearchAny(lower(browser_name), ['${search}'])`;
             sqlQuery += `OR multiSearchAny(lower(platform_type), ['${search}'])`;
             sqlQuery += `OR multiSearchAny(lower(view), ['${search}']))`;
         }
@@ -101,9 +146,9 @@ export class ClickhouseService {
 
     public async loadUserNotifications(userId: string): Promise<Notification[]> {
         const sqlQuery = `
-            SELECT * FROM notifications WHERE user_id = '${userId}'
+        SELECT * FROM notifications WHERE user_id = '${userId}'
             ORDER BY timestamp DESC
-        `;
+            `;
 
         const notifications = await this.query({
             query: sqlQuery,
@@ -119,7 +164,7 @@ export class ClickhouseService {
             FROM tracing
             WHERE project_id = '${projectId}'
             AND parent_span_id = ''
-        `;
+            `;
 
         const serviceNames = await this.query({
             query: sqlQuery,
@@ -135,7 +180,7 @@ export class ClickhouseService {
             FROM tracing
             WHERE project_id = '${projectId}'
             AND parent_span_id = ''
-        `;
+            `;
 
         const serviceNames = await this.query({
             query: sqlQuery,
@@ -147,12 +192,12 @@ export class ClickhouseService {
 
     public async loadRootTraces(query: QueryTracingDto): Promise<Span[]> {
         let sqlQuery = `
-            SELECT * FROM tracing
+        SELECT * FROM tracing
             WHERE project_id = '${query.projectId}'
             AND parent_span_id = ''
             AND toDateTime(receive_timestamp) > toDateTime(${query.from})
             AND toDateTime(receive_timestamp) < toDateTime(${query.to})
-        `;
+            `;
 
         if (query?.serviceName) {
             sqlQuery += `AND service_name = '${query.serviceName}'\n`
@@ -167,27 +212,27 @@ export class ClickhouseService {
         }
 
         if (query?.traceKind) {
-            sqlQuery += `AND kind = ${query.traceKind}\n`
+            sqlQuery += `AND kind = ${query.traceKind} \n`
         }
 
         if (query?.durationMax) {
-            sqlQuery += `AND duration <= ${query.durationMax}\n`
+            sqlQuery += `AND duration <= ${query.durationMax} \n`
         }
 
         if (query?.durationMin) {
-            sqlQuery += `AND duration => ${query.durationMin}\n`
+            sqlQuery += `AND duration => ${query.durationMin} \n`
         }
 
         const search = query?.search;
         if (search) {
-            sqlQuery += `AND (multiSearchAny(lower(trace_id), ['${search}'])`;
+            sqlQuery += `AND(multiSearchAny(lower(trace_id), ['${search}'])`;
             sqlQuery += `OR multiSearchAny(lower(span_id), ['${search}'])`;
             sqlQuery += `OR multiSearchAny(lower(service_name), ['${search}'])`;
             sqlQuery += `OR multiSearchAny(lower(name), ['${search}']))`;
         }
 
         sqlQuery += 'ORDER BY receive_timestamp DESC\n';
-        sqlQuery += `LIMIT ${query?.take || 100}`;
+        sqlQuery += `LIMIT ${query?.take || 100} `;
 
         const spans = await this.query({
             query: sqlQuery,
