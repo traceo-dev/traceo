@@ -1,14 +1,8 @@
 import { useDemo } from "../../../..//core/hooks/useDemo";
-import { useTimeRange } from "../../../../core/hooks/useTimeRange";
 import api from "../../../../core/lib/api";
-import { useAppDispatch } from "../../../../store";
-import { hideNavbar } from "../../../../store/internal/navbar/actions";
-import { loadMetric } from "../state/actions";
-import { StoreState } from "@store/types";
 import { ApiResponse, IMetric } from "@traceo/types";
 import { PageHeader, Button, Space } from "@traceo/ui";
 import { FC, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
@@ -22,23 +16,24 @@ interface Props {
   isCreateMode?: boolean;
   setCustomizeMode?: (val: boolean) => void;
   setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
+  reload?: () => void;
 }
 export const MetricPreviewHeader: FC<Props> = ({
   currentOptions,
   isCustomizeMode,
   isCreateMode = false,
   setCustomizeMode,
-  setOptions
+  setOptions,
+  reload
 }) => {
-  const dispatch = useAppDispatch();
   const isDemo = useDemo();
   const navigate = useNavigate();
 
-  const { id } = useParams();
-  const { metric } = useSelector((state: StoreState) => state.metrics);
+  const [opts, _] = useState(currentOptions);
+
+  const { id, metricId } = useParams();
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
   const [removeLoading, setRemoveLoading] = useState<boolean>(false);
-  const { ranges } = useTimeRange(undefined, false);
 
   const onConfirm = () => {
     if (!currentOptions.name) {
@@ -70,20 +65,14 @@ export const MetricPreviewHeader: FC<Props> = ({
   const onSave = async () => {
     setSaveLoading(true);
     await api
-      .patch<ApiResponse<string>>(`/api/metrics/${metric.options.id}/update`, currentOptions)
+      .patch<ApiResponse<string>>(`/api/metrics/${metricId}/update`, currentOptions)
       .then(() => {
-        const payload = {
-          projectId: id,
-          metricId: metric.options.id,
-          from: ranges[0],
-          to: ranges[1]
-        };
-        dispatch(loadMetric(payload));
+        console.log("onSave then");
+        reload();
       })
       .finally(() => {
         setSaveLoading(false);
         setCustomizeMode && setCustomizeMode(false);
-        dispatch(hideNavbar(false));
       });
   };
 
@@ -98,15 +87,13 @@ export const MetricPreviewHeader: FC<Props> = ({
       })
       .finally(() => {
         setSaveLoading(false);
-        dispatch(hideNavbar(false));
       });
   };
 
   const onDiscard = () => {
     if (!isCreateMode) {
-      setOptions(metric?.options);
+      setOptions(opts);
       setCustomizeMode && setCustomizeMode(false);
-      dispatch(hideNavbar(false));
 
       return;
     }
@@ -117,7 +104,7 @@ export const MetricPreviewHeader: FC<Props> = ({
   const onRemove = async () => {
     setRemoveLoading(true);
     await api
-      .delete<ApiResponse<string>>(`/api/metrics/${metric?.options.id}`)
+      .delete<ApiResponse<string>>(`/api/metrics/${metricId}`)
       .then(() => {
         navigate(`/project/${id}/metrics`);
       })
@@ -152,7 +139,7 @@ export const MetricPreviewHeader: FC<Props> = ({
             </div>
           )}
 
-          {!metric?.options?.isDefault && !isCustomizeMode && !isCreateMode && (
+          {!opts?.isDefault && !isCustomizeMode && !isCreateMode && (
             <div className="flex flex-row gap-x-1">
               <Confirm
                 description="Are you sure that you want to remove this metric?"

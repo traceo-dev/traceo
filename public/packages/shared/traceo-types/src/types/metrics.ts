@@ -125,7 +125,7 @@ export type MetricResponseType = {
 
 export type MetricPreviewType = {
   options: IMetric;
-  datasource: MetricResponseType[];
+  datasource: MetricResponseType;
 };
 
 export type TOOLTIP_PLACEMENT = "bottom" | "inside" | "left" | "right" | "top";

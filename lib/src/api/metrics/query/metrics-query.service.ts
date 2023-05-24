@@ -2,16 +2,12 @@ import { Injectable, Logger } from "@nestjs/common";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { MetricQueryDto, MetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import {
-  IMetric,
-  IMetricSerie,
-  MetricPreviewType,
-  MetricResponseType,
-  MetricPayload
-} from "@traceo/types";
+import { IMetric, MetricPreviewType } from "@traceo/types";
 import { Metric } from "../../../db/entities/metric.entity";
 import { Brackets, EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
+
+export type AggregateTimeSeries = { minute: number, value: number }[];
 
 @Injectable()
 export class MetricsQueryService {
@@ -22,36 +18,6 @@ export class MetricsQueryService {
     private readonly clickhouseService: ClickhouseService
   ) {
     this.logger = new Logger(MetricsQueryService.name);
-  }
-
-  public async getMetricData(
-    projectId: string,
-    query: MetricQueryDto
-  ): Promise<ApiResponse<MetricResponseType[]>> {
-    try {
-      const response = await this.clickhouseService.loadMetric(projectId, query);
-      const groupedMetrics = this.groupMetrics(response);
-
-      return new ApiResponse("success", undefined, groupedMetrics);
-    } catch (err) {
-      this.logger.error(`[${this.getMetricData.name}] Caused by: ${err}`);
-      return new ApiResponse("error", undefined, []);
-    }
-  }
-
-  public async getMetricTableData(
-    projectId: string,
-    query: MetricQueryDto
-  ): Promise<ApiResponse<MetricResponseType[]>> {
-    try {
-      const response = await this.clickhouseService.loadMetric(projectId, query);
-      const groupedMetrics = this.groupMetricsByTimestamp(response);
-
-      return new ApiResponse("success", undefined, groupedMetrics);
-    } catch (err) {
-      this.logger.error(`[${this.getMetricData.name}] Caused by: ${err}`);
-      return new ApiResponse("error", undefined, []);
-    }
   }
 
   public async getProjectMetrics(
@@ -86,7 +52,7 @@ export class MetricsQueryService {
     }
   }
 
-  public async getProjectMetricPreviewData(
+  public async getMetricGraphPayload(
     projectId: string,
     metricId: string,
     from: number,
@@ -104,83 +70,36 @@ export class MetricsQueryService {
         }
       });
 
-      const datasource = await this.getMetricData(projectId, {
-        fields: this.parseSeries(metric.series),
-        from,
-        to
-      });
+      const response = await this.mapAggregateDataSource(projectId, {
+        from, to,
+        fields: metric.series.map((e) => e.field)
+      })
 
       return new ApiResponse("success", undefined, {
         options: metric,
-        datasource: datasource.data || []
+        datasource: response
       });
     } catch (err) {
-      this.logger.error(`[${this.getProjectMetricPreviewData.name}] Caused by: ${err}`);
+      this.logger.error(`[${this.getMetricGraphPayload.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
     }
   }
 
-  private parseSeries(series: IMetricSerie[]): string[] {
-    return (
-      series?.reduce<string[]>((acc, serie) => {
-        acc.push(serie.field);
-
-        return acc;
-      }, []) || []
-    );
-  }
-
   /**
-   * Group metrics to return values already parsed for charts:
-   * {
-   *   time: [...],
-   *   heap_used: [...],
-   *   heap_total: [...]
-   * }
+   * TODO: aggregate results from time series in clickhouse query instead here. 
    */
-  private groupMetrics(data: MetricPayload[]): any {
-    const time = new Set();
-    const result = data.reduce((acc, val) => {
-      acc[val.name] = acc[val.name] || [];
-      acc[val.name].push(val.value);
+  private async mapAggregateDataSource(projectId: string, query: MetricQueryDto) {
+    let response = {};
 
-      // time can be duplicated from clickhouse response, so we use Set to avoid duplicates
-      time.add(val.timestamp);
+    for (const field of query.fields) {
+      const aggregatedMetric = await this.clickhouseService.aggregateMetrics(projectId, field, {
+        from: query.from, to: query.to, fields: []
+      });
 
-      return acc;
-    }, {})
+      response["time"] = aggregatedMetric.map(({ minute }) => minute);
+      response[field] = aggregatedMetric.map(({ value }) => value);
+    }
 
-    return {
-      ...result,
-      time: Array.from(time)
-    };
-  }
-
-
-  /**
-   * Group metrics from clickhouse by timestamp
-   * 
-   * {
-   *    timestamp: number,
-   *    [x: string]: number,
-   *    [y: string]: number,
-   *    [z: string]: number
-   * }
-   */
-  private groupMetricsByTimestamp(data: MetricPayload[]): MetricResponseType[] {
-    const result = data.reduce((acc, cur) => {
-      const existing = acc.find(item => item.timestamp === cur.timestamp);
-      if (existing) {
-        existing[cur.name] = cur.value;
-      } else {
-        acc.push({
-          timestamp: cur.timestamp,
-          [cur.name]: cur.value
-        });
-      }
-      return acc;
-    }, []);
-
-    return result;
+    return response;
   }
 }
