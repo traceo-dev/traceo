@@ -4,6 +4,7 @@ import { IMetric, MetricResponseType, DeepPartial, METRIC_UNIT } from "@traceo/t
 import { Card, Table, TableColumn } from "@traceo/ui";
 import { FC } from "react";
 import dayjs from "dayjs";
+import dateUtils from "src/core/utils/date";
 
 interface Props {
   metric: DeepPartial<IMetric>;

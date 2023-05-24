@@ -1,59 +1,48 @@
-import { useProject } from "../../../hooks/useProject";
 import { ConditionalWrapper } from "../../ConditionLayout";
 import { DataNotFound } from "../../DataNotFound";
 import { buildSeries } from "./utils";
-import { IMetric, METRIC_UNIT, MetricResponseType } from "@traceo/types";
-import { FC, useEffect } from "react";
+import { IMetric, METRIC_UNIT, MetricPreviewType } from "@traceo/types";
+import { FC } from "react";
 import { BaseChart } from "../BaseChart";
 import { BaseXAxis } from "../BaseXAxis";
-import dayjs from "dayjs";
 import { BaseYAxis } from "../BaseYAxis";
-import { useReactQuery } from "../../../../core/hooks/useReactQuery";
+import { timeAxisFormatter } from "../utils";
+import { BaseLegend } from "../BaseLegend";
+import { BaseTooltip } from "../BaseTooltip";
 
 interface Props {
   metric: IMetric;
+  data: MetricPreviewType;
   ranges: [number, number];
+  isLoading: boolean;
 }
-const MetricChart: FC<Props> = ({ metric, ranges }) => {
-  const { project } = useProject();
 
-  const seriesFields = metric.series.map(({ field }) => field) || [""];
-  const {
-    data: datasource,
-    refetch,
-    isFetching
-  } = useReactQuery<MetricResponseType>({
-    queryKey: [`metric_ds_${metric.id}`],
-    url: `/api/metrics/${project?.id}/datasource`,
-    params: {
-      fields: seriesFields,
-      from: ranges[0],
-      to: ranges[1]
-    }
-  });
+const MetricChart: FC<Props> = ({ metric, ranges, isLoading, data }) => {
+  const labelFormatter = (value: any, _index: number) =>
+    timeAxisFormatter(value, ranges[0], ranges[1]);
 
-  useEffect(() => {
-    refetch();
-  }, [ranges, metric]);
+  const pointerFormatter = ({ value }: any) => timeAxisFormatter(value, ranges[0], ranges[1]);
 
   return (
     <ConditionalWrapper
-      isLoading={isFetching}
-      isEmpty={!datasource || datasource?.time?.length === 0}
+      isLoading={isLoading}
+      isEmpty={!data?.datasource}
       emptyView={<DataNotFound className="text-2xs" label="Data not found" />}
     >
       <BaseChart
-        height="150px"
+        height="200px"
         renderer="canvas"
+        tooltip={BaseTooltip()}
         xAxis={BaseXAxis({
           offset: 12,
           axisLabel: {
-            formatter: (v: string) => dayjs.unix(Number(v)).format("HH:mm"),
+            formatter: labelFormatter,
             fontSize: 11,
-            showMaxLabel: true
+            showMaxLabel: false,
+            showMinLabel: false
           },
-          pointerFormatter: (v: unknown) => dayjs(Number(v)).format("HH:mm, DD MMM"),
-          data: datasource?.time
+          pointerFormatter,
+          data: data?.datasource["time"]
         })}
         yAxis={BaseYAxis({
           axisLabel: {
@@ -75,7 +64,7 @@ const MetricChart: FC<Props> = ({ metric, ranges }) => {
           bottom: 15,
           top: 10
         }}
-        series={buildSeries(metric.series, metric, datasource, "card")}
+        series={buildSeries(metric.series, metric, data?.datasource, "card")}
       />
     </ConditionalWrapper>
   );

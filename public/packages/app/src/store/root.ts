@@ -5,7 +5,6 @@ import commentsReducer from "../features/project/incidents/state/slices/comments
 import incidentReducer from "../features/project/incidents/state/slices/incident.slice";
 import groupedEventsReducer from "../features/project/incidents/state/slices/grouped-events.slice";
 
-import metricsReducer from "../features/project/metrics/state/reducers";
 import alertsSlice from "../features/project/alerting/state/alert.slice";
 import membersReducer from "../features/project/settings/state/members/reducers";
 import applicationReducer from "../features/project/state/project/reducers";
@@ -32,7 +31,6 @@ const rootReducers = {
   ...alertsSlice,
   ...applicationReducer,
   ...navbarReducer,
-  ...metricsReducer,
   ...notifyReducer,
   ...incidentReducers
 };

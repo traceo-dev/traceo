@@ -1,8 +1,6 @@
 import { buildSeries } from "./utils";
-import { StoreState } from "@store/types";
-import { IMetric, DeepPartial, METRIC_UNIT } from "@traceo/types";
+import { IMetric, DeepPartial, METRIC_UNIT, MetricResponseType } from "@traceo/types";
 import { FC, useMemo } from "react";
-import { useSelector } from "react-redux";
 import { ConditionalWrapper } from "../../ConditionLayout";
 import { DataNotFound } from "../../DataNotFound";
 import { BaseChart } from "../BaseChart";
@@ -11,21 +9,26 @@ import dayjs from "dayjs";
 import { BaseYAxis } from "../BaseYAxis";
 import { BaseTooltip } from "../BaseTooltip";
 import { EchartDataZoomProps } from "../types";
+import { timeAxisFormatter } from "../utils";
 
 interface Props {
   options: DeepPartial<IMetric>;
+  datasource: MetricResponseType;
+  isLoading: boolean;
+  ranges?: [number, number];
   setRanges?: (val: [number, number]) => void;
   activeZoomSelect?: boolean;
   isNewMetric?: boolean;
 }
 const MetricPreviewChart: FC<Props> = ({
-  options,
+  ranges = [undefined, undefined],
+  options = {},
+  isLoading = false,
+  datasource = undefined,
   activeZoomSelect = false,
   isNewMetric = false,
   setRanges
 }) => {
-  const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
-
   const showTooltip = options?.config.tooltip.show;
   const showLegend = options?.config.legend.show;
   const showXAxis = options?.config.axis.showX;
@@ -35,12 +38,7 @@ const MetricPreviewChart: FC<Props> = ({
   const unit = options?.unit === METRIC_UNIT.NONE ? "" : options?.unit;
 
   const echartOptions = useMemo(() => {
-    const seriesOptions = buildSeries(
-      options?.series || metric.options.series,
-      options || metric.options,
-      metric?.datasource,
-      "preview"
-    );
+    const seriesOptions = buildSeries(options?.series, options, datasource, "preview");
 
     return {
       tooltip: BaseTooltip({
@@ -69,7 +67,7 @@ const MetricPreviewChart: FC<Props> = ({
       },
       series: seriesOptions
     };
-  }, [metric, options]);
+  }, [options, datasource]);
 
   const onDataZoom = (params: EchartDataZoomProps) => {
     if (isNewMetric) {
@@ -78,7 +76,7 @@ const MetricPreviewChart: FC<Props> = ({
 
     const { startValue, endValue } = params.batch[0];
     if (startValue && endValue) {
-      const selected = metric?.datasource?.time.slice(startValue, endValue);
+      const selected = datasource?.time.slice(startValue, endValue);
       const from = dayjs.unix(selected[0]).unix();
       const to = dayjs.unix(selected[selected.length - 1]).unix();
 
@@ -86,14 +84,16 @@ const MetricPreviewChart: FC<Props> = ({
     }
   };
 
-  const isLoading = isNewMetric ? false : !hasFetchedMetric || !metric || !options;
-  const isEmpty =
-    !metric?.datasource || !metric.datasource?.time || metric?.datasource.time.length === 0;
+  const labelFormatter = (value: any, _index: number) =>
+    ranges ? timeAxisFormatter(value, ranges[0], ranges[1]) : value;
+
+  const pointerFormatter = ({ value }: any) =>
+    ranges ? timeAxisFormatter(value, ranges[0], ranges[1]) : value;
 
   return (
-    <ConditionalWrapper isEmpty={isEmpty} isLoading={isLoading} emptyView={<DataNotFound />}>
+    <ConditionalWrapper isLoading={isLoading} emptyView={<DataNotFound />}>
       <BaseChart
-        height={"300px"}
+        height={"450px"}
         renderer="canvas"
         onDataZoom={onDataZoom}
         activeZoomSelect={activeZoomSelect}
@@ -110,9 +110,9 @@ const MetricPreviewChart: FC<Props> = ({
             show: showXAxis,
             showMaxLabel: true
           },
-          labelFormatter: (v: unknown) => dayjs.unix(Number(v)).format("HH:mm"),
-          pointerFormatter: (v: unknown) => dayjs.unix(Number(v)).format("HH:mm, DD MMM"),
-          data: metric?.datasource?.time || []
+          labelFormatter,
+          pointerFormatter,
+          data: datasource?.time || []
         })}
         yAxis={BaseYAxis({
           splitLine: {

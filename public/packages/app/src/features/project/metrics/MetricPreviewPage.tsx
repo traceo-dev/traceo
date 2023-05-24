@@ -1,66 +1,58 @@
 import { Page } from "../../../core/components/Page";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { conditionClass } from "../../../core/utils/classes";
-import { useAppDispatch } from "../../../store";
 import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
 import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
 import { MetricToolbar } from "./components/MetricToolbar";
-import { loadMetric } from "./state/actions";
-import { StoreState } from "@store/types";
-import { IMetric, DeepPartial } from "@traceo/types";
-import { Card } from "@traceo/ui";
+import { IMetric, DeepPartial, MetricPreviewType } from "@traceo/types";
+import { Card, Row } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
-import { MetricTableWrapper } from "./components/MetricTableWrapper";
-import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { LoadingOutlined } from "@ant-design/icons";
+import { isEmptyObject } from "../../../core/utils/object";
+import { TraceoLoading } from "../../../core/components/TraceoLoading";
 
 export const MetricPreviewPage = () => {
   const { metricId, id } = useParams();
-  const dispatch = useAppDispatch();
   const { ranges, setRanges } = useTimeRange();
-  const { metric, hasFetchedMetric } = useSelector((state: StoreState) => state.metrics);
-  const [options, setOptions] = useImmer<DeepPartial<IMetric>>(metric?.options);
+  const [options, setOptions] = useImmer<DeepPartial<IMetric>>(undefined);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
 
-  useEffect(() => {
-    const payload = {
-      projectId: id,
-      metricId,
+  const { data, refetch, isLoading, isRefetching } = useReactQuery<MetricPreviewType>({
+    queryKey: [`metric_ds_${metricId}`],
+    url: `/api/metrics/${id}/preview/${metricId}`,
+    params: {
       from: ranges[0],
       to: ranges[1]
-    };
-    dispatch(loadMetric(payload));
-  }, [ranges]);
-
-  const fields = metric?.options?.series.map(({ field }) => field) || [""];
-  const {
-    data: datasource,
-    refetch,
-    isFetching
-  } = useReactQuery<any>({
-    queryKey: [`metrc_${id}`],
-    url: `/api/metrics/${id}/datasource/table`,
-    params: { fields, from: ranges[0], to: ranges[1] }
+    }
   });
 
   useEffect(() => {
-    if (metric) {
-      setOptions(metric.options);
-      refetch();
+    refetch();
+  }, [ranges, metricId]);
+
+  useEffect(() => {
+    if (data && data.options) {
+      setOptions(data.options);
     }
-  }, [metric]);
+  }, [data]);
+
+  if (!options || isEmptyObject(options)) {
+    return <TraceoLoading />;
+  }
 
   return (
-    <Page isLoading={!hasFetchedMetric || !metric?.options}>
+    <Page isLoading={isLoading}>
       <MetricPreviewHeader
         currentOptions={options}
         isCustomizeMode={isCustomizeMode}
         setCustomizeMode={setCustomizeMode}
         setOptions={setOptions}
+        reload={() => refetch()}
       />
       <Page.Content>
         <div className="w-full grid grid-cols-12">
@@ -68,27 +60,28 @@ export const MetricPreviewPage = () => {
             <Card
               title="Graph"
               extra={
-                <MetricToolbar
-                  isCustomizeMode={isCustomizeMode}
-                  ranges={ranges}
-                  setCustomizeMode={setCustomizeMode}
-                  setRanges={setRanges}
-                />
+                <Row gap="x-5">
+                  <MetricToolbar
+                    isCustomizeMode={isCustomizeMode}
+                    ranges={ranges}
+                    setCustomizeMode={setCustomizeMode}
+                    setRanges={setRanges}
+                  />
+                  {isRefetching && <LoadingOutlined />}
+                </Row>
               }
             >
-              <ConditionalWrapper isLoading={isFetching}>
+              <ConditionalWrapper isLoading={isLoading}>
                 <MetricPreviewChart
+                  datasource={data?.datasource}
+                  isLoading={isLoading}
+                  ranges={ranges}
                   setRanges={setRanges}
                   options={options}
                   activeZoomSelect={!isCustomizeMode}
                 />
               </ConditionalWrapper>
             </Card>
-            <MetricTableWrapper
-              metric={options}
-              metricData={datasource}
-              isLoading={isFetching}
-            />
           </div>
           {isCustomizeMode && <MetricCustomizeForm setOptions={setOptions} options={options} />}
         </div>

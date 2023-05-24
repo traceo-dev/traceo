@@ -9,6 +9,7 @@ import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import dayjs from "dayjs";
 import { EchartDataZoomProps } from "../types";
+import { timeAxisFormatter } from "../utils";
 
 const FIVE_MINTUES = 5;
 const TWENTY_FOUR_HOURS = 1440;
@@ -61,38 +62,17 @@ const LogsExploreChart: FC<Props> = ({
     onZoom([start, end]);
   };
 
-  const timeFormatter = (value: any) => {
-    const start = graph[0][0];
-    const end = graph[graph.length - 1][0];
-
-    const s = dayjs.unix(start);
-    const e = dayjs.unix(end);
-
-    const diffInMinutes = e.diff(s, "minutes");
-
-    const v = dayjs.unix(value);
-
-    if (diffInMinutes <= FIVE_MINTUES) {
-      return v.format("HH:mm:ss");
-    }
-
-    if (diffInMinutes <= TWENTY_FOUR_HOURS) {
-      return v.format("HH:mm");
-    }
-
-    return v.format("DD/MM");
-  };
-
   /**
    * Labels formatter for tooltip.
    */
-  const pointerFormatter = ({ value }: any) => timeFormatter(value);
+  const pointerFormatter = ({ value }: any) => timeAxisFormatter(value, ranges[0], ranges[1]);
 
   /**
    * Labels formatter depending on how much chart is zooming.
    * When time range is over 24h then we show only date ("DD/MM") without any time.
    */
-  const labelFormatter = (value: any, _index: number) => timeFormatter(value);
+  const labelFormatter = (value: any, _index: number) =>
+    timeAxisFormatter(value, ranges[0], ranges[1]);
 
   const serieOption = {
     ...commonSeriesOptions,

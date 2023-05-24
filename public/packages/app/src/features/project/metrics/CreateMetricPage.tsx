@@ -4,10 +4,10 @@ import { IMetric, METRIC_UNIT } from "@traceo/types";
 import { DeepPartial } from "redux";
 import { useImmer } from "use-immer";
 import { Card } from "@traceo/ui";
-import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
 import { randomHexColor } from "../../../core/utils/colors";
+import { DataNotFound } from "src/core/components/DataNotFound";
 
 const initialMetric: DeepPartial<IMetric> = {
   name: "New metric",
@@ -71,13 +71,15 @@ const CreateMetricPage = () => {
         <div className="w-full grid grid-cols-12">
           <div className="col-span-8">
             <Card title="Graph">
-              <ConditionalWrapper>
-                <MetricPreviewChart
-                  isNewMetric={true}
-                  options={options}
-                  activeZoomSelect={false}
-                />
-              </ConditionalWrapper>
+              <ConditionalWrapper
+                isEmpty
+                emptyView={
+                  <DataNotFound
+                    label="Graph preview not available"
+                    explanation="Fill in the configuration data for this metric overview and save the new metric to see the preview."
+                  />
+                }
+              />
             </Card>
           </div>
           <MetricCustomizeForm setOptions={setOptions} options={options} />

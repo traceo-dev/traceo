@@ -2,32 +2,39 @@ import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { Page } from "../../../core/components/Page";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
-import { useAppDispatch } from "../../../store";
 import { MetricCard } from "./components/MetricCard";
 import { MetricTimeRangePicker } from "./components/MetricTimeRangePicker";
-import { loadMetrics } from "./state/actions";
 import { BarChartOutlined, PlusOutlined } from "@ant-design/icons";
-import { StoreState } from "@store/types";
-import { InputSearch, Card, Row, Col, Button } from "@traceo/ui";
+import { Card, Row, Col, Button, InputSearch } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { EmptyMetricsList } from "./components/EmptyMetricsList";
 import { Link, useParams } from "react-router-dom";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { IMetric } from "@traceo/types";
 
 const MetricsPage = () => {
   const { id } = useParams();
-  const dispatch = useAppDispatch();
 
-  const { metrics, hasFetched } = useSelector((state: StoreState) => state.metrics);
   const [search, setSearch] = useState<string>(null);
   const { ranges, setRanges } = useTimeRange({
     from: dayjs().subtract(24, "h").unix(),
     to: dayjs().unix()
   });
 
+  const {
+    data: metrics,
+    refetch,
+    isLoading,
+    isFetching
+  } = useReactQuery<IMetric[]>({
+    queryKey: [`metrics_${id}`],
+    url: `/api/metrics/${id}`,
+    params: { search }
+  });
+
   useEffect(() => {
-    dispatch(loadMetrics({ search }));
+    refetch();
   }, [search]);
 
   const renderContent = () => {
@@ -47,7 +54,7 @@ const MetricsPage = () => {
         <ConditionalWrapper
           isEmpty={metrics?.length === 0}
           emptyView={<EmptyMetricsList constraints={search} />}
-          isLoading={!hasFetched}
+          isLoading={isLoading}
         >
           <Row gap="2" cols={12}>
             {metrics?.map((metric, index) => (

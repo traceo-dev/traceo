@@ -3,13 +3,9 @@ import { Controller, Get, Param } from "@nestjs/common";
 import { Body, Delete, Patch, Post, UseGuards } from "@nestjs/common/decorators";
 import { ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "../../common/decorators/auth-guard.decorator";
-import {
-  MetricQueryDto,
-  MetricsQueryDto,
-  UpdateMetricDto
-} from "../../common/types/dto/metrics.dto";
+import { MetricsQueryDto, UpdateMetricDto } from "../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { IMetric, MetricPreviewType, MetricResponseType } from "@traceo/types";
+import { IMetric, MetricPreviewType } from "@traceo/types";
 import { MetricsService } from "./metrics.service";
 import { MetricsQueryService } from "./query/metrics-query.service";
 
@@ -37,23 +33,7 @@ export class MetricsController {
     @Query("from") from: number,
     @Query("to") to: number
   ): Promise<ApiResponse<MetricPreviewType>> {
-    return await this.metricsQueryService.getProjectMetricPreviewData(id, metricId, from, to);
-  }
-
-  @Get("/:id/datasource")
-  async getMetricValues(
-    @Param("id") projectId: string,
-    @Query() query: MetricQueryDto
-  ): Promise<ApiResponse<MetricResponseType[]>> {
-    return await this.metricsQueryService.getMetricData(projectId, query);
-  }
-
-  @Get("/:id/datasource/table")
-  async getMetricTableValues(
-    @Param("id") projectId: string,
-    @Query() query: MetricQueryDto
-  ): Promise<ApiResponse<MetricResponseType[]>> {
-    return await this.metricsQueryService.getMetricTableData(projectId, query);
+    return await this.metricsQueryService.getMetricGraphPayload(id, metricId, from, to);
   }
 
   @Post("/:id")

@@ -4,6 +4,7 @@ import { ILog, MetricPayload, PerformanceQuery, Performance, Notification, Span 
 import { MetricQueryDto } from "../../../common/types/dto/metrics.dto";
 import { QueryTracingDto } from "../../../common/types/dto/tracing";
 import { LogsQuery } from "../../../common/types/dto/logs.dto";
+import { AggregateTimeSeries } from "src/api/metrics/query/metrics-query.service";
 
 @Injectable()
 export class ClickhouseService {
@@ -22,24 +23,32 @@ export class ClickhouseService {
         return await this.client.query(params)
     }
 
-    // TODO: time series aggregation
-    public async loadMetric(
+    public async aggregateMetrics(
         projectId: string,
+        name: string,
         query: MetricQueryDto
-    ): Promise<MetricPayload[]> {
-        const metrics = await this.query({
-            query: `
-                SELECT name, value, timestamp FROM metrics
-                WHERE project_id = '${projectId}'
-                AND name IN (${query.fields.map((e) => `'${e}'`)})
-                AND timestamp >= ${query.from}
-                AND timestamp <= ${query.to}
-                ORDER BY timestamp ASC
-            `,
+    ): Promise<AggregateTimeSeries> {
+        const sqlQuery = `
+            SELECT
+                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL 1 MINUTE)) as minute,
+                value
+            FROM metrics
+            WHERE
+                receive_timestamp >= toUnixTimestamp(toDateTime(${query.from}))
+                AND receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
+                AND name = '${name}'
+                AND project_id = '${projectId}'
+            ORDER BY minute ASC
+            WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${query.from}))) TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
+            STEP 60
+        `;
+
+        const logs = await this.query({
+            query: sqlQuery,
             format: "JSONEachRow"
         });
 
-        return metrics.json<MetricPayload[]>()
+        return logs.json();
     }
 
     public async loadLogs(fields: string[] = ["*"], query: LogsQuery): Promise<ILog[]> {
@@ -96,11 +105,8 @@ export class ClickhouseService {
             ${query.search ? `AND LOWER(message) LIKE '%${query.search?.toLowerCase() ?? ''}%'` : ''}
             GROUP BY minute
             ORDER BY minute ASC
-            WITH FILL
-        FROM
-        toUnixTimestamp(toStartOfMinute(toDateTime(${query.from})))
-        TO
-        toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
+            WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${query.from})))
+                      TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
             STEP ${interval}
         `;
 
