@@ -32,6 +32,7 @@ const RelativeTimeWrapper = styled.div`
   border-right: 1px solid var(--color-bg-secondary);
   width: 10rem; /* 160px */
   grid-column: span 4 / span 4;
+  max-height: 350px;
 `;
 
 const RelativeTimeOption = styled.li`

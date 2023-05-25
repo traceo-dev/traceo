@@ -1,19 +1,27 @@
 import { Tooltip, conditionClass, joinClasses } from "@traceo/ui";
-import React from "react";
+import React, { ButtonHTMLAttributes } from "react";
 
-interface Props {
+interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size"> {
   icon: JSX.Element;
   isActive?: boolean;
-  onClick: () => void;
   tooltip?: string;
+  activeColor?: string;
 }
 
-export const ActionButton = ({ icon, isActive, onClick, tooltip }: Props) => {
+export const ActionButton = ({
+  icon = undefined,
+  isActive = false,
+  onClick = undefined,
+  tooltip = undefined,
+  activeColor = "bg-blue-500",
+  className = ""
+}: Props) => {
   const btn = React.cloneElement(icon, {
     onClick,
     className: joinClasses(
       "p-2 border border-solid border-secondary rounded-sm hover:ring-2 hover:ring-blue-500 cursor-pointer",
-      conditionClass(isActive, "bg-blue-500 text-white")
+      conditionClass(isActive, `${activeColor} text-white`, "bg-canvas"),
+      className
     )
   });
 
