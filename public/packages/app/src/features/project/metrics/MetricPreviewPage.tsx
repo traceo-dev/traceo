@@ -22,7 +22,7 @@ export const MetricPreviewPage = () => {
   const [options, setOptions] = useImmer<DeepPartial<IMetric>>(undefined);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
 
-  const { data, refetch, isLoading, isRefetching } = useReactQuery<MetricPreviewType>({
+  const { data, refetch, isLoading, isRefetching } = useReactQuery<any>({
     queryKey: [`metric_ds_${metricId}`],
     url: `/api/metrics/${id}/preview/${metricId}`,
     params: {

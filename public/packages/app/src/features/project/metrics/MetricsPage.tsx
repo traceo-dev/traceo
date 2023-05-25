@@ -59,7 +59,7 @@ const MetricsPage = () => {
           <Row gap="2" cols={12}>
             {metrics?.map((metric, index) => (
               <Col span={6} key={index}>
-                <MetricCard metric={metric} ranges={ranges} />
+                <MetricCard metric={metric} ranges={ranges} setRanges={setRanges} />
               </Col>
             ))}
           </Row>

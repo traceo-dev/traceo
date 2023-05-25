@@ -4,6 +4,7 @@ import {
   editMetricAxisForm,
   editMetricLegendForm,
   editMetricMarkerForm,
+  editMetricStackForm,
   editMetricTooltipForm
 } from "./editMetricGraphForm";
 import { editSerieForm } from "./editMetricSeriesForm";
@@ -21,16 +22,18 @@ interface Props {
 }
 
 export const MetricCustomizeForm: FC<Props> = (props: Props) => {
-  const [basicOptions, tooltipOptions, axisOptions, legendOptions, markerOptions] = useMemo(
-    () => [
-      editMetricBasicForm(props),
-      editMetricTooltipForm(props),
-      editMetricAxisForm(props),
-      editMetricLegendForm(props),
-      editMetricMarkerForm(props)
-    ],
-    [props.options]
-  );
+  const [basicOptions, tooltipOptions, axisOptions, legendOptions, markerOptions, stackOptions] =
+    useMemo(
+      () => [
+        editMetricBasicForm(props),
+        editMetricTooltipForm(props),
+        editMetricAxisForm(props),
+        editMetricLegendForm(props),
+        editMetricMarkerForm(props),
+        editMetricStackForm(props)
+      ],
+      [props.options]
+    );
 
   const onAddNewSerie = () => {
     props.setOptions((opt) => {
@@ -125,6 +128,18 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
         </CustomizeFormSection>
         <CustomizeFormSection title="Markers">
           {markerOptions.map((opt, index) => (
+            <FieldLabel
+              key={index}
+              label={opt.label}
+              labelPosition={opt?.labelPosition}
+              labelSize="xs"
+            >
+              {opt.component}
+            </FieldLabel>
+          ))}
+        </CustomizeFormSection>
+        <CustomizeFormSection title="Stack">
+          {stackOptions.map((opt, index) => (
             <FieldLabel
               key={index}
               label={opt.label}

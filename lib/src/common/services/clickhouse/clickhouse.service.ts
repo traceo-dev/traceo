@@ -31,13 +31,14 @@ export class ClickhouseService {
         const sqlQuery = `
             SELECT
                 toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL 1 MINUTE)) as minute,
-                value
+                round(AVG(value), 2) as value
             FROM metrics
             WHERE
                 receive_timestamp >= toUnixTimestamp(toDateTime(${query.from}))
                 AND receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
                 AND name = '${name}'
                 AND project_id = '${projectId}'
+            GROUP BY minute
             ORDER BY minute ASC
             WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${query.from}))) TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
             STEP 60

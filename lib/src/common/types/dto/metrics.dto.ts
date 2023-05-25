@@ -50,6 +50,16 @@ class UpdateLegendMetricDto {
   orient: string = "vertical";
 }
 
+class UpdateStackMetricDto {
+  @IsBoolean()
+  @IsOptional()
+  show: boolean = false;
+
+  @IsString()
+  @IsOptional()
+  strategy: string = null;
+}
+
 class UpdateAreaMetricDto {
   @IsBoolean()
   @IsNotEmpty()
@@ -97,6 +107,10 @@ class UpdateConfigMetricDto {
   @ValidateNested()
   @Type(() => UpdateTooltipMetricDto)
   tooltip: UpdateTooltipMetricDto;
+
+  @ValidateNested()
+  @Type(() => UpdateStackMetricDto)
+  stack: UpdateStackMetricDto;
 
   @ValidateNested()
   @Type(() => UpdateLegendMetricDto)

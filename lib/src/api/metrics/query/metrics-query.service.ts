@@ -70,6 +70,10 @@ export class MetricsQueryService {
         }
       });
 
+      if (!metric || metric.series.length === 0) {
+        return new ApiResponse("success", undefined, { options: {}, datasource: [] })
+      }
+
       const response = await this.mapAggregateDataSource(projectId, {
         from, to,
         fields: metric.series.map((e) => e.field)
@@ -89,17 +93,21 @@ export class MetricsQueryService {
    * TODO: aggregate results from time series in clickhouse query instead here. 
    */
   private async mapAggregateDataSource(projectId: string, query: MetricQueryDto) {
-    let response = {};
+    let response = [];
 
     for (const field of query.fields) {
       const aggregatedMetric = await this.clickhouseService.aggregateMetrics(projectId, field, {
         from: query.from, to: query.to, fields: []
       });
 
-      response["time"] = aggregatedMetric.map(({ minute }) => minute);
-      response[field] = aggregatedMetric.map(({ value }) => value);
+      console.log("field: ", field);
+
+      const result = aggregatedMetric.map(({ minute, value }) => ([minute, value]));
+
+      response.push(result);
     }
 
+    console.log("response: ", response);
     return response;
   }
 }

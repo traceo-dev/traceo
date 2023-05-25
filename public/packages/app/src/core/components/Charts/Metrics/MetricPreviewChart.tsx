@@ -5,7 +5,6 @@ import { ConditionalWrapper } from "../../ConditionLayout";
 import { DataNotFound } from "../../DataNotFound";
 import { BaseChart } from "../BaseChart";
 import { BaseXAxis } from "../BaseXAxis";
-import dayjs from "dayjs";
 import { BaseYAxis } from "../BaseYAxis";
 import { BaseTooltip } from "../BaseTooltip";
 import { EchartDataZoomProps } from "../types";
@@ -13,12 +12,11 @@ import { timeAxisFormatter } from "../utils";
 
 interface Props {
   options: DeepPartial<IMetric>;
-  datasource: MetricResponseType;
+  datasource: [number, number][];
   isLoading: boolean;
   ranges?: [number, number];
   setRanges?: (val: [number, number]) => void;
   activeZoomSelect?: boolean;
-  isNewMetric?: boolean;
 }
 const MetricPreviewChart: FC<Props> = ({
   ranges = [undefined, undefined],
@@ -26,7 +24,6 @@ const MetricPreviewChart: FC<Props> = ({
   isLoading = false,
   datasource = undefined,
   activeZoomSelect = false,
-  isNewMetric = false,
   setRanges
 }) => {
   const showTooltip = options?.config.tooltip.show;
@@ -70,18 +67,8 @@ const MetricPreviewChart: FC<Props> = ({
   }, [options, datasource]);
 
   const onDataZoom = (params: EchartDataZoomProps) => {
-    if (isNewMetric) {
-      return;
-    }
-
     const { startValue, endValue } = params.batch[0];
-    if (startValue && endValue) {
-      const selected = datasource?.time.slice(startValue, endValue);
-      const from = dayjs.unix(selected[0]).unix();
-      const to = dayjs.unix(selected[selected.length - 1]).unix();
-
-      setRanges([from, to]);
-    }
+    setRanges([startValue, endValue]);
   };
 
   const labelFormatter = (value: any, _index: number) =>
@@ -102,19 +89,20 @@ const MetricPreviewChart: FC<Props> = ({
         legend={echartOptions.legend}
         grid={echartOptions.grid}
         xAxis={BaseXAxis({
+          type: "time",
           splitLine: {
             show: showGridLines
           },
+          splitNumber: 12,
           offset: 12,
           axisLabel: {
-            show: showXAxis,
-            showMaxLabel: true
+            show: showXAxis
           },
           labelFormatter,
-          pointerFormatter,
-          data: datasource?.time || []
+          pointerFormatter
         })}
         yAxis={BaseYAxis({
+          type: "value",
           splitLine: {
             show: showGridLines
           },

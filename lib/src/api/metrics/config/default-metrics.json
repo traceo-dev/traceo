@@ -26,6 +26,10 @@
         }
       ],
       "config": {
+        "stack": {
+          "show": false,
+          "strategy": "samesign"
+        },
         "line": {
           "marker": {
             "show": false,
@@ -73,6 +77,10 @@
         }
       ],
       "config": {
+        "stack": {
+          "show": false,
+          "strategy": "samesign"
+        },
         "line": {
           "marker": {
             "show": false,
@@ -120,6 +128,10 @@
         }
       ],
       "config": {
+        "stack": {
+          "show": false,
+          "strategy": "samesign"
+        },
         "line": {
           "marker": {
             "show": false,
@@ -183,6 +195,10 @@
         }
       ],
       "config": {
+        "stack": {
+          "show": false,
+          "strategy": "samesign"
+        },
         "line": {
           "marker": {
             "show": false,
@@ -262,6 +278,10 @@
         }
       ],
       "config": {
+        "stack": {
+          "show": false,
+          "strategy": "samesign"
+        },
         "line": {
           "marker": {
             "show": false,
@@ -309,6 +329,10 @@
         }
       ],
       "config": {
+        "stack": {
+          "show": false,
+          "strategy": "samesign"
+        },
         "line": {
           "marker": {
             "show": false,
