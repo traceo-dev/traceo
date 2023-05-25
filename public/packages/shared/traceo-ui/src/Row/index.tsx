@@ -1,13 +1,13 @@
 import { conditionClass, joinClasses } from "../utils/classes";
-import React, { FC } from "react";
+import React, { FC, HTMLProps } from "react";
 
-interface RowProps {
+interface RowProps extends HTMLProps<HTMLDivElement> {
   cols?: number;
   gap?: string; //https://tailwindcss.com/docs/gap
   children?: React.ReactNode;
   className?: string;
 }
-export const Row: FC<RowProps> = ({ cols, gap, children, className }) => {
+export const Row: FC<RowProps> = ({ cols, gap, children, className, ...props }) => {
   return (
     <div
       className={joinClasses(
@@ -15,6 +15,7 @@ export const Row: FC<RowProps> = ({ cols, gap, children, className }) => {
         conditionClass(!!gap, `gap-${gap}`),
         className
       )}
+      {...props}
     >
       {children}
     </div>

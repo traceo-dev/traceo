@@ -13,6 +13,10 @@ const initialMetric: DeepPartial<IMetric> = {
   name: "New metric",
   description: "New metric description",
   config: {
+    stack: {
+      show: false,
+      strategy: "samesign"
+    },
     legend: {
       show: true,
       orient: "horizontal"

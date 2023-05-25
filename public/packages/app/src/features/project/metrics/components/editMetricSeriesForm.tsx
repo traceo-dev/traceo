@@ -109,7 +109,7 @@ export const editSerieForm = (props: SerieFormProps) => {
       component: (
         <Input
           type="number"
-          min={1}
+          min={0}
           max={10}
           value={serie.config.lineWidth}
           onChange={(e) => {

@@ -73,6 +73,10 @@ export enum MARKER_SHAPE {
  * then it overrides fields from series
  */
 export type IMetricConfiguration = {
+  stack?: {
+    show: boolean;
+    strategy: string
+  }
   line?: {
     marker?: {
       show?: boolean;
@@ -125,7 +129,7 @@ export type MetricResponseType = {
 
 export type MetricPreviewType = {
   options: IMetric;
-  datasource: MetricResponseType;
+  datasource: [number, number][];
 };
 
 export type TOOLTIP_PLACEMENT = "bottom" | "inside" | "left" | "right" | "top";
@@ -150,3 +154,10 @@ export const mapTimeLimitLabel: Record<number, string> = {
 export const timeLimitOptions = [1, 2, 3, 6, 12, 24, 48, 72];
 
 export type INCIDENT_PLOT_TYPE = "bar" | "line";
+
+export enum STACK_STRATEGY {
+  SAMESIGN = "samesign",
+  ALL = "all",
+  POSITIVE = "positive",
+  NEGATIVE = "negative"
+}

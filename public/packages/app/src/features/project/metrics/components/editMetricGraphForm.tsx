@@ -2,12 +2,51 @@ import { IMetric } from "@traceo/types";
 import { RadioButtonGroup, Select, Switch } from "@traceo/ui";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
-import { MetricEditOption, markerShapeOptions } from "./utils";
+import { MetricEditOption, markerShapeOptions, stackStrategyOptions } from "./utils";
 
 interface Props {
   options: DeepPartial<IMetric>;
   setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
 }
+
+export const editMetricStackForm = (props: Props) => {
+  const { options, setOptions } = props;
+  const forms: MetricEditOption[] = [];
+
+  forms.push({
+    label: "Show stack",
+    labelPosition: "horizontal",
+    component: (
+      <Switch
+        value={options.config.stack?.show}
+        onChange={(e) => {
+          setOptions((opt) => {
+            opt.config.stack.show = e.target["checked"];
+          });
+        }}
+      />
+    )
+  });
+
+  forms.push({
+    label: "Strategy",
+    labelPosition: "vertical",
+    component: (
+      <Select
+        isDisabled={!options.config.stack.show}
+        options={stackStrategyOptions}
+        defaultValue={options.config.stack?.strategy || "samesign"}
+        onChange={(a) => {
+          setOptions((opt) => {
+            opt.config.stack.strategy = a?.value;
+          });
+        }}
+      />
+    )
+  });
+
+  return forms;
+};
 
 export const editMetricMarkerForm = (props: Props) => {
   const { options, setOptions } = props;
@@ -37,7 +76,7 @@ export const editMetricMarkerForm = (props: Props) => {
         defaultValue={options.config.line.marker.shape || "rect"}
         onChange={(a) => {
           setOptions((opt) => {
-            opt.config.line.marker.shape = a?.value
+            opt.config.line.marker.shape = a?.value;
           });
         }}
       />

@@ -1,6 +1,6 @@
 import { BarChartOutlined, LineChartOutlined } from "@ant-design/icons";
-import { MARKER_SHAPE, METRIC_UNIT, PLOT_TYPE } from "@traceo/types";
-import { LabelPosition } from "@traceo/ui";
+import { MARKER_SHAPE, METRIC_UNIT, PLOT_TYPE, STACK_STRATEGY } from "@traceo/types";
+import { LabelPosition, toTitleCase } from "@traceo/ui";
 
 export const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
   value: unit,
@@ -45,3 +45,8 @@ export interface MetricEditOption {
   component: JSX.Element;
   tooltip?: string;
 }
+
+export const stackStrategyOptions = Object.values(STACK_STRATEGY).map((strategy) => ({
+  value: strategy,
+  label: strategy
+}));
