@@ -64,28 +64,26 @@ export const ExplorePageWrapper: FC = () => {
 
   return (
     <Page>
-      <Col>
-        <div className="w-full flex flex-row py-3 justify-between">
-          <Select options={exploreOptions} value={type} onChange={(opt) => setType(opt?.value)} />
-          <div className="flex flex-row gap-x-3 text-sm">
-            <ExploreRangePicker
-              range={ranges}
-              maxRange={type === EXPLORE_TYPE.TRACING ? 168 : 168}
-              setRange={(e) => setRanges(e)}
-              type={type}
-            />
-            <Button
-              icon={<SearchOutlined />}
-              className="bg-red-500"
-              variant={loading ? "danger" : "primary"}
-              loading={loading}
-              onClick={() => onClickSearch()}
-            >
-              Search
-            </Button>
-          </div>
+      <div className="w-full flex flex-row py-3 justify-between">
+        <Select options={exploreOptions} value={type} onChange={(opt) => setType(opt?.value)} />
+        <div className="flex flex-row gap-x-3 text-sm">
+          <ExploreRangePicker
+            range={ranges}
+            maxRange={type === EXPLORE_TYPE.TRACING ? 168 : 168}
+            setRange={(e) => setRanges(e)}
+            type={type}
+          />
+          <Button
+            icon={<SearchOutlined />}
+            className="bg-red-500"
+            variant={loading ? "danger" : "primary"}
+            loading={loading}
+            onClick={() => onClickSearch()}
+          >
+            Search
+          </Button>
         </div>
-      </Col>
+      </div>
 
       {type === EXPLORE_TYPE.LOGS && <LogsPage {...props} ref={ref} />}
       {type === EXPLORE_TYPE.TRACING && <TracesPage {...props} ref={ref} />}

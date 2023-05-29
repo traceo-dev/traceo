@@ -9,6 +9,7 @@ export const mapButtonVariantStyle: Record<ButtonVariant, string> = {
 
 export const mapButtonSize: Record<ButtonSize, string> = {
   xs: "px-3 text-xs",
+  sm: "px-3 py-[5px] text-xs",
   md: "h-8 px-4 py-2 text-[13px]",
   lg: "px-4 py-1 text-lg"
 };

@@ -72,7 +72,7 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-col col-span-4 ml-1 bg-primary relative">
+    <div className="flex flex-col bg-primary relative">
       <span className="w-full py-3 px-2 font-semibold text-sm text-primary border-bottom">
         Customize graph
       </span>

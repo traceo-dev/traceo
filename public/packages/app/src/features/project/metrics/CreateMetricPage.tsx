@@ -1,13 +1,17 @@
 import { Page } from "../../../core/components/Page";
-import { MetricPreviewHeader } from "./components/MetricPreviewHeader";
-import { IMetric, METRIC_UNIT } from "@traceo/types";
+import { ApiResponse, IMetric, METRIC_UNIT } from "@traceo/types";
 import { DeepPartial } from "redux";
 import { useImmer } from "use-immer";
-import { Card } from "@traceo/ui";
+import { Button, Card } from "@traceo/ui";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
 import { randomHexColor } from "../../../core/utils/colors";
 import { DataNotFound } from "src/core/components/DataNotFound";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "src/core/lib/api";
+import { notify } from "src/core/utils/notify";
+import dayjs from "dayjs";
 
 const initialMetric: DeepPartial<IMetric> = {
   name: "New metric",
@@ -61,20 +65,74 @@ const initialMetric: DeepPartial<IMetric> = {
 };
 
 const CreateMetricPage = () => {
+  const { id } = useParams();
+
+  const navigate = useNavigate();
+
   const [options, setOptions] = useImmer<DeepPartial<IMetric>>(initialMetric);
+  const [saveLoading, setSaveLoading] = useState<boolean>(false);
+
+  const onCreate = async () => {
+    if (!options.name) {
+      notify.error("Metric name is required.");
+      return;
+    }
+
+    const series = options.series;
+    if (series.length === 0) {
+      notify.error("You have to add at least one serie to this metric.");
+      return;
+    }
+
+    const missingName = series.find((serie) => !serie?.name);
+    if (missingName) {
+      notify.error("Your metric serie does not have a required name value.");
+      return;
+    }
+
+    const missingField = series.find((serie) => !serie?.field);
+    if (missingField) {
+      notify.error("Your metric serie does not have a required field value.");
+      return;
+    }
+
+    setSaveLoading(true);
+
+    await api
+      .post<ApiResponse<unknown>>(`/api/metrics/${id}`, options)
+      .then((resp) => {
+        if (resp.status === "success") {
+          const from = dayjs().subtract(3, "h").unix();
+          const to = dayjs().unix();
+          navigate({
+            pathname: `/project/${id}/metrics/preview/${resp.data["metricId"]}`,
+            search: `?from=${from}&to=${to}`
+          });
+        }
+      })
+      .finally(() => {
+        setSaveLoading(false);
+      });
+  };
+
+  const onCancel = () => {
+    navigate(`/project/${id}/metrics`);
+  };
 
   return (
     <Page>
-      <MetricPreviewHeader
-        currentOptions={options}
-        isCustomizeMode={true}
-        setOptions={setOptions}
-        isCreateMode={true}
-      />
       <Page.Content>
+        <div className="flex flex-row items-center justify-end mb-3 gap-x-3">
+          <Button loading={saveLoading} variant="primary" size="sm" onClick={() => onCreate()}>
+            Save
+          </Button>
+          <Button variant="ghost" size="sm" onClick={() => onCancel()}>
+            Cancel
+          </Button>
+        </div>
         <div className="w-full grid grid-cols-12">
-          <div className="col-span-8">
-            <Card title="Graph">
+          <div className="col-span-8 mr-5">
+            <Card title={options.name}>
               <ConditionalWrapper
                 isEmpty
                 emptyView={
@@ -86,7 +144,9 @@ const CreateMetricPage = () => {
               />
             </Card>
           </div>
-          <MetricCustomizeForm setOptions={setOptions} options={options} />
+          <div className="col-span-4">
+            <MetricCustomizeForm setOptions={setOptions} options={options} />
+          </div>
         </div>
       </Page.Content>
     </Page>

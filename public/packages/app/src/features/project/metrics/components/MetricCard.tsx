@@ -30,6 +30,10 @@ export const MetricCard: FC<MetricCardProps> = ({
       fields: seriesFields,
       from: ranges[0],
       to: ranges[1]
+    },
+    options: {
+      keepPreviousData: true,
+      refetchOnMount: false
     }
   });
 
@@ -56,12 +60,11 @@ export const MetricCard: FC<MetricCardProps> = ({
       onMouseLeave={() => setHover(false)}
     >
       <Space className="w-full" direction="vertical">
-        <Row
-          className="w-full mb-2 py-2 px-3 justify-between rounded"
-          onClick={onClick}
-        >
+        <Row className="w-full mb-2 py-2 px-3 justify-between rounded" onClick={onClick}>
           <Row>
-            <span className="text-[14px] pr-2 text-primary font-[500] hover:text-white">{metric?.name}</span>
+            <span className="text-[14px] pr-2 text-primary font-[500] hover:text-white">
+              {metric?.name}
+            </span>
 
             {metric.description && (
               <Tooltip title={metric?.description}>

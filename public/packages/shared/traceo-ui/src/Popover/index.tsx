@@ -59,7 +59,7 @@ export const Popover: FC<PopoverProps> = ({
   return (
     <div ref={ref} {...triggerOptions[trigger]}>
       <PopoverCore
-        className="bg-primary rounded-sm z-50 border border-solid border-secondary"
+        className="bg-primary rounded-sm z-50 border border-solid border-secondary text-sm"
         visible={visible}
         content={content}
         placement={placement}

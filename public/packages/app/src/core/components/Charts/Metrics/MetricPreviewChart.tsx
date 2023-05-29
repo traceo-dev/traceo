@@ -80,7 +80,7 @@ const MetricPreviewChart: FC<Props> = ({
   return (
     <ConditionalWrapper isLoading={isLoading} emptyView={<DataNotFound />}>
       <BaseChart
-        height={"450px"}
+        height={"525px"}
         renderer="canvas"
         onDataZoom={onDataZoom}
         activeZoomSelect={activeZoomSelect}
