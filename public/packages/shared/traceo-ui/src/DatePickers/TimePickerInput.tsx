@@ -1,7 +1,7 @@
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Popover } from "../Popover";
-import { Input } from "../Input";
 import { parseDateTime, parseInputValue } from "./utils";
+import { conditionClass, joinClasses } from "../utils";
 
 interface Props {
   value?: number;
@@ -18,12 +18,11 @@ export const TimePickerInput = ({
   open = false,
   value = null,
   values = null,
-  disabled = false,
-  range = false
+  disabled = false
 }: Props) => {
   const parseInput = () => {
     if (value) return parseDateTime(value);
-    if (values) return parseInputValue(values, range);
+    if (values) return parseInputValue(values);
   };
   return (
     <Popover
@@ -34,14 +33,16 @@ export const TimePickerInput = ({
       content={popoverContent}
       showArrow={false}
     >
-      <Input
-        style={{ minWidth: range ? "320px" : "250px", cursor: "pointer" }}
-        prefix={<ClockCircleOutlined />}
-        readOnly
-        disabled={disabled}
-        value={parseInput()}
+      <div
         onClick={onClick}
-      />
+        className={joinClasses(
+          "gap-x-2 rounded-sm flex flex-row cursor-pointer items-center text-[13px] py-1 pl-2 pr-5 bg-primary border border-solid border-secondary hover:ring-2 hover:ring-blue",
+          conditionClass(disabled, "opacity-60 pointer-events-none")
+        )}
+      >
+        <ClockCircleOutlined />
+        <span className="whitespace-nowrap">{parseInput()}</span>
+      </div>
     </Popover>
   );
 };

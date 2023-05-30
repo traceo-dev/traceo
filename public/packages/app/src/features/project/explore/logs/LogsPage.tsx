@@ -1,4 +1,4 @@
-import { ILog } from "@traceo/types";
+import { ILog, LogsQueryProps, TimeRange } from "@traceo/types";
 import { forwardRef, lazy, useImperativeHandle, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
@@ -6,38 +6,23 @@ import { LogsList } from "./LogsList";
 import { ExploreViewProps } from "../ExplorePage";
 import { OptionsCollapseGroup } from "../components/OptionsCollapseGroup";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { LogsQueryProps, logsApi } from "./api";
+import { logsApi } from "./api";
 import {
   ClockCircleOutlined,
   DeleteOutlined,
   DownOutlined,
   MenuUnfoldOutlined,
-  SortAscendingOutlined,
-  SortDescendingOutlined,
   UpOutlined
 } from "@ant-design/icons";
 import { Col, Input, InputSearch } from "@traceo/ui";
 import { Field } from "../components/Field";
 import { InlineFields } from "../components/InlineFields";
-import styled from "styled-components";
 import { ActionButton } from "../components/ActionButton";
+import { ButtonOptionsWrapper } from "../components";
 
 const LazyLogsExplorePlot = lazy(
   () => import("../../../../core/components/Charts/Logs/LogsExploreChart")
 );
-
-const TableOptionsWrapper = styled.div`
-  padding: 12px;
-  margin-bottom: 25px;
-  border: 1px solid var(--color-bg-secondary);
-  border-radius: 2px;
-  width: 100%;
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  gap: 18px;
-  justify-content: end;
-`;
 
 export const LogsPage = forwardRef(
   (
@@ -104,7 +89,7 @@ export const LogsPage = forwardRef(
         .finally(() => setLoading(false));
     };
 
-    const onZoom = async (ranges: [number, number]) => {
+    const onZoom = async (ranges: TimeRange) => {
       setRanges(ranges);
 
       await loadData({
@@ -199,7 +184,7 @@ export const LogsPage = forwardRef(
             </span>
           }
         >
-          <TableOptionsWrapper>
+          <ButtonOptionsWrapper>
             <ActionButton
               icon={<DownOutlined />}
               tooltip="Scroll to bottom"
@@ -224,7 +209,7 @@ export const LogsPage = forwardRef(
               isActive={showLogTime}
               onClick={() => setShowLogTime(!showLogTime)}
             />
-          </TableOptionsWrapper>
+          </ButtonOptionsWrapper>
 
           <ConditionalWrapper isLoading={loading}>
             <LogsList ref={tableRef} verboseLog={verboseLog} showTime={showLogTime} logs={logs} />

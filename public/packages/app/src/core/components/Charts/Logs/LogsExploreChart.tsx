@@ -1,5 +1,5 @@
 import { commonSeriesOptions } from "../../../../features/project/explore/components/utils";
-import { LogLevel } from "@traceo/types";
+import { LogLevel, Setter, TimeRange } from "@traceo/types";
 import { FC } from "react";
 import { SeriesOption } from "echarts";
 import { BaseChart } from "../BaseChart";
@@ -7,12 +7,11 @@ import { BaseDataZoom } from "../BaseDataZoom";
 import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
-import dayjs from "dayjs";
 import { EchartDataZoomProps } from "../types";
 import { timeAxisFormatter } from "../utils";
 
-const FIVE_MINTUES = 5;
-const TWENTY_FOUR_HOURS = 1440;
+// const FIVE_MINTUES = 5;
+// const TWENTY_FOUR_HOURS = 1440;
 const GRAPH_DIMENSIONS = ["timestamp", "log"];
 
 const BAR_COLOR = "#3B82F5";
@@ -24,10 +23,10 @@ export type LogsType = {
 };
 
 interface Props {
-  graph: [number, number][];
-  ranges: [number, number];
+  graph: TimeRange[];
+  ranges: TimeRange;
   zoom?: boolean;
-  onZoom?: (ranges: [number, number]) => void;
+  onZoom?: Setter<TimeRange>;
 }
 
 const LogsExploreChart: FC<Props> = ({
@@ -36,19 +35,6 @@ const LogsExploreChart: FC<Props> = ({
   zoom,
   onZoom = undefined
 }) => {
-  // const [activeZoom, setActiveZoom] = useState<boolean>(zoom);
-
-  // Blocking zoom feature on chart when there is too small count of series on time axis
-  // useEffect(() => {
-  //   if (ranges) {
-  //     const s = dayjs.unix(ranges[0]);
-  //     const e = dayjs.unix(ranges[1]);
-  //     const diffInMinutes = e.diff(s, "minutes");
-
-  //     diffInMinutes <= FIVE_MINTUES ? setActiveZoom(false) : setActiveZoom(true);
-  //   }
-  // }, [ranges]);
-
   const onDataZoom = (params: EchartDataZoomProps) => {
     const { startValue, endValue } = params.batch[0];
 

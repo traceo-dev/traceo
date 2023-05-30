@@ -21,17 +21,11 @@ export const parseDateTime = (value: number, format: string = "DD-MM-YYYY HH:mm"
     return dayjs.unix(value).format(format);
 }
 
-export const parseInputValue = (value: [number, number], range: boolean): string => {
+export const parseInputValue = (value: [number, number]): string => {
     const from = dayjs.unix(value[0]);
     const to = dayjs.unix(value[1]);
 
-    if (!range) {
-        // 23 Jan, 12:50 - 16:20
-        return `${from.format("DD MMM, HH:mm")} - ${to.format("HH:mm")}`;
-    }
-
-    // 23 Jan, 12:50 - 27 Jan, 16:20
-    return `${from.format("DD MMM, HH:mm")} - ${to.format("DD MMM, HH:mm")}`;
+    return `${from.format("YYYY-MM-DD HH:mm")} to ${to.format("YYYY-MM-DD HH:mm")}`;
 };
 
 export const parseUnixToDate = (value: number | [number, number], range: boolean) => {

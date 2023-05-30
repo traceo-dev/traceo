@@ -1,16 +1,15 @@
 import { LoadingOutlined, QuestionCircleOutlined, ReloadOutlined } from "@ant-design/icons";
-import { IMetric, MetricPreviewType, Setter } from "@traceo/types";
+import { IMetric, MetricPreviewType, Setter, TimeRange } from "@traceo/types";
 import { Row, Space, Tooltip } from "@traceo/ui";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MetricChart from "../../../../core/components/Charts/Metrics/MetricChart";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
-import { ActionButton } from "../../explore/components/ActionButton";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 
 interface MetricCardProps {
   metric: IMetric;
-  ranges: [number, number];
-  setRanges: Setter<[number, number]>;
+  ranges: TimeRange;
+  setRanges: Setter<TimeRange>;
 }
 export const MetricCard: FC<MetricCardProps> = ({
   metric,
@@ -30,6 +29,10 @@ export const MetricCard: FC<MetricCardProps> = ({
       fields: seriesFields,
       from: ranges[0],
       to: ranges[1]
+    },
+    options: {
+      keepPreviousData: true,
+      refetchOnMount: false
     }
   });
 
@@ -56,12 +59,11 @@ export const MetricCard: FC<MetricCardProps> = ({
       onMouseLeave={() => setHover(false)}
     >
       <Space className="w-full" direction="vertical">
-        <Row
-          className="w-full mb-2 py-2 px-3 justify-between rounded"
-          onClick={onClick}
-        >
+        <Row className="w-full mb-2 py-2 px-3 justify-between rounded" onClick={onClick}>
           <Row>
-            <span className="text-[14px] pr-2 text-primary font-[500] hover:text-white">{metric?.name}</span>
+            <span className="text-[14px] pr-2 text-primary font-[500] hover:text-white">
+              {metric?.name}
+            </span>
 
             {metric.description && (
               <Tooltip title={metric?.description}>

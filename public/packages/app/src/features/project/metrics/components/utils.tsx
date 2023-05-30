@@ -1,4 +1,4 @@
-import { BarChartOutlined, LineChartOutlined } from "@ant-design/icons";
+import { BarChartOutlined, DotChartOutlined, LineChartOutlined } from "@ant-design/icons";
 import { MARKER_SHAPE, METRIC_UNIT, PLOT_TYPE, STACK_STRATEGY } from "@traceo/types";
 import { LabelPosition, toTitleCase } from "@traceo/ui";
 
@@ -9,12 +9,14 @@ export const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
 
 export const mapPlotName: Record<PLOT_TYPE, string> = {
   bar: "Bar",
-  line: "Line"
+  line: "Line",
+  scatter: "Scatter"
 };
 
 export const mapPlotIcon: Record<PLOT_TYPE, JSX.Element> = {
   bar: <BarChartOutlined />,
-  line: <LineChartOutlined />
+  line: <LineChartOutlined />,
+  scatter: <DotChartOutlined />
 };
 
 export const plotOptions = Object.values(PLOT_TYPE).map((type) => ({

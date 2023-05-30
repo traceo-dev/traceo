@@ -101,8 +101,8 @@ export type IMetricConfiguration = {
 export type TOOLTIP_POSITION = "bottom" | "inside" | "left" | "right" | "top";
 export enum PLOT_TYPE {
   BAR = "bar",
-  LINE = "line"
-  // POINTS = "points"
+  LINE = "line",
+  SCATTER = "scatter"
 }
 export enum METRIC_UNIT {
   PERCENTAGE = "%",

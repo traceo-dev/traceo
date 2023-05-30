@@ -117,6 +117,7 @@ export const Select = forwardRef<any, SelectProps>((props, ref) => {
       ref={ref}
       options={options}
       value={selectedValue}
+      isOptionDisabled={(option) => option["disabled"]}
       defaultValue={selectedDefaultValue}
       components={{
         Control,
