@@ -1,12 +1,5 @@
-import { ApiResponse, ILog } from "@traceo/types";
+import { ApiResponse, ILog, LogsQueryProps } from "@traceo/types";
 import api from "../../../../core/lib/api";
-
-export type LogsQueryProps = {
-    projectId: string;
-    from: number;
-    to: number;
-    take?: number;
-}
 
 export const loadLogs = async (props: LogsQueryProps) => {
     return await api.get<ApiResponse<{ logs: ILog[] }>>("/api/logs", props);

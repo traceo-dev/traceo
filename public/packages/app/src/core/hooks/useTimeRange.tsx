@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { timeService } from "../lib/time";
 import historyService from "../lib/history";
-
-type RangeType = [number, number];
+import { TimeRange } from "@traceo/types";
 
 export const useTimeRange = (initial?: { from: number; to: number }, initOnStart = true) => {
   const searchParams = new URLSearchParams(window.location.search);
-  const [ranges, setRanges] = useState<RangeType>([
+  const [ranges, setRanges] = useState<TimeRange>([
     parseInt(searchParams.get("from")) || initial?.from,
     parseInt(searchParams.get("to")) || initial?.to
   ]);

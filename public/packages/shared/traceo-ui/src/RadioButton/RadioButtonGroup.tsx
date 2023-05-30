@@ -2,7 +2,7 @@ import { joinClasses } from "../utils/classes";
 import { RadioButton, RadioButtonSize } from "./RadioButton";
 import { FC } from "react";
 
-type RatioButtonGroupOption = {
+export type RatioButtonGroupOption = {
   label: string | JSX.Element;
   value: string | number | boolean;
 };

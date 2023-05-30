@@ -4,7 +4,7 @@ import {
   PauseOutlined,
   CaretRightFilled
 } from "@ant-design/icons";
-import { Setter } from "@traceo/types";
+import { Setter, TimeRange } from "@traceo/types";
 import { Row } from "@traceo/ui";
 import { ActionButton } from "../../explore/components/ActionButton";
 import { MetricTimeRangePicker } from "./MetricTimeRangePicker";
@@ -12,13 +12,13 @@ import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 interface Props {
-  ranges: [number, number];
-  setRanges: Setter<[number, number]>;
+  ranges: TimeRange;
+  setRanges: Setter<TimeRange>;
 }
 
 const LIVE_INTERVAL = 15000; //15s
 
-const getCurrentRange = (): [number, number] => {
+const getCurrentRange = (): TimeRange => {
   const from = dayjs().subtract(2, "h").unix();
   const to = dayjs().unix();
 

@@ -14,7 +14,7 @@ import { ApiPropertyOptional } from "@nestjs/swagger";
 
 export class MetricQueryDto {
   @IsArray()
-  @IsNotEmpty()
+  @IsOptional()
   fields: string[];
 
   @IsNotEmpty()
@@ -22,6 +22,17 @@ export class MetricQueryDto {
 
   @IsNotEmpty()
   to: number;
+}
+
+export class ExploreMetricsQueryDto extends MetricQueryDto {
+  @IsOptional()
+  valueMax?: number;
+
+  @IsOptional()
+  valueMin?: number;
+
+  @IsOptional()
+  interval: number = 1;
 }
 
 export class MetricsQueryDto {

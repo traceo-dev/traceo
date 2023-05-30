@@ -1,5 +1,12 @@
 import { buildSeries } from "./utils";
-import { IMetric, DeepPartial, METRIC_UNIT, MetricResponseType } from "@traceo/types";
+import {
+  IMetric,
+  DeepPartial,
+  METRIC_UNIT,
+  MetricResponseType,
+  TimeRange,
+  Setter
+} from "@traceo/types";
 import { FC, useMemo } from "react";
 import { ConditionalWrapper } from "../../ConditionLayout";
 import { DataNotFound } from "../../DataNotFound";
@@ -14,8 +21,8 @@ interface Props {
   options: DeepPartial<IMetric>;
   datasource: [number, number][];
   isLoading: boolean;
-  ranges?: [number, number];
-  setRanges?: (val: [number, number]) => void;
+  ranges?: TimeRange;
+  setRanges?: Setter<TimeRange>;
   activeZoomSelect?: boolean;
 }
 const MetricPreviewChart: FC<Props> = ({

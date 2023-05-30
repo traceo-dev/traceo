@@ -1,2 +1,2 @@
 export { RadioButton } from "./RadioButton";
-export { RadioButtonGroup } from "./RadioButtonGroup";
+export { RadioButtonGroup, RatioButtonGroupOption } from "./RadioButtonGroup";

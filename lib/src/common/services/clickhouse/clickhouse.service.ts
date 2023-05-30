@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ClickHouseClient, ClickHouseClientConfigOptions, createClient, QueryParams } from "@clickhouse/client";
 import { ILog, MetricPayload, PerformanceQuery, Performance, Notification, Span } from "@traceo/types";
-import { MetricQueryDto } from "../../../common/types/dto/metrics.dto";
+import { ExploreMetricsQueryDto, MetricQueryDto } from "../../../common/types/dto/metrics.dto";
 import { QueryTracingDto } from "../../../common/types/dto/tracing";
 import { LogsQuery } from "../../../common/types/dto/logs.dto";
 import { AggregateTimeSeries } from "src/api/metrics/query/metrics-query.service";
@@ -26,11 +26,16 @@ export class ClickhouseService {
     public async aggregateMetrics(
         projectId: string,
         name: string,
-        query: MetricQueryDto
+        query: ExploreMetricsQueryDto
     ): Promise<AggregateTimeSeries> {
+        /**
+         * TIPS: 
+         * - Use HAVING instead of WHERE in aggregated queries
+         * - When HAVING is used then GROUP BY should be before this clause.
+         */
         const sqlQuery = `
             SELECT
-                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL 1 MINUTE)) as minute,
+                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${query.interval} MINUTE)) as minute,
                 round(AVG(value), 2) as value
             FROM metrics
             WHERE
@@ -39,9 +44,10 @@ export class ClickhouseService {
                 AND name = '${name}'
                 AND project_id = '${projectId}'
             GROUP BY minute
+            HAVING ${query.valueMax ? `value <= ${query.valueMax}` : '1=1'} AND ${query.valueMin ? `value >= ${query.valueMin}` : '1=1'}
             ORDER BY minute ASC
             WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${query.from}))) TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
-            STEP 60
+            STEP ${query.interval * 60}
         `;
 
         const logs = await this.query({
@@ -50,6 +56,22 @@ export class ClickhouseService {
         });
 
         return logs.json();
+    }
+
+    public async loadMetricsFields(projectId: string): Promise<{ name: string }[]> {
+        const sqlQuery = `
+            SELECT DISTINCT name
+            FROM metrics
+            WHERE project_id = '${projectId}'
+            ORDER BY name ASC
+        `;
+
+        const fields = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        return fields.json();
     }
 
     public async loadLogs(fields: string[] = ["*"], query: LogsQuery): Promise<ILog[]> {

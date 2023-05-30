@@ -21,6 +21,7 @@ export * from "./event";
 export * from "./performance";
 export * from "./opentelemetry";
 export * from "./tracing";
+export * from "./explore";
 
 export type SafeReturnType = string | number;
 
@@ -37,3 +38,5 @@ export type Dictionary<T> = {
 export type Setter<S> = (arg: S) => void;
 
 export type TriggerType = () => void;
+
+export type TimeRange = [number, number];

@@ -7,6 +7,7 @@ export interface SelectOptionProps {
   value: string | number | boolean | object | any;
   description?: string;
   icon?: JSX.Element;
+  disabled?: boolean;
   // [key: string]: any;
 }
 

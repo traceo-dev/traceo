@@ -1,14 +1,19 @@
 import { Button, Col, Select, SelectOptionProps } from "@traceo/ui";
 import { Page } from "../../../core/components/Page";
 import { FC, useRef, useState } from "react";
-import { AlignLeftOutlined, NodeExpandOutlined, SearchOutlined } from "@ant-design/icons";
+import {
+  AlignLeftOutlined,
+  BarChartOutlined,
+  NodeExpandOutlined,
+  SearchOutlined
+} from "@ant-design/icons";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
 import { LogsPage } from "./logs/LogsPage";
 import { TracesPage } from "./tracing/TracesPage";
-import { Setter } from "@traceo/types";
-import { EXPLORE_TYPE } from "./types";
+import { EXPLORE_TYPE, Setter, TimeRange } from "@traceo/types";
 import { ExploreRangePicker } from "./components/ExploreRangePicker";
+import { MetricsPage } from "./metrics/MetricsPage";
 
 const exploreOptions: SelectOptionProps[] = [
   {
@@ -20,12 +25,17 @@ const exploreOptions: SelectOptionProps[] = [
     label: "Traces",
     value: EXPLORE_TYPE.TRACING,
     icon: <NodeExpandOutlined className="text-yellow-500" />
+  },
+  {
+    label: "Metrics",
+    value: EXPLORE_TYPE.METRICS,
+    icon: <BarChartOutlined className="text-yellow-500" />
   }
 ];
 
 export interface ExploreViewProps {
-  ranges: [number, number];
-  setRanges: Setter<[number, number]>;
+  ranges: TimeRange;
+  setRanges: Setter<TimeRange>;
   loading: boolean;
   setLoading: Setter<boolean>;
   error: boolean;
@@ -87,6 +97,7 @@ export const ExplorePageWrapper: FC = () => {
 
       {type === EXPLORE_TYPE.LOGS && <LogsPage {...props} ref={ref} />}
       {type === EXPLORE_TYPE.TRACING && <TracesPage {...props} ref={ref} />}
+      {type === EXPLORE_TYPE.METRICS && <MetricsPage {...props} ref={ref} />}
     </Page>
   );
 };

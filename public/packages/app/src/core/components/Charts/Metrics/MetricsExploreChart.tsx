@@ -1,7 +1,6 @@
 import { ConditionalWrapper } from "../../ConditionLayout";
 import { DataNotFound } from "../../DataNotFound";
-import { buildSeries } from "./utils";
-import { IMetric, METRIC_UNIT, MetricPreviewType, Setter, TimeRange } from "@traceo/types";
+import { EXPLORE_PLOT_TYPE, ExploreSerieType, Setter, TimeRange } from "@traceo/types";
 import { FC } from "react";
 import { BaseChart } from "../BaseChart";
 import { BaseXAxis } from "../BaseXAxis";
@@ -9,68 +8,70 @@ import { BaseYAxis } from "../BaseYAxis";
 import { timeAxisFormatter } from "../utils";
 import { BaseTooltip } from "../BaseTooltip";
 import { EchartDataZoomProps } from "../types";
+import { SeriesOption } from "echarts";
+import { BaseLegend } from "../BaseLegend";
 
 interface Props {
-  metric: IMetric;
-  data: MetricPreviewType;
+  datasource: TimeRange[];
   ranges: TimeRange;
-  setRanges: Setter<TimeRange>;
-  isLoading: boolean;
+  series: ExploreSerieType[];
+  onZoom?: Setter<TimeRange>;
+  type: EXPLORE_PLOT_TYPE;
+  stacked: boolean;
+  markers: boolean;
 }
 
-const MetricChart: FC<Props> = ({
-  metric,
+const MetricsExploreChart: FC<Props> = ({
   ranges = [undefined, undefined],
-  isLoading = false,
-  data = undefined,
-  setRanges = undefined
+  datasource = undefined,
+  series = [],
+  onZoom = undefined,
+  type = "line",
+  stacked = false,
+  markers = false
 }) => {
   const labelFormatter = (value: any, _index: number) =>
     timeAxisFormatter(value, ranges[0], ranges[1]);
 
   const pointerFormatter = ({ value }: any) => timeAxisFormatter(value, ranges[0], ranges[1]);
 
-  const showLegend = metric.config.legend.show;
-  const legendOrient = metric.config.legend.orient;
-
   const grid = {
     containLabel: true,
-    right: showLegend && legendOrient === "vertical" ? 120 : 10,
+    right: 10,
     left: 10,
-    bottom: showLegend ? (legendOrient === "vertical" ? 10 : 50) : 10,
+    bottom: 60,
     top: 10
-  };
-
-  const legend = {
-    show: showLegend,
-    orient: legendOrient as any,
-    right: legendOrient === "vertical" ? 10 : null,
-    bottom: legendOrient === "horizontal" ? null : 10,
-    top: legendOrient === "vertical" ? "center" : "bottom",
-    left: legendOrient === "horizontal" ? 10 : null,
-    textStyle: {
-      color: "#CCCCDC"
-    },
-    icon: "roundRect",
-    itemHeight: 5
   };
 
   const onDataZoom = (params: EchartDataZoomProps) => {
     const { startValue, endValue } = params.batch[0];
-    setRanges([startValue, endValue]);
+    onZoom([startValue, endValue]);
   };
+
+  const seriesOptions: SeriesOption[] = series.map((serie, index) => ({
+    ...serie,
+    type: type === "area" ? "line" : (type as any),
+    data: datasource[index],
+    showSymbol: markers,
+    stack: stacked ? "total" : undefined,
+    lineStyle: {
+      width: type === "line" ? 1 : 0
+    },
+    areaStyle: type === "area" ? {} : undefined
+  }));
 
   return (
     <ConditionalWrapper
-      isLoading={isLoading}
-      isEmpty={!data?.datasource}
+      isEmpty={!datasource}
       emptyView={<DataNotFound className="text-2xs" label="Data not found" />}
     >
       <BaseChart
-        height="180px"
+        height="380px"
         renderer="canvas"
         onDataZoom={onDataZoom}
-        legend={legend}
+        legend={BaseLegend({
+          position: "horizontal"
+        })}
         grid={grid}
         tooltip={BaseTooltip({
           pointer: "line"
@@ -88,9 +89,6 @@ const MetricChart: FC<Props> = ({
         })}
         yAxis={BaseYAxis({
           type: "value",
-          axisLabel: {
-            formatter: `{value} ${metric.unit === METRIC_UNIT.NONE ? "" : metric.unit}`
-          },
           minInterval: 1
         })}
         dataZoom={{
@@ -101,10 +99,10 @@ const MetricChart: FC<Props> = ({
           throttle: 50
         }}
         activeZoomSelect={true}
-        series={buildSeries(metric.series, metric, data?.datasource, "card")}
+        series={seriesOptions}
       />
     </ConditionalWrapper>
   );
 };
 
-export default MetricChart;
+export default MetricsExploreChart;

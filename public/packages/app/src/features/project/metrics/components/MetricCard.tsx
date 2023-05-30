@@ -1,16 +1,15 @@
 import { LoadingOutlined, QuestionCircleOutlined, ReloadOutlined } from "@ant-design/icons";
-import { IMetric, MetricPreviewType, Setter } from "@traceo/types";
+import { IMetric, MetricPreviewType, Setter, TimeRange } from "@traceo/types";
 import { Row, Space, Tooltip } from "@traceo/ui";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MetricChart from "../../../../core/components/Charts/Metrics/MetricChart";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
-import { ActionButton } from "../../explore/components/ActionButton";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 
 interface MetricCardProps {
   metric: IMetric;
-  ranges: [number, number];
-  setRanges: Setter<[number, number]>;
+  ranges: TimeRange;
+  setRanges: Setter<TimeRange>;
 }
 export const MetricCard: FC<MetricCardProps> = ({
   metric,
