@@ -4,7 +4,9 @@ import { FC, useRef, useState } from "react";
 import {
   AlignLeftOutlined,
   BarChartOutlined,
+  CaretRightFilled,
   NodeExpandOutlined,
+  RightOutlined,
   SearchOutlined
 } from "@ant-design/icons";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
@@ -74,30 +76,32 @@ export const ExplorePageWrapper: FC = () => {
 
   return (
     <Page>
-      <div className="w-full flex flex-row py-3 justify-between">
-        <Select options={exploreOptions} value={type} onChange={(opt) => setType(opt?.value)} />
-        <div className="flex flex-row gap-x-3 text-sm">
-          <ExploreRangePicker
-            range={ranges}
-            maxRange={type === EXPLORE_TYPE.TRACING ? 168 : 168}
-            setRange={(e) => setRanges(e)}
-            type={type}
-          />
-          <Button
-            icon={<SearchOutlined />}
-            className="bg-red-500"
-            variant={loading ? "danger" : "primary"}
-            loading={loading}
-            onClick={() => onClickSearch()}
-          >
-            Search
-          </Button>
+      <Page.Content>
+        <div className="w-full flex flex-row py-3 justify-between">
+          <Select variant="secondary" options={exploreOptions} value={type} onChange={(opt) => setType(opt?.value)} />
+          <div className="flex flex-row gap-x-3 text-sm">
+            <ExploreRangePicker
+              range={ranges}
+              maxRange={type === EXPLORE_TYPE.TRACING ? 168 : 168}
+              setRange={(e) => setRanges(e)}
+              type={type}
+            />
+            <Button
+              icon={<CaretRightFilled />}
+              className="bg-red-500"
+              variant={loading ? "danger" : "primary"}
+              loading={loading}
+              onClick={() => onClickSearch()}
+            >
+              Run
+            </Button>
+          </div>
         </div>
-      </div>
 
-      {type === EXPLORE_TYPE.LOGS && <LogsPage {...props} ref={ref} />}
-      {type === EXPLORE_TYPE.TRACING && <TracesPage {...props} ref={ref} />}
-      {type === EXPLORE_TYPE.METRICS && <MetricsPage {...props} ref={ref} />}
+        {type === EXPLORE_TYPE.LOGS && <LogsPage {...props} ref={ref} />}
+        {type === EXPLORE_TYPE.TRACING && <TracesPage {...props} ref={ref} />}
+        {type === EXPLORE_TYPE.METRICS && <MetricsPage {...props} ref={ref} />}
+      </Page.Content>
     </Page>
   );
 };

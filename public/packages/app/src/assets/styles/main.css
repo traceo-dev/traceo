@@ -56,7 +56,7 @@ body {
   height: 100%;
   width: 100%;
   position: absolute;
-  color: #ffffff;
+  color: var(--color-text-primary);
   background-color: var(--color-bg-canvas);
   margin: 0px 0px 0.45em;
   font-size: 1rem;

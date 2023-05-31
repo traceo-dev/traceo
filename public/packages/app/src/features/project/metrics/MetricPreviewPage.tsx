@@ -3,21 +3,47 @@ import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { conditionClass } from "../../../core/utils/classes";
 import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
 import { IMetric, DeepPartial, ApiResponse } from "@traceo/types";
-import { Button, Card, Row } from "@traceo/ui";
+import { Button, Card, Popover, Row } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { To, useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useReactQuery } from "src/core/hooks/useReactQuery";
-import { DeleteOutlined, LoadingOutlined, SettingOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  EllipsisOutlined,
+  LeftOutlined,
+  LoadingOutlined,
+  SettingOutlined
+} from "@ant-design/icons";
 import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { SearchWrapper } from "src/core/components/SearchWrapper";
 import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
-import { ActionButton } from "../explore/components/ActionButton";
+import { ActionButton } from "../../../core/components/ActionButton";
 import api from "src/core/lib/api";
 import { Confirm } from "src/core/components/Confirm";
+import styled from "styled-components";
+import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
+
+const GraphOption = styled.div`
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  whitespace: nowrap;
+
+  &:hover {
+    background-color: var(--color-bg-secondary);
+  }
+`;
 
 export const MetricPreviewPage = () => {
   const navigate = useNavigate();
@@ -64,7 +90,10 @@ export const MetricPreviewPage = () => {
       });
   };
 
-  const onDiscard = () => setCustomizeMode(false);
+  const onDiscard = () => {
+    setOptions(data.options);
+    setCustomizeMode(false);
+  };
 
   const onRemove = async () => {
     setRemoveLoading(true);
@@ -78,37 +107,68 @@ export const MetricPreviewPage = () => {
       });
   };
 
-  return (
-    <Page isLoading={isLoading}>
-      <Page.Content>
-        <div className="w-full grid grid-cols-12">
-          <div className={conditionClass(isCustomizeMode, "col-span-8 mr-5", "col-span-12")}>
-            <div className="w-full flex flex-row py-3 justify-end gap-x-3">
-              {!isCustomizeMode && (
-                <Row gap="x-2">
-                  <ActionButton
-                    icon={<SettingOutlined />}
-                    name="Edit metric"
-                    onClick={() => setCustomizeMode(true)}
-                    inactiveColor="bg-primary"
-                  />
-                  <Confirm
-                    description="Are you sure that you want to remove this metric?"
-                    onOk={() => onRemove()}
-                  >
-                    <ActionButton
-                      icon={<DeleteOutlined />}
-                      name="Remove metric"
-                      inactiveColor="bg-primary"
-                      className="hover:ring-red-500"
-                    />
-                  </Confirm>
-                </Row>
-              )}
+  const backOpts: To = {
+    pathname: `/project/${id}/metrics`,
+    search: `?from=${ranges[0]}&to=${ranges[1]}`
+  };
 
-              <MetricTimeToolbar ranges={ranges} setRanges={setRanges} />
-            </div>
-            <Card title={options.name} extra={isRefetching && <LoadingOutlined />}>
+  return (
+    <Page
+      isLoading={isLoading}
+      header={{
+        title: (
+          <PreviewPageHeader
+            page="metrics"
+            title={options.name}
+            description={options.description}
+            backOpts={backOpts}
+          />
+        ),
+        suffix: !isCustomizeMode ? (
+          <Row gap="x-3">
+            <Button size="sm" onClick={() => setCustomizeMode(true)} icon={<SettingOutlined />}>
+              Configure
+            </Button>
+            <Confirm
+              description="Are you sure that you want to remove this metric?"
+              onOk={() => onRemove()}
+            >
+              <Button size="sm" variant="danger">
+                Remove
+              </Button>
+            </Confirm>
+          </Row>
+        ) : (
+          <Row gap="x-3">
+            <Button
+              icon={<CheckOutlined />}
+              loading={saveLoading}
+              variant="primary"
+              size="sm"
+              onClick={() => onSave()}
+            >
+              Update
+            </Button>
+            <Button
+              loading={removeLoading}
+              variant="danger"
+              size="sm"
+              onClick={() => onDiscard()}
+            >
+              Cancel
+            </Button>
+          </Row>
+        )
+      }}
+    >
+      <Page.Content className="pt-0">
+        <div className="w-full grid grid-cols-12">
+          <div className={conditionClass(isCustomizeMode, "col-span-8 mr-1", "col-span-12")}>
+            <div className="felx flex-col w-full p-4 bg-primary border border-solid border-secondary rounded">
+              <div className="flex flex-row justify-between pb-12">
+                <span className="font-semibold text-sm">Graph</span>
+                <MetricTimeToolbar ranges={ranges} setRanges={setRanges} />
+              </div>
               <ConditionalWrapper isLoading={isLoading}>
                 <MetricPreviewChart
                   datasource={data?.datasource}
@@ -119,28 +179,10 @@ export const MetricPreviewPage = () => {
                   activeZoomSelect={!isCustomizeMode}
                 />
               </ConditionalWrapper>
-            </Card>
+            </div>
           </div>
           {isCustomizeMode && (
             <div className="col-span-4">
-              <div className="flex flex-row items-center justify-end mb-3 gap-x-3">
-                <Button
-                  loading={saveLoading}
-                  variant="primary"
-                  size="sm"
-                  onClick={() => onSave()}
-                >
-                  Update
-                </Button>
-                <Button
-                  loading={removeLoading}
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => onDiscard()}
-                >
-                  Cancel
-                </Button>
-              </div>
               <MetricCustomizeForm setOptions={setOptions} options={options} />
             </div>
           )}

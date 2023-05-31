@@ -24,6 +24,8 @@ interface Props {
   minDate?: Date;
   // Max date available on calendar
   maxDate?: Date;
+  // Input type
+  type?: "primary" | "secondary";
 }
 
 export const TimeRangePicker = ({
@@ -34,7 +36,8 @@ export const TimeRangePicker = ({
   disabled = false,
   datesRange = false,
   maxDate = null,
-  minDate = null
+  minDate = null,
+  type = "primary"
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>(null);
@@ -157,6 +160,7 @@ export const TimeRangePicker = ({
       range={datesRange}
       onClick={() => setOpen(true)}
       disabled={disabled}
+      type={type}
     />
   );
 };

@@ -17,7 +17,7 @@ import {
 import { Col, Input, InputSearch } from "@traceo/ui";
 import { Field } from "../components/Field";
 import { InlineFields } from "../components/InlineFields";
-import { ActionButton } from "../components/ActionButton";
+import { ActionButton } from "../../../../core/components/ActionButton";
 import { ButtonOptionsWrapper } from "../components";
 
 const LazyLogsExplorePlot = lazy(

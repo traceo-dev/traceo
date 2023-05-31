@@ -78,7 +78,7 @@ const IncidentPageWrapper = ({ children }) => {
       menuRoutes={menu}
       isLoading={isLoading}
     >
-      <Page.Content>{children}</Page.Content>
+      <Page.Content className="pt-0">{children}</Page.Content>
     </Page>
   );
 };

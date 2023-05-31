@@ -68,9 +68,9 @@ export const StacktraceSection = () => {
             <CollapseItem
               panelKey={`${index}`}
               header={
-                <div className="text-white">
+                <span>
                   {trace.filename} {trace.lineNo}:{trace.columnNo}
-                </div>
+                </span>
               }
               startIcon={
                 <Tooltip

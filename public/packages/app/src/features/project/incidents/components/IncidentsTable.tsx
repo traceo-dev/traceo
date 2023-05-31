@@ -56,9 +56,7 @@ export const IncidentsTable: FC<Props> = ({
         {({ item }) => (
           <Space direction="vertical" className="gap-0">
             <div className="w-full flex flex-row gap-x-3 items-center">
-              <span className="text-[16px] leading-5 font-semibold hover:text-white">
-                {item?.name}
-              </span>
+              <span className="text-[16px] leading-5 font-semibold">{item?.name}</span>
               {isNewIncident(item) && (
                 <NewIncidentPill>
                   <span className="text-yellow-500 text-[10px]">New</span>

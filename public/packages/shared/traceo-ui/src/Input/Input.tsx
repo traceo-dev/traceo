@@ -9,6 +9,7 @@ export interface Props extends Omit<HTMLProps<HTMLInputElement>, "prefix" | "siz
   suffix?: JSX.Element;
   loading?: boolean;
   isFocusable?: boolean;
+  variant?: "primary" | "secondary";
 }
 
 export const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
@@ -22,6 +23,7 @@ export const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
     value,
     isFocusable = true,
     disabled,
+    variant = "primary",
     ...restProps
   } = props;
 
@@ -34,8 +36,13 @@ export const Input = forwardRef<HTMLInputElement, Props>((props, ref) => {
       "focus:outline-0"
     )}
     ${conditionClass(disabled, "opacity-50")}
-      bg-canvas border border-solid border-secondary rounded-sm
-      block w-full py-1 px-3 placeholder:text-gray-500
+    ${conditionClass(
+      variant === "primary",
+      "bg-canvas placeholder:text-gray-500",
+      "bg-primary placeholder:text-[#6A7281]"
+    )}
+      border border-solid border-secondary rounded-sm
+      block w-full py-1 px-3 text-primary
   `);
 
   return (

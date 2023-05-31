@@ -17,7 +17,7 @@ import { useReactQuery } from "src/core/hooks/useReactQuery";
 import { Field } from "../components/Field";
 import { InlineFields } from "../components/InlineFields";
 import MetricsExploreChart from "src/core/components/Charts/Metrics/MetricsExploreChart";
-import { ActionButton } from "../components/ActionButton";
+import { ActionButton } from "../../../../core/components/ActionButton";
 import { GRAPH_TYPE_OPTIONS } from "../types";
 import { ExploreSerieType, EXPLORE_PLOT_TYPE, AVAILABLE_COLORS, TimeRange } from "@traceo/types";
 import { ButtonOptionsWrapper } from "../components";
@@ -43,7 +43,7 @@ export const MetricsPage = forwardRef(
 
     const [valueMin, setValueMin] = useState<number>(null);
     const [valueMax, setValueMax] = useState<number>(null);
-    const [interval, setInterval] = useState<number>(1);
+    // const [interval, setInterval] = useState<number>(1);
 
     useImperativeHandle(ref, () => ({
       fetch
@@ -51,7 +51,7 @@ export const MetricsPage = forwardRef(
 
     const baseQueryProps = {
       fields: series.map((e) => e.name) ?? [],
-      interval,
+      // interval,
       valueMax,
       valueMin
     };
@@ -108,7 +108,7 @@ export const MetricsPage = forwardRef(
       const queries: string[] = [];
       const s = series.map((e) => e.name);
       series.length > 0 && queries.push(`Series: ${s.join("; ")}`);
-      interval && queries.push(`Interval: ${interval}`);
+      // interval && queries.push(`Interval: ${interval}`);
       valueMax && queries.push(`Value max: ${valueMax}`);
       valueMin && queries.push(`Value min: ${valueMin}`);
       return queries.join(", ");
@@ -117,7 +117,6 @@ export const MetricsPage = forwardRef(
     const clearQuery = () => {
       const queries = [setValueMax, setValueMin];
       setSeries([]);
-      setInterval(1);
       queries.map((e) => e(null));
     };
 

@@ -6,6 +6,7 @@ interface Props {
   isDisabled?: boolean;
   ranges: TimeRange;
   setRanges: Setter<TimeRange>;
+  type?: "primary" | "secondary";
 }
 
 const relativeTimeOptions: RelativeTimeOption[] = [
@@ -97,7 +98,12 @@ const relativeTimeOptions: RelativeTimeOption[] = [
 ];
 
 const MAX_DATE = new Date(dayjs().unix() * 1e3);
-export const MetricTimeRangePicker = ({ ranges, setRanges, isDisabled = false }: Props) => (
+export const MetricTimeRangePicker = ({
+  ranges,
+  setRanges,
+  isDisabled = false,
+  type = "primary"
+}: Props) => (
   <TimeRangePicker
     disabled={isDisabled}
     datesRange={true}
@@ -105,5 +111,6 @@ export const MetricTimeRangePicker = ({ ranges, setRanges, isDisabled = false }:
     options={relativeTimeOptions}
     submit={(val: TimeRange) => setRanges(val)}
     maxDate={MAX_DATE}
+    type={type}
   />
 );

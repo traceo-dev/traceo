@@ -72,7 +72,7 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-col bg-primary relative">
+    <div className="flex flex-col bg-primary relative border border-solid border-secondary rounded">
       <span className="w-full py-3 px-2 font-semibold text-sm text-primary border-bottom">
         Customize graph
       </span>
@@ -158,7 +158,10 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
             <CustomizeFormSection
               title={
                 <div className="flex flex-row items-center gap-x-2">
-                  <BarChartOutlined />
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: serie.config.color }}
+                  />
                   <span>{serie.name}</span>
                 </div>
               }

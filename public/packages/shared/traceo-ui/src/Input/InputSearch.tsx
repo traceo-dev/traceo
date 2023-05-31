@@ -7,10 +7,18 @@ interface Props extends Omit<HTMLProps<HTMLInputElement>, "onChange"> {
   value: string;
   onChange?: (val: string) => void;
   loading?: boolean;
+  variant?: "primary" | "secondary";
 }
 
 export const InputSearch = forwardRef<HTMLInputElement, Props>((props, ref) => {
-  const { value, placeholder = "Search", onChange, className, ...rest } = props;
+  const {
+    value,
+    placeholder = "Search",
+    onChange,
+    className,
+    variant = "primary",
+    ...rest
+  } = props;
 
   const onChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
     onChange && onChange(event.target.value);
@@ -25,6 +33,7 @@ export const InputSearch = forwardRef<HTMLInputElement, Props>((props, ref) => {
       defaultValue={value}
       onChange={onChangeInputValue}
       className={joinClasses("w-full", className)}
+      variant={variant}
     />
   );
 });

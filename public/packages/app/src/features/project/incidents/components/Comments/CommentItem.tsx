@@ -80,7 +80,7 @@ export const CommentItem: FC<Props> = ({ user, comment }) => {
       <Space className="w-full py-0 justify-between">
         <Space>
           <Avatar className="mr-1 w-7 h-7" alt={sender?.name} src={sender?.gravatar} size="md" />
-          <div className="flex flex-col w-full ml-2">
+          <div className="flex flex-col w-full ml-2 text-primary">
             <span className="font-semibold text-sm self-start">{sender?.name}</span>
             <span className="font-normal text-2xs">commented {dateUtils.fromNow(createdAt)}</span>
           </div>
@@ -103,7 +103,7 @@ export const CommentItem: FC<Props> = ({ user, comment }) => {
         bodyClassName="bg-canvas"
       >
         {!isEditMode && (
-          <Space direction="vertical" className="w-full">
+          <Space direction="vertical" className="w-full text-primary">
             <ReactMarkdown>{message}</ReactMarkdown>
             <Space className="w-full justify-end">
               {lastUpdateAt && !removed && (

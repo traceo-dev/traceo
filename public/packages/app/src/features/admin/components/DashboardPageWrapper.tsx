@@ -56,7 +56,7 @@ export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
       isLoading={isLoading}
       menuRoutes={menu}
     >
-      <Page.Content>{children}</Page.Content>
+      <Page.Content className="pt-0">{children}</Page.Content>
     </Page>
   );
 };

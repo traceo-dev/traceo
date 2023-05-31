@@ -48,7 +48,7 @@ const VitalsPreviewPage = () => {
       search
     }
   });
-  
+
   useEffect(() => {
     refetch();
   }, [ranges, selectedHealth, search]);
@@ -62,19 +62,19 @@ const VitalsPreviewPage = () => {
   const onKeyDown = (event: any) => event.keyCode === 13 && setSearch(event.target.value);
 
   return (
-    <Page>
-      <PageHeader
-        className="mb-5"
-        suffix={<HrefIcon href={WEB_VITALS_DOCS_URL[name]} icon={<QuestionCircleOutlined />} />}
-        title={
+    <Page
+      header={{
+        title: (
           <PreviewPageHeader
             page="performance"
             title={details.name}
             description={details.description}
           />
-        }
-      />
-      <Page.Content>
+        ),
+        suffix: <HrefIcon href={WEB_VITALS_DOCS_URL[name]} icon={<QuestionCircleOutlined />} />
+      }}
+    >
+      <Page.Content className="pt-1">
         <Card>
           <SearchWrapper>
             <InputSearch

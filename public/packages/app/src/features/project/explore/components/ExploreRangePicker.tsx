@@ -21,6 +21,7 @@ export const ExploreRangePicker = ({ range, setRange, maxRange = 24 }: Props) =>
       maxHourPeriod={maxRange}
       datesRange={true}
       maxDate={MAX_DATE}
+      type="secondary"
     />
   );
 };

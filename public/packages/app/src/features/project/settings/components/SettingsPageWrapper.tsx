@@ -24,11 +24,11 @@ export const SettingsPageWrapper: FC = ({ children }) => {
       header={{
         icon: <SettingOutlined />,
         title: "Settings",
-        description: "Management of this project"
+        description: "Manage project settings for your team."
       }}
       menuRoutes={menu}
     >
-      <Page.Content>{children}</Page.Content>
+      <Page.Content className="pt-0">{children}</Page.Content>
     </Page>
   );
 };

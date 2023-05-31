@@ -62,7 +62,7 @@ export const CommentInput = () => {
               target="_blank"
               href="https://www.markdownguide.org/basic-syntax/"
             >
-              <span className="text-xs">
+              <span className="text-xs text-primary">
                 <FileMarkdownFilled className="pr-1" />
                 Markdown supported
               </span>
