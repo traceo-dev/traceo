@@ -7,11 +7,10 @@ import {
   PrimaryGeneratedColumn
 } from "typeorm";
 import { User } from "./user.entity";
-import { Comment } from "./comment.entity";
 import { Event } from "./event.entity";
 import { Project } from "./project.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IComment, IEvent, IIncident, IProject, Platform, SDK, Trace } from "@traceo/types";
+import { IEvent, IIncident, IProject, Platform, SDK, Trace } from "@traceo/types";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",
@@ -77,10 +76,6 @@ export class Incident extends BaseEntity implements IIncident {
     name: "assigned_id"
   })
   assigned: User;
-
-  @OneToMany(() => Comment, (comment) => comment.incident)
-  comments: IComment[];
-  commentsCount: number;
 
   @OneToMany(() => Event, (error) => error.incident)
   events: IEvent[];

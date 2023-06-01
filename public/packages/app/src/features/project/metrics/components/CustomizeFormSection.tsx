@@ -57,7 +57,7 @@ export const CustomizeFormSection: FC<Props> = ({
 
   return (
     <>
-      <div className="border-top w-full flex flex-col text-primary text-sm">
+      <div className="border-bottom w-full flex flex-col text-primary text-sm">
         <div
           onClick={() => setCollapsed(!collapsed)}
           className="p-2 flex flex-row items-center justify-between w-full hover:bg-secondary hover:text-white duration-200 cursor-pointer"

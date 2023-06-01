@@ -89,11 +89,8 @@ const PerformancePage = () => {
           {VITALS_DETAILS.map(({ description, field, name }, key) => (
             <Card
               className="mb-1 flex flex-col"
-              title={
-                <span className="cursor-pointer font-semibold" onClick={() => onClick(field)}>
-                  {name}
-                </span>
-              }
+              onClick={() => onClick(field)}
+              title={name}
               key={key}
             >
               <ColumnSection subtitle={subtitle(field, description)}>

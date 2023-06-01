@@ -1,6 +1,5 @@
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { Page } from "../../../core/components/Page";
-import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { MetricCard } from "./components/MetricCard";
 import { BarChartOutlined, PlusOutlined, QuestionCircleOutlined } from "@ant-design/icons";
@@ -9,12 +8,7 @@ import dayjs from "dayjs";
 import { Link, useParams } from "react-router-dom";
 import { useReactQuery } from "src/core/hooks/useReactQuery";
 import { IMetric } from "@traceo/types";
-import { ActionButton } from "../../../core/components/ActionButton";
 import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
-import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
-import { ColumnSection } from "src/core/components/ColumnSection";
-import { renderChart } from "../performance/vitals/VitalsChart";
-import { MetricPreviewHeader } from "./MetricPreviewHeader";
 
 const MetricsPage = () => {
   const { id } = useParams();

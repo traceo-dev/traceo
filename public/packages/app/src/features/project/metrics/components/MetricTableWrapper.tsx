@@ -4,7 +4,6 @@ import { IMetric, MetricResponseType, DeepPartial, METRIC_UNIT } from "@traceo/t
 import { Card, Table, TableColumn } from "@traceo/ui";
 import { FC } from "react";
 import dayjs from "dayjs";
-import dateUtils from "src/core/utils/date";
 
 interface Props {
   metric: DeepPartial<IMetric>;
@@ -12,7 +11,7 @@ interface Props {
   isLoading: boolean;
 }
 export const MetricTableWrapper: FC<Props> = ({ metric, metricData, isLoading }) => (
-  <Card title="Raw data" bodyClassName="max-h-96 overflow-y-auto">
+  <Card title="Raw data">
     <ConditionalWrapper
       isEmpty={!metricData || metricData.length === 0}
       isLoading={isLoading}

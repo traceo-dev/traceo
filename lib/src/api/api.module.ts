@@ -8,7 +8,6 @@ import { MemberController } from "./member/member.controller";
 import { MemberModule } from "./member/member.module";
 import { ProjectController } from "./project/project.controller";
 import { ProjectModule } from "./project/project.module";
-import { IncidentCommentsController } from "./incidents/incident-comments/incident-comments.controller";
 import { IncidentsController } from "./incidents/incidents.controller";
 import { IncidentsModule } from "./incidents/incidents.module";
 import { MetricsController } from "./metrics/metrics.controller";
@@ -17,7 +16,6 @@ import { StatisticsController } from "./statistics/statistics.controller";
 import { StatisticsModule } from "./statistics/statistics.module";
 import { UsersController } from "./user/users.controller";
 import { ProjectsController } from "./project/projects.controller";
-import { IncidentCommentsModule } from "./incidents/incident-comments/incident-comments.module";
 import { RequestContextMiddleware } from "../common/middlewares/request-context/request-context.middleware";
 import { AuthController } from "../auth/auth.controller";
 import { ViewController } from "./view/view.controller";
@@ -39,7 +37,6 @@ const apiControllers = [
   ProjectController,
   ProjectsController,
   MemberController,
-  IncidentCommentsController,
   IncidentsController,
   StatisticsController,
   MetricsController,
@@ -58,7 +55,6 @@ const apiControllers = [
     ProjectModule,
     MemberModule,
     IncidentsModule,
-    IncidentCommentsModule,
     StatisticsModule,
     HttpModule,
     MetricsModule,

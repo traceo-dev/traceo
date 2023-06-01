@@ -29,6 +29,8 @@ import api from "src/core/lib/api";
 import { Confirm } from "src/core/components/Confirm";
 import styled from "styled-components";
 import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
+import { ContentCard } from "src/core/components/ContentCard";
+import { ButtonOptionsWrapper } from "../explore/components";
 
 const GraphOption = styled.div`
   padding: 4px;
@@ -164,11 +166,10 @@ export const MetricPreviewPage = () => {
       <Page.Content className="pt-0">
         <div className="w-full grid grid-cols-12">
           <div className={conditionClass(isCustomizeMode, "col-span-8 mr-1", "col-span-12")}>
-            <div className="felx flex-col w-full p-4 bg-primary border border-solid border-secondary rounded">
-              <div className="flex flex-row justify-between pb-12">
-                <span className="font-semibold text-sm">Graph</span>
-                <MetricTimeToolbar ranges={ranges} setRanges={setRanges} />
-              </div>
+            <ContentCard
+              name="Graph"
+              extra={<MetricTimeToolbar ranges={ranges} setRanges={setRanges} />}
+            >
               <ConditionalWrapper isLoading={isLoading}>
                 <MetricPreviewChart
                   datasource={data?.datasource}
@@ -179,7 +180,7 @@ export const MetricPreviewPage = () => {
                   activeZoomSelect={!isCustomizeMode}
                 />
               </ConditionalWrapper>
-            </div>
+            </ContentCard>
           </div>
           {isCustomizeMode && (
             <div className="col-span-4">

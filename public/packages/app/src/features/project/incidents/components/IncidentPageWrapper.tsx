@@ -1,7 +1,6 @@
 import { Page } from "../../../../core/components/Page";
 import { MenuRoute } from "../../../../core/types/navigation";
 import {
-  CommentOutlined,
   InfoCircleOutlined,
   RightOutlined,
   StockOutlined,
@@ -44,12 +43,6 @@ const IncidentPageWrapper = ({ children }) => {
       ),
       key: "events",
       icon: <WarningOutlined />
-    },
-    {
-      href: "/project/:id/incidents/:iid/conversation",
-      label: "Conversation",
-      key: "conversation",
-      icon: <CommentOutlined />
     }
   ];
 

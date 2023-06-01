@@ -3,6 +3,7 @@ import { Card, Table, TableColumn } from "@traceo/ui";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { mapHealthToIcon } from "./types";
+import { ContentCard } from "src/core/components/ContentCard";
 
 interface Props {
   performances: Performance[];
@@ -11,7 +12,7 @@ interface Props {
 export const VitalsRawData = ({ performances, isLoading }: Props) => {
   const { name } = useParams();
   return (
-    <Card title="Raw data">
+    <ContentCard name="Raw data">
       <Table
         collection={performances}
         loading={isLoading}
@@ -45,6 +46,6 @@ export const VitalsRawData = ({ performances, isLoading }: Props) => {
         <TableColumn name="platform" value="platform_type" />
         <TableColumn name="view" value="view" />
       </Table>
-    </Card>
+    </ContentCard>
   );
 };

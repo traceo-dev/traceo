@@ -4,7 +4,6 @@ export * from "./member";
 export * from "./api";
 export * from "./project";
 export * from "./auth";
-export * from "./comment";
 export * from "./configs";
 export * from "./incident";
 export * from "./log";

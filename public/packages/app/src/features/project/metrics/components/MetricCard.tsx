@@ -54,29 +54,21 @@ export const MetricCard: FC<MetricCardProps> = ({
   };
 
   return (
-    <div
+    <Card
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="col-span-6 mb-1 flex flex-col w-full p-4 bg-primary border border-solid border-secondary rounded"
+      className="col-span-6 min-w-[200px]"
+      title={metric.name}
+      onClick={() => onClick()}
+      extra={
+        (isHover || isRefetching) &&
+        (isRefetching ? (
+          <LoadingOutlined className="text-[12px]" />
+        ) : (
+          <ReloadOutlined className="text-[12px]" onClick={onRefresh} />
+        ))
+      }
     >
-      <div className="flex flex-row justify-between pb-5">
-        <Row gap="x-2">
-          <span onClick={onClick} className="cursor-pointer font-semibold text-sm">
-            {metric.name}
-          </span>
-          {metric.description && (
-            <Tooltip title={metric.description}>
-              <QuestionCircleOutlined className="text-xs" />
-            </Tooltip>
-          )}
-        </Row>
-
-        {(isHover || isRefetching) && (
-          <div className="text-xs text-primary hover:text-white cursor-pointer">
-            {isRefetching ? <LoadingOutlined /> : <ReloadOutlined onClick={onRefresh} />}
-          </div>
-        )}
-      </div>
       <MetricChart
         metric={metric}
         ranges={ranges}
@@ -84,31 +76,6 @@ export const MetricCard: FC<MetricCardProps> = ({
         data={data}
         isLoading={isLoading}
       />
-    </div>
-    // <Card
-    // onMouseEnter={() => setHover(true)}
-    // onMouseLeave={() => setHover(false)}
-    // className="mb-1 flex flex-col col-span-6"
-    //   title={
-    //     <span onClick={onClick} className="cursor-pointer text-primary font-semibold">
-    //       {metric.name}
-    //     </span>
-    //   }
-    //   extra={
-    // (isHover || isRefetching) && (
-    //   <div className="text-xs text-primary hover:text-white cursor-pointer">
-    //     {isRefetching ? <LoadingOutlined /> : <ReloadOutlined onClick={onRefresh} />}
-    //   </div>
-    // )
-    //   }
-    // >
-    // <MetricChart
-    //   metric={metric}
-    //   ranges={ranges}
-    //   setRanges={setRanges}
-    //   data={data}
-    //   isLoading={isLoading}
-    // />
-    // </Card>
+    </Card>
   );
 };

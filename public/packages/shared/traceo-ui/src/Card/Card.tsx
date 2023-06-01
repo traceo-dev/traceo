@@ -1,54 +1,78 @@
-import { Typography } from "../Typography";
-import { joinClasses } from "../utils/classes";
+import { LoadingOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { Row } from "../Row";
 import { FC, PropsWithChildren, HTMLProps } from "react";
+import styled from "styled-components";
+import { Tooltip } from "../Tooltip";
+import { conditionClass, joinClasses } from "../utils";
+
+const CardHeader = styled.div`
+  padding: 12px;
+  padding-inline: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-bg-secondary);
+`;
+
+const CardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-bg-secondary);
+  border-radius: 4px;
+  margin-bottom: 4px;
+`;
+
+const CardBody = styled.div`
+  padding: 16px;
+`;
 
 export interface CardProps extends Omit<HTMLProps<HTMLElement>, "title" | "ref"> {
   icon?: JSX.Element;
-  title?: string | JSX.Element;
+  title?: string;
   extra?: JSX.Element;
-  className?: string;
-  bodyClassName?: string;
   loadingContent?: boolean;
+  tooltip?: string;
 }
 export const Card: FC<PropsWithChildren<CardProps>> = ({
   icon,
   title,
   extra,
   children,
-  className,
-  bodyClassName,
-  ...rest
+  loadingContent = false,
+  tooltip = undefined,
+  onClick = undefined,
+  ...props
 }) => {
-  const cardTitle =
-    typeof title === "string" ? (
-      <Typography className="text-[14px]" weight="semibold">
-        {title}
-      </Typography>
-    ) : (
-      title
-    );
-
   return (
-    <div
-      className={joinClasses(
-        "w-full p-0 m-0 mb-1 text-sm leading-5 relative bg-primary border border-solid border-secondary rounded",
-        className
-      )}
-      {...rest}
-    >
+    <CardContainer {...props}>
       {(title || icon) && (
-        <div className="flex flex-row w-full px-6 py-4 items-center justify-between border-t-0 border-l-0 border-r-0 border-b border-solid border-[#303030]">
-          <div className="flex flex-row w-full">
-            {icon && <div className="mr-2">{icon}</div>}
-            {cardTitle}
-          </div>
+        <CardHeader>
+          <Row gap="x-2">
+            {icon}
+            <span
+              onClick={onClick}
+              className={joinClasses(
+                "text-[14px] font-semibold whitespace-nowrap",
+                conditionClass(!!onClick, "cursor-pointer")
+              )}
+            >
+              {title}
+            </span>
+            {tooltip && (
+              <Tooltip title={tooltip}>
+                <QuestionCircleOutlined className="hover:text-white cursor-pointer text-[12px]" />
+              </Tooltip>
+            )}
+          </Row>
 
           {extra && extra}
-        </div>
+        </CardHeader>
       )}
-
-      <div className={joinClasses("px-6 py-4 w-full", bodyClassName)}>{children}</div>
-    </div>
+      <CardBody>{loadingContent ? <LoadingOutlined /> : children}</CardBody>
+    </CardContainer>
   );
 };
 

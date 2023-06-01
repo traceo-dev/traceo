@@ -3,7 +3,6 @@ import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 import { Member } from "./entities/member.entity";
 import { User } from "./entities/user.entity";
 import { Project } from "./entities/project.entity";
-import { Comment } from "./entities/comment.entity";
 import { Incident } from "./entities/incident.entity";
 import { Session } from "./entities/session.entity";
 import { PostgresMigration } from "./migrations/postgres.migration";
@@ -32,7 +31,6 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         AlertRule,
         AlertHistory,
         Project,
-        Comment,
         Incident,
         Member,
         Metric,

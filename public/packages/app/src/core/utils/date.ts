@@ -22,10 +22,6 @@ const fromNow = (date: number) => (date ? dayjs.unix(date).local().fromNow() : "
 const isTodayDate = (date: number) => dayjs.unix(date).local().isToday();
 const isYesterdayDate = (date: number) => dayjs.unix(date).local().isYesterday();
 
-const isRecentComment = (date: number) => {
-  const maxDate = dayjs.unix(date).add(1, "minute").unix();
-  return dayjs(toUnix()).isBefore(maxDate);
-};
 const getHour = (date: number = toUnix()) => dayjs.unix(date).local().hour();
 const endOf = (date: number = toUnix(), unit: dayjs.OpUnitType = "day") =>
   dayjs.unix(date).endOf(unit).unix();
@@ -41,7 +37,6 @@ const dateUtils = {
   fromNow,
   isTodayDate,
   isYesterdayDate,
-  isRecentComment,
   guessTz,
   getHour,
   endOf

@@ -17,6 +17,7 @@ import { VitalsGraphBar } from "./VitalsGraphBar";
 import { VitalsHealthBar } from "./VitalsHealthBar";
 import { VitalsRawData } from "./VitalsRawData";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
+import { ContentCard } from "src/core/components/ContentCard";
 
 const VitalsPreviewPage = () => {
   const { id, name } = useParams();
@@ -92,13 +93,16 @@ const VitalsPreviewPage = () => {
             <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
           </SearchWrapper>
         </Card>
-        <Card title="Graph" extra={<VitalsGraphBar name={name} performances={performances} />}>
+        <ContentCard
+          name="Graph"
+          extra={<VitalsGraphBar name={name} performances={performances} />}
+        >
           {renderChart({
             data: dataSource,
             field: name as VitalsEnum,
             isLoading: isFetching
           })}
-        </Card>
+        </ContentCard>
         <VitalsHealthBar list={performances} />
         <VitalsRawData isLoading={isFetching} performances={performances} />
       </Page.Content>

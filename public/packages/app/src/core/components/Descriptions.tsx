@@ -14,12 +14,12 @@ interface DescriptionRowProps {
 }
 export const DescriptionRow: FC<DescriptionRowProps> = ({ label, className, children }) => {
   return (
-    <tr>
-      <td className="details-table-label">
+    <tr className="text-sm">
+      <td className="font-normal w-[256px]">
         <span className={className}>{label}</span>
       </td>
       <td className="w-32" />
-      <td className="details-table-value" colSpan={2}>
+      <td className="w-[400px]" colSpan={2}>
         <span>{children}</span>
       </td>
     </tr>

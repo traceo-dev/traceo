@@ -74,7 +74,7 @@ export const MetricsPage = forwardRef(
     });
 
     const options = () =>
-      fieldsOptions.map((opt) => ({
+      fieldsOptions?.map((opt) => ({
         ...opt,
         disabled: !!series.find((e) => e.name === opt.value)
       }));

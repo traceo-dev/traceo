@@ -13,7 +13,6 @@ const TableWrapper = styled.table`
 `;
 
 const TableThead = styled.thead`
-  color: #ffffff;
   background-color: var(--color-bg-secondary);
 `;
 

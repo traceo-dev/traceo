@@ -112,15 +112,6 @@ table {
   background: var(--color-bg-secondary);
 }
 
-.details-table-label {
-  font-weight: 400 !important;
-  width: 256px !important;
-}
-
-.details-table-value {
-  width: 400px !important;
-}
-
 .pipe:after {
   content: " | ";
   padding: 0 8px;
