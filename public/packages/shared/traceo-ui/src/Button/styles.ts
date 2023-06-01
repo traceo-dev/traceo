@@ -3,7 +3,7 @@ import { ButtonVariant, ButtonSize } from "./types";
 export const mapButtonVariantStyle: Record<ButtonVariant, string> = {
   primary: "bg-blue-500 text-white border-transparent hover:bg-blue-500/80",
   secondary: "bg-transparent border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white",
-  danger: "bg-[#9A1950] text-white border-transparent hover:[#9A1950]/80",
+  danger: "bg-[#9A1950] text-white border-transparent hover:bg-[#821844]",
   ghost: "bg-gray-600 text-white border-transparent hover:bg-gray-600/80"
 };
 

@@ -43,8 +43,6 @@ const Control = (props: any) => {
   const { children, innerProps } = props;
   const selectProps = props.selectProps as SelectProps;
 
-  console.log("select props: ", selectProps);
-  console.log("variant: ", selectProps.variant);
   const variant = selectProps.variant;
   const bgColor = variant && variant === "secondary" ? "bg-primary" : "bg-canvas";
   return (

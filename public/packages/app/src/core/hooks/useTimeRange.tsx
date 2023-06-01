@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { timeService } from "../lib/time";
+import { urlService } from "../lib/url";
 import historyService from "../lib/history";
 import { TimeRange } from "@traceo/types";
 
@@ -34,7 +34,7 @@ export const useTimeRange = (initial?: { from: number; to: number }, initOnStart
       return;
     }
 
-    timeService.setParams({
+    urlService.setParams({
       from: ranges[0],
       to: ranges[1]
     });

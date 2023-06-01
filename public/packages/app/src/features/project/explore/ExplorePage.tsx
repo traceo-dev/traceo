@@ -1,13 +1,11 @@
-import { Button, Col, Row, Select, SelectOptionProps } from "@traceo/ui";
+import { Button, Row, Select, SelectOptionProps } from "@traceo/ui";
 import { Page } from "../../../core/components/Page";
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import {
   AlignLeftOutlined,
   BarChartOutlined,
   CaretRightFilled,
-  NodeExpandOutlined,
-  RightOutlined,
-  SearchOutlined
+  NodeExpandOutlined
 } from "@ant-design/icons";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
@@ -16,6 +14,7 @@ import { TracesPage } from "./tracing/TracesPage";
 import { EXPLORE_TYPE, Setter, TimeRange } from "@traceo/types";
 import { ExploreRangePicker } from "./components/ExploreRangePicker";
 import { MetricsPage } from "./metrics/MetricsPage";
+import { urlService } from "../../../core/lib/url";
 
 const exploreOptions: SelectOptionProps[] = [
   {
@@ -50,7 +49,13 @@ export const ExplorePageWrapper: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
-  const [type, setType] = useState<EXPLORE_TYPE>(EXPLORE_TYPE.LOGS);
+  const [type, setType] = useState<EXPLORE_TYPE>(urlService.getParam<EXPLORE_TYPE>("type"));
+
+  useEffect(() => {
+    urlService.setParams({
+      type: type
+    });
+  }, [type]);
 
   const { ranges, setRanges } = useTimeRange({
     from: dayjs().subtract(30, "minute").unix(),
