@@ -1,13 +1,14 @@
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { Page } from "../../../core/components/Page";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
+import { Permissions } from "../../../core/components/Permissions";
 import { MetricCard } from "./components/MetricCard";
 import { BarChartOutlined, PlusOutlined } from "@ant-design/icons";
 import { Row, Button } from "@traceo/ui";
 import dayjs from "dayjs";
 import { Link, useParams } from "react-router-dom";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
-import { IMetric } from "@traceo/types";
+import { IMetric, MemberRole } from "@traceo/types";
 import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
 
 const MetricsPage = () => {
@@ -31,11 +32,13 @@ const MetricsPage = () => {
         description:
           "Use the SDK to collect metrics data from your software about its performance and everything else.",
         suffix: (
-          <Link to={`/project/${id}/metrics/create`} className="text-primary hover:text-white">
-            <Button size="sm" icon={<PlusOutlined />}>
-              Add new metric
-            </Button>
-          </Link>
+          <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+            <Link to={`/project/${id}/metrics/create`} className="text-primary hover:text-white">
+              <Button size="sm" icon={<PlusOutlined />}>
+                Add new metric
+              </Button>
+            </Link>
+          </Permissions>
         )
       }}
       headerDivider={true}

@@ -2,6 +2,7 @@ import { QuestionCircleOutlined } from "@ant-design/icons";
 import { joinClasses } from "../utils/classes";
 import { FC, PropsWithChildren } from "react";
 import { Tooltip } from "../Tooltip";
+import { Row } from "../Row";
 
 export type LabelPosition = "vertical" | "horizontal";
 interface FieldLabelProps {
@@ -26,14 +27,14 @@ export const FieldLabel: FC<PropsWithChildren<FieldLabelProps>> = ({
 
   return (
     <div className={joinClasses("mb-5", mapStyle[labelPosition], className)}>
-      <div className="flex flex-row items-center gap-x-2 mb-2">
+      <Row gap="x-2" className="mb-2">
         <span className={joinClasses("font-semibold", `text-${labelSize}`)}>{label}</span>
         {tooltip && (
           <Tooltip title={tooltip}>
             <QuestionCircleOutlined className="hover:text-primary cursor-pointer" />
           </Tooltip>
         )}
-      </div>
+      </Row>
       {children}
     </div>
   );

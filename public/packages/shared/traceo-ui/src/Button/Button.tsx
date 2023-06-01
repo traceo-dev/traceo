@@ -1,3 +1,4 @@
+import { Row } from "../Row";
 import { conditionClass, joinClasses } from "../utils/classes";
 import { mapButtonVariantStyle, mapButtonSize } from "./styles";
 import { ButtonVariant, ButtonSize } from "./types";
@@ -36,7 +37,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
 
   return (
     <button className={classNames} disabled={disabled} ref={ref} {...restProps}>
-      <div className="flex flex-row items-center space-nowrap h-full">
+      <Row className="whitespace-nowrap h-full">
         {(icon || loading) && (
           <div className="pr-2">
             {loading && <LoadingOutlined />}
@@ -45,7 +46,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>((props, ref) => {
         )}
 
         {children}
-      </div>
+      </Row>
     </button>
   );
 });

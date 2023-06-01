@@ -14,6 +14,7 @@ import { useAppDispatch } from "../../../../store";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useIncidentSelector } from "../../../../core/hooks/useIncidentSelector";
+import { Row } from "@traceo/ui";
 
 const IncidentPageWrapper = ({ children }) => {
   const { iid } = useParams();
@@ -58,12 +59,12 @@ const IncidentPageWrapper = ({ children }) => {
             page="incident"
             title={incident.name}
             description={
-              <div className="flex flex-row items-center pt-2 text-xs">
+              <Row className="pt-2 text-xs">
                 <span className="text-sm mr-1">{mapHeaderStatusIcon[incident.status]}</span>
                 <span className="text-2xs">{mapIncidentStatus[incident.status]}</span>
                 <RightOutlined className="text-[8px] px-2" />
                 <span className="font-normal">{incident?.message}</span>
-              </div>
+              </Row>
             }
           />
         )

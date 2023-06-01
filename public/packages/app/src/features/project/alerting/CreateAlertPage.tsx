@@ -1,4 +1,4 @@
-import { Button } from "@traceo/ui";
+import { Button, Row } from "@traceo/ui";
 import { useNavigate, useParams } from "react-router-dom";
 import {
   AlertEnumType,
@@ -46,7 +46,7 @@ const CreateAlertPage = () => {
       defaultValues={initialAlert}
       onSubmit={(alert) => onFinish(alert)}
       headerSuffix={
-        <div className="flex flex-row gap-x-3">
+        <Row gap="x-3">
           <RouterLink to={`/project/${id}/alerting`}>
             <Button variant="danger">Cancel</Button>
           </RouterLink>
@@ -54,7 +54,7 @@ const CreateAlertPage = () => {
           <Button type="submit" form="alert-form" variant="primary">
             Save
           </Button>
-        </div>
+        </Row>
       }
     />
   );

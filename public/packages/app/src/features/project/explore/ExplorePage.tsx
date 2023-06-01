@@ -1,4 +1,4 @@
-import { Button, Col, Select, SelectOptionProps } from "@traceo/ui";
+import { Button, Col, Row, Select, SelectOptionProps } from "@traceo/ui";
 import { Page } from "../../../core/components/Page";
 import { FC, useRef, useState } from "react";
 import {
@@ -77,9 +77,14 @@ export const ExplorePageWrapper: FC = () => {
   return (
     <Page>
       <Page.Content>
-        <div className="w-full flex flex-row py-3 justify-between">
-          <Select variant="secondary" options={exploreOptions} value={type} onChange={(opt) => setType(opt?.value)} />
-          <div className="flex flex-row gap-x-3 text-sm">
+        <Row className="w-full py-3 justify-between">
+          <Select
+            variant="secondary"
+            options={exploreOptions}
+            value={type}
+            onChange={(opt) => setType(opt?.value)}
+          />
+          <Row gap="x-3" className="text-sm">
             <ExploreRangePicker
               range={ranges}
               maxRange={type === EXPLORE_TYPE.TRACING ? 168 : 168}
@@ -95,8 +100,8 @@ export const ExplorePageWrapper: FC = () => {
             >
               Run
             </Button>
-          </div>
-        </div>
+          </Row>
+        </Row>
 
         {type === EXPLORE_TYPE.LOGS && <LogsPage {...props} ref={ref} />}
         {type === EXPLORE_TYPE.TRACING && <TracesPage {...props} ref={ref} />}

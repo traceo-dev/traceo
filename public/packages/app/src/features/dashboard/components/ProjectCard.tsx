@@ -1,7 +1,7 @@
 import { RightOutlined } from "@ant-design/icons";
 import dateUtils from "../../../core/utils/date";
 import { MemberProject } from "@traceo/types";
-import { Typography, Avatar } from "@traceo/ui";
+import { Typography, Avatar, Row } from "@traceo/ui";
 import { FC } from "react";
 
 interface Props {
@@ -13,11 +13,11 @@ export const ProjectCard: FC<Props> = ({ project }) => {
     : "-- : --";
 
   return (
-    <div
+    <Row
       onClick={() => (window.location.href = `/project/${project.projectId}/overview`)}
-      className="md:col-span-2 lg:col-span-4 flex flex-row justify-between items-center p-5 m-2 bg-secondary rounded-md cursor-pointer hover:bg-light-secondary"
+      className="md:col-span-2 lg:col-span-4 justify-between p-5 m-2 bg-secondary rounded-md cursor-pointer hover:bg-light-secondary"
     >
-      <div className="flex flex-row items-center">
+      <Row>
         <Avatar alt={project.name} src={project?.gravatar} />
         <div className="flex flex-col pl-3">
           <Typography className="cursor-pointer" weight="semibold">
@@ -25,9 +25,9 @@ export const ProjectCard: FC<Props> = ({ project }) => {
           </Typography>
           <span className="text-xs text-primary">{lastEventAt}</span>
         </div>
-      </div>
+      </Row>
 
       <RightOutlined className="text-xs hover:text-[14px] text-primary hover:text-white duration-100" />
-    </div>
+    </Row>
   );
 };

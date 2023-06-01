@@ -2,11 +2,12 @@ import { Page } from "../../../core/components/Page";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { conditionClass } from "../../../core/utils/classes";
 import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
-import { IMetric, DeepPartial, ApiResponse } from "@traceo/types";
+import { IMetric, DeepPartial, ApiResponse, MemberRole } from "@traceo/types";
 import { Button, Row } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { To, useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
+import { Permissions } from "../../../core/components/Permissions";
 import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
@@ -100,17 +101,23 @@ export const MetricPreviewPage = () => {
         ),
         suffix: !isCustomizeMode ? (
           <Row gap="x-3">
-            <Button size="sm" onClick={() => setCustomizeMode(true)} icon={<SettingOutlined />}>
-              Configure
-            </Button>
-            <Confirm
-              description="Are you sure that you want to remove this metric?"
-              onOk={() => onRemove()}
-            >
-              <Button size="sm" variant="danger">
-                Remove
+            <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+              <Button size="sm" onClick={() => setCustomizeMode(true)} icon={<SettingOutlined />}>
+                Configure
               </Button>
-            </Confirm>
+            </Permissions>
+            {!options.isDefault && (
+              <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+                <Confirm
+                  description="Are you sure that you want to remove this metric?"
+                  onOk={() => onRemove()}
+                >
+                  <Button size="sm" variant="danger">
+                    Remove
+                  </Button>
+                </Confirm>
+              </Permissions>
+            )}
           </Row>
         ) : (
           <Row gap="x-3">

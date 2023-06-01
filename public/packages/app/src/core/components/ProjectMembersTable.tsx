@@ -5,7 +5,7 @@ import { ADMIN_EMAIL } from "../utils/constants";
 import { Confirm } from "./Confirm";
 import { CheckCircleFilled } from "@ant-design/icons";
 import { MemberRole, ProjectMember } from "@traceo/types";
-import { Avatar, Button, Select, Table, TableColumn, Tooltip } from "@traceo/ui";
+import { Avatar, Button, Row, Select, Table, TableColumn, Tooltip } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -46,14 +46,14 @@ export const ProjectMembersTable: FC<Props> = ({ collection, postExecute, classN
       </TableColumn>
       <TableColumn name="Name" value="name">
         {({ item }) => (
-          <div className="flex flex-row">
+          <Row>
             <span>{item.name}</span>
             {item?.userId === user?.id && (
               <Tooltip placement="bottom" title="It's you!">
                 <CheckCircleFilled className="p-1 text-amber-600" />
               </Tooltip>
             )}
-          </div>
+          </Row>
         )}
       </TableColumn>
       <TableColumn name="Email" value="email" />

@@ -1,4 +1,4 @@
-import { Alert, FieldLabel, Input } from "../index";
+import { Alert, FieldLabel, Input, Row } from "../index";
 import { useEffect, useState, useCallback } from "react";
 import { CalendarDatesType, CalendarBody } from "./CalendarBody";
 import dayjs, { ManipulateType } from "dayjs";
@@ -125,7 +125,7 @@ export const TimeRangePicker = ({
   const popoverContent = (
     <PickerWrapper>
       <CalendarHeader title="Select time range" />
-      <div className="flex flex-row grid grid-cols-12">
+      <Row className="grid grid-cols-12">
         {hasOptions && <OptionsContainer options={options} onSelect={handleOnClickOption} />}
         <div className={joinClasses(conditionClass(hasOptions, "col-span-8", "col-span-12"))}>
           <CalendarBody
@@ -147,7 +147,7 @@ export const TimeRangePicker = ({
           </TimeWrapper>
           {error && <Alert type="error" message={error} />}
         </div>
-      </div>
+      </Row>
       <CalendarFooter disabledApplyBtn={!!error} onSubmit={handleOnSubmit} />
     </PickerWrapper>
   );

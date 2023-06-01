@@ -15,7 +15,7 @@ import {
   OperatorEnum,
   IAlert
 } from "@traceo/types";
-import { SelectOptionProps, Tag, Tooltip, toTitleCase } from "@traceo/ui";
+import { Row, SelectOptionProps, Tag, Tooltip, toTitleCase } from "@traceo/ui";
 import styled from "styled-components";
 import { TIME_OPTIONS } from "./rules/types";
 import dayjs from "dayjs";
@@ -85,22 +85,22 @@ export const mapSeverityIcon: Record<AlertSeverity, JSX.Element> = {
 
 export const mapSeverityToSpan: Record<AlertSeverity, JSX.Element> = {
   [AlertSeverity.INFO]: (
-    <div className="flex flex-row gap-x-2 items-center">
+    <Row gap="x-2">
       {mapSeverityIcon[AlertSeverity.INFO]}
       <span className="text-2xs">Info</span>
-    </div>
+    </Row>
   ),
   [AlertSeverity.WARNING]: (
-    <div className="flex flex-row gap-x-2 items-center">
+    <Row gap="x-2">
       {mapSeverityIcon[AlertSeverity.WARNING]}
       <span className="text-2xs">Warning</span>
-    </div>
+    </Row>
   ),
   [AlertSeverity.CRITICAL]: (
-    <div className="flex flex-row gap-x-2 items-center">
+    <Row gap="x-2">
       {mapSeverityIcon[AlertSeverity.CRITICAL]}
       <span className="text-2xs">Critical</span>
-    </div>
+    </Row>
   )
 };
 
@@ -148,13 +148,13 @@ export const SectionContent = styled.div`
 
 export const SectionHeader = ({ title, description = null, index }) => {
   return (
-    <div className="flex flex-row text-primary mb-5">
+    <Row className="text-primary mb-5">
       <span className="text-xl font-semibold">{index}.</span>
       <div className="flex flex-col pl-3">
         <span className="font-semibold text-xl text-primary">{title}</span>
         {description && <span className="text-md text-primary">{description}</span>}
       </div>
-    </div>
+    </Row>
   );
 };
 

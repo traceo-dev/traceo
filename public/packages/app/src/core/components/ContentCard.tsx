@@ -1,4 +1,4 @@
-import { joinClasses } from "@traceo/ui";
+import { Row, joinClasses } from "@traceo/ui";
 import { FC, HTMLProps } from "react";
 import { To, useNavigate } from "react-router-dom";
 
@@ -26,7 +26,7 @@ export const ContentCard: FC<Props> = ({
       )}
       {...props}
     >
-      <div className="flex flex-row justify-between items-center px-5 py-3">
+      <Row className="justify-between px-5 py-3">
         {name && (
           <span
             className="font-semibold text-sm cursor-pointer"
@@ -36,7 +36,7 @@ export const ContentCard: FC<Props> = ({
           </span>
         )}
         {extra}
-      </div>
+      </Row>
       <div className="p-3 mt-5">{children}</div>
     </div>
   );

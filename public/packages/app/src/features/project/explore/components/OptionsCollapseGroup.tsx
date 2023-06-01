@@ -1,4 +1,5 @@
 import { RightOutlined, DownOutlined, DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
+import { Row } from "@traceo/ui";
 import { useState } from "react";
 
 interface Props {
@@ -25,9 +26,10 @@ export const OptionsCollapseGroup = ({
 
   return (
     <div className="mb-2 p-3 pb-0 text-sm w-full flex flex-col rounded bg-primary border border-solid border-secondary rounded">
-      <div className="flex flex-row items-center gap-x-3 justify-between w-full pr-3">
-        <div
-          className="flex flex-row items-center gap-x-2 text-primary cursor-pointer"
+      <Row gap="x-3" className="justify-between w-full pr-3">
+        <Row
+          gap="x-2"
+          className="gap-x-2 cursor-pointer"
           onClick={() => setCollapsed(!collapsed)}
         >
           <span className="text-[8px]">{icon}</span>
@@ -35,12 +37,12 @@ export const OptionsCollapseGroup = ({
           {collapsedText && collapsed && (
             <span className="pl-5 text-xs font-normal italic">{collapsedText}</span>
           )}
-        </div>
+        </Row>
         {extra && extra}
         {loading && <LoadingOutlined />}
-      </div>
+      </Row>
 
-      {!collapsed && <div className="p-3 pt-5 text-primary">{children}</div>}
+      {!collapsed && <div className="p-3 pt-5">{children}</div>}
 
       {footer && <div className="pl-5 py-3">{footer}</div>}
     </div>

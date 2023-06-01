@@ -12,7 +12,7 @@ import {
   SwapOutlined,
   UserOutlined
 } from "@ant-design/icons";
-import { Avatar, Popover } from "@traceo/ui";
+import { Avatar, Popover, Row } from "@traceo/ui";
 import { useProject } from "../../../hooks/useProject";
 import { HeaderItem } from "./HeaderItem";
 import { buildHeaderItems } from "./utils";
@@ -83,10 +83,13 @@ export const Header = () => {
       </div>
       <div className="w-full border-top">
         <Link to={"/dashboard/projects"}>
-          <div className="py-1 hover:text-white px-2 text-sm cursor-pointer text-primary flex flex-row gap-x-1 items-center">
+          <Row
+            gap="x-1"
+            className="py-1 hover:text-white px-2 text-sm cursor-pointer text-primary"
+          >
             <AppstoreOutlined />
             <span>Show list</span>
-          </div>
+          </Row>
         </Link>
       </div>
     </div>
@@ -99,10 +102,12 @@ export const Header = () => {
         <span
           key={key}
           onClick={() => (window.location.href = route.href)}
-          className="text-primary text-sm p-2 hover:bg-secondary cursor-pointer flex flex-row items-center gap-x-3"
+          className="text-primary text-sm p-2 hover:bg-secondary cursor-pointer"
         >
-          {route.icon}
-          {route.label}
+          <Row gap="x-3">
+            {route.icon}
+            {route.label}
+          </Row>
         </span>
       ))}
     </div>
@@ -111,16 +116,17 @@ export const Header = () => {
   return (
     <div className="w-full flex flex-col z-50 shadow-lg top-0 fixed">
       <header className="flex px-8 h-[40px] w-full bg-primary border-bottom justify-between items-center">
-        <div className="flex flex-row items-center gap-x-5">
-          <div className="flex flex-row items-center gap-x-2">
+        <Row gap="x-5">
+          <Row gap="x-2">
             {!isProjectDashboard ? (
-              <div
-                className="flex flex-row gap-x-3 cursor-pointer items-center"
+              <Row
+                gap="x-3"
+                className="cursor-pointer"
                 onClick={() => navigate("/dashboard/projects")}
               >
                 <TraceoLogo size="small" />
                 <span className="text-sm font-semibold">Traceo</span>
-              </div>
+              </Row>
             ) : (
               <>
                 {isLoading ? (
@@ -149,9 +155,9 @@ export const Header = () => {
                 )}
               </>
             )}
-          </div>
-        </div>
-        <div className="flex flex-row gap-x-5 items-center text-primary">
+          </Row>
+        </Row>
+        <Row gap="x-5">
           <ServerPermissions>
             <Popover
               placement="bottom-end"
@@ -188,7 +194,7 @@ export const Header = () => {
           )}
 
           <LogoutOutlined onClick={() => logout()} className="icon-btn hover:text-red-400" />
-        </div>
+        </Row>
       </header>
       <SecondaryHeader>
         {buildHeaderItems(isAdmin, project).map((route, key) => (
@@ -215,8 +221,7 @@ const HeaderButton = styled.div`
   flex-direction: row;
   font-size: 11px;
   align-items: center;
-  border: 1px solid var(--color-traceo-primary);
-  border-radius: 20px;
+  border-radius: 5px;
   cursor: pointer;
   color: var(--color-traceo-primary);
   padding-inline: 15px;

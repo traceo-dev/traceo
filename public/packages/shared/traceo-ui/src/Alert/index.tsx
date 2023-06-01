@@ -7,6 +7,7 @@ import {
   InfoCircleFilled
 } from "@ant-design/icons";
 import { FC, useState } from "react";
+import { Row } from "../Row";
 
 type AlertType = "success" | "info" | "warning" | "error";
 
@@ -68,25 +69,19 @@ export const Alert: FC<AlertProps> = (props: AlertProps) => {
     typeof title === "string" ? <span className="text-sm tracking-wide">{title}</span> : title;
 
   return (
-    <div
-      className={joinClasses(
-        "rounded w-full p-3 justify-between flex flex-row items-center",
-        alertTypeStyle,
-        className
-      )}
-    >
-      <div className="flex flex-row items-center">
+    <Row className={joinClasses("rounded w-full p-3 justify-between", alertTypeStyle, className)}>
+      <Row>
         {showIcon && <div className="pr-3">{alertIcon}</div>}
         <div className="flex flex-col">
           {title && alertTitle}
           {message && alertMessage}
         </div>
-      </div>
+      </Row>
       {closeable && (
         <span onClick={handleClose} className="items-center text-xs cursor-pointer">
           <CloseOutlined />
         </span>
       )}
-    </div>
+    </Row>
   );
 };

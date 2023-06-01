@@ -1,9 +1,10 @@
+import { Row } from "@traceo/ui";
 import { GH_REPO_LINK } from "../utils/constants";
 import { InfoCircleFilled } from "@ant-design/icons";
 
 export const DemoBanner = () => {
   return (
-    <div className="text-xs bg-blue-900 text-blue-100 leading-5 p-3 m-3 rounded-md flex flex-row items-center">
+    <Row className="text-xs bg-blue-900 text-blue-100 leading-5 p-3 m-3 rounded-mdr">
       <InfoCircleFilled className="text-lg" />
       <div className="ml-2  w-full flex flex-col">
         <span className="leading-4">
@@ -18,6 +19,6 @@ export const DemoBanner = () => {
           .
         </span>
       </div>
-    </div>
+    </Row>
   );
 };

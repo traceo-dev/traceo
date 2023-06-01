@@ -14,7 +14,7 @@ import {
   IIncident,
   PaginateType
 } from "@traceo/types";
-import { InputSearch, Select, Card, RadioButtonGroup } from "@traceo/ui";
+import { InputSearch, Select, Card, RadioButtonGroup, Row } from "@traceo/ui";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { AlertOutlined, SortAscendingOutlined, SortDescendingOutlined } from "@ant-design/icons";
@@ -90,7 +90,7 @@ export const IncidentsListPage = () => {
     >
       <Page.Content className="pt-1">
         <Card>
-          <SearchWrapper className="pb-5">
+          <Row className="pb-5" gap="x-2">
             <InputSearch
               placeholder="Search incidents by name, message, status or assigned user"
               value={search}
@@ -123,7 +123,7 @@ export const IncidentsListPage = () => {
               icon={order === "ASC" ? <SortAscendingOutlined /> : <SortDescendingOutlined />}
               onClick={() => setOrder(order === "ASC" ? "DESC" : "ASC")}
             />
-          </SearchWrapper>
+          </Row>
 
           <IncidentsTable
             onPageChange={setPage}

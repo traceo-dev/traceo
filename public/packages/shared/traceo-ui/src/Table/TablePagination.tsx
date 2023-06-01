@@ -2,6 +2,7 @@ import { joinClasses } from "../utils/classes";
 import { PaginationPositionType } from "./types";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import { FC } from "react";
+import { Row } from "../Row";
 import styled from "styled-components";
 
 const PaginationButton = styled.div`
@@ -51,19 +52,14 @@ export const TablePagination: FC<TablePaginationProps> = ({
     setCurrentPage(page);
   };
   return (
-    <div
-      className={joinClasses(
-        "w-full mt-12 flex flex-row items-center",
-        mapPaginationPostion[position]
-      )}
-    >
+    <Row className={joinClasses("w-full mt-12", mapPaginationPostion[position])}>
       {!!totalRowsCount && (
         <span className="text-xs whitespace-nowrap pr-5">
           Showing {pageSize * (currentPage - 1)}-{pageSize * currentPage} from {totalRowsCount}{" "}
           rows
         </span>
       )}
-      <div className="border border-solid rounded border-light-secondary items-center flex flex-row max-w-min">
+      <Row className="border border-solid rounded border-light-secondary max-w-min">
         <PaginationButton
           disabled={currentPage === 1}
           onClick={() => handlePageChange(currentPage - 1)}
@@ -74,12 +70,12 @@ export const TablePagination: FC<TablePaginationProps> = ({
           <span>{currentPage}</span>
         </div>
         <PaginationButton
-          disabled={currentPage === pagesCount || totalRowsCount === 0}
+          disabled={currentPage === pagesCount || totalRowsCount === 0 || !totalRowsCount}
           onClick={() => handlePageChange(currentPage + 1)}
         >
           <RightOutlined />
         </PaginationButton>
-      </div>
-    </div>
+      </Row>
+    </Row>
   );
 };
