@@ -1,6 +1,6 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { VitalsEnum, Performance, VitalsHealthType } from "@traceo/types";
-import { Card, InputSearch, PageHeader, Select } from "@traceo/ui";
+import { Card, InputSearch, Select } from "@traceo/ui";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -17,7 +17,7 @@ import { VitalsGraphBar } from "./VitalsGraphBar";
 import { VitalsHealthBar } from "./VitalsHealthBar";
 import { VitalsRawData } from "./VitalsRawData";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
-import { ContentCard } from "src/core/components/ContentCard";
+import { ContentCard } from "../../../../core/components/ContentCard";
 
 const VitalsPreviewPage = () => {
   const { id, name } = useParams();

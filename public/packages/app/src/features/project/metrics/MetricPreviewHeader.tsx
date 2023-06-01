@@ -1,7 +1,7 @@
 import { IMetric, DeepPartial } from "@traceo/types";
 import { PageHeader } from "@traceo/ui";
 import { FC } from "react";
-import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
+import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 
 interface Props {
   currentOptions: DeepPartial<IMetric>;

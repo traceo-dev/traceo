@@ -6,13 +6,13 @@ import { Button, Card, Row } from "@traceo/ui";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
 import { randomHexColor } from "../../../core/utils/colors";
-import { DataNotFound } from "src/core/components/DataNotFound";
+import { DataNotFound } from "../../../core/components/DataNotFound";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "src/core/lib/api";
-import { notify } from "src/core/utils/notify";
+import api from "../../../core/lib/api";
+import { notify } from "../../../core/utils/notify";
 import dayjs from "dayjs";
-import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
+import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { CheckOutlined } from "@ant-design/icons";
 
 const initialMetric: DeepPartial<IMetric> = {

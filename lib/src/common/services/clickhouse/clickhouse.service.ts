@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { ClickHouseClient, ClickHouseClientConfigOptions, createClient, QueryParams } from "@clickhouse/client";
-import { ILog, MetricPayload, PerformanceQuery, Performance, Notification, Span } from "@traceo/types";
-import { ExploreMetricsQueryDto, MetricQueryDto } from "../../../common/types/dto/metrics.dto";
+import { ILog, PerformanceQuery, Performance, Notification, Span } from "@traceo/types";
+import { ExploreMetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { QueryTracingDto } from "../../../common/types/dto/tracing";
 import { LogsQuery } from "../../../common/types/dto/logs.dto";
-import { AggregateTimeSeries } from "src/api/metrics/query/metrics-query.service";
+import { AggregateTimeSeries } from "../../../api/metrics/query/metrics-query.service";
 
 @Injectable()
 export class ClickhouseService {

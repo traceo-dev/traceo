@@ -1,9 +1,9 @@
 import { VitalsEnum, Performance } from "@traceo/types";
-import { Card, Table, TableColumn } from "@traceo/ui";
+import { Table, TableColumn } from "@traceo/ui";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { mapHealthToIcon } from "./types";
-import { ContentCard } from "src/core/components/ContentCard";
+import { ContentCard } from "../../../../core/components/ContentCard";
 
 interface Props {
   performances: Performance[];

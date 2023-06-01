@@ -1,11 +1,10 @@
-import { LoadingOutlined, QuestionCircleOutlined, ReloadOutlined } from "@ant-design/icons";
+import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 import { IMetric, MetricPreviewType, Setter, TimeRange } from "@traceo/types";
-import { Card, Row, Space, Tooltip } from "@traceo/ui";
+import { Card } from "@traceo/ui";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import MetricChart from "../../../../core/components/Charts/Metrics/MetricChart";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
-import { ColumnSection } from "src/core/components/ColumnSection";
 
 interface MetricCardProps {
   metric: IMetric;

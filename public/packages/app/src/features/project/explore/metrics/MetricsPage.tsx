@@ -11,12 +11,11 @@ import {
   NodeIndexOutlined
 } from "@ant-design/icons";
 import { Col, Input, RadioButtonGroup, Row, Select, SelectOptionProps } from "@traceo/ui";
-import styled from "styled-components";
 import { metricsApi } from "./api";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { Field } from "../components/Field";
 import { InlineFields } from "../components/InlineFields";
-import MetricsExploreChart from "src/core/components/Charts/Metrics/MetricsExploreChart";
+import MetricsExploreChart from "../../../../core/components/Charts/Metrics/MetricsExploreChart";
 import { ActionButton } from "../../../../core/components/ActionButton";
 import { GRAPH_TYPE_OPTIONS } from "../types";
 import { ExploreSerieType, EXPLORE_PLOT_TYPE, AVAILABLE_COLORS, TimeRange } from "@traceo/types";

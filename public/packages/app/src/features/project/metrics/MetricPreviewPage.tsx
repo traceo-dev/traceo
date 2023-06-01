@@ -3,49 +3,21 @@ import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { conditionClass } from "../../../core/utils/classes";
 import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
 import { IMetric, DeepPartial, ApiResponse } from "@traceo/types";
-import { Button, Card, Popover, Row } from "@traceo/ui";
+import { Button, Row } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { To, useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
-import {
-  CheckOutlined,
-  CloseOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  EllipsisOutlined,
-  LeftOutlined,
-  LoadingOutlined,
-  SettingOutlined
-} from "@ant-design/icons";
+import { useReactQuery } from "../../../core/hooks/useReactQuery";
+import { CheckOutlined, SettingOutlined } from "@ant-design/icons";
 import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
-import { SearchWrapper } from "src/core/components/SearchWrapper";
 import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
-import { ActionButton } from "../../../core/components/ActionButton";
-import api from "src/core/lib/api";
-import { Confirm } from "src/core/components/Confirm";
-import styled from "styled-components";
-import { PreviewPageHeader } from "src/core/components/PreviewPageHeader";
-import { ContentCard } from "src/core/components/ContentCard";
-import { ButtonOptionsWrapper } from "../explore/components";
-
-const GraphOption = styled.div`
-  padding: 4px;
-  cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 400;
-  whitespace: nowrap;
-
-  &:hover {
-    background-color: var(--color-bg-secondary);
-  }
-`;
+import api from "../../../core/lib/api";
+import { Confirm } from "../../../core/components/Confirm";
+import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
+import { ContentCard } from "../../../core/components/ContentCard";
 
 export const MetricPreviewPage = () => {
   const navigate = useNavigate();

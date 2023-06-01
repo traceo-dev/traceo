@@ -1,9 +1,9 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { Span } from "@traceo/types";
-import { INTERNAL_SERVER_ERROR } from "src/common/helpers/constants";
+import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { QueryTracingDto } from "src/common/types/dto/tracing";
+import { QueryTracingDto } from "../../../common/types/dto/tracing";
 
 @Injectable()
 export class TracingQueryService {

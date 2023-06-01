@@ -2,11 +2,11 @@ import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { Page } from "../../../core/components/Page";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { MetricCard } from "./components/MetricCard";
-import { BarChartOutlined, PlusOutlined, QuestionCircleOutlined } from "@ant-design/icons";
-import { Row, Col, Card, Button } from "@traceo/ui";
+import { BarChartOutlined, PlusOutlined } from "@ant-design/icons";
+import { Row, Button } from "@traceo/ui";
 import dayjs from "dayjs";
 import { Link, useParams } from "react-router-dom";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { IMetric } from "@traceo/types";
 import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
 
