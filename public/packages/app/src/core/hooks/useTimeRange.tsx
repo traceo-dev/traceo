@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { timeService } from "../lib/time";
+import { urlService } from "../lib/url";
 import historyService from "../lib/history";
 import { TimeRange } from "@traceo/types";
 
@@ -15,26 +15,7 @@ export const useTimeRange = (initial?: { from: number; to: number }, initOnStart
       return;
     }
 
-    const unlisten = historyService.listen(({ action, location }) => {
-      if (action === "POP") {
-        const search = new URLSearchParams(location.search);
-        if (search.get("from") && search.get("to")) {
-          setRanges([parseInt(search.get("from")), parseInt(search.get("to"))]);
-        }
-      }
-    });
-
-    return () => {
-      unlisten();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!initOnStart) {
-      return;
-    }
-
-    timeService.setParams({
+    urlService.setParams({
       from: ranges[0],
       to: ranges[1]
     });

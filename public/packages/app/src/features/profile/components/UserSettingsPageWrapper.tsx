@@ -35,7 +35,7 @@ export const UserSettingsPageWrapper = ({ children }) => {
       }}
     >
       <ConditionalWrapper isLoading={!user.isFetched}>
-        <Page.Content>{children}</Page.Content>
+        <Page.Content className="pt-0">{children}</Page.Content>
       </ConditionalWrapper>
     </Page>
   );

@@ -36,14 +36,20 @@ interface SelectProps {
   defaultValue?: any;
   onChange?: (value: SelectOptionProps | any, actionMeta: ActionMeta<unknown>) => void;
   isDisabled?: boolean;
+  variant?: "primary" | "secondary";
 }
 
 const Control = (props: any) => {
   const { children, innerProps } = props;
   const selectProps = props.selectProps as SelectProps;
 
+  const variant = selectProps.variant;
+  const bgColor = variant && variant === "secondary" ? "bg-primary" : "bg-canvas";
   return (
-    <div className="h-[30px] bg-canvas px-2 flex rounded-sm items-center" {...innerProps}>
+    <div
+      className={joinClasses("h-[30px] px-2 flex rounded-sm items-center", bgColor)}
+      {...innerProps}
+    >
       {(selectProps.prefix || selectProps.value?.icon) && (
         <div className="px-1">{selectProps.value?.icon || selectProps.prefix}</div>
       )}

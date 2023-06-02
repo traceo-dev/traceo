@@ -27,7 +27,9 @@ const UsersListPage = () => {
         title="Users list"
         extra={
           <RouterLink to={"/dashboard/new-user"}>
-            <Button icon={<PlusOutlined />}>New user</Button>
+            <Button size="sm" icon={<PlusOutlined />}>
+              New user
+            </Button>
           </RouterLink>
         }
       >

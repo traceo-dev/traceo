@@ -41,8 +41,8 @@
           "position": "bottom"
         },
         "legend": {
-          "show": false,
-          "orient": "vertical"
+          "show": true,
+          "orient": "horizontal"
         },
         "axis": {
           "showX": true,
@@ -92,8 +92,8 @@
           "position": "bottom"
         },
         "legend": {
-          "show": false,
-          "orient": "vertical"
+          "show": true,
+          "orient": "horizontal"
         },
         "axis": {
           "showX": true,
@@ -143,8 +143,8 @@
           "position": "bottom"
         },
         "legend": {
-          "show": false,
-          "orient": "vertical"
+          "show": true,
+          "orient": "horizontal"
         },
         "axis": {
           "showX": true,
@@ -210,8 +210,8 @@
           "position": "bottom"
         },
         "legend": {
-          "show": false,
-          "orient": "vertical"
+          "show": true,
+          "orient": "horizontal"
         },
         "axis": {
           "showX": true,
@@ -293,8 +293,8 @@
           "position": "bottom"
         },
         "legend": {
-          "show": false,
-          "orient": "vertical"
+          "show": true,
+          "orient": "horizontal"
         },
         "axis": {
           "showX": true,
@@ -344,8 +344,8 @@
           "position": "bottom"
         },
         "legend": {
-          "show": false,
-          "orient": "vertical"
+          "show": true,
+          "orient": "horizontal"
         },
         "axis": {
           "showX": true,

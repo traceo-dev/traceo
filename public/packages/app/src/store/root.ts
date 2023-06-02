@@ -1,7 +1,6 @@
 import adminUserReducer from "../features/admin/state/users/reducers";
 import adminProjectReducer from "../features/admin/state/projects/reducers";
 
-import commentsReducer from "../features/project/incidents/state/slices/comments.slice";
 import incidentReducer from "../features/project/incidents/state/slices/incident.slice";
 import groupedEventsReducer from "../features/project/incidents/state/slices/grouped-events.slice";
 
@@ -15,7 +14,6 @@ import notifyReducer from "./internal/notify/notifyReducer";
 import { combineReducers, AnyAction } from "redux";
 
 const incidentReducers = {
-  ...commentsReducer,
   ...incidentReducer,
   ...groupedEventsReducer
 };

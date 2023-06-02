@@ -14,13 +14,14 @@ import {
   IIncident,
   PaginateType
 } from "@traceo/types";
-import { InputSearch, Select, Card, RadioButtonGroup } from "@traceo/ui";
+import { InputSearch, Select, Card, RadioButtonGroup, Row } from "@traceo/ui";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { AlertOutlined } from "@ant-design/icons";
+import { AlertOutlined, SortAscendingOutlined, SortDescendingOutlined } from "@ant-design/icons";
 import { resetIncidentState } from "./state/slices/incident.slice";
 import { resetGroupedEvents } from "./state/slices/grouped-events.slice";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
+import { ActionButton } from "../../../core/components/ActionButton";
 
 const INCIDENT_PAGE_SIZE = 15;
 
@@ -87,9 +88,9 @@ export const IncidentsListPage = () => {
         icon: <AlertOutlined />
       }}
     >
-      <Page.Content>
+      <Page.Content className="pt-1">
         <Card>
-          <SearchWrapper className="pt-2 pb-12">
+          <Row className="pb-5" gap="x-2">
             <InputSearch
               placeholder="Search incidents by name, message, status or assigned user"
               value={search}
@@ -117,8 +118,12 @@ export const IncidentsListPage = () => {
               options={changeBarOptions}
               size="sm"
             />
-            <SortIcons order={order} setOrder={setOrder} />
-          </SearchWrapper>
+            <ActionButton
+              inactiveColor="bg-canvas"
+              icon={order === "ASC" ? <SortAscendingOutlined /> : <SortDescendingOutlined />}
+              onClick={() => setOrder(order === "ASC" ? "DESC" : "ASC")}
+            />
+          </Row>
 
           <IncidentsTable
             onPageChange={setPage}

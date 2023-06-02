@@ -56,7 +56,7 @@ body {
   height: 100%;
   width: 100%;
   position: absolute;
-  color: #ffffff;
+  color: var(--color-text-primary);
   background-color: var(--color-bg-canvas);
   margin: 0px 0px 0.45em;
   font-size: 1rem;
@@ -112,15 +112,6 @@ table {
   background: var(--color-bg-secondary);
 }
 
-.details-table-label {
-  font-weight: 400 !important;
-  width: 256px !important;
-}
-
-.details-table-value {
-  width: 400px !important;
-}
-
 .pipe:after {
   content: " | ";
   padding: 0 8px;
@@ -167,4 +158,28 @@ table {
 
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
+}
+
+.loading-border {
+  position: relative;
+}
+
+.loading-border:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10%;
+  height: 100%;
+  border-top: 2px solid #0369a0;
+  animation: borderAnimation 2s linear infinite;
+}
+
+@keyframes borderAnimation {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 90%;
+  }
 }

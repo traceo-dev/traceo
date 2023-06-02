@@ -4,7 +4,7 @@ import { Col, conditionClass, joinClasses } from "@traceo/ui";
 import { useState } from "react";
 import styled from "styled-components";
 import { LogDetailsForm } from "./LogDetailsForm";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../../core/utils/date";
 
 const LogItem = styled.tr<{
   level: LogLevel;

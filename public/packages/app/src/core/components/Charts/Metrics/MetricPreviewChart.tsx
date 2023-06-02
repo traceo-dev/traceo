@@ -71,7 +71,7 @@ const MetricPreviewChart: FC<Props> = ({
       },
       series: seriesOptions
     };
-  }, [options, datasource]);
+  }, [datasource]);
 
   const onDataZoom = (params: EchartDataZoomProps) => {
     const { startValue, endValue } = params.batch[0];
@@ -87,7 +87,7 @@ const MetricPreviewChart: FC<Props> = ({
   return (
     <ConditionalWrapper isLoading={isLoading} emptyView={<DataNotFound />}>
       <BaseChart
-        height={"525px"}
+        height={"345px"}
         renderer="canvas"
         onDataZoom={onDataZoom}
         activeZoomSelect={activeZoomSelect}

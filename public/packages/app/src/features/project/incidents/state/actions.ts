@@ -1,7 +1,6 @@
 import api from "../../../../core/lib/api";
 import { ThunkResult } from "@store/types";
-import { ApiResponse, IComment, IIncident, PlotData } from "@traceo/types";
-import { beginCommentsFetch, setIncidentComments } from "./slices/comments.slice";
+import { ApiResponse, IIncident, PlotData } from "@traceo/types";
 import { beginIncidentFetch, endIncidentFetch, setIncident } from "./slices/incident.slice";
 import { beginGroupedEventsFetch, setGroupedEvents } from "./slices/grouped-events.slice";
 import { isEmptyObject } from "../../../../core/utils/object";
@@ -24,23 +23,6 @@ export const loadIncident = (id: string): ThunkResult<void> => {
     dispatch(loadGroupedEvents());
 
     dispatch(endIncidentFetch());
-  };
-};
-
-export const loadIncidentComments = (): ThunkResult<void> => {
-  return async (dispatch, getStore) => {
-    const incident = getStore().incident.incident;
-    if (!incident.id) {
-      return;
-    }
-
-    dispatch(beginCommentsFetch());
-    const { data } = await api.get<ApiResponse<IComment[]>>("/api/comments", {
-      id: incident.id,
-      sortBy: "createdAt",
-      order: "ASC"
-    });
-    dispatch(setIncidentComments(data));
   };
 };
 

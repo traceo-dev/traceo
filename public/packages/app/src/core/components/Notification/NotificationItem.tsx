@@ -1,3 +1,4 @@
+import { Row } from "@traceo/ui";
 import { useAppDispatch } from "../../../store";
 import { NotifyItem, NotifyType, hideNotify } from "../../../store/internal/notify/notifyReducer";
 import { joinClasses } from "../../utils/classes";
@@ -46,10 +47,10 @@ export const NotificationItem: FC<NotificationItemProps> = ({ notification }) =>
   }, []);
 
   return (
-    <div
+    <Row
       onClick={() => dispatch(hideNotify(notification))}
       className={joinClasses(
-        "rounded-md py-3 px-5 flex flex-row items-center cursor-pointer w-64 z-50",
+        "rounded-md py-3 px-5 cursor-pointer w-64 z-50",
         "transition duration-300 ease-in-out transform",
         mapNotifyStyle[type]
       )}
@@ -59,6 +60,6 @@ export const NotificationItem: FC<NotificationItemProps> = ({ notification }) =>
         <span className="font-semibold">{title}</span>
         {description && <span className="font-normal">{description}</span>}
       </div>
-    </div>
+    </Row>
   );
 };

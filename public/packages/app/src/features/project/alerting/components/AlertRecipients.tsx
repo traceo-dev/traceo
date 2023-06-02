@@ -1,5 +1,5 @@
 import { IMember, ProjectMember, Setter } from "@traceo/types";
-import { Avatar, Select, SelectOptionProps } from "@traceo/ui";
+import { Avatar, Row, Select, SelectOptionProps } from "@traceo/ui";
 import { useEffect } from "react";
 import { loadMembers } from "../../settings/state/members/actions";
 import { useParams } from "react-router-dom";
@@ -80,21 +80,21 @@ export const AlertRecipients = ({ setSelectedMembers, selectedMembers = [] }: Pr
         )}
         {selectedMembers.map((member) => (
           <RowContainer key={member.id}>
-            <div className="flex flex-row items-center gap-x-3">
+            <Row gap="x-3">
               <Avatar size="sm" alt={member?.user.name} src={member?.user.gravatar} />
               <div className="flex flex-col">
                 <span>{member?.user.name}</span>
                 <span>{member?.user.email}</span>
               </div>
-            </div>
-            <div className="flex flex-row items-center gap-x-9">
+            </Row>
+            <Row gap="x-9">
               {member?.user.email && <MailOutlined />}
               <BellOutlined />
               <MinusOutlined
                 onClick={() => onRemove(member)}
                 className="bg-red-500 p-1 rounded-full cursor-pointer hover:bg-red-700 duration-200"
               />
-            </div>
+            </Row>
           </RowContainer>
         ))}
       </div>

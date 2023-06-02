@@ -1,6 +1,7 @@
 import { useProject } from "../../../hooks/useProject";
 import { MenuRoute } from "../../../types/navigation";
 import { StoreState } from "@store/types";
+import { Row } from "@traceo/ui";
 import { useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
@@ -29,10 +30,10 @@ export const HeaderItem = ({ route }: HeaderItemProps) => {
   return (
     <NavLink to={parsePath()} className="text-inherit">
       <Wrapper onClick={handleOnClick} isActive={key && isActivePath(key)}>
-        <div className="w-full flex flex-row items-center px-1">
+        <Row className="w-full px-1">
           {<span className="pl-3 cursor-pointer text-sm">{label}</span>}
           <div className="pr-2">{badge}</div>
-        </div>
+        </Row>
       </Wrapper>
     </NavLink>
   );

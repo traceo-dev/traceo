@@ -1,7 +1,6 @@
 import { TRY_AGAIN_LATER_ERROR } from "../../utils/constants";
 import { cookie } from "../../utils/cookie";
 import { notify } from "../../utils/notify";
-import { commentAction } from "./comment";
 import { SortOrder } from "@traceo/types";
 import Axios, { AxiosRequestConfig } from "axios";
 
@@ -85,6 +84,5 @@ export default {
   post,
   put,
   patch,
-  delete: _delete,
-  comment: commentAction
+  delete: _delete
 };

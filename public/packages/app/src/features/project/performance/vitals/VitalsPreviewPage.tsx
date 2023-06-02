@@ -1,6 +1,6 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { VitalsEnum, Performance, VitalsHealthType } from "@traceo/types";
-import { Card, InputSearch, PageHeader, Select } from "@traceo/ui";
+import { Card, InputSearch, Select } from "@traceo/ui";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -17,6 +17,7 @@ import { VitalsGraphBar } from "./VitalsGraphBar";
 import { VitalsHealthBar } from "./VitalsHealthBar";
 import { VitalsRawData } from "./VitalsRawData";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
+import { ContentCard } from "../../../../core/components/ContentCard";
 
 const VitalsPreviewPage = () => {
   const { id, name } = useParams();
@@ -48,7 +49,7 @@ const VitalsPreviewPage = () => {
       search
     }
   });
-  
+
   useEffect(() => {
     refetch();
   }, [ranges, selectedHealth, search]);
@@ -62,19 +63,19 @@ const VitalsPreviewPage = () => {
   const onKeyDown = (event: any) => event.keyCode === 13 && setSearch(event.target.value);
 
   return (
-    <Page>
-      <PageHeader
-        className="mb-5"
-        suffix={<HrefIcon href={WEB_VITALS_DOCS_URL[name]} icon={<QuestionCircleOutlined />} />}
-        title={
+    <Page
+      header={{
+        title: (
           <PreviewPageHeader
             page="performance"
             title={details.name}
             description={details.description}
           />
-        }
-      />
-      <Page.Content>
+        ),
+        suffix: <HrefIcon href={WEB_VITALS_DOCS_URL[name]} icon={<QuestionCircleOutlined />} />
+      }}
+    >
+      <Page.Content className="pt-1">
         <Card>
           <SearchWrapper>
             <InputSearch
@@ -92,13 +93,16 @@ const VitalsPreviewPage = () => {
             <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
           </SearchWrapper>
         </Card>
-        <Card title="Graph" extra={<VitalsGraphBar name={name} performances={performances} />}>
+        <ContentCard
+          name="Graph"
+          extra={<VitalsGraphBar name={name} performances={performances} />}
+        >
           {renderChart({
             data: dataSource,
             field: name as VitalsEnum,
             isLoading: isFetching
           })}
-        </Card>
+        </ContentCard>
         <VitalsHealthBar list={performances} />
         <VitalsRawData isLoading={isFetching} performances={performances} />
       </Page.Content>

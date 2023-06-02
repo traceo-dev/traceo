@@ -11,7 +11,8 @@ import {
   RadioButtonGroup,
   Space,
   Typography,
-  Alert
+  Alert,
+  Row
 } from "@traceo/ui";
 import { useSelector } from "react-redux";
 import { useState } from "react";
@@ -48,6 +49,7 @@ export const StacktraceSection = () => {
       <div className="w-full py-9">
         <RadioButtonGroup
           className="float-right"
+          size="sm"
           options={stacktraceTypeOptions}
           onChange={(type) => setType(type)}
           value={type}
@@ -68,9 +70,9 @@ export const StacktraceSection = () => {
             <CollapseItem
               panelKey={`${index}`}
               header={
-                <div className="text-white">
+                <span>
                   {trace.filename} {trace.lineNo}:{trace.columnNo}
-                </div>
+                </span>
               }
               startIcon={
                 <Tooltip
@@ -91,7 +93,7 @@ export const StacktraceSection = () => {
               key={index}
             >
               <div>
-                <div className="w-full flex flex-row justify-between p-5">
+                <Row className="justify-between p-5">
                   <FieldLabel label="Function">
                     <span className="text-link">{trace?.function}</span>
                   </FieldLabel>
@@ -104,7 +106,7 @@ export const StacktraceSection = () => {
                   <FieldLabel label="Column No.">
                     <span className="text-link">{trace?.columnNo}</span>
                   </FieldLabel>
-                </div>
+                </Row>
                 {trace.code && <CodePreview trace={trace} />}
               </div>
             </CollapseItem>

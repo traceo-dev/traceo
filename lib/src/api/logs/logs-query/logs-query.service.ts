@@ -1,10 +1,10 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { ILog } from "@traceo/types";
 import dayjs from "dayjs";
-import { INTERNAL_SERVER_ERROR } from "src/common/helpers/constants";
-import { ClickhouseService } from "src/common/services/clickhouse/clickhouse.service";
-import { LogsQuery } from "src/common/types/dto/logs.dto";
-import { ApiResponse } from "src/common/types/dto/response.dto";
+import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
+import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
+import { LogsQuery } from "../../../common/types/dto/logs.dto";
+import { ApiResponse } from "../../../common/types/dto/response.dto";
 
 type LogsResponseType = {
     logs: ILog[],

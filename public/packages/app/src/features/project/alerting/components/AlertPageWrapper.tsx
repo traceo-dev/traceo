@@ -8,7 +8,7 @@ import { useAppDispatch } from "../../../../store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
-import { Button } from "@traceo/ui";
+import { Button, Row } from "@traceo/ui";
 import api from "../../../../core/lib/api";
 import { Confirm } from "../../../../core/components/Confirm";
 import { ApiResponse } from "@traceo/types";
@@ -56,7 +56,7 @@ const AlertPageWrapper = ({ children }) => {
             page="alerting"
             title={alert?.name}
             description={
-              <div className="flex flex-row items-center pt-2 text-xs">
+              <Row className="pt-2 text-xs">
                 <span className="text-sm mr-1">{mapSeverityToSpan[alert?.severity]}</span>
                 {alert?.description && (
                   <>
@@ -64,12 +64,12 @@ const AlertPageWrapper = ({ children }) => {
                     <span className="font-normal">{alert?.description}</span>
                   </>
                 )}
-              </div>
+              </Row>
             }
           />
         ),
         suffix: (
-          <div className="flex flex-row gap-x-3">
+          <Row gap="x-3">
             <RouterLink to={`/project/${id}/alerting/${aid}/edit`}>
               <Button>Edit</Button>
             </RouterLink>
@@ -79,7 +79,7 @@ const AlertPageWrapper = ({ children }) => {
             >
               <Button variant="danger">Delete</Button>
             </Confirm>
-          </div>
+          </Row>
         )
       }}
       menuRoutes={menu}

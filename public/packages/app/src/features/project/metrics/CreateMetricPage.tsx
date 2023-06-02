@@ -2,16 +2,18 @@ import { Page } from "../../../core/components/Page";
 import { ApiResponse, IMetric, METRIC_UNIT } from "@traceo/types";
 import { DeepPartial } from "redux";
 import { useImmer } from "use-immer";
-import { Button, Card } from "@traceo/ui";
+import { Button, Card, Row } from "@traceo/ui";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
 import { randomHexColor } from "../../../core/utils/colors";
-import { DataNotFound } from "src/core/components/DataNotFound";
+import { DataNotFound } from "../../../core/components/DataNotFound";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import api from "src/core/lib/api";
-import { notify } from "src/core/utils/notify";
+import api from "../../../core/lib/api";
+import { notify } from "../../../core/utils/notify";
 import dayjs from "dayjs";
+import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
+import { CheckOutlined } from "@ant-design/icons";
 
 const initialMetric: DeepPartial<IMetric> = {
   name: "New metric",
@@ -120,18 +122,36 @@ const CreateMetricPage = () => {
   };
 
   return (
-    <Page>
-      <Page.Content>
-        <div className="flex flex-row items-center justify-end mb-3 gap-x-3">
-          <Button loading={saveLoading} variant="primary" size="sm" onClick={() => onCreate()}>
-            Save
-          </Button>
-          <Button variant="ghost" size="sm" onClick={() => onCancel()}>
-            Cancel
-          </Button>
-        </div>
+    <Page
+      header={{
+        title: (
+          <PreviewPageHeader
+            page="metrics"
+            title={options.name}
+            description={options.description}
+          />
+        ),
+        suffix: (
+          <Row className="ustify-end" gap="x-3">
+            <Button
+              icon={<CheckOutlined />}
+              loading={saveLoading}
+              variant="primary"
+              size="sm"
+              onClick={() => onCreate()}
+            >
+              Save
+            </Button>
+            <Button variant="danger" size="sm" onClick={() => onCancel()}>
+              Cancel
+            </Button>
+          </Row>
+        )
+      }}
+    >
+      <Page.Content className="pt-0">
         <div className="w-full grid grid-cols-12">
-          <div className="col-span-8 mr-5">
+          <div className="col-span-8 mr-1">
             <Card title={options.name}>
               <ConditionalWrapper
                 isEmpty

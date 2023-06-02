@@ -27,7 +27,7 @@ export class MetricsController {
   }
 
   @Get("/:id/preview/:metricId")
-  async getProjectMetricPreviewData(
+  async getMetricGraph(
     @Param("id") id: string,
     @Param("metricId") metricId: string,
     @Query("from") from: number,
@@ -37,11 +37,19 @@ export class MetricsController {
   }
 
   @Get("/:id/explore")
-  async getProjectMetricPreviewDataByFields(
+  async getMetricsExploreGraph(
     @Param("id") id: string,
     @Query() query: ExploreMetricsQueryDto
   ): Promise<ApiResponse<MetricPreviewType>> {
     return await this.metricsQueryService.getMetricsExploreGraph(id, query);
+  }
+
+  @Get("/:id/raw-data")
+  async getMetricsRawData(
+    @Param("id") id: string,
+    @Query() query: ExploreMetricsQueryDto
+  ): Promise<ApiResponse<MetricPreviewType>> {
+    return await this.metricsQueryService.getMetricRawData(id, query);
   }
 
   @Get("/fields/:id")

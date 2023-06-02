@@ -10,7 +10,7 @@ import { useAppDispatch } from "../../../store";
 import { ApiKeySection } from "./components/ApiKeySection";
 import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import { ApiResponse, MemberRole } from "@traceo/types";
-import { Space, Button, Card, FieldLabel, Input, InputGroup } from "@traceo/ui";
+import { Space, Button, Card, FieldLabel, Input, InputGroup, Row } from "@traceo/ui";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateAplication } from "../state/project/actions";
@@ -99,10 +99,10 @@ export const SettingsDetailsPage = () => {
               </InputGroup>
             </FieldLabel>
             <FieldLabel label="SDK">
-              <div className="items-center gap-x-2 flex flex-row">
+              <Row gap="x-2">
                 <img src={`/img/svg/${project?.sdk}.svg`} width={15} alt={project?.sdk} />
                 <span className="capitalize">{project?.sdk}</span>
-              </div>
+              </Row>
             </FieldLabel>
           </div>
         </ColumnSection>

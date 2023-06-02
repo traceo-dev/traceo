@@ -1,5 +1,5 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Select, SelectOptionProps } from "@traceo/ui";
+import { Button, Row, Select, SelectOptionProps } from "@traceo/ui";
 import { LOGICAL_OPERATORS_OPTIONS, LogicOperator } from "./types";
 import { IncidentRuleRow } from "./IncidentRuleRow";
 import { RowContainer } from "../utils";
@@ -45,7 +45,7 @@ export const IncidentRulesSelector = ({
 
   return (
     <div className="flex flex-col gap-y-5">
-      <div className="flex flex-row items-center gap-x-2 text-primary">
+      <Row gap="x-2">
         <span>Trigger when your incident matches</span>
         <Select
           width={70}
@@ -54,7 +54,7 @@ export const IncidentRulesSelector = ({
           options={LOGICAL_OPERATORS_OPTIONS}
         />
         <span>of the following rules</span>
-      </div>
+      </Row>
 
       {rules?.length === 0 && (
         <RowContainer>

@@ -2,7 +2,7 @@ import { useProject } from "../../../../core/hooks/useProject";
 import dateUtils from "../../../../core/utils/date";
 import { RightOutlined, UserOutlined } from "@ant-design/icons";
 import { IIncident, IncidentStatus, mapIncidentStatus } from "@traceo/types";
-import { Space, Avatar, Table, TableColumn } from "@traceo/ui";
+import { Space, Avatar, Table, TableColumn, Row } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { mapHeaderStatusIcon } from "./utils";
@@ -55,18 +55,16 @@ export const IncidentsTable: FC<Props> = ({
       <TableColumn name="Details" width={700}>
         {({ item }) => (
           <Space direction="vertical" className="gap-0">
-            <div className="w-full flex flex-row gap-x-3 items-center">
-              <span className="text-[16px] leading-5 font-semibold hover:text-white">
-                {item?.name}
-              </span>
+            <Row gap="x-3">
+              <span className="text-[16px] leading-5 font-semibold">{item?.name}</span>
               {isNewIncident(item) && (
                 <NewIncidentPill>
                   <span className="text-yellow-500 text-[10px]">New</span>
                 </NewIncidentPill>
               )}
-            </div>
+            </Row>
 
-            <span className="flex flex-row text-xs text-primary items-center">
+            <Row>
               <div>
                 <span className="text-sm">{mapHeaderStatusIcon[item.status]}</span>
                 <span className="pl-2 text-[12px]">{mapIncidentStatus[item.status]}</span>
@@ -75,7 +73,7 @@ export const IncidentsTable: FC<Props> = ({
               <span className="text-[12px] truncate xl:max-w-[400px] md:max-w-[200px]">
                 {item?.message}
               </span>
-            </span>
+            </Row>
           </Space>
         )}
       </TableColumn>

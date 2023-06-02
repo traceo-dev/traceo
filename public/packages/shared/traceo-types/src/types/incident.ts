@@ -1,6 +1,5 @@
 import { IProject } from "./project";
 import { BrowserInfoType } from "./browser";
-import { IComment } from "./comment";
 import { IEvent } from "./event";
 import { SDK } from "./sdk";
 import { IUser } from "./user";
@@ -38,9 +37,6 @@ export interface IIncident {
   // information about incident platform only for backend SDKs
   // for browsers this infomation is persisted inside IError structure
   platform?: Platform;
-
-  comments: IComment[];
-  commentsCount: number;
 
   events: IEvent[];
   eventsCount: number;

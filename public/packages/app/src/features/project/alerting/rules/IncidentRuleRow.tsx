@@ -1,5 +1,5 @@
 import { MinusOutlined } from "@ant-design/icons";
-import { Select, SelectOptionProps } from "@traceo/ui";
+import { Row, Select, SelectOptionProps } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { INCIDENT_BASE_RULES } from "./types";
 import { Updater } from "use-immer";
@@ -50,8 +50,11 @@ export const IncidentRuleRow = ({
   });
 
   return (
-    <div className="justify-between text-primary flex flex-row gap-x-5 border border-solid border-light-secondary rounded p-5 items-center">
-      {currentRule && <div className="flex flex-row items-center gap-x-2">{rules}</div>}
+    <Row
+      gap="x-5"
+      className="justify-between text-primary border border-solid border-light-secondary rounded p-5"
+    >
+      {currentRule && <Row gap="x-2">{rules}</Row>}
 
       {!currentRule && (
         <Select
@@ -66,6 +69,6 @@ export const IncidentRuleRow = ({
         className="bg-red-500 p-1 rounded-full cursor-pointer hover:bg-red-700 duration-200"
         onClick={handleRemove}
       />
-    </div>
+    </Row>
   );
 };

@@ -208,7 +208,7 @@ export const TracesPage = forwardRef(
           </InlineFields>
         </OptionsCollapseGroup>
 
-        <OptionsCollapseGroup title="Traces" deafultCollapsed={false}>
+        <OptionsCollapseGroup title="Traces" deafultCollapsed={false} loading={loading}>
           <TracesList loading={loading} spans={traces} />
         </OptionsCollapseGroup>
       </Col>

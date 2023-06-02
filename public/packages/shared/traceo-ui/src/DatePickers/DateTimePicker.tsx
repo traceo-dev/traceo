@@ -1,4 +1,4 @@
-import { FieldLabel, Input } from "../index";
+import { FieldLabel, Input, Row } from "../index";
 import { useEffect, useState, useCallback } from "react";
 import { CalendarDatesType, CalendarBody } from "./CalendarBody";
 import dayjs from "dayjs";
@@ -70,7 +70,7 @@ export const DateTimePicker = ({
   const popoverContent = (
     <PickerWrapper>
       <CalendarHeader title="Select date" />
-      <div className="flex flex-row grid grid-cols-12">
+      <Row className="grid grid-cols-12">
         <div className="col-span-12">
           <CalendarBody
             className="p-3"
@@ -86,7 +86,7 @@ export const DateTimePicker = ({
             </FieldLabel>
           </TimeWrapper>
         </div>
-      </div>
+      </Row>
       <CalendarFooter onSubmit={handleOnSubmit} />
     </PickerWrapper>
   );

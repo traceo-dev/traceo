@@ -1,6 +1,9 @@
 import { Tooltip, conditionClass, joinClasses } from "@traceo/ui";
-import React, { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes } from "react";
 
+/**
+ * TODO: use variant instead of active/inactive color
+ */
 interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "onClick"> {
   icon: JSX.Element;
   isActive?: boolean;
@@ -33,7 +36,7 @@ export const ActionButton = ({
       )}
     >
       {icon}
-      {name && <span className="text-[13px] pl-2">{name}</span>}
+      {name && <span className="text-[13px] pl-2 whitespace-nowrap">{name}</span>}
     </div>
   );
 

@@ -12,13 +12,29 @@ const TableWrapper = styled.table`
   width: 100%;
 `;
 
-const TableThead = styled.thead`
-  color: #ffffff;
+const TableThead = styled.thead<{ scrollable: boolean }>`
   background-color: var(--color-bg-secondary);
+
+  ${(p) =>
+    p.scrollable &&
+    `
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  `}
 `;
 
-const TableTbody = styled.tbody`
+const TableTbody = styled.tbody<{ scrollable: boolean }>`
   margin-top: 4px;
+
+  ${(p) =>
+    p.scrollable &&
+    `
+    overflow-y: auto;
+    width: 100% !important;
+    display: block;
+    max-height: 450px !important;
+  `}
 `;
 
 interface TableProps {
@@ -37,6 +53,7 @@ interface TableProps {
   currentPage?: number;
   onRowClick?: (item: any) => void;
   onPageChange?: (page: number) => void;
+  scrollable?: boolean;
 }
 export const Table: FC<TableProps> = (props: TableProps) => {
   const {
@@ -49,27 +66,23 @@ export const Table: FC<TableProps> = (props: TableProps) => {
     rowSize = "md",
     onRowClick,
     onPageChange,
-    pageSize = 15,
+    pageSize = undefined,
     currentPage = 1,
     rowsCount = undefined,
     showPagination = false,
     paginationPosition = "right",
-    emptyLabel = "Not found"
+    emptyLabel = "Not found",
+    scrollable = false
   } = props;
 
   const [page, setPage] = useState(currentPage);
-  const [itemsPerPage, _] = useState(pageSize);
+  const [itemsPerPage, _] = useState(pageSize ?? 0);
 
   const pagination = useMemo(() => {
     const indexOfLastItem = page * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-    /**
-     * When there is onPageChange then we know that data is fetching before trigger this function.
-     * In this case we have to use full collection. Slice is doing when pagination is made on raw result
-     * without pagination from API.
-     */
-    const currentItems = onPageChange
+    const currentItems = !pageSize
       ? collection
       : collection?.slice(indexOfFirstItem, indexOfLastItem);
 
@@ -89,11 +102,11 @@ export const Table: FC<TableProps> = (props: TableProps) => {
   return (
     <div className="w-full flex flex-col">
       <TableWrapper className={className}>
-        <TableThead>
+        <TableThead scrollable={scrollable}>
           <tr>{children}</tr>
         </TableThead>
         {!loading && (
-          <TableTbody>
+          <TableTbody scrollable={scrollable}>
             {pagination.currentItems?.map((item, index) => (
               <TableRow
                 childrens={React.Children.toArray(children)}
@@ -102,6 +115,7 @@ export const Table: FC<TableProps> = (props: TableProps) => {
                 striped={striped}
                 hovered={hovered}
                 size={rowSize}
+                scrollable={scrollable}
                 onRowClick={() => {
                   if (onRowClick) {
                     onRowClick(item);

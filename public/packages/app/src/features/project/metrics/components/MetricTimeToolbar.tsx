@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import { Setter, TimeRange } from "@traceo/types";
 import { Row } from "@traceo/ui";
-import { ActionButton } from "../../explore/components/ActionButton";
+import { ActionButton } from "../../../../core/components/ActionButton";
 import { MetricTimeRangePicker } from "./MetricTimeRangePicker";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 interface Props {
   ranges: TimeRange;
   setRanges: Setter<TimeRange>;
+  variant?: "primary" | "secondary";
 }
 
 const LIVE_INTERVAL = 15000; //15s
@@ -25,9 +26,14 @@ const getCurrentRange = (): TimeRange => {
   return [from, to];
 };
 
-export const MetricTimeToolbar = ({ ranges, setRanges }: Props) => {
+export const MetricTimeToolbar = ({
+  ranges = [undefined, undefined],
+  setRanges = undefined,
+  variant = "primary"
+}: Props) => {
   const [live, setLive] = useState<boolean>(false);
   const [isTimeDisabled, setTimeDisabled] = useState<boolean>(false);
+  const [disabledZoomIn, setDisabledZoomIn] = useState<boolean>(false);
 
   useEffect(() => {
     let intervalId: NodeJS.Timer;
@@ -53,8 +59,6 @@ export const MetricTimeToolbar = ({ ranges, setRanges }: Props) => {
     setLive(isLive);
     setTimeDisabled(isLive);
   };
-
-  const [disabledZoomIn, setDisabledZoomIn] = useState<boolean>(false);
 
   const onZoomIn = () => {
     const rangeFrom = dayjs.unix(ranges[0]);
@@ -85,26 +89,34 @@ export const MetricTimeToolbar = ({ ranges, setRanges }: Props) => {
     setRanges([from, to]);
     setDisabledZoomIn(false);
   };
+
+  const btnType = variant === "secondary" ? "bg-primary" : undefined;
+
   return (
     <Row gap="x-3">
       <ActionButton
         tooltip="Zoom out"
         disabled={isTimeDisabled}
-        inactiveColor="bg-primary"
+        inactiveColor={btnType}
         icon={<ZoomOutOutlined />}
         onClick={() => onZoomOut()}
       />
-      <MetricTimeRangePicker isDisabled={isTimeDisabled} ranges={ranges} setRanges={setRanges} />
+      <MetricTimeRangePicker
+        type={variant}
+        isDisabled={isTimeDisabled}
+        ranges={ranges}
+        setRanges={setRanges}
+      />
       <ActionButton
         tooltip="Zoom in"
         disabled={isTimeDisabled || disabledZoomIn}
-        inactiveColor="bg-primary"
+        inactiveColor={btnType}
         icon={<ZoomInOutlined />}
         onClick={() => onZoomIn()}
       />
       <ActionButton
         tooltip={live ? "Pause live" : "Live"}
-        inactiveColor="bg-primary"
+        inactiveColor={btnType}
         isActive={live}
         icon={live ? <PauseOutlined /> : <CaretRightFilled />}
         onClick={() => onLive()}

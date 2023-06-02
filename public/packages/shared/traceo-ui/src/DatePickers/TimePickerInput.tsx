@@ -11,6 +11,7 @@ interface Props {
   popoverContent: JSX.Element;
   disabled: boolean;
   range?: boolean;
+  type?: "primary" | "secondary";
 }
 export const TimePickerInput = ({
   popoverContent,
@@ -18,7 +19,8 @@ export const TimePickerInput = ({
   open = false,
   value = null,
   values = null,
-  disabled = false
+  disabled = false,
+  type = "primary"
 }: Props) => {
   const parseInput = () => {
     if (value) return parseDateTime(value);
@@ -36,8 +38,9 @@ export const TimePickerInput = ({
       <div
         onClick={onClick}
         className={joinClasses(
-          "gap-x-2 rounded-sm flex flex-row cursor-pointer items-center text-[13px] py-1 pl-2 pr-5 bg-primary border border-solid border-secondary hover:ring-2 hover:ring-blue",
-          conditionClass(disabled, "opacity-60 pointer-events-none")
+          "gap-x-2 rounded-sm flex flex-row cursor-pointer items-center text-[13px] py-1 pl-2 pr-5 border border-solid border-secondary hover:ring-2 hover:ring-blue",
+          conditionClass(disabled, "opacity-60 pointer-events-none"),
+          conditionClass(type === "primary", "bg-canvas", "bg-primary")
         )}
       >
         <ClockCircleOutlined />

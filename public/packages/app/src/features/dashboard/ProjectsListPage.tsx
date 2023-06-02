@@ -27,9 +27,11 @@ export const ProjectsListPage = () => {
 
   return (
     <Page>
-      <Card title="Applications">
-        <ProjectsTable />
-      </Card>
+      <Page.Content>
+        <Card title="Applications">
+          <ProjectsTable />
+        </Card>
+      </Page.Content>
     </Page>
   );
 };

@@ -79,34 +79,27 @@ const PerformancePage = () => {
         description:
           "A collection of data about the performance of your application. It is based on scrapped web-vitals data from browser."
       }}
+      headerDivider={true}
     >
-      <Alert
-        type="warning"
-        title="Beta"
-        message="At this point, the performance feature is being tested. Please report potential bugs on the Github Issue."
-      />
-      <Card>
-        <SearchWrapper className="justify-end">
-          <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
+      <Page.Content className="pt-0">
+        <SearchWrapper className="justify-end my-5">
+          <MetricTimeRangePicker type="secondary" ranges={ranges} setRanges={setRanges} />
         </SearchWrapper>
-      </Card>
-      <div className="flex flex-col w-full">
-        {VITALS_DETAILS.map(({ description, field, name }, key) => (
-          <Card
-            className="mb-1 flex flex-col"
-            title={
-              <span className="cursor-pointer font-semibold" onClick={() => onClick(field)}>
-                {name}
-              </span>
-            }
-            key={key}
-          >
-            <ColumnSection subtitle={subtitle(field, description)}>
-              {renderChart({ data, field, isLoading: isFetching })}
-            </ColumnSection>
-          </Card>
-        ))}
-      </div>
+        <div className="flex flex-col w-full">
+          {VITALS_DETAILS.map(({ description, field, name }, key) => (
+            <Card
+              className="mb-1 flex flex-col"
+              onClick={() => onClick(field)}
+              title={name}
+              key={key}
+            >
+              <ColumnSection subtitle={subtitle(field, description)}>
+                {renderChart({ data, field, isLoading: isFetching })}
+              </ColumnSection>
+            </Card>
+          ))}
+        </div>
+      </Page.Content>
     </Page>
   );
 };

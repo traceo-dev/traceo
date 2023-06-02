@@ -1,10 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { ClickHouseClient, ClickHouseClientConfigOptions, createClient, QueryParams } from "@clickhouse/client";
-import { ILog, MetricPayload, PerformanceQuery, Performance, Notification, Span } from "@traceo/types";
-import { ExploreMetricsQueryDto, MetricQueryDto } from "../../../common/types/dto/metrics.dto";
+import { ILog, PerformanceQuery, Performance, Notification, Span } from "@traceo/types";
+import { ExploreMetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { QueryTracingDto } from "../../../common/types/dto/tracing";
 import { LogsQuery } from "../../../common/types/dto/logs.dto";
-import { AggregateTimeSeries } from "src/api/metrics/query/metrics-query.service";
+import { AggregateTimeSeries } from "../../../api/metrics/query/metrics-query.service";
 
 @Injectable()
 export class ClickhouseService {
@@ -21,6 +21,49 @@ export class ClickhouseService {
 
     public async query(params: QueryParams) {
         return await this.client.query(params)
+    }
+
+    public async rawDataMetrics(
+        projectId: string,
+        query: ExploreMetricsQueryDto
+    ): Promise<any> {
+        let queryFilters: string[] = [];
+
+        for (const field of query.fields) {
+            queryFilters.push(`arrayFilter(x -> x IS NOT NULL, groupArray(if(name = '${field}', round(value, 2), NULL)))[1] AS ${field}\n`);
+        };
+
+        const seriesFields = query.fields.map((e) => `'${e}'`).join(", ");
+
+        const sqlQuery = `
+            SELECT
+                minute,
+                ${queryFilters.join(",")}
+            FROM (
+                SELECT
+                    toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL 1 MINUTE)) AS minute,
+                    name,
+                    AVG(value) AS value
+                FROM traceo_development.metrics
+                WHERE
+                    receive_timestamp >= toUnixTimestamp(toDateTime(${query.from}))
+                    AND receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
+                    AND name IN [${seriesFields}]
+                    AND project_id = '${projectId}'
+                GROUP BY minute, name
+            )
+            GROUP BY minute
+            ORDER BY minute ASC
+            WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${query.from}))) TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
+            STEP ${query.interval * 60}
+        `;
+
+        const logs = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        return logs.json();
     }
 
     public async aggregateMetrics(

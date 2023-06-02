@@ -9,7 +9,7 @@ import {
 } from "./editMetricGraphForm";
 import { editSerieForm } from "./editMetricSeriesForm";
 import { IMetric, DeepPartial, IMetricSerie } from "@traceo/types";
-import { FieldLabel } from "@traceo/ui";
+import { FieldLabel, Row } from "@traceo/ui";
 import { FC, useMemo } from "react";
 import { DraftFunction } from "use-immer";
 import styled from "styled-components";
@@ -72,7 +72,7 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
   };
 
   return (
-    <div className="flex flex-col bg-primary relative">
+    <div className="flex flex-col bg-primary relative border border-solid border-secondary rounded">
       <span className="w-full py-3 px-2 font-semibold text-sm text-primary border-bottom">
         Customize graph
       </span>
@@ -157,10 +157,13 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
           <div key={index}>
             <CustomizeFormSection
               title={
-                <div className="flex flex-row items-center gap-x-2">
-                  <BarChartOutlined />
+                <Row gap="x-2">
+                  <div
+                    className="w-3 h-3 rounded-full"
+                    style={{ backgroundColor: serie.config.color }}
+                  />
                   <span>{serie.name}</span>
-                </div>
+                </Row>
               }
               description={serie?.description}
               show={serie?.show}

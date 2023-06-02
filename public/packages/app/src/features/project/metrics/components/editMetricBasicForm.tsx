@@ -26,20 +26,20 @@ export const editMetricBasicForm = (props: EditMetricType) => {
     )
   });
 
-  // forms.push({
-  //   label: "Description",
-  //   component: (
-  //     <InputArea
-  //       onChange={(e) => {
-  //         setOptions((opt) => {
-  //           opt.description = e.target["value"];
-  //         });
-  //       }}
-  //       defaultValue={options.description}
-  //       maxLength={1000}
-  //     />
-  //   )
-  // });
+  forms.push({
+    label: "Description",
+    component: (
+      <InputArea
+        onChange={(e) => {
+          setOptions((opt) => {
+            opt.description = e.target["value"];
+          });
+        }}
+        defaultValue={options.description}
+        maxLength={1000}
+      />
+    )
+  });
 
   forms.push({
     label: "Unit",

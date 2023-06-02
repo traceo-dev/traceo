@@ -1,11 +1,11 @@
-import { Button, Col, Select, SelectOptionProps } from "@traceo/ui";
+import { Button, Row, Select, SelectOptionProps } from "@traceo/ui";
 import { Page } from "../../../core/components/Page";
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import {
   AlignLeftOutlined,
   BarChartOutlined,
-  NodeExpandOutlined,
-  SearchOutlined
+  CaretRightFilled,
+  NodeExpandOutlined
 } from "@ant-design/icons";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
@@ -14,6 +14,7 @@ import { TracesPage } from "./tracing/TracesPage";
 import { EXPLORE_TYPE, Setter, TimeRange } from "@traceo/types";
 import { ExploreRangePicker } from "./components/ExploreRangePicker";
 import { MetricsPage } from "./metrics/MetricsPage";
+import { urlService } from "../../../core/lib/url";
 
 const exploreOptions: SelectOptionProps[] = [
   {
@@ -48,7 +49,13 @@ export const ExplorePageWrapper: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
-  const [type, setType] = useState<EXPLORE_TYPE>(EXPLORE_TYPE.LOGS);
+  const [type, setType] = useState<EXPLORE_TYPE>(urlService.getParam<EXPLORE_TYPE>("type"));
+
+  useEffect(() => {
+    urlService.setParams({
+      type: type
+    });
+  }, [type]);
 
   const { ranges, setRanges } = useTimeRange({
     from: dayjs().subtract(30, "minute").unix(),
@@ -74,30 +81,37 @@ export const ExplorePageWrapper: FC = () => {
 
   return (
     <Page>
-      <div className="w-full flex flex-row py-3 justify-between">
-        <Select options={exploreOptions} value={type} onChange={(opt) => setType(opt?.value)} />
-        <div className="flex flex-row gap-x-3 text-sm">
-          <ExploreRangePicker
-            range={ranges}
-            maxRange={type === EXPLORE_TYPE.TRACING ? 168 : 168}
-            setRange={(e) => setRanges(e)}
-            type={type}
+      <Page.Content>
+        <Row className="w-full py-3 justify-between">
+          <Select
+            variant="secondary"
+            options={exploreOptions}
+            value={type}
+            onChange={(opt) => setType(opt?.value)}
           />
-          <Button
-            icon={<SearchOutlined />}
-            className="bg-red-500"
-            variant={loading ? "danger" : "primary"}
-            loading={loading}
-            onClick={() => onClickSearch()}
-          >
-            Search
-          </Button>
-        </div>
-      </div>
+          <Row gap="x-3" className="text-sm">
+            <ExploreRangePicker
+              range={ranges}
+              maxRange={type === EXPLORE_TYPE.TRACING ? 168 : 168}
+              setRange={(e) => setRanges(e)}
+              type={type}
+            />
+            <Button
+              icon={<CaretRightFilled />}
+              className="bg-red-500"
+              variant={loading ? "danger" : "primary"}
+              loading={loading}
+              onClick={() => onClickSearch()}
+            >
+              Run
+            </Button>
+          </Row>
+        </Row>
 
-      {type === EXPLORE_TYPE.LOGS && <LogsPage {...props} ref={ref} />}
-      {type === EXPLORE_TYPE.TRACING && <TracesPage {...props} ref={ref} />}
-      {type === EXPLORE_TYPE.METRICS && <MetricsPage {...props} ref={ref} />}
+        {type === EXPLORE_TYPE.LOGS && <LogsPage {...props} ref={ref} />}
+        {type === EXPLORE_TYPE.TRACING && <TracesPage {...props} ref={ref} />}
+        {type === EXPLORE_TYPE.METRICS && <MetricsPage {...props} ref={ref} />}
+      </Page.Content>
     </Page>
   );
 };

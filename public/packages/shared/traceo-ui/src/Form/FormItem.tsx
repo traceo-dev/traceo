@@ -1,3 +1,4 @@
+import { Row } from "../Row";
 import { Tooltip } from "../Tooltip";
 import { conditionClass, joinClasses } from "../utils/classes";
 import { REQUIRED_FIELD_ERROR } from "../utils/constants";
@@ -28,7 +29,7 @@ export const FormItem: FC<FormItemProps> = (props: FormItemProps) => {
 
   const formLabel =
     typeof label === "string" ? (
-      <span className="flex flex-row gap-x-2">
+      <Row gap="x-2">
         {label}
         {tooltip && (
           <Tooltip title={tooltip}>
@@ -36,7 +37,7 @@ export const FormItem: FC<FormItemProps> = (props: FormItemProps) => {
           </Tooltip>
         )}
         {showRequiredMark ? "*" : null}
-      </span>
+      </Row>
     ) : (
       label
     );

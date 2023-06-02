@@ -1,12 +1,15 @@
+import { joinClasses } from "@traceo/ui";
 import { TraceoLoading } from "./TraceoLoading";
 import { FC } from "react";
 
-/**
- * TODO: simple conditional rendering for now, later more styles here instead of in Page
- */
 interface PageContentProps {
   isLoading?: boolean;
+  className?: string;
 }
-export const PageContent: FC<PageContentProps> = ({ children, isLoading }) => {
-  return <div>{isLoading ? <TraceoLoading /> : children}</div>;
+export const PageContent: FC<PageContentProps> = ({ children, isLoading, className = "" }) => {
+  return (
+    <div className={joinClasses("p-9", className)}>
+      {isLoading ? <TraceoLoading /> : children}
+    </div>
+  );
 };

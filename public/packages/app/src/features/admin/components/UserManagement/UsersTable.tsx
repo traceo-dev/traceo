@@ -30,7 +30,7 @@ export const UsersTable: FC<Props> = ({ users, isLoading }) => {
           </Tooltip>
         )}
         {u?.status === UserStatus.DISABLED && (
-          <Tooltip placement="top" title="User disabled">
+          <Tooltip placement="top" title="Disabled">
             <LockFilled />
           </Tooltip>
         )}

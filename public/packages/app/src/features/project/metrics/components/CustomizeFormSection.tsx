@@ -5,7 +5,7 @@ import {
   EyeOutlined,
   RightOutlined
 } from "@ant-design/icons";
-import { Tooltip } from "@traceo/ui";
+import { Row, Tooltip } from "@traceo/ui";
 import { FC, useState } from "react";
 
 interface Props {
@@ -51,33 +51,31 @@ export const CustomizeFormSection: FC<Props> = ({
 
   const trashIcon = (
     <Tooltip title="Remove serie">
-      <DeleteOutlined className="hover:text-red-400" onClick={onRemove} />
+      <DeleteOutlined className="hover:text-red-400 pl-2" onClick={onRemove} />
     </Tooltip>
   );
 
   return (
-    <>
-      <div className="border-top w-full flex flex-col text-primary text-sm">
-        <div
-          onClick={() => setCollapsed(!collapsed)}
-          className="p-2 flex flex-row items-center justify-between w-full hover:bg-secondary hover:text-white duration-200 cursor-pointer"
-        >
-          <div className="flex flex-row items-center">
-            <div className="mr-2 text-[8px]">{icon}</div>
-            <div className="w-full flex flex-col gap-y-0">
-              <span className="text-[14px] font-[500] leading-[1.5]">{title}</span>
-              {description && <span className="text-xs">{description}</span>}
-            </div>
+    <div className="border-bottom w-full flex flex-col text-primary text-sm">
+      <Row
+        onClick={() => setCollapsed(!collapsed)}
+        className="p-2 justify-between w-full hover:bg-secondary hover:text-white duration-200 cursor-pointer"
+      >
+        <Row>
+          <div className="mr-2 text-[8px]">{icon}</div>
+          <div className="w-full flex flex-col gap-y-0">
+            <span className="text-[14px] font-[500] leading-[1.5]">{title}</span>
+            {description && <span className="text-xs">{description}</span>}
           </div>
-          {!defaultMetric && (
-            <div className="flex flex-row items-center gap-x-5">
-              {onHide && eyeIcon}
-              {onDelete && trashIcon}
-            </div>
-          )}
-        </div>
-        {!collapsed && <div className="pl-6 pr-3 pt-5">{children}</div>}
-      </div>
-    </>
+        </Row>
+        {!defaultMetric && (
+          <Row gap="x-5">
+            {onHide && eyeIcon}
+            {onDelete && trashIcon}
+          </Row>
+        )}
+      </Row>
+      {!collapsed && <div className="pl-6 pr-3 pt-5">{children}</div>}
+    </div>
   );
 };

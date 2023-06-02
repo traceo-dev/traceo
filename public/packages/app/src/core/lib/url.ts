@@ -11,6 +11,12 @@ const setParams = (params: Record<string, any>) => {
   });
 };
 
-export const timeService = {
-  setParams
+const getParam = <T>(param: string) => {
+  const search = new URLSearchParams(window.location.search);
+  return search.get(param) as T;
+}
+
+export const urlService = {
+  setParams,
+  getParam
 };

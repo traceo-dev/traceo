@@ -1,3 +1,4 @@
+import { Row } from "../Row";
 import { Typography } from "../Typography";
 import { conditionClass, joinClasses } from "../utils/classes";
 import { DownOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
@@ -60,11 +61,11 @@ export const CollapseItem: FC<CollapseItemProps> = ({
           className
         )}
       >
-        <div className="flex flex-row items-center">
+        <Row>
           {collapseIconPosition === "start" && <div className="mr-2">{collapseIcon}</div>}
           {startIcon && <div className="mr-2">{startIcon}</div>}
           {header && <Typography>{itemHeader}</Typography>}
-        </div>
+        </Row>
 
         {collapseIconPosition === "end" && collapseIcon}
       </div>

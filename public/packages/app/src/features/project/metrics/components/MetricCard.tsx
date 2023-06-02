@@ -1,10 +1,12 @@
-import { LoadingOutlined, QuestionCircleOutlined, ReloadOutlined } from "@ant-design/icons";
+import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 import { IMetric, MetricPreviewType, Setter, TimeRange } from "@traceo/types";
-import { Row, Space, Tooltip } from "@traceo/ui";
-import { FC, useEffect, useState } from "react";
+import { Card } from "@traceo/ui";
+import { FC, lazy, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import MetricChart from "../../../../core/components/Charts/Metrics/MetricChart";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
+import { ConditionalWrapper } from "src/core/components/ConditionLayout";
+
+const MetricChart = lazy(() => import("../../../../core/components/Charts/Metrics/MetricChart"));
 
 interface MetricCardProps {
   metric: IMetric;
@@ -31,8 +33,8 @@ export const MetricCard: FC<MetricCardProps> = ({
       to: ranges[1]
     },
     options: {
-      keepPreviousData: true,
-      refetchOnMount: false
+      refetchOnMount: false,
+      retryOnMount: false
     }
   });
 
@@ -53,40 +55,28 @@ export const MetricCard: FC<MetricCardProps> = ({
   };
 
   return (
-    <div
-      className="cursor-pointer p-1 bg-primary"
+    <Card
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      className="col-span-6 min-w-[200px]"
+      title={metric.name}
+      onClick={() => onClick()}
+      extra={
+        (isHover || isRefetching) &&
+        (isRefetching ? (
+          <LoadingOutlined className="text-[12px]" />
+        ) : (
+          <ReloadOutlined className="text-[12px]" onClick={onRefresh} />
+        ))
+      }
     >
-      <Space className="w-full" direction="vertical">
-        <Row className="w-full mb-2 py-2 px-3 justify-between rounded" onClick={onClick}>
-          <Row>
-            <span className="text-[14px] pr-2 text-primary font-[500] hover:text-white">
-              {metric?.name}
-            </span>
-
-            {metric.description && (
-              <Tooltip title={metric?.description}>
-                <QuestionCircleOutlined className="text-xs" />
-              </Tooltip>
-            )}
-          </Row>
-          {(isHover || isRefetching) && (
-            <div className="text-xs text-primary hover:text-white cursor-pointer">
-              {isRefetching ? <LoadingOutlined /> : <ReloadOutlined onClick={onRefresh} />}
-            </div>
-          )}
-        </Row>
-        <div className="p-3">
-          <MetricChart
-            metric={metric}
-            ranges={ranges}
-            setRanges={setRanges}
-            data={data}
-            isLoading={isLoading}
-          />
-        </div>
-      </Space>
-    </div>
+      <MetricChart
+        metric={metric}
+        ranges={ranges}
+        setRanges={setRanges}
+        data={data}
+        isLoading={isLoading}
+      />
+    </Card>
   );
 };

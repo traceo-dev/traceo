@@ -2,17 +2,8 @@ import {
   DeepPartial,
   IMetric,
   IMetricSerie,
-  MetricResponseType,
-  METRIC_UNIT
 } from "@traceo/types";
-import dayjs from "dayjs";
-import {
-  EChartsOption,
-  SeriesOption,
-  ToolboxComponentOption,
-  TooltipComponentOption
-} from "echarts";
-import { BaseTooltip } from "../BaseTooltip";
+import { SeriesOption } from "echarts";
 
 export type SerieType = "bar" | "line" | "scatter";
 
