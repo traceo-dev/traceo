@@ -20,8 +20,9 @@ export const MetricTableWrapper: FC<Props> = ({ fields = [], metricData, isLoadi
       loading={isLoading}
       collection={metricData}
       hovered
-      showPagination={false}
-      scrollable={true}
+      showPagination={true}
+      pageSize={50}
+      rowsCount={metricData?.length}
     >
       <TableColumn name="Time">
         {({ item }) => dayjs.unix(Number(item.minute)).format("YYYY-MM-DD HH:mm:ss")}

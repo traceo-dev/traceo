@@ -10,6 +10,7 @@ import { Link, useParams } from "react-router-dom";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { IMetric, MemberRole } from "@traceo/types";
 import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
+import { TraceoLoading } from "src/core/components/TraceoLoading";
 
 const MetricsPage = () => {
   const { id } = useParams();
@@ -19,10 +20,21 @@ const MetricsPage = () => {
     to: dayjs().unix()
   });
 
-  const { data: metrics = [], isLoading } = useReactQuery<IMetric[]>({
+  const {
+    data: metrics = [],
+    isLoading,
+    isRefetching
+  } = useReactQuery<IMetric[]>({
     queryKey: [`metrics_${id}`],
-    url: `/api/metrics/${id}`
+    url: `/api/metrics/${id}`,
+    options: {
+      retryOnMount: false
+    }
   });
+
+  if (isRefetching) {
+    return <TraceoLoading />;
+  }
 
   return (
     <Page

@@ -66,7 +66,7 @@ export const Table: FC<TableProps> = (props: TableProps) => {
     rowSize = "md",
     onRowClick,
     onPageChange,
-    pageSize = 15,
+    pageSize = undefined,
     currentPage = 1,
     rowsCount = undefined,
     showPagination = false,
@@ -76,18 +76,13 @@ export const Table: FC<TableProps> = (props: TableProps) => {
   } = props;
 
   const [page, setPage] = useState(currentPage);
-  const [itemsPerPage, _] = useState(pageSize);
+  const [itemsPerPage, _] = useState(pageSize ?? 0);
 
   const pagination = useMemo(() => {
     const indexOfLastItem = page * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-    /**
-     * When there is onPageChange then we know that data is fetching before trigger this function.
-     * In this case we have to use full collection. Slice is doing when pagination is made on raw result
-     * without pagination from API.
-     */
-    const currentItems = !onPageChange
+    const currentItems = !pageSize
       ? collection
       : collection?.slice(indexOfFirstItem, indexOfLastItem);
 

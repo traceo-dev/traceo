@@ -139,6 +139,7 @@ export const MetricsPage = forwardRef(
     const onAddSerie = (serie: string) => {
       // We have to clear graph payload on each serie mutation
       setGraph([]);
+      setRawData([]);
       setSeries([
         ...series,
         {

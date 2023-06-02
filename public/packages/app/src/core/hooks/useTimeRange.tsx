@@ -15,25 +15,6 @@ export const useTimeRange = (initial?: { from: number; to: number }, initOnStart
       return;
     }
 
-    const unlisten = historyService.listen(({ action, location }) => {
-      if (action === "POP") {
-        const search = new URLSearchParams(location.search);
-        if (search.get("from") && search.get("to")) {
-          setRanges([parseInt(search.get("from")), parseInt(search.get("to"))]);
-        }
-      }
-    });
-
-    return () => {
-      unlisten();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!initOnStart) {
-      return;
-    }
-
     urlService.setParams({
       from: ranges[0],
       to: ranges[1]

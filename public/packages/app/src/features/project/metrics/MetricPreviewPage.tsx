@@ -11,7 +11,7 @@ import { Permissions } from "../../../core/components/Permissions";
 import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
-import { CheckOutlined, LoadingOutlined, SettingOutlined } from "@ant-design/icons";
+import { CheckOutlined, SettingOutlined } from "@ant-design/icons";
 import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
@@ -58,7 +58,7 @@ export const MetricPreviewPage = () => {
   useEffect(() => {
     refetch();
     refetchRawData();
-  }, [ranges, metricId, options]);
+  }, [ranges, metricId]);
 
   useEffect(() => {
     if (data && data.options) {

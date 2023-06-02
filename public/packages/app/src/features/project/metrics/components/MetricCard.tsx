@@ -1,10 +1,12 @@
 import { LoadingOutlined, ReloadOutlined } from "@ant-design/icons";
 import { IMetric, MetricPreviewType, Setter, TimeRange } from "@traceo/types";
 import { Card } from "@traceo/ui";
-import { FC, useEffect, useState } from "react";
+import { FC, lazy, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import MetricChart from "../../../../core/components/Charts/Metrics/MetricChart";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
+import { ConditionalWrapper } from "src/core/components/ConditionLayout";
+
+const MetricChart = lazy(() => import("../../../../core/components/Charts/Metrics/MetricChart"));
 
 interface MetricCardProps {
   metric: IMetric;
@@ -31,8 +33,8 @@ export const MetricCard: FC<MetricCardProps> = ({
       to: ranges[1]
     },
     options: {
-      keepPreviousData: true,
-      refetchOnMount: false
+      refetchOnMount: false,
+      retryOnMount: false
     }
   });
 
