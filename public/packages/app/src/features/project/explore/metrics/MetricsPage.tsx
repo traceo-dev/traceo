@@ -8,6 +8,7 @@ import {
   BlockOutlined,
   CloseOutlined,
   DeleteOutlined,
+  LoadingOutlined,
   NodeIndexOutlined
 } from "@ant-design/icons";
 import { Col, Input, RadioButtonGroup, Row, Select, SelectOptionProps } from "@traceo/ui";
@@ -20,6 +21,7 @@ import { ActionButton } from "../../../../core/components/ActionButton";
 import { GRAPH_TYPE_OPTIONS } from "../types";
 import { ExploreSerieType, EXPLORE_PLOT_TYPE, AVAILABLE_COLORS, TimeRange } from "@traceo/types";
 import { ButtonOptionsWrapper } from "../components";
+import { MetricTableWrapper } from "../../metrics/components/MetricTableWrapper";
 
 export const MetricsPage = forwardRef(
   (
@@ -34,6 +36,9 @@ export const MetricsPage = forwardRef(
     const { id } = useParams();
 
     const [graph, setGraph] = useState<[number, number][]>([]);
+    const [rawData, setRawData] = useState<[]>([]);
+    const [loadingRaw, setLoadingRaw] = useState<boolean>(false);
+
     const [series, setSeries] = useState<ExploreSerieType[]>([]);
 
     const [graphType, setGraphType] = useState<EXPLORE_PLOT_TYPE>("line");
@@ -80,6 +85,7 @@ export const MetricsPage = forwardRef(
 
     const loadData = async (props: any) => {
       setLoading(true);
+      setLoadingRaw(true);
 
       await metricsApi
         .loadGraph(id, props)
@@ -90,6 +96,17 @@ export const MetricsPage = forwardRef(
         })
         .finally(() => {
           setLoading(false);
+        });
+
+      await metricsApi
+        .loadRawData(id, props)
+        .then((resp) => {
+          if (resp.status === "success") {
+            setRawData(resp.data);
+          }
+        })
+        .finally(() => {
+          setLoadingRaw(false);
         });
     };
 
@@ -133,9 +150,12 @@ export const MetricsPage = forwardRef(
 
     const onRemoveSerie = (serie: ExploreSerieType) => {
       setGraph([]);
+      setRawData([]);
       const s = series.filter((s) => s !== serie);
       setSeries(s);
     };
+
+    const getTableFields = () => series.map(({ name }) => name);
 
     return (
       <Col>
@@ -234,6 +254,21 @@ export const MetricsPage = forwardRef(
               markers={markers}
             />
           </ConditionalWrapper>
+        </OptionsCollapseGroup>
+        <OptionsCollapseGroup
+          title="Raw data"
+          loading={loadingRaw}
+          extra={
+            <span className="text-xs font-semibold text-primary">
+              {(rawData || []).length} rows found
+            </span>
+          }
+        >
+          <MetricTableWrapper
+            metricData={rawData}
+            isLoading={loadingRaw}
+            fields={getTableFields()}
+          />
         </OptionsCollapseGroup>
       </Col>
     );

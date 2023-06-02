@@ -1,45 +1,36 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { IMetric, MetricResponseType, DeepPartial, METRIC_UNIT } from "@traceo/types";
-import { Card, Row, Table, TableColumn } from "@traceo/ui";
+import { MetricResponseType } from "@traceo/types";
+import { Table, TableColumn } from "@traceo/ui";
 import { FC } from "react";
 import dayjs from "dayjs";
 
 interface Props {
-  metric: DeepPartial<IMetric>;
+  fields?: string[];
   metricData: MetricResponseType[];
   isLoading: boolean;
 }
-export const MetricTableWrapper: FC<Props> = ({ metric, metricData, isLoading }) => (
-  <Card title="Raw data">
-    <ConditionalWrapper
-      isEmpty={!metricData || metricData.length === 0}
-      isLoading={isLoading}
-      emptyView={<DataNotFound />}
+export const MetricTableWrapper: FC<Props> = ({ fields = [], metricData, isLoading }) => (
+  <ConditionalWrapper
+    isEmpty={metricData.length === 0}
+    isLoading={isLoading}
+    emptyView={<DataNotFound />}
+  >
+    <Table
+      loading={isLoading}
+      collection={metricData}
+      hovered
+      showPagination={false}
+      scrollable={true}
     >
-      <Table collection={metricData} hovered pageSize={100}>
-        <TableColumn name="Time">
-          {({ item }) => dayjs.unix(Number(item.timestamp)).format("YYYY-MM-DD HH:mm:ss")}
+      <TableColumn name="Time">
+        {({ item }) => dayjs.unix(Number(item.minute)).format("YYYY-MM-DD HH:mm:ss")}
+      </TableColumn>
+      {fields.map((field, index) => (
+        <TableColumn key={index} name={field}>
+          {({ item }) => <span>{item[field] ? <span>{item[field]}</span> : "-"}</span>}
         </TableColumn>
-        {metric?.series
-          .filter((serie) => serie?.show)
-          .map((serie, index) => (
-            <TableColumn key={index} name={serie.name}>
-              {({ item }) => (
-                <span>
-                  {item[serie.field] ? (
-                    <Row gap="x-1">
-                      <span>{item[serie.field]}</span>
-                      <span>{serie.unit === METRIC_UNIT.NONE ? "" : serie.unit}</span>
-                    </Row>
-                  ) : (
-                    "-"
-                  )}
-                </span>
-              )}
-            </TableColumn>
-          ))}
-      </Table>
-    </ConditionalWrapper>
-  </Card>
+      ))}
+    </Table>
+  </ConditionalWrapper>
 );

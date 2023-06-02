@@ -1,4 +1,4 @@
-import { Row, joinClasses } from "@traceo/ui";
+import { Row, conditionClass, joinClasses } from "@traceo/ui";
 import { FC, HTMLProps } from "react";
 import { To, useNavigate } from "react-router-dom";
 
@@ -6,6 +6,8 @@ interface Props extends Omit<HTMLProps<HTMLElement>, "ref"> {
   name?: string;
   extra?: JSX.Element;
   className?: string;
+  bodyClassName?: string;
+  loading?: boolean;
   to?: To;
 }
 
@@ -13,7 +15,9 @@ export const ContentCard: FC<Props> = ({
   extra = undefined,
   name = undefined,
   className = "",
+  bodyClassName = "",
   children,
+  loading = false,
   to = undefined,
   ...props
 }) => {
@@ -22,6 +26,7 @@ export const ContentCard: FC<Props> = ({
     <div
       className={joinClasses(
         "flex flex-col w-full bg-primary border border-solid border-secondary rounded mb-1",
+        conditionClass(loading, "loading-border"),
         className
       )}
       {...props}
@@ -37,7 +42,7 @@ export const ContentCard: FC<Props> = ({
         )}
         {extra}
       </Row>
-      <div className="p-3 mt-5">{children}</div>
+      <div className={joinClasses("p-3 mt-5", bodyClassName)}>{children}</div>
     </div>
   );
 };

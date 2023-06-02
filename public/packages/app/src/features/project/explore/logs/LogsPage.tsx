@@ -178,6 +178,7 @@ export const LogsPage = forwardRef(
         <OptionsCollapseGroup
           title="Logs"
           deafultCollapsed={false}
+          loading={loading}
           extra={
             <span className="text-xs font-semibold text-primary">
               {(logs || []).length} logs found
@@ -211,9 +212,7 @@ export const LogsPage = forwardRef(
             />
           </ButtonOptionsWrapper>
 
-          <ConditionalWrapper isLoading={loading}>
-            <LogsList ref={tableRef} verboseLog={verboseLog} showTime={showLogTime} logs={logs} />
-          </ConditionalWrapper>
+          <LogsList ref={tableRef} verboseLog={verboseLog} showTime={showLogTime} logs={logs} />
         </OptionsCollapseGroup>
       </Col>
     );

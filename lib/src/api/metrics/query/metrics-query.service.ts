@@ -145,4 +145,35 @@ export class MetricsQueryService {
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
     }
   }
+
+  public async getMetricRawData(projectId: string, query: ExploreMetricsQueryDto): Promise<ApiResponse<any>> {
+    try {
+      let fields = query.fields || [];
+
+      if (query?.metricId) {
+        const metric = await this.entityManager.getRepository(Metric).findOneBy({
+          id: query.metricId,
+          project: {
+            id: projectId
+          }
+        });
+
+        fields = metric.series.map((e) => e.field);
+      }
+
+      if (fields.length === 0) {
+        return new ApiResponse("success", undefined, []);
+      }
+
+      const response = await this.clickhouseService.rawDataMetrics(projectId, {
+        ...query,
+        fields
+      });
+
+      return new ApiResponse("success", undefined, response);
+    } catch (error) {
+      this.logger.error(`[${this.getMetricRawData.name}] Caused by: ${error}`);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+    }
+  }
 }

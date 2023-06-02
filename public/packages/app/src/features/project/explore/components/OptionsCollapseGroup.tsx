@@ -1,5 +1,5 @@
 import { RightOutlined, DownOutlined, DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
-import { Row } from "@traceo/ui";
+import { Row, conditionClass, joinClasses } from "@traceo/ui";
 import { useState } from "react";
 
 interface Props {
@@ -25,7 +25,12 @@ export const OptionsCollapseGroup = ({
   const icon = collapsed ? <RightOutlined /> : <DownOutlined />;
 
   return (
-    <div className="mb-2 p-3 pb-0 text-sm w-full flex flex-col rounded bg-primary border border-solid border-secondary rounded">
+    <div
+      className={joinClasses(
+        "mb-2 p-3 pb-0 text-sm w-full flex flex-col rounded bg-primary border border-solid border-secondary rounded",
+        conditionClass(loading, "loading-border")
+      )}
+    >
       <Row gap="x-3" className="justify-between w-full pr-3">
         <Row
           gap="x-2"
@@ -39,7 +44,6 @@ export const OptionsCollapseGroup = ({
           )}
         </Row>
         {extra && extra}
-        {loading && <LoadingOutlined />}
       </Row>
 
       {!collapsed && <div className="p-3 pt-5">{children}</div>}

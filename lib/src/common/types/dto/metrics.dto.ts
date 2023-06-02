@@ -15,13 +15,17 @@ import { ApiPropertyOptional } from "@nestjs/swagger";
 export class MetricQueryDto {
   @IsArray()
   @IsOptional()
-  fields: string[];
+  fields: string[] = [];
 
   @IsNotEmpty()
   from: number;
 
   @IsNotEmpty()
   to: number;
+
+  @IsOptional()
+  @IsString()
+  metricId?: string;
 }
 
 export class ExploreMetricsQueryDto extends MetricQueryDto {

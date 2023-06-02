@@ -157,7 +157,7 @@ export const Header = () => {
             )}
           </Row>
         </Row>
-        <Row gap="x-5">
+        <Row gap="x-3">
           <ServerPermissions>
             <Popover
               placement="bottom-end"

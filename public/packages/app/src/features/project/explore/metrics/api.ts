@@ -6,6 +6,11 @@ const loadGraph = async (projectId: string, props: ExploreGraphProps) => {
     return await api.get<ApiResponse<ExploreMetricsResponseType>>(`/api/metrics/${projectId}/explore`, props);
 }
 
+const loadRawData = async (projectId: string, props: ExploreGraphProps) => {
+    return await api.get<ApiResponse<[]>>(`/api/metrics/${projectId}/raw-data`, props);
+}
+
 export const metricsApi = {
-    loadGraph
+    loadGraph,
+    loadRawData
 }

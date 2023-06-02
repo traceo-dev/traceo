@@ -159,3 +159,27 @@ table {
 input[type="time"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
 }
+
+.loading-border {
+  position: relative;
+}
+
+.loading-border:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10%;
+  height: 100%;
+  border-top: 2px solid #0369a0;
+  animation: borderAnimation 2s linear infinite;
+}
+
+@keyframes borderAnimation {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 90%;
+  }
+}

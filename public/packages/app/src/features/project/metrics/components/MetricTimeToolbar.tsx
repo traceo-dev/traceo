@@ -26,7 +26,11 @@ const getCurrentRange = (): TimeRange => {
   return [from, to];
 };
 
-export const MetricTimeToolbar = ({ ranges, setRanges, variant = "primary" }: Props) => {
+export const MetricTimeToolbar = ({
+  ranges = [undefined, undefined],
+  setRanges = undefined,
+  variant = "primary"
+}: Props) => {
   const [live, setLive] = useState<boolean>(false);
   const [isTimeDisabled, setTimeDisabled] = useState<boolean>(false);
   const [disabledZoomIn, setDisabledZoomIn] = useState<boolean>(false);

@@ -71,7 +71,7 @@ const MetricPreviewChart: FC<Props> = ({
       },
       series: seriesOptions
     };
-  }, [options, datasource]);
+  }, [datasource]);
 
   const onDataZoom = (params: EchartDataZoomProps) => {
     const { startValue, endValue } = params.batch[0];

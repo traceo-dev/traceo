@@ -11,7 +11,7 @@ import { Permissions } from "../../../core/components/Permissions";
 import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
-import { CheckOutlined, SettingOutlined } from "@ant-design/icons";
+import { CheckOutlined, LoadingOutlined, SettingOutlined } from "@ant-design/icons";
 import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
@@ -19,6 +19,8 @@ import api from "../../../core/lib/api";
 import { Confirm } from "../../../core/components/Confirm";
 import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { ContentCard } from "../../../core/components/ContentCard";
+import { MetricTableWrapper } from "./components/MetricTableWrapper";
+import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
 
 export const MetricPreviewPage = () => {
   const navigate = useNavigate();
@@ -38,9 +40,25 @@ export const MetricPreviewPage = () => {
     }
   });
 
+  const {
+    data: rawData = [],
+    refetch: refetchRawData,
+    isLoading: isLoadingRawData,
+    isRefetching: isRefetchinRawData
+  } = useReactQuery<any>({
+    queryKey: [`metric_ds_raw_${metricId}`],
+    url: `/api/metrics/${id}/raw-data`,
+    params: {
+      from: ranges[0],
+      to: ranges[1],
+      metricId
+    }
+  });
+
   useEffect(() => {
     refetch();
-  }, [ranges, metricId]);
+    refetchRawData();
+  }, [ranges, metricId, options]);
 
   useEffect(() => {
     if (data && data.options) {
@@ -48,7 +66,7 @@ export const MetricPreviewPage = () => {
     }
   }, [data]);
 
-  if (!options || isEmptyObject(options)) {
+  if (!options || options.series.length === 0 || isEmptyObject(options)) {
     return <TraceoLoading />;
   }
 
@@ -86,6 +104,9 @@ export const MetricPreviewPage = () => {
     pathname: `/project/${id}/metrics`,
     search: `?from=${ranges[0]}&to=${ranges[1]}`
   };
+
+  const getTableFields = () =>
+    options?.series.filter(({ show }) => show).map(({ field }) => field);
 
   return (
     <Page
@@ -147,6 +168,7 @@ export const MetricPreviewPage = () => {
           <div className={conditionClass(isCustomizeMode, "col-span-8 mr-1", "col-span-12")}>
             <ContentCard
               name="Graph"
+              loading={isLoading || isRefetching}
               extra={<MetricTimeToolbar ranges={ranges} setRanges={setRanges} />}
             >
               <ConditionalWrapper isLoading={isLoading}>
@@ -160,6 +182,21 @@ export const MetricPreviewPage = () => {
                 />
               </ConditionalWrapper>
             </ContentCard>
+            <OptionsCollapseGroup
+              title="Raw data"
+              loading={isLoadingRawData || isRefetchinRawData}
+              extra={
+                <span className="text-xs font-semibold text-primary">
+                  {(rawData || []).length} rows found
+                </span>
+              }
+            >
+              <MetricTableWrapper
+                fields={getTableFields()}
+                metricData={rawData}
+                isLoading={isLoadingRawData || isRefetchinRawData}
+              />
+            </OptionsCollapseGroup>
           </div>
           {isCustomizeMode && (
             <div className="col-span-4">
