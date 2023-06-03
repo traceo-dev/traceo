@@ -21,7 +21,7 @@ export const InputSearch = forwardRef<HTMLInputElement, Props>((props, ref) => {
   } = props;
 
   const onChangeInputValue = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange && onChange(event.target.value || "");
+    onChange && onChange(event.target.value);
   };
 
   return (
