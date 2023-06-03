@@ -9,12 +9,11 @@ import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useReactQuery } from "../../../hooks/useReactQuery";
+import { theme } from "src/core/utils/theme";
 
 interface Props {
   id: string;
 }
-
-const PLOT_COLOR = "#04785A";
 
 const IncidentsListChart: FC<Props> = ({ id }) => {
   const plotType = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
@@ -64,17 +63,17 @@ const IncidentsListChart: FC<Props> = ({ id }) => {
       series={{
         name: "Errors",
         type: plotType,
-        color: PLOT_COLOR,
+        color: theme.chart.incidents.timeline.color,
         showSymbol: false,
         itemStyle: {
-          borderColor: PLOT_COLOR,
+          borderColor: theme.chart.incidents.timeline.color,
           borderWidth: 2
         },
         areaStyle: {
-          color: PLOT_COLOR,
-          opacity: 0.4
+          color: theme.chart.incidents.timeline.color,
+          opacity: theme.chart.incidents.timeline.areaOpacity
         },
-        barWidth: 10,
+        barWidth: theme.chart.incidents.timeline.barWidth,
         barGap: "5%"
       }}
     />

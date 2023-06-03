@@ -1,6 +1,6 @@
 import { Col, Input, InputSearch, Select, SelectOptionProps } from "@traceo/ui";
 import { ExploreViewProps } from "../ExplorePage";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { Span, SpanKind, SpanStatusCode } from "@traceo/types";
 import { useParams } from "react-router-dom";
 import { OptionsCollapseGroup } from "../components/OptionsCollapseGroup";
@@ -35,10 +35,12 @@ export const TracesPage = forwardRef(
     }: ExploreViewProps,
     ref
   ) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const { id } = useParams();
 
     const [traces, setTraces] = useState<Span[]>();
-    const [search, setSearch] = useState<string>(null);
+    const [search, setSearch] = useState<string>("");
     const [serviceName, setServiceName] = useState<string>(null);
     const [spanName, setSpanName] = useState<string>(null);
     const [traceStatus, setTraceStatus] = useState<string>(null);
@@ -91,8 +93,8 @@ export const TracesPage = forwardRef(
     }));
 
     const clearQuery = () => {
+      inputRef.current.value = null;
       const queries = [
-        setSearch,
         setDurationMax,
         setDurationMin,
         setServiceName,
@@ -129,6 +131,7 @@ export const TracesPage = forwardRef(
           <InlineFields>
             <Field title="Search" className="col-span-12">
               <InputSearch
+                ref={inputRef}
                 value={search}
                 onChange={(e) => setSearch(e)}
                 placeholder="Search for traces by IDs, names or attributes"

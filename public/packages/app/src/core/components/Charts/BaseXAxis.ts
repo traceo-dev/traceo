@@ -1,4 +1,5 @@
 import { XAXisComponentOption } from "echarts/types/dist/echarts";
+import { theme } from "../../../core/utils/theme";
 
 type XAxisProps = XAXisComponentOption & {
   pointerFormatter?: (value: string | number | unknown) => string;
@@ -6,7 +7,6 @@ type XAxisProps = XAXisComponentOption & {
   dateFormat?: string;
 };
 
-const LINE_COLOR = "#272A30";
 export const BaseXAxis = ({
   dateFormat = "HH:mm",
   type = "category",
@@ -20,15 +20,15 @@ export const BaseXAxis = ({
       {
         show: true,
         lineStyle: {
-          color: LINE_COLOR,
-          width: 1
+          color: theme.chart.splitLine.color,
+          width: theme.chart.splitLine.width
         },
       },
       splitLine
     ),
     axisLine: {
       lineStyle: {
-        color: LINE_COLOR
+        color: theme.chart.axisLine.color
       }
     },
     axisPointer: {
@@ -39,8 +39,8 @@ export const BaseXAxis = ({
     axisLabel: Object.assign(
       {
         formatter: props?.labelFormatter,
-        color: "#CCCCDC",
-        fontSize: 11,
+        color: theme.chart.label.color,
+        fontSize: theme.chart.label.size,
         hideOverlap: true
       },
       axisLabel

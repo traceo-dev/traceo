@@ -40,6 +40,7 @@ export const MetricsPage = forwardRef(
     const [loadingRaw, setLoadingRaw] = useState<boolean>(false);
 
     const [series, setSeries] = useState<ExploreSerieType[]>([]);
+    const [maxSeriesError, setMaxSeriesError] = useState<boolean>(false);
 
     const [graphType, setGraphType] = useState<EXPLORE_PLOT_TYPE>("line");
     const [stackedGraph, setStackedGraph] = useState<boolean>(false);
@@ -140,13 +141,19 @@ export const MetricsPage = forwardRef(
       // We have to clear graph payload on each serie mutation
       setGraph([]);
       setRawData([]);
-      setSeries([
-        ...series,
-        {
-          color: AVAILABLE_COLORS[series.length + 1],
-          name: serie
-        }
-      ]);
+      setMaxSeriesError(false);
+
+      if (series.length < 8) {
+        setSeries([
+          ...series,
+          {
+            color: AVAILABLE_COLORS[series.length + 1],
+            name: serie
+          }
+        ]);
+      } else {
+        setMaxSeriesError(true);
+      }
     };
 
     const onRemoveSerie = (serie: ExploreSerieType) => {
@@ -154,6 +161,10 @@ export const MetricsPage = forwardRef(
       setRawData([]);
       const s = series.filter((s) => s !== serie);
       setSeries(s);
+
+      if (s.length < 8) {
+        setMaxSeriesError(false);
+      }
     };
 
     const getTableFields = () => series.map(({ name }) => name);
@@ -167,9 +178,14 @@ export const MetricsPage = forwardRef(
           extra={<DeleteOutlined className="icon-btn" onClick={() => clearQuery()} />}
         >
           <InlineFields>
-            <Field title="Series" className="col-span-3">
+            <Field
+              title="Series"
+              tooltip={maxSeriesError ? "You can select at most 8 series." : undefined}
+              className="col-span-3"
+            >
               <Select
                 options={options()}
+                isDisabled={maxSeriesError}
                 isLoading={fetchingFields}
                 value={""}
                 onChange={(opt) => onAddSerie(opt?.value)}

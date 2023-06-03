@@ -1,12 +1,12 @@
 import { MarkLineComponentOption } from "echarts";
+import { theme } from "../../../core/utils/theme";
 
-const ITEM_COLOR = "#E24D42";
 export const BaseMarkLine = ({
   data,
   ...props
 }: MarkLineComponentOption): MarkLineComponentOption => ({
   itemStyle: {
-    color: ITEM_COLOR
+    color: theme.chart.item.color
   },
   label: {
     show: false

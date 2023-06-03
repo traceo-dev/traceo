@@ -36,6 +36,7 @@ export const LogsPage = forwardRef(
   ) => {
     const { id } = useParams();
     const tableRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const [logs, setLogs] = useState<ILog[]>([]);
     const [graph, setGraph] = useState<[number, number][]>([]);
@@ -109,8 +110,7 @@ export const LogsPage = forwardRef(
     };
 
     const clearQuery = () => {
-      const queries = [setSearch];
-      queries.map((e) => e(null));
+      inputRef.current.value = null;
       setLimit(250);
     };
 
@@ -139,6 +139,7 @@ export const LogsPage = forwardRef(
           <InlineFields>
             <Field title="Search" className="col-span-12">
               <InputSearch
+                ref={inputRef}
                 value={search}
                 onChange={(e) => setSearch(e)}
                 placeholder="Search for logs"

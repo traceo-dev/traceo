@@ -8,6 +8,7 @@ import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import { normalizePlotData } from "../utils";
+import { theme } from "src/core/utils/theme";
 
 interface Props {
   stats: PlotData[];
@@ -19,18 +20,18 @@ const IncidentsTodayChart: FC<Props> = ({ stats }) => {
     color: new graphic.LinearGradient(0, 0, 0, 1, [
       {
         offset: 0,
-        color: "#641D2C"
+        color: theme.chart.incidents.serie.areaColors[0]
       },
       {
         offset: 1,
-        color: "#6B403A"
+        color: theme.chart.incidents.serie.areaColors[1]
       }
     ])
   };
 
   const markArea: MarkAreaComponentOption = {
     itemStyle: {
-      color: "#111217",
+      color: theme.chart.incidents.serie.markAreaColor,
       opacity: 0.6
     },
     data: [
@@ -49,11 +50,11 @@ const IncidentsTodayChart: FC<Props> = ({ stats }) => {
     type: "line",
     name: "Errors",
     showSymbol: false,
-    color: "#E24D42",
+    color: theme.chart.incidents.serie.color,
     symbolSize: 0,
     areaStyle,
     lineStyle: {
-      color: "#E24D42"
+      color: theme.chart.incidents.serie.lineColor
     },
     markLine: BaseMarkLine({
       data: [

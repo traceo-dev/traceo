@@ -4,6 +4,7 @@ import { BaseChart } from "../BaseChart";
 import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
+import { theme } from "src/core/utils/theme";
 
 const IncidentsOverviewChart = ({ data }) => (
   <BaseChart
@@ -39,21 +40,21 @@ const IncidentsOverviewChart = ({ data }) => (
       type: "line",
       name: "Errors",
       showSymbol: false,
-      color: "#E24D42",
+      color: theme.chart.incidents.serie.color,
       areaStyle: {
         color: new graphic.LinearGradient(0, 0, 0, 1, [
           {
             offset: 0,
-            color: "#641D2C"
+            color: theme.chart.incidents.serie.areaColors[0]
           },
           {
             offset: 1,
-            color: "#6B403A"
+            color: theme.chart.incidents.serie.areaColors[1]
           }
         ])
       },
       lineStyle: {
-        color: "#E24D42"
+        color: theme.chart.incidents.serie.lineColor
       }
     }}
   />

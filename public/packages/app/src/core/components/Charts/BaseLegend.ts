@@ -1,5 +1,6 @@
 import { Dictionary } from "@traceo/types";
 import { LegendComponentOption } from "echarts";
+import { theme } from "../../../core/utils/theme";
 
 interface BaseLegendOptions {
   position?: "horizontal" | "vertical";
@@ -9,10 +10,9 @@ export const BaseLegend = ({ selected }: BaseLegendOptions): LegendComponentOpti
   icon: "roundRect",
   itemHeight: 5,
   textStyle: {
-    color: "#ffffff"
+    color: theme.chart.legend.color
   },
   selected,
-  // TODO: values based on position
   bottom: 0,
   left: 30
 });

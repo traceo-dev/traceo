@@ -9,6 +9,7 @@ import { BaseYAxis } from "../BaseYAxis";
 import { timeAxisFormatter } from "../utils";
 import { BaseTooltip } from "../BaseTooltip";
 import { EchartDataZoomProps } from "../types";
+import { theme } from "src/core/utils/theme";
 
 interface Props {
   metric: IMetric;
@@ -49,7 +50,7 @@ const MetricChart: FC<Props> = ({
     top: legendOrient === "vertical" ? "center" : "bottom",
     left: legendOrient === "horizontal" ? 10 : null,
     textStyle: {
-      color: "#CCCCDC"
+      color: theme.chart.legend.color
     },
     icon: "roundRect",
     itemHeight: 5
@@ -80,7 +81,6 @@ const MetricChart: FC<Props> = ({
           offset: 12,
           axisLabel: {
             formatter: labelFormatter,
-            fontSize: 11,
             showMaxLabel: false,
             showMinLabel: false
           },

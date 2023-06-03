@@ -9,13 +9,9 @@ import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import { EchartDataZoomProps } from "../types";
 import { timeAxisFormatter } from "../utils";
+import { theme } from "../../../../core/utils/theme";
 
-// const FIVE_MINTUES = 5;
-// const TWENTY_FOUR_HOURS = 1440;
 const GRAPH_DIMENSIONS = ["timestamp", "log"];
-
-const BAR_COLOR = "#3B82F5";
-const LABEL_COLOR = "#CCCCDC";
 
 export type LogsType = {
   level: Record<LogLevel, number[]>;
@@ -62,7 +58,7 @@ const LogsExploreChart: FC<Props> = ({
 
   const serieOption = {
     ...commonSeriesOptions,
-    color: BAR_COLOR,
+    color: theme.chart.logs.barColor,
     name: "logs"
   } as SeriesOption;
 
@@ -99,9 +95,7 @@ const LogsExploreChart: FC<Props> = ({
         type: "value",
         offset: 12,
         axisLabel: {
-          showMinLabel: true,
-          color: LABEL_COLOR,
-          fontSize: 11
+          showMinLabel: true
         },
         minInterval: 1,
         axisLine: {

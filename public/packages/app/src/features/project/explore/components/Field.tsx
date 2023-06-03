@@ -11,7 +11,7 @@ export const Field = ({ title, children, className = "", tooltip }: Props) => {
   return (
     <div className={joinClasses("flex flex-col w-full gap-y-1 pb-3", className)}>
       <Row gap="x-2">
-        <Typography size="xs" weight="semibold">
+        <Typography size="xs" weight="semibold" className="select-none">
           {title}
         </Typography>
         {tooltip && (

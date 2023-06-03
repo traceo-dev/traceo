@@ -1,11 +1,10 @@
 import { YAXisComponentOption } from "echarts/types/dist/echarts";
+import { theme } from "../../../core/utils/theme";
 
 type YAxisProps = YAXisComponentOption & {
   pointerFormatter?: (value: undefined) => string;
   labelFormatter?: (value: unknown) => string;
 };
-const LINE_COLOR = "#272A30";
-const LABEL_COLOR = "#CCCCDC";
 export const BaseYAxis = ({
   splitLine = {},
   axisPointer = {},
@@ -16,8 +15,8 @@ export const BaseYAxis = ({
     {
       show: true,
       lineStyle: {
-        color: LINE_COLOR,
-        width: 1
+        color: theme.chart.splitLine.color,
+        width: theme.chart.splitLine.width
       }
     },
     splitLine
@@ -34,8 +33,8 @@ export const BaseYAxis = ({
   // TODO: fix types and use Object.assign(axisLabel,
   axisLabel: Object.assign(
     {
-      color: LABEL_COLOR,
-      fontSize: 10,
+      color: theme.chart.label.color,
+      fontSize: theme.chart.label.size,
       padding: 0
     },
     axisLabel as any

@@ -1,3 +1,4 @@
+import { theme } from "src/core/utils/theme";
 import { localStorageService } from "../../../lib/localStorage";
 import { LocalStorage } from "../../../lib/localStorage/types";
 import dateUtils from "../../../utils/date";
@@ -6,7 +7,6 @@ import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 
-const PLOT_COLOR = "#04785A";
 const IncidentTimelineChart = ({ events, isLoading }) => {
   const plotType = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
   return (
@@ -65,17 +65,17 @@ const IncidentTimelineChart = ({ events, isLoading }) => {
       series={{
         name: "Errors",
         type: plotType,
-        color: PLOT_COLOR,
+        color: theme.chart.incidents.timeline.color,
         showSymbol: false,
         itemStyle: {
-          borderColor: PLOT_COLOR,
+          borderColor: theme.chart.incidents.timeline.color,
           borderWidth: 2
         },
         areaStyle: {
-          color: PLOT_COLOR,
-          opacity: 0.4
+          color: theme.chart.incidents.timeline.color,
+          opacity: theme.chart.incidents.timeline.areaOpacity
         },
-        barWidth: 10,
+        barWidth: theme.chart.incidents.timeline.barWidth,
         barGap: "5%"
       }}
     />

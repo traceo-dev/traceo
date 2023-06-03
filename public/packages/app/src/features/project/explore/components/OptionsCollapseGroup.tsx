@@ -34,7 +34,7 @@ export const OptionsCollapseGroup = ({
       <Row gap="x-3" className="justify-between w-full pr-3">
         <Row
           gap="x-2"
-          className="gap-x-2 cursor-pointer"
+          className="gap-x-2 cursor-pointer select-none"
           onClick={() => setCollapsed(!collapsed)}
         >
           <span className="text-[8px]">{icon}</span>

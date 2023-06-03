@@ -16,6 +16,7 @@ import { BaseYAxis } from "../BaseYAxis";
 import { BaseTooltip } from "../BaseTooltip";
 import { EchartDataZoomProps } from "../types";
 import { timeAxisFormatter } from "../utils";
+import { theme } from "src/core/utils/theme";
 
 interface Props {
   options: DeepPartial<IMetric>;
@@ -57,7 +58,7 @@ const MetricPreviewChart: FC<Props> = ({
         top: legendOrient === "vertical" ? "center" : "bottom",
         left: legendOrient === "horizontal" ? 40 : null,
         textStyle: {
-          color: "#ffffff"
+          color: theme.chart.legend.color
         },
         icon: "roundRect",
         itemHeight: 5
