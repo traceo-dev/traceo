@@ -21,7 +21,7 @@ const CardContainer = styled.div`
   width: 100%;
   background-color: var(--color-bg-primary);
   border: 1px solid var(--color-bg-secondary);
-  border-radius: 4px;
+  border-radius: 2px;
   margin-bottom: 4px;
 `;
 

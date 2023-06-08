@@ -3,7 +3,6 @@ import {
   IMetric,
   DeepPartial,
   METRIC_UNIT,
-  MetricResponseType,
   TimeRange,
   Setter
 } from "@traceo/types";
@@ -16,7 +15,7 @@ import { BaseYAxis } from "../BaseYAxis";
 import { BaseTooltip } from "../BaseTooltip";
 import { EchartDataZoomProps } from "../types";
 import { timeAxisFormatter } from "../utils";
-import { theme } from "src/core/utils/theme";
+import { theme } from "../../../../core/utils/theme";
 
 interface Props {
   options: DeepPartial<IMetric>;

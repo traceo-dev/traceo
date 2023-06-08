@@ -24,6 +24,16 @@ export class TracingQueryService {
         }
     }
 
+    public async getSpansByTraceId(traceId: string): Promise<ApiResponse<Span[]>> {
+        try {
+            const response = await this.clickhouseService.loadSpansByTraceId<Span>(traceId);
+            return new ApiResponse("success", undefined, response);
+        } catch (error) {
+            this.logger.error(`[${this.getSpansByTraceId.name}] Caused by: ${error}`);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+        }
+    }
+
     public async getServiceNames(projectId: string): Promise<ApiResponse<any>> {
         try {
             const services = await this.clickhouseService.loadTracingServiceNames(projectId);

@@ -1,6 +1,5 @@
 import { useProject } from "../../../hooks/useProject";
 import { MenuRoute } from "../../../types/navigation";
-import { joinClasses, conditionClass } from "../../../utils/classes";
 import { StoreState } from "@store/types";
 import { Space } from "@traceo/ui";
 import { FC } from "react";
@@ -40,9 +39,7 @@ export const MenuItem: FC<Props> = ({ menu }) => {
   );
 };
 
-const MenuItemWrapper = styled.div<{
-  isActive: boolean;
-}>`
+const MenuItemWrapper = styled.div`
   list-style: none;
   position: relative;
   display: flex;

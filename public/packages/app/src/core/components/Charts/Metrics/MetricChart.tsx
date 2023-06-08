@@ -9,7 +9,7 @@ import { BaseYAxis } from "../BaseYAxis";
 import { timeAxisFormatter } from "../utils";
 import { BaseTooltip } from "../BaseTooltip";
 import { EchartDataZoomProps } from "../types";
-import { theme } from "src/core/utils/theme";
+import { theme } from "../../../../core/utils/theme";
 
 interface Props {
   metric: IMetric;

@@ -1,6 +1,7 @@
 export const VERSION = "1.0.0";
 
 export const GH_REPO_LINK = "https://github.com/traceo-dev/traceo";
+export const GH_REPO_ISSUE_LINK = "https://github.com/traceo-dev/traceo/issues/new";
 export const GH_SDK_REPO_LINK = "https://github.com/traceo-dev/traceo-node";
 export const INFLUX2_DOCS = "https://docs.influxdata.com/influxdb/v2.4/install/";
 export const ADMIN_EMAIL = "admin@localhost";

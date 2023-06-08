@@ -4,7 +4,6 @@ import { Card } from "@traceo/ui";
 import { FC, lazy, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
-import { ConditionalWrapper } from "src/core/components/ConditionLayout";
 
 const MetricChart = lazy(() => import("../../../../core/components/Charts/Metrics/MetricChart"));
 

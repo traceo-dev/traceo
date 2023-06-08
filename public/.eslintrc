@@ -6,9 +6,7 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "ignorePatterns": [
-    "*.config.js"
-  ],
+  "ignorePatterns": ["*.config.js"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2018,
@@ -17,6 +15,8 @@
   "rules": {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "warn",
+    // Temporary switched off due to wrong eslint errors. Remove in next major exlint version.
+    "@typescript-eslint/no-empty-function": "off",
     "react/prop-types": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",

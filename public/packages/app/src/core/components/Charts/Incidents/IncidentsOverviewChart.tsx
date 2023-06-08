@@ -4,7 +4,7 @@ import { BaseChart } from "../BaseChart";
 import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
-import { theme } from "src/core/utils/theme";
+import { theme } from "../../../../core/utils/theme";
 
 const IncidentsOverviewChart = ({ data }) => (
   <BaseChart
