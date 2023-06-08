@@ -9,7 +9,7 @@ import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useReactQuery } from "../../../hooks/useReactQuery";
-import { theme } from "src/core/utils/theme";
+import { theme } from "../../../../core/utils/theme";
 
 interface Props {
   id: string;

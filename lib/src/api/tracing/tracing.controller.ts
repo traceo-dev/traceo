@@ -19,6 +19,13 @@ export class TracingController {
         return await this.tracingQueryService.getRootTraces(body);
     }
 
+    @Get("/parent/:id")
+    async getSpansByTraceId(
+        @Param("id") id: string
+    ): Promise<ApiResponse<Span[]>> {
+        return await this.tracingQueryService.getSpansByTraceId(id);
+    }
+
     @Get("/services/:id")
     async getServiceNames(
         @Param("id") id: string

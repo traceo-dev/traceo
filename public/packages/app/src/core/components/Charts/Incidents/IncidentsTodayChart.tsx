@@ -8,7 +8,7 @@ import { BaseTooltip } from "../BaseTooltip";
 import { BaseXAxis } from "../BaseXAxis";
 import { BaseYAxis } from "../BaseYAxis";
 import { normalizePlotData } from "../utils";
-import { theme } from "src/core/utils/theme";
+import { theme } from "../../../../core/utils/theme";
 
 interface Props {
   stats: PlotData[];

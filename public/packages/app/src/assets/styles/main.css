@@ -36,6 +36,10 @@
 .border-right {
   border-right: 1px solid var(--color-bg-secondary);
 }
+
+.border-left {
+  border-left: 1px solid var(--color-bg-secondary);
+}
 /* End overrides */
 
 *,
@@ -183,3 +187,39 @@ input[type="time"]::-webkit-calendar-picker-indicator {
     left: 90%;
   }
 }
+
+/* TRACES */
+.indent {
+  padding-inline: 16px;
+  display: inline-flex;
+  height: 100%;
+}
+
+.indent::before {
+  content: "";
+  margin-left: 6px;
+  padding-left: 2px;
+  background-color: var(--color-bg-secondary);
+}
+
+.draggable-timeline {
+  /* border-left: 2px solid transparent; */
+  cursor: col-resize;
+  margin-left: -1px;
+  position: relative;
+  top: 0px;
+  width: 1px;
+  z-index: 10;
+}
+
+.draggable-timeline::before {
+  position: absolute;
+  inset: 0px 0px 0px -8px;
+  content: " ";
+}
+
+.draggable-timeline:hover {
+  background: var(--color-traceo-primary);
+  width: 1px;
+}
+/* END TRACES */

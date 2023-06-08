@@ -1,4 +1,4 @@
-import { theme } from "src/core/utils/theme";
+import { theme } from "../../../../core/utils/theme";
 import { localStorageService } from "../../../lib/localStorage";
 import { LocalStorage } from "../../../lib/localStorage/types";
 import dateUtils from "../../../utils/date";

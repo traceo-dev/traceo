@@ -12,7 +12,7 @@ export interface ApiQueryParams {
   sortBy?: string;
 }
 
-export function configureApi() {
+export const configureApi = () => {
   Axios.interceptors.response.use(
     (response) => {
       const status = response?.data?.status;
@@ -58,15 +58,14 @@ export function configureApi() {
   );
 
   Axios.interceptors.request.use((config) => {
+    config.headers.setContentType("application/json");
+    config.headers.setAccept("application/json");
+
     return {
       baseURL: process.env.REACT_APP_API_URL,
       withCredentials: true,
       maxRedirects: 0,
-      ...config,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      }
+      ...config
     };
   });
 }

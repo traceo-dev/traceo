@@ -25,3 +25,10 @@ export type Span = {
     receive_timestamp?: number;
     project_id: string;
 }
+
+/**
+ * Structure representaing tree preview in span details.
+ */
+export type TreeSpan = Span & {
+    childrens: TreeSpan[];
+}

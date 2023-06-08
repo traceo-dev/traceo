@@ -39,9 +39,7 @@ export const HeaderItem = ({ route }: HeaderItemProps) => {
   );
 };
 
-const Wrapper = styled.div<{
-  isActive: boolean;
-}>`
+const Wrapper = styled.div`
   list-style: none;
   position: relative;
   display: flex;

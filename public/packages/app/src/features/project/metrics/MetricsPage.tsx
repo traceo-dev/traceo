@@ -10,7 +10,7 @@ import { Link, useParams } from "react-router-dom";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { IMetric, MemberRole } from "@traceo/types";
 import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
-import { TraceoLoading } from "src/core/components/TraceoLoading";
+import { TraceoLoading } from "../../../core/components/TraceoLoading";
 
 const MetricsPage = () => {
   const { id } = useParams();

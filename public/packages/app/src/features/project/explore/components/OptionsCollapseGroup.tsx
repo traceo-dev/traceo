@@ -1,4 +1,4 @@
-import { RightOutlined, DownOutlined, DeleteOutlined, LoadingOutlined } from "@ant-design/icons";
+import { RightOutlined, DownOutlined } from "@ant-design/icons";
 import { Row, conditionClass, joinClasses } from "@traceo/ui";
 import { useState } from "react";
 
@@ -27,7 +27,7 @@ export const OptionsCollapseGroup = ({
   return (
     <div
       className={joinClasses(
-        "mb-2 p-3 pb-0 text-sm w-full flex flex-col rounded bg-primary border border-solid border-secondary rounded",
+        "mb-2 p-3 pb-0 text-sm w-full flex flex-col rounded bg-primary border border-solid border-secondary rounded-sm",
         conditionClass(loading, "loading-border")
       )}
     >
@@ -46,7 +46,7 @@ export const OptionsCollapseGroup = ({
         {extra && extra}
       </Row>
 
-      {!collapsed && <div className="p-3 pt-5">{children}</div>}
+      {!collapsed && <div className="p-3 pt-5 overflow-x-auto">{children}</div>}
 
       {footer && <div className="pl-5 py-3">{footer}</div>}
     </div>

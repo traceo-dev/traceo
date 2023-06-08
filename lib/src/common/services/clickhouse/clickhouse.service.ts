@@ -218,9 +218,11 @@ export class ClickhouseService {
 
     public async loadUserNotifications(userId: string): Promise<Notification[]> {
         const sqlQuery = `
-        SELECT * FROM notifications WHERE user_id = '${userId}'
+            SELECT * 
+            FROM notifications 
+            WHERE user_id = '${userId}'
             ORDER BY timestamp DESC
-            `;
+        `;
 
         const notifications = await this.query({
             query: sqlQuery,
@@ -236,7 +238,7 @@ export class ClickhouseService {
             FROM tracing
             WHERE project_id = '${projectId}'
             AND parent_span_id = ''
-            `;
+         `;
 
         const serviceNames = await this.query({
             query: sqlQuery,
@@ -252,7 +254,7 @@ export class ClickhouseService {
             FROM tracing
             WHERE project_id = '${projectId}'
             AND parent_span_id = ''
-            `;
+        `;
 
         const serviceNames = await this.query({
             query: sqlQuery,
@@ -262,14 +264,30 @@ export class ClickhouseService {
         return serviceNames.json();
     }
 
+    public async loadSpansByTraceId<T>(traceId: string): Promise<T[]> {
+        const sqlQuery = `
+            SELECT * FROM tracing
+            WHERE trace_id = '${traceId}'
+            ORDER BY start_time ASC
+        `;
+
+        const spans = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        const resp = await spans.json<T[]>();
+        return resp;
+    }
+
     public async loadRootTraces(query: QueryTracingDto): Promise<Span[]> {
         let sqlQuery = `
-        SELECT * FROM tracing
+            SELECT * FROM tracing
             WHERE project_id = '${query.projectId}'
             AND parent_span_id = ''
             AND toDateTime(receive_timestamp) > toDateTime(${query.from})
             AND toDateTime(receive_timestamp) < toDateTime(${query.to})
-            `;
+        `;
 
         if (query?.serviceName) {
             sqlQuery += `AND service_name = '${query.serviceName}'\n`

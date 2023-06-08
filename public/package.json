@@ -18,6 +18,7 @@
     "@traceo-sdk/react": "^0.32.0",
     "dayjs": "^1.11.7",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "file-saver": "^2.0.5",
     "react": "17.0.2",
     "react-calendar": "^4.0.0",
     "react-dom": "17.0.2",

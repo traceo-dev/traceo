@@ -1,4 +1,4 @@
-import { Col, Input, InputSearch, Select, SelectOptionProps } from "@traceo/ui";
+import { Col, Input, InputSearch, Select, SelectOptionProps, conditionClass } from "@traceo/ui";
 import { ExploreViewProps } from "../ExplorePage";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { Span, SpanKind, SpanStatusCode } from "@traceo/types";
@@ -11,6 +11,7 @@ import { mapStatusName, mapKindName } from "./utils";
 import { tracingApi } from "./api";
 import { TracesList } from "./TracesList";
 import { InlineFields } from "../components/InlineFields";
+import { TracePreview } from "./TracePreview";
 
 const statusOptions = Object.keys(SpanStatusCode)
   .slice(0, 3)
@@ -40,6 +41,8 @@ export const TracesPage = forwardRef(
     const { id } = useParams();
 
     const [traces, setTraces] = useState<Span[]>();
+    const [selectedTrace, setSelectedTrace] = useState<Span>(undefined);
+
     const [search, setSearch] = useState<string>("");
     const [serviceName, setServiceName] = useState<string>(null);
     const [spanName, setSpanName] = useState<string>(null);
@@ -120,6 +123,8 @@ export const TracesPage = forwardRef(
 
       return queries.join(", ");
     };
+
+    const onSelectTrace = (trace: Span) => setSelectedTrace(trace);
 
     return (
       <Col>
@@ -210,10 +215,20 @@ export const TracesPage = forwardRef(
             </Field>
           </InlineFields>
         </OptionsCollapseGroup>
-
-        <OptionsCollapseGroup title="Traces" deafultCollapsed={false} loading={loading}>
-          <TracesList loading={loading} spans={traces} />
-        </OptionsCollapseGroup>
+        <div className="grid grid-cols-12">
+          <div className={conditionClass(!selectedTrace, "col-span-12", "col-span-3")}>
+            <OptionsCollapseGroup title="Traces" deafultCollapsed={false} loading={loading}>
+              <TracesList
+                onSelectTrace={(trace) => onSelectTrace(trace)}
+                loading={loading}
+                spans={traces}
+              />
+            </OptionsCollapseGroup>
+          </div>
+          {selectedTrace && (
+            <TracePreview trace={selectedTrace} onClose={() => setSelectedTrace(undefined)} />
+          )}
+        </div>
       </Col>
     );
   }

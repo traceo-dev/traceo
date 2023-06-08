@@ -25,23 +25,26 @@ export const ContentCard: FC<Props> = ({
   return (
     <div
       className={joinClasses(
-        "flex flex-col w-full bg-primary border border-solid border-secondary rounded mb-1",
+        "flex flex-col w-full bg-primary border border-solid border-secondary rounded-sm mb-1",
         conditionClass(loading, "loading-border"),
         className
       )}
       {...props}
     >
-      <Row className="justify-between px-5 py-3">
-        {name && (
-          <span
-            className="font-semibold text-sm cursor-pointer"
-            onClick={() => to && navigate(to)}
-          >
-            {name}
-          </span>
-        )}
-        {extra}
-      </Row>
+      {(name || extra) && (
+        <Row className="justify-between px-5 py-3">
+          {name && (
+            <span
+              className="font-semibold text-sm cursor-pointer"
+              onClick={() => to && navigate(to)}
+            >
+              {name}
+            </span>
+          )}
+          {extra}
+        </Row>
+      )}
+
       <div className={joinClasses("p-3 mt-5", bodyClassName)}>{children}</div>
     </div>
   );
