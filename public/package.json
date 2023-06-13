@@ -32,7 +32,7 @@
     "@babel/node": "^7.20.5",
     "@babel/preset-env": "^7.20.2",
     "@types/node": "18.0.0",
-    "@types/react": "17.0.2",
+    "@types/react": "18.2.12",
     "@types/react-dom": "18.2.5",
     "@typescript-eslint/eslint-plugin": "^5.45.1",
     "@typescript-eslint/parser": "^5.45.1",
@@ -59,7 +59,7 @@
     "webpack-merge": "^5.8.0"
   },
   "resolutions": {
-    "@types/react": "17.0.2",
+    "@types/react": "18.2.12",
     "@types/react-dom": "18.2.5"
   }
 }
