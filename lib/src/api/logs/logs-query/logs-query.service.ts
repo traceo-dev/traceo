@@ -45,12 +45,20 @@ export class LogsQueryService {
     private calculateInterval(query: LogsQuery): number {
         const { from, to } = query;
 
-        const hoursDiff = dayjs.unix(to).diff(dayjs.unix(from), "hour");
-        const minutesDiff = dayjs.unix(to).diff(dayjs.unix(from), "minutes");
+        const djsTo = dayjs.unix(to);
+        const djsFrom = dayjs.unix(from);
+
+        const hoursDiff = djsTo.diff(djsFrom, "hour");
+        const minutesDiff = djsTo.diff(djsFrom, "minutes");
+        const secondsDiff = djsTo.diff(djsFrom, "seconds");
 
         const HOURS_IN_DAY = 24;
         const ONE_SECOND = 1;
         const SECONDS_IN_MINUTE = ONE_SECOND * 60;
+
+        if (secondsDiff < 120) {
+            return ONE_SECOND;
+        }
 
         // FROM START TO 24H
         if (minutesDiff >= 0 && minutesDiff <= 60 * 12) {
@@ -88,13 +96,15 @@ export class LogsQueryService {
 
     public async getLogsGraphPayload(query: LogsQuery): Promise<ApiResponse<GraphResposnseType>> {
         try {
-            const logs = await this.clickhouseClient.loadLogsTimeSeries(query, this.calculateInterval(query));
+            const interval = this.calculateInterval(query);
+            const logs = await this.clickhouseClient.loadLogsTimeSeries(query, interval);
 
-            // Mapping should be also in clickhouse query
-            const graph = logs.map((e) => [e.minute, e.count]);
+            // TODO: Mapping should be also in clickhouse query
+            const time = logs.map((e) => e.minute);
+            const count = logs.map((e) => e.count);
 
             return new ApiResponse("success", undefined, {
-                graph
+                graph: [time, count]
             });
         } catch (error) {
             this.logger.error(`[${this.getProjectLogs.name}] Caused by: ${error}`);

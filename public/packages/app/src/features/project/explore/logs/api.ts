@@ -6,7 +6,7 @@ export const loadLogs = async (props: LogsQueryProps) => {
 }
 
 export const loadGraph = async (props: LogsQueryProps) => {
-    return await api.get<ApiResponse<{ graph: [number, number][] }>>("/api/logs/graph", props);
+    return await api.get<ApiResponse<{ graph: [number[], number[]] }>>("/api/logs/graph", props);
 }
 
 export const logsApi = {

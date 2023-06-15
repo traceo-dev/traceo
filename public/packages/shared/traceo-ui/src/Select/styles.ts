@@ -8,7 +8,7 @@ export const defaultStyles = (width: number | string | undefined): StylesConfig 
         ...provided,
         border: "1px solid #22252b",
         borderRadiu: "2px",
-        // width: width ? "auto" : "100%",
+        width: width ? "auto" : "100%",
         display: "flex"
       }),
       indicatorSeparator: () => ({
@@ -20,11 +20,11 @@ export const defaultStyles = (width: number | string | undefined): StylesConfig 
       }),
       menu: (provided) => ({
         ...provided,
-        background: "#111217",
+        background: "#131517",
         border: "1px solid #22252b",
         borderRadius: 0,
         marginTop: 0,
-        zIndex: 999
+        zIndex: 9999
       }),
       option: (provided) => ({
         ...provided,
@@ -52,7 +52,7 @@ export const defaultStyles = (width: number | string | undefined): StylesConfig 
         ...provided,
         margin: 0,
         color: "#ccccdc",
-        // width: "auto",
+        width: "auto",
         alignItems: "center"
       }),
       singleValue: (provided) => ({

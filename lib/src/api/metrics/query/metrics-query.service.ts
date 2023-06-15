@@ -117,19 +117,21 @@ export class MetricsQueryService {
     }
   }
 
-  /**
-   * TODO: aggregate results from time series in clickhouse query instead here. 
-   */
   private async mapAggregateDataSource(projectId: string, query: ExploreMetricsQueryDto) {
-    let response = [];
+    let series = [];
+    let time = [];
 
     for (const field of query.fields) {
       const aggregatedMetric = await this.clickhouseService.aggregateMetrics(projectId, field, query);
-      const result = aggregatedMetric.map(({ minute, value }) => ([minute, value]));
-      response.push(result);
+      if (time.length === 0) {
+        time = aggregatedMetric.map(({ minute }) => minute);
+      }
+
+      const serie = aggregatedMetric.map(({ value }) => value);
+      series.push(serie);
     }
 
-    return response;
+    return [time, ...series];
   }
 
   public async getMetricFields(projectId: string): Promise<ApiResponse<any>> {

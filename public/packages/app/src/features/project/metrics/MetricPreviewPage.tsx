@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { To, useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import { Permissions } from "../../../core/components/Permissions";
-import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { CheckOutlined, SettingOutlined } from "@ant-design/icons";
@@ -21,6 +20,7 @@ import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { ContentCard } from "../../../core/components/ContentCard";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
+import { UPlotMetricPreviewGraph } from "./components/UPlotMetricPreviewGraph";
 
 export const MetricPreviewPage = () => {
   const navigate = useNavigate();
@@ -172,13 +172,10 @@ export const MetricPreviewPage = () => {
               extra={<MetricTimeToolbar ranges={ranges} setRanges={setRanges} />}
             >
               <ConditionalWrapper isLoading={isLoading}>
-                <MetricPreviewChart
+                <UPlotMetricPreviewGraph
                   datasource={data?.datasource}
-                  isLoading={isLoading}
-                  ranges={ranges}
-                  setRanges={setRanges}
-                  options={options}
-                  activeZoomSelect={!isCustomizeMode}
+                  metric={options as IMetric}
+                  onZoom={setRanges}
                 />
               </ConditionalWrapper>
             </ContentCard>

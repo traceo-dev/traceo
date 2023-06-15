@@ -9,6 +9,7 @@
 @tailwind utilities;
 
 @import url("./button.css");
+@import url("./uplot.css");
 
 :root {
   --color-text-primary: rgb(204, 204, 220);

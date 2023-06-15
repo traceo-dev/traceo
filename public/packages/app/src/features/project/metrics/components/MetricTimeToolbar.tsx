@@ -18,6 +18,7 @@ interface Props {
 }
 
 const LIVE_INTERVAL = 15000; //15s
+const ADD_SUBSTRACT_VALUE = 30; //minutes
 
 const getCurrentRange = (): TimeRange => {
   const from = dayjs().subtract(2, "h").unix();
@@ -64,13 +65,13 @@ export const MetricTimeToolbar = ({
     const rangeFrom = dayjs.unix(ranges[0]);
     const rangeTo = dayjs.unix(ranges[1]);
 
-    const from = rangeFrom.add(1, "h").unix();
-    const to = rangeTo.subtract(1, "h").unix();
+    const from = rangeFrom.add(ADD_SUBSTRACT_VALUE, "minutes").unix();
+    const to = rangeTo.subtract(ADD_SUBSTRACT_VALUE, "minutes").unix();
 
     setRanges([from, to]);
 
-    const nextFrom = dayjs.unix(from).add(1, "h");
-    const nextTo = dayjs.unix(to).subtract(1, "h");
+    const nextFrom = dayjs.unix(from).add(ADD_SUBSTRACT_VALUE, "minutes");
+    const nextTo = dayjs.unix(to).subtract(ADD_SUBSTRACT_VALUE, "minutes");
 
     if (nextTo.isBefore(nextFrom)) {
       setDisabledZoomIn(true);
@@ -83,8 +84,8 @@ export const MetricTimeToolbar = ({
     const rangeFrom = dayjs.unix(ranges[0]);
     const rangeTo = dayjs.unix(ranges[1]);
 
-    const from = rangeFrom.subtract(1, "h").unix();
-    const to = rangeTo.add(1, "h").unix();
+    const from = rangeFrom.subtract(ADD_SUBSTRACT_VALUE, "minutes").unix();
+    const to = rangeTo.add(ADD_SUBSTRACT_VALUE, "minutes").unix();
 
     setRanges([from, to]);
     setDisabledZoomIn(false);

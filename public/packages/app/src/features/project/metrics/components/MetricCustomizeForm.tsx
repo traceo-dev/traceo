@@ -1,4 +1,4 @@
-import { BarChartOutlined, PlusOutlined } from "@ant-design/icons";
+import { PlusOutlined, WarningOutlined } from "@ant-design/icons";
 import { CustomizeFormSection } from "./CustomizeFormSection";
 import {
   editMetricAxisForm,
@@ -9,12 +9,13 @@ import {
 } from "./editMetricGraphForm";
 import { editSerieForm } from "./editMetricSeriesForm";
 import { IMetric, DeepPartial, IMetricSerie } from "@traceo/types";
-import { FieldLabel, Row } from "@traceo/ui";
+import { Alert, FieldLabel, Row, Tooltip } from "@traceo/ui";
 import { FC, useMemo } from "react";
 import { DraftFunction } from "use-immer";
 import styled from "styled-components";
 import { randomHexColor } from "../../../../core/utils/colors";
 import { editMetricBasicForm } from "./editMetricBasicForm";
+import { isStackAvailable } from "./utils";
 
 interface Props {
   options: DeepPartial<IMetric>;
@@ -22,6 +23,8 @@ interface Props {
 }
 
 export const MetricCustomizeForm: FC<Props> = (props: Props) => {
+  const isStack = !isStackAvailable(props.options.series);
+
   const [basicOptions, tooltipOptions, axisOptions, legendOptions, markerOptions, stackOptions] =
     useMemo(
       () => [
@@ -138,7 +141,16 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
             </FieldLabel>
           ))}
         </CustomizeFormSection>
-        <CustomizeFormSection title="Stack">
+        <CustomizeFormSection
+          title="Stack"
+          extra={
+            !isStackAvailable && (
+              <Tooltip title="Set the same type for each series to allow stack.">
+                <WarningOutlined className="text-red-600" />
+              </Tooltip>
+            )
+          }
+        >
           {stackOptions.map((opt, index) => (
             <FieldLabel
               key={index}
@@ -149,6 +161,22 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
               {opt.component}
             </FieldLabel>
           ))}
+          <Alert
+            type="info"
+            className="mb-3"
+            message={
+              <span className="text-xs">
+                Learn more about stacked series{" "}
+                <a
+                  target="_blank"
+                  className="text-yellow-500"
+                  href="https://web.archive.org/web/20221208193656/https://everydayanalytics.ca/2014/08/stacked-area-graphs-are-not-your-friend.html"
+                >
+                  here.
+                </a>
+              </span>
+            }
+          />
         </CustomizeFormSection>
 
         {/* Series */}

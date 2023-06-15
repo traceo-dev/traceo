@@ -102,7 +102,8 @@ export type TOOLTIP_POSITION = "bottom" | "inside" | "left" | "right" | "top";
 export enum PLOT_TYPE {
   BAR = "bar",
   LINE = "line",
-  SCATTER = "scatter"
+  SPLINE = "spline",
+  POINTS = "points"
 }
 export enum METRIC_UNIT {
   PERCENTAGE = "%",

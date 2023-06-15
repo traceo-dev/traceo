@@ -17,7 +17,7 @@ export const AVAILABLE_COLORS = [
     "#FADE2A"
 ];
 
-export type EXPLORE_PLOT_TYPE = "bar" | "line" | "area" | "scatter";
+export type EXPLORE_PLOT_TYPE = "bar" | "line" | "area" | "points";
 
 export type ExploreSerieType = {
     name: string;

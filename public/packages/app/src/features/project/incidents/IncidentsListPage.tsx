@@ -1,6 +1,4 @@
 import { Page } from "../../../core/components/Page";
-import { SearchWrapper } from "../../../core/components/SearchWrapper";
-import { SortIcons } from "../../../core/components/SortIcons";
 import { localStorageService } from "../../../core/lib/localStorage";
 import { LocalStorage } from "../../../core/lib/localStorage/types";
 import { useAppDispatch } from "../../../store";

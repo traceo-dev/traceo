@@ -1,0 +1,39 @@
+@import "uplot/dist/uPlot.min.css";
+
+.uplot {
+  font-family: inherit;
+}
+
+.u-select {
+  background: rgba(120, 120, 130, 0.2);
+}
+
+.u-cursor-x {
+  border-right: 1px dashed rgba(120, 120, 130, 0.5);
+}
+
+.u-cursor-y {
+  width: 100%;
+  border-bottom: 1px dashed rgba(120, 120, 130, 0.5);
+}
+
+.shared-crosshair:not(.plot-active) .u-cursor-pt {
+  display: none !important;
+}
+
+.u-legend {
+  text-align: left;
+  margin-left: 22px;
+  /* display: flex;
+  flex-direction: column; */
+}
+
+.u-legend .u-marker {
+  border-radius: 100%;
+  margin-right: 8px !important;
+}
+
+.u-legend th > * {
+  font-weight: 400;
+  font-size: 13px;
+}

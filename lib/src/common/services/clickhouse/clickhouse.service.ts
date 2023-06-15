@@ -153,15 +153,13 @@ export class ClickhouseService {
      * Clickhouse aggregate query to return time series 
      * response with minute and count as interval between two unix's.
      * 
-     * TODO: add mapping to return values in [[minute, count]] format.
-     * 
      * @param query 
      * @param interval in seconds
      */
     public async loadLogsTimeSeries(query: LogsQuery, interval: number): Promise<{ minute: number, count: number }[]> {
         const sqlQuery = `
             SELECT
-                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL 1 MINUTE)) as minute,
+                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) as minute,
                 COUNT(*) as count
             FROM logs
             WHERE 
@@ -171,8 +169,8 @@ export class ClickhouseService {
             ${query.search ? `AND LOWER(message) LIKE '%${query.search?.toLowerCase() ?? ''}%'` : ''}
             GROUP BY minute
             ORDER BY minute ASC
-            WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${query.from})))
-                      TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
+            WITH FILL FROM toUnixTimestamp(toDateTime(${query.from}))
+                      TO toUnixTimestamp(toDateTime(${query.to}))
             STEP ${interval}
         `;
 

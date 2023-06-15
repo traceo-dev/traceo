@@ -1,6 +1,22 @@
-import { BarChartOutlined, DotChartOutlined, LineChartOutlined } from "@ant-design/icons";
-import { MARKER_SHAPE, METRIC_UNIT, PLOT_TYPE, STACK_STRATEGY } from "@traceo/types";
-import { LabelPosition, toTitleCase } from "@traceo/ui";
+import {
+  AreaChartOutlined,
+  BarChartOutlined,
+  DotChartOutlined,
+  LineChartOutlined
+} from "@ant-design/icons";
+import {
+  DeepPartial,
+  IMetric,
+  IMetricSerie,
+  MARKER_SHAPE,
+  METRIC_UNIT,
+  PLOT_TYPE,
+  STACK_STRATEGY
+} from "@traceo/types";
+import { LabelPosition } from "@traceo/ui";
+import { UPlotConfigBuilder } from "src/core/components/UPlot/UPlotConfigBuilder";
+import { sameArrayValues } from "src/core/utils/arrays";
+import { calculateOpacity } from "src/core/utils/colors";
 
 export const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
   value: unit,
@@ -10,13 +26,15 @@ export const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
 export const mapPlotName: Record<PLOT_TYPE, string> = {
   bar: "Bar",
   line: "Line",
-  scatter: "Scatter"
+  spline: "Spline",
+  points: "Points"
 };
 
 export const mapPlotIcon: Record<PLOT_TYPE, JSX.Element> = {
   bar: <BarChartOutlined />,
   line: <LineChartOutlined />,
-  scatter: <DotChartOutlined />
+  spline: <AreaChartOutlined />,
+  points: <DotChartOutlined />
 };
 
 export const plotOptions = Object.values(PLOT_TYPE).map((type) => ({
@@ -52,3 +70,28 @@ export const stackStrategyOptions = Object.values(STACK_STRATEGY).map((strategy)
   value: strategy,
   label: strategy
 }));
+
+export const buildSeries = (builder: UPlotConfigBuilder, metric: IMetric) => {
+  for (const serie of metric.series) {
+    const chartType = serie.config.type as PLOT_TYPE;
+    const isArea = serie.config.area.show;
+    const areaOpacity = serie.config.area.opacity;
+
+    builder.addSerie({
+      type: chartType,
+      stroke: serie.config.color,
+      width: serie.config.lineWidth,
+      fill: calculateOpacity(serie.config.color, isArea ? areaOpacity : 0),
+      points: {
+        show: metric.config.line.marker.show
+      },
+      bar: {
+        width: serie.config.barWidth
+      },
+      label: serie.field
+    });
+  }
+};
+
+export const isStackAvailable = (series: DeepPartial<IMetricSerie[]>) =>
+  sameArrayValues(series.map(({ config }) => config.type));
