@@ -75,12 +75,12 @@ export const mapToUplotType: Record<EXPLORE_PLOT_TYPE, PLOT_TYPE> = {
     points: PLOT_TYPE.POINTS
 };
 
-export const getFillOpacity = (type: PLOT_TYPE) => {
-    if (type === PLOT_TYPE.LINE) {
+export const getFillOpacity = (type: string) => {
+    if (type === "area") {
         return 40;
     }
 
-    if (type === PLOT_TYPE.BAR) {
+    if (type === "bar") {
         return 100;
     }
 

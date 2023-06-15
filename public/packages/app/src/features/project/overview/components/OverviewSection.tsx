@@ -1,11 +1,11 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
+import { SyncOutlined } from "@ant-design/icons";
 import { ErrorDetails, PlotData } from "@traceo/types";
-import { Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
 import IncidentsOverviewChart from "../../../../core/components/Charts/Incidents/IncidentsOverviewChart";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
+import { ContentCard } from "src/core/components/ContentCard";
 
 export interface TotalOverviewType {
   errors: ErrorDetails[];
@@ -26,24 +26,18 @@ export const OverviewSection = () => {
 
   return (
     <div className="w-full h-full">
-      <Card
-        title="Project overview"
+      <ContentCard
+        name="Project overview"
+        loading={isFetching || isLoading}
         extra={
-          isFetching ? (
-            <LoadingOutlined />
-          ) : (
-            <SyncOutlined className="text-xs" onClick={() => refetch()} />
-          )
+          !isFetching &&
+          !isLoading && <SyncOutlined className="text-xs" onClick={() => refetch()} />
         }
       >
-        <ConditionalWrapper
-          emptyView={<DataNotFound />}
-          isEmpty={data && data?.length === 0}
-          isLoading={isLoading}
-        >
+        <ConditionalWrapper emptyView={<DataNotFound />} isEmpty={data && data?.length === 0}>
           <IncidentsOverviewChart data={data} />
         </ConditionalWrapper>
-      </Card>
+      </ContentCard>
     </div>
   );
 };

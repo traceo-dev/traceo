@@ -66,7 +66,7 @@ export const MetricCard: FC<MetricCardProps> = ({
       )}
     >
       <div
-        className="cursor-pointer w-full p-3 border-bottom justify-between flex flex-row items-center"
+        className="cursor-pointer w-full p-3 mb-5 justify-between flex flex-row items-center"
         onClick={() => onNavigate()}
       >
         <span className="text-[14px] font-semibold">{metric.name}</span>

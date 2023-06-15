@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import IncidentsTodayChart from "../../../../core/components/Charts/Incidents/IncidentsTodayChart";
 import { useMemo } from "react";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
+import { ContentCard } from "src/core/components/ContentCard";
 
 export const TodaySection = () => {
   const { id } = useParams();
@@ -39,41 +40,39 @@ export const TodaySection = () => {
   return (
     <div className="grid grid-cols-5 w-full mb-1">
       <div className="col-span-4 h-full">
-        <Card title="Today" className="h-full" extra={isFetching && <LoadingOutlined />}>
-          <ConditionalWrapper isLoading={isLoading}>
+        <ContentCard name="Today" className="h-full" loading={isFetching}>
+          <ConditionalWrapper>
             <IncidentsTodayChart stats={payload.data} />
           </ConditionalWrapper>
-        </Card>
+        </ContentCard>
       </div>
       <div className="col-span-1 ml-1">
         <div className="flex flex-col items-stretch h-full">
           <div className="h-full mb-1">
-            <Card
-              title="Events count"
+            <ContentCard
+              name="Events count"
+              loading={isFetching}
               className="h-full"
               extra={
-                isFetching ? (
-                  <LoadingOutlined />
-                ) : (
-                  <SyncOutlined className="text-xs" onClick={() => refetch()} />
-                )
+                !isFetching &&
+                !isLoading && <SyncOutlined className="text-xs" onClick={() => refetch()} />
               }
             >
-              <ConditionalWrapper isLoading={isLoading}>
+              <ConditionalWrapper>
                 <Typography size="xxl" weight="semibold">
                   {payload.count || 0}
                 </Typography>
               </ConditionalWrapper>
-            </Card>
+            </ContentCard>
           </div>
           <div className="h-full">
-            <Card className="h-full" title="Last seen">
-              <ConditionalWrapper isLoading={isLoading}>
+            <ContentCard className="h-full" name="Last seen" loading={isFetching}>
+              <ConditionalWrapper>
                 <Typography size="xxl" weight="semibold" className="text-center">
                   {lastEventAt}
                 </Typography>
               </ConditionalWrapper>
-            </Card>
+            </ContentCard>
           </div>
         </div>
       </div>

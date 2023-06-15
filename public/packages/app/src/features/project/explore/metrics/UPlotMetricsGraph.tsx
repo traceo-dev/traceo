@@ -32,16 +32,15 @@ export const UPlotMetricsGraph = ({
 }: Props) => {
   const configs = useMemo(() => {
     const chartType = mapToUplotType[type];
-
     const builder = new UPlotConfigBuilder();
     for (const serie of series) {
       builder.addSerie({
         type: chartType,
         stroke: serie.color,
         width: 1,
-        fill: calculateOpacity(serie.color, getFillOpacity(chartType)),
+        fill: calculateOpacity(serie.color, getFillOpacity(type)),
         points: {
-          show: false
+          show: markers
         },
         label: serie.name
       });

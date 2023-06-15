@@ -20,6 +20,7 @@ import { resetIncidentState } from "./state/slices/incident.slice";
 import { resetGroupedEvents } from "./state/slices/grouped-events.slice";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { ActionButton } from "../../../core/components/ActionButton";
+import { ContentCard } from "src/core/components/ContentCard";
 
 const INCIDENT_PAGE_SIZE = 15;
 
@@ -87,7 +88,7 @@ export const IncidentsListPage = () => {
       }}
     >
       <Page.Content className="pt-1">
-        <Card>
+        <ContentCard loading={isLoading || isFetching}>
           <Row className="pb-5" gap="x-2">
             <InputSearch
               placeholder="Search incidents by name, message, status or assigned user"
@@ -130,7 +131,7 @@ export const IncidentsListPage = () => {
             rowsCount={response?.totalCount}
             page={page}
           />
-        </Card>
+        </ContentCard>
       </Page.Content>
     </Page>
   );

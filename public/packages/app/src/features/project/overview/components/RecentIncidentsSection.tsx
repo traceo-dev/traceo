@@ -10,11 +10,12 @@ import {
   mapIncidentStatus,
   PaginateType
 } from "@traceo/types";
-import { Typography, Card, ListCard, Space, List, Tooltip } from "@traceo/ui";
+import { Typography, ListCard, Space, List, Tooltip } from "@traceo/ui";
 import { useNavigate } from "react-router-dom";
 import { mapHeaderStatusIcon } from "../../incidents/components/utils";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { RouterLink } from "../../../../core/components/RouterLink";
+import { ContentCard } from "src/core/components/ContentCard";
 
 const RECENT_INCIDENTS_MAX_COUNT = 5;
 export const RecentIncidentsSection = () => {
@@ -36,8 +37,9 @@ export const RecentIncidentsSection = () => {
   });
 
   return (
-    <Card
-      title="Recent Incidents"
+    <ContentCard
+      name="Recent Incidents"
+      loading={isLoading}
       extra={
         <RouterLink to={`/project/${project.id}/incidents`} className="text-xs font-semibold">
           View
@@ -45,7 +47,6 @@ export const RecentIncidentsSection = () => {
       }
     >
       <ConditionalWrapper
-        isLoading={isLoading}
         isEmpty={response && response?.result.length === 0}
         emptyView={<DataNotFound label="Incidents not found" />}
       >
@@ -78,6 +79,6 @@ export const RecentIncidentsSection = () => {
           )}
         />
       </ConditionalWrapper>
-    </Card>
+    </ContentCard>
   );
 };
