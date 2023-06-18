@@ -34,7 +34,7 @@ export const eventHandler = async ({
     const kafkaMessage = message.value.toString();
 
     if (!db) {
-        ExceptionHandlers.catchException(`❌ Database instance has not been initialized inside Core. Cannot process incoming events.`)
+        ExceptionHandlers.catchException(new Error(`❌ Database instance has not been initialized inside Core. Cannot process incoming events.`))
         return;
     }
 

@@ -1,4 +1,4 @@
-import { Setter, TimeRange, IMetric, METRIC_UNIT } from "@traceo/types";
+import { Setter, TimeRange, IMetric, METRIC_UNIT, UplotDataType } from "@traceo/types";
 import { useMemo } from "react";
 import BaseUPlotChart from "src/core/components/UPlot/BaseUPlotChart";
 import { UPlotConfigBuilder } from "src/core/components/UPlot/UPlotConfigBuilder";
@@ -6,13 +6,13 @@ import { hook } from "src/core/components/UPlot/hooks";
 import { buildSeries } from "./utils";
 
 interface Props {
-  datasource: any[];
+  datasource: UplotDataType;
   onZoom?: Setter<TimeRange>;
   metric: IMetric;
 }
 
 export const UPlotMetricPreviewGraph = ({
-  datasource = [],
+  datasource = [[]],
   metric = undefined,
   onZoom = undefined
 }: Props) => {
@@ -33,7 +33,7 @@ export const UPlotMetricPreviewGraph = ({
       .addBase({
         height: 350,
         stacked,
-        data: datasource || []
+        data: datasource
       })
       .addLegend({
         show: showLegend

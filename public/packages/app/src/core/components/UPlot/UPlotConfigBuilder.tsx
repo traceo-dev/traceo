@@ -16,18 +16,10 @@ import {
 import { uPlotUtils } from "./utils";
 import { tooltipsPlugin } from "./TooltipPlugin";
 import { stackedOptions } from "./stacked";
-import { PLOT_TYPE } from "@traceo/types";
+import { PLOT_TYPE, UplotDataType } from "@traceo/types";
 
 const defaultAxe: uPlot.Axis = {
   stroke: "#c7d0d9"
-};
-
-const defaultCursor: uPlot.Cursor = {
-  drag: {
-    setScale: false,
-    x: true,
-    y: false
-  }
 };
 
 const mapTypeToPaths: Record<PLOT_TYPE, any> = {
@@ -39,8 +31,9 @@ const mapTypeToPaths: Record<PLOT_TYPE, any> = {
 
 export class UPlotConfigBuilder {
   private stacked = false;
+  private isZoom = true;
   private chartType: ChartType = "timeseries";
-  private data: uPlot.AlignedData = undefined;
+  private data: UplotDataType = undefined;
 
   private configs: uPlot.Options;
   private base: uPlot.Options;
@@ -59,9 +52,11 @@ export class UPlotConfigBuilder {
     width = undefined,
     chartType = "timeseries",
     stacked = false,
-    data = [],
+    data = [[]],
+    isZoom = true,
     ...rest
   }: BaseOptions): UPlotConfigBuilder {
+    this.isZoom = isZoom;
     this.chartType = chartType;
     this.stacked = stacked;
     this.data = data;
@@ -77,22 +72,18 @@ export class UPlotConfigBuilder {
     return this;
   }
 
-  public addSerie({
-    type = PLOT_TYPE.LINE,
-    bar = {
-      align: 0,
-      width: 0.6
-    },
-    ...props
-  }: UPlotSerie): UPlotConfigBuilder {
+  public addSerie({ type = PLOT_TYPE.LINE, bar, ...props }: UPlotSerie): UPlotConfigBuilder {
     const path = mapTypeToPaths[type];
+
+    const barWidth = (bar?.width ?? 60) / 100;
+    const barAlign = bar?.align ?? 0;
 
     let pathProps = {};
     switch (type) {
       case "bar":
         pathProps = {
-          align: bar.align,
-          size: [bar.width / 100, 200]
+          align: barAlign,
+          size: [barWidth, 200]
         };
         break;
       default:
@@ -123,6 +114,7 @@ export class UPlotConfigBuilder {
     space = undefined,
     values = undefined,
     formatter = undefined,
+    showFloatLabels = true,
     ...props
   }: UPlotAxis): UPlotConfigBuilder {
     const axeConfig: uPlot.Axis = {
@@ -150,6 +142,8 @@ export class UPlotConfigBuilder {
       axeConfig.values = uPlotUtils.timeFormatter;
     } else if (formatter) {
       axeConfig.values = formatter;
+    } else if (!showFloatLabels) {
+      axeConfig.values = uPlotUtils.omitFloatLabels;
     }
 
     if (space) {
@@ -171,6 +165,8 @@ export class UPlotConfigBuilder {
 
   public addCursor(option: uPlot.Cursor): UPlotConfigBuilder {
     this.cursor = option;
+    this.cursor.drag.x = this.isZoom;
+
     return this;
   }
 
@@ -215,7 +211,13 @@ export class UPlotConfigBuilder {
     }
 
     if (!this.cursor) {
-      this.addCursor(defaultCursor);
+      this.addCursor({
+        drag: {
+          setScale: false,
+          x: this.isZoom,
+          y: false
+        }
+      });
     }
 
     if (!this.scales) {
@@ -252,8 +254,6 @@ export class UPlotConfigBuilder {
       cursor: this.cursor,
       legend: this.legend
     };
-
-    console.log("build");
 
     if (this.stacked && this.data && this.data.length > 1) {
       const { data, options } = stackedOptions(configs, this.data);

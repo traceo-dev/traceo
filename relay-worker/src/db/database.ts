@@ -15,8 +15,7 @@ import {
     MetricData,
     DataPointType,
     ReadableSpan,
-    Span,
-    SpanStatusCode
+    Span
 } from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
@@ -98,7 +97,7 @@ export class DatabaseService {
     public async createIncident({
         sdk, status, stack, name, message, createdAt, project, platform, traces
     }: Partial<IIncident>, {
-        details, date
+        details
     }: Partial<IEvent>,
         client: PoolClient = this.client
     ): Promise<IIncident> {
@@ -111,7 +110,6 @@ export class DatabaseService {
          * 2. Update last_incident_at in project table
          * 3. Insert new event
          */
-        const incDate = date ?? now;
         const result = await client.query<IIncident>(`
             INSERT INTO incident (
                 sdk, 
@@ -135,45 +133,53 @@ export class DatabaseService {
             name ?? "<incident>",
             message,
             createdAt,
-            incDate,
+            now,
             project.id,
             platform
         ]);
 
-        await this.updateProjectLastEventAt(project.id, incDate);
+        await this.updateProjectLastEventAt(project.id, now);
 
         const insertedRow = result.rows[0];
         await this.createEvent({
-            incident: insertedRow,
-            project,
-            date,
-            details
-        }, client);
+            incident_id: insertedRow.id,
+            project_id: project.id,
+            details: details
+        });
 
         return insertedRow;
     }
 
-    public async createEvent({ date, details, incident, project }: Partial<IEvent>, client: PoolClient = this.client): Promise<IEvent> {
-        const eDate = date ?? dayjs().unix();
-        const result = await client.query<IEvent>(`
-            INSERT INTO event (
-                date,
-                incident_id,
-                project_id,
-                details
-            ) VALUES ($1, $2, $3, $4) 
-            RETURNING *        
-        `, [
-            eDate,
-            incident.id,
-            project.id,
-            details
-        ]);
+    private async updateIncidentOnEvent({ incident_id, timestamp }: { incident_id: string, timestamp: number }): Promise<void> {
+        await this.client.query(`
+            UPDATE incident
+            SET events_count = COALESCE(events_count, 0) + 1, last_event_at = '${timestamp}'
+            WHERE id = '${incident_id}'
+        `);
+    }
 
-        await client.query(`UPDATE incident SET last_event_at = '${eDate}' WHERE id = '${incident.id}'`)
-        await this.updateProjectLastEventAt(project.id, eDate);
+    public async createEvent({ details, incident_id, project_id }: Partial<IEvent>): Promise<IEvent> {
+        const timestamp = dayjs().unix();
 
-        return result.rows[0];
+        await this.updateIncidentOnEvent({ incident_id, timestamp: timestamp });
+
+        const event: IEvent = {
+            id: randomUUID(),
+            details,
+            precise_timestamp: timestamp,
+            incident_id,
+            project_id,
+            timestamp: timestamp
+        };
+
+        await this.clickClient.insert({
+            table: CLICKHOUSE_TABLE.EVENTS,
+            format: "JSONEachRow",
+            values: [event]
+        });
+
+
+        return event;
     }
 
     public async insertRuntimeConfigs({ config, projectId }: { config: Dictionary<SafeReturnType>, projectId: string }): Promise<any> {

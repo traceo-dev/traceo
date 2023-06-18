@@ -6,6 +6,7 @@
  * source: https://github.dev/leeoniya/uPlot/blob/master/demos/stack.js
  */
 
+import { UplotDataType } from "@traceo/types";
 import uPlot from "uplot";
 
 const stack = (data: uPlot.AlignedData, omit: any) => {
@@ -50,10 +51,8 @@ function getOpts(opts: uPlot.Options) {
 
 export const stackedOptions = (options: uPlot.Options, data: uPlot.AlignedData = [[]]): {
     options: uPlot.Options,
-    data: []
+    data: UplotDataType
 } => {
-    // const options = getOpts(opts);
-    console.log("stackedOptions")
     const stacked = stack(data, () => false);
     options.bands = stacked.bands;
 
@@ -68,7 +67,7 @@ export const stackedOptions = (options: uPlot.Options, data: uPlot.AlignedData =
         s.points = s.points || {};
 
         // scan raw unstacked data to return only real points
-        s.points.filter = (u, seriesIdx, show, gaps) => {
+        s.points.filter = (_u, seriesIdx, show, _gaps) => {
             if (show) {
                 let pts = [];
                 data[seriesIdx].forEach((v, i) => {

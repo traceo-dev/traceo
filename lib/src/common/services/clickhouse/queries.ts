@@ -17,6 +17,19 @@ export const CREATE_LOGS_TABLE = `
     ORDER BY id
 `;
 
+export const CREATE_EVENTS_TABLE = `
+    CREATE TABLE IF NOT EXISTS ${CLICKHOUSE_DB_NAME}.events (
+        id UUID,
+        timestamp DateTime,
+        precise_timestamp UInt128,
+        details String,
+        project_id String,
+        incident_id String
+    )
+    ENGINE = MergeTree()
+    ORDER BY (id, timestamp)
+`;
+
 export const CREATE_METRICS_TABLE = `
     CREATE TABLE IF NOT EXISTS ${CLICKHOUSE_DB_NAME}.metrics (
         id UUID,

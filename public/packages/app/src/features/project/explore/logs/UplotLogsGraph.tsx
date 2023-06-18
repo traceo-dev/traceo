@@ -2,13 +2,13 @@
 
 import uPlot from "uplot";
 import BaseUPlotChart from "../../../../core/components/UPlot/BaseUPlotChart";
-import { PLOT_TYPE, Setter } from "@traceo/types";
+import { PLOT_TYPE, Setter, UplotDataType } from "@traceo/types";
 import { UPlotConfigBuilder } from "src/core/components/UPlot/UPlotConfigBuilder";
 import { hook } from "src/core/components/UPlot/hooks";
 import { useMemo } from "react";
 
 interface Props {
-  data: any[];
+  data: UplotDataType;
   onZoom: Setter<[number, number]>;
 }
 export const UplotLogsGraph = ({ data, onZoom }: Props) => {
@@ -26,7 +26,10 @@ export const UplotLogsGraph = ({ data, onZoom }: Props) => {
         points: {
           show: false
         },
-        label: "logs"
+        label: "logs",
+        bar: {
+          width: 35
+        }
       })
       .addAxe({ scale: "x", isTimeAxis: true })
       .addAxe({ scale: "y" })

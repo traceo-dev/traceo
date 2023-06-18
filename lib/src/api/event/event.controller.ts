@@ -12,32 +12,41 @@ export class EventController {
         private readonly eventQueryService: EventQueryService
     ) { }
 
-    @Get('/incident/:id')
+    @Get('/incident')
     async getEventsForIncident(
-        @Param("id") id: string
+        @Query("id") id: string
     ): Promise<ApiResponse<IEvent[]>> {
         return await this.eventQueryService.getEventsForIncident(id);
     }
 
-    @Get('/incident/:id/grouped')
-    async getGroupedEventsForIncident(
-        @Param("id") id: string
-    ): Promise<ApiResponse<IEvent[]>> {
-        return await this.eventQueryService.getGroupedEventsForIncident(id);
+    // @Get('/project/:id/grouped')
+    // async getGroupedEventsForProject(
+    //     @Param("id") id: string
+    // ): Promise<ApiResponse<IEvent[]>> {
+    //     return await this.eventQueryService.getGroupedEventsForProject(id);
+    // }
+
+    // incident analytics
+
+    @Get("/graph/incident-daily")
+    async getTodayEventsForIncidentGraph(@Query("id") id: string): Promise<ApiResponse<IEvent[]>> {
+        return await this.eventQueryService.getTodayEventsForIncidentGraph(id)
     }
 
-    @Get('/project/:id/grouped')
-    async getGroupedEventsForProject(
-        @Param("id") id: string
-    ): Promise<ApiResponse<IEvent[]>> {
-        return await this.eventQueryService.getGroupedEventsForProject(id);
+    @Get('/graph/incident-overview')
+    async getOverviewEventsForIncidentGraph(@Query("id") id: string): Promise<ApiResponse<IEvent[]>> {
+        return await this.eventQueryService.getOverviewEventsForIncidentGraph(id);
     }
 
-    @Get("/incident/:id/today")
-    async getTodaysEventsForIncident(
-        @Param("id") id: string,
-        @Query() query: { from: number }
-    ): Promise<ApiResponse<IEvent[]>> {
-        return await this.eventQueryService.getTodaysEventsForIncident(id, query)
+    // overview dashboard
+
+    @Get("/graph/project-daily")
+    async getDailyOverview(@Query("id") id: string): Promise<ApiResponse<unknown>> {
+        return await this.eventQueryService.getTodayEventsGraph(id);
+    }
+
+    @Get("/graph/project-overview")
+    async getTotalOverview(@Query("id") id: string): Promise<ApiResponse<unknown>> {
+        return await this.eventQueryService.getTotalOverviewGraph(id);
     }
 }

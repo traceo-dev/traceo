@@ -18,7 +18,13 @@ import { Field } from "../components/Field";
 import { InlineFields } from "../components/InlineFields";
 import { ActionButton } from "../../../../core/components/ActionButton";
 import { GRAPH_TYPE_OPTIONS } from "../types";
-import { ExploreSerieType, EXPLORE_PLOT_TYPE, AVAILABLE_COLORS, TimeRange } from "@traceo/types";
+import {
+  ExploreSerieType,
+  EXPLORE_PLOT_TYPE,
+  AVAILABLE_COLORS,
+  TimeRange,
+  UplotDataType
+} from "@traceo/types";
 import { ButtonOptionsWrapper } from "../components";
 import { MetricTableWrapper } from "../../metrics/components/MetricTableWrapper";
 import { UPlotMetricsGraph } from "./UPlotMetricsGraph";
@@ -35,7 +41,7 @@ export const MetricsPage = forwardRef(
   ) => {
     const { id } = useParams();
 
-    const [graph, setGraph] = useState<[number, number][]>([]);
+    const [graph, setGraph] = useState<UplotDataType>([[]]);
     const [rawData, setRawData] = useState<[]>([]);
     const [loadingRaw, setLoadingRaw] = useState<boolean>(false);
 
@@ -139,7 +145,7 @@ export const MetricsPage = forwardRef(
 
     const onAddSerie = (serie: string) => {
       // We have to clear graph payload on each serie mutation
-      setGraph([]);
+      setGraph([[]]);
       setRawData([]);
       setMaxSeriesError(false);
 
@@ -157,7 +163,7 @@ export const MetricsPage = forwardRef(
     };
 
     const onRemoveSerie = (serie: ExploreSerieType) => {
-      setGraph([]);
+      setGraph([[]]);
       setRawData([]);
       const s = series.filter((s) => s !== serie);
       setSeries(s);
@@ -264,7 +270,7 @@ export const MetricsPage = forwardRef(
             />
           </ButtonOptionsWrapper>
           <ConditionalWrapper
-            isEmpty={(graph && graph.length === 0) || series.length === 0}
+            isEmpty={(graph && graph[0].length === 0) || series.length === 0}
             emptyView={<DataNotFound label="No results for graph" />}
           >
             <UPlotMetricsGraph

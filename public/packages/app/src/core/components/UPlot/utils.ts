@@ -1,5 +1,20 @@
 import { EXPLORE_PLOT_TYPE, PLOT_TYPE } from "@traceo/types";
 import dayjs from "dayjs";
+import { isFloat } from "src/core/utils/numbers";
+
+const omitFloatLabels = (_self: uPlot,
+    splits: number[],
+    _axisIdx: number,
+    _foundSpace: number,
+    _foundIncr: number) => {
+    return splits.map((val) => {
+        if (isFloat(val)) {
+            return "";
+        }
+
+        return val;
+    });
+}
 
 const measureTextWidth = (text: string): number => {
     const ctx = document.createElement("canvas").getContext("2d");
@@ -89,5 +104,6 @@ export const getFillOpacity = (type: string) => {
 
 export const uPlotUtils = {
     getTimeAxisSpace,
-    timeFormatter
+    timeFormatter,
+    omitFloatLabels
 }

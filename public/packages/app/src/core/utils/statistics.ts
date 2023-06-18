@@ -9,17 +9,17 @@ export interface PlotData {
 const parseTodayEvents = (events: IEvent[]) => {
   const response: PlotData[] = [];
 
-  for (let i = 0; i <= 23; i++) {
-    const currentHourErrors = events?.filter(({ date }) => dateUtils.getHour(date) === i);
-    response.push({ date: formatHourToPlotAxis(i), count: currentHourErrors?.length });
-  }
+  // for (let i = 0; i <= 23; i++) {
+  //   const currentHourErrors = events?.filter(({ date }) => dateUtils.getHour(date) === i);
+  //   response.push({ date: formatHourToPlotAxis(i), count: currentHourErrors?.length });
+  // }
 
-  const lastError = events[events?.length - 1]?.date || null;
+  // const lastError = events[events?.length - 1]?.date || null;
 
   return {
     data: response,
     count: events?.length,
-    last: lastError
+    last: undefined
   };
 };
 

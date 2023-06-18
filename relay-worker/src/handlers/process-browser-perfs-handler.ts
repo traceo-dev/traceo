@@ -18,7 +18,7 @@ export const handleBrowserPerformance = async (core: Core, message: string): Pro
     } catch (error) {
         const message = `❌ Cannot process incoming event. Caused by: ${error}`;
         logger.error(message);
-        ExceptionHandlers.catchException(message);
+        ExceptionHandlers.catchException(new Error(message));
 
         throw error;
     }

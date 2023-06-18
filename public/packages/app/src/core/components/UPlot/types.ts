@@ -1,4 +1,4 @@
-import { PLOT_TYPE } from "@traceo/types";
+import { PLOT_TYPE, UplotDataType } from "@traceo/types";
 import uPlot from "uplot";
 
 export type ChartConfigs = {
@@ -17,7 +17,8 @@ export type BaseOptions = CoreUplotOptions & {
     height?: number;
     chartType?: ChartType;
     stacked?: boolean;
-    data?: uPlot.AlignedData;
+    data?: UplotDataType;
+    isZoom?: boolean;
 }
 
 export type UPlotLegend = Pick<uPlot.Legend, "show" | "markers" | "values">;
@@ -25,6 +26,7 @@ export type UPlotLegend = Pick<uPlot.Legend, "show" | "markers" | "values">;
 export type UPlotAxis = Omit<uPlot.Axis, "scale"> & {
     scale: string;
     isTimeAxis?: boolean;
+    showFloatLabels?: boolean;
     formatter?: (self: uPlot, splits: number[], axisIdx: number, foundSpace: number, foundIncr: number) => any;
 };
 

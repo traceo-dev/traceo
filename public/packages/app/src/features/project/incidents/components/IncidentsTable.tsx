@@ -9,6 +9,7 @@ import { mapHeaderStatusIcon } from "./utils";
 import IncidentsListChart from "../../../../core/components/Charts/Incidents/IncidentsListChart";
 import styled from "styled-components";
 import dayjs from "dayjs";
+import { UPlotEventsGrap } from "./UPlotEventsGraph";
 
 interface Props {
   incidents: IIncident[];
@@ -39,6 +40,8 @@ export const IncidentsTable: FC<Props> = ({
     return dayjs.unix(inc.createdAt).add(2, "h").isAfter(dayjs());
   };
 
+  console.log("inc: ", incidents);
+
   return (
     <Table
       onRowClick={(item) => handleOnRowClick(item)}
@@ -48,7 +51,7 @@ export const IncidentsTable: FC<Props> = ({
       loading={isLoading}
       rowSize="lg"
       onPageChange={onPageChange}
-      pageSize={15}
+      pageSize={100}
       currentPage={page}
       rowsCount={rowsCount}
     >
@@ -77,14 +80,14 @@ export const IncidentsTable: FC<Props> = ({
           </Space>
         )}
       </TableColumn>
-      <TableColumn name="Graph" width={300}>
+      {/* <TableColumn name="Graph" width={300}>
         {({ item }) => (
           // TODO: echarts chart is very bad when we want to resize him...
           <div style={{ width: 200 }}>
-            <IncidentsListChart id={item?.id} />
+            <UPlotEventsGrap incident={item} />
           </div>
         )}
-      </TableColumn>
+      </TableColumn> */}
       <TableColumn name="Events">
         {({ item }) => <span className="text-xs">{item?.eventsCount}</span>}
       </TableColumn>

@@ -1,43 +1,49 @@
-import dateUtils from "../../../core/utils/date";
-import { statisticUtils } from "../../../core/utils/statistics";
 import IncidentPageWrapper from "./components/IncidentPageWrapper";
 import { Typography, Card } from "@traceo/ui";
-import { useMemo } from "react";
-import IncidentsTodayChart from "../../../core/components/Charts/Incidents/IncidentsTodayChart";
-import IncidentsOverviewChart from "../../../core/components/Charts/Incidents/IncidentsOverviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
-import { useIncidentSelector } from "../../../core/hooks/useIncidentSelector";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
-import { IEvent } from "@traceo/types";
+import { UplotDataType } from "@traceo/types";
+import { UPlotTodayEventsGraph } from "../overview/components/UPlotTodayEventsGraph";
+import { useSelector } from "react-redux";
+import { StoreState } from "@store/types";
+import { UPlotOverviewEventsGraph } from "../overview/components/UPlotOverviewEventsGraph";
 
 export const IncidentAnalyticsPage = () => {
   const { iid } = useParams();
-  const { groupedEvents } = useIncidentSelector();
+  const { incident } = useSelector((state: StoreState) => state.incident);
 
-  const from = dayjs().startOf("d").local().unix();
-  const {
-    data: events = [],
-    isLoading,
-    isRefetching
-  } = useReactQuery<IEvent[]>({
+  const from = dayjs.unix(incident.createdAt).subtract(5, "days").unix();
+  const { data: daily = { graph: [[]], count: 0 }, isLoading } = useReactQuery<{
+    graph: UplotDataType;
+    count: number;
+  }>({
     queryKey: ["today_events"],
-    url: `/api/event/incident/${iid}/today`,
-    params: { from }
+    url: `/api/event/graph/incident-daily`,
+    params: { id: iid }
   });
 
-  const dataSource = useMemo(() => {
-    return statisticUtils.parseTodayEvents(events);
-  }, [events]);
+  const { data: overview = { graph: [[]], count: 0 }, isLoading: isOverviewLoading } =
+    useReactQuery<{ graph: UplotDataType }>({
+      queryKey: ["overview_events"],
+      url: `/api/event/graph/incident-overview`,
+      params: { id: iid, from }
+    });
+
+  const lastSeenToday = dayjs.unix(incident.lastEventAt).isToday()
+    ? dayjs.unix(incident.lastEventAt).format("HH:mm:ss")
+    : "-- : --";
+
+  console.log("ov: ", overview.graph);
 
   return (
     <IncidentPageWrapper>
       <div className="grid grid-cols-5 w-full mb-1">
         <div className="col-span-4 h-full">
           <Card title="Today" className="h-full">
-            <ConditionalWrapper isLoading={isLoading || isRefetching}>
-              <IncidentsTodayChart stats={dataSource?.data} />
+            <ConditionalWrapper isLoading={isLoading}>
+              <UPlotTodayEventsGraph data={daily.graph} />
             </ConditionalWrapper>
           </Card>
         </div>
@@ -47,14 +53,14 @@ export const IncidentAnalyticsPage = () => {
               <div className="h-full mb-1">
                 <Card title="Errors count" className="h-full">
                   <Typography size="xxl" weight="semibold">
-                    {dataSource?.count}
+                    {daily.count}
                   </Typography>
                 </Card>
               </div>
               <div className="h-full">
                 <Card className="h-full" title="Last seen">
                   <Typography size="xxl" weight="semibold">
-                    {dateUtils.formatDate(dataSource?.last, "HH:mm")}
+                    {lastSeenToday}
                   </Typography>
                 </Card>
               </div>
@@ -62,9 +68,9 @@ export const IncidentAnalyticsPage = () => {
           </ConditionalWrapper>
         </div>
       </div>
-      <Card title="Total overview">
-        <ConditionalWrapper>
-          <IncidentsOverviewChart data={groupedEvents} />
+      <Card title="Last month">
+        <ConditionalWrapper isLoading={isOverviewLoading}>
+          <UPlotOverviewEventsGraph data={overview.graph} />
         </ConditionalWrapper>
       </Card>
     </IncidentPageWrapper>

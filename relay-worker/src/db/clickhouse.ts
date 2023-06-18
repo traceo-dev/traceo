@@ -7,7 +7,8 @@ export enum CLICKHOUSE_TABLE {
     LOGS = "logs",
     MERICS = "metrics",
     PERFORMANCE = "performance",
-    TRACING = "tracing"
+    TRACING = "tracing",
+    EVENTS = "events"
 }
 
 export const createClickhouseClient = async (configs: RelayWorkerConfig): Promise<ClickHouseClient> => {
@@ -24,7 +25,7 @@ export const createClickhouseClient = async (configs: RelayWorkerConfig): Promis
         query: 'SELECT 1'
     }).catch((err) => {
         logger.error(err);
-        ExceptionHandlers.catchException(`❌ Cannot connect to Clickhouse instance. Caused by: ${err}`);
+        ExceptionHandlers.catchException(new Error(`❌ Cannot connect to Clickhouse instance. Caused by: ${err}`));
 
         throw err;
     });

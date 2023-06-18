@@ -1,4 +1,4 @@
-import { ILog, LogsQueryProps, TimeRange } from "@traceo/types";
+import { ILog, LogsQueryProps, TimeRange, UplotDataType } from "@traceo/types";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
@@ -36,7 +36,7 @@ export const LogsPage = forwardRef(
     const inputRef = useRef<HTMLInputElement>(null);
 
     const [logs, setLogs] = useState<ILog[]>([]);
-    const [graph, setGraph] = useState<[number[], number[]]>();
+    const [graph, setGraph] = useState<UplotDataType>([[]]);
 
     const [graphLoading, setGraphLoading] = useState<boolean>(false);
 

@@ -16,7 +16,10 @@ const IncidentEventsPage = () => {
     isRefetching
   } = useReactQuery<IEvent[]>({
     queryKey: ["events"],
-    url: `/api/event/incident/${incident.id}`
+    url: `/api/event/incident`,
+    params: {
+      id: incident.id
+    }
   });
 
   return (
@@ -30,7 +33,7 @@ const IncidentEventsPage = () => {
           loading={isLoading || isRefetching}
         >
           <TableColumn name="Time" className="py-5">
-            {({ item }) => dateUtils.formatDate(item?.date, "DD MMM YYYY HH:mm:ss:SSS")}
+            {({ item }) => dateUtils.formatDate(item?.precise_timestamp, "DD MMM YYYY HH:mm:ss")}
           </TableColumn>
           {isBrowserSDK && (
             <TableColumn name="Browser">

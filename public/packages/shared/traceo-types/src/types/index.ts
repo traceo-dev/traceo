@@ -39,3 +39,5 @@ export type Setter<S> = (arg: S) => void;
 export type TriggerType = () => void;
 
 export type TimeRange = [number, number];
+
+export type UplotDataType = [number[]];

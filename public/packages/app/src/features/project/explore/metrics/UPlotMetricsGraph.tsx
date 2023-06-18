@@ -1,4 +1,11 @@
-import { EXPLORE_PLOT_TYPE, ExploreSerieType, PLOT_TYPE, Setter, TimeRange } from "@traceo/types";
+import {
+  EXPLORE_PLOT_TYPE,
+  ExploreSerieType,
+  PLOT_TYPE,
+  Setter,
+  TimeRange,
+  UplotDataType
+} from "@traceo/types";
 import { useMemo } from "react";
 import BaseUPlotChart from "src/core/components/UPlot/BaseUPlotChart";
 import { UPlotConfigBuilder } from "src/core/components/UPlot/UPlotConfigBuilder";
@@ -7,7 +14,7 @@ import { getFillOpacity } from "src/core/components/UPlot/utils";
 import { calculateOpacity } from "src/core/utils/colors";
 
 interface Props {
-  datasource: any[];
+  datasource: UplotDataType;
   series: ExploreSerieType[];
   onZoom?: Setter<TimeRange>;
   type: EXPLORE_PLOT_TYPE;
@@ -23,7 +30,7 @@ const mapToUplotType: Record<EXPLORE_PLOT_TYPE, PLOT_TYPE> = {
 };
 
 export const UPlotMetricsGraph = ({
-  datasource = undefined,
+  datasource = [[]],
   series = [],
   onZoom = undefined,
   type = "line",

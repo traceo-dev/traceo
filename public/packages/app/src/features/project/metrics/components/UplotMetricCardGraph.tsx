@@ -1,4 +1,4 @@
-import { IMetric, Setter, TimeRange } from "@traceo/types";
+import { IMetric, Setter, TimeRange, UplotDataType } from "@traceo/types";
 import { useMemo } from "react";
 import BaseUPlotChart from "src/core/components/UPlot/BaseUPlotChart";
 import { UPlotConfigBuilder } from "src/core/components/UPlot/UPlotConfigBuilder";
@@ -6,13 +6,13 @@ import { hook } from "src/core/components/UPlot/hooks";
 import { buildSeries } from "./utils";
 
 interface Props {
-  datasource: any[];
+  datasource: UplotDataType;
   onZoom?: Setter<TimeRange>;
   metric: IMetric;
 }
 
 export const UPlotMetricsCardGraph = ({
-  datasource = [],
+  datasource = [[]],
   metric = undefined,
   onZoom = undefined
 }: Props) => {
@@ -24,7 +24,7 @@ export const UPlotMetricsCardGraph = ({
       .addBase({
         height: 180,
         stacked: metric.config.stack.show,
-        data: datasource || []
+        data: datasource
       })
       .addAxe({
         scale: "x",

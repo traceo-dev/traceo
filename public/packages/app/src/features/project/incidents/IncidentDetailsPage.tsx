@@ -16,7 +16,7 @@ export const IncidentDetailsPage = () => {
           <StacktraceSection />
         </div>
         <div className="col-span-3 ml-1">
-          <TimelineSection />
+          {/* <TimelineSection /> */}
           <InfoSection />
           {incident.sdk !== SDK.REACT && <PlatformSection />}
         </div>

@@ -87,7 +87,7 @@ export const startEventConsumer = async (
     } catch (err) {
         const message = `❌ Error while running kafka consumer: ${err}`;
         logger.error(message);
-        ExceptionHandlers.catchException(message);
+        ExceptionHandlers.catchException(new Error(message));
 
         throw err;
     }

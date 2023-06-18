@@ -4,10 +4,11 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import IncidentTimelineChart from "../../../../core/components/Charts/Incidents/IncidentTimelineChart";
 import { RouterLink } from "../../../../core/components/RouterLink";
+import { UPlotEventsGrap } from "./UPlotEventsGraph";
 
 export const TimelineSection = () => {
   const { id, iid } = useParams();
-  const { groupedEvents, isLoading } = useSelector((state: StoreState) => state.groupedEvents);
+  const { incident } = useSelector((state: StoreState) => state.incident);
 
   return (
     <Card
@@ -22,7 +23,8 @@ export const TimelineSection = () => {
         </RouterLink>
       }
     >
-      <IncidentTimelineChart isLoading={isLoading} events={groupedEvents} />
+      <UPlotEventsGrap incident={incident} />
+      {/* <IncidentTimelineChart isLoading={isLoading} events={groupedEvents} /> */}
     </Card>
   );
 };

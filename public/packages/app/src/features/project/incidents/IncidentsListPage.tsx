@@ -88,7 +88,7 @@ export const IncidentsListPage = () => {
       }}
     >
       <Page.Content className="pt-1">
-        <ContentCard loading={isLoading || isFetching}>
+        <Card>
           <Row className="pb-5" gap="x-2">
             <InputSearch
               placeholder="Search incidents by name, message, status or assigned user"
@@ -131,7 +131,7 @@ export const IncidentsListPage = () => {
             rowsCount={response?.totalCount}
             page={page}
           />
-        </ContentCard>
+        </Card>
       </Page.Content>
     </Page>
   );

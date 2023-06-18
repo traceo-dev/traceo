@@ -1,11 +1,11 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { SyncOutlined } from "@ant-design/icons";
-import { ErrorDetails, PlotData } from "@traceo/types";
+import { ErrorDetails, UplotDataType } from "@traceo/types";
 import { useParams } from "react-router-dom";
-import IncidentsOverviewChart from "../../../../core/components/Charts/Incidents/IncidentsOverviewChart";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { ContentCard } from "src/core/components/ContentCard";
+import { UPlotOverviewEventsGraph } from "./UPlotOverviewEventsGraph";
 
 export interface TotalOverviewType {
   errors: ErrorDetails[];
@@ -15,27 +15,32 @@ export const OverviewSection = () => {
   const { id } = useParams();
 
   const {
-    data = [],
+    data = {
+      graph: [[]]
+    },
     isLoading,
     isFetching,
     refetch
-  } = useReactQuery<PlotData[]>({
+  } = useReactQuery<{ graph: UplotDataType }>({
     queryKey: [`evets_grouped_${id}`],
-    url: `/api/event/project/${id}/grouped`
+    url: `/api/event/graph/project-overview`,
+    params: { id }
   });
+
+  const isEmpty = data && data?.graph[0].length === 0;
 
   return (
     <div className="w-full h-full">
       <ContentCard
-        name="Project overview"
+        name="Last month events"
         loading={isFetching || isLoading}
         extra={
           !isFetching &&
           !isLoading && <SyncOutlined className="text-xs" onClick={() => refetch()} />
         }
       >
-        <ConditionalWrapper emptyView={<DataNotFound />} isEmpty={data && data?.length === 0}>
-          <IncidentsOverviewChart data={data} />
+        <ConditionalWrapper isLoading={isLoading} emptyView={<DataNotFound />} isEmpty={isEmpty}>
+          <UPlotOverviewEventsGraph data={data.graph} />
         </ConditionalWrapper>
       </ContentCard>
     </div>

@@ -8,10 +8,9 @@ type ChartConfigs = {
 
 interface ChartProps {
   configs: ChartConfigs;
-  isZoom?: boolean;
 }
 
-const BaseUPlotChart = ({ configs, isZoom }: ChartProps) => {
+const BaseUPlotChart = ({ configs }: ChartProps) => {
   const chartRef = useRef(null);
 
   useEffect(() => {

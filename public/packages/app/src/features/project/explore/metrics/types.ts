@@ -1,5 +1,7 @@
+import { UplotDataType } from "@traceo/types";
+
 export type ExploreMetricsResponseType = {
-    datasource: [number, number][];
+    datasource: UplotDataType;
 }
 
 export type ExploreGraphProps = {
@@ -10,5 +12,3 @@ export type ExploreGraphProps = {
     valueMax: number;
     valueMin: number;
 }
-
-export { };

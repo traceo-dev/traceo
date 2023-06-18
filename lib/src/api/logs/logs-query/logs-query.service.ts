@@ -107,7 +107,7 @@ export class LogsQueryService {
                 graph: [time, count]
             });
         } catch (error) {
-            this.logger.error(`[${this.getProjectLogs.name}] Caused by: ${error}`);
+            this.logger.error(`[${this.getLogsGraphPayload.name}] Caused by: ${error}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR);
         }
     }

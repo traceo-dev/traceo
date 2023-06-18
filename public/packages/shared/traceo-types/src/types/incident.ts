@@ -1,6 +1,5 @@
 import { IProject } from "./project";
 import { BrowserInfoType } from "./browser";
-import { IEvent } from "./event";
 import { SDK } from "./sdk";
 import { IUser } from "./user";
 
@@ -38,10 +37,9 @@ export interface IIncident {
   // for browsers this infomation is persisted inside IError structure
   platform?: Platform;
 
-  events: IEvent[];
-  eventsCount: number;
-
   traces: Array<Trace>;
+
+  eventsCount: number;
 }
 
 /**
@@ -56,7 +54,7 @@ export interface IncidentEventPayload {
   stack: string;
   stackFrames?: StackFrame[];
 
-  details?: object
+  details?: string
 }
 
 export interface StackFrame {
