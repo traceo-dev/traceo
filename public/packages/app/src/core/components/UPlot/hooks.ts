@@ -1,4 +1,7 @@
+/* eslint-disable */
+
 import { Setter } from "@traceo/types";
+import dayjs from "dayjs";
 import uPlot from "uplot";
 
 const setSelect = (self: uPlot, onZoom: Setter<[number, number]>) => {

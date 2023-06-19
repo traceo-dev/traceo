@@ -3,7 +3,7 @@
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Col, Row } from "@traceo/ui";
 import ReactDOM from "react-dom";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../core/utils/date";
 import uPlot from "uplot";
 import styled from "styled-components";
 import { useEffect, useState } from "react";

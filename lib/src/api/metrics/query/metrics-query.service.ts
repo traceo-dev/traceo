@@ -1,12 +1,12 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
-import { ExploreMetricsQueryDto, MetricQueryDto, MetricsQueryDto } from "../../../common/types/dto/metrics.dto";
+import { ExploreMetricsQueryDto, MetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { IMetric, MetricPreviewType } from "@traceo/types";
 import { Metric } from "../../../db/entities/metric.entity";
 import { Brackets, EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
-import { calculateInterval } from "src/common/helpers/interval";
+import { calculateInterval } from "../../../common/helpers/interval";
 
 export type AggregateTimeSeries = { minute: number, value: number }[];
 

@@ -26,7 +26,7 @@ export const ProjectsListPage = () => {
   return (
     <DashboardPageWrapper>
       <Card
-        title="Applications list"
+        title="Projects list"
         extra={
           <RouterLink to={"/dashboard/new-project"}>
             <Button size="sm" icon={<PlusOutlined />}>

@@ -1,6 +1,6 @@
 import { EXPLORE_PLOT_TYPE, PLOT_TYPE } from "@traceo/types";
 import dayjs from "dayjs";
-import { isFloat } from "src/core/utils/numbers";
+import { isFloat } from "../../../core/utils/numbers";
 
 const omitFloatLabels = (_self: uPlot,
     splits: number[],

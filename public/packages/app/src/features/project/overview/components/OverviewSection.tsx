@@ -4,7 +4,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import { ErrorDetails, UplotDataType } from "@traceo/types";
 import { useParams } from "react-router-dom";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
-import { ContentCard } from "src/core/components/ContentCard";
+import { ContentCard } from "../../../../core/components/ContentCard";
 import { UPlotOverviewEventsGraph } from "./UPlotOverviewEventsGraph";
 
 export interface TotalOverviewType {

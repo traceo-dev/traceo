@@ -7,11 +7,11 @@ import {
   UplotDataType
 } from "@traceo/types";
 import { useMemo } from "react";
-import BaseUPlotChart from "src/core/components/UPlot/BaseUPlotChart";
-import { UPlotConfigBuilder } from "src/core/components/UPlot/UPlotConfigBuilder";
-import { hook } from "src/core/components/UPlot/hooks";
-import { getFillOpacity } from "src/core/components/UPlot/utils";
-import { calculateOpacity } from "src/core/utils/colors";
+import BaseUPlotChart from "../../../../core/components/UPlot/BaseUPlotChart";
+import { UPlotConfigBuilder } from "../../../../core/components/UPlot/UPlotConfigBuilder";
+import { hook } from "../../../../core/components/UPlot/hooks";
+import { getFillOpacity } from "../../../../core/components/UPlot/utils";
+import { calculateOpacity } from "../../../../core/utils/colors";
 
 interface Props {
   datasource: UplotDataType;

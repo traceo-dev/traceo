@@ -14,9 +14,9 @@ import {
   STACK_STRATEGY
 } from "@traceo/types";
 import { LabelPosition } from "@traceo/ui";
-import { UPlotConfigBuilder } from "src/core/components/UPlot/UPlotConfigBuilder";
-import { sameArrayValues } from "src/core/utils/arrays";
-import { calculateOpacity } from "src/core/utils/colors";
+import { UPlotConfigBuilder } from "../../../../core/components/UPlot/UPlotConfigBuilder";
+import { sameArrayValues } from "../../../../core/utils/arrays";
+import { calculateOpacity } from "../../../../core/utils/colors";
 
 export const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
   value: unit,
@@ -48,7 +48,6 @@ export const markerShapeName: Record<MARKER_SHAPE, string> = {
   [MARKER_SHAPE.RECT]: "Rect",
   [MARKER_SHAPE.ROUND_RECT]: "Rounded rect",
   [MARKER_SHAPE.TRIANGLE]: "Triangle",
-  [MARKER_SHAPE.ARROW]: "Arrow",
   [MARKER_SHAPE.DIAMOND]: "Diamond",
   [MARKER_SHAPE.PIN]: "Pin",
   [MARKER_SHAPE.CIRCLE]: "Circle"

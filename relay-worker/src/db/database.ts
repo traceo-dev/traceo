@@ -115,9 +115,10 @@ export class DatabaseService {
                 created_at,
                 last_event_at,
                 project_id, 
-                platform
+                platform,
+                events_count
             )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
             RETURNING *
         `, [
             sdk,
@@ -129,7 +130,8 @@ export class DatabaseService {
             createdAt,
             now,
             project.id,
-            platform
+            platform,
+            0
         ]);
 
         await this.updateProjectLastEventAt(project.id, now);
@@ -159,7 +161,7 @@ export class DatabaseService {
 
         const event: IEvent = {
             id: randomUUID(),
-            details,
+            details: JSON.stringify(details),
             precise_timestamp: timestamp,
             incident_id,
             project_id,

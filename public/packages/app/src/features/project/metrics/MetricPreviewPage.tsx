@@ -21,7 +21,7 @@ import { ContentCard } from "../../../core/components/ContentCard";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
 import { UPlotMetricPreviewGraph } from "./components/UPlotMetricPreviewGraph";
-import { notify } from "src/core/utils/notify";
+import { notify } from "../../../core/utils/notify";
 
 export const MetricPreviewPage = () => {
   const navigate = useNavigate();

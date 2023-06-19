@@ -3,8 +3,8 @@
 import uPlot from "uplot";
 import BaseUPlotChart from "../../../../core/components/UPlot/BaseUPlotChart";
 import { PLOT_TYPE, Setter, UplotDataType } from "@traceo/types";
-import { UPlotConfigBuilder } from "src/core/components/UPlot/UPlotConfigBuilder";
-import { hook } from "src/core/components/UPlot/hooks";
+import { UPlotConfigBuilder } from "../../../../core/components/UPlot/UPlotConfigBuilder";
+import { hook } from "../../../../core/components/UPlot/hooks";
 import { useMemo } from "react";
 
 interface Props {

@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { mapHeaderStatusIcon } from "../../incidents/components/utils";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { RouterLink } from "../../../../core/components/RouterLink";
-import { ContentCard } from "src/core/components/ContentCard";
+import { ContentCard } from "../../../../core/components/ContentCard";
 
 const RECENT_INCIDENTS_MAX_COUNT = 5;
 export const RecentIncidentsSection = () => {
@@ -58,7 +58,7 @@ export const RecentIncidentsSection = () => {
             <ListCard
               onClick={() => navigate(`/project/${project.id}/incidents/${item.id}/details`)}
             >
-              <Space className="w-full justify-between py-2">
+              <Space className="w-full justify-between">
                 <Space direction="horizontal" className="gap-0">
                   <Tooltip title={mapIncidentStatus[item.status]}>
                     {mapHeaderStatusIcon[item.status]}

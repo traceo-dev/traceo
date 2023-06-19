@@ -16,7 +16,7 @@ import {
 import { uPlotUtils } from "./utils";
 import { tooltipsPlugin } from "./TooltipPlugin";
 import { stackedOptions } from "./stacked";
-import { PLOT_TYPE, UplotDataType } from "@traceo/types";
+import { PLOT_TYPE } from "@traceo/types";
 
 const defaultAxe: uPlot.Axis = {
   stroke: "#c7d0d9"
@@ -138,10 +138,10 @@ export class UPlotConfigBuilder {
 
     if (values) {
       axeConfig.values = values;
-    } else if (isTimeAxis) {
-      axeConfig.values = uPlotUtils.timeFormatter;
     } else if (formatter) {
       axeConfig.values = formatter;
+    } else if (isTimeAxis) {
+      axeConfig.values = uPlotUtils.timeFormatter;
     } else if (!showFloatLabels) {
       axeConfig.values = uPlotUtils.omitFloatLabels;
     }

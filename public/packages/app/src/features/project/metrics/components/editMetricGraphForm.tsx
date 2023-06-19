@@ -3,7 +3,6 @@ import { Switch } from "@traceo/ui";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
 import { MetricEditOption, isStackAvailable } from "./utils";
-import { sameArrayValues } from "src/core/utils/arrays";
 
 interface Props {
   options: DeepPartial<IMetric>;

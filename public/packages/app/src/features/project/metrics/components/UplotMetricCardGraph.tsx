@@ -1,8 +1,8 @@
 import { IMetric, Setter, TimeRange, UplotDataType } from "@traceo/types";
 import { useMemo } from "react";
-import BaseUPlotChart from "src/core/components/UPlot/BaseUPlotChart";
-import { UPlotConfigBuilder } from "src/core/components/UPlot/UPlotConfigBuilder";
-import { hook } from "src/core/components/UPlot/hooks";
+import BaseUPlotChart from "../../../../core/components/UPlot/BaseUPlotChart";
+import { UPlotConfigBuilder } from "../../../../core/components/UPlot/UPlotConfigBuilder";
+import { hook } from "../../../../core/components/UPlot/hooks";
 import { buildSeries } from "./utils";
 
 interface Props {

@@ -1,8 +1,7 @@
 import { PLOT_TYPE } from "@traceo/types";
 import { useMemo } from "react";
-import BaseUPlotChart from "src/core/components/UPlot/BaseUPlotChart";
-import { UPlotConfigBuilder } from "src/core/components/UPlot/UPlotConfigBuilder";
-import { isFloat } from "src/core/utils/numbers";
+import BaseUPlotChart from "../../../../core/components/UPlot/BaseUPlotChart";
+import { UPlotConfigBuilder } from "../../../../core/components/UPlot/UPlotConfigBuilder";
 
 interface Props {
   data: any; //number[][]
@@ -25,7 +24,11 @@ export const UPlotOverviewEventsGraph = ({ data }: Props) => {
         points: {
           show: false
         },
-        label: "Events"
+        label: "Events",
+        bar: {
+          width: 100,
+          align: 1
+        }
       })
       .addAxe({ scale: "x", isTimeAxis: true })
       .addAxe({ scale: "y", showFloatLabels: false })

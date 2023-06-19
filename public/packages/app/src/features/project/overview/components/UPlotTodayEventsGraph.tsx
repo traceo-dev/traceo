@@ -1,7 +1,8 @@
 import { PLOT_TYPE, UplotDataType } from "@traceo/types";
 import { useMemo } from "react";
-import BaseUPlotChart from "src/core/components/UPlot/BaseUPlotChart";
-import { UPlotConfigBuilder } from "src/core/components/UPlot/UPlotConfigBuilder";
+import BaseUPlotChart from "../../../../core/components/UPlot/BaseUPlotChart";
+import { UPlotConfigBuilder } from "../../../../core/components/UPlot/UPlotConfigBuilder";
+import dateUtils from "../../../../core/utils/date";
 
 interface Props {
   data: UplotDataType;
@@ -25,10 +26,28 @@ export const UPlotTodayEventsGraph = ({ data }: Props) => {
         points: {
           show: false
         },
+        bar: {
+          width: 90,
+          align: 1
+        },
         label: "Events"
       })
-      .addAxe({ scale: "x", isTimeAxis: true })
-      .addAxe({ scale: "y" })
+      .addAxe({
+        scale: "x",
+        isTimeAxis: true,
+        formatter: (_self, splits, _axisIdx, _foundSpace, _foundIncr) => {
+          const splitsCount = splits.length - 1;
+          // Last value should be formatted to 23:59 for todays plot instead of 00:00
+          return splits.map((split, index) => {
+            if (index === splitsCount) {
+              return "23:59";
+            }
+
+            return dateUtils.formatDate(split, "HH:mm");
+          });
+        }
+      })
+      .addAxe({ scale: "y", showFloatLabels: false })
       .addScale({
         x: {
           auto: false

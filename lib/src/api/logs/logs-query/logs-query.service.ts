@@ -5,7 +5,7 @@ import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { LogsQuery } from "../../../common/types/dto/logs.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { calculateInterval } from "src/common/helpers/interval";
+import { calculateInterval } from "../../../common/helpers/interval";
 
 type LogsResponseType = {
     logs: ILog[],

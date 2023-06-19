@@ -1,12 +1,10 @@
 import { Injectable } from "@nestjs/common/decorators";
 import { Logger } from "@nestjs/common";
-import { EntityManager } from "typeorm";
-import { IEvent, PlotData, UplotDataType } from "@traceo/types";
+import { IEvent, UplotDataType } from "@traceo/types";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
-import dateUtils from "../../../common/helpers/dateUtils";
 import dayjs from "dayjs";
-import { ClickhouseService } from "src/common/services/clickhouse/clickhouse.service";
+import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 
 type GraphResponse = {
     graph: UplotDataType
@@ -37,7 +35,7 @@ export class EventQueryService {
     // incident analytics
 
     public async getOverviewEventsForIncidentGraph(id: string): Promise<ApiResponse<any>> {
-        const to = dayjs().utc().unix();
+        const to = dayjs().add(1, "day").utc().unix();
         const from = dayjs().subtract(1, "months").utc().unix();
 
         try {
@@ -52,8 +50,8 @@ export class EventQueryService {
     }
 
     public async getTodayEventsForIncidentGraph(id: string): Promise<ApiResponse<IEvent[]>> {
-        const from = dayjs().startOf("day").utc().unix();
-        const to = dayjs().endOf("day").utc().unix();
+        const from = dayjs().startOf("day").unix();
+        const to = dayjs().endOf("day").add(1, "h").unix();
 
         try {
             const todayCount = await this.clickhouse.loadTodayIncidentEventsCount(id);
@@ -72,8 +70,8 @@ export class EventQueryService {
     // project analytics
 
     public async getTodayEventsGraph(projectId: string): Promise<ApiResponse<GraphResponse>> {
-        const from = dayjs().startOf("day").utc().unix();
-        const to = dayjs().endOf("day").utc().unix();
+        const from = dayjs().startOf("day").unix();
+        const to = dayjs().endOf("day").add(1, "h").unix();
 
         try {
             const todayCount = await this.clickhouse.loadTodayEventsCount(projectId);
@@ -91,7 +89,7 @@ export class EventQueryService {
 
     public async getTotalOverviewGraph(projectId: string): Promise<ApiResponse<GraphResponse>> {
         const from = dayjs().subtract(1, "months").unix();
-        const to = dayjs().endOf("day").utc().unix();
+        const to = dayjs().add(12, "h").utc().unix();
 
         try {
             const graph = await this.getProjectGraphPayload(projectId, from, to);

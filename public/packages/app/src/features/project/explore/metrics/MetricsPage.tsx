@@ -11,7 +11,7 @@ import {
   LoadingOutlined,
   NodeIndexOutlined
 } from "@ant-design/icons";
-import { Col, Input, RadioButtonGroup, Row, Select, SelectOptionProps } from "@traceo/ui";
+import { Alert, Col, Input, RadioButtonGroup, Row, Select, SelectOptionProps } from "@traceo/ui";
 import { metricsApi } from "./api";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { Field } from "../components/Field";

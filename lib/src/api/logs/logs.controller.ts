@@ -1,9 +1,8 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { ILog, LogsQuery } from '@traceo/types';
+import { Controller, Get, Query } from '@nestjs/common';
+import { LogsQuery } from '@traceo/types';
 import { LogsQueryService } from './logs-query/logs-query.service';
-import { ApiResponse } from 'src/common/types/dto/response.dto';
+import { ApiResponse } from '../../common/types/dto/response.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'src/common/decorators/auth-guard.decorator';
 
 @ApiTags('logs')
 @Controller('logs')

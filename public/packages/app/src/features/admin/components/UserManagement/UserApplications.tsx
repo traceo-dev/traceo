@@ -44,7 +44,7 @@ export const UserApplications = () => {
   return (
     <>
       <Card
-        title="Applications list"
+        title="Projects list"
         extra={
           !isAdmin && (
             <Space className="w-full justify-end">

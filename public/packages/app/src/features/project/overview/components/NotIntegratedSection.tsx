@@ -23,12 +23,10 @@ export const NotIntegratedSection = () => {
   const sampleIntegrationCode = `
     1   import { TraceoClient } from '${mapSdkToNpm[project.sdk]}';
     2 
-    3   new TraceoClient({
-    4      appId: '${project.id}',
-    5      apiKey: '<API_KEY>',
-    6      url: 'http://localhost:3000'
-    7   });
-    8 
+    3   new TraceoClient('<API_KEY>', {
+    4      host: '${window.location.origin}'
+    5   });
+    6 
   `;
 
   return (
