@@ -21,6 +21,7 @@ import { ContentCard } from "../../../core/components/ContentCard";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
 import { UPlotMetricPreviewGraph } from "./components/UPlotMetricPreviewGraph";
+import { notify } from "src/core/utils/notify";
 
 export const MetricPreviewPage = () => {
   const navigate = useNavigate();
@@ -66,12 +67,36 @@ export const MetricPreviewPage = () => {
     }
   }, [data]);
 
-  if (!options || options.series.length === 0 || isEmptyObject(options)) {
+  if (!options || isEmptyObject(options)) {
     return <TraceoLoading />;
   }
 
   const onSave = async () => {
+    if (!options.name) {
+      notify.error("Metric name is required.");
+      return;
+    }
+
+    const series = options.series;
+    if (series.length === 0) {
+      notify.error("You have to add at least one serie to this metric.");
+      return;
+    }
+
+    const missingName = series.find((serie) => !serie?.name);
+    if (missingName) {
+      notify.error("Your metric serie does not have a required name value.");
+      return;
+    }
+
+    const missingField = series.find((serie) => !serie?.field);
+    if (missingField) {
+      notify.error("Your metric serie does not have a required field value.");
+      return;
+    }
+
     setSaveLoading(true);
+
     await api
       .patch<ApiResponse<string>>(`/api/metrics/${metricId}/update`, options)
       .then(() => {
@@ -197,7 +222,11 @@ export const MetricPreviewPage = () => {
           </div>
           {isCustomizeMode && (
             <div className="col-span-4">
-              <MetricCustomizeForm setOptions={setOptions} options={options} />
+              <MetricCustomizeForm
+                data={data?.datasource}
+                setOptions={setOptions}
+                options={options}
+              />
             </div>
           )}
         </div>

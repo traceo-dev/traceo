@@ -2,12 +2,10 @@ import { Pool, PoolClient, QueryResult } from "pg";
 import { ExceptionHandlers } from "@traceo-sdk/node";
 import { logger } from "..";
 import {
-    Dictionary,
     IProject,
     IEvent,
     IIncident,
     LogEventPayload,
-    SafeReturnType,
     MetricPayload,
     BrowserPerfsPayloadEvent,
     getHealthByValue,
@@ -180,11 +178,6 @@ export class DatabaseService {
 
 
         return event;
-    }
-
-    public async insertRuntimeConfigs({ config, projectId }: { config: Dictionary<SafeReturnType>, projectId: string }): Promise<any> {
-        const insertedRows = await this.postgresQuery<Dictionary<SafeReturnType>>(`UPDATE project SET runtime_config = '${JSON.stringify(config)}' WHERE id = '${projectId}'`)
-        return insertedRows.rows[0];
     }
 
     // Clickhouse queries

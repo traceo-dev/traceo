@@ -33,7 +33,7 @@ export class UPlotConfigBuilder {
   private stacked = false;
   private isZoom = true;
   private chartType: ChartType = "timeseries";
-  private data: UplotDataType = undefined;
+  private data: any = undefined;
 
   private configs: uPlot.Options;
   private base: uPlot.Options;

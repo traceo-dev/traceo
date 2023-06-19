@@ -23,7 +23,7 @@ export const UPlotMetricsCardGraph = ({
     return builder
       .addBase({
         height: 180,
-        stacked: metric.config.stack.show,
+        stacked: metric.config?.stack.show,
         data: datasource
       })
       .addAxe({

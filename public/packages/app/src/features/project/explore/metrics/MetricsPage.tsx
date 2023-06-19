@@ -270,7 +270,7 @@ export const MetricsPage = forwardRef(
             />
           </ButtonOptionsWrapper>
           <ConditionalWrapper
-            isEmpty={(graph && graph[0].length === 0) || series.length === 0}
+            isEmpty={(graph && graph[0]?.length === 0) || series.length === 0}
             emptyView={<DataNotFound label="No results for graph" />}
           >
             <UPlotMetricsGraph

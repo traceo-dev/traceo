@@ -1,4 +1,3 @@
-import { Dictionary } from ".";
 import { SortOrder } from "./api";
 import { MemberRole } from "./member";
 import { SDK } from "./sdk";
@@ -20,10 +19,6 @@ export interface IProject {
   // membersCount: number;
 
   isIntegrated: boolean;
-
-  // field only for server-side SDKs
-  // overrided after every application startup
-  runtimeConfig?: Dictionary<string | number | undefined | null>;
 
   // security?: ISecurity;
   apiKey: string;

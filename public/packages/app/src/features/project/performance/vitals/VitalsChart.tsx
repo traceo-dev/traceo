@@ -33,7 +33,7 @@ const VitalsChart = ({ data, field }: VitalsChart) => {
         splitLine: {
           show: false
         },
-        pointerFormatter: (value: any) => vitalsFormatter(field, value) as string,
+        pointerFormatter: (point: any) => vitalsFormatter(field, point?.value) as string,
         labelFormatter: (value: any) => vitalsFormatter(field, value) as string
       })}
       yAxis={BaseYAxis({

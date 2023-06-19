@@ -56,13 +56,6 @@ export class Project extends BaseEntity implements IProject {
   incidents?: IIncident[];
   incidentsCount: number = 0;
 
-  @Column({
-    type: "simple-json",
-    nullable: true,
-    name: "runtime_config"
-  })
-  runtimeConfig?: Dictionary<string | number | undefined | null>;
-
   @OneToMany(() => Metric, (metric) => metric.project, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE"

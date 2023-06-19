@@ -6,7 +6,7 @@ export type ChartConfigs = {
     options: uPlot.Options;
 }
 
-export type HookType = "setSelect";
+export type HookType = "setSelect" | "draw";
 
 export type ChartType = "timeseries" | "histogram" | "none";
 

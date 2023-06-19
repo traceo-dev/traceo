@@ -23,12 +23,15 @@ export const UplotLogsGraph = ({ data, onZoom }: Props) => {
         type: PLOT_TYPE.BAR,
         stroke: "#3B82F5",
         fill: "#3B82F5",
+        // to avoid rendering rects with 0 values
+        width: 0,
         points: {
           show: false
         },
         label: "logs",
         bar: {
-          width: 35
+          width: 100,
+          align: 1
         }
       })
       .addAxe({ scale: "x", isTimeAxis: true })

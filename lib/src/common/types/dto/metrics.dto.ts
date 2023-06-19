@@ -213,6 +213,10 @@ export class UpdateMetricDto {
   // show: boolean;
 
   @ValidateNested()
+  @IsNotEmpty()
+  @IsArray({
+    always: true
+  })
   @Type(() => UpdateSerieMetricDto)
   series: UpdateSerieMetricDto[];
 

@@ -32,7 +32,7 @@ const SpanRowInfo = styled.div`
 `;
 
 const ServiceNameSpan = styled.div`
-  border-left: 4px solid ${(p) => (p.isRootSpan ? "orange" : "purple")};
+  border-left: 4px solid ${(p) => (p.isRootSpan ? "#7A3BEC" : "#F4AA27")};
   padding-left: 8px;
   margin-left: 8px;
   font-size: 14px;

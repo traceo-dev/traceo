@@ -9,7 +9,6 @@ export * from "./incident";
 export * from "./log";
 export * from "./metrics";
 export * from "./notifications";
-export * from "./runtime";
 export * from "./session";
 export * from "./statistics";
 export * from "./webSocket";

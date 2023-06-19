@@ -8,7 +8,7 @@ import {
   editMetricTooltipForm
 } from "./editMetricGraphForm";
 import { editSerieForm } from "./editMetricSeriesForm";
-import { IMetric, DeepPartial, IMetricSerie } from "@traceo/types";
+import { IMetric, DeepPartial, IMetricSerie, UplotDataType } from "@traceo/types";
 import { Alert, FieldLabel, Row, Tooltip } from "@traceo/ui";
 import { FC, useMemo } from "react";
 import { DraftFunction } from "use-immer";
@@ -18,12 +18,13 @@ import { editMetricBasicForm } from "./editMetricBasicForm";
 import { isStackAvailable } from "./utils";
 
 interface Props {
+  data?: UplotDataType;
   options: DeepPartial<IMetric>;
   setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
 }
 
 export const MetricCustomizeForm: FC<Props> = (props: Props) => {
-  const isStack = !isStackAvailable(props.options.series);
+  // const isStack = !isStackAvailable(props.options.series);
 
   const [basicOptions, tooltipOptions, axisOptions, legendOptions, markerOptions, stackOptions] =
     useMemo(
@@ -39,6 +40,7 @@ export const MetricCustomizeForm: FC<Props> = (props: Props) => {
     );
 
   const onAddNewSerie = () => {
+    props.data.push([]);
     props.setOptions((opt) => {
       opt.isDefault = false;
       opt.series.push({
