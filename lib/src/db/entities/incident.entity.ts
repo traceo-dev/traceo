@@ -23,7 +23,7 @@ export class Incident extends BaseEntity implements IIncident {
 
   @Column({
     type: "varchar",
-    nullable: true
+    nullable: false
   })
   sdk: SDK;
 
@@ -53,14 +53,14 @@ export class Incident extends BaseEntity implements IIncident {
 
   @Column({
     type: "bigint",
-    nullable: true,
+    nullable: false,
     name: "last_event_at"
   })
-  lastEventAt: number;
+  lastEventAt: number = this.createdAt;
 
   @Column({
     type: "bigint",
-    nullable: true,
+    nullable: false,
     name: "events_count"
   })
   eventsCount: number = 0;

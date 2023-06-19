@@ -19,7 +19,7 @@ export class Session extends BaseEntity implements ISession {
 
   @Column({
     type: "varchar",
-    nullable: true
+    nullable: false
   })
   userName: string;
 
@@ -30,7 +30,7 @@ export class Session extends BaseEntity implements ISession {
 
   @Column({
     type: "bigint",
-    nullable: true
+    nullable: false
   })
   expiryAt: number;
 

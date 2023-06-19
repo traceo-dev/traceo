@@ -17,7 +17,7 @@ export class Project extends BaseEntity implements IProject {
   @Column({ type: "varchar", unique: true })
   name: string;
 
-  @Column({ type: "varchar", nullable: true })
+  @Column({ type: "varchar", nullable: false })
   sdk: SDK;
 
   @Column({
