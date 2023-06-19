@@ -12,10 +12,11 @@ interface Props {
 const Bar = styled.div`
   height: 8px;
   background-color: green;
+  border-radius: 2px;
   position: relative;
   width: ${(p) => p.width}%;
   left: ${(p) => p.left}%;
-  background-color: ${(p) => (p.isRoot ? "orange" : "purple")};
+  background-color: ${(p) => (p.isRoot ? "#7A3BEC" : "#F4AA27")};
 `;
 
 export const DurationBar = ({ isRootSpan, root, span }: Props) => {

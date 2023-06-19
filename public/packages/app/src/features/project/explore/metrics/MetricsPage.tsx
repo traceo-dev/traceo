@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { ExploreViewProps } from "../ExplorePage";
@@ -11,17 +11,23 @@ import {
   LoadingOutlined,
   NodeIndexOutlined
 } from "@ant-design/icons";
-import { Col, Input, RadioButtonGroup, Row, Select, SelectOptionProps } from "@traceo/ui";
+import { Alert, Col, Input, RadioButtonGroup, Row, Select, SelectOptionProps } from "@traceo/ui";
 import { metricsApi } from "./api";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { Field } from "../components/Field";
 import { InlineFields } from "../components/InlineFields";
-import MetricsExploreChart from "../../../../core/components/Charts/Metrics/MetricsExploreChart";
 import { ActionButton } from "../../../../core/components/ActionButton";
 import { GRAPH_TYPE_OPTIONS } from "../types";
-import { ExploreSerieType, EXPLORE_PLOT_TYPE, AVAILABLE_COLORS, TimeRange } from "@traceo/types";
+import {
+  ExploreSerieType,
+  EXPLORE_PLOT_TYPE,
+  AVAILABLE_COLORS,
+  TimeRange,
+  UplotDataType
+} from "@traceo/types";
 import { ButtonOptionsWrapper } from "../components";
 import { MetricTableWrapper } from "../../metrics/components/MetricTableWrapper";
+import { UPlotMetricsGraph } from "./UPlotMetricsGraph";
 
 export const MetricsPage = forwardRef(
   (
@@ -35,7 +41,10 @@ export const MetricsPage = forwardRef(
   ) => {
     const { id } = useParams();
 
-    const [graph, setGraph] = useState<[number, number][]>([]);
+    const inputMin = useRef<HTMLInputElement>(null);
+    const inputMax = useRef<HTMLInputElement>(null);
+
+    const [graph, setGraph] = useState<UplotDataType>([[]]);
     const [rawData, setRawData] = useState<[]>([]);
     const [loadingRaw, setLoadingRaw] = useState<boolean>(false);
 
@@ -125,21 +134,24 @@ export const MetricsPage = forwardRef(
       const queries: string[] = [];
       const s = series.map((e) => e.name);
       series.length > 0 && queries.push(`Series: ${s.join("; ")}`);
-      // interval && queries.push(`Interval: ${interval}`);
       valueMax && queries.push(`Value max: ${valueMax}`);
       valueMin && queries.push(`Value min: ${valueMin}`);
       return queries.join(", ");
     };
 
     const clearQuery = () => {
-      const queries = [setValueMax, setValueMin];
+      inputMax.current.value = null;
+      inputMin.current.value = null;
+
+      setValueMax(null);
+      setValueMin(null);
+
       setSeries([]);
-      queries.map((e) => e(null));
     };
 
     const onAddSerie = (serie: string) => {
       // We have to clear graph payload on each serie mutation
-      setGraph([]);
+      setGraph([[]]);
       setRawData([]);
       setMaxSeriesError(false);
 
@@ -157,7 +169,7 @@ export const MetricsPage = forwardRef(
     };
 
     const onRemoveSerie = (serie: ExploreSerieType) => {
-      setGraph([]);
+      setGraph([[]]);
       setRawData([]);
       const s = series.filter((s) => s !== serie);
       setSeries(s);
@@ -172,6 +184,7 @@ export const MetricsPage = forwardRef(
     return (
       <Col>
         <OptionsCollapseGroup
+          scrollableBody={false}
           deafultCollapsed={true}
           title="Options"
           collapsedText={getQueriesLabel()}
@@ -208,6 +221,7 @@ export const MetricsPage = forwardRef(
           <InlineFields>
             <Field tooltip="Min value for graph." title="Value min." className="col-span-3">
               <Input
+                ref={inputMin}
                 type="number"
                 value={valueMin}
                 onChange={(e) => setValueMin(e.target["value"])}
@@ -215,6 +229,7 @@ export const MetricsPage = forwardRef(
             </Field>
             <Field tooltip="Max value for graph." title="Value max." className="col-span-3">
               <Input
+                ref={inputMax}
                 type="number"
                 value={valueMax}
                 onChange={(e) => setValueMax(e.target["value"])}
@@ -236,7 +251,12 @@ export const MetricsPage = forwardRef(
             </Field>
           </InlineFields> */}
         </OptionsCollapseGroup>
-        <OptionsCollapseGroup title="Graph" deafultCollapsed={false} loading={loading}>
+        <OptionsCollapseGroup
+          title="Graph"
+          scrollableBody={false}
+          deafultCollapsed={false}
+          loading={loading}
+        >
           <ButtonOptionsWrapper>
             <RadioButtonGroup
               size="sm"
@@ -246,7 +266,7 @@ export const MetricsPage = forwardRef(
             />
             <ActionButton
               icon={<BlockOutlined />}
-              tooltip="Stacked graph"
+              tooltip="Stacked graph (no tooltip)"
               isActive={stackedGraph}
               onClick={() => setStackedGraph(!stackedGraph)}
             />
@@ -258,13 +278,12 @@ export const MetricsPage = forwardRef(
             />
           </ButtonOptionsWrapper>
           <ConditionalWrapper
-            isEmpty={(graph && graph.length === 0) || series.length === 0}
+            isEmpty={(graph && graph[0]?.length === 0) || series.length === 0}
             emptyView={<DataNotFound label="No results for graph" />}
           >
-            <MetricsExploreChart
+            <UPlotMetricsGraph
               series={series}
               datasource={graph}
-              ranges={ranges}
               onZoom={onZoom}
               type={graphType}
               stacked={stackedGraph}

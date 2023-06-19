@@ -1,14 +1,12 @@
 import { useProject } from "../../../../core/hooks/useProject";
 import dateUtils from "../../../../core/utils/date";
-import { RightOutlined, UserOutlined } from "@ant-design/icons";
-import { IIncident, IncidentStatus, mapIncidentStatus } from "@traceo/types";
-import { Space, Avatar, Table, TableColumn, Row } from "@traceo/ui";
+import { UserOutlined } from "@ant-design/icons";
+import { IIncident, mapIncidentStatus } from "@traceo/types";
+import { Avatar, Table, TableColumn, Tooltip } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { mapHeaderStatusIcon } from "./utils";
-import IncidentsListChart from "../../../../core/components/Charts/Incidents/IncidentsListChart";
 import styled from "styled-components";
-import dayjs from "dayjs";
 
 interface Props {
   incidents: IIncident[];
@@ -31,13 +29,11 @@ export const IncidentsTable: FC<Props> = ({
     navigate(`/project/${project.id}/incidents/${incident.id}/details`);
   };
 
-  const isNewIncident = (inc: IIncident): boolean => {
-    if (inc.status !== IncidentStatus.UNRESOLVED) {
-      return false;
-    }
-    // New incident created within last 2 hours
-    return dayjs.unix(inc.createdAt).add(2, "h").isAfter(dayjs());
-  };
+  console.log({
+    rowsCount,
+    count: incidents?.length,
+    page
+  });
 
   return (
     <Table
@@ -52,53 +48,49 @@ export const IncidentsTable: FC<Props> = ({
       currentPage={page}
       rowsCount={rowsCount}
     >
-      <TableColumn name="Details" width={700}>
+      <TableColumn name="Details" width={600}>
         {({ item }) => (
-          <Space direction="vertical" className="gap-0">
-            <Row gap="x-3">
-              <span className="text-[16px] leading-5 font-semibold">{item?.name}</span>
-              {isNewIncident(item) && (
-                <NewIncidentPill>
-                  <span className="text-yellow-500 text-[10px]">New</span>
-                </NewIncidentPill>
-              )}
-            </Row>
-
-            <Row>
-              <div>
-                <span className="text-sm">{mapHeaderStatusIcon[item.status]}</span>
-                <span className="pl-2 text-[12px]">{mapIncidentStatus[item.status]}</span>
-              </div>
-              <RightOutlined className="text-[8px] px-2" />
-              <span className="text-[12px] truncate xl:max-w-[400px] md:max-w-[200px]">
-                {item?.message}
-              </span>
-            </Row>
-          </Space>
-        )}
-      </TableColumn>
-      <TableColumn name="Graph" width={300}>
-        {({ item }) => (
-          // TODO: echarts chart is very bad when we want to resize him...
-          <div style={{ width: 200 }}>
-            <IncidentsListChart id={item?.id} />
+          <div className="flex flex-col leading-5">
+            <span className="font-semibold">{item.name}</span>
+            <span className="text-[12px] truncate xl:max-w-[400px] md:max-w-[200px]">
+              {item?.message}
+            </span>
           </div>
         )}
       </TableColumn>
-      <TableColumn name="Events">
-        {({ item }) => <span className="text-xs">{item?.eventsCount}</span>}
-      </TableColumn>
-      <TableColumn name="Last event">
+      <TableColumn name="Status">
         {({ item }) => (
-          <span className="text-xs whitespace-nowrap">
-            {dateUtils.fromNow(item?.lastEventAt)}
-          </span>
+          <div>
+            <span className="text-sm">{mapHeaderStatusIcon[item.status]}</span>
+            <span className="pl-2 text-[12px]">{mapIncidentStatus[item.status]}</span>
+          </div>
         )}
+      </TableColumn>
+      <TableColumn name="First seen">
+        {({ item }) => (
+          <Tooltip title={dateUtils.formatDate(item?.createdAt, "YYYY-MM-DD HH:mm")}>
+            <span className="text-xs whitespace-nowrap">
+              {dateUtils.fromNow(item?.createdAt)}
+            </span>
+          </Tooltip>
+        )}
+      </TableColumn>
+      <TableColumn name="Last seen">
+        {({ item }) => (
+          <Tooltip title={dateUtils.formatDate(item?.createdAt, "YYYY-MM-DD HH:mm")}>
+            <span className="text-xs whitespace-nowrap">
+              {dateUtils.fromNow(item?.lastEventAt)}
+            </span>
+          </Tooltip>
+        )}
+      </TableColumn>
+      <TableColumn name="Events">
+        {({ item }) => <span className="text-sm">{item?.eventsCount}</span>}
       </TableColumn>
       <TableColumn name="Assigned">
         {({ item }) =>
           item?.assigned ? (
-            <Avatar size="md" src={item?.assigned?.gravatar} alt={item?.assigned?.name} />
+            <Avatar size="sm" src={item?.assigned?.gravatar} alt={item?.assigned?.name} />
           ) : (
             <UserOutlined className="text-2xl" />
           )

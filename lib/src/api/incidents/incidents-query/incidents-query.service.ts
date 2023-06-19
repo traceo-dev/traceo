@@ -16,7 +16,6 @@ export class IncidentsQueryService extends BaseQueryService<Incident, IncidentQu
       .createQueryBuilder("incident")
       .where("incident.id = :id", { id })
       .leftJoin("incident.assigned", "assigned")
-      .loadRelationCountAndMap("incident.eventsCount", "incident.events")
       .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.gravatar"])
       .getOne();
   }
@@ -30,7 +29,6 @@ export class IncidentsQueryService extends BaseQueryService<Incident, IncidentQu
     builder
       .where("incident.project_id = :projectId", { projectId })
       .leftJoin("incident.assigned", "assigned")
-      .loadRelationCountAndMap("incident.eventsCount", "incident.events")
       .addSelect(["assigned.name", "assigned.email", "assigned.id", "assigned.gravatar"]);
 
     this.commonQuery(builder, query);

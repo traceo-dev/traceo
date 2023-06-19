@@ -7,7 +7,6 @@ import { Incident } from "./entities/incident.entity";
 import { Session } from "./entities/session.entity";
 import { PostgresMigration } from "./migrations/postgres.migration";
 import { Metric } from "./entities/metric.entity";
-import { Event } from "./entities/event.entity";
 import { ClickhouseMigration } from "./migrations/clickhouse.migration";
 import { Alert } from "./entities/alert.entity";
 import { AlertRule } from "./entities/alert-rule.entity";
@@ -35,8 +34,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         Member,
         Metric,
         Session,
-        User,
-        Event
+        User
       ],
       type: "postgres",
       host: process.env.PG_HOST,

@@ -1,8 +1,8 @@
 import { IMetric } from "@traceo/types";
-import { RadioButtonGroup, Select, Switch } from "@traceo/ui";
+import { Switch } from "@traceo/ui";
 import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
-import { MetricEditOption, markerShapeOptions, stackStrategyOptions } from "./utils";
+import { MetricEditOption, isStackAvailable } from "./utils";
 
 interface Props {
   options: DeepPartial<IMetric>;
@@ -13,12 +13,19 @@ export const editMetricStackForm = (props: Props) => {
   const { options, setOptions } = props;
   const forms: MetricEditOption[] = [];
 
+  if (!isStackAvailable(props.options.series)) {
+    setOptions((opt) => {
+      opt.config.stack.show = false;
+    });
+  }
+
   forms.push({
     label: "Show stack",
     labelPosition: "horizontal",
     component: (
       <Switch
         value={options.config.stack?.show}
+        disabled={!isStackAvailable(props.options.series)}
         onChange={(e) => {
           setOptions((opt) => {
             opt.config.stack.show = e.target["checked"];
@@ -28,22 +35,22 @@ export const editMetricStackForm = (props: Props) => {
     )
   });
 
-  forms.push({
-    label: "Strategy",
-    labelPosition: "vertical",
-    component: (
-      <Select
-        isDisabled={!options.config.stack.show}
-        options={stackStrategyOptions}
-        defaultValue={options.config.stack?.strategy || "samesign"}
-        onChange={(a) => {
-          setOptions((opt) => {
-            opt.config.stack.strategy = a?.value;
-          });
-        }}
-      />
-    )
-  });
+  // forms.push({
+  //   label: "Strategy",
+  //   labelPosition: "vertical",
+  //   component: (
+  //     <Select
+  //       isDisabled={!options.config.stack.show}
+  //       options={stackStrategyOptions}
+  //       defaultValue={options.config.stack?.strategy || "samesign"}
+  //       onChange={(a) => {
+  //         setOptions((opt) => {
+  //           opt.config.stack.strategy = a?.value;
+  //         });
+  //       }}
+  //     />
+  //   )
+  // });
 
   return forms;
 };
@@ -67,21 +74,21 @@ export const editMetricMarkerForm = (props: Props) => {
     )
   });
 
-  forms.push({
-    label: "Markers shape",
-    labelPosition: "vertical",
-    component: (
-      <Select
-        options={markerShapeOptions}
-        defaultValue={options.config.line.marker.shape || "rect"}
-        onChange={(a) => {
-          setOptions((opt) => {
-            opt.config.line.marker.shape = a?.value;
-          });
-        }}
-      />
-    )
-  });
+  // forms.push({
+  //   label: "Markers shape",
+  //   labelPosition: "vertical",
+  //   component: (
+  //     <Select
+  //       options={markerShapeOptions}
+  //       defaultValue={options.config.line.marker.shape || "rect"}
+  //       onChange={(a) => {
+  //         setOptions((opt) => {
+  //           opt.config.line.marker.shape = a?.value;
+  //         });
+  //       }}
+  //     />
+  //   )
+  // });
 
   return forms;
 };
@@ -127,31 +134,31 @@ export const editMetricLegendForm = (props: Props) => {
     )
   });
 
-  if (options.config.legend.show) {
-    forms.push({
-      label: "Legend position",
-      component: (
-        <RadioButtonGroup
-          options={[
-            {
-              label: "Horizontal",
-              value: "horizontal"
-            },
-            {
-              label: "Vertical",
-              value: "vertical"
-            }
-          ]}
-          value={options.config.legend.orient}
-          onChange={(e) => {
-            setOptions((opt) => {
-              opt.config.legend.orient = e;
-            });
-          }}
-        />
-      )
-    });
-  }
+  // if (options.config.legend.show) {
+  //   forms.push({
+  //     label: "Legend position",
+  //     component: (
+  //       <RadioButtonGroup
+  //         options={[
+  //           {
+  //             label: "Horizontal",
+  //             value: "horizontal"
+  //           },
+  //           {
+  //             label: "Vertical",
+  //             value: "vertical"
+  //           }
+  //         ]}
+  //         value={options.config.legend.orient}
+  //         onChange={(e) => {
+  //           setOptions((opt) => {
+  //             opt.config.legend.orient = e;
+  //           });
+  //         }}
+  //       />
+  //     )
+  //   });
+  // }
 
   return forms;
 };

@@ -34,7 +34,7 @@ export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
     },
     {
       href: "/dashboard/admin/apps",
-      label: "Applications",
+      label: "Projects",
       key: "apps",
       icon: <AppstoreFilled />
     },

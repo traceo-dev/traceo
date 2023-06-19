@@ -12,8 +12,6 @@ import { IncidentsController } from "./incidents/incidents.controller";
 import { IncidentsModule } from "./incidents/incidents.module";
 import { MetricsController } from "./metrics/metrics.controller";
 import { MetricsModule } from "./metrics/metrics.module";
-import { StatisticsController } from "./statistics/statistics.controller";
-import { StatisticsModule } from "./statistics/statistics.module";
 import { UsersController } from "./user/users.controller";
 import { ProjectsController } from "./project/projects.controller";
 import { RequestContextMiddleware } from "../common/middlewares/request-context/request-context.middleware";
@@ -38,7 +36,6 @@ const apiControllers = [
   ProjectsController,
   MemberController,
   IncidentsController,
-  StatisticsController,
   MetricsController,
   AuthController,
   ViewController,
@@ -55,7 +52,6 @@ const apiControllers = [
     ProjectModule,
     MemberModule,
     IncidentsModule,
-    StatisticsModule,
     HttpModule,
     MetricsModule,
     ViewModule,

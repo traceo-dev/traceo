@@ -56,9 +56,9 @@ export const InfoSection = () => {
           {dateUtils.formatDate(incident?.lastEventAt, "DD MMM YYYY, HH:mm")}
         </Typography>
       </FieldLabel>
-      <FieldLabel label="Total errors">
+      {/* <FieldLabel label="Total errors">
         <Typography weight="normal">{incident?.eventsCount}</Typography>
-      </FieldLabel>
+      </FieldLabel> */}
     </Card>
   );
 };

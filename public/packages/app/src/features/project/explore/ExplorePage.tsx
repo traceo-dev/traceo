@@ -23,14 +23,14 @@ const exploreOptions: SelectOptionProps[] = [
     icon: <AlignLeftOutlined className="text-yellow-500" />
   },
   {
-    label: "Traces",
-    value: EXPLORE_TYPE.TRACING,
-    icon: <NodeExpandOutlined className="text-yellow-500" />
-  },
-  {
     label: "Metrics",
     value: EXPLORE_TYPE.METRICS,
     icon: <BarChartOutlined className="text-yellow-500" />
+  },
+  {
+    label: "Traces",
+    value: EXPLORE_TYPE.TRACING,
+    icon: <NodeExpandOutlined className="text-yellow-500" />
   }
 ];
 

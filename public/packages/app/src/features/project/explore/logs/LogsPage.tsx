@@ -1,5 +1,5 @@
-import { ILog, LogsQueryProps, TimeRange } from "@traceo/types";
-import { forwardRef, lazy, useImperativeHandle, useRef, useState } from "react";
+import { ILog, LogsQueryProps, TimeRange, UplotDataType } from "@traceo/types";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { LogsList } from "./LogsList";
@@ -19,10 +19,7 @@ import { Field } from "../components/Field";
 import { InlineFields } from "../components/InlineFields";
 import { ActionButton } from "../../../../core/components/ActionButton";
 import { ButtonOptionsWrapper } from "../components";
-
-const LazyLogsExplorePlot = lazy(
-  () => import("../../../../core/components/Charts/Logs/LogsExploreChart")
-);
+import { UplotLogsGraph } from "./UplotLogsGraph";
 
 export const LogsPage = forwardRef(
   (
@@ -39,7 +36,7 @@ export const LogsPage = forwardRef(
     const inputRef = useRef<HTMLInputElement>(null);
 
     const [logs, setLogs] = useState<ILog[]>([]);
-    const [graph, setGraph] = useState<[number, number][]>([]);
+    const [graph, setGraph] = useState<UplotDataType>([[]]);
 
     const [graphLoading, setGraphLoading] = useState<boolean>(false);
 
@@ -165,20 +162,21 @@ export const LogsPage = forwardRef(
         <OptionsCollapseGroup
           title="Graph"
           deafultCollapsed={false}
-          loading={graph?.length > 0 && graphLoading}
+          loading={graphLoading}
+          scrollableBody={false}
         >
           <ConditionalWrapper
-            isLoading={graph?.length === 0 && graphLoading}
-            isEmpty={graph && graph.length === 0}
+            isLoading={graph && graph[0].length === 0 && graphLoading}
+            isEmpty={!graph || (graph && graph[0].length <= 1)}
             emptyView={<DataNotFound label="No results for graph" />}
           >
-            <LazyLogsExplorePlot ranges={ranges} graph={graph} zoom={true} onZoom={onZoom} />
+            <UplotLogsGraph data={graph} onZoom={onZoom} />
           </ConditionalWrapper>
         </OptionsCollapseGroup>
 
         <OptionsCollapseGroup
           title="Logs"
-          deafultCollapsed={false}
+          deafultCollapsed={true}
           loading={loading}
           extra={
             <span className="text-xs font-semibold text-primary">

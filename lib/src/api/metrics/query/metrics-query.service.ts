@@ -1,11 +1,12 @@
 import { Injectable, Logger } from "@nestjs/common";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
-import { ExploreMetricsQueryDto, MetricQueryDto, MetricsQueryDto } from "../../../common/types/dto/metrics.dto";
+import { ExploreMetricsQueryDto, MetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { IMetric, MetricPreviewType } from "@traceo/types";
 import { Metric } from "../../../db/entities/metric.entity";
 import { Brackets, EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
+import { calculateInterval } from "../../../common/helpers/interval";
 
 export type AggregateTimeSeries = { minute: number, value: number }[];
 
@@ -117,19 +118,26 @@ export class MetricsQueryService {
     }
   }
 
-  /**
-   * TODO: aggregate results from time series in clickhouse query instead here. 
-   */
   private async mapAggregateDataSource(projectId: string, query: ExploreMetricsQueryDto) {
-    let response = [];
+    let series = [];
+    let time = [];
+
+    const interval = calculateInterval({
+      from: query.from,
+      to: query.to
+    });
 
     for (const field of query.fields) {
-      const aggregatedMetric = await this.clickhouseService.aggregateMetrics(projectId, field, query);
-      const result = aggregatedMetric.map(({ minute, value }) => ([minute, value]));
-      response.push(result);
+      const aggregatedMetric = await this.clickhouseService.aggregateMetrics(projectId, field, query, interval);
+      if (time.length === 0) {
+        time = aggregatedMetric.map(({ minute }) => minute);
+      }
+
+      const serie = aggregatedMetric.map(({ value }) => value);
+      series.push(serie);
     }
 
-    return response;
+    return [time, ...series];
   }
 
   public async getMetricFields(projectId: string): Promise<ApiResponse<any>> {

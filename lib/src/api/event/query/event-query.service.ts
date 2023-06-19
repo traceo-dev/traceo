@@ -1,38 +1,29 @@
 import { Injectable } from "@nestjs/common/decorators";
 import { Logger } from "@nestjs/common";
-import { EntityManager } from "typeorm";
-import { IEvent, PlotData } from "@traceo/types";
-import { Event } from "../../../db/entities/event.entity";
+import { IEvent, UplotDataType } from "@traceo/types";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
-import dateUtils from "../../../common/helpers/dateUtils";
 import dayjs from "dayjs";
+import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
+
+type GraphResponse = {
+    graph: UplotDataType
+}
 
 @Injectable()
 export class EventQueryService {
     private readonly logger: Logger;
 
     constructor(
-        private readonly entityManger: EntityManager
+        private readonly clickhouse: ClickhouseService
     ) {
         this.logger = new Logger(EventQueryService.name)
     }
 
     public async getEventsForIncident(incidentId: string): Promise<ApiResponse<IEvent[]>> {
         try {
-            const events = await this.entityManger.query(`SELECT * FROM event WHERE incident_id = '${incidentId}'`);
-            const response = events.map((event) => ({ ...event, details: JSON.parse(event.details) }))
-            return new ApiResponse("success", undefined, response);
-        } catch (error) {
-            this.logger.error(`[${this.getEventsForIncident.name}] Caused by: ${error}`);
-            return new ApiResponse("error", INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    public async getGroupedEventsForIncident(incidentId: string): Promise<ApiResponse<any>> {
-        try {
-            const events = await this.entityManger.query(`SELECT id, date FROM event WHERE incident_id = '${incidentId}'`);
-            const response = this.groupEventsByTime(events);
+            const events = await this.clickhouse.loadEventsForIncident(incidentId);
+            const response = events.map((event) => ({ ...event, details: event.details ? JSON.parse(event.details) : {} }))
 
             return new ApiResponse("success", undefined, response);
         } catch (error) {
@@ -41,59 +32,97 @@ export class EventQueryService {
         }
     }
 
-    /**
-     * Return events grouped by date for chart presentation
-     * 
-     * [{ date: [unix], count: [number] }]
-     */
-    private groupEventsByTime(events: Event[]) {
-        const data: PlotData[] = [];
+    // incident analytics
 
-        if (!events) {
-            return;
-        }
+    public async getOverviewEventsForIncidentGraph(id: string): Promise<ApiResponse<any>> {
+        const to = dayjs().add(1, "day").utc().unix();
+        const from = dayjs().subtract(1, "months").utc().unix();
 
-        const sortedDates = events?.sort((a, b) => a?.date - b?.date);
-        const beginDate = events[0];
-
-        let currentDate = dateUtils.endOf(dayjs.unix(beginDate?.date).subtract(7, "day").unix());
-        while (currentDate <= dateUtils.endOf()) {
-            const currentErrors = sortedDates.filter(
-                ({ date }) => dateUtils.endOf(date) === dateUtils.endOf(currentDate)
-            );
-            data.push({ date: dateUtils.endOf(currentDate), count: currentErrors?.length });
-            currentDate = dateUtils.endOf(dayjs.unix(currentDate).add(1, "day").unix());
-        }
-
-        return data;
-    }
-
-    public async getGroupedEventsForProject(id: string): Promise<ApiResponse<PlotData[]>> {
         try {
-            const events: Event[] = await this.entityManger.query(`SELECT * FROM event WHERE project_id = '${id}'`);
-            const response = this.groupEventsByTime(events);
-
-            return new ApiResponse("success", undefined, response);
+            const graph = await this.getIncidentGraphPayload(id, from, to, 60 * 24);
+            return new ApiResponse("success", undefined, {
+                graph: graph
+            });
         } catch (error) {
-            this.logger.error(`[${this.getEventsForIncident.name}] Caused by: ${error}`);
+            this.logger.error(`[${this.getOverviewEventsForIncidentGraph.name}] Caused by: ${error}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR);
         }
     }
 
-    public async getTodaysEventsForIncident(id: string, query: { from: number }): Promise<ApiResponse<IEvent[]>> {
-        try {
-            const events: IEvent[] = await this.entityManger.query(`
-                SELECT id, date 
-                FROM event 
-                WHERE incident_id = '${id}'
-                AND date >= ${query.from}
-                ORDER BY date DESC
-            `);
+    public async getTodayEventsForIncidentGraph(id: string): Promise<ApiResponse<IEvent[]>> {
+        const from = dayjs().startOf("day").unix();
+        const to = dayjs().endOf("day").add(1, "h").unix();
 
-            return new ApiResponse("success", undefined, events);
+        try {
+            const todayCount = await this.clickhouse.loadTodayIncidentEventsCount(id);
+            const graph = await this.getIncidentGraphPayload(id, from, to);
+
+            return new ApiResponse("success", undefined, {
+                graph: graph,
+                count: todayCount
+            });
         } catch (error) {
-            this.logger.error(`[${this.getTodaysEventsForIncident.name}] Caused by: ${error}`);
+            this.logger.error(`[${this.getTodayEventsForIncidentGraph.name}] Caused by: ${error}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR);
         }
+    }
+
+    // project analytics
+
+    public async getTodayEventsGraph(projectId: string): Promise<ApiResponse<GraphResponse>> {
+        const from = dayjs().startOf("day").unix();
+        const to = dayjs().endOf("day").add(1, "h").unix();
+
+        try {
+            const todayCount = await this.clickhouse.loadTodayEventsCount(projectId);
+            const graph = await this.getProjectGraphPayload(projectId, from, to);
+
+            return new ApiResponse("success", undefined, {
+                graph,
+                count: todayCount
+            })
+        } catch (error) {
+            this.logger.error(`[${this.getTodayEventsGraph.name}] Caused by: ${error}`);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public async getTotalOverviewGraph(projectId: string): Promise<ApiResponse<GraphResponse>> {
+        const from = dayjs().subtract(1, "months").unix();
+        const to = dayjs().add(12, "h").utc().unix();
+
+        try {
+            const graph = await this.getProjectGraphPayload(projectId, from, to);
+            return new ApiResponse("success", undefined, {
+                graph
+            })
+        } catch (error) {
+            this.logger.error(`[${this.getTotalOverviewGraph.name}] Caused by: ${error}`);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // helpers
+
+    private async getIncidentGraphPayload(incidentId: string, from: number, to: number, interval = 60) {
+        const events = await this.clickhouse.loadIncidentEventsGraph(incidentId, {
+            from, to, interval
+        });
+
+        const time = events.map((e) => e.time);
+        const count = events.map((e) => e.count);
+
+        return [time, count];
+    }
+
+    private async getProjectGraphPayload(projectId: string, from: number, to: number) {
+        const eventsGraph = await this.clickhouse.loadProjectEventsGraph(projectId, {
+            from, to, interval: 60
+        });
+
+        const time = eventsGraph.map((e) => e.time);
+        const count = eventsGraph.map((e) => e.count);
+
+        return [time, count];
     }
 }

@@ -12,7 +12,7 @@ interface RadioButtonProps
 }
 
 const mapRadioButtonSize: Record<RadioButtonSize, string> = {
-  sm: "py-0.5 px-3",
+  sm: "py-0.5 px-3 text-[14px]",
   md: "py-1 px-4",
   lg: "py-2 px-6"
 };
@@ -36,7 +36,7 @@ export const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
           className={joinClasses(
             conditionClass(isSelected, "bg-light-secondary", "bg-canvas"),
             mapRadioButtonSize[size],
-            "h-full inline-block relative transition duration-200 font-semibold rounded-sm text-center whitespace-nowrap cursor-pointer"
+            "h-full select-none inline-block relative transition duration-200 font-semibold rounded-sm text-center whitespace-nowrap cursor-pointer"
           )}
         >
           {label}

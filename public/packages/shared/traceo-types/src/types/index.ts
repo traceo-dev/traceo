@@ -9,7 +9,6 @@ export * from "./incident";
 export * from "./log";
 export * from "./metrics";
 export * from "./notifications";
-export * from "./runtime";
 export * from "./session";
 export * from "./statistics";
 export * from "./webSocket";
@@ -39,3 +38,5 @@ export type Setter<S> = (arg: S) => void;
 export type TriggerType = () => void;
 
 export type TimeRange = [number, number];
+
+export type UplotDataType = [number[]];

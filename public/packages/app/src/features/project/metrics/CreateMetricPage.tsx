@@ -165,7 +165,7 @@ const CreateMetricPage = () => {
             </Card>
           </div>
           <div className="col-span-4">
-            <MetricCustomizeForm setOptions={setOptions} options={options} />
+            <MetricCustomizeForm data={[[]]} setOptions={setOptions} options={options} />
           </div>
         </div>
       </Page.Content>

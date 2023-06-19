@@ -1,27 +1,31 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { useProject } from "../../../../core/hooks/useProject";
 import dateUtils from "../../../../core/utils/date";
-import { statisticUtils } from "../../../../core/utils/statistics";
-import { LoadingOutlined, SyncOutlined } from "@ant-design/icons";
-import { ErrorDetails } from "@traceo/types";
-import { Typography, Card } from "@traceo/ui";
+import { SyncOutlined } from "@ant-design/icons";
+import { Typography } from "@traceo/ui";
 import { useParams } from "react-router-dom";
-import IncidentsTodayChart from "../../../../core/components/Charts/Incidents/IncidentsTodayChart";
-import { useMemo } from "react";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
+import { ContentCard } from "../../../../core/components/ContentCard";
+import { UPlotTodayEventsGraph } from "./UPlotTodayEventsGraph";
 
 export const TodaySection = () => {
   const { id } = useParams();
   const { project } = useProject();
 
   const {
-    data: dataSource,
+    data = {
+      count: 0,
+      graph: [[]]
+    },
     isLoading,
     isFetching,
     refetch
-  } = useReactQuery<ErrorDetails[]>({
+  } = useReactQuery<{
+    graph: [number[]];
+    count: number;
+  }>({
     queryKey: [`daily_stats_${id}`],
-    url: "/api/statistics/daily",
+    url: "/api/event/graph/project-daily",
     params: {
       id
     }
@@ -32,48 +36,44 @@ export const TodaySection = () => {
       ? dateUtils.formatDate(project?.lastEventAt, "HH:mm")
       : "--:--";
 
-  const payload = useMemo(() => {
-    return statisticUtils.parseErrorsToTodayPlotSource(dataSource);
-  }, [dataSource]);
+  const isEmpty = data && data?.graph[0].length === 0;
 
   return (
     <div className="grid grid-cols-5 w-full mb-1">
       <div className="col-span-4 h-full">
-        <Card title="Today" className="h-full" extra={isFetching && <LoadingOutlined />}>
-          <ConditionalWrapper isLoading={isLoading}>
-            <IncidentsTodayChart stats={payload.data} />
+        <ContentCard name="Today&apos;s events" className="h-full" loading={isFetching}>
+          <ConditionalWrapper isLoading={isLoading} isEmpty={isEmpty}>
+            <UPlotTodayEventsGraph data={data.graph} />
           </ConditionalWrapper>
-        </Card>
+        </ContentCard>
       </div>
       <div className="col-span-1 ml-1">
         <div className="flex flex-col items-stretch h-full">
           <div className="h-full mb-1">
-            <Card
-              title="Events count"
+            <ContentCard
+              name="Events count"
+              loading={isFetching}
               className="h-full"
               extra={
-                isFetching ? (
-                  <LoadingOutlined />
-                ) : (
-                  <SyncOutlined className="text-xs" onClick={() => refetch()} />
-                )
+                !isFetching &&
+                !isLoading && <SyncOutlined className="text-xs" onClick={() => refetch()} />
               }
             >
-              <ConditionalWrapper isLoading={isLoading}>
+              <ConditionalWrapper isEmpty={isEmpty}>
                 <Typography size="xxl" weight="semibold">
-                  {payload.count || 0}
+                  {data.count || 0}
                 </Typography>
               </ConditionalWrapper>
-            </Card>
+            </ContentCard>
           </div>
           <div className="h-full">
-            <Card className="h-full" title="Last seen">
-              <ConditionalWrapper isLoading={isLoading}>
+            <ContentCard className="h-full" name="Last seen" loading={isFetching}>
+              <ConditionalWrapper isEmpty={isEmpty}>
                 <Typography size="xxl" weight="semibold" className="text-center">
                   {lastEventAt}
                 </Typography>
               </ConditionalWrapper>
-            </Card>
+            </ContentCard>
           </div>
         </div>
       </div>

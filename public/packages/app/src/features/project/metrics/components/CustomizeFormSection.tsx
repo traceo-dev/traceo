@@ -16,16 +16,18 @@ interface Props {
   show?: boolean;
   onDelete?: () => void;
   onHide?: () => void;
+  extra?: JSX.Element;
 }
 export const CustomizeFormSection: FC<Props> = ({
-  children,
-  title,
-  description,
+  children = undefined,
+  title = "",
+  description = undefined,
   show = true,
   defaultMetric = false,
   defaultCollapsed = true,
   onHide,
-  onDelete
+  onDelete,
+  extra = undefined
 }) => {
   const [collapsed, setCollapsed] = useState<boolean>(defaultCollapsed);
 
@@ -72,6 +74,7 @@ export const CustomizeFormSection: FC<Props> = ({
           <Row gap="x-5">
             {onHide && eyeIcon}
             {onDelete && trashIcon}
+            {extra}
           </Row>
         )}
       </Row>

@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { To, useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import { Permissions } from "../../../core/components/Permissions";
-import MetricPreviewChart from "../../../core/components/Charts/Metrics/MetricPreviewChart";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { CheckOutlined, SettingOutlined } from "@ant-design/icons";
@@ -21,6 +20,8 @@ import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { ContentCard } from "../../../core/components/ContentCard";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
+import { UPlotMetricPreviewGraph } from "./components/UPlotMetricPreviewGraph";
+import { notify } from "../../../core/utils/notify";
 
 export const MetricPreviewPage = () => {
   const navigate = useNavigate();
@@ -66,12 +67,36 @@ export const MetricPreviewPage = () => {
     }
   }, [data]);
 
-  if (!options || options.series.length === 0 || isEmptyObject(options)) {
+  if (!options || isEmptyObject(options)) {
     return <TraceoLoading />;
   }
 
   const onSave = async () => {
+    if (!options.name) {
+      notify.error("Metric name is required.");
+      return;
+    }
+
+    const series = options.series;
+    if (series.length === 0) {
+      notify.error("You have to add at least one serie to this metric.");
+      return;
+    }
+
+    const missingName = series.find((serie) => !serie?.name);
+    if (missingName) {
+      notify.error("Your metric serie does not have a required name value.");
+      return;
+    }
+
+    const missingField = series.find((serie) => !serie?.field);
+    if (missingField) {
+      notify.error("Your metric serie does not have a required field value.");
+      return;
+    }
+
     setSaveLoading(true);
+
     await api
       .patch<ApiResponse<string>>(`/api/metrics/${metricId}/update`, options)
       .then(() => {
@@ -172,13 +197,10 @@ export const MetricPreviewPage = () => {
               extra={<MetricTimeToolbar ranges={ranges} setRanges={setRanges} />}
             >
               <ConditionalWrapper isLoading={isLoading}>
-                <MetricPreviewChart
+                <UPlotMetricPreviewGraph
                   datasource={data?.datasource}
-                  isLoading={isLoading}
-                  ranges={ranges}
-                  setRanges={setRanges}
-                  options={options}
-                  activeZoomSelect={!isCustomizeMode}
+                  metric={options as IMetric}
+                  onZoom={setRanges}
                 />
               </ConditionalWrapper>
             </ContentCard>
@@ -200,7 +222,11 @@ export const MetricPreviewPage = () => {
           </div>
           {isCustomizeMode && (
             <div className="col-span-4">
-              <MetricCustomizeForm setOptions={setOptions} options={options} />
+              <MetricCustomizeForm
+                data={data?.datasource}
+                setOptions={setOptions}
+                options={options}
+              />
             </div>
           )}
         </div>

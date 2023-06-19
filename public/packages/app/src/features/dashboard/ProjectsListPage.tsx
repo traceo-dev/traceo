@@ -28,7 +28,7 @@ export const ProjectsListPage = () => {
   return (
     <Page>
       <Page.Content>
-        <Card title="Applications">
+        <Card title="Projects">
           <ProjectsTable />
         </Card>
       </Page.Content>

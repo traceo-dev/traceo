@@ -3,14 +3,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn
 } from "typeorm";
 import { User } from "./user.entity";
-import { Event } from "./event.entity";
 import { Project } from "./project.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IEvent, IIncident, IProject, Platform, SDK, Trace } from "@traceo/types";
+import { IIncident, IProject, Platform, SDK, Trace } from "@traceo/types";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",
@@ -25,7 +23,7 @@ export class Incident extends BaseEntity implements IIncident {
 
   @Column({
     type: "varchar",
-    nullable: true
+    nullable: false
   })
   sdk: SDK;
 
@@ -55,10 +53,17 @@ export class Incident extends BaseEntity implements IIncident {
 
   @Column({
     type: "bigint",
-    nullable: true,
+    nullable: false,
     name: "last_event_at"
   })
-  lastEventAt: number;
+  lastEventAt: number = this.createdAt;
+
+  @Column({
+    type: "bigint",
+    nullable: false,
+    name: "events_count"
+  })
+  eventsCount: number = 0;
 
   @ManyToOne(() => Project, {
     onUpdate: "CASCADE",
@@ -76,10 +81,6 @@ export class Incident extends BaseEntity implements IIncident {
     name: "assigned_id"
   })
   assigned: User;
-
-  @OneToMany(() => Event, (error) => error.incident)
-  events: IEvent[];
-  eventsCount: number;
 
   @Column({
     type: "simple-json",

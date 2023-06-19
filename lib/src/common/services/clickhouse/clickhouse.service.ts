@@ -1,10 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { ClickHouseClient, ClickHouseClientConfigOptions, createClient, QueryParams } from "@clickhouse/client";
-import { ILog, PerformanceQuery, Performance, Notification, Span } from "@traceo/types";
+import { ILog, PerformanceQuery, Performance, Notification, Span, IEvent } from "@traceo/types";
 import { ExploreMetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { QueryTracingDto } from "../../../common/types/dto/tracing";
 import { LogsQuery } from "../../../common/types/dto/logs.dto";
 import { AggregateTimeSeries } from "../../../api/metrics/query/metrics-query.service";
+import dayjs from "dayjs";
 
 @Injectable()
 export class ClickhouseService {
@@ -69,7 +70,8 @@ export class ClickhouseService {
     public async aggregateMetrics(
         projectId: string,
         name: string,
-        query: ExploreMetricsQueryDto
+        query: ExploreMetricsQueryDto,
+        interval: number
     ): Promise<AggregateTimeSeries> {
         /**
          * TIPS: 
@@ -78,7 +80,7 @@ export class ClickhouseService {
          */
         const sqlQuery = `
             SELECT
-                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${query.interval} MINUTE)) as minute,
+                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) as minute,
                 round(AVG(value), 2) as value
             FROM metrics
             WHERE
@@ -90,7 +92,7 @@ export class ClickhouseService {
             HAVING ${query.valueMax ? `value <= ${query.valueMax}` : '1=1'} AND ${query.valueMin ? `value >= ${query.valueMin}` : '1=1'}
             ORDER BY minute ASC
             WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${query.from}))) TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
-            STEP ${query.interval * 60}
+            STEP ${interval}
         `;
 
         const logs = await this.query({
@@ -153,15 +155,13 @@ export class ClickhouseService {
      * Clickhouse aggregate query to return time series 
      * response with minute and count as interval between two unix's.
      * 
-     * TODO: add mapping to return values in [[minute, count]] format.
-     * 
      * @param query 
      * @param interval in seconds
      */
     public async loadLogsTimeSeries(query: LogsQuery, interval: number): Promise<{ minute: number, count: number }[]> {
         const sqlQuery = `
             SELECT
-                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL 1 MINUTE)) as minute,
+                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) as minute,
                 COUNT(*) as count
             FROM logs
             WHERE 
@@ -171,8 +171,8 @@ export class ClickhouseService {
             ${query.search ? `AND LOWER(message) LIKE '%${query.search?.toLowerCase() ?? ''}%'` : ''}
             GROUP BY minute
             ORDER BY minute ASC
-            WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${query.from})))
-                      TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
+            WITH FILL FROM toUnixTimestamp(toDateTime(${query.from}))
+                      TO toUnixTimestamp(toDateTime(${query.to}))
             STEP ${interval}
         `;
 
@@ -331,5 +331,136 @@ export class ClickhouseService {
 
         const resp = await spans.json<Span[]>();
         return resp;
+    }
+
+    // INCIDENTS EVENTS
+
+    public async loadEventsForIncident(incident_id: string): Promise<IEvent[]> {
+        const sqlQuery = `
+            SELECT * FROM events 
+            WHERE incident_id = '${incident_id}'
+            ORDER BY timestamp DESC
+        `;
+
+        const events = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        const resp = await events.json<IEvent[]>();
+        return resp;
+    }
+
+    public async loadEventsForProject(project_id: string): Promise<IEvent[]> {
+        const sqlQuery = `
+            SELECT * FROM events 
+            WHERE project_id = '${project_id}'
+            ORDER BY timestamp DESC
+        `;
+
+        const events = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        const resp = await events.json<IEvent[]>();
+        return resp;
+    }
+
+    public async loadTodayEventsCount(project_id: string): Promise<number> {
+        const from = dayjs().startOf("day").utc().unix();
+        const to = dayjs().endOf("day").utc().unix();
+
+        const sqlQuery = `
+            SELECT count() as count
+            FROM events 
+            WHERE precise_timestamp >= toUnixTimestamp(toDateTime(${from})) 
+            AND precise_timestamp <= toUnixTimestamp(toDateTime(${to}))
+            AND project_id = '${project_id}'
+        `;
+
+        const resp = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        const json = await resp.json();
+        const count = json[0].count;
+        return await count;
+    }
+
+    public async loadTodayIncidentEventsCount(incident_id: string): Promise<number> {
+        const from = dayjs().startOf("day").utc().unix();
+        const to = dayjs().endOf("day").utc().unix();
+
+        const sqlQuery = `
+            SELECT count() as count
+            FROM events 
+            WHERE precise_timestamp >= toUnixTimestamp(toDateTime(${from})) 
+            AND precise_timestamp <= toUnixTimestamp(toDateTime(${to}))
+            AND incident_id = '${incident_id}'
+        `;
+
+        const resp = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        const json = await resp.json();
+        const count = json[0].count;
+        return await count;
+    }
+
+    public async loadIncidentEventsGraph(incident_id: string, { from, to, interval }: { from: number, to: number, interval: number }): Promise<{ time: number, count: number }[]> {
+        const STEP = 60 * interval; //5 minutes step
+
+        const sqlQuery = `
+            SELECT
+                toUnixTimestamp(toStartOfInterval(toDateTime(precise_timestamp), INTERVAL ${interval} MINUTE)) as time,
+                COUNT(*) as count
+            FROM events
+            WHERE precise_timestamp >= toUnixTimestamp(toDateTime(${from})) 
+            AND precise_timestamp <= toUnixTimestamp(toDateTime(${to}))
+            AND incident_id = '${incident_id}'
+            GROUP BY time
+            ORDER BY time ASC
+            WITH FILL FROM toUnixTimestamp(toDateTime(${from})) TO toUnixTimestamp(toDateTime(${to}))
+            STEP ${STEP}
+        `;
+
+        const events = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        return await events.json();
+    }
+
+    /**
+     * interval provided in minutes
+     */
+    public async loadProjectEventsGraph(project_id: string, { from, to, interval }: { from: number, to: number, interval: number }): Promise<{ time: number, count: number }[]> {
+        const STEP = 60 * interval; //step should be in seconds
+
+        const sqlQuery = `
+            SELECT
+                toUnixTimestamp(toStartOfInterval(toDateTime(precise_timestamp), INTERVAL ${interval} minute)) as time,
+                COUNT(*) as count
+            FROM events
+            WHERE precise_timestamp >= toUnixTimestamp(toDateTime(${from})) 
+            AND precise_timestamp <= toUnixTimestamp(toDateTime(${to}))
+            AND project_id = '${project_id}'
+            GROUP BY time
+            ORDER BY time ASC
+            WITH FILL FROM toUnixTimestamp(toDateTime(${from})) TO toUnixTimestamp(toDateTime(${to}))
+            STEP ${STEP}
+        `;
+
+        const events = await this.query({
+            query: sqlQuery,
+            format: "JSONEachRow"
+        });
+
+        return await events.json();
     }
 }

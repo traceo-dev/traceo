@@ -103,26 +103,26 @@ export const editSerieForm = (props: SerieFormProps) => {
     )
   });
 
-  if (serie.config.type === "line") {
-    forms.push({
-      label: "Line width",
-      component: (
-        <Input
-          type="number"
-          min={0}
-          max={10}
-          value={serie.config.lineWidth}
-          onChange={(e) => {
-            if (e.target["value"] <= 10) {
-              setOptions((opt) => {
-                opt.series[index].config.lineWidth = Number(e.target["value"]);
-              });
-            }
-          }}
-        />
-      )
-    });
+  forms.push({
+    label: "Line width",
+    component: (
+      <Input
+        type="number"
+        min={0}
+        max={10}
+        value={serie.config.lineWidth}
+        onChange={(e) => {
+          if (e.target["value"] <= 10) {
+            setOptions((opt) => {
+              opt.series[index].config.lineWidth = Number(e.target["value"]);
+            });
+          }
+        }}
+      />
+    )
+  });
 
+  if (serie.config.type === "line") {
     forms.push({
       label: "Show area",
       labelPosition: "horizontal",

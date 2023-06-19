@@ -10,6 +10,7 @@ interface Props {
   footer?: JSX.Element;
   extra?: JSX.Element;
   loading?: boolean;
+  scrollableBody?: boolean;
 }
 export const OptionsCollapseGroup = ({
   title = undefined,
@@ -18,7 +19,8 @@ export const OptionsCollapseGroup = ({
   deafultCollapsed = true,
   footer = undefined,
   extra = undefined,
-  loading = false
+  loading = false,
+  scrollableBody = true
 }: Props) => {
   const [collapsed, setCollapsed] = useState<boolean>(deafultCollapsed);
 
@@ -46,7 +48,11 @@ export const OptionsCollapseGroup = ({
         {extra && extra}
       </Row>
 
-      {!collapsed && <div className="p-3 pt-5 overflow-x-auto">{children}</div>}
+      {!collapsed && (
+        <div className={joinClasses("p-3 pt-5", conditionClass(scrollableBody, "overflow-auto"))}>
+          {children}
+        </div>
+      )}
 
       {footer && <div className="pl-5 py-3">{footer}</div>}
     </div>

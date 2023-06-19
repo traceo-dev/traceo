@@ -1,9 +1,9 @@
-import { IProject } from "./project";
-import { IIncident, IncidentEventPayload } from "./incident";
+import { IncidentEventPayload } from "./incident";
 
 export interface IEvent extends Pick<IncidentEventPayload, "details"> {
     id: string;
-    date: number;
-    incident: IIncident;
-    project: IProject;
+    timestamp?: number;
+    precise_timestamp: number;
+    incident_id: string;
+    project_id: string;
 }

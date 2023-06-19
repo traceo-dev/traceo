@@ -59,7 +59,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
           rows
         </span>
       )}
-      <Row className="border border-solid rounded border-light-secondary max-w-min">
+      <Row className="text-xs border border-solid rounded border-light-secondary max-w-min">
         <PaginationButton
           disabled={currentPage === 1}
           onClick={() => handlePageChange(currentPage - 1)}

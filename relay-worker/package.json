@@ -10,7 +10,6 @@
   ],
   "dependencies": {
     "@clickhouse/client": "^0.0.16",
-    "@traceo-sdk/node": "^0.31.9",
     "@traceo/types": "0.0.0",
     "@types/jest": "^29.5.1",
     "@types/multer": "^1.4.7",

@@ -1,10 +1,8 @@
-import { ExceptionHandlers } from "@traceo-sdk/node";
 import { Pool } from "pg";
-import { logger } from "..";
 import { RelayWorkerConfig } from "../config";
 
 export const createPostgresClient = async (configs: RelayWorkerConfig) => {
-    logger.log('☢ Connection to Postgres ...');
+    console.log('☢ Connection to Postgres ...');
 
     const pool = new Pool({
         database: configs.PG_DB_NAME,
@@ -24,13 +22,11 @@ export const createPostgresClient = async (configs: RelayWorkerConfig) => {
          */
         await pool.query('SELECT datname FROM pg_database;');
 
-        logger.log('✔ Postgres is ready.');
+        console.log('✔ Postgres is ready.');
 
         return { pool, client };
     } catch (err) {
-        logger.error(`❌ Could not connect to Postgres. Caused by: ${err}`);
-        ExceptionHandlers.catchException(err);
-
+        console.error(`❌ Could not connect to Postgres. Caused by: ${err}`);
         pool?.end();
 
         throw err;

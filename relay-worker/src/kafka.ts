@@ -2,12 +2,10 @@ import { Consumer, Kafka, logLevel } from "kafkajs";
 import { RelayWorkerConfig } from "./config";
 import { eventHandler } from "./handlers";
 import { KAFKA_TOPIC } from "@traceo/types";
-import { logger } from ".";
-import { ExceptionHandlers } from "@traceo-sdk/node";
 import { Core } from "./types";
 
 export const createKafkaClient = async (configs: RelayWorkerConfig) => {
-    logger.log('☢ Connection to Kafka ...');
+    console.log('☢ Connection to Kafka ...');
 
     const kafka = new Kafka({
         brokers: configs.KAFKA_HOSTS.split(","),
@@ -27,7 +25,7 @@ export const createKafkaClient = async (configs: RelayWorkerConfig) => {
     const topics = Object.values(KAFKA_TOPIC).filter((t) => !kafkaTopics.includes(t)).map((topic) => ({ topic }));
     if (topics.length > 0) {
         await admin.createTopics({ topics: topics });
-        logger.log(`✔ Created kafka topics: ${topics}`);
+        console.log(`✔ Created kafka topics: ${topics}`);
     }
     await admin.disconnect()
 
@@ -41,7 +39,7 @@ export const createKafkaClient = async (configs: RelayWorkerConfig) => {
 
     await producer.connect();
 
-    logger.log('✔ Kafka is ready.')
+    console.log('✔ Kafka is ready.')
 
     return { kafka, producer };
 }
@@ -56,15 +54,15 @@ export const startEventConsumer = async (
     });
 
     consumer.on('consumer.group_join', ({ payload }) => {
-        logger.info(`✔ Kafka join group: ${payload.groupId}`)
+        console.info(`✔ Kafka join group: ${payload.groupId}`)
     });
 
     consumer.on('consumer.connect', () => {
-        logger.info('✔ Kafka consumer connected.')
+        console.info('✔ Kafka consumer connected.')
     });
 
     consumer.on('consumer.disconnect', () => {
-        logger.info('❌ Kafka consumer disconnected!')
+        console.info('❌ Kafka consumer disconnected!')
     });
 
     const topics: string[] = Object.values(KAFKA_TOPIC).map((topic) => topic);
@@ -86,9 +84,7 @@ export const startEventConsumer = async (
         });
     } catch (err) {
         const message = `❌ Error while running kafka consumer: ${err}`;
-        logger.error(message);
-        ExceptionHandlers.catchException(message);
-
+        console.error(message);
         throw err;
     }
 

@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { LogsController } from './logs.controller';
 import { PassportModule } from '@nestjs/passport';
-import { ClickhouseModule } from 'src/common/services/clickhouse/clickhouse.module';
+import { ClickhouseModule } from '../../common/services/clickhouse/clickhouse.module';
 import { LogsQueryService } from './logs-query/logs-query.service';
 
 @Module({

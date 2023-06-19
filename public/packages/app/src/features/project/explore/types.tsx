@@ -21,6 +21,6 @@ export const GRAPH_TYPE_OPTIONS: RatioButtonGroupOption[] = [
   },
   {
     label: <DotChartOutlined />,
-    value: "scatter"
+    value: "points"
   }
 ];

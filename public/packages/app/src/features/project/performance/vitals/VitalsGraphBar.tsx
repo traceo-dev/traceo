@@ -31,7 +31,7 @@ export const VitalsGraphBar = ({ name, performances }: Props) => {
   }
 
   return (
-    <Row gap="x-5" className="justify-end">
+    <Row gap="x-3" className="justify-end text-sm">
       {p75 && <span className="whitespace-nowrap font-semibold">p75 ({p75})</span>}
       {healthPercentage ? (
         Object.entries(healthPercentage).map(([key, value], index) => (

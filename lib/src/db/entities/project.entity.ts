@@ -17,7 +17,7 @@ export class Project extends BaseEntity implements IProject {
   @Column({ type: "varchar", unique: true })
   name: string;
 
-  @Column({ type: "varchar", nullable: true })
+  @Column({ type: "varchar", nullable: false })
   sdk: SDK;
 
   @Column({
@@ -55,13 +55,6 @@ export class Project extends BaseEntity implements IProject {
   })
   incidents?: IIncident[];
   incidentsCount: number = 0;
-
-  @Column({
-    type: "simple-json",
-    nullable: true,
-    name: "runtime_config"
-  })
-  runtimeConfig?: Dictionary<string | number | undefined | null>;
 
   @OneToMany(() => Metric, (metric) => metric.project, {
     onUpdate: "CASCADE",

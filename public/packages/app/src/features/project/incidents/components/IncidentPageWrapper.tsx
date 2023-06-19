@@ -37,11 +37,11 @@ const IncidentPageWrapper = ({ children }) => {
     {
       href: "/project/:id/incidents/:iid/events",
       label: "Events",
-      badge: (
-        <div className="bg-yellow-600 text-black text-xs border rounded-full px-2 font-semibold">
-          {incident.eventsCount}
-        </div>
-      ),
+      // badge: (
+      //   <div className="bg-yellow-600 text-black text-xs border rounded-full px-2 font-semibold">
+      //     {incident.eventsCount}
+      //   </div>
+      // ),
       key: "events",
       icon: <WarningOutlined />
     }
