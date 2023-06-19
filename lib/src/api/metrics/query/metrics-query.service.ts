@@ -6,6 +6,7 @@ import { IMetric, MetricPreviewType } from "@traceo/types";
 import { Metric } from "../../../db/entities/metric.entity";
 import { Brackets, EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
+import { calculateInterval } from "src/common/helpers/interval";
 
 export type AggregateTimeSeries = { minute: number, value: number }[];
 
@@ -121,8 +122,13 @@ export class MetricsQueryService {
     let series = [];
     let time = [];
 
+    const interval = calculateInterval({
+      from: query.from,
+      to: query.to
+    });
+
     for (const field of query.fields) {
-      const aggregatedMetric = await this.clickhouseService.aggregateMetrics(projectId, field, query);
+      const aggregatedMetric = await this.clickhouseService.aggregateMetrics(projectId, field, query, interval);
       if (time.length === 0) {
         time = aggregatedMetric.map(({ minute }) => minute);
       }

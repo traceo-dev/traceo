@@ -70,7 +70,8 @@ export class ClickhouseService {
     public async aggregateMetrics(
         projectId: string,
         name: string,
-        query: ExploreMetricsQueryDto
+        query: ExploreMetricsQueryDto,
+        interval: number
     ): Promise<AggregateTimeSeries> {
         /**
          * TIPS: 
@@ -79,7 +80,7 @@ export class ClickhouseService {
          */
         const sqlQuery = `
             SELECT
-                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${query.interval} MINUTE)) as minute,
+                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) as minute,
                 round(AVG(value), 2) as value
             FROM metrics
             WHERE
@@ -91,7 +92,7 @@ export class ClickhouseService {
             HAVING ${query.valueMax ? `value <= ${query.valueMax}` : '1=1'} AND ${query.valueMin ? `value >= ${query.valueMin}` : '1=1'}
             ORDER BY minute ASC
             WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${query.from}))) TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
-            STEP ${query.interval * 60}
+            STEP ${interval}
         `;
 
         const logs = await this.query({

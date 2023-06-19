@@ -80,7 +80,6 @@ export class UserQueryService extends BaseQueryService<User, BaseDtoQuery> {
     try {
       const userId = RequestContext.user.id;
       const notifications: Notification[] = await this.clickhouseService.loadUserNotifications(userId);
-      console.log("n: ", notifications);
       
       return new ApiResponse("success", undefined, notifications);
     } catch (error) {
