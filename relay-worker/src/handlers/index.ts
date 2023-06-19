@@ -1,8 +1,6 @@
 import { KafkaMessage } from "kafkajs";
 import { KAFKA_TOPIC } from "@traceo/types";
 import { handleIncidentEvent } from "./process-event-handler";
-import { logger } from "..";
-import { ExceptionHandlers } from "@traceo-sdk/node";
 import { handleLogsEvent } from "./process-logs-handler";
 import { Core } from "../types";
 import { handleMetricsEvent } from "./process-metrics-handler";
@@ -32,7 +30,7 @@ export const eventHandler = async ({
     const kafkaMessage = message.value.toString();
 
     if (!db) {
-        ExceptionHandlers.catchException(new Error(`❌ Database instance has not been initialized inside Core. Cannot process incoming events.`))
+        console.error(`❌ Database instance has not been properly initialized. Cannot process incoming events.`)
         return;
     }
 
@@ -40,9 +38,7 @@ export const eventHandler = async ({
 
     if (!handler) {
         const message = `❌ Cannot find handler for this topic: ${topic}`;
-        logger.error(message);
-
-        ExceptionHandlers.catchException(new Error(message));
+        console.error(message);
 
         return;
     }

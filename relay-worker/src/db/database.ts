@@ -1,6 +1,4 @@
 import { Pool, PoolClient, QueryResult } from "pg";
-import { ExceptionHandlers } from "@traceo-sdk/node";
-import { logger } from "..";
 import {
     IProject,
     IEvent,
@@ -68,9 +66,7 @@ export class DatabaseService {
             return result;
         } catch (err) {
             await client.query('ROLLBACK');
-
-            logger.error(`❌ The Postgres transaction has been rolled back. Caused by: ${err}`)
-            ExceptionHandlers.catchException(err);
+            console.error(`❌ The Postgres transaction has been rolled back. Caused by: ${err}`)
 
             throw err;
         } finally {

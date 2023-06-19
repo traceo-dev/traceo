@@ -1,23 +1,18 @@
-import { ExceptionHandlers } from "@traceo-sdk/node";
 import { IIncident, IncidentEventPayload, IncidentStatus, SDK } from "@traceo/types";
 import dayjs from "dayjs";
 import { DatabaseService } from "../db/database";
 import { Core, RelayEventType } from "../types";
-import { logger } from "..";
 
 type IncidentEvent = RelayEventType<IncidentEventPayload>;
 
 export const handleIncidentEvent = async (core: Core, message: string): Promise<void> => {
-    logger.info("☢ Processing incoming incident event from kafka ...")
+    console.info("☢ Processing incoming incident event from kafka ...")
 
     try {
         const incidentEvent = JSON.parse(message) as IncidentEvent;
         await captureEvent(incidentEvent, core.db);
     } catch (error) {
-        const message = `❌ Cannot process incoming event. Caused by: ${error}`;
-        logger.error(message);
-        ExceptionHandlers.catchException(new Error(message));
-
+        console.error(`❌ Cannot process incoming event. Caused by: ${error}`);
         throw error;
     }
 }
@@ -32,7 +27,7 @@ const captureEvent = async ({
     const project = await db.getProjectById(project_id);
 
     if (!project) {
-        logger.error(`❌ Cannot process incident event. Caused by: Cannot find project with provided id: ${project_id}.`);
+        console.error(`❌ Cannot process incident event. Caused by: Cannot find project with provided id: ${project_id}.`);
         return;
     }
 
@@ -54,7 +49,7 @@ const captureEvent = async ({
 
         await db.createIncident(incident, payload);
 
-        logger.info(`✔ New incident created for project: ${project_id}, sdk: ${sdk}, name: ${payload["type"]}`);
+        console.info(`✔ New incident created for project: ${project_id}, sdk: ${sdk}, name: ${payload["type"]}`);
 
         return;
     }
@@ -66,7 +61,7 @@ const captureEvent = async ({
         details: payload?.details || undefined,
     });
 
-    logger.info(`✔ Created new Event: ${event.id} for incident: ${incident.id}`)
+    console.info(`✔ Created new Event: ${event.id} for incident: ${incident.id}`)
 
     return event;
 }
