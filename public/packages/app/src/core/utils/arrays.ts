@@ -7,7 +7,6 @@ export const arrayIncludes = (arr: string[], value: string | number | boolean) =
 };
 
 export const sameArrayValues = (arr: string[]) => {
-  console.log("vals: ", arr);
   if (arr.length === 0) {
     return true; // Empty array is considered as having all values the same
   }

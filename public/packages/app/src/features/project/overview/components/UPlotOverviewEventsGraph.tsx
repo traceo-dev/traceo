@@ -21,6 +21,7 @@ export const UPlotOverviewEventsGraph = ({ data }: Props) => {
         type: PLOT_TYPE.BAR,
         stroke: "#3B82F5",
         fill: "#3B82F5",
+        width: 0,
         points: {
           show: false
         },

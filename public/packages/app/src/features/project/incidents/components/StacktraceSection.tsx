@@ -68,7 +68,7 @@ export const StacktraceSection = () => {
         <Collapse className="my-5" defaultActiveKey={"0"}>
           {incident?.traces?.map((trace, index) => (
             <CollapseItem
-              panelKey={`${index}`}
+              panelKey={String(index)}
               header={
                 <span>
                   {trace.filename} {trace.lineNo}:{trace.columnNo}
@@ -95,16 +95,16 @@ export const StacktraceSection = () => {
               <div>
                 <Row className="justify-between p-5">
                   <FieldLabel label="Function">
-                    <span className="text-link">{trace?.function}</span>
+                    <span className="text-link text-sm">{trace?.function}</span>
                   </FieldLabel>
                   <FieldLabel label="Extension">
-                    <span className="text-link">{trace?.extension}</span>
+                    <span className="text-link text-sm">{trace?.extension}</span>
                   </FieldLabel>
                   <FieldLabel label="Line No.">
-                    <span className="text-link">{trace?.lineNo}</span>
+                    <span className="text-link text-sm">{trace?.lineNo}</span>
                   </FieldLabel>
                   <FieldLabel label="Column No.">
-                    <span className="text-link">{trace?.columnNo}</span>
+                    <span className="text-link text-sm">{trace?.columnNo}</span>
                   </FieldLabel>
                 </Row>
                 {trace.code && <CodePreview trace={trace} />}

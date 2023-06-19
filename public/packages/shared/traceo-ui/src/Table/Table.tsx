@@ -66,7 +66,7 @@ export const Table: FC<TableProps> = (props: TableProps) => {
     rowSize = "md",
     onRowClick,
     onPageChange,
-    pageSize = undefined,
+    pageSize = 15,
     currentPage = 1,
     rowsCount = undefined,
     showPagination = false,
@@ -76,13 +76,13 @@ export const Table: FC<TableProps> = (props: TableProps) => {
   } = props;
 
   const [page, setPage] = useState(currentPage);
-  const [itemsPerPage, _] = useState(pageSize ?? 0);
+  const [itemsPerPage, _] = useState(pageSize);
 
   const pagination = useMemo(() => {
     const indexOfLastItem = page * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-    const currentItems = !pageSize
+    const currentItems = !!onPageChange
       ? collection
       : collection?.slice(indexOfFirstItem, indexOfLastItem);
 

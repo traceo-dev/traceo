@@ -35,8 +35,6 @@ export const IncidentAnalyticsPage = () => {
     ? dayjs.unix(incident.lastEventAt).format("HH:mm:ss")
     : "-- : --";
 
-  console.log("ov: ", overview.graph);
-
   return (
     <IncidentPageWrapper>
       <div className="grid grid-cols-5 w-full mb-1">

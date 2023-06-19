@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { ExploreViewProps } from "../ExplorePage";
@@ -40,6 +40,9 @@ export const MetricsPage = forwardRef(
     ref
   ) => {
     const { id } = useParams();
+
+    const inputMin = useRef<HTMLInputElement>(null);
+    const inputMax = useRef<HTMLInputElement>(null);
 
     const [graph, setGraph] = useState<UplotDataType>([[]]);
     const [rawData, setRawData] = useState<[]>([]);
@@ -131,16 +134,19 @@ export const MetricsPage = forwardRef(
       const queries: string[] = [];
       const s = series.map((e) => e.name);
       series.length > 0 && queries.push(`Series: ${s.join("; ")}`);
-      // interval && queries.push(`Interval: ${interval}`);
       valueMax && queries.push(`Value max: ${valueMax}`);
       valueMin && queries.push(`Value min: ${valueMin}`);
       return queries.join(", ");
     };
 
     const clearQuery = () => {
-      const queries = [setValueMax, setValueMin];
+      inputMax.current.value = null;
+      inputMin.current.value = null;
+
+      setValueMax(null);
+      setValueMin(null);
+
       setSeries([]);
-      queries.map((e) => e(null));
     };
 
     const onAddSerie = (serie: string) => {
@@ -215,6 +221,7 @@ export const MetricsPage = forwardRef(
           <InlineFields>
             <Field tooltip="Min value for graph." title="Value min." className="col-span-3">
               <Input
+                ref={inputMin}
                 type="number"
                 value={valueMin}
                 onChange={(e) => setValueMin(e.target["value"])}
@@ -222,6 +229,7 @@ export const MetricsPage = forwardRef(
             </Field>
             <Field tooltip="Max value for graph." title="Value max." className="col-span-3">
               <Input
+                ref={inputMax}
                 type="number"
                 value={valueMax}
                 onChange={(e) => setValueMax(e.target["value"])}

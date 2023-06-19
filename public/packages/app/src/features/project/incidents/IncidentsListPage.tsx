@@ -1,18 +1,15 @@
 import { Page } from "../../../core/components/Page";
-import { localStorageService } from "../../../core/lib/localStorage";
-import { LocalStorage } from "../../../core/lib/localStorage/types";
 import { useAppDispatch } from "../../../store";
 import { IncidentsTable } from "./components/IncidentsTable";
-import { changeBarOptions, searchStatusOptions, sortOptions } from "./components/utils";
+import { searchStatusOptions, sortOptions } from "./components/utils";
 import {
   IncidentSortBy,
   IncidentStatusSearch,
   SortOrder,
-  INCIDENT_PLOT_TYPE,
   IIncident,
   PaginateType
 } from "@traceo/types";
-import { InputSearch, Select, Card, RadioButtonGroup, Row } from "@traceo/ui";
+import { InputSearch, Select, Card, Row } from "@traceo/ui";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { AlertOutlined, SortAscendingOutlined, SortDescendingOutlined } from "@ant-design/icons";
@@ -20,7 +17,6 @@ import { resetIncidentState } from "./state/slices/incident.slice";
 import { resetGroupedEvents } from "./state/slices/grouped-events.slice";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { ActionButton } from "../../../core/components/ActionButton";
-import { ContentCard } from "src/core/components/ContentCard";
 
 const INCIDENT_PAGE_SIZE = 15;
 
@@ -31,11 +27,8 @@ export const IncidentsListPage = () => {
   const [search, setSearch] = useState<string>(null);
   const [order, setOrder] = useState<SortOrder>("DESC");
   const [sortBy, setSortBy] = useState<IncidentSortBy>(IncidentSortBy.LAST_SEEN);
-  const [status, setStatus] = useState<IncidentStatusSearch>(IncidentStatusSearch.ALL);
+  const [status, setStatus] = useState<IncidentStatusSearch>(IncidentStatusSearch.UNRESOLVED);
   const [page, setPage] = useState<number>(1);
-
-  const plot = localStorageService.get<any>(LocalStorage.PlotType) || "bar";
-  const [plotType, setPlotType] = useState<INCIDENT_PLOT_TYPE>(plot);
 
   const {
     data: response,
@@ -47,6 +40,8 @@ export const IncidentsListPage = () => {
     url: "/api/incidents",
     params: { id, search: search ?? null, order, sortBy, status, page, take: INCIDENT_PAGE_SIZE }
   });
+
+  console.log("list: ", response);
 
   useEffect(() => {
     // cleanning incident store
@@ -66,16 +61,11 @@ export const IncidentsListPage = () => {
     // After criteria mutation we have to back to first page,
     // to avoid use case that with eq. single row we are on x page
     setPage(1);
-    // Using setTimeout because setters are async, so we wait 250ms after setPage to trigger refetch
+
     setTimeout(() => {
       refetch();
     }, 0);
   }, [order, sortBy, status, search]);
-
-  const onChangePlotType = (type: INCIDENT_PLOT_TYPE) => {
-    setPlotType(type);
-    localStorageService.set(LocalStorage.PlotType, type);
-  };
 
   const onKeyDown = (event: any) => event.keyCode === 13 && setSearch(event.target.value);
 
@@ -110,12 +100,6 @@ export const IncidentsListPage = () => {
               value={sortBy}
               onChange={(opt) => setSortBy(opt?.value)}
               isClearable
-            />
-            <RadioButtonGroup
-              onChange={onChangePlotType}
-              value={plotType}
-              options={changeBarOptions}
-              size="sm"
             />
             <ActionButton
               inactiveColor="bg-canvas"
