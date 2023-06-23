@@ -855,10 +855,10 @@
     jsonc-parser "3.2.0"
     pluralize "8.0.0"
 
-"@nestjs/serve-static@^3.0.0":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@nestjs/serve-static/-/serve-static-3.0.1.tgz#d7d736b47171923d9e87262e19cc58ade8f4ba56"
-  integrity sha512-i766UJPYOqvQ2BbRKh0/+Mmq5NkJnmKcShjWV1i5qpXyeM0KDZTn0n7g7ykWq/3LbQgjpMzrhYtGv35GX7GVQw==
+"@nestjs/serve-static@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@nestjs/serve-static/-/serve-static-4.0.0.tgz#3baeea982f66d64718a59f3d8f67281b74d4dbdd"
+  integrity sha512-8cTrNV2ngdHIjiLNsXePnw0+KY1ThrZGz/WeyAG5gIvmZNDbnZBOrPoYlKL+MOzlXlQStxR5jKLYmn+nJeoncQ==
   dependencies:
     path-to-regexp "0.2.5"
 
