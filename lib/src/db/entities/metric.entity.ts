@@ -1,5 +1,5 @@
 import { BaseEntity } from "../../common/base/base.entity";
-import { IMetric, IMetricConfiguration, IMetricSerie, METRIC_UNIT } from "@traceo/types";
+import { IMetric, IMetricConfiguration, IMetricSerie, METRIC_UNIT, MetricType } from "@traceo/types";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Project } from "./project.entity";
 
@@ -14,14 +14,14 @@ export class Metric extends BaseEntity implements IMetric {
   @Column({ type: "varchar", nullable: true })
   description: string;
 
+  @Column({ type: "varchar", nullable: true })
+  type: MetricType;
+
   @Column({ type: "boolean", default: false, nullable: false })
   show: boolean;
 
-  @Column({ type: "boolean", default: false, nullable: false, name: "show_description" })
-  showDescription: boolean;
-
-  @Column({ type: "boolean", default: false, nullable: false, name: "is_default" })
-  isDefault: boolean;
+  @Column({ type: "boolean", default: false, nullable: true, name: "internal" })
+  internal: boolean;
 
   @Column({ type: "varchar", nullable: true })
   unit: METRIC_UNIT | string;

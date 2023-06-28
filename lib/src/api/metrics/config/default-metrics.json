@@ -2,9 +2,9 @@
   "metrics": [
     {
       "name": "CPU Usage",
+      "type": "time_series",
       "description": "CPU usage is the percentage of time that the CPU is being used to complete its tasks.",
-      "showDescription": true,
-      "isDefault": true,
+      "internal": true,
       "show": true,
       "unit": "%",
       "series": [
@@ -12,7 +12,6 @@
           "name": "Cpu",
           "field": "cpu_usage",
           "show": true,
-          "type": "floatField",
           "config": {
             "lineWidth": 1,
             "barWidth": 20,
@@ -26,6 +25,14 @@
         }
       ],
       "config": {
+        "histogram": {
+          "bucket": {
+            "size": 5,
+            "offset": 0
+          },
+          "min": 0,
+          "max": null
+        },
         "stack": {
           "show": false,
           "strategy": "samesign"
@@ -54,8 +61,8 @@
     {
       "name": "Memory Usage",
       "description": "The amount of RAM memory being used.",
-      "showDescription": true,
-      "isDefault": true,
+      "type": "time_series",
+      "internal": true,
       "show": true,
       "unit": "%",
       "series": [
@@ -63,7 +70,6 @@
           "name": "Memory",
           "field": "memory_usage_percentage",
           "show": true,
-          "type": "floatField",
           "config": {
             "lineWidth": 1,
             "barWidth": 20,
@@ -77,6 +83,14 @@
         }
       ],
       "config": {
+        "histogram": {
+          "bucket": {
+            "size": 5,
+            "offset": 0
+          },
+          "min": 0,
+          "max": null
+        },
         "stack": {
           "show": false,
           "strategy": "samesign"
@@ -105,15 +119,14 @@
     {
       "name": "RSS",
       "description": "Resident set size (RSS) is the portion of memory occupied by a process that is held in main memory (RAM).",
-      "showDescription": true,
-      "isDefault": true,
+      "type": "time_series",
+      "internal": true,
       "show": true,
       "unit": "MB",
       "series": [
         {
           "name": "RSS",
           "field": "heap_rss",
-          "type": "floatField",
           "show": true,
           "config": {
             "lineWidth": 1,
@@ -128,6 +141,14 @@
         }
       ],
       "config": {
+        "histogram": {
+          "bucket": {
+            "size": 5,
+            "offset": 0
+          },
+          "min": 0,
+          "max": null
+        },
         "stack": {
           "show": false,
           "strategy": "samesign"
@@ -156,8 +177,8 @@
     {
       "name": "Heap",
       "description": "Total amount of memory being used by JS objects.",
-      "showDescription": true,
-      "isDefault": true,
+      "type": "time_series",
+      "internal": true,
       "show": true,
       "unit": "MB",
       "series": [
@@ -165,13 +186,12 @@
           "name": "Used Heap",
           "field": "heap_used",
           "show": true,
-          "type": "floatField",
           "config": {
             "lineWidth": 1,
             "barWidth": 20,
             "area": {
               "show": false,
-              "opacity": 0
+              "opacity": 50
             },
             "type": "line",
             "color": "#0369A1"
@@ -181,13 +201,12 @@
           "name": "Total Heap",
           "field": "heap_total",
           "show": true,
-          "type": "floatField",
           "config": {
             "lineWidth": 1,
             "barWidth": 20,
             "area": {
               "show": false,
-              "opacity": 0
+              "opacity": 50
             },
             "type": "line",
             "color": "#1D50D8"
@@ -195,6 +214,14 @@
         }
       ],
       "config": {
+        "histogram": {
+          "bucket": {
+            "size": 5,
+            "offset": 0
+          },
+          "min": 0,
+          "max": null
+        },
         "stack": {
           "show": false,
           "strategy": "samesign"
@@ -223,8 +250,8 @@
     {
       "name": "Event Loop Delay",
       "description": "Minimum, maximum and mean delay of the NodeJS event loop.",
-      "showDescription": true,
-      "isDefault": true,
+      "type": "time_series",
+      "internal": true,
       "show": true,
       "unit": "ms",
       "series": [
@@ -232,13 +259,12 @@
           "name": "Min",
           "field": "loop_min",
           "show": true,
-          "type": "floatField",
           "config": {
             "lineWidth": 1,
             "barWidth": 20,
             "area": {
               "show": false,
-              "opacity": 0
+              "opacity": 50
             },
             "type": "line",
             "color": "#0A437C"
@@ -248,13 +274,12 @@
           "name": "Max",
           "field": "loop_max",
           "show": true,
-          "type": "floatField",
           "config": {
             "lineWidth": 1,
             "barWidth": 20,
             "area": {
               "show": false,
-              "opacity": 0
+              "opacity": 50
             },
             "type": "line",
             "color": "#5195CE"
@@ -264,13 +289,12 @@
           "name": "Mean",
           "field": "loop_mean",
           "show": true,
-          "type": "floatField",
           "config": {
             "lineWidth": 1,
             "barWidth": 20,
             "area": {
               "show": false,
-              "opacity": 0
+              "opacity": 50
             },
             "type": "line",
             "color": "#70DBED"
@@ -278,6 +302,14 @@
         }
       ],
       "config": {
+        "histogram": {
+          "bucket": {
+            "size": 5,
+            "offset": 0
+          },
+          "min": 0,
+          "max": null
+        },
         "stack": {
           "show": false,
           "strategy": "samesign"
@@ -306,8 +338,8 @@
     {
       "name": "Average Load",
       "description": "Load Average is a measure of system activity calculated by the operating system over the last minute and expressed as a fractional number. Supported only by UNIX operation systems.",
-      "showDescription": true,
-      "isDefault": true,
+      "type": "time_series",
+      "internal": true,
       "show": false,
       "unit": "",
       "series": [
@@ -315,13 +347,12 @@
           "name": "Load",
           "field": "load_avg",
           "show": true,
-          "type": "floatField",
           "config": {
             "lineWidth": 1,
             "barWidth": 20,
             "area": {
               "show": false,
-              "opacity": 0
+              "opacity": 50
             },
             "type": "line",
             "color": "#ffffff"
@@ -329,6 +360,14 @@
         }
       ],
       "config": {
+        "histogram": {
+          "bucket": {
+            "size": 5,
+            "offset": 0
+          },
+          "min": 0,
+          "max": null
+        },
         "stack": {
           "show": false,
           "strategy": "samesign"

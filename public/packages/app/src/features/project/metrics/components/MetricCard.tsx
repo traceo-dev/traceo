@@ -1,10 +1,9 @@
 import { ReloadOutlined } from "@ant-design/icons";
 import { IMetric, Setter, TimeRange } from "@traceo/types";
-import { conditionClass, joinClasses } from "@traceo/ui";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
-import { UPlotMetricsCardGraph } from "./UplotMetricCardGraph";
+import { MetricPanel } from "../../../../core/components/Panels/MetricPanel";
 
 interface MetricCardProps {
   metric: IMetric;
@@ -57,28 +56,19 @@ export const MetricCard: FC<MetricCardProps> = ({
   };
 
   return (
-    <div
+    <MetricPanel
+      height={180}
+      panelName={<span onClick={() => onNavigate()}>{metric?.name}</span>}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className={joinClasses(
-        "flex flex-col col-span-6 min-w-[200px] rounded border border-solid border-secondary bg-primary mb-1",
-        conditionClass(isRefetching || isLoading, "loading-border")
-      )}
-    >
-      <div
-        className="cursor-pointer w-full p-3 mb-5 justify-between flex flex-row items-center"
-        onClick={() => onNavigate()}
-      >
-        <span className="text-[14px] font-semibold">{metric.name}</span>
-        <div className="text-[10px]">
-          {isHover && !isRefetching && <ReloadOutlined onClick={onRefresh} />}
-        </div>
-      </div>
-      <UPlotMetricsCardGraph
-        datasource={data?.datasource || []}
-        metric={data?.options || metric}
-        onZoom={onZoom}
-      />
-    </div>
+      datasource={data?.datasource}
+      metric={data?.options || metric}
+      extra={
+        isHover && !isRefetching && <ReloadOutlined className="text-[10px]" onClick={onRefresh} />
+      }
+      isLoading={isLoading || isRefetching}
+      onZoom={onZoom}
+      className="col-span-6 min-w-[200px]"
+    />
   );
 };

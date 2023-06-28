@@ -9,7 +9,7 @@ import {
   IsString,
   ValidateNested
 } from "class-validator";
-import { METRIC_UNIT, PLOT_TYPE, TOOLTIP_POSITION } from "@traceo/types";
+import { METRIC_UNIT, MetricType, PLOT_TYPE, TOOLTIP_POSITION } from "@traceo/types";
 import { ApiPropertyOptional } from "@nestjs/swagger";
 
 export class MetricQueryDto {
@@ -37,12 +37,34 @@ export class ExploreMetricsQueryDto extends MetricQueryDto {
 
   @IsOptional()
   interval: number = 1;
+  
+  isHistogram: boolean = false;
 }
 
 export class MetricsQueryDto {
   @IsOptional()
   @IsString()
   search: string;
+}
+
+class UpdateHistogramBucketDto {
+  @IsNotEmpty()
+  size: number = 5;
+
+  @IsNotEmpty()
+  offset: number = 0;
+}
+
+class UpdateHistogramDto {
+  @ValidateNested()
+  @Type(() => UpdateHistogramBucketDto)
+  bucket: UpdateHistogramBucketDto;
+
+  @IsOptional()
+  min: number = undefined;
+
+  @IsOptional()
+  max: number = undefined;
 }
 
 class UpdateTooltipMetricDto {
@@ -120,6 +142,10 @@ class UpdateMetricAxisDto {
 
 class UpdateConfigMetricDto {
   @ValidateNested()
+  @Type(() => UpdateHistogramDto)
+  histogram: UpdateHistogramDto;
+
+  @ValidateNested()
   @Type(() => UpdateTooltipMetricDto)
   tooltip: UpdateTooltipMetricDto;
 
@@ -186,9 +212,9 @@ export class UpdateSerieMetricDto {
   @IsNotEmpty()
   field: string;
 
-  @IsString()
-  @IsOptional()
-  type: string;
+  // @IsString()
+  // @IsOptional()
+  // type: string;
 
   @ValidateNested()
   @Type(() => UpdateSerieMetricConfigDto)
@@ -204,9 +230,9 @@ export class UpdateMetricDto {
   @IsOptional()
   description: string;
 
-  @IsBoolean()
+  @IsString()
   @IsNotEmpty()
-  showDescription: boolean = true;
+  type: MetricType = MetricType.TIME_SERIES;
 
   // @IsBoolean()
   // @IsNotEmpty()

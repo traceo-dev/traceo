@@ -17,11 +17,10 @@ import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
 import api from "../../../core/lib/api";
 import { Confirm } from "../../../core/components/Confirm";
 import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
-import { ContentCard } from "../../../core/components/ContentCard";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
-import { UPlotMetricPreviewGraph } from "./components/UPlotMetricPreviewGraph";
 import { notify } from "../../../core/utils/notify";
+import { MetricPanel } from "src/core/components/Panels/MetricPanel";
 
 export const MetricPreviewPage = () => {
   const navigate = useNavigate();
@@ -152,7 +151,7 @@ export const MetricPreviewPage = () => {
                 Configure
               </Button>
             </Permissions>
-            {!options.isDefault && (
+            {!options.internal && (
               <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
                 <Confirm
                   description="Are you sure that you want to remove this metric?"
@@ -191,19 +190,16 @@ export const MetricPreviewPage = () => {
       <Page.Content className="pt-0">
         <div className="w-full grid grid-cols-12">
           <div className={conditionClass(isCustomizeMode, "col-span-8 mr-1", "col-span-12")}>
-            <ContentCard
-              name="Graph"
-              loading={isLoading || isRefetching}
-              extra={<MetricTimeToolbar ranges={ranges} setRanges={setRanges} />}
-            >
-              <ConditionalWrapper isLoading={isLoading}>
-                <UPlotMetricPreviewGraph
-                  datasource={data?.datasource}
-                  metric={options as IMetric}
-                  onZoom={setRanges}
-                />
-              </ConditionalWrapper>
-            </ContentCard>
+            <MetricPanel
+              panelName="Graph"
+              datasource={data?.datasource}
+              metric={options as IMetric}
+              extra={
+                !isCustomizeMode && <MetricTimeToolbar ranges={ranges} setRanges={setRanges} />
+              }
+              isLoading={isLoading || isRefetching}
+              onZoom={setRanges}
+            />
             <OptionsCollapseGroup
               title="Raw data"
               loading={isLoadingRawData || isRefetchinRawData}

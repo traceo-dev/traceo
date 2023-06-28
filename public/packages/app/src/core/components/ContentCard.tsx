@@ -2,8 +2,8 @@ import { Row, conditionClass, joinClasses } from "@traceo/ui";
 import { FC, HTMLProps } from "react";
 import { To, useNavigate } from "react-router-dom";
 
-interface Props extends Omit<HTMLProps<HTMLElement>, "ref"> {
-  name?: string;
+interface Props extends Omit<HTMLProps<HTMLElement>, "ref" | "name"> {
+  name?: JSX.Element | string;
   extra?: JSX.Element;
   className?: string;
   bodyClassName?: string;
@@ -32,7 +32,7 @@ export const ContentCard: FC<Props> = ({
       {...props}
     >
       {(name || extra) && (
-        <Row className="justify-between px-5 py-3">
+        <Row className="justify-between px-3 py-3">
           {name && (
             <span
               className="font-semibold text-sm cursor-pointer"
@@ -45,7 +45,7 @@ export const ContentCard: FC<Props> = ({
         </Row>
       )}
 
-      <div className={joinClasses("p-3 mt-5", bodyClassName)}>{children}</div>
+      <div className={joinClasses("py-1 px-3 mt-5", bodyClassName)}>{children}</div>
     </div>
   );
 };

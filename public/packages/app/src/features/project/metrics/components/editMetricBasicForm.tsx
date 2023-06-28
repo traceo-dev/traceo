@@ -1,7 +1,7 @@
-import { DeepPartial, IMetric } from "@traceo/types";
+import { DeepPartial, IMetric, METRIC_UNIT, MetricType, PLOT_TYPE } from "@traceo/types";
 import { Input, InputArea, Select } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-import { MetricEditOption, unitOptions } from "./utils";
+import { MetricEditOption, metricTypeOptions, unitOptions } from "./utils";
 
 type EditMetricType = {
   options: DeepPartial<IMetric>;
@@ -10,6 +10,8 @@ type EditMetricType = {
 export const editMetricBasicForm = (props: EditMetricType) => {
   const { options, setOptions } = props;
   const forms: MetricEditOption[] = [];
+
+  const isHistogram = props.options.type === MetricType.HISTOGRAM;
 
   forms.push({
     label: "Name",
@@ -42,21 +44,44 @@ export const editMetricBasicForm = (props: EditMetricType) => {
   });
 
   forms.push({
-    label: "Unit",
-    tooltip: "Base unit for Y axis and all series. You can also set custom unit for each serie.",
+    label: "Type",
     component: (
       <Select
-        isDisabled={options?.isDefault}
-        options={unitOptions}
-        defaultValue={options.unit}
+        isDisabled={options?.internal}
+        options={metricTypeOptions}
+        defaultValue={options.type}
         onChange={(a) => {
           setOptions((opt) => {
-            opt.unit = a?.value;
+            opt.type = a?.value;
+
+            if (a?.value === MetricType.HISTOGRAM) {
+              opt.unit = METRIC_UNIT.NONE;
+              opt.config.tooltip.show = false;
+            }
           });
         }}
       />
     )
   });
+
+  if (!isHistogram) {
+    forms.push({
+      label: "Unit",
+      tooltip: "Base unit for Y axis.",
+      component: (
+        <Select
+          isDisabled={options?.internal || isHistogram}
+          options={unitOptions}
+          defaultValue={options.unit}
+          onChange={(a) => {
+            setOptions((opt) => {
+              opt.unit = a?.value;
+            });
+          }}
+        />
+      )
+    });
+  }
 
   return forms;
 };

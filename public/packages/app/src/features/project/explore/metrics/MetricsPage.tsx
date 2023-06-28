@@ -266,7 +266,7 @@ export const MetricsPage = forwardRef(
             />
             <ActionButton
               icon={<BlockOutlined />}
-              tooltip="Stacked graph (no tooltip)"
+              tooltip="Stacked graph (experimental)"
               isActive={stackedGraph}
               onClick={() => setStackedGraph(!stackedGraph)}
             />

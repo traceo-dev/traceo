@@ -29,7 +29,9 @@
 }
 
 .u-legend .u-marker {
-  border-radius: 100%;
+  width: 1.25em;
+  height: 0.25em;
+  border-radius: 15px;
   margin-right: 8px !important;
 }
 

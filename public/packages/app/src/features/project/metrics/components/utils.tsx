@@ -10,6 +10,7 @@ import {
   IMetricSerie,
   MARKER_SHAPE,
   METRIC_UNIT,
+  MetricType,
   PLOT_TYPE,
   STACK_STRATEGY
 } from "@traceo/types";
@@ -21,6 +22,16 @@ import { calculateOpacity } from "../../../../core/utils/colors";
 export const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
   value: unit,
   label: unit
+}));
+
+const mapMetricTypeName: Record<MetricType, string> = {
+  [MetricType.TIME_SERIES]: "Time series",
+  [MetricType.HISTOGRAM]: "Histogram"
+};
+
+export const metricTypeOptions = Object.values(MetricType).map((type) => ({
+  value: type,
+  label: mapMetricTypeName[type]
 }));
 
 export const mapPlotName: Record<PLOT_TYPE, string> = {
@@ -73,7 +84,8 @@ export const stackStrategyOptions = Object.values(STACK_STRATEGY).map((strategy)
 export const buildSeries = (builder: UPlotConfigBuilder, metric: IMetric) => {
   if (metric.series && metric.series.length > 0) {
     for (const serie of metric.series) {
-      const chartType = serie.config.type as PLOT_TYPE;
+      const isHistogram = metric.type === MetricType.HISTOGRAM;
+      const chartType = isHistogram ? PLOT_TYPE.BAR : (serie.config.type as PLOT_TYPE);
       const isArea = serie.config.area.show;
       const areaOpacity = serie.config.area.opacity;
 
@@ -86,7 +98,8 @@ export const buildSeries = (builder: UPlotConfigBuilder, metric: IMetric) => {
           show: metric.config.line.marker.show
         },
         bar: {
-          width: serie.config.barWidth
+          width: serie.config.barWidth,
+          align: isHistogram ? 1 : 0
         },
         label: serie.field
       });
