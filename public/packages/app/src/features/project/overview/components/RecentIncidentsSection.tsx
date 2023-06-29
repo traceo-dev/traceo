@@ -16,6 +16,7 @@ import { mapHeaderStatusIcon } from "../../incidents/components/utils";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { RouterLink } from "../../../../core/components/RouterLink";
 import { ContentCard } from "../../../../core/components/ContentCard";
+import { DashboardPanel } from "src/core/components/DashboardPanel";
 
 const RECENT_INCIDENTS_MAX_COUNT = 5;
 export const RecentIncidentsSection = () => {
@@ -37,10 +38,10 @@ export const RecentIncidentsSection = () => {
   });
 
   return (
-    <ContentCard
+    <DashboardPanel
       name="Recent Incidents"
       loading={isLoading}
-      extra={
+      options={
         <RouterLink to={`/project/${project.id}/incidents`} className="text-xs font-semibold">
           View
         </RouterLink>
@@ -79,6 +80,6 @@ export const RecentIncidentsSection = () => {
           )}
         />
       </ConditionalWrapper>
-    </ContentCard>
+    </DashboardPanel>
   );
 };

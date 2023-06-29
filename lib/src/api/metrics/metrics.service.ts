@@ -7,6 +7,7 @@ import * as default_metrics from "./config/default-metrics.json";
 import { ApiResponse } from "../../common/types/dto/response.dto";
 import { INTERNAL_SERVER_ERROR } from "../../common/helpers/constants";
 import { UpdateMetricDto } from "../../common/types/dto/metrics.dto";
+import { MetricType } from "@traceo/types";
 
 @Injectable()
 export class MetricsService {
@@ -30,6 +31,7 @@ export class MetricsService {
       const newMetric: Metric = {
         ...metric,
         createdAt: dateUtils.toUnix(),
+        type: metric.type as MetricType,
         project
       };
 

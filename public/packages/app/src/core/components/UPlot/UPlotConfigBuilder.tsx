@@ -7,6 +7,7 @@ import {
   BaseOptions,
   ChartConfigs,
   ChartType,
+  HistogramOptions,
   HookType,
   TooltipOptions,
   UPlotAxis,
@@ -17,6 +18,7 @@ import { uPlotUtils } from "./utils";
 import { tooltipsPlugin } from "./TooltipPlugin";
 import { stackedOptions } from "./stacked";
 import { PLOT_TYPE } from "@traceo/types";
+import { calculateHistogramBins, prepareBinsData } from "./histogram";
 
 const defaultAxe: uPlot.Axis = {
   stroke: "#c7d0d9"
@@ -34,17 +36,22 @@ export class UPlotConfigBuilder {
   private isZoom = true;
   private chartType: ChartType = "timeseries";
   private data: any = undefined;
+  private histogram: HistogramOptions = undefined;
 
   private configs: uPlot.Options;
   private base: uPlot.Options;
   private axes: uPlot.Axis[] = [];
-  private series: uPlot.Series[] = [];
+  private series: uPlot.Series[] = [{}];
   private hooks: uPlot.Hooks.Arrays = {};
   private plugins: uPlot.Plugin[] = [];
   private select: uPlot.Select;
   private legend: uPlot.Legend;
   private cursor: uPlot.Cursor;
   private scales: uPlot.Scales;
+
+  private get isHistogram() {
+    return this.chartType === "histogram";
+  }
 
   public addBase({
     id = undefined,
@@ -54,9 +61,13 @@ export class UPlotConfigBuilder {
     stacked = false,
     data = [[]],
     isZoom = true,
+    histogram = {
+      bucketSize: 5
+    },
     ...rest
   }: BaseOptions): UPlotConfigBuilder {
-    this.isZoom = isZoom;
+    this.histogram = histogram;
+    this.isZoom = isZoom && !this.isHistogram;
     this.chartType = chartType;
     this.stacked = stacked;
     this.data = data;
@@ -99,7 +110,9 @@ export class UPlotConfigBuilder {
     return this;
   }
 
-  public addTooltip({ show = !this.stacked }: TooltipOptions): UPlotConfigBuilder {
+  public addTooltip({
+    show = !this.stacked && !this.isHistogram
+  }: TooltipOptions): UPlotConfigBuilder {
     if (show) {
       this.plugins.push(tooltipsPlugin());
     }
@@ -153,9 +166,18 @@ export class UPlotConfigBuilder {
       axeConfig.space = uPlotUtils.getTimeAxisSpace;
     }
 
+    if (props.scale === "x" && this.isHistogram) {
+      axeConfig.splits = this.histogramSplits;
+    }
+
     this.axes.push(axeConfig);
 
     return this;
+  }
+
+  private get histogramSplits() {
+    const bucketSize = this.histogram.bucketSize;
+    return calculateHistogramBins(this.data, bucketSize);
   }
 
   public addSelect(option: uPlot.Select): UPlotConfigBuilder {
@@ -233,17 +255,12 @@ export class UPlotConfigBuilder {
       this.addAxe({ scale: "y", ...defaultAxe });
     }
 
-    if (this.chartType === "timeseries") {
-      // y-serie for y-axis
-      this.series = [{}, ...this.series];
-    }
-
     // There should be at least 2 series for x and y axis
     if (this.series.length === 1) {
       this.addSerie({});
     }
 
-    const configs = {
+    this.configs = {
       ...this.base,
       series: this.series,
       axes: this.axes,
@@ -256,12 +273,16 @@ export class UPlotConfigBuilder {
     };
 
     if (this.stacked && this.data && this.data.length > 1) {
-      const { data, options } = stackedOptions(configs, this.data);
+      const { data, options } = stackedOptions(this.configs, this.data);
 
       this.configs = options;
       this.data = data;
-    } else {
-      this.configs = configs;
+    } else if (this.isHistogram && this.data) {
+      this.data = prepareBinsData(this.data, {
+        bucketSize: this.histogram.bucketSize,
+        max: this.histogram?.max || undefined,
+        min: this.histogram?.min || 0
+      });
     }
 
     return {

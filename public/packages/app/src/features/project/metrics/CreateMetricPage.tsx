@@ -1,5 +1,5 @@
 import { Page } from "../../../core/components/Page";
-import { ApiResponse, IMetric, METRIC_UNIT } from "@traceo/types";
+import { ApiResponse, IMetric, METRIC_UNIT, MetricType } from "@traceo/types";
 import { DeepPartial } from "redux";
 import { useImmer } from "use-immer";
 import { Button, Card, Row } from "@traceo/ui";
@@ -17,8 +17,17 @@ import { CheckOutlined } from "@ant-design/icons";
 
 const initialMetric: DeepPartial<IMetric> = {
   name: "New metric",
+  type: MetricType.TIME_SERIES,
   description: "New metric description",
   config: {
+    histogram: {
+      bucket: {
+        size: 5,
+        offset: 0
+      },
+      min: 1,
+      max: undefined
+    },
     stack: {
       show: false,
       strategy: "samesign"
@@ -48,9 +57,9 @@ const initialMetric: DeepPartial<IMetric> = {
           opacity: 50,
           show: false
         },
-        barWidth: 5,
+        barWidth: 50,
         color: randomHexColor(),
-        lineWidth: 2,
+        lineWidth: 1,
         type: "line"
       },
       name: "New serie",
@@ -60,9 +69,8 @@ const initialMetric: DeepPartial<IMetric> = {
       show: true
     }
   ],
-  isDefault: false,
+  internal: false,
   show: true,
-  showDescription: true,
   unit: METRIC_UNIT.NONE
 };
 

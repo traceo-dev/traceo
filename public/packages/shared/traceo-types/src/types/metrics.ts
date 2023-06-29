@@ -1,6 +1,10 @@
 import { ExponentialHistogram, Histogram } from "./opentelemetry";
 
 export type UUIntType = Uint32Array | Uint16Array | Uint8Array | BigInt64Array | BigInt;
+export enum MetricType {
+  TIME_SERIES = "time_series",
+  HISTOGRAM = "histogram"
+}
 
 /**
  * Metric value representation saved in clickhouse table row
@@ -20,17 +24,18 @@ export type IMetric = {
   description: string;
 
   /**
-   * deprecated
+   * Metric type, default "time_series"
    */
-  showDescription: boolean;
+  type: MetricType;
 
   /**
    * Is created by Traceo, if false then is created by user
    */
-  isDefault: boolean;
+  internal: boolean;
 
   /**
-   * Is showed to users with viewer perms
+   * Not implmented yet.
+   * Metric is displayed for all users/users with perms
    */
   show: boolean;
   unit: string;
@@ -44,7 +49,6 @@ export type IMetricSerie = {
   unit?: METRIC_UNIT;
   show: boolean;
   field: string;
-  type: string;
   config: {
     lineWidth?: number;
     barWidth?: number;
@@ -73,6 +77,14 @@ export enum MARKER_SHAPE {
  * then it overrides fields from series
  */
 export type IMetricConfiguration = {
+  histogram?: {
+    bucket: {
+      size: number;
+      offset: number;
+    },
+    min: number;
+    max: number;
+  }
   stack?: {
     show: boolean;
     strategy: string

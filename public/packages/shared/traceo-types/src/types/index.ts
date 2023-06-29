@@ -39,4 +39,5 @@ export type TriggerType = () => void;
 
 export type TimeRange = [number, number];
 
-export type UplotDataType = [number[]];
+export type UplotDataType = number[][];
+// export type UplotDataType = [number[]];

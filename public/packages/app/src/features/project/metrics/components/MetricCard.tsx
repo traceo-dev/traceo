@@ -1,10 +1,10 @@
 import { ReloadOutlined } from "@ant-design/icons";
 import { IMetric, Setter, TimeRange } from "@traceo/types";
-import { conditionClass, joinClasses } from "@traceo/ui";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
-import { UPlotMetricsCardGraph } from "./UplotMetricCardGraph";
+import { BaseMetricChart } from "../../../../core/components/UPlot/BaseMetricChart";
+import { DashboardPanel } from "src/core/components/DashboardPanel";
 
 interface MetricCardProps {
   metric: IMetric;
@@ -44,41 +44,23 @@ export const MetricCard: FC<MetricCardProps> = ({
     setRanges(ranges);
   };
 
-  const onNavigate = () => {
-    navigate({
-      pathname: `/project/${id}/metrics/preview/${metric.id}`,
-      search: `?from=${ranges[0]}&to=${ranges[1]}`
-    });
-  };
-
-  const onRefresh = (e: any) => {
-    e.stopPropagation();
-    refetch();
-  };
-
   return (
-    <div
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      className={joinClasses(
-        "flex flex-col col-span-6 min-w-[200px] rounded border border-solid border-secondary bg-primary mb-1",
-        conditionClass(isRefetching || isLoading, "loading-border")
-      )}
+    <DashboardPanel
+      name={metric?.name}
+      loading={isLoading || isRefetching}
+      className="col-span-6 min-w-[200px]"
+      navigateTo={{
+        pathname: `/project/${id}/metrics/preview/${metric.id}`,
+        search: `?from=${ranges[0]}&to=${ranges[1]}`
+      }}
     >
-      <div
-        className="cursor-pointer w-full p-3 mb-5 justify-between flex flex-row items-center"
-        onClick={() => onNavigate()}
-      >
-        <span className="text-[14px] font-semibold">{metric.name}</span>
-        <div className="text-[10px]">
-          {isHover && !isRefetching && <ReloadOutlined onClick={onRefresh} />}
-        </div>
-      </div>
-      <UPlotMetricsCardGraph
-        datasource={data?.datasource || []}
+      <BaseMetricChart
+        height={180}
+        datasource={data?.datasource}
         metric={data?.options || metric}
+        isLoading={isLoading || isRefetching}
         onZoom={onZoom}
       />
-    </div>
+    </DashboardPanel>
   );
 };

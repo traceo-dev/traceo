@@ -224,21 +224,15 @@ export class DatabaseService {
                 project_id
             }
 
-            const points = metric.dataPoints;
-            if (points.length === 0) {
-                insert.push({
-                    ...obj,
-                    timestamp: now,
-                    value: null
-                });
-            }
-
             for (const point of metric.dataPoints) {
-                insert.push({
-                    ...obj,
-                    timestamp: point.startTime?.[0] || now,
-                    value: point.value
-                });
+                // There is no need to store values with 0 because clickhouse fill with 0 while querying
+                if (point.value && point.value !== 0) {
+                    insert.push({
+                        ...obj,
+                        timestamp: point.startTime?.[0] || now,
+                        value: point.value
+                    });
+                }
             }
         }
 

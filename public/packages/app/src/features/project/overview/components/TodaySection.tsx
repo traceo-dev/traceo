@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { ContentCard } from "../../../../core/components/ContentCard";
 import { UPlotTodayEventsGraph } from "./UPlotTodayEventsGraph";
+import { DashboardPanel } from "src/core/components/DashboardPanel";
 
 export const TodaySection = () => {
   const { id } = useParams();
@@ -41,20 +42,24 @@ export const TodaySection = () => {
   return (
     <div className="grid grid-cols-5 w-full mb-1">
       <div className="col-span-4 h-full">
-        <ContentCard name="Today&apos;s events" className="h-full" loading={isFetching}>
+        <DashboardPanel
+          loading={isFetching || isLoading}
+          name="Today's events"
+          className="h-full"
+        >
           <ConditionalWrapper isLoading={isLoading} isEmpty={isEmpty}>
             <UPlotTodayEventsGraph data={data.graph} />
           </ConditionalWrapper>
-        </ContentCard>
+        </DashboardPanel>
       </div>
       <div className="col-span-1 ml-1">
         <div className="flex flex-col items-stretch h-full">
           <div className="h-full mb-1">
-            <ContentCard
+            <DashboardPanel
               name="Events count"
               loading={isFetching}
               className="h-full"
-              extra={
+              options={
                 !isFetching &&
                 !isLoading && <SyncOutlined className="text-xs" onClick={() => refetch()} />
               }
@@ -64,16 +69,16 @@ export const TodaySection = () => {
                   {data.count || 0}
                 </Typography>
               </ConditionalWrapper>
-            </ContentCard>
+            </DashboardPanel>
           </div>
           <div className="h-full">
-            <ContentCard className="h-full" name="Last seen" loading={isFetching}>
+            <DashboardPanel className="h-full" name="Last seen" loading={isFetching}>
               <ConditionalWrapper isEmpty={isEmpty}>
                 <Typography size="xxl" weight="semibold" className="text-center">
                   {lastEventAt}
                 </Typography>
               </ConditionalWrapper>
-            </ContentCard>
+            </DashboardPanel>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ExploreMetricsQueryDto, MetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { IMetric, MetricPreviewType } from "@traceo/types";
+import { IMetric, MetricPreviewType, MetricType } from "@traceo/types";
 import { Metric } from "../../../db/entities/metric.entity";
 import { Brackets, EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
@@ -47,8 +47,8 @@ export class MetricsQueryService {
         );
       }
 
-      const metrics = await queryBuilder.getMany();
-      return new ApiResponse("success", undefined, metrics);
+      const qb = await queryBuilder.orderBy("metric.createdAt", "DESC").getMany();
+      return new ApiResponse("success", undefined, qb);
     } catch (err) {
       this.logger.error(`[${this.getProjectMetrics.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
@@ -105,7 +105,8 @@ export class MetricsQueryService {
         fields: metric.series.map((e) => e.field),
         interval: 1,
         valueMax: undefined,
-        valueMin: undefined
+        valueMin: undefined,
+        isHistogram: metric.type === MetricType.HISTOGRAM
       })
 
       return new ApiResponse("success", undefined, {
@@ -122,7 +123,10 @@ export class MetricsQueryService {
     let series = [];
     let time = [];
 
-    const interval = calculateInterval({
+    // Interval for histogram shouldn't be changed due to time range
+    const HISTOGRAM_INTERVAL = 15; //seconds
+
+    const interval = query.isHistogram ? HISTOGRAM_INTERVAL : calculateInterval({
       from: query.from,
       to: query.to
     });
