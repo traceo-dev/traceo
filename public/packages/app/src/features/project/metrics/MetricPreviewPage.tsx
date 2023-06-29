@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { To, useNavigate, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import { Permissions } from "../../../core/components/Permissions";
-import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { CheckOutlined, SettingOutlined } from "@ant-design/icons";
 import { isEmptyObject } from "../../../core/utils/object";
@@ -132,6 +131,44 @@ export const MetricPreviewPage = () => {
   const getTableFields = () =>
     options?.series.filter(({ show }) => show).map(({ field }) => field);
 
+  const operationButtons = () =>
+    !isCustomizeMode ? (
+      <Row gap="x-3">
+        <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+          <Button size="sm" onClick={() => setCustomizeMode(true)} icon={<SettingOutlined />}>
+            Configure
+          </Button>
+        </Permissions>
+        {!options.internal && (
+          <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+            <Confirm
+              description="Are you sure that you want to remove this metric?"
+              onOk={() => onRemove()}
+            >
+              <Button size="sm" variant="danger">
+                Remove
+              </Button>
+            </Confirm>
+          </Permissions>
+        )}
+      </Row>
+    ) : (
+      <Row gap="x-3">
+        <Button
+          icon={<CheckOutlined />}
+          loading={saveLoading}
+          variant="primary"
+          size="sm"
+          onClick={() => onSave()}
+        >
+          Update
+        </Button>
+        <Button loading={removeLoading} variant="danger" size="sm" onClick={() => onDiscard()}>
+          Cancel
+        </Button>
+      </Row>
+    );
+
   return (
     <Page
       isLoading={isLoading}
@@ -144,47 +181,7 @@ export const MetricPreviewPage = () => {
             backOpts={backOpts}
           />
         ),
-        suffix: !isCustomizeMode ? (
-          <Row gap="x-3">
-            <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-              <Button size="sm" onClick={() => setCustomizeMode(true)} icon={<SettingOutlined />}>
-                Configure
-              </Button>
-            </Permissions>
-            {!options.internal && (
-              <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-                <Confirm
-                  description="Are you sure that you want to remove this metric?"
-                  onOk={() => onRemove()}
-                >
-                  <Button size="sm" variant="danger">
-                    Remove
-                  </Button>
-                </Confirm>
-              </Permissions>
-            )}
-          </Row>
-        ) : (
-          <Row gap="x-3">
-            <Button
-              icon={<CheckOutlined />}
-              loading={saveLoading}
-              variant="primary"
-              size="sm"
-              onClick={() => onSave()}
-            >
-              Update
-            </Button>
-            <Button
-              loading={removeLoading}
-              variant="danger"
-              size="sm"
-              onClick={() => onDiscard()}
-            >
-              Cancel
-            </Button>
-          </Row>
-        )
+        suffix: operationButtons()
       }}
     >
       <Page.Content className="pt-0">

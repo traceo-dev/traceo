@@ -11,6 +11,11 @@ export type HookType = "setSelect" | "draw";
 export type ChartType = "timeseries" | "histogram" | "none";
 
 type CoreUplotOptions = Pick<uPlot.Options, "bands" | "drawOrder" | "fmtDate" | "focus" | "mode" | "ms" | "padding" | "pxAlign" | "tzDate" | "class">;
+
+// export type HistogramOptions = {
+//     bucketSize: number;
+// }
+
 export type BaseOptions = CoreUplotOptions & {
     id?: string;
     width?: number;
@@ -19,6 +24,7 @@ export type BaseOptions = CoreUplotOptions & {
     stacked?: boolean;
     data?: UplotDataType;
     isZoom?: boolean;
+    // histogram?: HistogramOptions;
 }
 
 export type UPlotLegend = Pick<uPlot.Legend, "show" | "markers" | "values">;

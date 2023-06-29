@@ -41,13 +41,6 @@ export const TimeseriesForm = (props: Props) => {
     });
   };
 
-  const toggleSerieVisibility = (index: number) => {
-    const visibility = props.options.series[index].show;
-    props.setOptions((opt) => {
-      opt.series[index].show = !visibility;
-    });
-  };
-
   const onAddNewSerie = () => {
     props.data.push([]);
     props.setOptions((opt) => {
@@ -180,7 +173,6 @@ export const TimeseriesForm = (props: Props) => {
             show={serie?.show}
             defaultMetric={props.options.internal}
             onDelete={() => onDeleteSerie(serie as IMetricSerie)}
-            onHide={() => toggleSerieVisibility(index)}
           >
             <>
               {editSerieForm({

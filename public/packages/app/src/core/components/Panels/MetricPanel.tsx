@@ -2,17 +2,18 @@ import {
   IMetric,
   METRIC_UNIT,
   MetricType,
+  PLOT_TYPE,
   Setter,
   TimeRange,
   UplotDataType
 } from "@traceo/types";
 import { HTMLProps, useMemo } from "react";
-import { buildSeries } from "src/features/project/metrics/components/utils";
 import BaseUPlotChart from "../UPlot/BaseUPlotChart";
 import { UPlotConfigBuilder } from "../UPlot/UPlotConfigBuilder";
 import { prepareBinsData, calculateHistogramBins } from "../UPlot/histogram";
 import { hook } from "../UPlot/hooks";
 import { ContentCard } from "../ContentCard";
+import { calculateOpacity } from "src/core/utils/colors";
 
 interface Props extends Omit<HTMLProps<HTMLElement>, "height"> {
   datasource: UplotDataType;
@@ -23,6 +24,33 @@ interface Props extends Omit<HTMLProps<HTMLElement>, "height"> {
   onZoom?: Setter<TimeRange>;
   panelName?: JSX.Element | string;
 }
+
+const buildSeries = (builder: UPlotConfigBuilder, metric: IMetric) => {
+  if (metric.series && metric.series.length > 0) {
+    for (const serie of metric.series) {
+      const isHistogram = metric.type === MetricType.HISTOGRAM;
+      const chartType = isHistogram ? PLOT_TYPE.BAR : (serie.config.type as PLOT_TYPE);
+      const isArea = serie.config.area.show;
+      const areaOpacity = serie.config.area.opacity;
+
+      builder.addSerie({
+        type: chartType,
+        stroke: serie.config.color,
+        width: serie.config.lineWidth,
+        fill: calculateOpacity(serie.config.color, isArea ? areaOpacity : 0),
+        points: {
+          show: metric.config.line.marker.show
+        },
+        bar: {
+          width: serie.config.barWidth,
+          align: isHistogram ? 1 : 0
+        },
+        label: serie.field
+      });
+    }
+  }
+};
+
 export const MetricPanel = ({
   datasource = [[], []],
   metric = undefined,
@@ -33,10 +61,10 @@ export const MetricPanel = ({
   panelName = undefined,
   ...props
 }: Props) => {
-  const ds = useMemo(() => {
-    const isHistogram = metric?.type === MetricType.HISTOGRAM;
-    const bucketSize = metric?.config.histogram?.bucket.size;
+  const isHistogram = metric?.type === MetricType.HISTOGRAM;
+  const bucketSize = metric?.config.histogram?.bucket.size;
 
+  const ds = useMemo(() => {
     if (isHistogram) {
       return prepareBinsData(datasource, {
         bucketSize,
@@ -54,8 +82,6 @@ export const MetricPanel = ({
   };
 
   const configs = useMemo(() => {
-    const isHistogram = metric?.type === MetricType.HISTOGRAM;
-
     const showLegend = metric?.config.legend.show;
     const showXAxis = metric?.config.axis.showX;
     const showYAxis = metric?.config.axis.showY;

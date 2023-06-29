@@ -6,10 +6,10 @@ import { useMemo } from "react";
 import { editMetricLegendForm } from "../editMetricGraphForm";
 import { editMetricHistogramForm } from "../editMetricHistogramForm";
 import { DraftFunction } from "use-immer";
-import { randomHexColor } from "src/core/utils/colors";
+import { randomHexColor } from "../../../../../core/utils/colors";
 import { PlusOutlined } from "@ant-design/icons";
 import { AddSerieBtn } from "./components";
-import { GH_REPO_ISSUE_LINK } from "src/core/utils/constants";
+import { GH_REPO_ISSUE_LINK } from "../../../../../core/utils/constants";
 
 interface Props {
   data?: UplotDataType;
@@ -50,13 +50,6 @@ export const HistogramForm = (props: Props) => {
     const newSeries = props.options.series.filter((s) => s !== serie);
     props.setOptions((opt) => {
       opt.series = newSeries;
-    });
-  };
-
-  const toggleSerieVisibility = (index: number) => {
-    const visibility = props.options.series[index].show;
-    props.setOptions((opt) => {
-      opt.series[index].show = !visibility;
     });
   };
 
@@ -115,7 +108,6 @@ export const HistogramForm = (props: Props) => {
             }
             description={serie?.description}
             onDelete={() => onDeleteSerie(serie as IMetricSerie)}
-            onHide={() => toggleSerieVisibility(index)}
           >
             <>
               {editSerieForm({

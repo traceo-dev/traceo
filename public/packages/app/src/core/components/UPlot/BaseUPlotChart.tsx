@@ -25,7 +25,7 @@ const BaseUPlotChart = ({ configs }: ChartProps) => {
         configs.options.width = width;
 
         chart.setSize({
-          width: width,
+          width: Math.floor(width),
           height: configs.options.height
         });
       }

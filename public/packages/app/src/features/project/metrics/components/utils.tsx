@@ -81,31 +81,5 @@ export const stackStrategyOptions = Object.values(STACK_STRATEGY).map((strategy)
   label: strategy
 }));
 
-export const buildSeries = (builder: UPlotConfigBuilder, metric: IMetric) => {
-  if (metric.series && metric.series.length > 0) {
-    for (const serie of metric.series) {
-      const isHistogram = metric.type === MetricType.HISTOGRAM;
-      const chartType = isHistogram ? PLOT_TYPE.BAR : (serie.config.type as PLOT_TYPE);
-      const isArea = serie.config.area.show;
-      const areaOpacity = serie.config.area.opacity;
-
-      builder.addSerie({
-        type: chartType,
-        stroke: serie.config.color,
-        width: serie.config.lineWidth,
-        fill: calculateOpacity(serie.config.color, isArea ? areaOpacity : 0),
-        points: {
-          show: metric.config.line.marker.show
-        },
-        bar: {
-          width: serie.config.barWidth,
-          align: isHistogram ? 1 : 0
-        },
-        label: serie.field
-      });
-    }
-  }
-};
-
 export const isStackAvailable = (series: DeepPartial<IMetricSerie[]>) =>
   sameArrayValues(series.map(({ config }) => config.type));
