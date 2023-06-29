@@ -8,12 +8,11 @@ import {
   UplotDataType
 } from "@traceo/types";
 import { HTMLProps, useMemo } from "react";
-import BaseUPlotChart from "../UPlot/BaseUPlotChart";
-import { UPlotConfigBuilder } from "../UPlot/UPlotConfigBuilder";
-import { prepareBinsData, calculateHistogramBins } from "../UPlot/histogram";
-import { hook } from "../UPlot/hooks";
-import { ContentCard } from "../ContentCard";
-import { calculateOpacity } from "src/core/utils/colors";
+import BaseUPlotChart from "./BaseUPlotChart";
+import { UPlotConfigBuilder } from "./UPlotConfigBuilder";
+import { hook } from "./hooks";
+import { calculateOpacity } from "../../../core/utils/colors";
+import { ChartType } from "./types";
 
 interface Props extends Omit<HTMLProps<HTMLElement>, "height"> {
   datasource: UplotDataType;
@@ -51,34 +50,18 @@ const buildSeries = (builder: UPlotConfigBuilder, metric: IMetric) => {
   }
 };
 
-export const MetricPanel = ({
+export const BaseMetricChart = ({
   datasource = [[], []],
   metric = undefined,
   onZoom = undefined,
-  height = 350,
-  extra = undefined,
-  isLoading = false,
-  panelName = undefined,
-  ...props
+  height = 350
 }: Props) => {
   const isHistogram = metric?.type === MetricType.HISTOGRAM;
-  const bucketSize = metric?.config.histogram?.bucket.size;
+  const isTimeseries = metric?.type === MetricType.TIME_SERIES;
 
-  const ds = useMemo(() => {
-    if (isHistogram) {
-      return prepareBinsData(datasource, {
-        bucketSize,
-        max: metric.config.histogram?.max ?? 0,
-        min: metric.config.histogram?.min || undefined
-      });
-    }
-
-    return datasource;
-  }, [datasource, metric]);
-
-  const histogramSplits = () => {
-    const bucketSize = metric?.config.histogram?.bucket.size;
-    return calculateHistogramBins(datasource, bucketSize);
+  const mapMetricType: Record<MetricType, ChartType> = {
+    histogram: "histogram",
+    time_series: "timeseries"
   };
 
   const configs = useMemo(() => {
@@ -98,22 +81,26 @@ export const MetricPanel = ({
 
     return builder
       .addBase({
+        chartType: mapMetricType[metric?.type],
         height: plotHeight,
         stacked,
-        data: ds,
-        isZoom: !isHistogram
+        data: datasource,
+        histogram: {
+          bucketSize: metric?.config.histogram?.bucket.size,
+          max: metric.config.histogram?.max ?? undefined,
+          min: metric.config.histogram?.min ?? 0
+        }
       })
       .addLegend({
         show: showLegend
       })
       .addAxe({
         scale: "x",
-        isTimeAxis: !isHistogram,
+        isTimeAxis: isTimeseries,
         show: showXAxis,
         grid: {
           show: showGridLines
-        },
-        splits: isHistogram ? histogramSplits : undefined
+        }
       })
       .addAxe({
         scale: "y",
@@ -137,17 +124,7 @@ export const MetricPanel = ({
         show: showTooltip
       })
       .build();
-  }, [metric, ds]);
+  }, [metric, datasource]);
 
-  return (
-    <ContentCard
-      {...props}
-      name={panelName}
-      loading={isLoading}
-      extra={extra}
-      bodyClassName="m-0"
-    >
-      <BaseUPlotChart configs={configs} />
-    </ContentCard>
-  );
+  return <BaseUPlotChart configs={configs} />;
 };

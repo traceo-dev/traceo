@@ -3,7 +3,8 @@ import { IMetric, Setter, TimeRange } from "@traceo/types";
 import { FC, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
-import { MetricPanel } from "../../../../core/components/Panels/MetricPanel";
+import { BaseMetricChart } from "../../../../core/components/UPlot/BaseMetricChart";
+import { DashboardPanel } from "src/core/components/DashboardPanel";
 
 interface MetricCardProps {
   metric: IMetric;
@@ -43,32 +44,23 @@ export const MetricCard: FC<MetricCardProps> = ({
     setRanges(ranges);
   };
 
-  const onNavigate = () => {
-    navigate({
-      pathname: `/project/${id}/metrics/preview/${metric.id}`,
-      search: `?from=${ranges[0]}&to=${ranges[1]}`
-    });
-  };
-
-  const onRefresh = (e: any) => {
-    e.stopPropagation();
-    refetch();
-  };
-
   return (
-    <MetricPanel
-      height={180}
-      panelName={<span onClick={() => onNavigate()}>{metric?.name}</span>}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      datasource={data?.datasource}
-      metric={data?.options || metric}
-      extra={
-        isHover && !isRefetching && <ReloadOutlined className="text-[10px]" onClick={onRefresh} />
-      }
-      isLoading={isLoading || isRefetching}
-      onZoom={onZoom}
+    <DashboardPanel
+      name={metric?.name}
+      loading={isLoading || isRefetching}
       className="col-span-6 min-w-[200px]"
-    />
+      navigateTo={{
+        pathname: `/project/${id}/metrics/preview/${metric.id}`,
+        search: `?from=${ranges[0]}&to=${ranges[1]}`
+      }}
+    >
+      <BaseMetricChart
+        height={180}
+        datasource={data?.datasource}
+        metric={data?.options || metric}
+        isLoading={isLoading || isRefetching}
+        onZoom={onZoom}
+      />
+    </DashboardPanel>
   );
 };
