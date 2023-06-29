@@ -1,12 +1,12 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
-import { ExploreMetricsQueryDto, MetricsQueryDto } from "../../../common/types/dto/metrics.dto";
+import { ExploreMetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { IMetric, MetricPreviewType, MetricType } from "@traceo/types";
-import { Metric } from "../../../db/entities/metric.entity";
-import { Brackets, EntityManager } from "typeorm";
+import { MetricPreviewType, PANEL_TYPE } from "@traceo/types";
+import { EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { calculateInterval } from "../../../common/helpers/interval";
+import { DashboardPanel } from "../../../db/entities/dashboard-panel.entity";
 
 export type AggregateTimeSeries = { minute: number, value: number }[];
 
@@ -21,38 +21,6 @@ export class MetricsQueryService {
     private readonly clickhouseService: ClickhouseService
   ) {
     this.logger = new Logger(MetricsQueryService.name);
-  }
-
-  public async getProjectMetrics(
-    projectId: string,
-    query: MetricsQueryDto
-  ): Promise<ApiResponse<IMetric[]>> {
-    try {
-      const queryBuilder = this.entityManager
-        .getRepository(Metric)
-        .createQueryBuilder("metric")
-        .innerJoinAndSelect("metric.project", "project", "project.id = :projectId", {
-          projectId
-        });
-
-      if (query?.search) {
-        queryBuilder.andWhere(
-          new Brackets((qb) => {
-            qb.where("LOWER(metric.name) LIKE LOWER(:search)", {
-              search: `%${query.search}%`
-            }).orWhere("LOWER(metric.description) LIKE LOWER(:search)", {
-              search: `%${query.search}%`
-            });
-          })
-        );
-      }
-
-      const qb = await queryBuilder.orderBy("metric.createdAt", "DESC").getMany();
-      return new ApiResponse("success", undefined, qb);
-    } catch (err) {
-      this.logger.error(`[${this.getProjectMetrics.name}] Caused by: ${err}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
-    }
   }
 
   public async getMetricsExploreGraph(
@@ -80,33 +48,33 @@ export class MetricsQueryService {
 
   public async getMetricGraph(
     projectId: string,
-    metricId: string,
+    panelId: string,
     from: number,
     to: number
   ): Promise<ApiResponse<MetricPreviewType>> {
-    if (!projectId || !metricId) {
-      throw new Error("Project and metric ids are required!");
+    if (!panelId) {
+      throw new Error("Panel ID is required!");
     }
 
     try {
-      const metric = await this.entityManager.getRepository(Metric).findOneBy({
-        id: metricId,
-        project: {
-          id: projectId
-        }
+      const metric = await this.entityManager.getRepository(DashboardPanel).findOneBy({
+        id: panelId
       });
 
-      if (!metric || metric.series.length === 0) {
-        return new ApiResponse("success", undefined, { options: {}, datasource: [] })
+      if (!metric) {
+        throw new BadRequestException('Metric does not exists!')
       }
+
+      const series = metric.config.series;
+      const type = metric.type
 
       const response = await this.mapAggregateDataSource(projectId, {
         from, to,
-        fields: metric.series.map((e) => e.field),
+        fields: series.map((e) => e.field),
         interval: 1,
         valueMax: undefined,
         valueMin: undefined,
-        isHistogram: metric.type === MetricType.HISTOGRAM
+        isHistogram: type === PANEL_TYPE.HISTOGRAM
       })
 
       return new ApiResponse("success", undefined, {
@@ -162,15 +130,12 @@ export class MetricsQueryService {
     try {
       let fields = query.fields || [];
 
-      if (query?.metricId) {
-        const metric = await this.entityManager.getRepository(Metric).findOneBy({
-          id: query.metricId,
-          project: {
-            id: projectId
-          }
+      if (query?.panelId) {
+        const metric = await this.entityManager.getRepository(DashboardPanel).findOneBy({
+          id: query.panelId
         });
 
-        fields = metric.series.map((e) => e.field);
+        fields = metric.config.series.map((e) => e.field);
       }
 
       if (fields.length === 0) {

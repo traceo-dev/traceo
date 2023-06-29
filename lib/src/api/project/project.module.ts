@@ -6,7 +6,6 @@ import { PassportModule } from "@nestjs/passport";
 import { ProjectQueryService } from "./project-query/project-query.service";
 import { MemberQueryService } from "../member/member-query/member-query.service";
 import { UserQueryService } from "../user/user-query/user-query.service";
-import { MetricsService } from "../metrics/metrics.service";
 import { ProjectsController } from "./projects.controller";
 
 @Module({
@@ -18,8 +17,7 @@ import { ProjectsController } from "./projects.controller";
     ProjectQueryService,
     MemberService,
     MemberQueryService,
-    UserQueryService,
-    MetricsService
+    UserQueryService
   ],
   controllers: [ProjectsController, ProjectController],
   exports: [ProjectService, ProjectQueryService]

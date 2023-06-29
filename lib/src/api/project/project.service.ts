@@ -11,9 +11,9 @@ import { uuidService } from "../../common/helpers/uuid";
 import { CreateProjectDto, ProjectDto } from "../../common/types/dto/project.dto";
 import { Project } from "../../db/entities/project.entity";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { BROWSER_SDK, MemberRole } from "@traceo/types";
-import { MetricsService } from "../metrics/metrics.service";
+import { MemberRole } from "@traceo/types";
 import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
+import { DashboardService } from "../dashboard/dashboard.service";
 
 @Injectable()
 export class ProjectService {
@@ -24,7 +24,7 @@ export class ProjectService {
     private readonly memberService: MemberService,
     private readonly projectQueryService: ProjectQueryService,
     private readonly userQueryService: UserQueryService,
-    private readonly metricsService: MetricsService
+    private readonly dashboardService: DashboardService
   ) {
     this.logger = new Logger(ProjectService.name);
   }
@@ -57,10 +57,10 @@ export class ProjectService {
         };
 
         const project = await manager.getRepository(Project).save(payload);
-        if (!BROWSER_SDK.includes(data.sdk)) {
-          // In server-project we have to create default metrics configurations
-          await this.metricsService.addDefaultMetrics(project, manager);
-        }
+        // if (!BROWSER_SDK.includes(data.sdk)) {
+        //   // In server-project we have to create default metrics configurations
+        //   await this.metricsService.addDefaultMetrics(project, manager);
+        // }
 
         if (username !== ADMIN_NAME) {
           const admin = await this.userQueryService.getDtoBy({ email: ADMIN_EMAIL });
@@ -73,6 +73,11 @@ export class ProjectService {
         }
 
         await this.memberService.createMember(user, project, MemberRole.ADMINISTRATOR, manager);
+
+        // Create basic dashboard
+        await this.dashboardService.create({
+          name: "Dashboard"
+        }, project, manager);
 
         return new ApiResponse("success", "Project successfully created", {
           redirectUrl: `/project/${project.id}/overview`,

@@ -9,7 +9,7 @@ import {
   IsString,
   ValidateNested
 } from "class-validator";
-import { METRIC_UNIT, MetricType, PLOT_TYPE, TOOLTIP_POSITION } from "@traceo/types";
+import { METRIC_UNIT, PLOT_TYPE, TOOLTIP_POSITION } from "@traceo/types";
 import { ApiPropertyOptional } from "@nestjs/swagger";
 
 export class MetricQueryDto {
@@ -25,7 +25,7 @@ export class MetricQueryDto {
 
   @IsOptional()
   @IsString()
-  metricId?: string;
+  panelId?: string;
 }
 
 export class ExploreMetricsQueryDto extends MetricQueryDto {
@@ -37,7 +37,7 @@ export class ExploreMetricsQueryDto extends MetricQueryDto {
 
   @IsOptional()
   interval: number = 1;
-  
+
   isHistogram: boolean = false;
 }
 
@@ -140,7 +140,20 @@ class UpdateMetricAxisDto {
   showGridLines: boolean = true;
 }
 
-class UpdateConfigMetricDto {
+export class UpdateOptionsMetricDto {
+  @IsEnum(METRIC_UNIT)
+  @IsOptional()
+  @ApiPropertyOptional()
+  unit: METRIC_UNIT = METRIC_UNIT.NONE;
+
+  @ValidateNested()
+  @IsNotEmpty()
+  @IsArray({
+    always: true
+  })
+  @Type(() => UpdateSerieMetricDto)
+  series: UpdateSerieMetricDto[];
+
   @ValidateNested()
   @Type(() => UpdateHistogramDto)
   histogram: UpdateHistogramDto;
@@ -190,7 +203,7 @@ class UpdateSerieMetricConfigDto {
   area: UpdateAreaMetricDto;
 }
 
-export class UpdateSerieMetricDto {
+class UpdateSerieMetricDto {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -221,37 +234,3 @@ export class UpdateSerieMetricDto {
   config: UpdateSerieMetricConfigDto;
 }
 
-export class UpdateMetricDto {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @IsString()
-  @IsOptional()
-  description: string;
-
-  @IsString()
-  @IsNotEmpty()
-  type: MetricType = MetricType.TIME_SERIES;
-
-  // @IsBoolean()
-  // @IsNotEmpty()
-  // show: boolean;
-
-  @ValidateNested()
-  @IsNotEmpty()
-  @IsArray({
-    always: true
-  })
-  @Type(() => UpdateSerieMetricDto)
-  series: UpdateSerieMetricDto[];
-
-  @IsEnum(METRIC_UNIT)
-  @IsOptional()
-  @ApiPropertyOptional()
-  unit: METRIC_UNIT = METRIC_UNIT.NONE;
-
-  @ValidateNested()
-  @Type(() => UpdateConfigMetricDto)
-  config: UpdateConfigMetricDto;
-}

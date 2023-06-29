@@ -28,6 +28,7 @@ import { AlertController } from "./alert/alert.controller";
 import { TracingModule } from './tracing/tracing.module';
 import { LogsModule } from './logs/logs.module';
 import { LogsController } from "./logs/logs.controller";
+import { DashboardModule } from './dashboard/dashboard.module';
 
 const apiControllers = [
   UserController,
@@ -60,7 +61,8 @@ const apiControllers = [
     PerformanceModule,
     AlertModule,
     TracingModule,
-    LogsModule
+    LogsModule,
+    DashboardModule
   ],
   controllers: apiControllers
 })
