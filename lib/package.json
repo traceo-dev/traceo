@@ -23,7 +23,7 @@
     "@nestjs/axios": "^0.0.7",
     "@nestjs/common": "9.0.5",
     "@nestjs/config": "^3.0.0",
-    "@nestjs/core": "9.0.5",
+    "@nestjs/core": "9.4.3",
     "@nestjs/jwt": "^8.0.0",
     "@nestjs/microservices": "9.0.5",
     "@nestjs/passport": "^10.0.0",
