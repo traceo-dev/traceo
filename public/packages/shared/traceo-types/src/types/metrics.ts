@@ -40,7 +40,7 @@ export type IMetric = {
   show: boolean;
   unit: string;
   series: IMetricSerie[];
-  config: IMetricConfiguration;
+  config: IMetricOptions;
 };
 
 export type IMetricSerie = {
@@ -76,7 +76,7 @@ export enum MARKER_SHAPE {
  * If values like line.width/area.show/area.opacity is not empty
  * then it overrides fields from series
  */
-export type IMetricConfiguration = {
+export type IMetricOptions = {
   histogram?: {
     bucket: {
       size: number;
