@@ -1,5 +1,15 @@
 import { Page } from "../../../core/components/Page";
-import { ApiResponse, IMetric, METRIC_UNIT, MetricType } from "@traceo/types";
+import {
+  ApiResponse,
+  Dashboard,
+  DashboardPanel,
+  IMetric,
+  IMetricOptions,
+  IMetricSerie,
+  METRIC_UNIT,
+  MetricType,
+  PANEL_TYPE
+} from "@traceo/types";
 import { DeepPartial } from "redux";
 import { useImmer } from "use-immer";
 import { Button, Card, Row } from "@traceo/ui";
@@ -14,11 +24,12 @@ import { notify } from "../../../core/utils/notify";
 import dayjs from "dayjs";
 import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { CheckOutlined } from "@ant-design/icons";
+import dateUtils from "src/core/utils/date";
 
 const initialMetric: DeepPartial<IMetric> = {
-  name: "New metric",
+  name: "New panel",
   type: MetricType.TIME_SERIES,
-  description: "New metric description",
+  description: "New panel description",
   config: {
     histogram: {
       bucket: {
@@ -69,13 +80,13 @@ const initialMetric: DeepPartial<IMetric> = {
       show: true
     }
   ],
-  internal: false,
+  // internal: false,
   show: true,
   unit: METRIC_UNIT.NONE
 };
 
-const CreateMetricPage = () => {
-  const { id } = useParams();
+const CreatePanelPage = () => {
+  const { id, did } = useParams();
 
   const navigate = useNavigate();
 
@@ -84,7 +95,7 @@ const CreateMetricPage = () => {
 
   const onCreate = async () => {
     if (!options.name) {
-      notify.error("Metric name is required.");
+      notify.error("Panel name is required.");
       return;
     }
 
@@ -108,15 +119,33 @@ const CreateMetricPage = () => {
 
     setSaveLoading(true);
 
+    // DashboardPanel
+    const config = {
+      title: options.name,
+      description: options?.description,
+      dashboardId: did,
+      gridPosition: {
+        w: 8,
+        h: 6,
+        x: 0,
+        y: 0
+      },
+      // TODO:
+      type: PANEL_TYPE.TIME_SERIES,
+      createdAt: dateUtils.toUnix(),
+      config: {
+        series: options.series as IMetricSerie[],
+        options: options.config as IMetricOptions,
+        unit: options.unit
+      }
+    };
+
     await api
-      .post<ApiResponse<unknown>>(`/api/metrics/${id}`, options)
+      .post<ApiResponse<DashboardPanel>>(`/api/dashboard/panel`, config)
       .then((resp) => {
         if (resp.status === "success") {
-          const from = dayjs().subtract(3, "h").unix();
-          const to = dayjs().unix();
           navigate({
-            pathname: `/project/${id}/metrics/preview/${resp.data["metricId"]}`,
-            search: `?from=${from}&to=${to}`
+            pathname: `/project/${id}/dashboard/${did}`
           });
         }
       })
@@ -126,7 +155,7 @@ const CreateMetricPage = () => {
   };
 
   const onCancel = () => {
-    navigate(`/project/${id}/metrics`);
+    navigate(`/project/${id}/dashboard/${did}`);
   };
 
   return (
@@ -181,4 +210,4 @@ const CreateMetricPage = () => {
   );
 };
 
-export default CreateMetricPage;
+export default CreatePanelPage;

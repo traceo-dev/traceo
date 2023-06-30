@@ -23,7 +23,11 @@ export const HeaderItem = ({ route }: HeaderItemProps) => {
     return location.pathname.split("/").includes(key);
   };
 
-  const parsePath = () => href.replace(":id", project?.id).replace(":iid", incident?.id);
+  const parsePath = () =>
+    href
+      .replace(":id", project?.id)
+      .replace(":iid", incident?.id)
+      .replace(":did", project?.mainDashboardId);
 
   const handleOnClick = () => onClick && onClick();
 

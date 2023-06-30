@@ -4,7 +4,7 @@ import { DashboardService } from './dashboard.service';
 import { Dashboard } from '../../db/entities/dashboard.entity';
 import { ApiResponse } from '../../common/types/dto/response.dto';
 import { DashboardPanel } from '../../db/entities/dashboard-panel.entity';
-import { DashboardDto, DashboardPanelDto } from '../../common/types/dto/dashboard.dto';
+import { DashboardDto, DashboardPanelDto, LayoutChangeDto } from '../../common/types/dto/dashboard.dto';
 
 @Controller('dashboard')
 export class DashboardController {
@@ -56,6 +56,11 @@ export class DashboardController {
     @Patch('/panel')
     private async updatePanel(@Body() body: DashboardPanelDto): Promise<ApiResponse<string>> {
         return await this.dashboardService.updatePanel(body);
+    }
+
+    @Patch('/layout')
+    private async updateDashboardLayout(@Body() body: LayoutChangeDto): Promise<ApiResponse<string>> {
+        return await this.dashboardService.updateDashboardLayout(body);
     }
 
     //  //  //  //

@@ -6,8 +6,9 @@ import { Dashboard } from '../../db/entities/dashboard.entity';
 import { Project } from '../../db/entities/project.entity';
 import { EntityManager } from 'typeorm';
 import { ProjectQueryService } from '../project/project-query/project-query.service';
-import { DashboardDto, DashboardPanelDto } from '../../common/types/dto/dashboard.dto';
+import { DashboardDto, DashboardPanelDto, LayoutChangeDto } from '../../common/types/dto/dashboard.dto';
 import { DashboardQueryService } from './dashboard-query/dashboard-query.service';
+import dateUtils from '../../common/helpers/dateUtils';
 
 /**
  * TODO: semaphors to crud operations on dashboards/panels
@@ -26,11 +27,11 @@ export class DashboardService {
     }
 
     public async create(dto: DashboardDto, project: Project, manager: EntityManager = this.entityManager) {
-        const dashboard: Partial<Dashboard> = {
+        return await manager.getRepository(Dashboard).save({
             project,
+            createdAt: dateUtils.toUnix(),
             ...dto
-        }
-        return await this.entityManager.getRepository(Dashboard).save(dashboard);
+        });
     }
 
     public async createDashboard(dto: DashboardDto): Promise<ApiResponse<Dashboard>> {
@@ -42,7 +43,9 @@ export class DashboardService {
 
             const dashboard = await this.create(dto, project);
 
-            return new ApiResponse("success", undefined, dashboard);
+            return new ApiResponse("success", undefined, {
+                id: dashboard.id
+            });
         } catch (err) {
             this.logger.error(`[${this.createDashboard.name}] Caused by: ${err}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
@@ -79,13 +82,28 @@ export class DashboardService {
 
     public async updatePanel(dto: DashboardPanelDto): Promise<ApiResponse<DashboardPanel>> {
         try {
-            const dashboardPanel = await this.entityManager.getRepository(DashboardPanel).update({ id: dto.panelId }, dto);
+            const { panelId, dashboardId, ...rest } = dto;
+            const dashboardPanel = await this.entityManager.getRepository(DashboardPanel).update({ id: panelId }, rest);
             return new ApiResponse("success", undefined, dashboardPanel);
         } catch (err) {
             this.logger.error(`[${this.updatePanel.name}] Caused by: ${err}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
         }
     }
+
+    public async updateDashboardLayout(dto: LayoutChangeDto): Promise<ApiResponse<unknown>> {
+        try {
+            for (const position of dto.positions) {
+                await this.entityManager.getRepository(DashboardPanel).update({ id: position.i }, {
+                    gridPosition: position
+                });
+            }
+            return new ApiResponse("success", undefined, undefined);
+        } catch (err) {
+            this.logger.error(`[${this.updateDashboardLayout.name}] Caused by: ${err}`);
+            return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+        }
+    };
 
     public async removeDashboard(dashboardId: string): Promise<ApiResponse<unknown>> {
         try {

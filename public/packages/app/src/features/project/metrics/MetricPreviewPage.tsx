@@ -140,18 +140,16 @@ export const MetricPreviewPage = () => {
             Configure
           </Button>
         </Permissions>
-        {!options.internal && (
-          <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-            <Confirm
-              description="Are you sure that you want to remove this metric?"
-              onOk={() => onRemove()}
-            >
-              <Button size="sm" variant="danger">
-                Remove
-              </Button>
-            </Confirm>
-          </Permissions>
-        )}
+        <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+          <Confirm
+            description="Are you sure that you want to remove this metric?"
+            onOk={() => onRemove()}
+          >
+            <Button size="sm" variant="danger">
+              Remove
+            </Button>
+          </Confirm>
+        </Permissions>
       </Row>
     ) : (
       <Row gap="x-3">

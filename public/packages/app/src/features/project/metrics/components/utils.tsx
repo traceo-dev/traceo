@@ -11,6 +11,7 @@ import {
   MARKER_SHAPE,
   METRIC_UNIT,
   MetricType,
+  PANEL_TYPE,
   PLOT_TYPE,
   STACK_STRATEGY
 } from "@traceo/types";
@@ -29,7 +30,7 @@ const mapMetricTypeName: Record<MetricType, string> = {
   [MetricType.HISTOGRAM]: "Histogram"
 };
 
-export const metricTypeOptions = Object.values(MetricType).map((type) => ({
+export const metricTypeOptions = Object.values(PANEL_TYPE).map((type) => ({
   value: type,
   label: mapMetricTypeName[type]
 }));

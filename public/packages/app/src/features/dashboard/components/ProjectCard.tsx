@@ -14,7 +14,9 @@ export const ProjectCard: FC<Props> = ({ project }) => {
 
   return (
     <Row
-      onClick={() => (window.location.href = `/project/${project.projectId}/overview`)}
+      onClick={() =>
+        (window.location.href = `/project/${project.projectId}/dashboard/${project?.mainDashboardId}`)
+      }
       className="md:col-span-2 lg:col-span-4 justify-between p-5 m-2 bg-secondary rounded-md cursor-pointer hover:bg-light-secondary"
     >
       <Row>

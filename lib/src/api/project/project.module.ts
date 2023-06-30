@@ -7,6 +7,8 @@ import { ProjectQueryService } from "./project-query/project-query.service";
 import { MemberQueryService } from "../member/member-query/member-query.service";
 import { UserQueryService } from "../user/user-query/user-query.service";
 import { ProjectsController } from "./projects.controller";
+import { DashboardService } from "../dashboard/dashboard.service";
+import { DashboardQueryService } from "../dashboard/dashboard-query/dashboard-query.service";
 
 @Module({
   imports: [
@@ -17,7 +19,9 @@ import { ProjectsController } from "./projects.controller";
     ProjectQueryService,
     MemberService,
     MemberQueryService,
-    UserQueryService
+    UserQueryService,
+    DashboardService,
+    DashboardQueryService
   ],
   controllers: [ProjectsController, ProjectController],
   exports: [ProjectService, ProjectQueryService]

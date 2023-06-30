@@ -11,7 +11,7 @@ import { uuidService } from "../../common/helpers/uuid";
 import { CreateProjectDto, ProjectDto } from "../../common/types/dto/project.dto";
 import { Project } from "../../db/entities/project.entity";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { MemberRole } from "@traceo/types";
+import { MemberRole, UserStatus } from "@traceo/types";
 import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
 import { DashboardService } from "../dashboard/dashboard.service";
 
@@ -42,7 +42,7 @@ export class ProjectService {
         }
 
         const user = await this.userQueryService.getDtoBy({ id });
-        if (!user) {
+        if (!user || [UserStatus.DISABLED, UserStatus.INACTIVE].includes(user.status)) {
           throw new Error(INTERNAL_SERVER_ERROR);
         }
 
@@ -75,9 +75,13 @@ export class ProjectService {
         await this.memberService.createMember(user, project, MemberRole.ADMINISTRATOR, manager);
 
         // Create basic dashboard
-        await this.dashboardService.create({
-          name: "Dashboard"
+        const dashboard = await this.dashboardService.create({
+          name: "Dashboard",
+          isEditable: false,
+          isBase: true
         }, project, manager);
+
+        await this.update(project.id, { mainDashboardId: dashboard.id }, manager);
 
         return new ApiResponse("success", "Project successfully created", {
           redirectUrl: `/project/${project.id}/overview`,

@@ -73,7 +73,9 @@ export const Header = () => {
         {availableProjects.map((project, key) => (
           <span
             key={key}
-            onClick={() => (window.location.href = `/project/${project?.projectId}/overview`)}
+            onClick={() =>
+              (window.location.href = `/project/${project?.projectId}/dashboard/${project?.mainDashboardId}`)
+            }
             className="text-sm p-2 hover:bg-secondary cursor-pointer flex flex-row items-center gap-x-3"
           >
             <Avatar size="sm" shape="square" alt={project?.name} src={project?.gravatar} />
@@ -159,21 +161,6 @@ export const Header = () => {
         </Row>
         <Row gap="x-3">
           <ServerPermissions>
-            <Popover
-              placement="bottom-end"
-              showArrow={false}
-              overrideStyles={{
-                marginTop: "15px",
-                transitionDuration: 0
-              }}
-              content={createNewContent}
-            >
-              <HeaderButton>
-                <span>New</span>
-                <PlusOutlined />
-              </HeaderButton>
-            </Popover>
-
             {isProjectDashboard && (
               <RouterLink to={`/dashboard/admin/users`}>
                 <SettingOutlined className="icon-btn" />

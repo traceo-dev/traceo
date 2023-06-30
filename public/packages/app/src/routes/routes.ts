@@ -65,8 +65,13 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
 const getApplicationRoutes = (): RouteDescriptor[] => {
   return [
     {
-      path: "/project/:id/overview",
-      component: lazy(() => import("../features/project/overview/OverviewPage")),
+      path: "/project/:id/dashboard/:did",
+      component: lazy(() => import("../features/project/overview/DashboardPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/dashboard/:did/panel-create",
+      component: lazy(() => import("../features/project/metrics/CreatePanelPage")),
       wrapper: ProjectDashboardWrapper
     },
     {
@@ -137,11 +142,6 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
     {
       path: "/project/:id/metrics",
       component: lazy(() => import("../features/project/metrics/MetricsPage")),
-      wrapper: ProjectDashboardWrapper
-    },
-    {
-      path: "/project/:id/metrics/create",
-      component: lazy(() => import("../features/project/metrics/CreateMetricPage")),
       wrapper: ProjectDashboardWrapper
     },
     {

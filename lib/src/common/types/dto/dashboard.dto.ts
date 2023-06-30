@@ -17,6 +17,32 @@ export class DashboardDto {
     @IsNotEmpty()
     @IsString()
     name: string;
+
+    isEditable?: boolean = true;
+    isBase?: boolean = true;
+}
+
+export class LayoutChangeDto {
+    @ValidateNested()
+    @Type(() => GridPositionDto)
+    positions: GridPositionDto[];
+}
+
+class GridPositionDto {
+    @IsOptional()
+    i: string;
+
+    @IsNotEmpty()
+    x: number;
+
+    @IsNotEmpty()
+    y: number;
+
+    @IsNotEmpty()
+    w: number;
+
+    @IsNotEmpty()
+    h: number;
 }
 
 export class DashboardPanelDto {
@@ -49,16 +75,3 @@ export class DashboardPanelDto {
     config: UpdateOptionsMetricDto;
 }
 
-class GridPositionDto {
-    @IsNotEmpty()
-    x: number;
-
-    @IsNotEmpty()
-    y: number;
-
-    @IsNotEmpty()
-    w: number;
-
-    @IsNotEmpty()
-    h: number;
-}

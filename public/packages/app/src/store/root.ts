@@ -3,6 +3,7 @@ import adminProjectReducer from "../features/admin/state/projects/reducers";
 
 import incidentReducer from "../features/project/incidents/state/slices/incident.slice";
 import groupedEventsReducer from "../features/project/incidents/state/slices/grouped-events.slice";
+import dashboardReducer from "../features/project/overview/state/reducers";
 
 import alertsSlice from "../features/project/alerting/state/alert.slice";
 import membersReducer from "../features/project/settings/state/members/reducers";
@@ -30,7 +31,8 @@ const rootReducers = {
   ...applicationReducer,
   ...navbarReducer,
   ...notifyReducer,
-  ...incidentReducers
+  ...incidentReducers,
+  ...dashboardReducer
 };
 
 export const appReducers = combineReducers({

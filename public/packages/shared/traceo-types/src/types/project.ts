@@ -19,6 +19,8 @@ export interface IProject {
   isIntegrated: boolean;
 
   apiKey: string;
+
+  mainDashboardId: string;
 }
 
 export interface IProjectResponse extends Omit<IProject, "influxDS" | "owner"> {

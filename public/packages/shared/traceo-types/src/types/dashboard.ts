@@ -6,6 +6,10 @@ export interface Dashboard {
     name: string;
     projectId?: string;
     panels: DashboardPanel[];
+
+    // base dashboard created for project
+    isBase: boolean;
+    isEditable: boolean;
 }
 
 export interface PanelGridPosition {
@@ -36,7 +40,10 @@ export interface DashboardPanel {
     description: string;
     type: PANEL_TYPE;
 
+    // position for react-grid-layout
     gridPosition: PanelGridPosition;
+
+    // panel configuration
     config: PanelConfiguration;
 
     dashboard: Dashboard;

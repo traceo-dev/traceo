@@ -13,9 +13,9 @@ export const buildHeaderItems = (isAdmin: boolean, project: IProject): MenuRoute
 
     const navItems: MenuRoute[] = [
       {
-        key: "overview",
-        href: "/project/:id/overview",
-        label: "Overview"
+        key: "dashboard",
+        href: "/project/:id/dashboard/:did",
+        label: "Dashboard"
       },
       {
         key: "incidents",

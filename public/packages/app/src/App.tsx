@@ -1,6 +1,9 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./assets/styles/main.css";
 import "@traceo/ui/dist/styles.css";
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
+
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Maintenance from "./core/components/Layout/Pages/Maintenance";
 import { NotificationContainer } from "./core/components/Notification/NotificationContainer";
 import { PageCenter } from "./core/components/PageCenter";

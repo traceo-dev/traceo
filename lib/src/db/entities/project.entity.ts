@@ -49,6 +49,13 @@ export class Project extends BaseEntity implements IProject {
   })
   isIntegrated: boolean;
 
+  // TODO: nullable->false
+  @Column({
+    type: "varchar",
+    nullable: true
+  })
+  mainDashboardId: string;
+
   @OneToMany(() => Incident, (incident) => incident.project, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE"
