@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { DashboardQueryService } from './dashboard-query/dashboard-query.service';
 import { DashboardService } from './dashboard.service';
 import { Dashboard } from '../../db/entities/dashboard.entity';
@@ -65,9 +65,12 @@ export class DashboardController {
 
     //  //  //  //
 
-    @Delete("/:id")
-    private async removeDashboard(@Param("id") id: string): Promise<ApiResponse<string>> {
-        return await this.dashboardService.removeDashboard(id);
+    @Delete()
+    private async removeDashboard(
+        @Query("dashboardId") dashboardId: string,
+        @Query("projectId") projectId: string
+    ): Promise<ApiResponse<string>> {
+        return await this.dashboardService.removeDashboard(dashboardId, projectId);
     }
 
     @Delete("/panel/:id")

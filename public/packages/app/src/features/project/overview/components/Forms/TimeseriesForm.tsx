@@ -1,5 +1,5 @@
 import { WarningOutlined, PlusOutlined } from "@ant-design/icons";
-import { DeepPartial, IMetric, IMetricSerie, UplotDataType } from "@traceo/types";
+import { IMetricSerie } from "@traceo/types";
 import { FieldLabel, Tooltip, Alert, Row } from "@traceo/ui";
 import { CustomizeFormSection } from "../CustomizeFormSection";
 import { editSerieForm } from "../editMetricSeriesForm";
@@ -13,16 +13,11 @@ import {
   editMetricMarkerForm,
   editMetricStackForm
 } from "../editMetricGraphForm";
-import { DraftFunction } from "use-immer";
 import { AddSerieBtn } from "./components";
+import { FormProps } from "./types";
 
-interface Props {
-  data?: UplotDataType;
-  options: DeepPartial<IMetric>;
-  setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
-}
-
-export const TimeseriesForm = (props: Props) => {
+export const TimeseriesForm = (props: FormProps) => {
+  const series = props.options.config.series;
   const [tooltipOptions, axisOptions, legendOptions, markerOptions, stackOptions] = useMemo(
     () => [
       editMetricTooltipForm(props),
@@ -35,17 +30,16 @@ export const TimeseriesForm = (props: Props) => {
   );
 
   const onDeleteSerie = (serie: IMetricSerie) => {
-    const newSeries = props.options.series.filter((s) => s !== serie);
+    const newSeries = series.filter((s) => s !== serie);
     props.setOptions((opt) => {
-      opt.series = newSeries;
+      opt.config.series = newSeries;
     });
   };
 
   const onAddNewSerie = () => {
     props.data.push([]);
     props.setOptions((opt) => {
-      opt.internal = false;
-      opt.series.push({
+      opt.config.series.push({
         config: {
           area: {
             show: false,
@@ -59,7 +53,7 @@ export const TimeseriesForm = (props: Props) => {
         field: undefined,
         show: true,
         name: "New serie",
-        description: "New serie description"
+        description: undefined
       });
     });
   };
@@ -157,7 +151,7 @@ export const TimeseriesForm = (props: Props) => {
 
       {/* Series */}
 
-      {props.options.series.map((serie, index) => (
+      {series.map((serie, index) => (
         <div key={index}>
           <CustomizeFormSection
             title={
@@ -171,7 +165,6 @@ export const TimeseriesForm = (props: Props) => {
             }
             description={serie?.description}
             show={serie?.show}
-            defaultMetric={props.options.internal}
             onDelete={() => onDeleteSerie(serie as IMetricSerie)}
           >
             <>
@@ -179,8 +172,8 @@ export const TimeseriesForm = (props: Props) => {
                 index,
                 serie: serie as IMetricSerie,
                 setOptions: props.setOptions,
-                isDefault: props.options.internal,
-                type: props.options.type
+                type: props.options.type,
+                serieFieldOptions: props.serieFieldOptions
               }).map((opt, index) => (
                 <FieldLabel
                   key={index}
@@ -196,12 +189,10 @@ export const TimeseriesForm = (props: Props) => {
         </div>
       ))}
 
-      {!props.options.internal && (
-        <AddSerieBtn onClick={() => onAddNewSerie()}>
-          <PlusOutlined />
-          Add new serie
-        </AddSerieBtn>
-      )}
+      <AddSerieBtn onClick={() => onAddNewSerie()}>
+        <PlusOutlined />
+        Add new serie
+      </AddSerieBtn>
     </>
   );
 };

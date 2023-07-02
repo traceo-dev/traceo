@@ -1,23 +1,17 @@
-import { DeepPartial, IMetric, IMetricSerie, UplotDataType } from "@traceo/types";
+import { IMetricSerie } from "@traceo/types";
 import { Alert, FieldLabel, Row } from "@traceo/ui";
 import { CustomizeFormSection } from "../CustomizeFormSection";
 import { editSerieForm } from "../editMetricSeriesForm";
 import { useMemo } from "react";
 import { editMetricLegendForm } from "../editMetricGraphForm";
 import { editMetricHistogramForm } from "../editMetricHistogramForm";
-import { DraftFunction } from "use-immer";
 import { randomHexColor } from "../../../../../core/utils/colors";
 import { PlusOutlined } from "@ant-design/icons";
 import { AddSerieBtn } from "./components";
 import { GH_REPO_ISSUE_LINK } from "../../../../../core/utils/constants";
+import { FormProps } from "./types";
 
-interface Props {
-  data?: UplotDataType;
-  options: DeepPartial<IMetric>;
-  setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
-}
-
-export const HistogramForm = (props: Props) => {
+export const HistogramForm = (props: FormProps) => {
   const [legendOptions, histogramOptions] = useMemo(
     () => [editMetricLegendForm(props), editMetricHistogramForm(props)],
     [props.options]
@@ -26,8 +20,8 @@ export const HistogramForm = (props: Props) => {
   const onAddNewSerie = () => {
     props.data.push([]);
     props.setOptions((opt) => {
-      opt.internal = false;
-      opt.series.push({
+      // opt.internal = false;
+      opt.config.series.push({
         config: {
           area: {
             show: true,
@@ -47,9 +41,9 @@ export const HistogramForm = (props: Props) => {
   };
 
   const onDeleteSerie = (serie: IMetricSerie) => {
-    const newSeries = props.options.series.filter((s) => s !== serie);
+    const newSeries = props.options.config.series.filter((s) => s !== serie);
     props.setOptions((opt) => {
-      opt.series = newSeries;
+      opt.config.series = newSeries;
     });
   };
 
@@ -94,7 +88,7 @@ export const HistogramForm = (props: Props) => {
         ))}
       </CustomizeFormSection>
 
-      {props.options.series.map((serie, index) => (
+      {props.options.config.series.map((serie, index) => (
         <div key={index}>
           <CustomizeFormSection
             title={
@@ -114,7 +108,7 @@ export const HistogramForm = (props: Props) => {
                 index,
                 serie: serie as IMetricSerie,
                 setOptions: props.setOptions,
-                isDefault: props.options.internal,
+                serieFieldOptions: props.serieFieldOptions,
                 type: props.options.type
               }).map((opt, index) => (
                 <FieldLabel

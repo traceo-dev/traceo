@@ -41,11 +41,11 @@ export const buildHeaderItems = (isAdmin: boolean, project: IProject): MenuRoute
         label: "Explore"
       });
 
-      navItems.splice(3, 0, {
-        key: "metrics",
-        href: "/project/:id/metrics",
-        label: "Metrics"
-      });
+      // navItems.splice(3, 0, {
+      //   key: "metrics",
+      //   href: "/project/:id/metrics",
+      //   label: "Metrics"
+      // });
     } else {
       navItems.splice(2, 0, {
         key: "performance",

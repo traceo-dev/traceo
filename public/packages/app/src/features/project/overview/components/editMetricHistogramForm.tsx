@@ -1,17 +1,20 @@
-import { IMetric } from "@traceo/types";
-import { DeepPartial } from "redux";
+import { DashboardPanel, DeepPartial } from "@traceo/types";
 import { DraftFunction } from "use-immer";
 import { MetricEditOption } from "./utils";
 import { Input, Switch } from "@traceo/ui";
 
 interface Props {
-  options: DeepPartial<IMetric>;
-  setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
+  options: DeepPartial<DashboardPanel>;
+  setOptions: (
+    arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
+  ) => void;
 }
 
 export const editMetricHistogramForm = (props: Props) => {
   const { options, setOptions } = props;
   const forms: MetricEditOption[] = [];
+
+  const config = options.config;
 
   forms.push({
     label: "Bucket size",
@@ -20,7 +23,7 @@ export const editMetricHistogramForm = (props: Props) => {
         type="number"
         min={1}
         max={100}
-        value={options.config.histogram?.bucket?.size}
+        value={config.histogram?.bucket?.size}
         onChange={(e) => {
           if (e.target["value"] <= 100) {
             setOptions((opt) => {
@@ -37,7 +40,7 @@ export const editMetricHistogramForm = (props: Props) => {
     labelPosition: "horizontal",
     component: (
       <Switch
-        value={options.config.histogram?.min === 0}
+        value={config.histogram?.min === 0}
         onChange={(e) => {
           setOptions((opt) => {
             opt.config.histogram.min = e.target["checked"] ? 0 : 1;

@@ -84,7 +84,7 @@ export class ProjectService {
         await this.update(project.id, { mainDashboardId: dashboard.id }, manager);
 
         return new ApiResponse("success", "Project successfully created", {
-          redirectUrl: `/project/${project.id}/overview`,
+          redirectUrl: `/project/${project.id}/dashboard/${dashboard.id}`,
           id: project.id
         });
       })

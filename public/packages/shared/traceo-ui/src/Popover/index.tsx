@@ -45,6 +45,7 @@ export const Popover: FC<PopoverProps> = ({
   const triggerOptions: Record<TriggerType, any> = {
     click: {
       onClick: (event: MouseEvent) => {
+        // TODO
         !disabled && setVisible(true);
         event.stopPropagation();
       }

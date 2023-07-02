@@ -82,7 +82,7 @@ export const ExplorePageWrapper: FC = () => {
   return (
     <Page>
       <Page.Content>
-        <Row className="w-full py-3 justify-between">
+        <Row className="w-full pb-2 justify-between">
           <Select
             variant="secondary"
             options={exploreOptions}

@@ -9,10 +9,10 @@ import { ColumnSection } from "../../../core/components/ColumnSection";
 import { Page } from "../../../core/components/Page";
 import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
-import { MetricTimeRangePicker } from "../metrics/components/MetricTimeRangePicker";
 import { VITALS_DETAILS, WEB_VITALS_DOCS_URL } from "./vitals/types";
 import { calculateVitalsAvg } from "./vitals/utils";
 import { renderChart } from "./vitals/VitalsChart";
+import { MetricTimeRangePicker } from "../overview/components/MetricTimeRangePicker";
 
 const SUPPORTED_WEB_VITALS = [
   VitalsEnum.CLS,

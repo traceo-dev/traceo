@@ -107,7 +107,7 @@ const CreateProjectPage = () => {
     >
       <Page.Content>
         <Card>
-          <Typography className="text-white" size="xl" weight="semibold">
+          <Typography size="xl" weight="semibold">
             1. Choose your platform
           </Typography>
           <ChooseElementGrid
@@ -118,7 +118,7 @@ const CreateProjectPage = () => {
           <Form onSubmit={onFinish} className="w-full" id="create-project-form">
             {({ register, errors }) => (
               <div>
-                <Typography className="text-white" size="xl" weight="semibold">
+                <Typography size="xl" weight="semibold">
                   2. Name your project
                 </Typography>
                 <FormItem

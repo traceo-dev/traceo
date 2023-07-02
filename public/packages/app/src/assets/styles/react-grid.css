@@ -1,0 +1,15 @@
+@import "react-grid-layout/css/styles";
+@import "react-resizable/css/styles";
+
+.react-grid-item.react-grid-placeholder {
+  background: none !important;
+  z-index: -1;
+  opacity: 0.3;
+  border-radius: 2px;
+  border: 2px dashed var(--color-traceo-primary);
+}
+
+.react-grid-item > .react-resizable-handle::after {
+  border-right: 2px solid gray !important;
+  border-bottom: 2px solid gray !important;
+}

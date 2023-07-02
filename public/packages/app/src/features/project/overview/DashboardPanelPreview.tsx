@@ -1,39 +1,42 @@
 import { Page } from "../../../core/components/Page";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { conditionClass } from "../../../core/utils/classes";
-import { MetricCustomizeForm } from "./components/MetricCustomizeForm";
-import { IMetric, DeepPartial, ApiResponse, MemberRole } from "@traceo/types";
+import {
+  DeepPartial,
+  ApiResponse,
+  MemberRole,
+  DashboardPanel as DashboardPanelType
+} from "@traceo/types";
 import { Button, Row } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { To, useNavigate, useParams } from "react-router-dom";
+import { To, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import { Permissions } from "../../../core/components/Permissions";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { CheckOutlined, SettingOutlined } from "@ant-design/icons";
 import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
-import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
 import api from "../../../core/lib/api";
-import { Confirm } from "../../../core/components/Confirm";
 import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
-import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
 import { notify } from "../../../core/utils/notify";
 import { BaseMetricChart } from "src/core/components/UPlot/BaseMetricChart";
-import { DashboardPanel } from "src/core/components/DashboardPanel";
+import { PanelCustomizeForm } from "./components/PanelCustomizeForm";
+import { MetricTableWrapper } from "./components/MetricTableWrapper";
+import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
+import { ContentCard } from "src/core/components/ContentCard";
+import { RemovePanelConfirm } from "./components/RemovePanelConfirm";
 
-export const MetricPreviewPage = () => {
-  const navigate = useNavigate();
-  const { metricId, id } = useParams();
+export const DashboardPanelPreview = () => {
+  const { panelId, id, did } = useParams();
   const { ranges, setRanges } = useTimeRange();
-  const [options, setOptions] = useImmer<DeepPartial<IMetric>>(undefined);
+  const [options, setOptions] = useImmer<DeepPartial<DashboardPanelType>>(undefined);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
-  const [removeLoading, setRemoveLoading] = useState<boolean>(false);
 
   const { data, refetch, isLoading, isRefetching } = useReactQuery<any>({
-    queryKey: [`metric_ds_${metricId}`],
-    url: `/api/metrics/${id}/preview/${metricId}`,
+    queryKey: [`metric_ds_${panelId}`],
+    url: `/api/metrics/${id}/preview/${panelId}`,
     params: {
       from: ranges[0],
       to: ranges[1]
@@ -46,19 +49,19 @@ export const MetricPreviewPage = () => {
     isLoading: isLoadingRawData,
     isRefetching: isRefetchinRawData
   } = useReactQuery<any>({
-    queryKey: [`metric_ds_raw_${metricId}`],
-    url: `/api/metrics/${id}/raw-data`,
+    queryKey: [`metric_ds_raw_${panelId}`],
+    url: `/api/metrics/${panelId}/raw-data`,
     params: {
       from: ranges[0],
       to: ranges[1],
-      metricId
+      panelId
     }
   });
 
   useEffect(() => {
     refetch();
     refetchRawData();
-  }, [ranges, metricId]);
+  }, [ranges, panelId]);
 
   useEffect(() => {
     if (data && data.options) {
@@ -71,12 +74,12 @@ export const MetricPreviewPage = () => {
   }
 
   const onSave = async () => {
-    if (!options.name) {
+    if (!options.title) {
       notify.error("Metric name is required.");
       return;
     }
 
-    const series = options.series;
+    const series = options.config.series;
     if (series.length === 0) {
       notify.error("You have to add at least one serie to this metric.");
       return;
@@ -97,7 +100,11 @@ export const MetricPreviewPage = () => {
     setSaveLoading(true);
 
     await api
-      .patch<ApiResponse<string>>(`/api/metrics/${metricId}/update`, options)
+      .patch<ApiResponse<string>>(`/api/dashboard/panel`, {
+        ...options,
+        dashboardId: did,
+        panelId
+      })
       .then(() => {
         refetch();
       })
@@ -112,25 +119,13 @@ export const MetricPreviewPage = () => {
     setCustomizeMode(false);
   };
 
-  const onRemove = async () => {
-    setRemoveLoading(true);
-    await api
-      .delete<ApiResponse<string>>(`/api/metrics/${metricId}`)
-      .then(() => {
-        navigate(`/project/${id}/metrics`);
-      })
-      .finally(() => {
-        setRemoveLoading(false);
-      });
-  };
-
   const backOpts: To = {
-    pathname: `/project/${id}/metrics`,
+    pathname: `/project/${id}/dashboard/${did}`,
     search: `?from=${ranges[0]}&to=${ranges[1]}`
   };
 
   const getTableFields = () =>
-    options?.series.filter(({ show }) => show).map(({ field }) => field);
+    options?.config.series.filter(({ show }) => show).map(({ field }) => field);
 
   const operationButtons = () =>
     !isCustomizeMode ? (
@@ -140,16 +135,11 @@ export const MetricPreviewPage = () => {
             Configure
           </Button>
         </Permissions>
-        <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-          <Confirm
-            description="Are you sure that you want to remove this metric?"
-            onOk={() => onRemove()}
-          >
-            <Button size="sm" variant="danger">
-              Remove
-            </Button>
-          </Confirm>
-        </Permissions>
+        <RemovePanelConfirm panelId={panelId}>
+          <Button size="sm" variant="danger">
+            Remove
+          </Button>
+        </RemovePanelConfirm>
       </Row>
     ) : (
       <Row gap="x-3">
@@ -162,7 +152,7 @@ export const MetricPreviewPage = () => {
         >
           Update
         </Button>
-        <Button loading={removeLoading} variant="danger" size="sm" onClick={() => onDiscard()}>
+        <Button variant="danger" size="sm" onClick={() => onDiscard()}>
           Cancel
         </Button>
       </Row>
@@ -174,8 +164,8 @@ export const MetricPreviewPage = () => {
       header={{
         title: (
           <PreviewPageHeader
-            page="metrics"
-            title={options.name}
+            page="panel preview"
+            title={options.title}
             description={options.description}
             backOpts={backOpts}
           />
@@ -186,19 +176,15 @@ export const MetricPreviewPage = () => {
       <Page.Content className="pt-0">
         <div className="w-full grid grid-cols-12">
           <div className={conditionClass(isCustomizeMode, "col-span-8 mr-1", "col-span-12")}>
-            <DashboardPanel
-              loading={isLoading || isRefetching}
+            <ContentCard
               name="Graph"
-              options={
+              loading={isLoading || isRefetching}
+              extra={
                 !isCustomizeMode && <MetricTimeToolbar ranges={ranges} setRanges={setRanges} />
               }
             >
-              <BaseMetricChart
-                datasource={data?.datasource}
-                metric={options as IMetric}
-                onZoom={setRanges}
-              />
-            </DashboardPanel>
+              <BaseMetricChart datasource={data?.datasource} panel={options} onZoom={setRanges} />
+            </ContentCard>
 
             <OptionsCollapseGroup
               title="Raw data"
@@ -218,7 +204,7 @@ export const MetricPreviewPage = () => {
           </div>
           {isCustomizeMode && (
             <div className="col-span-4">
-              <MetricCustomizeForm
+              <PanelCustomizeForm
                 data={data?.datasource}
                 setOptions={setOptions}
                 options={options}
@@ -231,4 +217,4 @@ export const MetricPreviewPage = () => {
   );
 };
 
-export default MetricPreviewPage;
+export default DashboardPanelPreview;

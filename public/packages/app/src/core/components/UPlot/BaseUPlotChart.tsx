@@ -39,7 +39,7 @@ const BaseUPlotChart = ({ configs }: ChartProps) => {
       window.removeEventListener("resize", handleResize);
     };
     // getBoundingClientRect in deps array to resize chart when wrapper div is resized by client
-  }, [configs, chartRef.current?.getBoundingClientRect()]);
+  }, [configs.options, chartRef.current?.getBoundingClientRect()]);
 
   return <div className="relative" ref={chartRef} />;
 };

@@ -1,17 +1,19 @@
-import { DeepPartial, IMetric, METRIC_UNIT, MetricType, PLOT_TYPE } from "@traceo/types";
+import { DashboardPanel, DeepPartial, METRIC_UNIT, MetricType, PANEL_TYPE } from "@traceo/types";
 import { Input, InputArea, Select } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-import { MetricEditOption, metricTypeOptions, unitOptions } from "./utils";
+import { MetricEditOption, panelTypeOptions, unitOptions } from "./utils";
 
 type EditMetricType = {
-  options: DeepPartial<IMetric>;
-  setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
+  options: DeepPartial<DashboardPanel>;
+  setOptions: (
+    arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
+  ) => void;
 };
 export const editMetricBasicForm = (props: EditMetricType) => {
   const { options, setOptions } = props;
   const forms: MetricEditOption[] = [];
 
-  const isHistogram = props.options.type === MetricType.HISTOGRAM;
+  const isHistogram = props.options.type === PANEL_TYPE.HISTOGRAM;
 
   forms.push({
     label: "Name",
@@ -19,10 +21,10 @@ export const editMetricBasicForm = (props: EditMetricType) => {
       <Input
         onChange={(e) => {
           setOptions((opt) => {
-            opt.name = e.target["value"];
+            opt.title = e.target["value"];
           });
         }}
-        defaultValue={options.name}
+        defaultValue={options.title}
         maxLength={40}
       />
     )
@@ -47,15 +49,14 @@ export const editMetricBasicForm = (props: EditMetricType) => {
     label: "Type",
     component: (
       <Select
-        isDisabled={options?.internal}
-        options={metricTypeOptions}
+        options={panelTypeOptions}
         defaultValue={options.type}
         onChange={(a) => {
           setOptions((opt) => {
             opt.type = a?.value;
 
             if (a?.value === MetricType.HISTOGRAM) {
-              opt.unit = METRIC_UNIT.NONE;
+              opt.config.unit = METRIC_UNIT.NONE;
               opt.config.tooltip.show = false;
             }
           });
@@ -70,12 +71,11 @@ export const editMetricBasicForm = (props: EditMetricType) => {
       tooltip: "Base unit for Y axis.",
       component: (
         <Select
-          isDisabled={options?.internal || isHistogram}
           options={unitOptions}
-          defaultValue={options.unit}
+          defaultValue={options.config.unit}
           onChange={(a) => {
             setOptions((opt) => {
-              opt.unit = a?.value;
+              opt.config.unit = a?.value;
             });
           }}
         />

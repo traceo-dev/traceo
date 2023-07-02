@@ -3,7 +3,7 @@ import { Row, Space, Typography, conditionClass } from "@traceo/ui";
 import { NavigateFunction, NavigateOptions, To, useNavigate } from "react-router-dom";
 
 interface Props {
-  page: string;
+  page?: string;
   title: JSX.Element | string;
   description: JSX.Element | string;
   backOpts?: To;

@@ -1,51 +1,46 @@
 import { Row, conditionClass, joinClasses } from "@traceo/ui";
-import { FC, HTMLProps } from "react";
-import { To, useNavigate } from "react-router-dom";
+import { HTMLProps, forwardRef } from "react";
 
-interface Props extends Omit<HTMLProps<HTMLElement>, "ref" | "name"> {
+interface Props extends Omit<HTMLProps<HTMLDivElement>, "name" | "className"> {
   name?: JSX.Element | string;
   extra?: JSX.Element;
   className?: string;
   bodyClassName?: string;
   loading?: boolean;
-  to?: To;
 }
 
-export const ContentCard: FC<Props> = ({
-  extra = undefined,
-  name = undefined,
-  className = "",
-  bodyClassName = "",
-  children,
-  loading = false,
-  to = undefined,
-  ...props
-}) => {
-  const navigate = useNavigate();
-  return (
-    <div
-      className={joinClasses(
-        "flex flex-col w-full bg-primary border border-solid border-secondary rounded-sm mb-1",
-        conditionClass(loading, "loading-border"),
-        className
-      )}
-      {...props}
-    >
-      {(name || extra) && (
-        <Row className="justify-between px-3 py-3">
-          {name && (
-            <span
-              className="font-semibold text-sm cursor-pointer"
-              onClick={() => to && navigate(to)}
-            >
-              {name}
-            </span>
-          )}
-          {extra}
-        </Row>
-      )}
+export const ContentCard = forwardRef<any, Props>(
+  (
+    {
+      extra = undefined,
+      name = undefined,
+      className = "",
+      bodyClassName = "",
+      children,
+      loading = false,
+      ...props
+    },
+    ref
+  ) => {
+    return (
+      <div
+        ref={ref}
+        className={joinClasses(
+          "flex flex-col bg-primary border border-solid border-secondary rounded-sm mb-1",
+          conditionClass(loading, "loading-border"),
+          className
+        )}
+        {...props}
+      >
+        {(name || extra) && (
+          <Row className="justify-between px-3 py-3 select-none">
+            {name && <span className="font-semibold text-sm">{name}</span>}
+            {extra}
+          </Row>
+        )}
 
-      <div className={joinClasses("py-1 px-3 mt-5", bodyClassName)}>{children}</div>
-    </div>
-  );
-};
+        <div className={joinClasses("mt-3 p-1 h-full", bodyClassName)}>{children}</div>
+      </div>
+    );
+  }
+);

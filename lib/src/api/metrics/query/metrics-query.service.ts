@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ExploreMetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { MetricPreviewType, PANEL_TYPE } from "@traceo/types";
+import { PANEL_TYPE, PlotData } from "@traceo/types";
 import { EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { calculateInterval } from "../../../common/helpers/interval";
@@ -10,7 +10,9 @@ import { DashboardPanel } from "../../../db/entities/dashboard-panel.entity";
 
 export type AggregateTimeSeries = { minute: number, value: number }[];
 
-type GraphByFieldsType = Omit<MetricPreviewType, "options">;
+export type MetricPreviewType = {
+  datasource: PlotData;
+}
 
 @Injectable()
 export class MetricsQueryService {
@@ -26,7 +28,7 @@ export class MetricsQueryService {
   public async getMetricsExploreGraph(
     projectId: string,
     query: ExploreMetricsQueryDto
-  ): Promise<ApiResponse<GraphByFieldsType>> {
+  ): Promise<ApiResponse<MetricPreviewType>> {
     const { fields } = query;
 
     if (!fields || fields.length === 0) {

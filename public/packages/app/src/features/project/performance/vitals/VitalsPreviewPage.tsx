@@ -9,7 +9,6 @@ import { PreviewPageHeader } from "../../../../core/components/PreviewPageHeader
 import { Page } from "../../../../core/components/Page";
 import { SearchWrapper } from "../../../../core/components/SearchWrapper";
 import { useTimeRange } from "../../../../core/hooks/useTimeRange";
-import { MetricTimeRangePicker } from "../../metrics/components/MetricTimeRangePicker";
 import { selectHealthOptions, VITALS_DETAILS, WEB_VITALS_DOCS_URL } from "./types";
 import { parseToBins } from "./utils";
 import { renderChart } from "./VitalsChart";
@@ -18,6 +17,7 @@ import { VitalsHealthBar } from "./VitalsHealthBar";
 import { VitalsRawData } from "./VitalsRawData";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { ContentCard } from "../../../../core/components/ContentCard";
+import { MetricTimeRangePicker } from "../../overview/components/MetricTimeRangePicker";
 
 const VitalsPreviewPage = () => {
   const { id, name } = useParams();

@@ -1,47 +1,8 @@
-import { ExponentialHistogram, Histogram } from "./opentelemetry";
-
 export type UUIntType = Uint32Array | Uint16Array | Uint8Array | BigInt64Array | BigInt;
 export enum MetricType {
   TIME_SERIES = "time_series",
   HISTOGRAM = "histogram"
 }
-
-/**
- * Metric value representation saved in clickhouse table row
- */
-export type MetricPayload = {
-  id: string,
-  name: string,
-  value: string | number | UUIntType | Histogram | ExponentialHistogram,
-  project_id: string,
-  timestamp: number,
-  receive_timestamp: number
-}
-
-export type IMetric = {
-  id?: string;
-  name: string;
-  description: string;
-
-  /**
-   * Metric type, default "time_series"
-   */
-  type: MetricType;
-
-  /**
-   * Is created by Traceo, if false then is created by user
-   */
-  internal: boolean;
-
-  /**
-   * Not implmented yet.
-   * Metric is displayed for all users/users with perms
-   */
-  show: boolean;
-  unit: string;
-  series: IMetricSerie[];
-  config: IMetricOptions;
-};
 
 export type IMetricSerie = {
   name: string;
@@ -70,45 +31,6 @@ export enum MARKER_SHAPE {
   PIN = "pin",
   ARROW = "arrow"
 }
-
-
-/**
- * If values like line.width/area.show/area.opacity is not empty
- * then it overrides fields from series
- */
-export type IMetricOptions = {
-  histogram?: {
-    bucket: {
-      size: number;
-      offset: number;
-    },
-    min: number;
-    max: number;
-  }
-  stack?: {
-    show: boolean;
-    strategy: string
-  }
-  line?: {
-    marker?: {
-      show?: boolean;
-      shape?: string; //MARKER_SHAPE
-    };
-  };
-  tooltip: {
-    show: boolean;
-    position: string;
-  };
-  legend: {
-    show: boolean;
-    orient: string;
-  };
-  axis: {
-    showX?: boolean;
-    showY?: boolean;
-    showGridLines?: boolean;
-  },
-};
 
 export type TOOLTIP_POSITION = "bottom" | "inside" | "left" | "right" | "top";
 export enum PLOT_TYPE {
@@ -139,11 +61,6 @@ export type MetricResponseType = {
 } & {
   [x: string]: number[]
 }
-
-export type MetricPreviewType = {
-  options: IMetric;
-  datasource: [number, number][];
-};
 
 export type TOOLTIP_PLACEMENT = "bottom" | "inside" | "left" | "right" | "top";
 

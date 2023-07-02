@@ -1,19 +1,20 @@
-import { IMetric } from "@traceo/types";
+import { DashboardPanel, DeepPartial } from "@traceo/types";
 import { Switch } from "@traceo/ui";
-import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
 import { MetricEditOption, isStackAvailable } from "./utils";
 
 interface Props {
-  options: DeepPartial<IMetric>;
-  setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
+  options: DeepPartial<DashboardPanel>;
+  setOptions: (
+    arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
+  ) => void;
 }
 
 export const editMetricStackForm = (props: Props) => {
   const { options, setOptions } = props;
   const forms: MetricEditOption[] = [];
 
-  if (!isStackAvailable(props.options.series)) {
+  if (!isStackAvailable(props.options.config.series)) {
     setOptions((opt) => {
       opt.config.stack.show = false;
     });
@@ -25,7 +26,7 @@ export const editMetricStackForm = (props: Props) => {
     component: (
       <Switch
         value={options.config.stack?.show}
-        disabled={!isStackAvailable(props.options.series)}
+        disabled={!isStackAvailable(props.options.config.series)}
         onChange={(e) => {
           setOptions((opt) => {
             opt.config.stack.show = e.target["checked"];

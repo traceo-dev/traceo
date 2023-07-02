@@ -1,17 +1,21 @@
 import { CustomizeFormSection } from "./CustomizeFormSection";
-import { IMetric, DeepPartial, UplotDataType, MetricType } from "@traceo/types";
-import { FieldLabel } from "@traceo/ui";
+import { DeepPartial, UplotDataType, DashboardPanel, PANEL_TYPE } from "@traceo/types";
+import { FieldLabel, SelectOptionProps } from "@traceo/ui";
 import { FC, useMemo } from "react";
 import { DraftFunction } from "use-immer";
 import { editMetricBasicForm } from "./editMetricBasicForm";
 import { TimeseriesForm } from "./Forms/TimeseriesForm";
 import { HistogramForm } from "./Forms/HistogramForm";
 import styled from "styled-components";
+import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useParams } from "react-router-dom";
 
 interface Props {
   data?: UplotDataType;
-  options: DeepPartial<IMetric>;
-  setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
+  options: DeepPartial<DashboardPanel>;
+  setOptions: (
+    arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
+  ) => void;
 }
 
 const Container = styled.div`
@@ -34,19 +38,30 @@ const Header = styled.span`
   border-bottom: 1px solid var(--color-bg-secondary);
 `;
 
-export const MetricCustomizeForm: FC<Props> = (props: Props) => {
+export const PanelCustomizeForm: FC<Props> = (props: Props) => {
+  const { id } = useParams();
   const [basicOptions] = useMemo(() => [editMetricBasicForm(props)], [props.options]);
+
+  const { data: fieldsOptions = [] } = useReactQuery<SelectOptionProps[]>({
+    queryKey: [`panels_fields_key`],
+    url: `/api/metrics/fields/${id}`
+  });
 
   const renderForm = () => {
     const metricType = props.options.type;
 
+    const formProps = {
+      ...props,
+      serieFieldOptions: fieldsOptions
+    };
+
     switch (metricType) {
-      case MetricType.TIME_SERIES:
-        return <TimeseriesForm {...props} />;
-      case MetricType.HISTOGRAM:
-        return <HistogramForm {...props} />;
+      case PANEL_TYPE.TIME_SERIES:
+        return <TimeseriesForm {...formProps} />;
+      case PANEL_TYPE.HISTOGRAM:
+        return <HistogramForm {...formProps} />;
       default:
-        return <TimeseriesForm {...props} />;
+        return <TimeseriesForm {...formProps} />;
     }
   };
 

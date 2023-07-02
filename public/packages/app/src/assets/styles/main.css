@@ -10,6 +10,7 @@
 
 @import url("./button.css");
 @import url("./uplot.css");
+@import url("./react-grid.css");
 
 :root {
   --color-text-primary: rgb(204, 204, 220);

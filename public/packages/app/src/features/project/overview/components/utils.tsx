@@ -6,7 +6,6 @@ import {
 } from "@ant-design/icons";
 import {
   DeepPartial,
-  IMetric,
   IMetricSerie,
   MARKER_SHAPE,
   METRIC_UNIT,
@@ -16,21 +15,25 @@ import {
   STACK_STRATEGY
 } from "@traceo/types";
 import { LabelPosition } from "@traceo/ui";
-import { UPlotConfigBuilder } from "../../../../core/components/UPlot/UPlotConfigBuilder";
 import { sameArrayValues } from "../../../../core/utils/arrays";
-import { calculateOpacity } from "../../../../core/utils/colors";
 
 export const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
   value: unit,
   label: unit
 }));
 
-const mapMetricTypeName: Record<MetricType, string> = {
-  [MetricType.TIME_SERIES]: "Time series",
-  [MetricType.HISTOGRAM]: "Histogram"
+const mapMetricTypeName: Record<PANEL_TYPE, string> = {
+  [PANEL_TYPE.TIME_SERIES]: "Time series",
+  [PANEL_TYPE.HISTOGRAM]: "Histogram",
+  [PANEL_TYPE.GAUGE]: "Gauge",
+  [PANEL_TYPE.TABLE]: "Table",
+  [PANEL_TYPE.TODAY_EVENTS_PLOT]: "Today events plot",
+  [PANEL_TYPE.TODAY_EVENTS_COUNTER]: "Today events counter",
+  [PANEL_TYPE.TODAY_EVENTS_LAST_TIME]: "Today events last occur",
+  [PANEL_TYPE.EVENTS_OVERVIEW]: "Events overview plot"
 };
 
-export const metricTypeOptions = Object.values(PANEL_TYPE).map((type) => ({
+export const panelTypeOptions = Object.values(PANEL_TYPE).map((type) => ({
   value: type,
   label: mapMetricTypeName[type]
 }));

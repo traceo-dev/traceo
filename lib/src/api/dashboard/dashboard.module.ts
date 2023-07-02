@@ -7,7 +7,14 @@ import { DashboardQueryService } from './dashboard-query/dashboard-query.service
 @Module({
   imports: [],
   controllers: [DashboardController],
-  providers: [DashboardService, DashboardQueryService, ProjectQueryService],
-  exports: [DashboardService, DashboardQueryService]
+  providers: [
+    DashboardService,
+    DashboardQueryService,
+    ProjectQueryService
+  ],
+  exports: [
+    DashboardService,
+    DashboardQueryService
+  ]
 })
 export class DashboardModule { }

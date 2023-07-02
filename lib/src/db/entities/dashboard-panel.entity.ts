@@ -29,7 +29,10 @@ export class DashboardPanel extends BaseEntity implements IDashboardPanel {
     @Column({ type: "simple-json", nullable: false })
     config: PanelConfiguration;
 
-    @ManyToOne(() => Dashboard, dashboard => dashboard.panels)
+    @ManyToOne(() => Dashboard, dashboard => dashboard.panels, {
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE"
+    })
     dashboard: IDashboard;
 }
 

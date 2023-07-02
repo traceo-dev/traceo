@@ -17,14 +17,7 @@ export class DashboardQueryService {
 
     public async getProjectDashboards(projectId: string): Promise<ApiResponse<Dashboard[]>> {
         try {
-            const dashboards = await this.entityManager.getRepository(Dashboard).find({
-                where: {
-                    project: {
-                        id: projectId
-                    }
-                }
-            });
-
+            const dashboards = await this.getListDto(projectId);
             // TODO: map for select options?
 
             return new ApiResponse("success", undefined, dashboards);
@@ -32,6 +25,16 @@ export class DashboardQueryService {
             this.logger.error(`[${this.getProjectDashboards.name}] Caused by: ${err}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
         }
+    }
+
+    public async getListDto(id: string, manager: EntityManager = this.entityManager): Promise<Dashboard[]> {
+        return await manager.getRepository(Dashboard).find({
+            where: {
+                project: {
+                    id
+                }
+            }
+        });
     }
 
     public async getDto(id: string, manager: EntityManager = this.entityManager): Promise<Dashboard> {

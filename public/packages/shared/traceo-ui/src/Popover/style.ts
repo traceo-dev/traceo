@@ -46,9 +46,8 @@ export const Arrow = styled.div`
 
 export const defaultTransitionStyles = {
   transitionProperty: "opacity",
-  transitionDuration: "200ms",
-  transitionTimingFunction: "linear",
-  opacity: 0
+  transitionDuration: "100ms",
+  transitionTimingFunction: "linear"
 };
 
 export const transitionStyles = {

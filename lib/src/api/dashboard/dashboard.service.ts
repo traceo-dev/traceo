@@ -29,6 +29,7 @@ export class DashboardService {
     public async create(dto: DashboardDto, project: Project, manager: EntityManager = this.entityManager) {
         return await manager.getRepository(Dashboard).save({
             project,
+            isEditable: true,
             createdAt: dateUtils.toUnix(),
             ...dto
         });
@@ -72,7 +73,8 @@ export class DashboardService {
 
     public async updateDashboard(dto: DashboardDto): Promise<ApiResponse<DashboardPanel>> {
         try {
-            const dashboard = await this.entityManager.getRepository(Dashboard).update({ id: dto.dashboardId }, dto);
+            const { dashboardId, projectId, ...rest } = dto;
+            const dashboard = await this.entityManager.getRepository(Dashboard).update({ id: dashboardId }, rest);
             return new ApiResponse("success", undefined, dashboard);
         } catch (err) {
             this.logger.error(`[${this.updateDashboard.name}] Caused by: ${err}`);
@@ -80,9 +82,9 @@ export class DashboardService {
         }
     }
 
-    public async updatePanel(dto: DashboardPanelDto): Promise<ApiResponse<DashboardPanel>> {
+    public async updatePanel(dto: Omit<DashboardPanelDto, "dashboardId">): Promise<ApiResponse<DashboardPanel>> {
         try {
-            const { panelId, dashboardId, ...rest } = dto;
+            const { panelId, ...rest } = dto;
             const dashboardPanel = await this.entityManager.getRepository(DashboardPanel).update({ id: panelId }, rest);
             return new ApiResponse("success", undefined, dashboardPanel);
         } catch (err) {
@@ -105,22 +107,37 @@ export class DashboardService {
         }
     };
 
-    public async removeDashboard(dashboardId: string): Promise<ApiResponse<unknown>> {
-        try {
-            const dashboard = await this.dashboardQueryService.getDto(dashboardId);
+    public async removeDashboard(dashboardId: string, projectId: string): Promise<ApiResponse<unknown>> {
+        return await this.entityManager.transaction(async (manager) => {
+            const dashboard = await this.dashboardQueryService.getDto(dashboardId, manager);
             if (!dashboard) {
                 throw new BadRequestException("Dashboard already deleted.");
             }
 
-            await this.entityManager.getRepository(Dashboard).delete({
+            const project = await manager.getRepository(Project).findOneBy({ id: projectId });
+            let mainDashboardId = project.mainDashboardId;
+            if (project.mainDashboardId === dashboardId) {
+                const dashboards = await this.dashboardQueryService.getListDto(projectId, manager);
+                const availableDashboards = dashboards.filter((e) => e.id !== dashboardId);
+
+                mainDashboardId = availableDashboards[0].id;
+                await manager.getRepository(Project).update({ id: project.id }, {
+                    updatedAt: dateUtils.toUnix(),
+                    mainDashboardId
+                });
+            }
+
+            await manager.getRepository(Dashboard).delete({
                 id: dashboard.id
             });
 
-            return new ApiResponse("success", undefined, undefined);
-        } catch (err) {
+            return new ApiResponse("success", "Dashboard removed.", {
+                redirectUrl: `/project/${project.id}/dashboard/${mainDashboardId}`
+            });
+        }).catch((err) => {
             this.logger.error(`[${this.removeDashboard.name}] Caused by: ${err}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
-        }
+        });
     }
 
     public async removePanel(panelId: string): Promise<ApiResponse<unknown>> {

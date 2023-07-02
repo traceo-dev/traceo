@@ -70,8 +70,23 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       wrapper: ProjectDashboardWrapper
     },
     {
+      path: "/project/:id/dashboard-create",
+      component: lazy(() => import("../features/project/overview/CreateDashboardPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/dashboard/:did/edit",
+      component: lazy(() => import("../features/project/overview/EditDashboardPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
       path: "/project/:id/dashboard/:did/panel-create",
-      component: lazy(() => import("../features/project/metrics/CreatePanelPage")),
+      component: lazy(() => import("../features/project/overview/CreatePanelPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/dashboard/:did/panel/:panelId",
+      component: lazy(() => import("../features/project/overview/DashboardPanelPreview")),
       wrapper: ProjectDashboardWrapper
     },
     {
@@ -139,16 +154,6 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
     //   component: lazy(() => import("../features/project/alerting/CreateAlertPage")),
     //   wrapper: ProjectDashboardWrapper
     // },
-    {
-      path: "/project/:id/metrics",
-      component: lazy(() => import("../features/project/metrics/MetricsPage")),
-      wrapper: ProjectDashboardWrapper
-    },
-    {
-      path: "/project/:id/metrics/preview/:metricId",
-      component: lazy(() => import("../features/project/metrics/MetricPreviewPage")),
-      wrapper: ProjectDashboardWrapper
-    },
     {
       path: "/project/:id/settings/access",
       component: lazy(() => import("../features/project/settings/MembersListPage")),

@@ -1,27 +1,30 @@
 import {
+  DashboardPanel,
   DeepPartial,
-  IMetric,
   IMetricSerie,
   METRIC_UNIT,
-  MetricType,
-  PLOT_TYPE
+  PANEL_TYPE
 } from "@traceo/types";
-import { Input, InputArea, InputColor, Select, Switch } from "@traceo/ui";
+import { Input, InputArea, InputColor, Select, SelectOptionProps, Switch } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
 import { unitOptions, plotOptions, MetricEditOption } from "./utils";
 
 type SerieFormProps = {
   index: number;
   serie: IMetricSerie;
-  isDefault: boolean;
-  setOptions: (arg: DeepPartial<IMetric> | DraftFunction<DeepPartial<IMetric>>) => void;
-  type: MetricType;
+  serieFieldOptions: SelectOptionProps[];
+  setOptions: (
+    arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
+  ) => void;
+  type: PANEL_TYPE;
 };
 export const editSerieForm = (props: SerieFormProps) => {
-  const { index, serie, setOptions, isDefault, type } = props;
+  const { index, serie, setOptions, type } = props;
   const forms: MetricEditOption[] = [];
 
-  const isHistogram = type === MetricType.HISTOGRAM;
+  const isHistogram = type === PANEL_TYPE.HISTOGRAM;
+  const serieType = serie.config.type;
+  const isArea = serie.config.area.show;
 
   forms.push({
     label: "Color",
@@ -31,7 +34,7 @@ export const editSerieForm = (props: SerieFormProps) => {
         color={serie.config.color}
         onChange={(e) => {
           setOptions((opt) => {
-            opt.series[index].config.color = e;
+            opt.config.series[index].config.color = e;
           });
         }}
       />
@@ -45,7 +48,7 @@ export const editSerieForm = (props: SerieFormProps) => {
         value={serie.name}
         onChange={(e) => {
           setOptions((opt) => {
-            opt.series[index].name = e.target["value"];
+            opt.config.series[index].name = e.target["value"];
           });
         }}
       />
@@ -60,7 +63,7 @@ export const editSerieForm = (props: SerieFormProps) => {
         maxLength={99}
         onChange={(e) => {
           setOptions((opt) => {
-            opt.series[index].description = e.target["value"];
+            opt.config.series[index].description = e.target["value"];
           });
         }}
       />
@@ -70,12 +73,12 @@ export const editSerieForm = (props: SerieFormProps) => {
   forms.push({
     label: "Field",
     component: (
-      <Input
-        value={serie.field}
-        disabled={isDefault}
-        onChange={(e) => {
+      <Select
+        options={props.serieFieldOptions}
+        defaultValue={serie.field}
+        onChange={(a) => {
           setOptions((opt) => {
-            opt.series[index].field = e.target["value"];
+            opt.config.series[index].field = a?.value;
           });
         }}
       />
@@ -87,12 +90,11 @@ export const editSerieForm = (props: SerieFormProps) => {
       label: "Unit",
       component: (
         <Select
-          isDisabled={isDefault}
           options={unitOptions}
           defaultValue={serie.unit ?? METRIC_UNIT.NONE}
           onChange={(a) => {
             setOptions((opt) => {
-              opt.series[index].unit = a?.value;
+              opt.config.series[index].unit = a?.value;
             });
           }}
         />
@@ -104,10 +106,10 @@ export const editSerieForm = (props: SerieFormProps) => {
       component: (
         <Select
           options={plotOptions}
-          defaultValue={serie.config.type}
+          defaultValue={serieType}
           onChange={(a) => {
             setOptions((opt) => {
-              opt.series[index].config.type = a?.value;
+              opt.config.series[index].config.type = a?.value;
             });
           }}
         />
@@ -116,7 +118,7 @@ export const editSerieForm = (props: SerieFormProps) => {
   }
 
   forms.push({
-    label: "Line width",
+    label: serieType === "bar" ? "Bar border width" : "Line width",
     component: (
       <Input
         type="number"
@@ -126,7 +128,7 @@ export const editSerieForm = (props: SerieFormProps) => {
         onChange={(e) => {
           if (e.target["value"] <= 10) {
             setOptions((opt) => {
-              opt.series[index].config.lineWidth = Number(e.target["value"]);
+              opt.config.series[index].config.lineWidth = Number(e.target["value"]);
             });
           }
         }}
@@ -134,7 +136,7 @@ export const editSerieForm = (props: SerieFormProps) => {
     )
   });
 
-  if (serie.config.type === "bar") {
+  if (serieType === "bar") {
     forms.push({
       label: "Bar width",
       component: (
@@ -146,7 +148,7 @@ export const editSerieForm = (props: SerieFormProps) => {
           onChange={(e) => {
             if (e.target["value"] <= 100) {
               setOptions((opt) => {
-                opt.series[index].config.barWidth = Number(e.target["value"]);
+                opt.config.series[index].config.barWidth = Number(e.target["value"]);
               });
             }
           }}
@@ -155,22 +157,24 @@ export const editSerieForm = (props: SerieFormProps) => {
     });
   }
 
-  forms.push({
-    label: serie.config.type === "line" ? "Show area" : "Fill bars",
-    labelPosition: "horizontal",
-    component: (
-      <Switch
-        value={serie.config.area?.show}
-        onChange={(e) => {
-          setOptions((opt) => {
-            opt.series[index].config.area.show = e.target["checked"];
-          });
-        }}
-      />
-    )
-  });
+  if (serieType !== "points") {
+    forms.push({
+      label: ["line", "spline"].includes(serieType) ? "Show area" : "Fill bars",
+      labelPosition: "horizontal",
+      component: (
+        <Switch
+          value={serie.config.area?.show}
+          onChange={(e) => {
+            setOptions((opt) => {
+              opt.config.series[index].config.area.show = e.target["checked"];
+            });
+          }}
+        />
+      )
+    });
+  }
 
-  if (serie.config.area.show) {
+  if (isArea) {
     forms.push({
       label: "Opacity",
       component: (
@@ -182,7 +186,7 @@ export const editSerieForm = (props: SerieFormProps) => {
           onChange={(e) => {
             if (e.target["value"] <= 100) {
               setOptions((opt) => {
-                opt.series[index].config.area.opacity = Number(e.target["value"]);
+                opt.config.series[index].config.area.opacity = Number(e.target["value"]);
               });
             }
           }}

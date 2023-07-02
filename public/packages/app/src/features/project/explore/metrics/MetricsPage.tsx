@@ -26,8 +26,8 @@ import {
   UplotDataType
 } from "@traceo/types";
 import { ButtonOptionsWrapper } from "../components";
-import { MetricTableWrapper } from "../../metrics/components/MetricTableWrapper";
 import { UPlotMetricsGraph } from "./UPlotMetricsGraph";
+import { MetricTableWrapper } from "../../overview/components/MetricTableWrapper";
 
 export const MetricsPage = forwardRef(
   (
