@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@traceo/types": "0.0.0",
-    "@ant-design/icons": "4.8.0",
+    "@ant-design/icons": "5.1.4",
     "@babel/plugin-transform-runtime": "^7.19.6",
     "@reduxjs/toolkit": "1.9.5",
     "@traceo/ui": "0.0.0",
