@@ -7,6 +7,7 @@ interface Props extends Omit<HTMLProps<HTMLDivElement>, "name" | "className"> {
   className?: string;
   bodyClassName?: string;
   loading?: boolean;
+  isDraggable?: boolean;
 }
 
 export const ContentCard = forwardRef<any, Props>(
@@ -18,6 +19,7 @@ export const ContentCard = forwardRef<any, Props>(
       bodyClassName = "",
       children,
       loading = false,
+      isDraggable = false,
       ...props
     },
     ref
@@ -33,13 +35,18 @@ export const ContentCard = forwardRef<any, Props>(
         {...props}
       >
         {(name || extra) && (
-          <Row className="justify-between px-3 py-3 select-none">
+          <Row
+            className={joinClasses(
+              "justify-between px-3 py-3 select-none",
+              conditionClass(isDraggable, "drag-handle cursor-move")
+            )}
+          >
             {name && <span className="font-semibold text-sm">{name}</span>}
             {extra}
           </Row>
         )}
 
-        <div className={joinClasses("mt-3 p-1 h-full", bodyClassName)}>{children}</div>
+        <div className={joinClasses("mt-1 p-2 h-full", bodyClassName)}>{children}</div>
       </div>
     );
   }

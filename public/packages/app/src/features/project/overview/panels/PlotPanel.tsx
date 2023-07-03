@@ -1,4 +1,4 @@
-import { DeleteOutlined, ExpandOutlined, EyeOutlined, HolderOutlined } from "@ant-design/icons";
+import { CloseOutlined, DeleteOutlined, ExpandOutlined, EyeOutlined, HolderOutlined } from "@ant-design/icons";
 import { DashboardPanel as DashboardPanelType, Setter, TimeRange } from "@traceo/types";
 import { Row, Tooltip, conditionClass, joinClasses } from "@traceo/ui";
 import { useEffect, useState } from "react";
@@ -10,6 +10,7 @@ import { RemovePanelConfirm } from "../components/RemovePanelConfirm";
 
 interface Props {
   isEditable: boolean;
+  isRemoveMode: boolean;
   dimensions: {
     width: number;
     height: number;
@@ -24,6 +25,7 @@ export const PlotPanel = ({
   ranges = [undefined, undefined],
   dimensions = undefined,
   isEditable = false,
+  isRemoveMode = false,
   onChangeTimeRange = undefined,
   onRemovePanel = undefined
 }: Props) => {
@@ -52,7 +54,7 @@ export const PlotPanel = ({
   }, [ranges, panel]);
 
   const calculateHeight = (h: number): number => {
-    return h * 38 - 100;
+    return h * 38 - 102;
   };
 
   const onNavigate = () => {
@@ -63,10 +65,10 @@ export const PlotPanel = ({
   };
 
   const renderOptions = () => {
-    if (isEditable) {
+    if (isRemoveMode) {
       return (
         <RemovePanelConfirm panelId={panel.id} postExecute={onRemovePanel}>
-          <DeleteOutlined className="text-xs cursor-pointer hover:text-red-800" />
+          <CloseOutlined className="text-xs cursor-pointer hover:text-yellow-600" />
         </RemovePanelConfirm>
       );
     }
@@ -85,25 +87,14 @@ export const PlotPanel = ({
       options={renderOptions()}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      isDraggable={isEditable}
     >
-      <div
-        className={joinClasses(
-          "relative",
-          conditionClass(!!isEditable, "opacity-50 cursor-move")
-        )}
-      >
-        <BaseMetricChart
-          height={calculateHeight(dimensions?.height ?? panel.gridPosition.h)}
-          datasource={data?.datasource}
-          panel={panel}
-          onZoom={onChangeTimeRange}
-        />
-
-        {/* Overlay on move/resize mode */}
-        {!!isEditable && (
-          <div className="absolute inset-0 bg-gray-900 opacity-0 cursor-move"></div>
-        )}
-      </div>
+      <BaseMetricChart
+        height={calculateHeight(dimensions?.height ?? panel.gridPosition.h)}
+        datasource={data?.datasource}
+        panel={panel}
+        onZoom={onChangeTimeRange}
+      />
     </DashboardPanel>
   );
 };

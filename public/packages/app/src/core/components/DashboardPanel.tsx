@@ -10,6 +10,7 @@ interface Props extends Pick<HTMLProps<HTMLDivElement>, "onMouseEnter" | "onMous
   navigateTo?: To;
   className?: string;
   children: JSX.Element;
+  isDraggable?: boolean;
 }
 
 export const DashboardPanel = forwardRef<HTMLDivElement, Props>(
@@ -22,7 +23,8 @@ export const DashboardPanel = forwardRef<HTMLDivElement, Props>(
       navigateTo = undefined,
       className = undefined,
       onMouseEnter = undefined,
-      onMouseLeave = undefined
+      onMouseLeave = undefined,
+      isDraggable = false
     },
     ref
   ) => {
@@ -50,6 +52,7 @@ export const DashboardPanel = forwardRef<HTMLDivElement, Props>(
         loading={loading}
         className={className}
         extra={renderExtra()}
+        isDraggable={isDraggable}
       >
         {children}
       </ContentCard>

@@ -4,10 +4,12 @@ import {
   Button,
   ButtonContainer,
   Card,
+  Col,
   Form,
   FormItem,
   Input,
   RadioButtonGroup,
+  Row,
   Switch,
   Typography
 } from "@traceo/ui";
@@ -21,6 +23,7 @@ import { useProject } from "src/core/hooks/useProject";
 import { useSelector } from "react-redux";
 import { StoreState } from "@store/types";
 import { Confirm } from "src/core/components/Confirm";
+import { ColumnSection } from "src/core/components/ColumnSection";
 
 interface UpdateDashboardForm {
   name: string;
@@ -87,15 +90,21 @@ const EditDashboardPage = () => {
       header={{
         icon: <AppstoreFilled />,
         title: "Dashboard settings",
-        description: <p className="m-0 pt-1">Customize this dashboard to your needs.</p>
+        description: <p className="m-0 pt-1">Customize this dashboard to your needs.</p>,
+        suffix: (
+          <Row gap="x-3">
+            <Button type="submit" form="edit-dashboard-form" loading={loading}>
+              Save
+            </Button>
+            <Button onClick={() => navigate(-1)} variant="ghost">
+              Cancel
+            </Button>
+          </Row>
+        )
       }}
     >
       <Page.Content>
-        <Card>
-          <Typography size="xl" weight="semibold">
-            1. Basic information
-          </Typography>
-
+        <Card title="Basic information">
           <Form
             onSubmit={onFinish}
             defaultValues={{
@@ -105,55 +114,53 @@ const EditDashboardPage = () => {
             className="w-full"
             id="edit-dashboard-form"
           >
-            {({ register, errors, setValue }) => (
-              <div>
-                <FormItem
-                  className="pt-9 w-1/2"
-                  showRequiredMark={true}
-                  label="Name"
-                  error={errors.name}
-                >
-                  <Input
-                    {...register("name", {
-                      required: true
-                    })}
-                  />
-                </FormItem>
-                <FormItem
-                  className="pt-5 w-1/2"
-                  tooltip="Allow to change layout"
-                  label="Is editable"
-                  error={errors.isEditable}
-                >
-                  <RadioButtonGroup
-                    options={[
-                      { label: "Yes", value: true },
-                      { label: "No", value: false }
-                    ]}
-                    onChange={(e) => setEditable(e)}
-                    value={isEditable}
-                  />
-                </FormItem>
-              </div>
+            {({ register, errors }) => (
+              <ColumnSection subtitle="Update basic information about this dashboard.">
+                <div>
+                  <FormItem
+                    className="pt-2 w-1/2"
+                    showRequiredMark={true}
+                    label="Name"
+                    error={errors.name}
+                  >
+                    <Input
+                      {...register("name", {
+                        required: true
+                      })}
+                    />
+                  </FormItem>
+                  <FormItem
+                    className="pt-5 w-1/2"
+                    tooltip="Allow to change layout"
+                    label="Is editable"
+                    error={errors.isEditable}
+                  >
+                    <RadioButtonGroup
+                      options={[
+                        { label: "Yes", value: true },
+                        { label: "No", value: false }
+                      ]}
+                      onChange={(e) => setEditable(e)}
+                      value={isEditable}
+                    />
+                  </FormItem>
+                </div>
+              </ColumnSection>
             )}
           </Form>
           {error && (
             <Alert className="font-semibold" type="error" showIcon title={errorMessage} />
           )}
-          <ButtonContainer className="pt-5" justify="start">
-            <Button type="submit" form="edit-dashboard-form" loading={loading}>
-              Save
-            </Button>
-            <Button onClick={() => navigate(-1)} variant="ghost">
-              Cancel
-            </Button>
+        </Card>
+        <Card title="Danger zone">
+          <ColumnSection subtitle="Here you can remove this dashboard. Note that this operation is irreversible.">
             <Confirm
               onOk={onRemove}
               description="Are you sure that you want to remove this dashboard?"
             >
               <Button variant="danger">Remove dashboard</Button>
             </Confirm>
-          </ButtonContainer>
+          </ColumnSection>
         </Card>
       </Page.Content>
     </Page>

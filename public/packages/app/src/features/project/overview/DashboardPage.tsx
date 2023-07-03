@@ -30,7 +30,7 @@ export const DashboardPage = () => {
 
   const { id, did } = useParams();
   const [itemDimensions, setItemDimensions] = useState({});
-  const [isEditable, setEditable] = useState<boolean>(false);
+  const [isRemoveMode, setRemoveMode] = useState<boolean>(false);
 
   const { dashboard, isLoading: isDashboardLoading } = useSelector(
     (state: StoreState) => state.dashboard
@@ -47,9 +47,9 @@ export const DashboardPage = () => {
 
   const fetchDashboardPanels = () => dispatch(loadDashboard(did));
 
-  if (!dashboard || isDashboardLoading) {
-    return <TraceoLoading />;
-  }
+  // if (!dashboard || isDashboardLoading) {
+  //   return <TraceoLoading />;
+  // }
 
   const generateLayout = () => {
     if (!dashboard || dashboard.panels?.length === 0) {
@@ -89,7 +89,8 @@ export const DashboardPage = () => {
 
   const renderPanel = (panel: DashboardPanel) => {
     const props = {
-      isEditable,
+      isEditable: dashboard.isEditable,
+      isRemoveMode,
       dimensions: itemDimensions[panel.id],
       panel,
       ranges,
@@ -150,7 +151,7 @@ export const DashboardPage = () => {
         handleResize={handleResize}
         handleLayoutChange={handleLayoutChange}
         layout={generateLayout()}
-        isEditable={dashboard.isEditable && isEditable}
+        isEditable={dashboard.isEditable}
       >
         {dashboard.panels?.map((panel) => (
           <GridPanelItem key={panel.id}>{renderPanel(panel)}</GridPanelItem>
@@ -161,7 +162,16 @@ export const DashboardPage = () => {
 
   return (
     <Page>
-      <Page.Content>{renderContent()}</Page.Content>
+      <Page.Content>
+        <DashboardToolbar
+          isRemoveMode={isRemoveMode}
+          setRemoveMode={setRemoveMode}
+          showTimepicker={dashboard.panels?.length !== 0}
+          ranges={ranges}
+          onChangeRanges={setRanges}
+        />
+        {renderContent()}
+      </Page.Content>
     </Page>
   );
 };
