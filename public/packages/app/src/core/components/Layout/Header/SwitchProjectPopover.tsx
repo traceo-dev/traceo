@@ -4,6 +4,7 @@ import { Avatar, Row } from "@traceo/ui";
 import { Link } from "react-router-dom";
 import { useProject } from "src/core/hooks/useProject";
 import { useUser } from "src/core/hooks/useUser";
+import { PopoverSelectOptions } from "../../PopoverSelectOptions";
 
 interface Props {
   isLoading: boolean;
@@ -21,40 +22,17 @@ export const SwitchProjectPopover = ({ projects, isLoading }: Props) => {
       </div>
     );
   }
-  return (
-    <div className="flex flex-col min-w-[230px]">
-      <span className="text-sm p-2 border-bottom text-primary">Switch project</span>
-      <div className="max-h-[200px] overflow-auto">
-        {project && availableProjects.length === 0 && (
-          <div className="w-full flex flex-col text-center py-5 text-primary">
-            <SearchOutlined />
-            <span className="text-sm">Not found</span>
-          </div>
-        )}
-        {availableProjects.map((project, key) => (
-          <span
-            key={key}
-            onClick={() =>
-              (window.location.href = `/project/${project?.projectId}/dashboard/${project?.mainDashboardId}`)
-            }
-            className="text-sm p-2 hover:bg-secondary cursor-pointer flex flex-row items-center gap-x-3"
-          >
-            <Avatar size="sm" shape="square" alt={project?.name} src={project?.gravatar} />
-            <span>{project?.name}</span>
-          </span>
-        ))}
-      </div>
-      <div className="w-full border-top">
-        <Link to={"/dashboard/projects"}>
-          <Row
-            gap="x-2"
-            className="py-1 hover:text-white px-2 text-sm cursor-pointer text-primary"
-          >
-            <AppstoreOutlined />
-            <span>Show list</span>
-          </Row>
-        </Link>
-      </div>
-    </div>
-  );
+  
+  const renderOptions = () => {
+    const options = availableProjects.map((project) => ({
+      icon: <Avatar size="sm" shape="square" alt={project?.name} src={project?.gravatar} />,
+      label: project.name,
+      onClick: () =>
+        (window.location.href = `/project/${project?.projectId}/dashboard/${project?.mainDashboardId}`)
+    }));
+
+    return <PopoverSelectOptions title="Select project" options={options} />;
+  };
+
+  return renderOptions();
 };

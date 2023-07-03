@@ -3,7 +3,10 @@ import { METRIC_UNIT, IMetricSerie } from "./metrics";
 export interface Dashboard {
     id: string;
     createdAt?: number;
+
     name: string;
+    description: string;
+    
     projectId?: string;
     panels: DashboardPanel[];
 

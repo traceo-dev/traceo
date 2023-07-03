@@ -5,20 +5,25 @@ import styled from "styled-components";
 import { useUser } from "../../../../core/hooks/useUser";
 import { LeftHeaderSection } from "./LeftHeaderSection";
 import { RightHeaderSection } from "./RightHeaderSection";
-import { Row, Select } from "@traceo/ui";
+import { Row } from "@traceo/ui";
+import {} from "./";
+import { BackButton } from "./BackButton";
 
 export const Header = () => {
   const { project } = useProject();
   const { isAdmin } = useUser();
 
+  const isProjectDashboard = window.location.pathname.split("/").includes("project");
+
   return (
     <div className="w-full flex flex-col z-50 shadow-lg top-0 fixed">
-      <header className="flex px-8 h-[40px] w-full bg-primary border-bottom justify-between items-center">
+      <PrimaryHeader>
         <LeftHeaderSection />
         <RightHeaderSection />
-      </header>
+      </PrimaryHeader>
       <SecondaryHeader>
         <Row>
+          {isProjectDashboard && <BackButton />}
           {buildHeaderItems(isAdmin, project).map((route, key) => (
             <HeaderItem key={key} route={route} />
           ))}
@@ -27,6 +32,17 @@ export const Header = () => {
     </div>
   );
 };
+
+const PrimaryHeader = styled.header`
+  display: flex;
+  padding-inline: 36px;
+  height: 40px;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-bg-secondary);
+`;
 
 const SecondaryHeader = styled.nav`
   width: 100%;

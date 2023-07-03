@@ -82,9 +82,9 @@ export class DashboardService {
         }
     }
 
-    public async updatePanel(dto: Omit<DashboardPanelDto, "dashboardId">): Promise<ApiResponse<DashboardPanel>> {
+    public async updatePanel(dto: DashboardPanelDto): Promise<ApiResponse<DashboardPanel>> {
         try {
-            const { panelId, ...rest } = dto;
+            const { panelId, dashboardId, ...rest } = dto;
             const dashboardPanel = await this.entityManager.getRepository(DashboardPanel).update({ id: panelId }, rest);
             return new ApiResponse("success", undefined, dashboardPanel);
         } catch (err) {

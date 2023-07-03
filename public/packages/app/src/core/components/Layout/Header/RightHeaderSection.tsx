@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import { useProject } from "src/core/hooks/useProject";
 import { MenuRoute } from "src/core/types/navigation";
 import styled from "styled-components";
+import { PopoverSelectOptions } from "../../PopoverSelectOptions";
 
 export const RightHeaderSection = () => {
   const { project } = useProject();
@@ -34,8 +35,10 @@ export const RightHeaderSection = () => {
 
     navigate(`/project/${project.id}/dashboard/${dashboardId}/panel-create`);
   };
+  const onCreateProject = () => navigate("/dashboard/new-project");
+  const onCreateUser = () => navigate("/dashboard/new-user");
 
-  const createNewOptions: MenuRoute[] = [
+  const createNewOptions = [
     {
       label: "Dashboard",
       onClick: () => onCreateDashboard(),
@@ -48,33 +51,20 @@ export const RightHeaderSection = () => {
     },
     {
       label: "Project",
-      href: "/dashboard/new-project",
+      onClick: () => onCreateProject(),
       icon: <AppstoreAddOutlined />
     },
     {
       label: "User",
-      href: "/dashboard/new-user",
+      onClick: () => onCreateUser(),
       icon: <UserAddOutlined />
     }
   ];
 
-  const createNewContent = (
-    <div className="min-w-[180px] flex flex-col">
-      <span className="text-sm p-2 mb-3 text-primary">Create new resource</span>
-      {createNewOptions.map((route, key) => (
-        <span
-          key={key}
-          onClick={() => (route.href ? (window.location.href = route.href) : route.onClick())}
-          className="text-primary text-sm p-2 hover:bg-secondary cursor-pointer"
-        >
-          <Row gap="x-3">
-            {route.icon}
-            {route.label}
-          </Row>
-        </span>
-      ))}
-    </div>
-  );
+  const renderNewResource = () => {
+    return <PopoverSelectOptions title="Create new resource" options={createNewOptions} />;
+  };
+
   return (
     <Row className="gap-x-5">
       {isProjectDashboard && (
@@ -86,17 +76,13 @@ export const RightHeaderSection = () => {
               marginTop: "15px",
               transitionDuration: "50ms"
             }}
-            content={createNewContent}
+            content={renderNewResource()}
           >
             <HeaderButton>
               <span className="select-none">Create</span>
               <DownOutlined />
             </HeaderButton>
           </Popover>
-
-          <RouterLink to={`/dashboard/admin/users`}>
-            <SettingOutlined className="icon-btn" />
-          </RouterLink>
         </ServerPermissions>
       )}
 

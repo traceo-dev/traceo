@@ -161,15 +161,7 @@ export const DashboardPage = () => {
 
   return (
     <Page>
-      <Page.Content>
-        <DashboardToolbar
-          ranges={ranges}
-          onChangeRanges={setRanges}
-          isEditable={isEditable}
-          onChangeEditable={setEditable}
-        />
-        {renderContent()}
-      </Page.Content>
+      <Page.Content>{renderContent()}</Page.Content>
     </Page>
   );
 };

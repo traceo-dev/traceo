@@ -14,10 +14,11 @@ import {
   Input,
   InputSecret
 } from "@traceo/ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserAddOutlined } from "@ant-design/icons";
 import { RouterLink } from "../../core/components/RouterLink";
+import { resetProjectState } from "../project/state/project/reducers";
 
 type CreateUserPayload = {
   id: string;
@@ -30,6 +31,10 @@ const CreateUserPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>(null);
+
+  useEffect(() => {
+    dispatch(resetProjectState());
+  }, []);
 
   const onFinish = async (form: AddUserProps) => {
     setLoading(true);

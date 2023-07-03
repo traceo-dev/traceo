@@ -19,6 +19,10 @@ export class DashboardDto {
     name: string;
 
     @IsOptional()
+    @IsString()
+    description: string;
+
+    @IsOptional()
     isEditable?: boolean = true;
 
     isBase?: boolean = true;
