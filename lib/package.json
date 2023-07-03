@@ -33,7 +33,7 @@
     "@nestjs/serve-static": "^4.0.0",
     "@nestjs/swagger": "^5.2.1",
     "@nestjs/typeorm": "^10.0.0",
-    "@nestjs/websockets": "9.0.5",
+    "@nestjs/websockets": "9.4.3",
     "@traceo/types": "0.0.0",
     "@types/compression": "^1.7.2",
     "@types/cookie-parser": "^1.4.3",
