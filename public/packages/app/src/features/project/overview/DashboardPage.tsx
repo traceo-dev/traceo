@@ -1,7 +1,6 @@
 import { Page } from "../../../core/components/Page";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import { useAppDispatch } from "../../../store/index";
 import { StoreState } from "../../../store/types";
 import { useSelector } from "react-redux";
@@ -9,15 +8,15 @@ import { loadDashboard } from "./state/actions";
 import { DashboardToolbar } from "./DashboardToolbar";
 import { DashboardGridLayout, GridLayout } from "./DashboardGridLayout";
 import styled from "styled-components";
-import api from "src/core/lib/api";
+import api from "../../../core/lib/api";
 import { DashboardPanel, PANEL_TYPE, TimeRange } from "@traceo/types";
 import { PlotPanel } from "./panels/PlotPanel";
-import { useTimeRange } from "src/core/hooks/useTimeRange";
+import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
-import { PageCenter } from "src/core/components/PageCenter";
+import { PageCenter } from "../../../core/components/PageCenter";
 import { Button, Col, Typography } from "@traceo/ui";
 import { PlusOutlined } from "@ant-design/icons";
-import { notify } from "src/core/utils/notify";
+import { notify } from "../../../core/utils/notify";
 
 const GridPanelItem = styled.div`
   position: relative;
@@ -32,9 +31,7 @@ export const DashboardPage = () => {
   const [itemDimensions, setItemDimensions] = useState({});
   const [isRemoveMode, setRemoveMode] = useState<boolean>(false);
 
-  const { dashboard, isLoading: isDashboardLoading } = useSelector(
-    (state: StoreState) => state.dashboard
-  );
+  const { dashboard } = useSelector((state: StoreState) => state.dashboard);
 
   const { ranges, setRanges } = useTimeRange({
     from: dayjs().subtract(1, "h").unix(),
@@ -46,10 +43,6 @@ export const DashboardPage = () => {
   }, [did]);
 
   const fetchDashboardPanels = () => dispatch(loadDashboard(did));
-
-  // if (!dashboard || isDashboardLoading) {
-  //   return <TraceoLoading />;
-  // }
 
   const generateLayout = () => {
     if (!dashboard || dashboard.panels?.length === 0) {

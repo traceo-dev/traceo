@@ -20,7 +20,11 @@ export const ColorPicker = ({ color, onChange, children, placement = "bottom" }:
   const pickerContent = () => (
     <div className="flex flex-col p-1">
       <ColorPickerWrapper>
-        <HexColorPicker color={newColor} onChange={setColor} />
+        <HexColorPicker
+          color={newColor}
+          onClick={(e) => e.stopPropagation()}
+          onChange={setColor}
+        />
       </ColorPickerWrapper>
       <div className="mt-2 h-7 w-full rounded-sm" style={{ backgroundColor: newColor }} />
     </div>

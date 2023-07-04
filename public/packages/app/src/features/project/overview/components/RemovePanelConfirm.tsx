@@ -1,9 +1,9 @@
 import { ApiResponse, MemberRole } from "@traceo/types";
 import { FC } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Confirm } from "src/core/components/Confirm";
-import { Permissions } from "src/core/components/Permissions";
-import api from "src/core/lib/api";
+import { Confirm } from "../../../../core/components/Confirm";
+import { Permissions } from "../../../../core/components/Permissions";
+import api from "../../../../core/lib/api";
 
 interface Props {
   panelId: string;

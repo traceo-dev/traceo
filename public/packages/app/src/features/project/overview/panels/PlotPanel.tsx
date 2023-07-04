@@ -1,20 +1,21 @@
-import { CloseOutlined, DeleteOutlined, ExpandOutlined, EyeOutlined, HolderOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { DashboardPanel as DashboardPanelType, Setter, TimeRange } from "@traceo/types";
-import { Row, Tooltip, conditionClass, joinClasses } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { DashboardPanel } from "src/core/components/DashboardPanel";
-import { BaseMetricChart } from "src/core/components/UPlot/BaseMetricChart";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { DashboardPanel } from "../../../../core/components/DashboardPanel";
+import { BaseMetricChart } from "../../../../core/components/UPlot/BaseMetricChart";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { RemovePanelConfirm } from "../components/RemovePanelConfirm";
+import { GRID_BASE_PANEL_HEIGHT, GRID_MARGIN, GRID_ROW_HEIGHT } from "../utils";
 
+interface PanelDimension {
+  width: number;
+  height: number;
+}
 interface Props {
   isEditable: boolean;
   isRemoveMode: boolean;
-  dimensions: {
-    width: number;
-    height: number;
-  };
+  dimensions: PanelDimension;
   panel: DashboardPanelType;
   ranges: TimeRange;
   onChangeTimeRange: Setter<TimeRange>;
@@ -54,7 +55,7 @@ export const PlotPanel = ({
   }, [ranges, panel]);
 
   const calculateHeight = (h: number): number => {
-    return h * 38 - 102;
+    return h * (GRID_ROW_HEIGHT + GRID_MARGIN[0]) - GRID_BASE_PANEL_HEIGHT;
   };
 
   const onNavigate = () => {
@@ -74,7 +75,14 @@ export const PlotPanel = ({
     }
 
     if (isHover) {
-      return <ExpandOutlined onClick={onNavigate} className="text-xs cursor-pointer" />;
+      return (
+        <span
+          onClick={onNavigate}
+          className="hover:text-sky-600 text-xs cursor-pointer font-semibold"
+        >
+          View
+        </span>
+      );
     }
 
     return undefined;
@@ -83,6 +91,7 @@ export const PlotPanel = ({
   return (
     <DashboardPanel
       name={panel.title}
+      tooltip={panel?.description}
       loading={isLoading || isRefetching}
       options={renderOptions()}
       onMouseEnter={() => setHover(true)}

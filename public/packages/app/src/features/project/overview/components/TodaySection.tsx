@@ -5,9 +5,8 @@ import { SyncOutlined } from "@ant-design/icons";
 import { Typography } from "@traceo/ui";
 import { useParams } from "react-router-dom";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
-import { ContentCard } from "../../../../core/components/ContentCard";
 import { UPlotTodayEventsGraph } from "./UPlotTodayEventsGraph";
-import { DashboardPanel } from "src/core/components/DashboardPanel";
+import { DashboardPanel } from "../../../../core/components/DashboardPanel";
 
 export const TodaySection = () => {
   const { id } = useParams();

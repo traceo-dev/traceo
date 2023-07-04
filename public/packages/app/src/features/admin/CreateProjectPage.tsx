@@ -20,6 +20,7 @@ import { ChooseElementGrid } from "../../core/components/ChooseElementGrid";
 import { resetProjectState } from "../project/state/project/reducers";
 import { AppstoreAddOutlined } from "@ant-design/icons";
 import { RouterLink } from "../../core/components/RouterLink";
+import { useNavigate } from "react-router-dom";
 
 type CreateAppPayload = {
   redirectUrl: string;
@@ -52,6 +53,7 @@ const technologyOptions: SelectOptionProps[] = [
 
 const CreateProjectPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -143,9 +145,7 @@ const CreateProjectPage = () => {
             <Button type="submit" form="create-project-form" loading={loading}>
               Save
             </Button>
-            <RouterLink to={"/dashboard/projects"}>
-              <Button variant="ghost">Cancel</Button>
-            </RouterLink>
+            <Button onClick={() => navigate(-1)} variant="ghost">Cancel</Button>
           </ButtonContainer>
         </Card>
       </Page.Content>

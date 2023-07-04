@@ -98,7 +98,7 @@ const relativeTimeOptions: RelativeTimeOption[] = [
 ];
 
 const MAX_DATE = new Date(dayjs().unix() * 1e3);
-export const MetricTimeRangePicker = ({
+export const BaseTimeRangePicker = ({
   ranges,
   setRanges,
   isDisabled = false,

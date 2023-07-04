@@ -45,7 +45,7 @@ export const Modal: FC<ModalProps> = (props: ModalProps) => {
       height="auto"
     >
       {title && (
-        <div className="px-6 py-4 border-b border-solid border-t-0 border-r-0 border-l-0 border-light-secondary">
+        <div className="px-4 py-3 border-b border-solid border-t-0 border-r-0 border-l-0 border-light-secondary">
           <span className="font-semibold">{title}</span>
         </div>
       )}

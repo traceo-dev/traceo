@@ -5,6 +5,7 @@ import { SelectOutlined } from "@ant-design/icons";
 
 interface Props extends Pick<HTMLProps<HTMLDivElement>, "onMouseEnter" | "onMouseLeave"> {
   name: JSX.Element | string;
+  tooltip?: string;
   options?: JSX.Element;
   loading?: boolean;
   navigateTo?: To;
@@ -24,7 +25,8 @@ export const DashboardPanel = forwardRef<HTMLDivElement, Props>(
       className = undefined,
       onMouseEnter = undefined,
       onMouseLeave = undefined,
-      isDraggable = false
+      isDraggable = false,
+      tooltip = undefined
     },
     ref
   ) => {
@@ -53,6 +55,7 @@ export const DashboardPanel = forwardRef<HTMLDivElement, Props>(
         className={className}
         extra={renderExtra()}
         isDraggable={isDraggable}
+        tooltip={tooltip}
       >
         {children}
       </ContentCard>

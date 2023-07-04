@@ -20,11 +20,11 @@ import api from "../../../core/lib/api";
 import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
 import { notify } from "../../../core/utils/notify";
-import { BaseMetricChart } from "src/core/components/UPlot/BaseMetricChart";
+import { BaseMetricChart } from "../../../core/components/UPlot/BaseMetricChart";
 import { PanelCustomizeForm } from "./components/PanelCustomizeForm";
 import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
-import { ContentCard } from "src/core/components/ContentCard";
+import { ContentCard } from "../../../core/components/ContentCard";
 import { RemovePanelConfirm } from "./components/RemovePanelConfirm";
 
 export const DashboardPanelPreview = () => {
@@ -99,12 +99,14 @@ export const DashboardPanelPreview = () => {
 
     setSaveLoading(true);
 
+    const props = {
+      ...options,
+      dashboardId: did,
+      panelId
+    };
+
     await api
-      .patch<ApiResponse<string>>(`/api/dashboard/panel`, {
-        ...options,
-        dashboardId: did,
-        panelId
-      })
+      .patch<ApiResponse<string>>(`/api/dashboard/panel`, props)
       .then(() => {
         refetch();
       })
@@ -127,8 +129,8 @@ export const DashboardPanelPreview = () => {
   const getTableFields = () =>
     options?.config.series.filter(({ show }) => show).map(({ field }) => field);
 
-  const operationButtons = () =>
-    !isCustomizeMode ? (
+  const renderOperationButtons = () => {
+    if (!isCustomizeMode) {
       <Row gap="x-3">
         <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
           <Button size="sm" onClick={() => setCustomizeMode(true)} icon={<SettingOutlined />}>
@@ -140,8 +142,10 @@ export const DashboardPanelPreview = () => {
             Remove
           </Button>
         </RemovePanelConfirm>
-      </Row>
-    ) : (
+      </Row>;
+    }
+
+    return (
       <Row gap="x-3">
         <Button
           icon={<CheckOutlined />}
@@ -157,6 +161,7 @@ export const DashboardPanelPreview = () => {
         </Button>
       </Row>
     );
+  };
 
   return (
     <Page
@@ -170,7 +175,7 @@ export const DashboardPanelPreview = () => {
             backOpts={backOpts}
           />
         ),
-        suffix: operationButtons()
+        suffix: renderOperationButtons()
       }}
     >
       <Page.Content className="pt-0">

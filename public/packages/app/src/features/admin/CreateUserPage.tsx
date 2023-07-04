@@ -131,9 +131,9 @@ const CreateUserPage = () => {
             <Button type="submit" form="add-user-form" loading={loading}>
               Confirm
             </Button>
-            <RouterLink to={"/dashboard/admin/users"}>
-              <Button variant="ghost">Cancel</Button>
-            </RouterLink>
+            <Button onClick={() => navigate(-1)} variant="ghost">
+              Cancel
+            </Button>
           </ButtonContainer>
         </Card>
       </Page.Content>

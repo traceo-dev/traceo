@@ -17,7 +17,7 @@ import { VitalsHealthBar } from "./VitalsHealthBar";
 import { VitalsRawData } from "./VitalsRawData";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { ContentCard } from "../../../../core/components/ContentCard";
-import { MetricTimeRangePicker } from "../../overview/components/MetricTimeRangePicker";
+import { BaseTimeRangePicker } from "../../../../core/components/BaseTimeRangePicker";
 
 const VitalsPreviewPage = () => {
   const { id, name } = useParams();
@@ -90,7 +90,7 @@ const VitalsPreviewPage = () => {
               options={selectHealthOptions}
               onChange={(opt) => setSelectedHealth(opt?.value)}
             />
-            <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
+            <BaseTimeRangePicker ranges={ranges} setRanges={setRanges} />
           </SearchWrapper>
         </Card>
         <ContentCard

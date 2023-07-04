@@ -15,8 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { mapHeaderStatusIcon } from "../../incidents/components/utils";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { RouterLink } from "../../../../core/components/RouterLink";
-import { ContentCard } from "../../../../core/components/ContentCard";
-import { DashboardPanel } from "src/core/components/DashboardPanel";
+import { DashboardPanel } from "../../../../core/components/DashboardPanel";
 
 const RECENT_INCIDENTS_MAX_COUNT = 5;
 export const RecentIncidentsSection = () => {

@@ -7,7 +7,7 @@ import {
 import { Setter, TimeRange } from "@traceo/types";
 import { Row } from "@traceo/ui";
 import { ActionButton } from "../../../../core/components/ActionButton";
-import { MetricTimeRangePicker } from "./MetricTimeRangePicker";
+import { BaseTimeRangePicker } from "../../../../core/components/BaseTimeRangePicker";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
@@ -102,7 +102,7 @@ export const MetricTimeToolbar = ({
         icon={<ZoomOutOutlined />}
         onClick={() => onZoomOut()}
       />
-      <MetricTimeRangePicker
+      <BaseTimeRangePicker
         type={variant}
         isDisabled={isTimeDisabled}
         ranges={ranges}

@@ -9,7 +9,6 @@ import {
   IMetricSerie,
   MARKER_SHAPE,
   METRIC_UNIT,
-  MetricType,
   PANEL_TYPE,
   PLOT_TYPE,
   STACK_STRATEGY

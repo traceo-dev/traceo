@@ -22,8 +22,8 @@ export const defaultStyles = (width: number | string | undefined): StylesConfig 
         ...provided,
         background: "#131517",
         border: "1px solid #22252b",
-        borderRadius: 0,
-        marginTop: 0,
+        borderRadius: 5,
+        marginTop: 8,
         zIndex: 9999
       }),
       option: (provided) => ({

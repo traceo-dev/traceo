@@ -2,6 +2,13 @@ import { DashboardPanel, PANEL_TYPE, METRIC_UNIT } from "@traceo/types";
 import { DeepPartial } from "redux";
 import { randomHexColor } from "src/core/utils/colors";
 
+export const GRID_BREAKPOINTS = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
+export const GRID_MARGIN = [8, 8];
+export const GRID_COLS = { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 };
+export const GRID_ROW_HEIGHT = 30;
+export const GRID_PADDING = [0, 0];
+export const GRID_BASE_PANEL_HEIGHT = 103;
+
 export const initialPanelProps: DeepPartial<DashboardPanel> = {
     title: "New panel",
     description: "New panel description",

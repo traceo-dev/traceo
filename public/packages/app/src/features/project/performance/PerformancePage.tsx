@@ -12,7 +12,7 @@ import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { VITALS_DETAILS, WEB_VITALS_DOCS_URL } from "./vitals/types";
 import { calculateVitalsAvg } from "./vitals/utils";
 import { renderChart } from "./vitals/VitalsChart";
-import { MetricTimeRangePicker } from "../overview/components/MetricTimeRangePicker";
+import { BaseTimeRangePicker } from "../../../core/components/BaseTimeRangePicker";
 
 const SUPPORTED_WEB_VITALS = [
   VitalsEnum.CLS,
@@ -83,7 +83,7 @@ const PerformancePage = () => {
     >
       <Page.Content className="pt-0">
         <SearchWrapper className="justify-end my-5">
-          <MetricTimeRangePicker type="secondary" ranges={ranges} setRanges={setRanges} />
+          <BaseTimeRangePicker type="secondary" ranges={ranges} setRanges={setRanges} />
         </SearchWrapper>
         <div className="flex flex-col w-full">
           {VITALS_DETAILS.map(({ description, field, name }, key) => (

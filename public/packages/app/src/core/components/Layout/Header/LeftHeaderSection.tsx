@@ -4,9 +4,9 @@ import { TraceoLogo } from "../../Icons/TraceoLogo";
 import { SwitchProjectPopover } from "./SwitchProjectPopover";
 import { useNavigate } from "react-router-dom";
 import { MemberProject } from "@traceo/types";
-import { useProject } from "src/core/hooks/useProject";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
-import { useUser } from "src/core/hooks/useUser";
+import { useProject } from "../../../../core/hooks/useProject";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
+import { useUser } from "../../../../core/hooks/useUser";
 
 export const LeftHeaderSection = () => {
   const navigate = useNavigate();

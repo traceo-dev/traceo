@@ -1,29 +1,16 @@
-import { ApiResponse, CreateProjectProps } from "@traceo/types";
-import {
-  Alert,
-  Button,
-  ButtonContainer,
-  Card,
-  Col,
-  Form,
-  FormItem,
-  Input,
-  RadioButtonGroup,
-  Row,
-  Switch,
-  Typography
-} from "@traceo/ui";
+import { ApiResponse } from "@traceo/types";
+import { Alert, Button, Card, Form, FormItem, Input, RadioButtonGroup, Row } from "@traceo/ui";
 import { useState } from "react";
 import { AppstoreFilled } from "@ant-design/icons";
-import { Page } from "src/core/components/Page";
-import api from "src/core/lib/api";
-import { TRY_AGAIN_LATER_ERROR } from "src/core/utils/constants";
+import { Page } from "../../../core/components/Page";
+import api from "../../../core/lib/api";
+import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { useNavigate } from "react-router-dom";
-import { useProject } from "src/core/hooks/useProject";
+import { useProject } from "../../../core/hooks/useProject";
 import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
-import { Confirm } from "src/core/components/Confirm";
-import { ColumnSection } from "src/core/components/ColumnSection";
+import { StoreState } from "../../../store/types";
+import { Confirm } from "../../../core/components/Confirm";
+import { ColumnSection } from "../../../core/components/ColumnSection";
 
 interface UpdateDashboardForm {
   name: string;
@@ -46,14 +33,16 @@ const EditDashboardPage = () => {
     setLoading(true);
     const { name } = form;
 
+    const props = {
+      ...dashboard,
+      name,
+      dashboardId: dashboard.id,
+      projectId: project.id,
+      isEditable
+    };
+
     await api
-      .patch<ApiResponse<{ id: string }>>("/api/dashboard", {
-        ...dashboard,
-        name,
-        dashboardId: dashboard.id,
-        projectId: project.id,
-        isEditable
-      })
+      .patch<ApiResponse<{ id: string }>>("/api/dashboard", props)
       .then((response) => {
         if (response.status === "success") {
           navigate(`/project/${project.id}/dashboard/${dashboard.id}`);

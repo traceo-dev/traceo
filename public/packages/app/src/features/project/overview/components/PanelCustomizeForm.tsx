@@ -7,7 +7,7 @@ import { editMetricBasicForm } from "./editMetricBasicForm";
 import { TimeseriesForm } from "./Forms/TimeseriesForm";
 import { HistogramForm } from "./Forms/HistogramForm";
 import styled from "styled-components";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { useParams } from "react-router-dom";
 
 interface Props {

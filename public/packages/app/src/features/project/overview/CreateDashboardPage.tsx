@@ -1,4 +1,4 @@
-import { ApiResponse, CreateProjectProps, SDK } from "@traceo/types";
+import { ApiResponse, CreateProjectProps } from "@traceo/types";
 import {
   Alert,
   Button,
@@ -9,16 +9,13 @@ import {
   Input,
   Typography
 } from "@traceo/ui";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AppstoreFilled } from "@ant-design/icons";
-import { useAppDispatch } from "../../../store/index";
-import { Page } from "src/core/components/Page";
-import { RouterLink } from "src/core/components/RouterLink";
-import api from "src/core/lib/api";
-import { TRY_AGAIN_LATER_ERROR } from "src/core/utils/constants";
-import { resetProjectState } from "../state/project/reducers";
-import { useNavigate, useParams } from "react-router-dom";
-import { useProject } from "src/core/hooks/useProject";
+import { Page } from "../../../core/components/Page";
+import api from "../../../core/lib/api";
+import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
+import { useNavigate } from "react-router-dom";
+import { useProject } from "../../../core/hooks/useProject";
 
 const CreateDashboardPage = () => {
   const { project } = useProject();
@@ -40,7 +37,9 @@ const CreateDashboardPage = () => {
       })
       .then((response) => {
         if (response.status === "success") {
-          navigate(`/project/${project.id}/dashboard/${response.data.id}`);
+          navigate({
+            pathname: `/project/${project.id}/dashboard/${response.data.id}`
+          });
         }
       })
       .catch(() => {

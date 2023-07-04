@@ -1,6 +1,5 @@
 import {
   DownOutlined,
-  SettingOutlined,
   QuestionCircleOutlined,
   UserOutlined,
   LogoutOutlined,
@@ -10,13 +9,12 @@ import {
   UserAddOutlined
 } from "@ant-design/icons";
 import { Row, Popover } from "@traceo/ui";
-import { GH_REPO_LINK } from "src/core/utils/constants";
-import { logout } from "src/core/utils/logout";
+import { GH_REPO_LINK } from "../../../../core/utils/constants";
+import { logout } from "../../../../core/utils/logout";
 import { RouterLink } from "../../RouterLink";
 import ServerPermissions from "../../ServerPermissions";
 import { useNavigate } from "react-router-dom";
-import { useProject } from "src/core/hooks/useProject";
-import { MenuRoute } from "src/core/types/navigation";
+import { useProject } from "../../../../core/hooks/useProject";
 import styled from "styled-components";
 import { PopoverSelectOptions } from "../../PopoverSelectOptions";
 

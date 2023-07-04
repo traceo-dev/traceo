@@ -1,8 +1,10 @@
-import { Row, conditionClass, joinClasses } from "@traceo/ui";
+import { QuestionCircleFilled } from "@ant-design/icons";
+import { Row, Tooltip, conditionClass, joinClasses } from "@traceo/ui";
 import { HTMLProps, forwardRef } from "react";
 
 interface Props extends Omit<HTMLProps<HTMLDivElement>, "name" | "className"> {
   name?: JSX.Element | string;
+  tooltip?: string;
   extra?: JSX.Element;
   className?: string;
   bodyClassName?: string;
@@ -20,6 +22,7 @@ export const ContentCard = forwardRef<any, Props>(
       children,
       loading = false,
       isDraggable = false,
+      tooltip = undefined,
       ...props
     },
     ref
@@ -41,7 +44,16 @@ export const ContentCard = forwardRef<any, Props>(
               conditionClass(isDraggable, "drag-handle cursor-move")
             )}
           >
-            {name && <span className="font-semibold text-sm">{name}</span>}
+            {name && (
+              <div className="flex flex-row gap-x-2 leading-none items-center cursor-pointer">
+                <span className="font-semibold text-sm">{name}</span>
+                {tooltip && (
+                  <Tooltip title={tooltip}>
+                    <QuestionCircleFilled className="text-2xs" />
+                  </Tooltip>
+                )}
+              </div>
+            )}
             {extra}
           </Row>
         )}

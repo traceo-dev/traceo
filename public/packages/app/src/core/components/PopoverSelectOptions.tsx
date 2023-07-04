@@ -13,7 +13,7 @@ interface Props {
 }
 export const PopoverSelectOptions = ({ options, title }: Props) => {
   return (
-    <div className="min-w-[180px] flex flex-col font-normal">
+    <div className="min-w-[180px] flex flex-col font-normal bg-canvas">
       <span className="text-2xs text-primary font-semibold p-3 uppercase">{title}</span>
       {options.map((option, key) => (
         <span

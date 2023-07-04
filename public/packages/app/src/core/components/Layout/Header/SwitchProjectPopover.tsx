@@ -1,9 +1,7 @@
-import { LoadingOutlined, SearchOutlined, AppstoreOutlined } from "@ant-design/icons";
+import { LoadingOutlined } from "@ant-design/icons";
 import { MemberProject } from "@traceo/types";
-import { Avatar, Row } from "@traceo/ui";
-import { Link } from "react-router-dom";
-import { useProject } from "src/core/hooks/useProject";
-import { useUser } from "src/core/hooks/useUser";
+import { Avatar } from "@traceo/ui";
+import { useProject } from "../../../../core/hooks/useProject";
 import { PopoverSelectOptions } from "../../PopoverSelectOptions";
 
 interface Props {

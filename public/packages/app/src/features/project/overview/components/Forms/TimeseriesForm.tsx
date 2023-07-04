@@ -5,7 +5,7 @@ import { CustomizeFormSection } from "../CustomizeFormSection";
 import { editSerieForm } from "../editMetricSeriesForm";
 import { isStackAvailable } from "../utils";
 import { useMemo } from "react";
-import { randomHexColor } from "src/core/utils/colors";
+import { randomHexColor } from "../../../../../core/utils/colors";
 import {
   editMetricTooltipForm,
   editMetricAxisForm,
