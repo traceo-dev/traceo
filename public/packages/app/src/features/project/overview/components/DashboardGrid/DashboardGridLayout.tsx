@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Responsive, WidthProvider, GridLayout } from "react-grid-layout";
-import { GRID_MARGIN, GRID_PADDING, GRID_BREAKPOINTS, GRID_COLS, GRID_ROW_HEIGHT } from "./utils";
+import { GRID_MARGIN, GRID_PADDING, GRID_BREAKPOINTS, GRID_COLS, GRID_ROW_HEIGHT } from "../../utils";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 

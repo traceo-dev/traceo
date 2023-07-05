@@ -5,10 +5,10 @@ import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import dayjs from "dayjs";
 import { useParams } from "react-router-dom";
 import { UplotDataType } from "@traceo/types";
-import { UPlotTodayEventsGraph } from "../overview/components/UPlotTodayEventsGraph";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../store/types";
-import { UPlotOverviewEventsGraph } from "../overview/components/UPlotOverviewEventsGraph";
+import { UPlotTodayEventsGraph } from "./components/UPlotTodayEventsGraph";
+import { UPlotOverviewEventsGraph } from "./components/UPlotOverviewEventsGraph";
 
 export const IncidentAnalyticsPage = () => {
   const { incidentId } = useParams();

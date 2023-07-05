@@ -21,17 +21,17 @@ import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
 import { notify } from "../../../core/utils/notify";
 import { BaseMetricChart } from "../../../core/components/UPlot/BaseMetricChart";
-import { PanelCustomizeForm } from "./components/PanelCustomizeForm";
-import { MetricTableWrapper } from "./components/MetricTableWrapper";
-import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
+import { PanelDatasourceTable } from "./components/PanelDatasourceTable";
+import { MetricTimeToolbar } from "./components/Toolbars/MetricTimeToolbar";
 import { ContentCard } from "../../../core/components/ContentCard";
 import { RemovePanelConfirm } from "./components/RemovePanelConfirm";
-import { getXAxisFormatter } from "./panels/formatters";
 import { useDashboard } from "../../../core/hooks/useDashboard";
 import { useAppDispatch } from "../../../store/index";
 import { loadDashboard } from "./state/actions";
+import { PanelCustomizeForm } from "./components/PanelEditor/PanelCustomizeForm";
+import { getXAxisFormatter } from "./components/Panels/formatters";
 
-export const DashboardPanelPreview = () => {
+export const PanelPreviewPage = () => {
   const dispatch = useAppDispatch();
   const { panelId, id, dashboardId } = useParams();
 
@@ -222,7 +222,7 @@ export const DashboardPanelPreview = () => {
                 </span>
               }
             >
-              <MetricTableWrapper
+              <PanelDatasourceTable
                 fields={getTableFields()}
                 metricData={rawData}
                 isLoading={isLoadingRawData || isRefetchinRawData}
@@ -244,4 +244,4 @@ export const DashboardPanelPreview = () => {
   );
 };
 
-export default DashboardPanelPreview;
+export default PanelPreviewPage;

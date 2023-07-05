@@ -1,6 +1,5 @@
-import { DASHBOARD_PANEL_TYPE, DashboardPanel, METRIC_UNIT, PanelConfiguration, VISUALIZATION_TYPE } from "@traceo/types";
-import { DeepPartial } from "redux";
-import { randomHexColor } from "src/core/utils/colors";
+import { DeepPartial, DASHBOARD_PANEL_TYPE, DashboardPanel, METRIC_UNIT, PanelConfiguration, VISUALIZATION_TYPE } from "@traceo/types";
+import { randomHexColor } from "../../../core/utils/colors";
 
 export const GRID_BREAKPOINTS = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
 export const GRID_MARGIN = [8, 8];

@@ -1,11 +1,11 @@
 import { CloseOutlined } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { DashboardPanel } from "./DashboardPanel";
-import { BaseMetricChart } from "../../../../core/components/UPlot/BaseMetricChart";
-import { useReactQuery } from "../../../../core/hooks/useReactQuery";
-import { RemovePanelConfirm } from "../components/RemovePanelConfirm";
-import { GRID_BASE_PANEL_HEIGHT, GRID_MARGIN, GRID_ROW_HEIGHT } from "../utils";
+import { BaseDashboardPanel } from "./BaseDashboardPanel";
+import { BaseMetricChart } from "../../../../../core/components/UPlot/BaseMetricChart";
+import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
+import { RemovePanelConfirm } from "../../components/RemovePanelConfirm";
+import { GRID_BASE_PANEL_HEIGHT, GRID_MARGIN, GRID_ROW_HEIGHT } from "../../utils";
 import { PanelProps } from "./types";
 import { getXAxisFormatter } from "./formatters";
 
@@ -77,7 +77,7 @@ export const PlotPanel = ({
   };
 
   return (
-    <DashboardPanel
+    <BaseDashboardPanel
       panel={panel}
       loading={isLoading || isRefetching}
       options={renderOptions()}
@@ -91,6 +91,6 @@ export const PlotPanel = ({
         onZoom={onChangeTimeRange}
         xFormatter={getXAxisFormatter(panel.type)}
       />
-    </DashboardPanel>
+    </BaseDashboardPanel>
   );
 };

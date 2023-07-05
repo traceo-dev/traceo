@@ -68,7 +68,7 @@ export const markerShapeOptions = Object.values(MARKER_SHAPE).map((shape) => ({
   label: markerShapeName[shape]
 }));
 
-export interface MetricEditOption {
+export interface PanelEditOption {
   label: string;
   labelPosition?: LabelPosition;
   component: JSX.Element;

@@ -8,7 +8,7 @@ import {
 } from "@traceo/types";
 import { Input, InputArea, InputColor, Select, SelectOptionProps, Switch } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-import { unitOptions, plotOptions, MetricEditOption } from "./utils";
+import { unitOptions, plotOptions, PanelEditOption } from "../utils";
 
 type SerieFormProps = {
   index: number;
@@ -20,9 +20,9 @@ type SerieFormProps = {
   panelType: DASHBOARD_PANEL_TYPE;
   visualization: VISUALIZATION_TYPE;
 };
-export const editSerieForm = (props: SerieFormProps) => {
+export const editPanelSerieForm = (props: SerieFormProps) => {
   const { index, serie, setOptions, visualization } = props;
-  const forms: MetricEditOption[] = [];
+  const forms: PanelEditOption[] = [];
 
   const isHistogram = visualization === VISUALIZATION_TYPE.HISTOGRAM;
   const config = serie.config;

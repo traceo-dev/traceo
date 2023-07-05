@@ -3,12 +3,11 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../../store/index";
 import { loadDashboard } from "./state/actions";
-import { DashboardToolbar } from "./DashboardToolbar";
-import { DashboardGridLayout, GridLayout } from "./DashboardGridLayout";
+import { DashboardToolbar } from "./components/Toolbars/DashboardToolbar";
+import { DashboardGridLayout, GridLayout } from "./components/DashboardGrid/DashboardGridLayout";
 import styled from "styled-components";
 import api from "../../../core/lib/api";
 import { DashboardPanel, TimeRange } from "@traceo/types";
-import { PlotPanel } from "./panels/PlotPanel";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
 import { PageCenter } from "../../../core/components/PageCenter";
@@ -17,6 +16,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { notify } from "../../../core/utils/notify";
 import { SelectPanelModal } from "./components/SelectPanelModal";
 import { useDashboard } from "../../../core/hooks/useDashboard";
+import { PlotPanel } from "./components/Panels/PlotPanel";
 
 const GridPanelItem = styled.div`
   position: relative;

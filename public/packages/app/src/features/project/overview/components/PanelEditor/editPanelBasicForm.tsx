@@ -1,7 +1,7 @@
 import { DashboardPanel, DeepPartial, METRIC_UNIT, VISUALIZATION_TYPE } from "@traceo/types";
 import { Input, InputArea, Select } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-import { MetricEditOption, visualizationOptions, unitOptions } from "./utils";
+import { PanelEditOption, visualizationOptions, unitOptions } from "../utils";
 
 type EditMetricType = {
   options: DeepPartial<DashboardPanel>;
@@ -9,9 +9,9 @@ type EditMetricType = {
     arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
   ) => void;
 };
-export const editMetricBasicForm = (props: EditMetricType) => {
+export const editPanelBasicForm = (props: EditMetricType) => {
   const { options, setOptions } = props;
-  const forms: MetricEditOption[] = [];
+  const forms: PanelEditOption[] = [];
 
   const isHistogram = props.options.config.visualization === VISUALIZATION_TYPE.HISTOGRAM;
 

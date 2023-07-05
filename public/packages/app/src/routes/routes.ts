@@ -86,7 +86,7 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
     },
     {
       path: "/project/:id/dashboard/:dashboardId/panel/:panelId",
-      component: lazy(() => import("../features/project/overview/DashboardPanelPreview")),
+      component: lazy(() => import("../features/project/overview/PanelPreviewPage")),
       wrapper: ProjectDashboardWrapper
     },
     {

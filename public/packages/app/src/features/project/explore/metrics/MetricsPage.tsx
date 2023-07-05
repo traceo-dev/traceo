@@ -27,7 +27,7 @@ import {
 } from "@traceo/types";
 import { ButtonOptionsWrapper } from "../components";
 import { UPlotMetricsGraph } from "./UPlotMetricsGraph";
-import { MetricTableWrapper } from "../../overview/components/MetricTableWrapper";
+import { PanelDatasourceTable } from "../../overview/components/PanelDatasourceTable";
 
 export const MetricsPage = forwardRef(
   (
@@ -300,7 +300,7 @@ export const MetricsPage = forwardRef(
             </span>
           }
         >
-          <MetricTableWrapper
+          <PanelDatasourceTable
             metricData={rawData}
             isLoading={loadingRaw}
             fields={getTableFields()}

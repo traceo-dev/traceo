@@ -11,8 +11,8 @@ import api from "../../../core/lib/api";
 import { notify } from "../../../core/utils/notify";
 import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { CheckOutlined } from "@ant-design/icons";
-import { PanelCustomizeForm } from "./components/PanelCustomizeForm";
 import { initialCustomPanelProps } from "./utils";
+import { PanelCustomizeForm } from "./components/PanelEditor/PanelCustomizeForm";
 
 const CreatePanelPage = () => {
   const { id, dashboardId } = useParams();
@@ -108,7 +108,7 @@ const CreatePanelPage = () => {
             </Card>
           </div>
           <div className="col-span-4">
-            <PanelCustomizeForm data={[[]]} setOptions={setOptions} options={options} />
+            <PanelCustomizeForm setOptions={setOptions} options={options} />
           </div>
         </div>
       </Page.Content>

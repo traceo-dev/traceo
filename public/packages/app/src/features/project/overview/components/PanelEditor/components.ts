@@ -21,3 +21,23 @@ export const AddSerieBtn = styled.div`
     background-color: var(--color-bg-light-secondary);
   }
 `;
+
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-primary);
+  position: relative;
+  border: 1px solid var(--color-bg-secondary);
+  border-radius: 4px;
+`;
+
+export const Header = styled.span`
+  width: 100%;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-inline: 8px;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-bg-secondary);
+`;

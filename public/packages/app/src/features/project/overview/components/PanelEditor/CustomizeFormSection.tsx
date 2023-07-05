@@ -5,8 +5,39 @@ import {
   EyeOutlined,
   RightOutlined
 } from "@ant-design/icons";
-import { Row, Tooltip } from "@traceo/ui";
+import { FieldLabel, Row, Tooltip } from "@traceo/ui";
 import { FC, useState } from "react";
+import { PanelEditOption } from "../utils";
+
+interface FormSectionProps {
+  title: string;
+  options: PanelEditOption[];
+  defaultCollapsed?: boolean;
+  extra?: JSX.Element;
+}
+
+export const FormSection = ({
+  title,
+  options,
+  defaultCollapsed = true,
+  extra
+}: FormSectionProps) => {
+  return (
+    <CustomizeFormSection title={title} defaultCollapsed={defaultCollapsed} extra={extra}>
+      {options.map((opt, index) => (
+        <FieldLabel
+          key={index}
+          label={opt.label}
+          labelPosition={opt?.labelPosition}
+          tooltip={opt?.tooltip}
+          labelSize="xs"
+        >
+          {opt.component}
+        </FieldLabel>
+      ))}
+    </CustomizeFormSection>
+  );
+};
 
 interface Props {
   title: string | JSX.Element;

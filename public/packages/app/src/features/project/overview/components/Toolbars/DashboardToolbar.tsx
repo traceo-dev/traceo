@@ -1,7 +1,7 @@
 import { Dashboard, MemberRole, Setter, TimeRange } from "@traceo/types";
 import { Popover, Row, TimeRangePicker, Tooltip, conditionClass, joinClasses } from "@traceo/ui";
 import dayjs from "dayjs";
-import { relativeTimeOptions } from "../explore/components/utils";
+import { relativeTimeOptions } from "../../../explore/components/utils";
 import {
   LoadingOutlined,
   AppstoreFilled,
@@ -14,19 +14,19 @@ import {
   UnlockOutlined,
   DeleteFilled
 } from "@ant-design/icons";
-import { useAppDispatch } from "../../../store/index";
+import { useAppDispatch } from "../../../../../store/index";
 import { Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PopoverSelectOptions } from "../../../core/components/PopoverSelectOptions";
-import { useProject } from "../../../core/hooks/useProject";
-import { useReactQuery } from "../../../core/hooks/useReactQuery";
-import api from "../../../core/lib/api";
-import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
-import { loadDashboard } from "./state/actions";
-import { Permissions } from "../../../core/components/Permissions";
-import { notify } from "../../../core/utils/notify";
-import { SelectPanelModal } from "./components/SelectPanelModal";
-import { useDashboard } from "../../../core/hooks/useDashboard";
+import { PopoverSelectOptions } from "../../../../../core/components/PopoverSelectOptions";
+import { useProject } from "../../../../../core/hooks/useProject";
+import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
+import api from "../../../../../core/lib/api";
+import { TRY_AGAIN_LATER_ERROR } from "../../../../../core/utils/constants";
+import { loadDashboard } from "../../state/actions";
+import { Permissions } from "../../../../../core/components/Permissions";
+import { notify } from "../../../../../core/utils/notify";
+import { SelectPanelModal } from "../SelectPanelModal";
+import { useDashboard } from "../../../../../core/hooks/useDashboard";
 
 const MAX_DATE = new Date(dayjs().unix() * 1e3);
 

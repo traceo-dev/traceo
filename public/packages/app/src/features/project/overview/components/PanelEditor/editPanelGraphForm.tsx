@@ -1,7 +1,7 @@
 import { DashboardPanel, DeepPartial } from "@traceo/types";
 import { Switch } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-import { MetricEditOption, isStackAvailable } from "./utils";
+import { PanelEditOption, isStackAvailable } from "../utils";
 
 interface Props {
   options: DeepPartial<DashboardPanel>;
@@ -10,9 +10,9 @@ interface Props {
   ) => void;
 }
 
-export const editMetricStackForm = (props: Props) => {
+export const editPanelStackForm = (props: Props) => {
   const { options, setOptions } = props;
-  const forms: MetricEditOption[] = [];
+  const forms: PanelEditOption[] = [];
 
   if (!isStackAvailable(props.options.config.series)) {
     setOptions((opt) => {
@@ -36,29 +36,12 @@ export const editMetricStackForm = (props: Props) => {
     )
   });
 
-  // forms.push({
-  //   label: "Strategy",
-  //   labelPosition: "vertical",
-  //   component: (
-  //     <Select
-  //       isDisabled={!options.config.stack.show}
-  //       options={stackStrategyOptions}
-  //       defaultValue={options.config.stack?.strategy || "samesign"}
-  //       onChange={(a) => {
-  //         setOptions((opt) => {
-  //           opt.config.stack.strategy = a?.value;
-  //         });
-  //       }}
-  //     />
-  //   )
-  // });
-
   return forms;
 };
 
-export const editMetricMarkerForm = (props: Props) => {
+export const editPanelMarkerForm = (props: Props) => {
   const { options, setOptions } = props;
-  const forms: MetricEditOption[] = [];
+  const forms: PanelEditOption[] = [];
 
   forms.push({
     label: "Show markers",
@@ -75,28 +58,12 @@ export const editMetricMarkerForm = (props: Props) => {
     )
   });
 
-  // forms.push({
-  //   label: "Markers shape",
-  //   labelPosition: "vertical",
-  //   component: (
-  //     <Select
-  //       options={markerShapeOptions}
-  //       defaultValue={options.config.line.marker.shape || "rect"}
-  //       onChange={(a) => {
-  //         setOptions((opt) => {
-  //           opt.config.line.marker.shape = a?.value;
-  //         });
-  //       }}
-  //     />
-  //   )
-  // });
-
   return forms;
 };
 
-export const editMetricTooltipForm = (props: Props) => {
+export const editPanelTooltipForm = (props: Props) => {
   const { options, setOptions } = props;
-  const forms: MetricEditOption[] = [];
+  const forms: PanelEditOption[] = [];
 
   forms.push({
     label: "Show tooltip",
@@ -116,9 +83,9 @@ export const editMetricTooltipForm = (props: Props) => {
   return forms;
 };
 
-export const editMetricLegendForm = (props: Props) => {
+export const editPanelLegendForm = (props: Props) => {
   const { options, setOptions } = props;
-  const forms: MetricEditOption[] = [];
+  const forms: PanelEditOption[] = [];
 
   forms.push({
     label: "Show legend",
@@ -135,37 +102,11 @@ export const editMetricLegendForm = (props: Props) => {
     )
   });
 
-  // if (options.config.legend.show) {
-  //   forms.push({
-  //     label: "Legend position",
-  //     component: (
-  //       <RadioButtonGroup
-  //         options={[
-  //           {
-  //             label: "Horizontal",
-  //             value: "horizontal"
-  //           },
-  //           {
-  //             label: "Vertical",
-  //             value: "vertical"
-  //           }
-  //         ]}
-  //         value={options.config.legend.orient}
-  //         onChange={(e) => {
-  //           setOptions((opt) => {
-  //             opt.config.legend.orient = e;
-  //           });
-  //         }}
-  //       />
-  //     )
-  //   });
-  // }
-
   return forms;
 };
-export const editMetricAxisForm = (props: Props) => {
+export const editPanelAxisForm = (props: Props) => {
   const { options, setOptions } = props;
-  const forms: MetricEditOption[] = [];
+  const forms: PanelEditOption[] = [];
 
   forms.push({
     label: "Show X axis",

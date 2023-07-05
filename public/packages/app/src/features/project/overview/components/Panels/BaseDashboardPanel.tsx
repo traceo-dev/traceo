@@ -1,5 +1,5 @@
 import { HTMLProps, forwardRef } from "react";
-import { ContentCard } from "../../../../core/components/ContentCard";
+import { ContentCard } from "../../../../../core/components/ContentCard";
 import { DashboardPanel as DashboardPanelType, Setter } from "@traceo/types";
 
 interface Props extends Pick<HTMLProps<HTMLDivElement>, "className"> {
@@ -11,7 +11,7 @@ interface Props extends Pick<HTMLProps<HTMLDivElement>, "className"> {
   setHover?: Setter<boolean>;
 }
 
-export const DashboardPanel = forwardRef<HTMLDivElement, Props>(
+export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
   (
     {
       children,

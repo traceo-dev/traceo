@@ -3,12 +3,12 @@ import { DeepPartial, UplotDataType, DashboardPanel, VISUALIZATION_TYPE } from "
 import { FieldLabel, SelectOptionProps } from "@traceo/ui";
 import { FC, useMemo } from "react";
 import { DraftFunction } from "use-immer";
-import { editMetricBasicForm } from "./editMetricBasicForm";
-import { TimeseriesForm } from "./Forms/TimeseriesForm";
-import { HistogramForm } from "./Forms/HistogramForm";
-import styled from "styled-components";
-import { useReactQuery } from "../../../../core/hooks/useReactQuery";
+import { editPanelBasicForm } from "./editPanelBasicForm";
+import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
 import { useParams } from "react-router-dom";
+import { HistogramForm } from "./HistogramForm";
+import { TimeseriesForm } from "./TimeseriesForm";
+import { Header, Container } from "./components";
 
 interface Props {
   data?: UplotDataType;
@@ -18,29 +18,9 @@ interface Props {
   ) => void;
 }
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  background-color: var(--color-bg-primary);
-  position: relative;
-  border: 1px solid var(--color-bg-secondary);
-  border-radius: 4px;
-`;
-
-const Header = styled.span`
-  width: 100%;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  padding-inline: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  color: var(--color-text-primary);
-  border-bottom: 1px solid var(--color-bg-secondary);
-`;
-
 export const PanelCustomizeForm: FC<Props> = (props: Props) => {
   const { id } = useParams();
-  const [basicOptions] = useMemo(() => [editMetricBasicForm(props)], [props.options]);
+  const [basicOptions] = useMemo(() => [editPanelBasicForm(props)], [props.options]);
 
   const { data: fieldsOptions = [] } = useReactQuery<SelectOptionProps[]>({
     queryKey: [`panels_fields_key`],

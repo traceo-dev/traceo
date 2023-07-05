@@ -10,7 +10,7 @@ interface Props {
   metricData: MetricResponseType[];
   isLoading: boolean;
 }
-export const MetricTableWrapper: FC<Props> = ({ fields = [], metricData, isLoading }) => (
+export const PanelDatasourceTable: FC<Props> = ({ fields = [], metricData, isLoading }) => (
   <ConditionalWrapper
     isEmpty={metricData.length === 0}
     isLoading={isLoading}

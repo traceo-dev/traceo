@@ -18,7 +18,7 @@ import {
 } from "@traceo/ui";
 import { FC, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ChoosePanelGrid } from "./ChoosePanelGrid";
+import { ChoosePanelGrid } from "./DashboardGrid/ChoosePanelGrid";
 import { ApiResponse, DASHBOARD_PANEL_TYPE, DashboardPanel } from "@traceo/types";
 import api from "../../../../core/lib/api";
 import { dashboardPanelOptions } from "../utils";
