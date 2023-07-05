@@ -13,7 +13,7 @@ import {
 import dateUtils from "../../../core/utils/date";
 import { alertStatusOptions, mapRuleTypeToString } from "./utils";
 import AlertPageWrapper from "./components/AlertPageWrapper";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../store/types";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../store";
 import { updateAlert } from "./state/actions";

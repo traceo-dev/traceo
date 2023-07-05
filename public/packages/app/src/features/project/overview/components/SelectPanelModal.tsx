@@ -20,9 +20,9 @@ import { FC, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChoosePanelGrid } from "./ChoosePanelGrid";
 import { ApiResponse, DASHBOARD_PANEL_TYPE, DashboardPanel } from "@traceo/types";
-import api from "src/core/lib/api";
+import api from "../../../../core/lib/api";
 import { dashboardPanelOptions } from "../utils";
-import { useAppDispatch } from "src/store/index";
+import { useAppDispatch } from "../../../../store/index";
 import { loadDashboard } from "../state/actions";
 
 interface Props {

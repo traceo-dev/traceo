@@ -1,5 +1,5 @@
 import api from "../../../../core/lib/api";
-import { ThunkResult } from "@store/types";
+import { ThunkResult } from "../../../../store/types";
 import { ApiResponse, Dashboard } from "@traceo/types";
 import { beginDashboardFetch, endDashboardFetch, setDashboard } from "./reducers";
 

@@ -26,7 +26,7 @@ import { loadDashboard } from "./state/actions";
 import { Permissions } from "../../../core/components/Permissions";
 import { notify } from "../../../core/utils/notify";
 import { SelectPanelModal } from "./components/SelectPanelModal";
-import { useDashboard } from "src/core/hooks/useDashboard";
+import { useDashboard } from "../../../core/hooks/useDashboard";
 
 const MAX_DATE = new Date(dayjs().unix() * 1e3);
 

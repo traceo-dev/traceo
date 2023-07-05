@@ -1,10 +1,10 @@
 import { Button, Row } from "@traceo/ui";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { ApiResponse, Dictionary } from "@traceo/types";
 import { loadAlert } from "./state/actions";
-import { useAppDispatch } from "../../../store/index";
-import { StoreState } from "@store/types";
+import { useAppDispatch } from "../../../store";
+import { StoreState } from "../../../store/types";
 import { useSelector } from "react-redux";
 import api from "../../../core/lib/api";
 import { AlertMutableForm } from "./AlertMutableForm";

@@ -1,6 +1,6 @@
 import api from "../../../core/lib/api";
 import { userLoaded } from "./reducers";
-import { ThunkResult } from "@store/types";
+import { ThunkResult } from "../../../store/types";
 import { ApiResponse, IUser } from "@traceo/types";
 
 export const loadSignedInUser = (): ThunkResult<void> => {

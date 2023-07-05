@@ -1,7 +1,7 @@
 import api from "../../../core/lib/api";
 import { logout } from "../../../core/utils/logout";
 import { loadSignedInUser } from "../../auth/state/actions";
-import { ThunkResult } from "@store/types";
+import { ThunkResult } from "../../../store/types";
 import { IUser, ApiResponse } from "@traceo/types";
 
 export const updateUser = (update: Partial<IUser>): ThunkResult<void> => {

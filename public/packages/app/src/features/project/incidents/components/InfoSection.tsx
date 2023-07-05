@@ -1,9 +1,9 @@
 import dateUtils from "../../../../core/utils/date";
 import { useAppDispatch } from "../../../../store";
+import { StoreState } from "../../../../store/types";
 import { loadMembers } from "../../settings/state/members/actions";
 import { updateIncident } from "../state/actions";
 import { assignOptions, statusOptions } from "./utils";
-import { StoreState } from "@store/types";
 import { Card, FieldLabel, Select, Typography } from "@traceo/ui";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";

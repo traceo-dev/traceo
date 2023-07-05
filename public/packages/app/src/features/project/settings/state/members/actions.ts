@@ -1,7 +1,7 @@
 import api, { ApiQueryParams } from "../../../../../core/lib/api";
-import { membersLoaded } from "./reducers";
-import { ThunkResult } from "@store/types";
+import { ThunkResult } from "../../../../../store/types";
 import { ProjectMember, ApiResponse } from "@traceo/types";
+import { membersLoaded } from "./reducers";
 
 export const loadMembers = (query?: ApiQueryParams): ThunkResult<void> => {
   return async (dispatch, getStore) => {

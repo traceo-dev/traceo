@@ -16,7 +16,7 @@ import { Button, Col, Typography } from "@traceo/ui";
 import { PlusOutlined } from "@ant-design/icons";
 import { notify } from "../../../core/utils/notify";
 import { SelectPanelModal } from "./components/SelectPanelModal";
-import { useDashboard } from "src/core/hooks/useDashboard";
+import { useDashboard } from "../../../core/hooks/useDashboard";
 
 const GridPanelItem = styled.div`
   position: relative;

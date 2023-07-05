@@ -1,6 +1,6 @@
 import { useProject } from "../../../hooks/useProject";
 import { MenuRoute } from "../../../types/navigation";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../../store/types";
 import { Row } from "@traceo/ui";
 import { useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";

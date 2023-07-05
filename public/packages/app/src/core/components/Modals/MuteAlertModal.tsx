@@ -13,7 +13,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { loadAlert } from "../../../features/project/alerting/state/actions";
 import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../store/types";
 import api from "../../../core/lib/api";
 
 const MIN_DATE = new Date(dayjs().unix() * 1e3);

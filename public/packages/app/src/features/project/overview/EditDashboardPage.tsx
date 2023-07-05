@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useProject } from "../../../core/hooks/useProject";
 import { Confirm } from "../../../core/components/Confirm";
 import { ColumnSection } from "../../../core/components/ColumnSection";
-import { useDashboard } from "src/core/hooks/useDashboard";
+import { useDashboard } from "../../../core/hooks/useDashboard";
 
 interface UpdateDashboardForm {
   name: string;

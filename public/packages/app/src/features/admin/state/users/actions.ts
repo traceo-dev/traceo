@@ -1,5 +1,5 @@
 import api from "../../../../core/lib/api";
-import { ThunkResult } from "@store/types";
+import { ThunkResult } from "../../../../store/types";
 import { IUser, ApiResponse } from "@traceo/types";
 import { beginUserFetch, setUser } from "./reducers";
 

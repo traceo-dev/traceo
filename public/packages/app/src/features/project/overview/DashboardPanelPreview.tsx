@@ -27,8 +27,8 @@ import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
 import { ContentCard } from "../../../core/components/ContentCard";
 import { RemovePanelConfirm } from "./components/RemovePanelConfirm";
 import { getXAxisFormatter } from "./panels/formatters";
-import { useDashboard } from "src/core/hooks/useDashboard";
-import { useAppDispatch } from "src/store/index";
+import { useDashboard } from "../../../core/hooks/useDashboard";
+import { useAppDispatch } from "../../../store/index";
 import { loadDashboard } from "./state/actions";
 
 export const DashboardPanelPreview = () => {

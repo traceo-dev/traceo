@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useAppDispatch } from "../../store";
 import { loadProject } from "./state/projects/actions";
 import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../store/types";
 
 export const ProjectPage = () => {
   const { id } = useParams();

@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { UplotDataType } from "@traceo/types";
 import { UPlotTodayEventsGraph } from "../overview/components/UPlotTodayEventsGraph";
 import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../store/types";
 import { UPlotOverviewEventsGraph } from "../overview/components/UPlotOverviewEventsGraph";
 
 export const IncidentAnalyticsPage = () => {
