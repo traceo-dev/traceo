@@ -20,7 +20,7 @@ export const PlotPanel = ({
 }: PanelProps) => {
   const navigate = useNavigate();
 
-  const { id, did } = useParams();
+  const { id, dashboardId } = useParams();
   const [isHover, setHover] = useState<boolean>(false);
 
   const seriesFields = panel.config.series.map(({ field }) => field) || [""];
@@ -48,7 +48,7 @@ export const PlotPanel = ({
 
   const onNavigate = () => {
     navigate({
-      pathname: `/project/${id}/dashboard/${did}/panel/${panel.id}`,
+      pathname: `/project/${id}/dashboard/${dashboardId}/panel/${panel.id}`,
       search: `?from=${ranges[0]}&to=${ranges[1]}`
     });
   };

@@ -80,7 +80,7 @@ const customPanels: SelectOptionProps[] = [
 ];
 
 export const SelectPanelModal: FC<Props> = ({ isOpen, onCancel }) => {
-  const { id, did } = useParams();
+  const { id, dashboardId } = useParams();
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -91,7 +91,7 @@ export const SelectPanelModal: FC<Props> = ({ isOpen, onCancel }) => {
   const onConfirm = async () => {
     if (selectedPanel === "custom") {
       navigate({
-        pathname: `/project/${id}/dashboard/${did}/panel-create`,
+        pathname: `/project/${id}/dashboard/${dashboardId}/panel-create`,
         search: `?type=${selectedPanel}`
       });
       onCancel();
@@ -100,10 +100,10 @@ export const SelectPanelModal: FC<Props> = ({ isOpen, onCancel }) => {
       const props = {
         ...dashboardPanelOptions[selectedPanel],
         type: selectedPanel,
-        dashboardId: did
+        dashboardId: dashboardId
       };
       await api.post<ApiResponse<DashboardPanel>>(`/api/dashboard/panel`, props).finally(() => {
-        dispatch(loadDashboard(did));
+        dispatch(loadDashboard(dashboardId));
         setLoading(false);
         onCancel();
       });

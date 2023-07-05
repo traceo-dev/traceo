@@ -33,7 +33,7 @@ import { loadDashboard } from "./state/actions";
 
 export const DashboardPanelPreview = () => {
   const dispatch = useAppDispatch();
-  const { panelId, id, did } = useParams();
+  const { panelId, id, dashboardId } = useParams();
 
   const { ranges, setRanges } = useTimeRange();
   const { dashboard } = useDashboard();
@@ -71,7 +71,7 @@ export const DashboardPanelPreview = () => {
   });
 
   useEffect(() => {
-    dispatch(loadDashboard(did));
+    dispatch(loadDashboard(dashboardId));
   }, []);
 
   useEffect(() => {
@@ -117,7 +117,7 @@ export const DashboardPanelPreview = () => {
 
     const props = {
       ...options,
-      dashboardId: did,
+      dashboardId: dashboardId,
       panelId
     };
 
@@ -134,7 +134,7 @@ export const DashboardPanelPreview = () => {
   };
 
   const backOpts: To = {
-    pathname: `/project/${id}/dashboard/${did}`,
+    pathname: `/project/${id}/dashboard/${dashboardId}`,
     search: `?from=${ranges[0]}&to=${ranges[1]}`
   };
 

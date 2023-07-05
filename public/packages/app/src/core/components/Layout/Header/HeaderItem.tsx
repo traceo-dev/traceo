@@ -26,8 +26,8 @@ export const HeaderItem = ({ route }: HeaderItemProps) => {
   const parsePath = () =>
     href
       .replace(":id", project?.id)
-      .replace(":iid", incident?.id)
-      .replace(":did", project?.mainDashboardId);
+      .replace(":incidentId", incident?.id)
+      .replace(":dashboardId", project?.mainDashboardId);
 
   const handleOnClick = () => onClick && onClick();
 

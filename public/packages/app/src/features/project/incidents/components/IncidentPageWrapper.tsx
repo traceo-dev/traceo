@@ -17,25 +17,25 @@ import { useIncidentSelector } from "../../../../core/hooks/useIncidentSelector"
 import { Row } from "@traceo/ui";
 
 const IncidentPageWrapper = ({ children }) => {
-  const { iid } = useParams();
+  const { incidentId } = useParams();
   const { incident, isLoading } = useIncidentSelector();
   const dispatch = useAppDispatch();
 
   const menu: MenuRoute[] = [
     {
-      href: "/project/:id/incidents/:iid/details",
+      href: "/project/:id/incidents/:incidentId/details",
       label: "Details",
       key: "details",
       icon: <InfoCircleOutlined />
     },
     {
-      href: "/project/:id/incidents/:iid/analytics",
+      href: "/project/:id/incidents/:incidentId/analytics",
       label: "Analytics",
       key: "analytics",
       icon: <StockOutlined />
     },
     {
-      href: "/project/:id/incidents/:iid/events",
+      href: "/project/:id/incidents/:incidentId/events",
       label: "Events",
       // badge: (
       //   <div className="bg-yellow-600 text-black text-xs border rounded-full px-2 font-semibold">
@@ -48,7 +48,7 @@ const IncidentPageWrapper = ({ children }) => {
   ];
 
   useEffect(() => {
-    dispatch(loadIncident(iid));
+    dispatch(loadIncident(incidentId));
   }, []);
 
   return (

@@ -26,7 +26,7 @@ const GridPanelItem = styled.div`
 export const DashboardPage = () => {
   const dispatch = useAppDispatch();
 
-  const { did } = useParams();
+  const { dashboardId } = useParams();
   const { dashboard } = useDashboard();
   const [itemDimensions, setItemDimensions] = useState({});
   const [isRemoveMode, setRemoveMode] = useState<boolean>(false);
@@ -40,9 +40,9 @@ export const DashboardPage = () => {
 
   useEffect(() => {
     fetchDashboardPanels();
-  }, [did]);
+  }, [dashboardId]);
 
-  const fetchDashboardPanels = () => dispatch(loadDashboard(did));
+  const fetchDashboardPanels = () => dispatch(loadDashboard(dashboardId));
 
   const generateLayout = () => {
     if (!dashboard || dashboard.panels?.length === 0) {

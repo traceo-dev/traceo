@@ -23,7 +23,7 @@ export const MenuItem: FC<Props> = ({ menu }) => {
   const handlePath = (link: string) =>
     link
       .replace(":id", String(project.id))
-      .replace(":iid", incident.id)
+      .replace(":incidentId", incident.id)
       .replace(":aid", alert.id);
 
   return (

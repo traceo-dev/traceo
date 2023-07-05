@@ -15,7 +15,7 @@ import { PanelCustomizeForm } from "./components/PanelCustomizeForm";
 import { initialCustomPanelProps } from "./utils";
 
 const CreatePanelPage = () => {
-  const { id, did } = useParams();
+  const { id, dashboardId } = useParams();
 
   const navigate = useNavigate();
 
@@ -52,12 +52,12 @@ const CreatePanelPage = () => {
     await api
       .post<ApiResponse<DashboardPanel>>(`/api/dashboard/panel`, {
         ...options,
-        dashboardId: did
+        dashboardId: dashboardId
       })
       .then((resp) => {
         if (resp.status === "success") {
           navigate({
-            pathname: `/project/${id}/dashboard/${did}`
+            pathname: `/project/${id}/dashboard/${dashboardId}`
           });
         }
       })
@@ -67,7 +67,7 @@ const CreatePanelPage = () => {
   };
 
   const onCancel = () => {
-    navigate(`/project/${id}/dashboard/${did}`);
+    navigate(`/project/${id}/dashboard/${dashboardId}`);
   };
 
   return (

@@ -11,7 +11,7 @@ import { StoreState } from "../../../store/types";
 import { UPlotOverviewEventsGraph } from "../overview/components/UPlotOverviewEventsGraph";
 
 export const IncidentAnalyticsPage = () => {
-  const { iid } = useParams();
+  const { incidentId } = useParams();
   const { incident } = useSelector((state: StoreState) => state.incident);
 
   const from = dayjs.unix(incident.createdAt).subtract(5, "days").unix();
@@ -21,14 +21,14 @@ export const IncidentAnalyticsPage = () => {
   }>({
     queryKey: ["today_events"],
     url: `/api/event/graph/incident-daily`,
-    params: { id: iid }
+    params: { id: incidentId }
   });
 
   const { data: overview = { graph: [[]], count: 0 }, isLoading: isOverviewLoading } =
     useReactQuery<{ graph: UplotDataType }>({
       queryKey: ["overview_events"],
       url: `/api/event/graph/incident-overview`,
-      params: { id: iid, from }
+      params: { id: incidentId, from }
     });
 
   const lastSeenToday = dayjs.unix(incident.lastEventAt).isToday()

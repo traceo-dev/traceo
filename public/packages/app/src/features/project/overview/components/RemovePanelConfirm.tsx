@@ -10,14 +10,14 @@ interface Props {
   postExecute?: () => void;
 }
 export const RemovePanelConfirm: FC<Props> = ({ children, panelId, postExecute }) => {
-  const { id, did } = useParams();
+  const { id, dashboardId } = useParams();
   const navigate = useNavigate();
 
   const onRemove = async () => {
     await api
       .delete<ApiResponse<string>>(`/api/dashboard/panel/${panelId}`)
       .then(() => {
-        navigate(`/project/${id}/dashboard/${did}`);
+        navigate(`/project/${id}/dashboard/${dashboardId}`);
       })
       .finally(() => postExecute());
   };
