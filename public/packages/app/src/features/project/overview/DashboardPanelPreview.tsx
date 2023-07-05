@@ -26,13 +26,25 @@ import { MetricTableWrapper } from "./components/MetricTableWrapper";
 import { MetricTimeToolbar } from "./components/MetricTimeToolbar";
 import { ContentCard } from "../../../core/components/ContentCard";
 import { RemovePanelConfirm } from "./components/RemovePanelConfirm";
+import { getXAxisFormatter } from "./panels/formatters";
+import { useDashboard } from "src/core/hooks/useDashboard";
+import { useAppDispatch } from "src/store/index";
+import { loadDashboard } from "./state/actions";
 
 export const DashboardPanelPreview = () => {
+  const dispatch = useAppDispatch();
   const { panelId, id, did } = useParams();
+
   const { ranges, setRanges } = useTimeRange();
+  const { dashboard } = useDashboard();
+
   const [options, setOptions] = useImmer<DeepPartial<DashboardPanelType>>(undefined);
+
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
+
+  const isCustomPanel = options?.type === "custom";
+  const isTimePicker = isCustomPanel && !isCustomizeMode;
 
   const { data, refetch, isLoading, isRefetching } = useReactQuery<any>({
     queryKey: [`metric_ds_${panelId}`],
@@ -57,6 +69,10 @@ export const DashboardPanelPreview = () => {
       panelId
     }
   });
+
+  useEffect(() => {
+    dispatch(loadDashboard(did));
+  }, []);
 
   useEffect(() => {
     refetch();
@@ -105,15 +121,11 @@ export const DashboardPanelPreview = () => {
       panelId
     };
 
-    await api
-      .patch<ApiResponse<string>>(`/api/dashboard/panel`, props)
-      .then(() => {
-        refetch();
-      })
-      .finally(() => {
-        setSaveLoading(false);
-        setCustomizeMode && setCustomizeMode(false);
-      });
+    await api.patch<ApiResponse<string>>(`/api/dashboard/panel`, props).finally(() => {
+      refetch();
+      setSaveLoading(false);
+      setCustomizeMode && setCustomizeMode(false);
+    });
   };
 
   const onDiscard = () => {
@@ -151,16 +163,21 @@ export const DashboardPanelPreview = () => {
 
     return (
       <Row gap="x-3">
-        <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-          <Button size="sm" onClick={() => setCustomizeMode(true)} icon={<SettingOutlined />}>
-            Configure
-          </Button>
-        </Permissions>
-        <RemovePanelConfirm panelId={panelId}>
-          <Button size="sm" variant="danger">
-            Remove
-          </Button>
-        </RemovePanelConfirm>
+        {isCustomPanel && (
+          <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+            <Button size="sm" onClick={() => setCustomizeMode(true)} icon={<SettingOutlined />}>
+              Configure
+            </Button>
+          </Permissions>
+        )}
+
+        {!dashboard.isBase && (
+          <RemovePanelConfirm panelId={panelId}>
+            <Button size="sm" variant="danger">
+              Remove
+            </Button>
+          </RemovePanelConfirm>
+        )}
       </Row>
     );
   };
@@ -186,11 +203,14 @@ export const DashboardPanelPreview = () => {
             <ContentCard
               name="Graph"
               loading={isLoading || isRefetching}
-              extra={
-                !isCustomizeMode && <MetricTimeToolbar ranges={ranges} setRanges={setRanges} />
-              }
+              extra={isTimePicker && <MetricTimeToolbar ranges={ranges} setRanges={setRanges} />}
             >
-              <BaseMetricChart datasource={data?.datasource} panel={options} onZoom={setRanges} />
+              <BaseMetricChart
+                xFormatter={getXAxisFormatter(options.type)}
+                datasource={data?.datasource}
+                panel={options}
+                onZoom={setRanges}
+              />
             </ContentCard>
 
             <OptionsCollapseGroup

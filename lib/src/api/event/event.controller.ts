@@ -40,13 +40,13 @@ export class EventController {
 
     // overview dashboard
 
-    @Get("/graph/project-daily")
-    async getDailyOverview(@Query("id") id: string): Promise<ApiResponse<unknown>> {
-        return await this.eventQueryService.getTodayEventsGraph(id);
-    }
+    // @Get("/graph/project-daily")
+    // async getDailyOverview(@Query("id") id: string): Promise<ApiResponse<unknown>> {
+    //     return await this.eventQueryService.getTodayEventsGraph(id);
+    // }
 
-    @Get("/graph/project-overview")
-    async getTotalOverview(@Query("id") id: string): Promise<ApiResponse<unknown>> {
-        return await this.eventQueryService.getTotalOverviewGraph(id);
-    }
+    // @Get("/graph/project-overview")
+    // async getTotalOverview(@Query("id") id: string): Promise<ApiResponse<unknown>> {
+    //     return await this.eventQueryService.getTotalOverviewGraph(id);
+    // }
 }

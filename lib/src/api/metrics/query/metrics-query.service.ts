@@ -7,6 +7,7 @@ import { EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { calculateInterval } from "../../../common/helpers/interval";
 import { DashboardPanel } from "../../../db/entities/dashboard-panel.entity";
+import { EventQueryService } from "src/api/event/query/event-query.service";
 
 export type AggregateTimeSeries = { minute: number, value: number }[];
 
@@ -20,6 +21,7 @@ export class MetricsQueryService {
 
   constructor(
     private readonly entityManager: EntityManager,
+    private readonly eventService: EventQueryService,
     private readonly clickhouseService: ClickhouseService
   ) {
     this.logger = new Logger(MetricsQueryService.name);
@@ -59,29 +61,48 @@ export class MetricsQueryService {
     }
 
     try {
-      const metric = await this.entityManager.getRepository(DashboardPanel).findOneBy({
+      const panel = await this.entityManager.getRepository(DashboardPanel).findOneBy({
         id: panelId
       });
 
-      if (!metric) {
-        throw new BadRequestException('Metric does not exists!')
+      if (!panel) {
+        return;
       }
 
-      const series = metric.config.series;
-      const visualization = metric.config.visualization
+      const isCustomPanel = panel.type === "custom";
+      const series = panel.config.series;
+      const visualization = panel.config.visualization;
 
-      const response = await this.mapAggregateDataSource(projectId, {
-        from, to,
-        fields: series.map((e) => e.field),
-        interval: 1,
-        valueMax: undefined,
-        valueMin: undefined,
-        isHistogram: visualization === VISUALIZATION_TYPE.HISTOGRAM
-      })
+      let datasource = null;
+
+      if (!isCustomPanel) {
+        switch (panel.type) {
+          case "todays_events":
+            datasource = await this.eventService.getTodayEventsGraph(projectId);
+            break;
+          case "today_events_count":
+            datasource = await this.eventService.getTodayEventsCount(projectId);
+            break;
+          case "overview_events":
+            datasource = await this.eventService.getTotalOverviewGraph(projectId);
+            break;
+          default:
+            break;
+        }
+      } else {
+        datasource = await this.mapAggregateDataSource(projectId, {
+          from, to,
+          fields: series.map((e) => e.field),
+          interval: 1,
+          valueMax: undefined,
+          valueMin: undefined,
+          isHistogram: visualization === VISUALIZATION_TYPE.HISTOGRAM
+        });
+      }
 
       return new ApiResponse("success", undefined, {
-        options: metric,
-        datasource: response
+        options: panel,
+        datasource
       });
     } catch (err) {
       this.logger.error(`[${this.getMetricGraph.name}] Caused by: ${err}`);

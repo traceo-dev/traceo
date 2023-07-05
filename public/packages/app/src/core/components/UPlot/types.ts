@@ -49,3 +49,11 @@ export type UPlotSerie = uPlot.Series & {
 export type TooltipOptions = {
     show?: boolean;
 }
+
+export type FormatterType = (
+    _self: any,
+    splits: any,
+    _axisIdx: any,
+    _foundSpace: any,
+    _foundIncr: any
+) => string[];

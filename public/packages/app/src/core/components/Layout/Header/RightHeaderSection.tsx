@@ -26,13 +26,6 @@ export const RightHeaderSection = () => {
   const isProjectDashboard = window.location.pathname.split("/").includes("project");
 
   const onCreateDashboard = () => navigate(`/project/${project.id}/dashboard-create`);
-  const onCreatePanel = () => {
-    // TODO: hack to not working useParams here...
-    const paths = window.location.pathname.split("/");
-    const dashboardId = paths[4];
-
-    navigate(`/project/${project.id}/dashboard/${dashboardId}/panel-create`);
-  };
   const onCreateProject = () => navigate("/dashboard/new-project");
   const onCreateUser = () => navigate("/dashboard/new-user");
 
@@ -41,11 +34,6 @@ export const RightHeaderSection = () => {
       label: "Dashboard",
       onClick: () => onCreateDashboard(),
       icon: <AppstoreFilled />
-    },
-    {
-      label: "Dashboard panel",
-      onClick: () => onCreatePanel(),
-      icon: <BarChartOutlined />
     },
     {
       label: "Project",

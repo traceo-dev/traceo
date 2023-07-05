@@ -7,10 +7,9 @@ import api from "../../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { useNavigate } from "react-router-dom";
 import { useProject } from "../../../core/hooks/useProject";
-import { useSelector } from "react-redux";
-import { StoreState } from "../../../store/types";
 import { Confirm } from "../../../core/components/Confirm";
 import { ColumnSection } from "../../../core/components/ColumnSection";
+import { useDashboard } from "src/core/hooks/useDashboard";
 
 interface UpdateDashboardForm {
   name: string;
@@ -19,7 +18,7 @@ interface UpdateDashboardForm {
 
 const EditDashboardPage = () => {
   const { project } = useProject();
-  const { dashboard } = useSelector((state: StoreState) => state.dashboard);
+  const { dashboard } = useDashboard();
 
   const navigate = useNavigate();
 
@@ -28,6 +27,7 @@ const EditDashboardPage = () => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
   const [isEditable, setEditable] = useState<boolean>(dashboard.isEditable);
+  const [isTimePicker, setTimePicker] = useState<boolean>(dashboard.isTimePicker);
 
   const onFinish = async (form: UpdateDashboardForm) => {
     setLoading(true);
@@ -38,7 +38,8 @@ const EditDashboardPage = () => {
       name,
       dashboardId: dashboard.id,
       projectId: project.id,
-      isEditable
+      isEditable,
+      isTimePicker
     };
 
     await api
@@ -98,7 +99,8 @@ const EditDashboardPage = () => {
             onSubmit={onFinish}
             defaultValues={{
               name: dashboard.name,
-              isEditable: dashboard.isEditable
+              isEditable: dashboard.isEditable,
+              isTimePicker: dashboard.isTimePicker
             }}
             className="w-full"
             id="edit-dashboard-form"
@@ -129,8 +131,22 @@ const EditDashboardPage = () => {
                         { label: "Yes", value: true },
                         { label: "No", value: false }
                       ]}
-                      onChange={(e) => setEditable(e)}
+                      onChange={(bool) => setEditable(bool)}
                       value={isEditable}
+                    />
+                  </FormItem>
+                  <FormItem
+                    className="pt-5 w-1/2"
+                    label="Show time picker"
+                    error={errors.isTimePicker}
+                  >
+                    <RadioButtonGroup
+                      options={[
+                        { label: "Yes", value: true },
+                        { label: "No", value: false }
+                      ]}
+                      onChange={(bool) => setTimePicker(bool)}
+                      value={isTimePicker}
                     />
                   </FormItem>
                 </div>

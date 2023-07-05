@@ -1,20 +1,13 @@
 import { Page } from "../../../core/components/Page";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../../store/index";
-import { StoreState } from "../../../store/types";
-import { useSelector } from "react-redux";
 import { loadDashboard } from "./state/actions";
 import { DashboardToolbar } from "./DashboardToolbar";
 import { DashboardGridLayout, GridLayout } from "./DashboardGridLayout";
 import styled from "styled-components";
 import api from "../../../core/lib/api";
-import {
-  DASHBOARD_PANEL_TYPE,
-  DashboardPanel,
-  TimeRange,
-  VISUALIZATION_TYPE
-} from "@traceo/types";
+import { DashboardPanel, TimeRange } from "@traceo/types";
 import { PlotPanel } from "./panels/PlotPanel";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
@@ -23,6 +16,7 @@ import { Button, Col, Typography } from "@traceo/ui";
 import { PlusOutlined } from "@ant-design/icons";
 import { notify } from "../../../core/utils/notify";
 import { SelectPanelModal } from "./components/SelectPanelModal";
+import { useDashboard } from "src/core/hooks/useDashboard";
 
 const GridPanelItem = styled.div`
   position: relative;
@@ -30,14 +24,14 @@ const GridPanelItem = styled.div`
 `;
 
 export const DashboardPage = () => {
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const { id, did } = useParams();
+  const { did } = useParams();
+  const { dashboard } = useDashboard();
   const [itemDimensions, setItemDimensions] = useState({});
   const [isRemoveMode, setRemoveMode] = useState<boolean>(false);
 
-  const { dashboard } = useSelector((state: StoreState) => state.dashboard);
+  const showTimepicker = dashboard.panels?.length !== 0 && dashboard.isTimePicker;
 
   const { ranges, setRanges } = useTimeRange({
     from: dayjs().subtract(1, "h").unix(),
@@ -101,26 +95,11 @@ export const DashboardPage = () => {
       onRemovePanel
     };
 
-    return getVisualizationComponent(panel.type, panel.config.visualization, props);
-  };
-
-  const getVisualizationComponent = (
-    type: DASHBOARD_PANEL_TYPE,
-    visualization: VISUALIZATION_TYPE,
-    props: any
-  ) => {
-    switch (type) {
+    switch (panel.type) {
       case "custom":
-        const isPlotPanel = [
-          VISUALIZATION_TYPE.HISTOGRAM,
-          VISUALIZATION_TYPE.TIME_SERIES
-        ].includes(visualization);
-
-        if (isPlotPanel) {
-          return <PlotPanel {...props} />;
-        }
-
-        return undefined;
+      case "todays_events":
+      case "overview_events":
+        return <PlotPanel {...props} />;
       default:
         return undefined;
     }
@@ -176,7 +155,7 @@ export const DashboardPage = () => {
         <DashboardToolbar
           isRemoveMode={isRemoveMode}
           setRemoveMode={setRemoveMode}
-          showTimepicker={dashboard.panels?.length !== 0}
+          showTimepicker={showTimepicker}
           ranges={ranges}
           onChangeRanges={setRanges}
         />

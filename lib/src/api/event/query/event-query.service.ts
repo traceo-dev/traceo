@@ -5,6 +5,7 @@ import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import dayjs from "dayjs";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
+import { BadRequestError } from "src/common/helpers/errors";
 
 type GraphResponse = {
     graph: UplotDataType
@@ -69,33 +70,33 @@ export class EventQueryService {
 
     // project analytics
 
-    public async getTodayEventsGraph(projectId: string): Promise<ApiResponse<GraphResponse>> {
+    public async getTodayEventsGraph(projectId: string) {
         const from = dayjs().startOf("day").unix();
         const to = dayjs().endOf("day").add(1, "h").unix();
 
         try {
-            const todayCount = await this.clickhouse.loadTodayEventsCount(projectId);
-            const graph = await this.getProjectGraphPayload(projectId, from, to);
-
-            return new ApiResponse("success", undefined, {
-                graph,
-                count: todayCount
-            })
+            return await this.getProjectGraphPayload(projectId, from, to);
         } catch (error) {
             this.logger.error(`[${this.getTodayEventsGraph.name}] Caused by: ${error}`);
-            return new ApiResponse("error", INTERNAL_SERVER_ERROR);
+            throw new BadRequestError(error);
         }
     }
 
-    public async getTotalOverviewGraph(projectId: string): Promise<ApiResponse<GraphResponse>> {
+    public async getTodayEventsCount(projectId: string) {
+        try {
+            return await this.clickhouse.loadTodayEventsCount(projectId);
+        } catch (error) {
+            this.logger.error(`[${this.getTodayEventsCount.name}] Caused by: ${error}`);
+            throw new BadRequestError(error);
+        }
+    }
+
+    public async getTotalOverviewGraph(projectId: string) {
         const from = dayjs().subtract(1, "months").unix();
         const to = dayjs().add(12, "h").utc().unix();
 
         try {
-            const graph = await this.getProjectGraphPayload(projectId, from, to);
-            return new ApiResponse("success", undefined, {
-                graph
-            })
+            return await this.getProjectGraphPayload(projectId, from, to);
         } catch (error) {
             this.logger.error(`[${this.getTotalOverviewGraph.name}] Caused by: ${error}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR);

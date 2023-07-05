@@ -1,4 +1,4 @@
-import { DASHBOARD_PANEL_TYPE, Dashboard, MemberRole, Setter, TimeRange } from "@traceo/types";
+import { Dashboard, MemberRole, Setter, TimeRange } from "@traceo/types";
 import { Popover, Row, TimeRangePicker, Tooltip, conditionClass, joinClasses } from "@traceo/ui";
 import dayjs from "dayjs";
 import { relativeTimeOptions } from "../explore/components/utils";
@@ -15,9 +15,7 @@ import {
   DeleteFilled
 } from "@ant-design/icons";
 import { useAppDispatch } from "../../../store/index";
-import { StoreState } from "../../../store/types";
 import { Fragment, useState } from "react";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PopoverSelectOptions } from "../../../core/components/PopoverSelectOptions";
 import { useProject } from "../../../core/hooks/useProject";
@@ -28,6 +26,7 @@ import { loadDashboard } from "./state/actions";
 import { Permissions } from "../../../core/components/Permissions";
 import { notify } from "../../../core/utils/notify";
 import { SelectPanelModal } from "./components/SelectPanelModal";
+import { useDashboard } from "src/core/hooks/useDashboard";
 
 const MAX_DATE = new Date(dayjs().unix() * 1e3);
 
@@ -49,9 +48,10 @@ export const DashboardToolbar = ({
   const dispatch = useAppDispatch();
 
   const { project } = useProject();
-  const { dashboard } = useSelector((state: StoreState) => state.dashboard);
+  const { dashboard } = useDashboard();
 
   const hasPanels = dashboard && dashboard.panels?.length > 0;
+  const isBaseDashboard = dashboard.isBase;
 
   const [isHover, setHover] = useState<boolean>(false);
   const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
@@ -113,9 +113,21 @@ export const DashboardToolbar = ({
 
   const onRemovePanel = () => setRemoveMode(!isRemoveMode);
 
+  const lockIcon = dashboard.isEditable ? (
+    <LockOutlined />
+  ) : (
+    <UnlockOutlined className="text-yellow-600" />
+  );
+
+  const removeIcon = isRemoveMode ? (
+    <DeleteFilled className="text-yellow-600" />
+  ) : (
+    <DeleteOutlined />
+  );
+
   return (
     <Fragment>
-      <Row className="justify-between mb-2">
+      <Row className="justify-between mb-3">
         <Row
           className="gap-x-5 w-full"
           onMouseEnter={() => setHover(true)}
@@ -142,9 +154,12 @@ export const DashboardToolbar = ({
             className={joinClasses("text-xs gap-x-9 pl-5", conditionClass(!isHover, "hidden"))}
           >
             <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-              <Tooltip title="Add new panel">
-                <PlusCircleOutlined onClick={() => onAddPanel()} className="cursor-pointer" />
-              </Tooltip>
+              {!isBaseDashboard && (
+                <Tooltip title="Add new panel">
+                  <PlusCircleOutlined onClick={() => onAddPanel()} className="cursor-pointer" />
+                </Tooltip>
+              )}
+
               <Tooltip title="Settings">
                 <SettingOutlined onClick={() => onEditDashboard()} className="cursor-pointer" />
               </Tooltip>
@@ -152,22 +167,16 @@ export const DashboardToolbar = ({
                 <Fragment>
                   <Tooltip title={dashboard.isEditable ? "Lock dashboard" : "Unlock dashboard"}>
                     <div onClick={() => onLockDashboard()} className="cursor-pointer">
-                      {dashboard.isEditable ? (
-                        <LockOutlined />
-                      ) : (
-                        <UnlockOutlined className="text-yellow-600" />
-                      )}
+                      {lockIcon}
                     </div>
                   </Tooltip>
-                  <Tooltip title="Remove panels">
-                    <div onClick={() => onRemovePanel()} className="cursor-pointer">
-                      {isRemoveMode ? (
-                        <DeleteFilled className="text-yellow-600" />
-                      ) : (
-                        <DeleteOutlined />
-                      )}
-                    </div>
-                  </Tooltip>
+                  {!isBaseDashboard && (
+                    <Tooltip title="Remove panels">
+                      <div onClick={() => onRemovePanel()} className="cursor-pointer">
+                        {removeIcon}
+                      </div>
+                    </Tooltip>
+                  )}
                 </Fragment>
               )}
             </Permissions>

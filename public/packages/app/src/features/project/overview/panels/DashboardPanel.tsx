@@ -1,5 +1,5 @@
 import { HTMLProps, forwardRef } from "react";
-import { ContentCard } from "./ContentCard";
+import { ContentCard } from "../../../../core/components/ContentCard";
 import { DashboardPanel as DashboardPanelType, Setter } from "@traceo/types";
 
 interface Props extends Pick<HTMLProps<HTMLDivElement>, "className"> {

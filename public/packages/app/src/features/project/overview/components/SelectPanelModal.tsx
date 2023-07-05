@@ -19,7 +19,11 @@ import {
 import { FC, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ChoosePanelGrid } from "./ChoosePanelGrid";
-import { DASHBOARD_PANEL_TYPE } from "@traceo/types";
+import { ApiResponse, DASHBOARD_PANEL_TYPE, DashboardPanel } from "@traceo/types";
+import api from "src/core/lib/api";
+import { dashboardPanelOptions } from "../utils";
+import { useAppDispatch } from "src/store/index";
+import { loadDashboard } from "../state/actions";
 
 interface Props {
   isOpen: boolean;
@@ -77,20 +81,33 @@ const customPanels: SelectOptionProps[] = [
 
 export const SelectPanelModal: FC<Props> = ({ isOpen, onCancel }) => {
   const { id, did } = useParams();
-  const navigate = useNavigate();
-  const [selectedPanel, setSelectedPanel] = useState<DASHBOARD_PANEL_TYPE>(null);
 
-  const onConfirm = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const [selectedPanel, setSelectedPanel] = useState<DASHBOARD_PANEL_TYPE>(null);
+  const [isLoading, setLoading] = useState<boolean>(false);
+
+  const onConfirm = async () => {
     if (selectedPanel === "custom") {
       navigate({
         pathname: `/project/${id}/dashboard/${did}/panel-create`,
         search: `?type=${selectedPanel}`
       });
+      onCancel();
     } else {
-      // TODO: create other types of panels here
+      setLoading(true);
+      const props = {
+        ...dashboardPanelOptions[selectedPanel],
+        type: selectedPanel,
+        dashboardId: did
+      };
+      await api.post<ApiResponse<DashboardPanel>>(`/api/dashboard/panel`, props).finally(() => {
+        dispatch(loadDashboard(did));
+        setLoading(false);
+        onCancel();
+      });
     }
-
-    onCancel();
   };
 
   return (
@@ -149,7 +166,12 @@ export const SelectPanelModal: FC<Props> = ({ isOpen, onCancel }) => {
         </Collapse>
 
         <ButtonContainer>
-          <Button disabled={!selectedPanel} variant="primary" onClick={onConfirm}>
+          <Button
+            loading={isLoading}
+            disabled={!selectedPanel}
+            variant="primary"
+            onClick={onConfirm}
+          >
             Confirm
           </Button>
           <Button variant="ghost" onClick={onCancel}>

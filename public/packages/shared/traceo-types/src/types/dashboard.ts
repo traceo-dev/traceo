@@ -13,6 +13,7 @@ export interface Dashboard {
     // base dashboard created for project
     isBase: boolean;
     isEditable: boolean;
+    isTimePicker: boolean;
 }
 
 export interface PanelGridPosition {
@@ -74,7 +75,7 @@ export interface DashboardPanel {
     title: string;
     description: string;
 
-    type: DASHBOARD_VISUALIZATION_TYPE;
+    type: DASHBOARD_PANEL_TYPE;
 
     // position for react-grid-layout
     gridPosition: PanelGridPosition;
@@ -85,7 +86,7 @@ export interface DashboardPanel {
     dashboard: Dashboard;
 }
 
-export type DASHBOARD_VISUALIZATION_TYPE =
+export type DASHBOARD_PANEL_TYPE =
     | "todays_events"
     | "overview_events"
     | "recent_events"

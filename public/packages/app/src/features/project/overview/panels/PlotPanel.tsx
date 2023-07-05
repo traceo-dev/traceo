@@ -1,26 +1,14 @@
 import { CloseOutlined } from "@ant-design/icons";
-import { DashboardPanel as DashboardPanelType, Setter, TimeRange } from "@traceo/types";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { DashboardPanel } from "../../../../core/components/DashboardPanel";
+import { DashboardPanel } from "./DashboardPanel";
 import { BaseMetricChart } from "../../../../core/components/UPlot/BaseMetricChart";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { RemovePanelConfirm } from "../components/RemovePanelConfirm";
 import { GRID_BASE_PANEL_HEIGHT, GRID_MARGIN, GRID_ROW_HEIGHT } from "../utils";
+import { PanelProps } from "./types";
+import { getXAxisFormatter } from "./formatters";
 
-interface PanelDimension {
-  width: number;
-  height: number;
-}
-interface Props {
-  isEditable: boolean;
-  isRemoveMode: boolean;
-  dimensions: PanelDimension;
-  panel: DashboardPanelType;
-  ranges: TimeRange;
-  onChangeTimeRange: Setter<TimeRange>;
-  onRemovePanel: () => void;
-}
 export const PlotPanel = ({
   panel = undefined,
   ranges = [undefined, undefined],
@@ -29,7 +17,7 @@ export const PlotPanel = ({
   isRemoveMode = false,
   onChangeTimeRange = undefined,
   onRemovePanel = undefined
-}: Props) => {
+}: PanelProps) => {
   const navigate = useNavigate();
 
   const { id, did } = useParams();
@@ -101,6 +89,7 @@ export const PlotPanel = ({
         datasource={data?.datasource}
         panel={panel}
         onZoom={onChangeTimeRange}
+        xFormatter={getXAxisFormatter(panel.type)}
       />
     </DashboardPanel>
   );

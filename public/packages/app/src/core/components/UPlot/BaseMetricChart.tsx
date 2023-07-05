@@ -13,6 +13,7 @@ import BaseUPlotChart from "./BaseUPlotChart";
 import { UPlotConfigBuilder } from "./UPlotConfigBuilder";
 import { hook } from "./hooks";
 import { calculateOpacity } from "../../../core/utils/colors";
+import { FormatterType } from "./types";
 
 interface Props extends Omit<HTMLProps<HTMLElement>, "height"> {
   datasource: UplotDataType;
@@ -22,6 +23,7 @@ interface Props extends Omit<HTMLProps<HTMLElement>, "height"> {
   isLoading?: boolean;
   onZoom?: Setter<TimeRange>;
   panelName?: JSX.Element | string;
+  xFormatter?: FormatterType;
 }
 
 const buildSeries = (builder: UPlotConfigBuilder, panel: DeepPartial<DashboardPanel>) => {
@@ -58,7 +60,8 @@ export const BaseMetricChart = ({
   datasource = [[], []],
   panel = undefined,
   onZoom = undefined,
-  height = 350
+  height = 350,
+  xFormatter
 }: Props) => {
   const config = panel.config;
   const histogram = config?.histogram;
@@ -68,12 +71,13 @@ export const BaseMetricChart = ({
   const isHistogram = visualization === VISUALIZATION_TYPE.HISTOGRAM;
   const isTimeseries = visualization === VISUALIZATION_TYPE.TIME_SERIES;
 
+  const unit = cUnit === METRIC_UNIT.NONE ? "" : cUnit;
+
   const configs = useMemo(() => {
     const showLegend = config.legend.show;
     const showXAxis = config.axis.showX;
     const showYAxis = config.axis.showY;
     const showGridLines = config.axis.showGridLines;
-    const unit = cUnit === METRIC_UNIT.NONE ? "" : cUnit;
 
     const stacked = config.stack.show;
     const showTooltip = !stacked && config.tooltip.show;
@@ -87,7 +91,7 @@ export const BaseMetricChart = ({
       .addBase({
         chartType: panel.config.visualization,
         height: plotHeight,
-        isZoom: !isHistogram,
+        isZoom: !isHistogram && panel.type === "custom",
         stacked,
         data: datasource,
         histogram: {
@@ -105,7 +109,8 @@ export const BaseMetricChart = ({
         show: showXAxis,
         grid: {
           show: showGridLines
-        }
+        },
+        formatter: xFormatter
       })
       .addAxe({
         scale: "y",

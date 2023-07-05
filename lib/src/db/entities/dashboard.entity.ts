@@ -23,15 +23,24 @@ export class Dashboard extends BaseEntity implements IDashboard {
 
     @Column({
         type: "bool",
-        nullable: true
+        nullable: true,
+        default: false
     })
     isBase: boolean;
 
     @Column({
         type: "bool",
-        nullable: true
+        nullable: true,
+        default: true
     })
     isEditable: boolean;
+
+    @Column({
+        type: "bool",
+        nullable: true,
+        default: true
+    })
+    isTimePicker: boolean;
 
     @ManyToOne(() => Project, p => p.dashboards, {
         onDelete: "CASCADE"

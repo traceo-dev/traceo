@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BaseEntity } from "../../common/base/base.entity";
 import { Dashboard } from "./dashboard.entity";
-import { Dashboard as IDashboard, DashboardPanel as IDashboardPanel, VISUALIZATION_TYPE, PanelConfiguration, PanelGridPosition, DASHBOARD_PANEL_TYPE } from "@traceo/types";
+import { Dashboard as IDashboard, DashboardPanel as IDashboardPanel, PanelConfiguration, PanelGridPosition, DASHBOARD_PANEL_TYPE } from "@traceo/types";
 
 @Entity()
 export class DashboardPanel extends BaseEntity implements IDashboardPanel {
