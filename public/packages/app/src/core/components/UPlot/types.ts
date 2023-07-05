@@ -1,4 +1,4 @@
-import { PANEL_TYPE, PLOT_TYPE, UplotDataType } from "@traceo/types";
+import { VISUALIZATION_TYPE, PLOT_TYPE, UplotDataType } from "@traceo/types";
 import uPlot from "uplot";
 
 export type ChartConfigs = {
@@ -22,7 +22,7 @@ export type BaseOptions = CoreUplotOptions & {
     id?: string;
     width?: number;
     height?: number;
-    chartType?: PANEL_TYPE;
+    chartType?: VISUALIZATION_TYPE;
     stacked?: boolean;
     data?: UplotDataType;
     isZoom?: boolean;

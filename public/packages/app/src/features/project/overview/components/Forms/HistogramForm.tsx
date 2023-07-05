@@ -10,6 +10,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { AddSerieBtn } from "./components";
 import { GH_REPO_ISSUE_LINK } from "../../../../../core/utils/constants";
 import { FormProps } from "./types";
+import { CustomizeFormSerieSection } from "../CustomizeFormSerieSection";
 
 export const HistogramForm = (props: FormProps) => {
   const [legendOptions, histogramOptions] = useMemo(
@@ -88,42 +89,35 @@ export const HistogramForm = (props: FormProps) => {
         ))}
       </CustomizeFormSection>
 
-      {props.options.config.series.map((serie, index) => (
-        <div key={index}>
-          <CustomizeFormSection
-            title={
-              <Row gap="x-2">
-                <div
-                  className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: serie.config.color }}
-                />
-                <span>{serie.name}</span>
-              </Row>
-            }
-            description={serie?.description}
+      {props.options.config.series.map((serie, index) => {
+        const serieProps = {
+          index,
+          serie: serie as IMetricSerie,
+          setOptions: props.setOptions,
+          serieFieldOptions: props.serieFieldOptions,
+          visualization: props.options.config.visualization,
+          panelType: props.options.type
+        };
+
+        return (
+          <CustomizeFormSerieSection
+            key={index}
+            serie={serie}
             onDelete={() => onDeleteSerie(serie as IMetricSerie)}
           >
-            <>
-              {editSerieForm({
-                index,
-                serie: serie as IMetricSerie,
-                setOptions: props.setOptions,
-                serieFieldOptions: props.serieFieldOptions,
-                type: props.options.type
-              }).map((opt, index) => (
-                <FieldLabel
-                  key={index}
-                  label={opt.label}
-                  labelPosition={opt?.labelPosition}
-                  labelSize="xs"
-                >
-                  {opt.component}
-                </FieldLabel>
-              ))}
-            </>
-          </CustomizeFormSection>
-        </div>
-      ))}
+            {editSerieForm(serieProps).map((opt, index) => (
+              <FieldLabel
+                key={index}
+                label={opt.label}
+                labelPosition={opt?.labelPosition}
+                labelSize="xs"
+              >
+                {opt.component}
+              </FieldLabel>
+            ))}
+          </CustomizeFormSerieSection>
+        );
+      })}
 
       <AddSerieBtn onClick={() => onAddNewSerie()}>
         <PlusOutlined />

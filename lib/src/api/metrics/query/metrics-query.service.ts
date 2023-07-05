@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ExploreMetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { PANEL_TYPE, PlotData } from "@traceo/types";
+import { VISUALIZATION_TYPE, PlotData } from "@traceo/types";
 import { EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { calculateInterval } from "../../../common/helpers/interval";
@@ -68,7 +68,7 @@ export class MetricsQueryService {
       }
 
       const series = metric.config.series;
-      const type = metric.type
+      const visualization = metric.config.visualization
 
       const response = await this.mapAggregateDataSource(projectId, {
         from, to,
@@ -76,7 +76,7 @@ export class MetricsQueryService {
         interval: 1,
         valueMax: undefined,
         valueMin: undefined,
-        isHistogram: type === PANEL_TYPE.HISTOGRAM
+        isHistogram: visualization === VISUALIZATION_TYPE.HISTOGRAM
       })
 
       return new ApiResponse("success", undefined, {

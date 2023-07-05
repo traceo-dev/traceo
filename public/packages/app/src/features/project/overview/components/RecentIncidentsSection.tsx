@@ -37,48 +37,49 @@ export const RecentIncidentsSection = () => {
   });
 
   return (
-    <DashboardPanel
-      name="Recent Incidents"
-      loading={isLoading}
-      options={
-        <RouterLink to={`/project/${project.id}/incidents`} className="text-xs font-semibold">
-          View
-        </RouterLink>
-      }
-    >
-      <ConditionalWrapper
-        isEmpty={response && response?.result.length === 0}
-        emptyView={<DataNotFound label="Incidents not found" />}
-      >
-        <List
-          loading={isLoading}
-          className="pt-2"
-          dataSource={(response && response?.result) || []}
-          renderItem={(item: IIncident) => (
-            <ListCard
-              onClick={() => navigate(`/project/${project.id}/incidents/${item.id}/details`)}
-            >
-              <Space className="w-full justify-between">
-                <Space direction="horizontal" className="gap-0">
-                  <Tooltip title={mapIncidentStatus[item.status]}>
-                    {mapHeaderStatusIcon[item.status]}
-                  </Tooltip>
-                  <Space direction="vertical" className="pl-3">
-                    <Typography weight="semibold" className="text-primary">
-                      {item.name}
-                    </Typography>
-                    <Typography size="xs">{item.message}</Typography>
-                  </Space>
-                </Space>
-                <Space>
-                  <Typography size="xs">{dateUtils.fromNow(item.lastEventAt)}</Typography>
-                  <RightOutlined className="cursor-pointer text-gray-800" />
-                </Space>
-              </Space>
-            </ListCard>
-          )}
-        />
-      </ConditionalWrapper>
-    </DashboardPanel>
+    <></>
+    // <DashboardPanel
+    //   name="Recent Incidents"
+    //   loading={isLoading}
+    //   options={
+    //     <RouterLink to={`/project/${project.id}/incidents`} className="text-xs font-semibold">
+    //       View
+    //     </RouterLink>
+    //   }
+    // >
+    //   <ConditionalWrapper
+    //     isEmpty={response && response?.result.length === 0}
+    //     emptyView={<DataNotFound label="Incidents not found" />}
+    //   >
+    //     <List
+    //       loading={isLoading}
+    //       className="pt-2"
+    //       dataSource={(response && response?.result) || []}
+    //       renderItem={(item: IIncident) => (
+    //         <ListCard
+    //           onClick={() => navigate(`/project/${project.id}/incidents/${item.id}/details`)}
+    //         >
+    //           <Space className="w-full justify-between">
+    //             <Space direction="horizontal" className="gap-0">
+    //               <Tooltip title={mapIncidentStatus[item.status]}>
+    //                 {mapHeaderStatusIcon[item.status]}
+    //               </Tooltip>
+    //               <Space direction="vertical" className="pl-3">
+    //                 <Typography weight="semibold" className="text-primary">
+    //                   {item.name}
+    //                 </Typography>
+    //                 <Typography size="xs">{item.message}</Typography>
+    //               </Space>
+    //             </Space>
+    //             <Space>
+    //               <Typography size="xs">{dateUtils.fromNow(item.lastEventAt)}</Typography>
+    //               <RightOutlined className="cursor-pointer text-gray-800" />
+    //             </Space>
+    //           </Space>
+    //         </ListCard>
+    //       )}
+    //     />
+    //   </ConditionalWrapper>
+    // </DashboardPanel>
   );
 };

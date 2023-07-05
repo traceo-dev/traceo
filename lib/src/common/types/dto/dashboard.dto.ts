@@ -1,4 +1,4 @@
-import { PANEL_TYPE } from "@traceo/types";
+import { DASHBOARD_PANEL_TYPE, VISUALIZATION_TYPE } from "@traceo/types";
 import { IsNotEmpty, IsOptional, IsString, ValidateNested } from "class-validator";
 import { UpdateOptionsMetricDto } from "./metrics.dto";
 import { Type } from "class-transformer";
@@ -70,7 +70,7 @@ export class DashboardPanelDto {
 
     @IsNotEmpty()
     @IsString()
-    type: PANEL_TYPE = PANEL_TYPE.TIME_SERIES;
+    type: DASHBOARD_PANEL_TYPE = "custom";
 
     @ValidateNested()
     @Type(() => GridPositionDto)

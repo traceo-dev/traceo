@@ -1,7 +1,7 @@
-import { DashboardPanel, DeepPartial, METRIC_UNIT, MetricType, PANEL_TYPE } from "@traceo/types";
+import { DashboardPanel, DeepPartial, METRIC_UNIT, VISUALIZATION_TYPE } from "@traceo/types";
 import { Input, InputArea, Select } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-import { MetricEditOption, panelTypeOptions, unitOptions } from "./utils";
+import { MetricEditOption, visualizationOptions, unitOptions } from "./utils";
 
 type EditMetricType = {
   options: DeepPartial<DashboardPanel>;
@@ -13,7 +13,7 @@ export const editMetricBasicForm = (props: EditMetricType) => {
   const { options, setOptions } = props;
   const forms: MetricEditOption[] = [];
 
-  const isHistogram = props.options.type === PANEL_TYPE.HISTOGRAM;
+  const isHistogram = props.options.config.visualization === VISUALIZATION_TYPE.HISTOGRAM;
 
   forms.push({
     label: "Name",
@@ -46,16 +46,16 @@ export const editMetricBasicForm = (props: EditMetricType) => {
   });
 
   forms.push({
-    label: "Type",
+    label: "Visualization",
     component: (
       <Select
-        options={panelTypeOptions}
-        defaultValue={options.type}
-        onChange={(a) => {
+        options={visualizationOptions}
+        defaultValue={options.config.visualization}
+        onChange={(event) => {
           setOptions((opt) => {
-            opt.type = a?.value;
+            opt.config.visualization = event?.value;
 
-            if (a?.value === MetricType.HISTOGRAM) {
+            if (event?.value === VISUALIZATION_TYPE.HISTOGRAM) {
               opt.config.unit = METRIC_UNIT.NONE;
               opt.config.tooltip.show = false;
             }

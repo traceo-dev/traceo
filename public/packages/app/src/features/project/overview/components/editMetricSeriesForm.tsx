@@ -1,9 +1,10 @@
 import {
+  DASHBOARD_PANEL_TYPE,
   DashboardPanel,
   DeepPartial,
   IMetricSerie,
   METRIC_UNIT,
-  PANEL_TYPE
+  VISUALIZATION_TYPE
 } from "@traceo/types";
 import { Input, InputArea, InputColor, Select, SelectOptionProps, Switch } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
@@ -16,13 +17,14 @@ type SerieFormProps = {
   setOptions: (
     arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
   ) => void;
-  type: PANEL_TYPE;
+  panelType: DASHBOARD_PANEL_TYPE;
+  visualization: VISUALIZATION_TYPE;
 };
 export const editSerieForm = (props: SerieFormProps) => {
-  const { index, serie, setOptions, type } = props;
+  const { index, serie, setOptions, visualization } = props;
   const forms: MetricEditOption[] = [];
 
-  const isHistogram = type === PANEL_TYPE.HISTOGRAM;
+  const isHistogram = visualization === VISUALIZATION_TYPE.HISTOGRAM;
   const config = serie.config;
   const serieType = config.type;
   const isArea = config.area.show;

@@ -1,4 +1,4 @@
-import { METRIC_UNIT, IMetricSerie } from "./metrics";
+import { METRIC_UNIT, IMetricSerie, PLOT_TYPE } from "./metrics";
 
 export interface Dashboard {
     id: string;
@@ -6,7 +6,7 @@ export interface Dashboard {
 
     name: string;
     description: string;
-    
+
     projectId?: string;
     panels: DashboardPanel[];
 
@@ -25,6 +25,7 @@ export interface PanelGridPosition {
 
 export interface PanelConfiguration {
     unit: METRIC_UNIT | string;
+    visualization: VISUALIZATION_TYPE;
     series: IMetricSerie[];
     histogram?: {
         bucket: {
@@ -59,15 +60,11 @@ export interface PanelConfiguration {
     },
 }
 
-export enum PANEL_TYPE {
+export enum VISUALIZATION_TYPE {
     TIME_SERIES = "time_series",
     HISTOGRAM = "histogram",
     GAUGE = "gauge",
-    TABLE = "table",
-    TODAY_EVENTS_PLOT = "today_events_plot",
-    TODAY_EVENTS_COUNTER = "today_events_counter",
-    TODAY_EVENTS_LAST_TIME = "today_events_last_time",
-    EVENTS_OVERVIEW = "events_overview"
+    // TABLE = "table"
 };
 
 export interface DashboardPanel {
@@ -76,7 +73,8 @@ export interface DashboardPanel {
 
     title: string;
     description: string;
-    type: PANEL_TYPE;
+
+    type: DASHBOARD_VISUALIZATION_TYPE;
 
     // position for react-grid-layout
     gridPosition: PanelGridPosition;
@@ -86,3 +84,13 @@ export interface DashboardPanel {
 
     dashboard: Dashboard;
 }
+
+export type DASHBOARD_VISUALIZATION_TYPE =
+    | "todays_events"
+    | "overview_events"
+    | "recent_events"
+    | "last_event_at"
+    | "today_events_count"
+    | "logs_plot"
+    | "logs_table"
+    | "custom";

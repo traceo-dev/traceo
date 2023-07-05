@@ -2,11 +2,11 @@ import {
   DashboardPanel,
   DeepPartial,
   METRIC_UNIT,
-  PANEL_TYPE,
   PLOT_TYPE,
   Setter,
   TimeRange,
-  UplotDataType
+  UplotDataType,
+  VISUALIZATION_TYPE
 } from "@traceo/types";
 import { HTMLProps, useMemo } from "react";
 import BaseUPlotChart from "./BaseUPlotChart";
@@ -27,11 +27,11 @@ interface Props extends Omit<HTMLProps<HTMLElement>, "height"> {
 const buildSeries = (builder: UPlotConfigBuilder, panel: DeepPartial<DashboardPanel>) => {
   const series = panel.config.series || [];
   const config = panel.config;
-  const type = panel.type;
+  const visualization = config.visualization;
 
   if (series && series.length > 0) {
     for (const serie of series) {
-      const isHistogram = type === PANEL_TYPE.HISTOGRAM;
+      const isHistogram = visualization === VISUALIZATION_TYPE.HISTOGRAM;
       const chartType = isHistogram ? PLOT_TYPE.BAR : (serie.config.type as PLOT_TYPE);
       const isArea = serie.config.area.show;
       const areaOpacity = serie.config.area.opacity;
@@ -63,10 +63,10 @@ export const BaseMetricChart = ({
   const config = panel.config;
   const histogram = config?.histogram;
   const cUnit = panel.config.unit;
-  const type = panel.type;
+  const visualization = config.visualization;
 
-  const isHistogram = type === PANEL_TYPE.HISTOGRAM;
-  const isTimeseries = type === PANEL_TYPE.TIME_SERIES;
+  const isHistogram = visualization === VISUALIZATION_TYPE.HISTOGRAM;
+  const isTimeseries = visualization === VISUALIZATION_TYPE.TIME_SERIES;
 
   const configs = useMemo(() => {
     const showLegend = config.legend.show;
@@ -85,7 +85,7 @@ export const BaseMetricChart = ({
 
     return builder
       .addBase({
-        chartType: panel.type,
+        chartType: panel.config.visualization,
         height: plotHeight,
         isZoom: !isHistogram,
         stacked,

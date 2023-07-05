@@ -90,13 +90,11 @@ export const PlotPanel = ({
 
   return (
     <DashboardPanel
-      name={panel.title}
-      tooltip={panel?.description}
+      panel={panel}
       loading={isLoading || isRefetching}
       options={renderOptions()}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      isDraggable={isEditable}
+      setHover={setHover}
+      isEditable={isEditable}
     >
       <BaseMetricChart
         height={calculateHeight(dimensions?.height ?? panel.gridPosition.h)}

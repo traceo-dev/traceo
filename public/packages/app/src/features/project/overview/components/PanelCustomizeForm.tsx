@@ -1,5 +1,5 @@
 import { CustomizeFormSection } from "./CustomizeFormSection";
-import { DeepPartial, UplotDataType, DashboardPanel, PANEL_TYPE } from "@traceo/types";
+import { DeepPartial, UplotDataType, DashboardPanel, VISUALIZATION_TYPE } from "@traceo/types";
 import { FieldLabel, SelectOptionProps } from "@traceo/ui";
 import { FC, useMemo } from "react";
 import { DraftFunction } from "use-immer";
@@ -48,26 +48,30 @@ export const PanelCustomizeForm: FC<Props> = (props: Props) => {
   });
 
   const renderForm = () => {
-    const metricType = props.options.type;
+    const panelType = props.options.type;
+    const visualization = props.options.config.visualization;
 
     const formProps = {
       ...props,
       serieFieldOptions: fieldsOptions
     };
 
-    switch (metricType) {
-      case PANEL_TYPE.TIME_SERIES:
-        return <TimeseriesForm {...formProps} />;
-      case PANEL_TYPE.HISTOGRAM:
-        return <HistogramForm {...formProps} />;
-      default:
-        return <TimeseriesForm {...formProps} />;
+    const visualizationComponent: Record<VISUALIZATION_TYPE, JSX.Element> = {
+      [VISUALIZATION_TYPE.TIME_SERIES]: <TimeseriesForm {...formProps} />,
+      [VISUALIZATION_TYPE.HISTOGRAM]: <HistogramForm {...formProps} />,
+      [VISUALIZATION_TYPE.GAUGE]: undefined
+    };
+
+    if (panelType === "custom") {
+      return visualizationComponent[visualization];
     }
+
+    return undefined;
   };
 
   return (
     <Container>
-      <Header>Customize graph</Header>
+      <Header>Customize visualization</Header>
       <div className="max-h-[750px] overflow-y-scroll">
         <CustomizeFormSection title="Basic" defaultCollapsed={false}>
           {basicOptions.map((opt, index) => (

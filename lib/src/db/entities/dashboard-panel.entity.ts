@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { BaseEntity } from "../../common/base/base.entity";
 import { Dashboard } from "./dashboard.entity";
-import { Dashboard as IDashboard, DashboardPanel as IDashboardPanel, PANEL_TYPE, PanelConfiguration, PanelGridPosition } from "@traceo/types";
+import { Dashboard as IDashboard, DashboardPanel as IDashboardPanel, VISUALIZATION_TYPE, PanelConfiguration, PanelGridPosition, DASHBOARD_PANEL_TYPE } from "@traceo/types";
 
 @Entity()
 export class DashboardPanel extends BaseEntity implements IDashboardPanel {
@@ -18,7 +18,7 @@ export class DashboardPanel extends BaseEntity implements IDashboardPanel {
     description: string;
 
     @Column({ type: "varchar", nullable: true })
-    type: PANEL_TYPE;
+    type: DASHBOARD_PANEL_TYPE;
 
     @Column({
         type: "simple-json",

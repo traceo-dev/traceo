@@ -1,4 +1,4 @@
-import { DashboardPanel, PANEL_TYPE, METRIC_UNIT } from "@traceo/types";
+import { DashboardPanel, METRIC_UNIT, VISUALIZATION_TYPE } from "@traceo/types";
 import { DeepPartial } from "redux";
 import { randomHexColor } from "src/core/utils/colors";
 
@@ -9,10 +9,10 @@ export const GRID_ROW_HEIGHT = 30;
 export const GRID_PADDING = [0, 0];
 export const GRID_BASE_PANEL_HEIGHT = 103;
 
-export const initialPanelProps: DeepPartial<DashboardPanel> = {
-    title: "New panel",
-    description: "New panel description",
-    type: PANEL_TYPE.TIME_SERIES,
+export const initialCustomPanelProps: DeepPartial<DashboardPanel> = {
+    title: "Panel title",
+    description: "Panel description",
+    type: "custom",
     gridPosition: {
         w: 10,
         h: 8,
@@ -20,6 +20,7 @@ export const initialPanelProps: DeepPartial<DashboardPanel> = {
         y: 0
     },
     config: {
+        visualization: VISUALIZATION_TYPE.TIME_SERIES,
         series: [
             {
                 config: {

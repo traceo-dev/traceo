@@ -9,7 +9,12 @@ import { DashboardToolbar } from "./DashboardToolbar";
 import { DashboardGridLayout, GridLayout } from "./DashboardGridLayout";
 import styled from "styled-components";
 import api from "../../../core/lib/api";
-import { DashboardPanel, PANEL_TYPE, TimeRange } from "@traceo/types";
+import {
+  DASHBOARD_PANEL_TYPE,
+  DashboardPanel,
+  TimeRange,
+  VISUALIZATION_TYPE
+} from "@traceo/types";
 import { PlotPanel } from "./panels/PlotPanel";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
@@ -17,6 +22,7 @@ import { PageCenter } from "../../../core/components/PageCenter";
 import { Button, Col, Typography } from "@traceo/ui";
 import { PlusOutlined } from "@ant-design/icons";
 import { notify } from "../../../core/utils/notify";
+import { SelectPanelModal } from "./components/SelectPanelModal";
 
 const GridPanelItem = styled.div`
   position: relative;
@@ -80,6 +86,10 @@ export const DashboardPage = () => {
     setRanges(range);
   };
 
+  const onRemovePanel = () => {
+    fetchDashboardPanels();
+  };
+
   const renderPanel = (panel: DashboardPanel) => {
     const props = {
       isEditable: dashboard.isEditable,
@@ -91,10 +101,26 @@ export const DashboardPage = () => {
       onRemovePanel
     };
 
-    switch (panel.type) {
-      case PANEL_TYPE.TIME_SERIES:
-      case PANEL_TYPE.HISTOGRAM:
-        return <PlotPanel {...props} />;
+    return getVisualizationComponent(panel.type, panel.config.visualization, props);
+  };
+
+  const getVisualizationComponent = (
+    type: DASHBOARD_PANEL_TYPE,
+    visualization: VISUALIZATION_TYPE,
+    props: any
+  ) => {
+    switch (type) {
+      case "custom":
+        const isPlotPanel = [
+          VISUALIZATION_TYPE.HISTOGRAM,
+          VISUALIZATION_TYPE.TIME_SERIES
+        ].includes(visualization);
+
+        if (isPlotPanel) {
+          return <PlotPanel {...props} />;
+        }
+
+        return undefined;
       default:
         return undefined;
     }
@@ -107,16 +133,7 @@ export const DashboardPage = () => {
     });
   };
 
-  const onAddPanel = () => {
-    navigate({
-      pathname: `/project/${id}/dashboard/${did}/panel-create`
-    });
-  };
-
-  const onRemovePanel = () => {
-    fetchDashboardPanels();
-  };
-
+  const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
   const renderContent = () => {
     if (dashboard && dashboard.panels?.length === 0) {
       return (
@@ -130,7 +147,7 @@ export const DashboardPage = () => {
               dashboard to keep all your information at your fingertips.
             </span>
             <div className="justify-center">
-              <Button onClick={onAddPanel} icon={<PlusOutlined />}>
+              <Button onClick={() => setSelectPanelModal(true)} icon={<PlusOutlined />}>
                 Add panel
               </Button>
             </div>
@@ -165,6 +182,7 @@ export const DashboardPage = () => {
         />
         {renderContent()}
       </Page.Content>
+      <SelectPanelModal isOpen={isSelectPanelModal} onCancel={() => setSelectPanelModal(false)} />
     </Page>
   );
 };

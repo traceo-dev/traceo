@@ -1,61 +1,40 @@
 import { HTMLProps, forwardRef } from "react";
 import { ContentCard } from "./ContentCard";
-import { To, useNavigate } from "react-router-dom";
-import { SelectOutlined } from "@ant-design/icons";
+import { DashboardPanel as DashboardPanelType, Setter } from "@traceo/types";
 
-interface Props extends Pick<HTMLProps<HTMLDivElement>, "onMouseEnter" | "onMouseLeave"> {
-  name: JSX.Element | string;
-  tooltip?: string;
+interface Props extends Pick<HTMLProps<HTMLDivElement>, "className"> {
+  panel: DashboardPanelType;
   options?: JSX.Element;
   loading?: boolean;
-  navigateTo?: To;
-  className?: string;
   children: JSX.Element;
-  isDraggable?: boolean;
+  isEditable?: boolean;
+  setHover?: Setter<boolean>;
 }
 
 export const DashboardPanel = forwardRef<HTMLDivElement, Props>(
   (
     {
       children,
-      name = undefined,
+      panel = undefined,
       options = undefined,
       loading = false,
-      navigateTo = undefined,
       className = undefined,
-      onMouseEnter = undefined,
-      onMouseLeave = undefined,
-      isDraggable = false,
-      tooltip = undefined
+      setHover = undefined,
+      isEditable = false
     },
     ref
   ) => {
-    const navigate = useNavigate();
-
-    const renderExtra = () => {
-      if (!options && navigateTo) {
-        return (
-          <SelectOutlined
-            className="cursor-pointer hover:text-white text-sm"
-            onClick={() => navigate(navigateTo)}
-          />
-        );
-      }
-
-      return options;
-    };
-
     return (
       <ContentCard
         ref={ref}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        name={name}
+        onMouseEnter={() => setHover && setHover(true)}
+        onMouseLeave={() => setHover && setHover(false)}
+        name={panel.title}
+        tooltip={panel?.description}
         loading={loading}
         className={className}
-        extra={renderExtra()}
-        isDraggable={isDraggable}
-        tooltip={tooltip}
+        extra={options}
+        isDraggable={isEditable}
       >
         {children}
       </ContentCard>

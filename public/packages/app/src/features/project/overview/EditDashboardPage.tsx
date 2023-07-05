@@ -141,16 +141,18 @@ const EditDashboardPage = () => {
             <Alert className="font-semibold" type="error" showIcon title={errorMessage} />
           )}
         </Card>
-        <Card title="Danger zone">
-          <ColumnSection subtitle="Here you can remove this dashboard. Note that this operation is irreversible.">
-            <Confirm
-              onOk={onRemove}
-              description="Are you sure that you want to remove this dashboard?"
-            >
-              <Button variant="danger">Remove dashboard</Button>
-            </Confirm>
-          </ColumnSection>
-        </Card>
+        {!dashboard.isBase && (
+          <Card title="Danger zone">
+            <ColumnSection subtitle="Here you can remove this dashboard. Note that this operation is irreversible.">
+              <Confirm
+                onOk={onRemove}
+                description="Are you sure that you want to remove this dashboard?"
+              >
+                <Button variant="danger">Remove dashboard</Button>
+              </Confirm>
+            </ColumnSection>
+          </Card>
+        )}
       </Page.Content>
     </Page>
   );

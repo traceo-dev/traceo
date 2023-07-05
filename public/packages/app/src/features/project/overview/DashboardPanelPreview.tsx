@@ -130,7 +130,26 @@ export const DashboardPanelPreview = () => {
     options?.config.series.filter(({ show }) => show).map(({ field }) => field);
 
   const renderOperationButtons = () => {
-    if (!isCustomizeMode) {
+    if (isCustomizeMode) {
+      return (
+        <Row gap="x-3">
+          <Button
+            icon={<CheckOutlined />}
+            loading={saveLoading}
+            variant="primary"
+            size="sm"
+            onClick={() => onSave()}
+          >
+            Update
+          </Button>
+          <Button variant="danger" size="sm" onClick={() => onDiscard()}>
+            Cancel
+          </Button>
+        </Row>
+      );
+    }
+
+    return (
       <Row gap="x-3">
         <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
           <Button size="sm" onClick={() => setCustomizeMode(true)} icon={<SettingOutlined />}>
@@ -142,23 +161,6 @@ export const DashboardPanelPreview = () => {
             Remove
           </Button>
         </RemovePanelConfirm>
-      </Row>;
-    }
-
-    return (
-      <Row gap="x-3">
-        <Button
-          icon={<CheckOutlined />}
-          loading={saveLoading}
-          variant="primary"
-          size="sm"
-          onClick={() => onSave()}
-        >
-          Update
-        </Button>
-        <Button variant="danger" size="sm" onClick={() => onDiscard()}>
-          Cancel
-        </Button>
       </Row>
     );
   };

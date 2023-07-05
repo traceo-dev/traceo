@@ -78,7 +78,7 @@ export class ProjectService {
         const dashboard = await this.dashboardService.create({
           name: "Basic dashboard",
           description: undefined,
-          isEditable: false,
+          isEditable: true,
           isBase: true
         }, project, manager);
 

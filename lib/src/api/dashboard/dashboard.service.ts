@@ -114,13 +114,17 @@ export class DashboardService {
                 throw new BadRequestException("Dashboard already deleted.");
             }
 
+            if (dashboard.isBase) {
+                return new ApiResponse("error", "Base dashboard cannot be removed.", undefined);
+            }
+
             const project = await manager.getRepository(Project).findOneBy({ id: projectId });
             let mainDashboardId = project.mainDashboardId;
             if (project.mainDashboardId === dashboardId) {
                 const dashboards = await this.dashboardQueryService.getListDto(projectId, manager);
                 const availableDashboards = dashboards.filter((e) => e.id !== dashboardId);
-
                 mainDashboardId = availableDashboards[0].id;
+
                 await manager.getRepository(Project).update({ id: project.id }, {
                     updatedAt: dateUtils.toUnix(),
                     mainDashboardId

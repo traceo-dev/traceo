@@ -41,7 +41,7 @@ export const TodaySection = () => {
   return (
     <div className="grid grid-cols-5 w-full mb-1">
       <div className="col-span-4 h-full">
-        <DashboardPanel
+        {/* <DashboardPanel
           loading={isFetching || isLoading}
           name="Today's events"
           className="h-full"
@@ -49,12 +49,12 @@ export const TodaySection = () => {
           <ConditionalWrapper isLoading={isLoading} isEmpty={isEmpty}>
             <UPlotTodayEventsGraph data={data.graph} />
           </ConditionalWrapper>
-        </DashboardPanel>
+        </DashboardPanel> */}
       </div>
       <div className="col-span-1 ml-1">
         <div className="flex flex-col items-stretch h-full">
           <div className="h-full mb-1">
-            <DashboardPanel
+            {/* <DashboardPanel
               name="Events count"
               loading={isFetching}
               className="h-full"
@@ -68,16 +68,16 @@ export const TodaySection = () => {
                   {data.count || 0}
                 </Typography>
               </ConditionalWrapper>
-            </DashboardPanel>
+            </DashboardPanel> */}
           </div>
           <div className="h-full">
-            <DashboardPanel className="h-full" name="Last seen" loading={isFetching}>
+            {/* <DashboardPanel className="h-full" name="Last seen" loading={isFetching}>
               <ConditionalWrapper isEmpty={isEmpty}>
                 <Typography size="xxl" weight="semibold" className="text-center">
                   {lastEventAt}
                 </Typography>
               </ConditionalWrapper>
-            </DashboardPanel>
+            </DashboardPanel> */}
           </div>
         </div>
       </div>

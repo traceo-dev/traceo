@@ -1,4 +1,4 @@
-import { Dashboard, MemberRole, Setter, TimeRange } from "@traceo/types";
+import { DASHBOARD_PANEL_TYPE, Dashboard, MemberRole, Setter, TimeRange } from "@traceo/types";
 import { Popover, Row, TimeRangePicker, Tooltip, conditionClass, joinClasses } from "@traceo/ui";
 import dayjs from "dayjs";
 import { relativeTimeOptions } from "../explore/components/utils";
@@ -27,6 +27,7 @@ import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { loadDashboard } from "./state/actions";
 import { Permissions } from "../../../core/components/Permissions";
 import { notify } from "../../../core/utils/notify";
+import { SelectPanelModal } from "./components/SelectPanelModal";
 
 const MAX_DATE = new Date(dayjs().unix() * 1e3);
 
@@ -53,6 +54,7 @@ export const DashboardToolbar = ({
   const hasPanels = dashboard && dashboard.panels?.length > 0;
 
   const [isHover, setHover] = useState<boolean>(false);
+  const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
 
   const { data: dashboards = [], isLoading } = useReactQuery<Dashboard[]>({
     queryKey: [`dashboards_${project.id}`],
@@ -86,9 +88,7 @@ export const DashboardToolbar = ({
   };
 
   const onAddPanel = () => {
-    navigate({
-      pathname: `/project/${project.id}/dashboard/${dashboard.id}/panel-create`
-    });
+    setSelectPanelModal(true);
   };
 
   const onLockDashboard = async () => {
@@ -114,72 +114,77 @@ export const DashboardToolbar = ({
   const onRemovePanel = () => setRemoveMode(!isRemoveMode);
 
   return (
-    <Row className="justify-between mb-2">
-      <Row
-        className="gap-x-5 w-full"
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
-        <div className="gap-x-2 text-sm flex flex-row items-center select-none">
-          <AppstoreFilled className="text-sm" />
-          <span>Dashboard</span>
-          <RightOutlined className="text-[9px]" />
-          <Popover
-            placement="bottom"
-            overrideStyles={{ marginTop: "15px" }}
-            showArrow={false}
-            content={renderPopoverContent()}
-          >
-            <div className="flex flex-row items-center gap-x-2 cursor-pointer">
-              <span>{dashboard.name}</span>
-              <CaretDownOutlined />
-            </div>
-          </Popover>
-        </div>
+    <Fragment>
+      <Row className="justify-between mb-2">
+        <Row
+          className="gap-x-5 w-full"
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+        >
+          <div className="gap-x-2 text-sm flex flex-row items-center select-none">
+            <AppstoreFilled className="text-sm" />
+            <span>Dashboard</span>
+            <RightOutlined className="text-[9px]" />
+            <Popover
+              placement="bottom"
+              overrideStyles={{ marginTop: "15px" }}
+              showArrow={false}
+              content={renderPopoverContent()}
+            >
+              <div className="flex flex-row items-center gap-x-2 cursor-pointer">
+                <span>{dashboard.name}</span>
+                <CaretDownOutlined />
+              </div>
+            </Popover>
+          </div>
 
-        <Row className={joinClasses("text-xs gap-x-9 pl-5", conditionClass(!isHover, "hidden"))}>
-          <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-            <Tooltip title="Add new panel">
-              <PlusCircleOutlined onClick={() => onAddPanel()} className="cursor-pointer" />
-            </Tooltip>
-            <Tooltip title="Settings">
-              <SettingOutlined onClick={() => onEditDashboard()} className="cursor-pointer" />
-            </Tooltip>
-            {hasPanels && (
-              <Fragment>
-                <Tooltip title={dashboard.isEditable ? "Lock dashboard" : "Unlock dashboard"}>
-                  <div onClick={() => onLockDashboard()} className="cursor-pointer">
-                    {dashboard.isEditable ? (
-                      <LockOutlined />
-                    ) : (
-                      <UnlockOutlined className="text-yellow-600" />
-                    )}
-                  </div>
-                </Tooltip>
-                <Tooltip title="Remove panels">
-                  <div onClick={() => onRemovePanel()} className="cursor-pointer">
-                    {isRemoveMode ? (
-                      <DeleteFilled className="text-yellow-600" />
-                    ) : (
-                      <DeleteOutlined />
-                    )}
-                  </div>
-                </Tooltip>
-              </Fragment>
-            )}
-          </Permissions>
+          <Row
+            className={joinClasses("text-xs gap-x-9 pl-5", conditionClass(!isHover, "hidden"))}
+          >
+            <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+              <Tooltip title="Add new panel">
+                <PlusCircleOutlined onClick={() => onAddPanel()} className="cursor-pointer" />
+              </Tooltip>
+              <Tooltip title="Settings">
+                <SettingOutlined onClick={() => onEditDashboard()} className="cursor-pointer" />
+              </Tooltip>
+              {hasPanels && (
+                <Fragment>
+                  <Tooltip title={dashboard.isEditable ? "Lock dashboard" : "Unlock dashboard"}>
+                    <div onClick={() => onLockDashboard()} className="cursor-pointer">
+                      {dashboard.isEditable ? (
+                        <LockOutlined />
+                      ) : (
+                        <UnlockOutlined className="text-yellow-600" />
+                      )}
+                    </div>
+                  </Tooltip>
+                  <Tooltip title="Remove panels">
+                    <div onClick={() => onRemovePanel()} className="cursor-pointer">
+                      {isRemoveMode ? (
+                        <DeleteFilled className="text-yellow-600" />
+                      ) : (
+                        <DeleteOutlined />
+                      )}
+                    </div>
+                  </Tooltip>
+                </Fragment>
+              )}
+            </Permissions>
+          </Row>
         </Row>
+        {showTimepicker && (
+          <TimeRangePicker
+            value={ranges}
+            options={relativeTimeOptions}
+            submit={(val: TimeRange) => onChangeRanges(val)}
+            datesRange={true}
+            maxDate={MAX_DATE}
+            type="secondary"
+          />
+        )}
       </Row>
-      {showTimepicker && (
-        <TimeRangePicker
-          value={ranges}
-          options={relativeTimeOptions}
-          submit={(val: TimeRange) => onChangeRanges(val)}
-          datesRange={true}
-          maxDate={MAX_DATE}
-          type="secondary"
-        />
-      )}
-    </Row>
+      <SelectPanelModal isOpen={isSelectPanelModal} onCancel={() => setSelectPanelModal(false)} />
+    </Fragment>
   );
 };

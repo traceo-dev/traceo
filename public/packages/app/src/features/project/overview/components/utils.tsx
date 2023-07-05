@@ -9,9 +9,9 @@ import {
   IMetricSerie,
   MARKER_SHAPE,
   METRIC_UNIT,
-  PANEL_TYPE,
   PLOT_TYPE,
-  STACK_STRATEGY
+  STACK_STRATEGY,
+  VISUALIZATION_TYPE
 } from "@traceo/types";
 import { LabelPosition } from "@traceo/ui";
 import { sameArrayValues } from "../../../../core/utils/arrays";
@@ -21,20 +21,16 @@ export const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
   label: unit
 }));
 
-const mapMetricTypeName: Record<PANEL_TYPE, string> = {
-  [PANEL_TYPE.TIME_SERIES]: "Time series",
-  [PANEL_TYPE.HISTOGRAM]: "Histogram",
-  [PANEL_TYPE.GAUGE]: "Gauge",
-  [PANEL_TYPE.TABLE]: "Table",
-  [PANEL_TYPE.TODAY_EVENTS_PLOT]: "Today events plot",
-  [PANEL_TYPE.TODAY_EVENTS_COUNTER]: "Today events counter",
-  [PANEL_TYPE.TODAY_EVENTS_LAST_TIME]: "Today events last occur",
-  [PANEL_TYPE.EVENTS_OVERVIEW]: "Events overview plot"
+const mapVisualizationName: Record<VISUALIZATION_TYPE, string> = {
+  [VISUALIZATION_TYPE.TIME_SERIES]: "Time series",
+  [VISUALIZATION_TYPE.HISTOGRAM]: "Histogram",
+  [VISUALIZATION_TYPE.GAUGE]: "Gauge"
+  // [VISUALIZATION_TYPE.TABLE]: "Table"
 };
 
-export const panelTypeOptions = Object.values(PANEL_TYPE).map((type) => ({
+export const visualizationOptions = Object.values(VISUALIZATION_TYPE).map((type) => ({
   value: type,
-  label: mapMetricTypeName[type]
+  label: mapVisualizationName[type]
 }));
 
 export const mapPlotName: Record<PLOT_TYPE, string> = {

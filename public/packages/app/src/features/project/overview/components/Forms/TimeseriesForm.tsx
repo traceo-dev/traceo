@@ -1,6 +1,6 @@
 import { WarningOutlined, PlusOutlined } from "@ant-design/icons";
 import { IMetricSerie } from "@traceo/types";
-import { FieldLabel, Tooltip, Alert, Row } from "@traceo/ui";
+import { FieldLabel, Tooltip, Alert } from "@traceo/ui";
 import { CustomizeFormSection } from "../CustomizeFormSection";
 import { editSerieForm } from "../editMetricSeriesForm";
 import { isStackAvailable } from "../utils";
@@ -15,6 +15,7 @@ import {
 } from "../editMetricGraphForm";
 import { AddSerieBtn } from "./components";
 import { FormProps } from "./types";
+import { CustomizeFormSerieSection } from "../CustomizeFormSerieSection";
 
 export const TimeseriesForm = (props: FormProps) => {
   const series = props.options.config.series;
@@ -151,43 +152,35 @@ export const TimeseriesForm = (props: FormProps) => {
 
       {/* Series */}
 
-      {series.map((serie, index) => (
-        <div key={index}>
-          <CustomizeFormSection
-            title={
-              <Row gap="x-2">
-                <div
-                  className="w-3 h-3 rounded-full"
-                  style={{ backgroundColor: serie.config.color }}
-                />
-                <span>{serie.name}</span>
-              </Row>
-            }
-            description={serie?.description}
-            show={serie?.show}
+      {series.map((serie, index) => {
+        const serieProps = {
+          index,
+          serie: serie as IMetricSerie,
+          setOptions: props.setOptions,
+          visualization: props.options.config.visualization,
+          serieFieldOptions: props.serieFieldOptions,
+          panelType: props.options.type
+        };
+
+        return (
+          <CustomizeFormSerieSection
+            key={index}
+            serie={serie}
             onDelete={() => onDeleteSerie(serie as IMetricSerie)}
           >
-            <>
-              {editSerieForm({
-                index,
-                serie: serie as IMetricSerie,
-                setOptions: props.setOptions,
-                type: props.options.type,
-                serieFieldOptions: props.serieFieldOptions
-              }).map((opt, index) => (
-                <FieldLabel
-                  key={index}
-                  label={opt.label}
-                  labelPosition={opt?.labelPosition}
-                  labelSize="xs"
-                >
-                  {opt.component}
-                </FieldLabel>
-              ))}
-            </>
-          </CustomizeFormSection>
-        </div>
-      ))}
+            {editSerieForm(serieProps).map((opt, index) => (
+              <FieldLabel
+                key={index}
+                label={opt.label}
+                labelPosition={opt?.labelPosition}
+                labelSize="xs"
+              >
+                {opt.component}
+              </FieldLabel>
+            ))}
+          </CustomizeFormSerieSection>
+        );
+      })}
 
       <AddSerieBtn onClick={() => onAddNewSerie()}>
         <PlusOutlined />

@@ -5,24 +5,25 @@ import { useImmer } from "use-immer";
 import { Button, Card, Row } from "@traceo/ui";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../core/components/DataNotFound";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../core/lib/api";
 import { notify } from "../../../core/utils/notify";
 import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { CheckOutlined } from "@ant-design/icons";
 import { PanelCustomizeForm } from "./components/PanelCustomizeForm";
-import { initialPanelProps } from "./utils";
+import { initialCustomPanelProps } from "./utils";
 
 const CreatePanelPage = () => {
   const { id, did } = useParams();
 
   const navigate = useNavigate();
 
-  const [options, setOptions] = useImmer<DeepPartial<DashboardPanel>>(initialPanelProps);
+  const [options, setOptions] = useImmer<DeepPartial<DashboardPanel>>(initialCustomPanelProps);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
 
   const onCreate = async () => {
+    const isCustom = options.type === "custom";
     if (!options.title) {
       notify.error("Panel name is required.");
       return;
@@ -41,7 +42,7 @@ const CreatePanelPage = () => {
     }
 
     const missingField = series.find((serie) => !serie?.field);
-    if (missingField) {
+    if (missingField && isCustom) {
       notify.error("Your metric serie does not have a required field value.");
       return;
     }
@@ -94,7 +95,7 @@ const CreatePanelPage = () => {
       <Page.Content className="pt-0">
         <div className="w-full grid grid-cols-12">
           <div className="col-span-8 mr-1">
-            <Card title={options.title}>
+            <Card title="Visualization">
               <ConditionalWrapper
                 isEmpty
                 emptyView={

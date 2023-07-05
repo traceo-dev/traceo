@@ -9,7 +9,7 @@ import {
   IsString,
   ValidateNested
 } from "class-validator";
-import { METRIC_UNIT, PLOT_TYPE, TOOLTIP_POSITION } from "@traceo/types";
+import { METRIC_UNIT, PLOT_TYPE, TOOLTIP_POSITION, VISUALIZATION_TYPE } from "@traceo/types";
 import { ApiPropertyOptional } from "@nestjs/swagger";
 
 export class MetricQueryDto {
@@ -181,6 +181,10 @@ export class UpdateOptionsMetricDto {
   @ValidateNested()
   @Type(() => UpdateMetricAxisDto)
   axis: UpdateMetricAxisDto;
+
+  @IsString()
+  @IsNotEmpty()
+  visualization: VISUALIZATION_TYPE = VISUALIZATION_TYPE.TIME_SERIES;
 }
 
 class UpdateSerieMetricConfigDto {
