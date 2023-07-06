@@ -5,10 +5,9 @@ export enum MetricType {
 }
 
 export type IMetricSerie = {
-  name: string;
+  name?: string;
   description?: string;
   unit?: METRIC_UNIT;
-  show: boolean;
   field: string;
   config: {
     lineWidth?: number;

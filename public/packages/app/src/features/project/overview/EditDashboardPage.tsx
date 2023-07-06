@@ -43,7 +43,7 @@ const EditDashboardPage = () => {
     };
 
     await api
-      .patch<ApiResponse<{ id: string }>>("/api/dashboard", props)
+      .patch<ApiResponse<unknown>>("/api/dashboard", props)
       .then((response) => {
         if (response.status === "success") {
           navigate(`/project/${project.id}/dashboard/${dashboard.id}`);

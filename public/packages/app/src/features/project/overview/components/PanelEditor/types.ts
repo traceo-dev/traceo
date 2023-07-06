@@ -1,13 +1,12 @@
 import { UplotDataType, DashboardPanel } from "@traceo/types";
 import { SelectOptionProps } from "@traceo/ui";
-import { DeepPartial } from "redux";
 import { DraftFunction } from "use-immer";
 
 export type FormProps = {
     data?: UplotDataType;
-    options: DeepPartial<DashboardPanel>;
+    options: DashboardPanel;
     serieFieldOptions?: SelectOptionProps[];
     setOptions: (
-        arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
+        arg: DashboardPanel | DraftFunction<DashboardPanel>
     ) => void;
 }

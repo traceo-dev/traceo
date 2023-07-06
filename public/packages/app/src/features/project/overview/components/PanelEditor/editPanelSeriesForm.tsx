@@ -14,9 +14,7 @@ type SerieFormProps = {
   index: number;
   serie: IMetricSerie;
   serieFieldOptions: SelectOptionProps[];
-  setOptions: (
-    arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
-  ) => void;
+  setOptions: (arg: DashboardPanel | DraftFunction<DashboardPanel>) => void;
   panelType: DASHBOARD_PANEL_TYPE;
   visualization: VISUALIZATION_TYPE;
 };

@@ -1,17 +1,16 @@
 import { Page } from "../../../core/components/Page";
 import { ApiResponse, DashboardPanel } from "@traceo/types";
-import { DeepPartial } from "redux";
 import { useImmer } from "use-immer";
 import { Button, Card, Row } from "@traceo/ui";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../core/components/DataNotFound";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../core/lib/api";
 import { notify } from "../../../core/utils/notify";
 import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { CheckOutlined } from "@ant-design/icons";
-import { initialCustomPanelProps } from "./utils";
+import { initialCustomPanelProps, validate } from "./utils";
 import { PanelCustomizeForm } from "./components/PanelEditor/PanelCustomizeForm";
 
 const CreatePanelPage = () => {
@@ -19,36 +18,17 @@ const CreatePanelPage = () => {
 
   const navigate = useNavigate();
 
-  const [options, setOptions] = useImmer<DeepPartial<DashboardPanel>>(initialCustomPanelProps);
+  const [options, setOptions] = useImmer<DashboardPanel>(initialCustomPanelProps);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
 
   const onCreate = async () => {
-    const isCustom = options.type === "custom";
-    if (!options.title) {
-      notify.error("Panel name is required.");
-      return;
-    }
-
-    const series = options.config.series;
-    if (series.length === 0) {
-      notify.error("You have to add at least one serie to this metric.");
-      return;
-    }
-
-    const missingName = series.find((serie) => !serie?.name);
-    if (missingName) {
-      notify.error("Your metric serie does not have a required name value.");
-      return;
-    }
-
-    const missingField = series.find((serie) => !serie?.field);
-    if (missingField && isCustom) {
-      notify.error("Your metric serie does not have a required field value.");
+    const errors = validate(options);
+    if (errors.length > 0) {
+      notify.error(errors[0]);
       return;
     }
 
     setSaveLoading(true);
-
     await api
       .post<ApiResponse<DashboardPanel>>(`/api/dashboard/panel`, {
         ...options,
@@ -67,7 +47,9 @@ const CreatePanelPage = () => {
   };
 
   const onCancel = () => {
-    navigate(`/project/${id}/dashboard/${dashboardId}`);
+    navigate({
+      pathname: `/project/${id}/dashboard/${dashboardId}`
+    });
   };
 
   return (

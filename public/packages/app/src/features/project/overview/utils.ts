@@ -8,7 +8,7 @@ export const GRID_ROW_HEIGHT = 30;
 export const GRID_PADDING = [0, 0];
 export const GRID_BASE_PANEL_HEIGHT = 103;
 
-const panelConfig: DeepPartial<PanelConfiguration> = {
+const panelConfig: PanelConfiguration = {
     legend: {
         show: false,
         orient: "horizontal"
@@ -19,7 +19,8 @@ const panelConfig: DeepPartial<PanelConfiguration> = {
         }
     },
     tooltip: {
-        show: true
+        show: true,
+        position: ""
     },
     axis: {
         showX: true,
@@ -38,10 +39,12 @@ const panelConfig: DeepPartial<PanelConfiguration> = {
         min: 1,
         max: undefined
     },
-    unit: METRIC_UNIT.NONE
+    unit: METRIC_UNIT.NONE,
+    visualization: VISUALIZATION_TYPE.TIME_SERIES,
+    series: []
 }
 
-export const initialCustomPanelProps: DeepPartial<DashboardPanel> = {
+export const initialCustomPanelProps: DashboardPanel = {
     title: "Panel title",
     description: "Panel description",
     type: "custom",
@@ -49,12 +52,15 @@ export const initialCustomPanelProps: DeepPartial<DashboardPanel> = {
         w: 10,
         h: 8,
         x: 0,
-        y: 0
+        y: 0,
     },
     config: {
+        ...panelConfig,
         visualization: VISUALIZATION_TYPE.TIME_SERIES,
         series: [
             {
+                name: "New serie",
+                description: undefined,
                 config: {
                     area: {
                         opacity: 50,
@@ -65,14 +71,10 @@ export const initialCustomPanelProps: DeepPartial<DashboardPanel> = {
                     lineWidth: 1,
                     type: "line"
                 },
-                name: "New serie",
-                description: undefined,
                 field: undefined,
                 unit: METRIC_UNIT.NONE,
-                show: true
             }
         ],
-        ...panelConfig
     }
 };
 
@@ -88,6 +90,7 @@ export const dashboardPanelOptions: Record<DASHBOARD_PANEL_TYPE, DeepPartial<Das
             y: 0
         },
         config: {
+            ...panelConfig,
             visualization: VISUALIZATION_TYPE.TIME_SERIES,
             series: [
                 {
@@ -104,11 +107,9 @@ export const dashboardPanelOptions: Record<DASHBOARD_PANEL_TYPE, DeepPartial<Das
                     name: "Events",
                     description: undefined,
                     field: "events_overview_plot",
-                    unit: METRIC_UNIT.NONE,
-                    show: true
+                    unit: METRIC_UNIT.NONE
                 }
             ],
-            ...panelConfig
         }
     },
     overview_events: {
@@ -121,6 +122,7 @@ export const dashboardPanelOptions: Record<DASHBOARD_PANEL_TYPE, DeepPartial<Das
             y: 0
         },
         config: {
+            ...panelConfig,
             visualization: VISUALIZATION_TYPE.TIME_SERIES,
             series: [
                 {
@@ -137,11 +139,9 @@ export const dashboardPanelOptions: Record<DASHBOARD_PANEL_TYPE, DeepPartial<Das
                     name: "Events",
                     description: undefined,
                     field: "events_overview_plot",
-                    unit: METRIC_UNIT.NONE,
-                    show: true
+                    unit: METRIC_UNIT.NONE
                 }
             ],
-            ...panelConfig
         }
     },
     recent_events: undefined,
@@ -150,3 +150,28 @@ export const dashboardPanelOptions: Record<DASHBOARD_PANEL_TYPE, DeepPartial<Das
     logs_plot: undefined,
     logs_table: undefined,
 }
+
+export const validate = (options: DashboardPanel) => {
+    const errors = [];
+
+    if (!options.title) {
+        errors.push("Metric name is required.");
+    }
+
+    const series = options.config.series;
+    if (series.length === 0) {
+        errors.push("You have to add at least one serie to this metric.");
+    }
+
+    const missingName = series.find((serie) => !serie?.name);
+    if (missingName) {
+        errors.push("Your metric serie does not have a required name value.");
+    }
+
+    const missingField = series.find((serie) => !serie?.field);
+    if (missingField) {
+        errors.push("Your metric serie does not have a required field value.");
+    }
+
+    return errors;
+};

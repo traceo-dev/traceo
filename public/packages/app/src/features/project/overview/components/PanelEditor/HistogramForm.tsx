@@ -31,8 +31,7 @@ export const HistogramForm = (props: FormProps) => {
         lineWidth: 0,
         type: "bar"
       },
-      field: undefined,
-      show: true
+      field: undefined
     };
     props.data.push([]);
     props.setOptions((opt) => {

@@ -38,6 +38,8 @@ export const TimeseriesForm = (props: FormProps) => {
 
   const onAddNewSerie = () => {
     const serie: IMetricSerie = {
+      name: "New serie",
+      description: undefined,
       config: {
         area: {
           show: false,
@@ -48,11 +50,12 @@ export const TimeseriesForm = (props: FormProps) => {
         lineWidth: 1,
         type: "line"
       },
-      field: undefined,
-      show: true,
-      name: "New serie",
-      description: undefined
+      field: undefined
     };
+
+    console.log("onAddNewSerie");
+    console.log(props.options.config)
+
     props.data.push([]);
     props.setOptions((opt) => {
       opt.config.series.push(serie);

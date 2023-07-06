@@ -21,7 +21,7 @@ export interface PanelGridPosition {
     y: number;
     h: number;
     w: number;
-    i: string;
+    i?: string;
 }
 
 export interface PanelConfiguration {
@@ -83,7 +83,7 @@ export interface DashboardPanel {
     // panel configuration
     config: PanelConfiguration;
 
-    dashboard: Dashboard;
+    dashboard?: Dashboard;
 }
 
 export type DASHBOARD_PANEL_TYPE =

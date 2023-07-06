@@ -12,10 +12,8 @@ import { Header, Container } from "./components";
 
 interface Props {
   data?: UplotDataType;
-  options: DeepPartial<DashboardPanel>;
-  setOptions: (
-    arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
-  ) => void;
+  options: DashboardPanel;
+  setOptions: (arg: DashboardPanel | DraftFunction<DashboardPanel>) => void;
 }
 
 export const PanelCustomizeForm: FC<Props> = (props: Props) => {

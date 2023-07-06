@@ -2,10 +2,10 @@ import { Page } from "../../../core/components/Page";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { conditionClass } from "../../../core/utils/classes";
 import {
-  DeepPartial,
   ApiResponse,
   MemberRole,
-  DashboardPanel as DashboardPanelType
+  DashboardPanel as DashboardPanelType,
+  UplotDataType
 } from "@traceo/types";
 import { Button, Row } from "@traceo/ui";
 import { useEffect, useState } from "react";
@@ -30,7 +30,12 @@ import { useAppDispatch } from "../../../store/index";
 import { loadDashboard } from "./state/actions";
 import { PanelCustomizeForm } from "./components/PanelEditor/PanelCustomizeForm";
 import { getXAxisFormatter } from "./components/Panels/formatters";
+import { validate } from "./utils";
 
+type QueryResponseType = {
+  options: DashboardPanelType;
+  datasource: UplotDataType;
+};
 export const PanelPreviewPage = () => {
   const dispatch = useAppDispatch();
   const { panelId, id, dashboardId } = useParams();
@@ -38,7 +43,7 @@ export const PanelPreviewPage = () => {
   const { ranges, setRanges } = useTimeRange();
   const { dashboard } = useDashboard();
 
-  const [options, setOptions] = useImmer<DeepPartial<DashboardPanelType>>(undefined);
+  const [options, setOptions] = useImmer<DashboardPanelType>(undefined);
 
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
@@ -46,7 +51,7 @@ export const PanelPreviewPage = () => {
   const isCustomPanel = options?.type === "custom";
   const isTimePicker = isCustomPanel && !isCustomizeMode;
 
-  const { data, refetch, isLoading, isRefetching } = useReactQuery<any>({
+  const { data, refetch, isLoading, isRefetching } = useReactQuery<QueryResponseType>({
     queryKey: [`metric_ds_${panelId}`],
     url: `/api/metrics/${id}/preview/${panelId}`,
     params: {
@@ -60,7 +65,7 @@ export const PanelPreviewPage = () => {
     refetch: refetchRawData,
     isLoading: isLoadingRawData,
     isRefetching: isRefetchinRawData
-  } = useReactQuery<any>({
+  } = useReactQuery<[]>({
     queryKey: [`metric_ds_raw_${panelId}`],
     url: `/api/metrics/${panelId}/raw-data`,
     params: {
@@ -75,41 +80,24 @@ export const PanelPreviewPage = () => {
   }, []);
 
   useEffect(() => {
-    refetch();
-    refetchRawData();
-  }, [ranges, panelId]);
-
-  useEffect(() => {
     if (data && data.options) {
       setOptions(data.options);
     }
-  }, [data]);
+  }, [data, panelId]);
+
+  useEffect(() => {
+    refetch();
+    refetchRawData();
+  }, [ranges]);
 
   if (!options || isEmptyObject(options)) {
     return <TraceoLoading />;
   }
 
   const onSave = async () => {
-    if (!options.title) {
-      notify.error("Metric name is required.");
-      return;
-    }
-
-    const series = options.config.series;
-    if (series.length === 0) {
-      notify.error("You have to add at least one serie to this metric.");
-      return;
-    }
-
-    const missingName = series.find((serie) => !serie?.name);
-    if (missingName) {
-      notify.error("Your metric serie does not have a required name value.");
-      return;
-    }
-
-    const missingField = series.find((serie) => !serie?.field);
-    if (missingField) {
-      notify.error("Your metric serie does not have a required field value.");
+    const errors = validate(options);
+    if (errors.length > 0) {
+      notify.error(errors[0]);
       return;
     }
 
@@ -138,8 +126,7 @@ export const PanelPreviewPage = () => {
     search: `?from=${ranges[0]}&to=${ranges[1]}`
   };
 
-  const getTableFields = () =>
-    options?.config.series.filter(({ show }) => show).map(({ field }) => field);
+  const getTableFields = () => options?.config.series.map(({ field }) => field);
 
   const renderOperationButtons = () => {
     if (isCustomizeMode) {

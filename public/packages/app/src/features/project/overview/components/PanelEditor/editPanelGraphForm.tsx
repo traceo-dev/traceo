@@ -1,13 +1,11 @@
-import { DashboardPanel, DeepPartial } from "@traceo/types";
+import { DashboardPanel } from "@traceo/types";
 import { Switch } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
 import { PanelEditOption, isStackAvailable } from "../utils";
 
 interface Props {
-  options: DeepPartial<DashboardPanel>;
-  setOptions: (
-    arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
-  ) => void;
+  options: DashboardPanel;
+  setOptions: (arg: DashboardPanel | DraftFunction<DashboardPanel>) => void;
 }
 
 export const editPanelStackForm = (props: Props) => {

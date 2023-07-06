@@ -73,7 +73,7 @@ class UpdateTooltipMetricDto {
   show: boolean = false;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   position: TOOLTIP_POSITION = "right";
 }
 

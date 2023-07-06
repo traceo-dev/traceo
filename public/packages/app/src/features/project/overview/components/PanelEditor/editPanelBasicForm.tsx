@@ -4,10 +4,8 @@ import { DraftFunction } from "use-immer";
 import { PanelEditOption, visualizationOptions, unitOptions } from "../utils";
 
 type EditMetricType = {
-  options: DeepPartial<DashboardPanel>;
-  setOptions: (
-    arg: DeepPartial<DashboardPanel> | DraftFunction<DeepPartial<DashboardPanel>>
-  ) => void;
+  options: DashboardPanel;
+  setOptions: (arg: DashboardPanel | DraftFunction<DashboardPanel>) => void;
 };
 export const editPanelBasicForm = (props: EditMetricType) => {
   const { options, setOptions } = props;
