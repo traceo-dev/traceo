@@ -6,6 +6,8 @@ import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import dayjs from "dayjs";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { BadRequestError } from "src/common/helpers/errors";
+import { ProjectQueryService } from "src/api/project/project-query/project-query.service";
+import dateUtils from "src/common/helpers/dateUtils";
 
 type GraphResponse = {
     graph: UplotDataType
@@ -16,7 +18,8 @@ export class EventQueryService {
     private readonly logger: Logger;
 
     constructor(
-        private readonly clickhouse: ClickhouseService
+        private readonly clickhouse: ClickhouseService,
+        private readonly projectQuery: ProjectQueryService
     ) {
         this.logger = new Logger(EventQueryService.name)
     }
@@ -99,7 +102,24 @@ export class EventQueryService {
             return await this.getProjectGraphPayload(projectId, from, to);
         } catch (error) {
             this.logger.error(`[${this.getTotalOverviewGraph.name}] Caused by: ${error}`);
-            return new ApiResponse("error", INTERNAL_SERVER_ERROR);
+            throw new BadRequestError(error);
+        }
+    }
+
+    public async getLastEventTimestamp(projectId: string) {
+        const NO_TIMESTAMP = "--:--";
+        try {
+            const project = await this.projectQuery.getDto(projectId);
+            const lastEventTimestamp = project.lastEventAt;
+
+            if (!lastEventTimestamp) {
+                return new ApiResponse("success", undefined, NO_TIMESTAMP);
+            }
+
+            return dayjs(lastEventTimestamp).isToday() ? dateUtils.formatDate(lastEventTimestamp, "HH:mm:ss") : NO_TIMESTAMP;
+        } catch (error) {
+            this.logger.error(`[${this.getTotalOverviewGraph.name}] Caused by: ${error}`);
+            throw new BadRequestError(error);
         }
     }
 

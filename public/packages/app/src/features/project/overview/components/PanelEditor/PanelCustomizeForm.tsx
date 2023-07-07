@@ -1,5 +1,5 @@
 import { CustomizeFormSection } from "./CustomizeFormSection";
-import { DeepPartial, UplotDataType, DashboardPanel, VISUALIZATION_TYPE } from "@traceo/types";
+import { UplotDataType, DashboardPanel, VISUALIZATION_TYPE } from "@traceo/types";
 import { FieldLabel, SelectOptionProps } from "@traceo/ui";
 import { FC, useMemo } from "react";
 import { DraftFunction } from "use-immer";
@@ -37,7 +37,8 @@ export const PanelCustomizeForm: FC<Props> = (props: Props) => {
     const visualizationComponent: Record<VISUALIZATION_TYPE, JSX.Element> = {
       [VISUALIZATION_TYPE.TIME_SERIES]: <TimeseriesForm {...formProps} />,
       [VISUALIZATION_TYPE.HISTOGRAM]: <HistogramForm {...formProps} />,
-      [VISUALIZATION_TYPE.GAUGE]: undefined
+      [VISUALIZATION_TYPE.GAUGE]: undefined,
+      [VISUALIZATION_TYPE.STAT]: undefined
     };
 
     if (panelType === "custom") {

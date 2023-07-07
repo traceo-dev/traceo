@@ -147,7 +147,7 @@ export class UpdateOptionsMetricDto {
   unit: METRIC_UNIT = METRIC_UNIT.NONE;
 
   @ValidateNested()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsArray({
     always: true
   })

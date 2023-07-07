@@ -7,7 +7,7 @@ import { DashboardToolbar } from "./components/Toolbars/DashboardToolbar";
 import { DashboardGridLayout, GridLayout } from "./components/DashboardGrid/DashboardGridLayout";
 import styled from "styled-components";
 import api from "../../../core/lib/api";
-import { DashboardPanel, TimeRange } from "@traceo/types";
+import { DashboardPanel, TimeRange, VISUALIZATION_TYPE } from "@traceo/types";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
 import { PageCenter } from "../../../core/components/PageCenter";
@@ -16,7 +16,8 @@ import { PlusOutlined } from "@ant-design/icons";
 import { notify } from "../../../core/utils/notify";
 import { SelectPanelModal } from "./components/SelectPanelModal";
 import { useDashboard } from "../../../core/hooks/useDashboard";
-import { PlotPanel } from "./components/Panels/PlotPanel";
+import { calculatePlotHeight, getVisualizationComponent } from "./utils";
+import { PanelProps } from "./components/Panels/types";
 
 const GridPanelItem = styled.div`
   position: relative;
@@ -30,6 +31,7 @@ export const DashboardPage = () => {
   const { dashboard } = useDashboard();
   const [itemDimensions, setItemDimensions] = useState({});
   const [isRemoveMode, setRemoveMode] = useState<boolean>(false);
+  const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
 
   const showTimepicker = dashboard.panels?.length !== 0 && dashboard.isTimePicker;
 
@@ -80,29 +82,23 @@ export const DashboardPage = () => {
     setRanges(range);
   };
 
-  const onRemovePanel = () => {
-    fetchDashboardPanels();
-  };
-
   const renderPanel = (panel: DashboardPanel) => {
-    const props = {
+    const visualization = panel.config.visualization;
+
+    // Calculate plot height based on grid layout
+    const panelHeight = itemDimensions[panel.id]?.height ?? panel.gridPosition.h;
+    const plotHeight = calculatePlotHeight(panelHeight);
+
+    const props: PanelProps = {
       isEditable: dashboard.isEditable,
       isRemoveMode,
-      dimensions: itemDimensions[panel.id],
       panel,
       ranges,
-      onChangeTimeRange,
-      onRemovePanel
+      height: plotHeight,
+      onChangeTimeRange
     };
 
-    switch (panel.type) {
-      case "custom":
-      case "todays_events":
-      case "overview_events":
-        return <PlotPanel {...props} />;
-      default:
-        return undefined;
-    }
+    return getVisualizationComponent(visualization, props);
   };
 
   const handleResize = (_layout, _oldItem, newItem) => {
@@ -112,7 +108,6 @@ export const DashboardPage = () => {
     });
   };
 
-  const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
   const renderContent = () => {
     if (dashboard && dashboard.panels?.length === 0) {
       return (
@@ -142,7 +137,7 @@ export const DashboardPage = () => {
         layout={generateLayout()}
         isEditable={dashboard.isEditable}
       >
-        {dashboard.panels?.map((panel) => (
+        {(dashboard.panels || []).map((panel) => (
           <GridPanelItem key={panel.id}>{renderPanel(panel)}</GridPanelItem>
         ))}
       </DashboardGridLayout>

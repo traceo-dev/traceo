@@ -86,6 +86,8 @@ export class MetricsQueryService {
           case "overview_events":
             datasource = await this.eventService.getTotalOverviewGraph(projectId);
             break;
+          case "last_event_at":
+            datasource = await this.eventService.getLastEventTimestamp(projectId);
           default:
             break;
         }

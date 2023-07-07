@@ -65,6 +65,7 @@ export enum VISUALIZATION_TYPE {
     TIME_SERIES = "time_series",
     HISTOGRAM = "histogram",
     GAUGE = "gauge",
+    STAT = "stat"
     // TABLE = "table"
 };
 

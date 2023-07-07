@@ -5,7 +5,7 @@ import {
   ApiResponse,
   MemberRole,
   DashboardPanel as DashboardPanelType,
-  UplotDataType
+  VISUALIZATION_TYPE
 } from "@traceo/types";
 import { Button, Row } from "@traceo/ui";
 import { useEffect, useState } from "react";
@@ -20,45 +20,33 @@ import api from "../../../core/lib/api";
 import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
 import { notify } from "../../../core/utils/notify";
-import { BaseMetricChart } from "../../../core/components/UPlot/BaseMetricChart";
 import { PanelDatasourceTable } from "./components/PanelDatasourceTable";
 import { MetricTimeToolbar } from "./components/Toolbars/MetricTimeToolbar";
-import { ContentCard } from "../../../core/components/ContentCard";
 import { RemovePanelConfirm } from "./components/RemovePanelConfirm";
 import { useDashboard } from "../../../core/hooks/useDashboard";
 import { useAppDispatch } from "../../../store/index";
 import { loadDashboard } from "./state/actions";
 import { PanelCustomizeForm } from "./components/PanelEditor/PanelCustomizeForm";
-import { getXAxisFormatter } from "./components/Panels/formatters";
-import { validate } from "./utils";
+import { getVisualizationComponent, validate } from "./utils";
+import { usePanelQuery } from "./components/Panels/usePanelQuery";
+import { mapVisualizationName } from "./components/utils";
+import { PanelProps } from "./components/Panels/types";
 
-type QueryResponseType = {
-  options: DashboardPanelType;
-  datasource: UplotDataType;
-};
 export const PanelPreviewPage = () => {
   const dispatch = useAppDispatch();
-  const { panelId, id, dashboardId } = useParams();
 
-  const { ranges, setRanges } = useTimeRange();
+  const { panelId, id, dashboardId } = useParams();
   const { dashboard } = useDashboard();
+  const { ranges, setRanges } = useTimeRange();
+  const { data, refetch } = usePanelQuery(panelId, ranges);
 
   const [options, setOptions] = useImmer<DashboardPanelType>(undefined);
-
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
 
   const isCustomPanel = options?.type === "custom";
   const isTimePicker = isCustomPanel && !isCustomizeMode;
-
-  const { data, refetch, isLoading, isRefetching } = useReactQuery<QueryResponseType>({
-    queryKey: [`metric_ds_${panelId}`],
-    url: `/api/metrics/${id}/preview/${panelId}`,
-    params: {
-      from: ranges[0],
-      to: ranges[1]
-    }
-  });
+  const isRawDataPreview = options?.config.visualization !== VISUALIZATION_TYPE.STAT;
 
   const {
     data: rawData = [],
@@ -86,7 +74,6 @@ export const PanelPreviewPage = () => {
   }, [data, panelId]);
 
   useEffect(() => {
-    refetch();
     refetchRawData();
   }, [ranges]);
 
@@ -169,9 +156,27 @@ export const PanelPreviewPage = () => {
     );
   };
 
+  const renderPanel = () => {
+    const visualization = options.config.visualization;
+
+    const props: PanelProps = {
+      title: mapVisualizationName[visualization],
+      isEditable: false,
+      isRemoveMode: false,
+      panel: options,
+      ranges: ranges,
+      onChangeTimeRange: setRanges
+    };
+
+    if (isTimePicker) {
+      props.options = <MetricTimeToolbar ranges={ranges} setRanges={setRanges} />;
+    }
+
+    return getVisualizationComponent(visualization, props);
+  };
+
   return (
     <Page
-      isLoading={isLoading}
       header={{
         title: (
           <PreviewPageHeader
@@ -187,34 +192,24 @@ export const PanelPreviewPage = () => {
       <Page.Content className="pt-0">
         <div className="w-full grid grid-cols-12">
           <div className={conditionClass(isCustomizeMode, "col-span-8 mr-1", "col-span-12")}>
-            <ContentCard
-              name="Graph"
-              loading={isLoading || isRefetching}
-              extra={isTimePicker && <MetricTimeToolbar ranges={ranges} setRanges={setRanges} />}
-            >
-              <BaseMetricChart
-                xFormatter={getXAxisFormatter(options.type)}
-                datasource={data?.datasource}
-                panel={options}
-                onZoom={setRanges}
-              />
-            </ContentCard>
-
-            <OptionsCollapseGroup
-              title="Raw data"
-              loading={isLoadingRawData || isRefetchinRawData}
-              extra={
-                <span className="text-xs font-semibold text-primary">
-                  {(rawData || []).length} rows found
-                </span>
-              }
-            >
-              <PanelDatasourceTable
-                fields={getTableFields()}
-                metricData={rawData}
-                isLoading={isLoadingRawData || isRefetchinRawData}
-              />
-            </OptionsCollapseGroup>
+            {renderPanel()}
+            {isRawDataPreview && (
+              <OptionsCollapseGroup
+                title="Raw data"
+                loading={isLoadingRawData || isRefetchinRawData}
+                extra={
+                  <span className="text-xs font-semibold text-primary">
+                    {(rawData || []).length} rows found
+                  </span>
+                }
+              >
+                <PanelDatasourceTable
+                  fields={getTableFields()}
+                  metricData={rawData}
+                  isLoading={isLoadingRawData || isRefetchinRawData}
+                />
+              </OptionsCollapseGroup>
+            )}
           </div>
           {isCustomizeMode && (
             <div className="col-span-4">

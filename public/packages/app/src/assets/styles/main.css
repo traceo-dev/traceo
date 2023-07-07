@@ -23,6 +23,7 @@
   --color-bg-secondary: #22252b;
   --color-bg-light-secondary: #2d3139;
   --color-bg-canvas: #131517;
+  --color-bg-error: #9a1950;
 }
 
 /* Overrides for tailwind styles */

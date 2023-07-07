@@ -21,10 +21,11 @@ export const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
   label: unit
 }));
 
-const mapVisualizationName: Record<VISUALIZATION_TYPE, string> = {
+export const mapVisualizationName: Record<VISUALIZATION_TYPE, string> = {
   [VISUALIZATION_TYPE.TIME_SERIES]: "Time series",
   [VISUALIZATION_TYPE.HISTOGRAM]: "Histogram",
-  [VISUALIZATION_TYPE.GAUGE]: "Gauge"
+  [VISUALIZATION_TYPE.GAUGE]: "Gauge",
+  [VISUALIZATION_TYPE.STAT]: "Stat"
   // [VISUALIZATION_TYPE.TABLE]: "Table"
 };
 

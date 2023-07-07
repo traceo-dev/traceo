@@ -1,16 +1,12 @@
 import { TimeRange, Setter, DashboardPanel } from "@traceo/types";
 
-interface PanelDimension {
-  width: number;
-  height: number;
-}
-
 export interface PanelProps {
+  title?: string;
   isEditable: boolean;
   isRemoveMode: boolean;
-  dimensions: PanelDimension;
   panel: DashboardPanel;
   ranges: TimeRange;
+  height?: number;
   onChangeTimeRange: Setter<TimeRange>;
-  onRemovePanel: () => void;
+  options?: JSX.Element;
 }

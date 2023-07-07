@@ -1,6 +1,12 @@
 import { FC } from "react";
 import { Responsive, WidthProvider, GridLayout } from "react-grid-layout";
-import { GRID_MARGIN, GRID_PADDING, GRID_BREAKPOINTS, GRID_COLS, GRID_ROW_HEIGHT } from "../../utils";
+import {
+  GRID_MARGIN,
+  GRID_PADDING,
+  GRID_BREAKPOINTS,
+  GRID_COLS,
+  GRID_ROW_HEIGHT
+} from "../../utils";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -10,7 +16,7 @@ export interface GridLayout {
   y: number;
   w: number;
   h: number;
-};
+}
 
 interface Props {
   layout: GridLayout[];
@@ -40,8 +46,8 @@ export const DashboardGridLayout: FC<Props> = ({
       draggableHandle=".drag-handle"
       isDraggable={isEditable}
       isResizable={isEditable}
-      useCSSTransforms={isEditable}
-      isBounded={isEditable}
+      useCSSTransforms={false}
+      isBounded
     >
       {children}
     </ResponsiveGridLayout>
