@@ -1,6 +1,7 @@
 import { BaseDashboardPanel } from "./BaseDashboardPanel";
 import { PanelProps } from "./types";
 import { usePanelQuery } from "./usePanelQuery";
+import styled from "styled-components";
 
 export const StatPanel = ({
   panel = undefined,
@@ -8,6 +9,13 @@ export const StatPanel = ({
   ...rest
 }: PanelProps) => {
   const { data, isLoading, ...queryProps } = usePanelQuery(panel.id, ranges);
+
+  const panelStyle: React.CSSProperties = {
+    fontSize: panel.config.text.size,
+    fontWeight: panel.config.text.weight,
+    color: panel.config.text.color
+  };
+
   return (
     <BaseDashboardPanel
       loading={isLoading}
@@ -18,10 +26,17 @@ export const StatPanel = ({
       {...rest}
       {...queryProps}
     >
-      {/* TODO: */}
-      <div className="flex justify-center items-center w-full h-full">
-        <span className="text-[50px] font-semibold">{data?.datasource}</span>
-      </div>
+      <StatContainer>
+        <span style={panelStyle}>{data?.datasource}</span>
+      </StatContainer>
     </BaseDashboardPanel>
   );
 };
+
+const StatContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+`;

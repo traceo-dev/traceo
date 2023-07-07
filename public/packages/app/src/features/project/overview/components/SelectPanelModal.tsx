@@ -37,7 +37,7 @@ const eventsPanels: SelectOptionProps[] = [
     icon: <BarChartOutlined />
   },
   {
-    label: "Overview events",
+    label: "Last month events",
     value: "overview_events",
     icon: <BarChartOutlined />
   },

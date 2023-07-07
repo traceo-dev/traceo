@@ -126,6 +126,20 @@ class UpdateLineMetricDto {
   marker: UpdateMarkerMetricDto;
 }
 
+class UpdateMetricTextDto {
+  @IsInt()
+  @IsOptional()
+  size: number = 24;
+
+  @IsInt()
+  @IsOptional()
+  weight: number = 500;
+
+  @IsString()
+  @IsOptional()
+  color: string = "rect";
+}
+
 class UpdateMetricAxisDto {
   @IsBoolean()
   @IsNotEmpty()
@@ -185,6 +199,10 @@ export class UpdateOptionsMetricDto {
   @IsString()
   @IsNotEmpty()
   visualization: VISUALIZATION_TYPE = VISUALIZATION_TYPE.TIME_SERIES;
+
+  @ValidateNested()
+  @Type(() => UpdateMetricTextDto)
+  text: UpdateMetricTextDto;
 }
 
 class UpdateSerieMetricConfigDto {

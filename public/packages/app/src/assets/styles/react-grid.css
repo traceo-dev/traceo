@@ -13,3 +13,8 @@
   border-right: 2px solid gray !important;
   border-bottom: 2px solid gray !important;
 }
+
+.react-grid-item {
+  margin: 0px !important;
+  padding: 0px !important;
+}

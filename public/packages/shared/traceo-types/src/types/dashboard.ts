@@ -58,7 +58,12 @@ export interface PanelConfiguration {
         showX?: boolean;
         showY?: boolean;
         showGridLines?: boolean;
-    },
+    };
+    text: {
+        size?: number;
+        weight?: number;
+        color?: string;
+    };
 }
 
 export enum VISUALIZATION_TYPE {

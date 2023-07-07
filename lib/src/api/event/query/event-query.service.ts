@@ -116,9 +116,9 @@ export class EventQueryService {
                 return new ApiResponse("success", undefined, NO_TIMESTAMP);
             }
 
-            return dayjs(lastEventTimestamp).isToday() ? dateUtils.formatDate(lastEventTimestamp, "HH:mm:ss") : NO_TIMESTAMP;
+            return dayjs.unix(lastEventTimestamp).utc().isToday() ? dateUtils.formatDate(lastEventTimestamp, "HH:mm") : NO_TIMESTAMP;
         } catch (error) {
-            this.logger.error(`[${this.getTotalOverviewGraph.name}] Caused by: ${error}`);
+            this.logger.error(`[${this.getLastEventTimestamp.name}] Caused by: ${error}`);
             throw new BadRequestError(error);
         }
     }

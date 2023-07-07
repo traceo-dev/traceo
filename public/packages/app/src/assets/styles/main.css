@@ -13,9 +13,9 @@
 @import url("./react-grid.css");
 
 :root {
-  --color-text-primary: rgb(204, 204, 220);
-  --color-text-secondary: rgba(204, 204, 220, 0.65);
-  --color-text-disabled: rgba(204, 204, 220, 0.6);
+  --color-text-primary: #ccccdc;
+  --color-text-secondary: #ccccdca6;
+  --color-text-disabled: #ccccdc99;
 
   --color-traceo-primary: #eab308;
 
