@@ -1,6 +1,6 @@
 import { ApiResponse } from "@traceo/types";
 import { Alert, Button, Card, Form, FormItem, Input, RadioButtonGroup, Row } from "@traceo/ui";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { AppstoreFilled } from "@ant-design/icons";
 import { Page } from "../../../core/components/Page";
 import api from "../../../core/lib/api";
@@ -120,35 +120,39 @@ const EditDashboardPage = () => {
                       })}
                     />
                   </FormItem>
-                  <FormItem
-                    className="pt-5 w-1/2"
-                    tooltip="Allow to change layout"
-                    label="Is editable"
-                    error={errors.isEditable}
-                  >
-                    <RadioButtonGroup
-                      options={[
-                        { label: "Yes", value: true },
-                        { label: "No", value: false }
-                      ]}
-                      onChange={(bool) => setEditable(bool)}
-                      value={isEditable}
-                    />
-                  </FormItem>
-                  <FormItem
-                    className="pt-5 w-1/2"
-                    label="Show time picker"
-                    error={errors.isTimePicker}
-                  >
-                    <RadioButtonGroup
-                      options={[
-                        { label: "Yes", value: true },
-                        { label: "No", value: false }
-                      ]}
-                      onChange={(bool) => setTimePicker(bool)}
-                      value={isTimePicker}
-                    />
-                  </FormItem>
+                  {!dashboard.isBase && (
+                    <Fragment>
+                      <FormItem
+                        className="pt-5 w-1/2"
+                        tooltip="Allow to change layout"
+                        label="Is editable"
+                        error={errors.isEditable}
+                      >
+                        <RadioButtonGroup
+                          options={[
+                            { label: "Yes", value: true },
+                            { label: "No", value: false }
+                          ]}
+                          onChange={(bool) => setEditable(bool)}
+                          value={isEditable}
+                        />
+                      </FormItem>
+                      <FormItem
+                        className="pt-5 w-1/2"
+                        label="Show time picker"
+                        error={errors.isTimePicker}
+                      >
+                        <RadioButtonGroup
+                          options={[
+                            { label: "Yes", value: true },
+                            { label: "No", value: false }
+                          ]}
+                          onChange={(bool) => setTimePicker(bool)}
+                          value={isTimePicker}
+                        />
+                      </FormItem>
+                    </Fragment>
+                  )}
                 </div>
               </ColumnSection>
             )}

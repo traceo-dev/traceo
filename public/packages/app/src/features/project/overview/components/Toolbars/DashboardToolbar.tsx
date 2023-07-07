@@ -12,7 +12,11 @@ import {
   RightOutlined,
   SettingOutlined,
   UnlockOutlined,
-  DeleteFilled
+  DeleteFilled,
+  LockFilled,
+  UnlockFilled,
+  PlusCircleFilled,
+  SettingFilled
 } from "@ant-design/icons";
 import { useAppDispatch } from "../../../../../store/index";
 import { Fragment, useState } from "react";
@@ -114,16 +118,36 @@ export const DashboardToolbar = ({
   const onRemovePanel = () => setRemoveMode(!isRemoveMode);
 
   const lockIcon = dashboard.isEditable ? (
-    <LockOutlined />
+    <LockFilled />
   ) : (
-    <UnlockOutlined className="text-yellow-600" />
+    <UnlockFilled className="text-yellow-600" />
   );
 
   const removeIcon = isRemoveMode ? (
     <DeleteFilled className="text-yellow-600" />
   ) : (
-    <DeleteOutlined />
+    <DeleteFilled />
   );
+
+  const renderSwitch = () => {
+    if (dashboards.length === 1) {
+      return <span>{dashboard.name}</span>;
+    }
+
+    return (
+      <Popover
+        placement="bottom"
+        overrideStyles={{ marginTop: "15px" }}
+        showArrow={false}
+        content={renderPopoverContent()}
+      >
+        <div className="flex flex-row items-center gap-x-2 cursor-pointer">
+          <span>{dashboard.name}</span>
+          <CaretDownOutlined />
+        </div>
+      </Popover>
+    );
+  };
 
   return (
     <Fragment>
@@ -137,17 +161,7 @@ export const DashboardToolbar = ({
             <AppstoreFilled className="text-sm" />
             <span>Dashboard</span>
             <RightOutlined className="text-[9px]" />
-            <Popover
-              placement="bottom"
-              overrideStyles={{ marginTop: "15px" }}
-              showArrow={false}
-              content={renderPopoverContent()}
-            >
-              <div className="flex flex-row items-center gap-x-2 cursor-pointer">
-                <span>{dashboard.name}</span>
-                <CaretDownOutlined />
-              </div>
-            </Popover>
+            {renderSwitch()}
           </div>
 
           <Row
@@ -156,12 +170,12 @@ export const DashboardToolbar = ({
             <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
               {!isBaseDashboard && (
                 <Tooltip title="Add new panel">
-                  <PlusCircleOutlined onClick={() => onAddPanel()} className="cursor-pointer" />
+                  <PlusCircleFilled onClick={() => onAddPanel()} className="cursor-pointer" />
                 </Tooltip>
               )}
 
               <Tooltip title="Settings">
-                <SettingOutlined onClick={() => onEditDashboard()} className="cursor-pointer" />
+                <SettingFilled onClick={() => onEditDashboard()} className="cursor-pointer" />
               </Tooltip>
               {hasPanels && (
                 <Fragment>

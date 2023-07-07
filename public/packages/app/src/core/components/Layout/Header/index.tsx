@@ -6,7 +6,6 @@ import { useUser } from "../../../../core/hooks/useUser";
 import { LeftHeaderSection } from "./LeftHeaderSection";
 import { RightHeaderSection } from "./RightHeaderSection";
 import { Row } from "@traceo/ui";
-import {} from "./";
 import { BackButton } from "./BackButton";
 
 export const Header = () => {

@@ -3,7 +3,10 @@ import {
   WarningOutlined,
   ThunderboltOutlined,
   BarChartOutlined,
-  LineChartOutlined
+  LineChartOutlined,
+  CheckCircleFilled,
+  WarningFilled,
+  ThunderboltFilled
 } from "@ant-design/icons";
 import {
   ProjectMember,
@@ -36,15 +39,15 @@ export const mapIncidentTwBgColor: Record<IncidentStatus, string> = {
 };
 
 export const mapIncidentStatusIcon: Record<IncidentStatus, JSX.Element> = {
-  [IncidentStatus.RESOLVED]: <CheckCircleOutlined />,
-  [IncidentStatus.UNRESOLVED]: <WarningOutlined />,
-  [IncidentStatus.IN_PROGRESS]: <ThunderboltOutlined />
+  [IncidentStatus.RESOLVED]: <CheckCircleFilled />,
+  [IncidentStatus.UNRESOLVED]: <WarningFilled />,
+  [IncidentStatus.IN_PROGRESS]: <ThunderboltFilled />
 };
 
 export const mapHeaderStatusIcon: Record<IncidentStatus, JSX.Element> = {
-  [IncidentStatus.RESOLVED]: <CheckCircleOutlined className="text-green-600" />,
-  [IncidentStatus.UNRESOLVED]: <WarningOutlined className="text-red-600" />,
-  [IncidentStatus.IN_PROGRESS]: <ThunderboltOutlined className="text-purple-600" />
+  [IncidentStatus.RESOLVED]: <CheckCircleFilled className="text-green-600" />,
+  [IncidentStatus.UNRESOLVED]: <WarningFilled className="text-red-600" />,
+  [IncidentStatus.IN_PROGRESS]: <ThunderboltFilled className="text-purple-600" />
 };
 
 export const statusOptions: SelectOptionProps[] = Object.values(IncidentStatus).map((status) => ({

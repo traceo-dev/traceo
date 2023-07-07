@@ -7,6 +7,7 @@ import { MemberProject } from "@traceo/types";
 import { useProject } from "../../../../core/hooks/useProject";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { useUser } from "../../../../core/hooks/useUser";
+import { Fragment } from "react";
 
 export const LeftHeaderSection = () => {
   const navigate = useNavigate();
@@ -21,36 +22,45 @@ export const LeftHeaderSection = () => {
 
   const isProjectDashboard = window.location.pathname.split("/").includes("project");
 
-  return (
-    <Row gap="x-2">
-      {!isProjectDashboard ? (
+  const renderProjectSwitcher = () => {
+    if (isLoading) {
+      return <LoadingOutlined />;
+    }
+
+    return (
+      <Fragment>
+        <Avatar shape="square" size="sm" alt={project?.name} src={project?.gravatar} />
+        <span className="text-xs font-semibold">{project?.name}</span>
+
+        {projects.length > 1 && (
+          <Popover
+            placement="bottom-end"
+            showArrow={false}
+            overrideStyles={{
+              marginTop: "15px",
+              transitionDuration: 0
+            }}
+            content={<SwitchProjectPopover isLoading={isLoading} projects={projects} />}
+          >
+            <SwapOutlined className="text-xs cursor-pointer pl-5" />
+          </Popover>
+        )}
+      </Fragment>
+    );
+  };
+
+  const render = () => {
+    if (!isProjectDashboard) {
+      return (
         <Row gap="x-3" className="cursor-pointer" onClick={() => navigate("/dashboard/projects")}>
           <TraceoLogo size="small" />
           <span className="text-sm font-semibold">Traceo</span>
         </Row>
-      ) : (
-        <>
-          {isLoading ? (
-            <LoadingOutlined />
-          ) : (
-            <>
-              <Avatar shape="square" size="sm" alt={project?.name} src={project?.gravatar} />
-              <span className="text-xs font-semibold">{project?.name}</span>
-              <Popover
-                placement="bottom-end"
-                showArrow={false}
-                overrideStyles={{
-                  marginTop: "15px",
-                  transitionDuration: 0
-                }}
-                content={<SwitchProjectPopover isLoading={isLoading} projects={projects} />}
-              >
-                <SwapOutlined className="text-xs cursor-pointer pl-5" />
-              </Popover>
-            </>
-          )}
-        </>
-      )}
-    </Row>
-  );
+      );
+    }
+
+    return renderProjectSwitcher();
+  };
+
+  return <Row gap="x-2">{render()}</Row>;
 };
