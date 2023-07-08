@@ -2,7 +2,7 @@ import {
   BarChartOutlined,
   ClockCircleOutlined,
   NumberOutlined,
-  PlusSquareOutlined,
+  PlusOutlined,
   TableOutlined
 } from "@ant-design/icons";
 import {
@@ -75,7 +75,7 @@ const customPanels: SelectOptionProps[] = [
   {
     label: "Custom",
     value: "custom",
-    icon: <PlusSquareOutlined />
+    icon: <PlusOutlined />
   }
 ];
 

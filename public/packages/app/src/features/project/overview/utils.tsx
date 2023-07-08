@@ -11,6 +11,7 @@ import { randomHexColor } from "../../../core/utils/colors";
 import { PanelProps } from "./components/Panels/types";
 import { PlotPanel } from "./components/Panels/PlotPanel";
 import { StatPanel } from "./components/Panels/StatPanel";
+import { TextPanel } from "./components/Panels/TextPanel";
 
 export type QueryResponseType = {
   options: DashboardPanel;
@@ -23,6 +24,8 @@ export const GRID_COLS = { lg: 24, md: 12, sm: 6, xs: 4, xxs: 2 };
 export const GRID_ROW_HEIGHT = 30;
 export const GRID_PADDING = [0, 0];
 export const GRID_BASE_PANEL_HEIGHT = 100;
+export const GRID_MIN_WIDTH = 3;
+export const GRID_MIN_HEIGHT = 3;
 
 // get component based on selected visualization types
 export const getVisualizationComponent = (
@@ -35,6 +38,8 @@ export const getVisualizationComponent = (
       return <PlotPanel {...props} />;
     case VISUALIZATION_TYPE.STAT:
       return <StatPanel {...props} />;
+    case VISUALIZATION_TYPE.TEXT:
+      return <TextPanel {...props} />;
     default:
       return null;
   }
@@ -82,7 +87,8 @@ const panelConfig: PanelConfiguration = {
   text: {
     size: 0,
     weight: 0,
-    color: ""
+    color: "",
+    value: ""
   }
 };
 
@@ -176,7 +182,7 @@ export const dashboardPanelOptions: Record<DASHBOARD_PANEL_TYPE, DeepPartial<Das
             barWidth: 90,
             color: "#9a2e19",
             lineWidth: 1,
-            type: "line"
+            type: "bar"
           },
           name: "Events",
           description: undefined,
@@ -233,24 +239,29 @@ export const dashboardPanelOptions: Record<DASHBOARD_PANEL_TYPE, DeepPartial<Das
 
 export const validate = (options: DashboardPanel) => {
   const errors = [];
+  const visualization = options.config.visualization;
+  const canHaveNoSeries = [VISUALIZATION_TYPE.TEXT, VISUALIZATION_TYPE.STAT].includes(
+    visualization
+  );
+  const canHaveNoTitle = [VISUALIZATION_TYPE.TEXT].includes(visualization);
 
-  if (!options.title) {
+  if (!options.title && !canHaveNoTitle) {
     errors.push("Metric name is required.");
   }
 
   const series = options.config.series;
   if (series.length === 0) {
-    errors.push("You have to add at least one serie to this metric.");
+    errors.push("You have to add at least one serie to this panel.");
   }
 
   const missingName = series.find((serie) => !serie?.name);
   if (missingName) {
-    errors.push("Your metric serie does not have a required name value.");
+    errors.push("Your serie does not have a required name value.");
   }
 
   const missingField = series.find((serie) => !serie?.field);
-  if (missingField) {
-    errors.push("Your metric serie does not have a required field value.");
+  if (missingField && !canHaveNoSeries) {
+    errors.push("Your serie does not have a required field value.");
   }
 
   return errors;

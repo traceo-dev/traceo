@@ -98,8 +98,10 @@ export class EventQueryService {
         const from = dayjs().subtract(1, "months").unix();
         const to = dayjs().add(12, "h").utc().unix();
 
+        const INTERVAL = 60 * 24; //24h
+
         try {
-            return await this.getProjectGraphPayload(projectId, from, to);
+            return await this.getProjectGraphPayload(projectId, from, to, INTERVAL);
         } catch (error) {
             this.logger.error(`[${this.getTotalOverviewGraph.name}] Caused by: ${error}`);
             throw new BadRequestError(error);
@@ -136,9 +138,9 @@ export class EventQueryService {
         return [time, count];
     }
 
-    private async getProjectGraphPayload(projectId: string, from: number, to: number) {
+    private async getProjectGraphPayload(projectId: string, from: number, to: number, interval = 60) {
         const eventsGraph = await this.clickhouse.loadProjectEventsGraph(projectId, {
-            from, to, interval: 60
+            from, to, interval
         });
 
         const time = eventsGraph.map((e) => e.time);

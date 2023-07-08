@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { HistogramForm } from "./HistogramForm";
 import { TimeseriesForm } from "./TimeseriesForm";
 import { Header, Container } from "./components";
+import { TextForm } from "./TextForm";
 
 interface Props {
   data?: UplotDataType;
@@ -38,7 +39,8 @@ export const PanelCustomizeForm: FC<Props> = (props: Props) => {
       [VISUALIZATION_TYPE.TIME_SERIES]: <TimeseriesForm {...formProps} />,
       [VISUALIZATION_TYPE.HISTOGRAM]: <HistogramForm {...formProps} />,
       [VISUALIZATION_TYPE.GAUGE]: undefined,
-      [VISUALIZATION_TYPE.STAT]: undefined
+      [VISUALIZATION_TYPE.STAT]: undefined,
+      [VISUALIZATION_TYPE.TEXT]: <TextForm {...formProps} />
     };
 
     if (panelType === "custom") {

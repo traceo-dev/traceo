@@ -59,13 +59,14 @@ export const Popover: FC<PopoverProps> = ({
   return (
     <div ref={ref} {...triggerOptions[trigger]}>
       <PopoverCore
-        className="bg-primary rounded-sm z-50 border border-solid border-secondary text-sm"
+        className="bg-primary rounded-sm z-50 text-sm"
         visible={visible}
         content={content}
         placement={placement}
         showArrow={showArrow}
         overrideStyles={{
-          boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+          boxShadow: "rgb(1, 4, 9) 0px 8px 24px",
+          zIndex: 999,
           ...overrideStyles
         }}
       >

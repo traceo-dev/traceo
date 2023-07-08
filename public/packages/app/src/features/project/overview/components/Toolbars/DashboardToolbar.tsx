@@ -6,13 +6,7 @@ import {
   LoadingOutlined,
   AppstoreFilled,
   CaretDownOutlined,
-  DeleteOutlined,
-  LockOutlined,
-  PlusCircleOutlined,
   RightOutlined,
-  SettingOutlined,
-  UnlockOutlined,
-  DeleteFilled,
   LockFilled,
   UnlockFilled,
   PlusCircleFilled,
@@ -45,7 +39,6 @@ export const DashboardToolbar = ({
   showTimepicker = true,
   ranges = [undefined, undefined],
   onChangeRanges = undefined,
-  isRemoveMode = false,
   setRemoveMode = undefined
 }: Props) => {
   const navigate = useNavigate();
@@ -82,7 +75,7 @@ export const DashboardToolbar = ({
       onClick: () => onSelectDashboard(dashboard.id)
     }));
 
-    return <PopoverSelectOptions title="Select dashboard" options={options} />;
+    return <PopoverSelectOptions options={options} />;
   };
 
   const onEditDashboard = () => {
@@ -115,18 +108,10 @@ export const DashboardToolbar = ({
       .catch(() => notify.error(TRY_AGAIN_LATER_ERROR));
   };
 
-  const onRemovePanel = () => setRemoveMode(!isRemoveMode);
-
   const lockIcon = dashboard.isEditable ? (
     <LockFilled />
   ) : (
     <UnlockFilled className="text-yellow-600" />
-  );
-
-  const removeIcon = isRemoveMode ? (
-    <DeleteFilled className="text-yellow-600" />
-  ) : (
-    <DeleteFilled />
   );
 
   const renderSwitch = () => {
@@ -178,20 +163,11 @@ export const DashboardToolbar = ({
                 <SettingFilled onClick={() => onEditDashboard()} className="cursor-pointer" />
               </Tooltip>
               {hasPanels && (
-                <Fragment>
-                  <Tooltip title={dashboard.isEditable ? "Lock dashboard" : "Unlock dashboard"}>
-                    <div onClick={() => onLockDashboard()} className="cursor-pointer">
-                      {lockIcon}
-                    </div>
-                  </Tooltip>
-                  {!isBaseDashboard && (
-                    <Tooltip title="Remove panels">
-                      <div onClick={() => onRemovePanel()} className="cursor-pointer">
-                        {removeIcon}
-                      </div>
-                    </Tooltip>
-                  )}
-                </Fragment>
+                <Tooltip title={dashboard.isEditable ? "Lock dashboard" : "Unlock dashboard"}>
+                  <div onClick={() => onLockDashboard()} className="cursor-pointer">
+                    {lockIcon}
+                  </div>
+                </Tooltip>
               )}
             </Permissions>
           </Row>

@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  ValidateIf,
   ValidateNested
 } from "class-validator";
 import { METRIC_UNIT, PLOT_TYPE, TOOLTIP_POSITION, VISUALIZATION_TYPE } from "@traceo/types";
@@ -138,6 +139,10 @@ class UpdateMetricTextDto {
   @IsString()
   @IsOptional()
   color: string = "rect";
+
+  @IsString()
+  @IsOptional()
+  value: string;
 }
 
 class UpdateMetricAxisDto {
@@ -244,7 +249,8 @@ class UpdateSerieMetricDto {
   unit: METRIC_UNIT = METRIC_UNIT.NONE;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
+  // @IsNotEmpty()
   field: string;
 
   // @IsString()

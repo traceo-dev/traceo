@@ -1,12 +1,20 @@
 import { HTMLProps, forwardRef, useState } from "react";
 import { ContentCard } from "../../../../../core/components/ContentCard";
-import { DashboardPanel as DashboardPanelType, Setter, TimeRange } from "@traceo/types";
+import { ApiResponse, DashboardPanel as DashboardPanelType, TimeRange } from "@traceo/types";
 import { useNavigate, useParams } from "react-router-dom";
-import { CloseOutlined } from "@ant-design/icons";
-import { RemovePanelConfirm } from "../RemovePanelConfirm";
+import { DeleteOutlined, DragOutlined, EllipsisOutlined, EyeOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "src/store";
 import { loadDashboard } from "../../state/actions";
 import { PanelFallback } from "./PanelFallback";
+import styled from "styled-components";
+import { Popover } from "@traceo/ui";
+import {
+  PopoverSelectOptions,
+  PopoverSelectOptionsProps
+} from "src/core/components/PopoverSelectOptions";
+import { useDashboard } from "src/core/hooks/useDashboard";
+import api from "src/core/lib/api";
+import { notify } from "src/core/utils/notify";
 
 interface Props extends Pick<HTMLProps<HTMLDivElement>, "className"> {
   title?: string;
@@ -15,11 +23,10 @@ interface Props extends Pick<HTMLProps<HTMLDivElement>, "className"> {
   loading?: boolean;
   children: JSX.Element;
   isEditable?: boolean;
-  isRemoveMode?: boolean;
   isError?: boolean;
   isEmpty?: boolean;
   isErrorExplain?: boolean;
-  setHover?: Setter<boolean>;
+  isHoverOptions?: boolean;
   ranges: TimeRange;
 }
 
@@ -32,8 +39,8 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
       loading = false,
       className = undefined,
       isEditable = false,
-      isRemoveMode = false,
       isErrorExplain = true,
+      isHoverOptions = true,
       isError = false,
       isEmpty = false,
       ranges = [undefined, undefined],
@@ -43,12 +50,14 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
   ) => {
     const { id, dashboardId } = useParams();
 
+    const { dashboard } = useDashboard();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
     const [isHover, setHover] = useState<boolean>(false);
 
     const panelName = !title ? panel.title : title;
+    const isBaseDashboard = dashboard.isBase;
 
     // To not showing tooltip when there is "preview" mode
     const tooltipValue = title ? undefined : panel?.description;
@@ -61,31 +70,33 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
       });
     };
 
+    const onRemove = async () => {
+      await api
+        .delete<ApiResponse<string>>(`/api/dashboard/panel/${panel.id}`)
+        .then(() => {
+          navigate(`/project/${id}/dashboard/${dashboardId}`);
+        })
+        .catch(() => notify.error("Panel cannot be deleted. Please try again later."))
+        .finally(() => dispatch(loadDashboard(dashboardId)));
+    };
+
     const renderOptions = () => {
-      if (options) {
-        return options;
-      }
+      const options: PopoverSelectOptionsProps[] = [
+        {
+          label: "View",
+          icon: <EyeOutlined />,
+          onClick: () => onNavigate()
+        }
+      ];
 
-      if (isRemoveMode) {
-        return (
-          <RemovePanelConfirm panelId={panel.id} postExecute={onRemovePanel}>
-            <CloseOutlined className="text-xs cursor-pointer hover:text-yellow-600" />
-          </RemovePanelConfirm>
-        );
+      if (!isBaseDashboard) {
+        options.push({
+          label: "Remove",
+          icon: <DeleteOutlined />,
+          onClick: () => onRemove()
+        });
       }
-
-      if (isHover) {
-        return (
-          <span
-            onClick={onNavigate}
-            className="hover:text-sky-600 text-xs cursor-pointer font-semibold"
-          >
-            View
-          </span>
-        );
-      }
-
-      return undefined;
+      return <PopoverSelectOptions title="Options" options={options} />;
     };
 
     return (
@@ -95,11 +106,33 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
         onMouseLeave={() => setHover && setHover(false)}
         name={panelName}
         tooltip={tooltipValue}
+        extra={options}
         loading={loading}
         className={className}
-        extra={renderOptions()}
         isDraggable={isEditable}
       >
+        {isHover && isHoverOptions && (
+          <NoHeaderOptions>
+            {!panelName && <DragOutlined className="drag-handle cursor-move hover:text-white" />}
+            {isBaseDashboard && (
+              <EyeOutlined
+                className="cursor-pointer hover:text-white text-xs px-1"
+                onClick={() => onNavigate()}
+              />
+            )}
+            {!isBaseDashboard && (
+              <Popover
+                showArrow={false}
+                trigger="click"
+                placement="bottom-end"
+                overrideStyles={{ marginTop: "15px" }}
+                content={renderOptions()}
+              >
+                <EllipsisOutlined className="cursor-pointer hover:text-white" />
+              </Popover>
+            )}
+          </NoHeaderOptions>
+        )}
         <PanelFallback
           isLoading={loading}
           isEmpty={isEmpty}
@@ -112,3 +145,19 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
     );
   }
 );
+
+const NoHeaderOptions = styled.div`
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 1;
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px !important;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+  font-size: 16px;
+  border-bottom-left-radius: 2px;
+`;

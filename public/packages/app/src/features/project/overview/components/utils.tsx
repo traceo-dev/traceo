@@ -25,7 +25,8 @@ export const mapVisualizationName: Record<VISUALIZATION_TYPE, string> = {
   [VISUALIZATION_TYPE.TIME_SERIES]: "Time series",
   [VISUALIZATION_TYPE.HISTOGRAM]: "Histogram",
   [VISUALIZATION_TYPE.GAUGE]: "Gauge",
-  [VISUALIZATION_TYPE.STAT]: "Stat"
+  [VISUALIZATION_TYPE.STAT]: "Stat",
+  [VISUALIZATION_TYPE.TEXT]: "Text"
   // [VISUALIZATION_TYPE.TABLE]: "Table"
 };
 

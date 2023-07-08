@@ -7,7 +7,7 @@ import { DashboardToolbar } from "./components/Toolbars/DashboardToolbar";
 import { DashboardGridLayout, GridLayout } from "./components/DashboardGrid/DashboardGridLayout";
 import styled from "styled-components";
 import api from "../../../core/lib/api";
-import { DashboardPanel, TimeRange, VISUALIZATION_TYPE } from "@traceo/types";
+import { DashboardPanel, TimeRange } from "@traceo/types";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
 import { PageCenter } from "../../../core/components/PageCenter";
@@ -16,7 +16,12 @@ import { PlusOutlined } from "@ant-design/icons";
 import { notify } from "../../../core/utils/notify";
 import { SelectPanelModal } from "./components/SelectPanelModal";
 import { useDashboard } from "../../../core/hooks/useDashboard";
-import { calculatePlotHeight, getVisualizationComponent } from "./utils";
+import {
+  GRID_MIN_HEIGHT,
+  GRID_MIN_WIDTH,
+  calculatePlotHeight,
+  getVisualizationComponent
+} from "./utils";
 import { PanelProps } from "./components/Panels/types";
 
 const GridPanelItem = styled.div`
@@ -56,7 +61,9 @@ export const DashboardPage = () => {
       x: panel.gridPosition.x,
       y: panel.gridPosition.y,
       w: panel.gridPosition.w,
-      h: panel.gridPosition.h
+      h: panel.gridPosition.h,
+      minW: GRID_MIN_WIDTH,
+      minH: GRID_MIN_HEIGHT
     }));
   };
 

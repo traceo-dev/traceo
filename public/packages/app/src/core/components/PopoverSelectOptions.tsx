@@ -1,32 +1,63 @@
-import { AppstoreFilled } from "@ant-design/icons";
 import { Row } from "@traceo/ui";
+import styled from "styled-components";
 
-type PopoverSelectOptionsProps = {
+const Wrapper = styled.div`
+  min-width: 180px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-primary);
+  z-index: 1;
+  border-radius: 2px;
+`;
+
+const Option = styled.div`
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+  color: rgb(204, 204, 220);
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 8px 16px;
+  min-height: 32px;
+  margin: 0px;
+  border: none;
+  width: 100%;
+  position: relative;
+
+  &:hover {
+    background-color: var(--color-bg-secondary);
+  }
+`;
+
+const Header = styled.span`
+  padding: 8px 16px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--color-bg-secondary);
+`;
+
+export type PopoverSelectOptionsProps = {
   label: string;
   icon?: JSX.Element;
   onClick?: () => void;
 };
 
 interface Props {
-  title: string;
+  title?: string;
   options: PopoverSelectOptionsProps[];
 }
 export const PopoverSelectOptions = ({ options, title }: Props) => {
   return (
-    <div className="min-w-[180px] flex flex-col font-normal bg-canvas">
-      <span className="text-2xs text-primary font-semibold p-3 uppercase">{title}</span>
+    <Wrapper>
+      {title && <Header>{title}</Header>}
       {options.map((option, key) => (
-        <span
-          key={key}
-          onClick={() => option?.onClick && option?.onClick()}
-          className="text-sm p-2 hover:bg-secondary cursor-pointer text-primary"
-        >
+        <Option key={key} onClick={() => option?.onClick && option?.onClick()}>
           <Row gap="x-3">
             {option.icon}
             {option.label}
           </Row>
-        </span>
+        </Option>
       ))}
-    </div>
+    </Wrapper>
   );
 };

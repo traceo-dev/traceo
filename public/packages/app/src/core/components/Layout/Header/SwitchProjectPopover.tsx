@@ -29,7 +29,7 @@ export const SwitchProjectPopover = ({ projects, isLoading }: Props) => {
         (window.location.href = `/project/${project?.projectId}/dashboard/${project?.mainDashboardId}`)
     }));
 
-    return <PopoverSelectOptions title="Select project" options={options} />;
+    return <PopoverSelectOptions options={options} />;
   };
 
   return renderOptions();

@@ -31,7 +31,7 @@ export const ContentCard = forwardRef<any, Props>(
       <div
         ref={ref}
         className={joinClasses(
-          "flex flex-col bg-primary border border-solid border-secondary rounded-[2px] mb-1",
+          "flex flex-col bg-primary border border-solid border-secondary rounded-[2px] mb-1 relative",
           conditionClass(loading, "loading-border"),
           className
         )}

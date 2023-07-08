@@ -226,3 +226,25 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   width: 1px;
 }
 /* END TRACES */
+
+/* @uiw/react-markdown-preview */
+
+.wmde-markdown h1,
+.wmde-markdown h2,
+.wmde-markdown h3,
+.wmde-markdown h4,
+.wmde-markdown h5,
+.wmde-markdown h6 {
+  border-bottom: none !important;
+}
+
+.wmde-markdown h1 .octicon-link,
+.wmde-markdown h2 .octicon-link,
+.wmde-markdown h3 .octicon-link,
+.wmde-markdown h4 .octicon-link,
+.wmde-markdown h5 .octicon-link,
+.wmde-markdown h6 .octicon-link {
+  display: none !important;
+}
+
+/* END */

@@ -63,7 +63,7 @@ export class DashboardPanelDto {
     @IsString()
     dashboardId: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     title: string;
 

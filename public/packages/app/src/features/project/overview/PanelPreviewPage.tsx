@@ -45,8 +45,16 @@ export const PanelPreviewPage = () => {
   const [saveLoading, setSaveLoading] = useState<boolean>(false);
 
   const isCustomPanel = options?.type === "custom";
-  const isTimePicker = isCustomPanel && !isCustomizeMode;
-  const isRawDataPreview = options?.config.visualization !== VISUALIZATION_TYPE.STAT;
+  const visualization = options?.config.visualization;
+
+  const isTimePicker =
+    ![VISUALIZATION_TYPE.STAT, VISUALIZATION_TYPE.TEXT].includes(visualization) &&
+    isCustomPanel &&
+    !isCustomizeMode;
+
+  const isRawDataPreview = ![VISUALIZATION_TYPE.STAT, VISUALIZATION_TYPE.TEXT].includes(
+    visualization
+  );
 
   const {
     data: rawData = [],
@@ -163,6 +171,7 @@ export const PanelPreviewPage = () => {
       title: mapVisualizationName[visualization],
       isEditable: false,
       isRemoveMode: false,
+      isHoverOptions: false,
       panel: options,
       ranges: ranges,
       onChangeTimeRange: setRanges

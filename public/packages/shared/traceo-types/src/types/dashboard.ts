@@ -1,4 +1,4 @@
-import { METRIC_UNIT, IMetricSerie, PLOT_TYPE } from "./metrics";
+import { METRIC_UNIT, IMetricSerie } from "./metrics";
 
 export interface Dashboard {
     id: string;
@@ -63,6 +63,7 @@ export interface PanelConfiguration {
         size?: number;
         weight?: number;
         color?: string;
+        value?: string;
     };
 }
 
@@ -70,7 +71,8 @@ export enum VISUALIZATION_TYPE {
     TIME_SERIES = "time_series",
     HISTOGRAM = "histogram",
     GAUGE = "gauge",
-    STAT = "stat"
+    STAT = "stat",
+    TEXT = "text"
     // TABLE = "table"
 };
 

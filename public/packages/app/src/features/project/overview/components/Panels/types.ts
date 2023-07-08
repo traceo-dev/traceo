@@ -4,6 +4,7 @@ export interface PanelProps {
   title?: string;
   isEditable: boolean;
   isRemoveMode: boolean;
+  isHoverOptions?: boolean;
   panel: DashboardPanel;
   ranges: TimeRange;
   height?: number;
