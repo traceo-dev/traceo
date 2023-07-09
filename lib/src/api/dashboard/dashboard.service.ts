@@ -9,6 +9,7 @@ import { ProjectQueryService } from '../project/project-query/project-query.serv
 import { DashboardDto, DashboardPanelDto, LayoutChangeDto } from '../../common/types/dto/dashboard.dto';
 import { DashboardQueryService } from './dashboard-query/dashboard-query.service';
 import dateUtils from '../../common/helpers/dateUtils';
+import { DashboardPanel as DashboardPanelType } from "@traceo/types";
 
 /**
  * TODO: semaphors to crud operations on dashboards/panels
@@ -53,6 +54,16 @@ export class DashboardService {
         }
     }
 
+    public async batchCreatePanels(panels: DashboardPanelType[], manager: EntityManager = this.entityManager) {
+        console.log("barch: ", panels);
+        return await manager
+            .createQueryBuilder()
+            .insert()
+            .into(DashboardPanel)
+            .values(panels)
+            .execute();
+    }
+
     public async createPanel(dto: DashboardPanelDto): Promise<ApiResponse<DashboardPanel>> {
         try {
             const dashboard = await this.dashboardQueryService.getDto(dto.dashboardId);
@@ -62,7 +73,8 @@ export class DashboardService {
 
             const panel = await this.entityManager.getRepository(DashboardPanel).save({
                 ...dto,
-                dashboard
+                dashboard,
+                createdAt: dateUtils.toUnix()
             });
             return new ApiResponse("success", undefined, panel);
         } catch (err) {

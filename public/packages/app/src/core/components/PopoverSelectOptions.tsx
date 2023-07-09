@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   background-color: var(--color-bg-primary);
-  z-index: 1;
+  z-index: 999 !important;
   border-radius: 2px;
 `;
 

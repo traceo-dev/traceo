@@ -35,11 +35,7 @@ export const LeftHeaderSection = () => {
         {projects.length > 1 && (
           <Popover
             placement="bottom-end"
-            showArrow={false}
-            overrideStyles={{
-              marginTop: "15px",
-              transitionDuration: 0
-            }}
+            overrideStyles={{ transitionDuration: 0 }}
             content={<SwitchProjectPopover isLoading={isLoading} projects={projects} />}
           >
             <SwapOutlined className="text-xs cursor-pointer pl-5" />

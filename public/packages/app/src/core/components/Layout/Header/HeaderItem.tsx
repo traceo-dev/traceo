@@ -23,11 +23,15 @@ export const HeaderItem = ({ route }: HeaderItemProps) => {
     return location.pathname.split("/").includes(key);
   };
 
+  const getDashboard = () => {
+    return localStorage.getItem("dashboard") ?? project?.mainDashboardId;
+  };
+
   const parsePath = () =>
     href
       .replace(":id", project?.id)
       .replace(":incidentId", incident?.id)
-      .replace(":dashboardId", project?.mainDashboardId);
+      .replace(":dashboardId", getDashboard());
 
   const handleOnClick = () => onClick && onClick();
 

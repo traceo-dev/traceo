@@ -4,10 +4,6 @@
   background: rgba(120, 120, 130, 0.2);
 }
 
-.shared-crosshair:not(.plot-active) .u-cursor-pt {
-  display: none !important;
-}
-
 .u-legend {
   text-align: left;
   margin-left: 22px;
@@ -25,4 +21,8 @@
 .u-legend th > * {
   font-weight: 400;
   font-size: 13px;
+}
+
+.u-cursor-line {
+  background-color: red; /* Change this to the desired color */
 }

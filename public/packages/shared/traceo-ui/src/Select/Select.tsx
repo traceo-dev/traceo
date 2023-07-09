@@ -92,7 +92,7 @@ const Option: FC<SelectMenuOptionProps> = ({ data, innerProps, innerRef, isSelec
       )}
       <div className="flex flex-col">
         <span className="text-sm">{data.label}</span>
-        <span className="text-xs font-normal">{data.description}</span>
+        <span className="text-xs font-normal text-secondary">{data.description}</span>
       </div>
     </div>
   );

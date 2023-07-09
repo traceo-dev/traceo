@@ -20,7 +20,7 @@ export const SwitchProjectPopover = ({ projects, isLoading }: Props) => {
       </div>
     );
   }
-  
+
   const renderOptions = () => {
     const options = availableProjects.map((project) => ({
       icon: <Avatar size="sm" shape="square" alt={project?.name} src={project?.gravatar} />,
@@ -29,7 +29,7 @@ export const SwitchProjectPopover = ({ projects, isLoading }: Props) => {
         (window.location.href = `/project/${project?.projectId}/dashboard/${project?.mainDashboardId}`)
     }));
 
-    return <PopoverSelectOptions options={options} />;
+    return <PopoverSelectOptions title="Select project" options={options} />;
   };
 
   return renderOptions();

@@ -107,13 +107,8 @@ const EditDashboardPage = () => {
           >
             {({ register, errors }) => (
               <ColumnSection subtitle="Update basic information about this dashboard.">
-                <div>
-                  <FormItem
-                    className="pt-2 w-1/2"
-                    showRequiredMark={true}
-                    label="Name"
-                    error={errors.name}
-                  >
+                <Fragment>
+                  <FormItem className="pt-2 w-1/2" label="Name" error={errors.name}>
                     <Input
                       {...register("name", {
                         required: true
@@ -153,7 +148,7 @@ const EditDashboardPage = () => {
                       </FormItem>
                     </Fragment>
                   )}
-                </div>
+                </Fragment>
               </ColumnSection>
             )}
           </Form>

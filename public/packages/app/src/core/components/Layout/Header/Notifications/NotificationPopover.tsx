@@ -23,9 +23,8 @@ export const NotificationPopover = () => {
 
   return (
     <Popover
-      showArrow={false}
       placement="bottom-start"
-      overrideStyles={{ transitionDuration: 0, marginTop: "10px" }}
+      overrideStyles={{ transitionDuration: 0 }}
       content={
         <div className="w-full flex flex-col" style={{ minWidth: "350px" }}>
           <span className="font-semibold p-2 text-sm">Notifications</span>

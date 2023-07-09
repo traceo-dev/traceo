@@ -14,6 +14,7 @@ import { ApiResponse } from "../../common/types/dto/response.dto";
 import { MemberRole, UserStatus } from "@traceo/types";
 import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
 import { DashboardService } from "../dashboard/dashboard.service";
+import { initialDashboardPanels } from "../dashboard/base.dashboards";
 
 @Injectable()
 export class ProjectService {
@@ -29,12 +30,12 @@ export class ProjectService {
     this.logger = new Logger(ProjectService.name);
   }
 
-  public async create(data: CreateProjectDto): Promise<ApiResponse<Project>> {
+  public async create(dto: CreateProjectDto): Promise<ApiResponse<Project>> {
     const { id, username } = RequestContext.user;
 
     return this.entityManager
       .transaction(async (manager) => {
-        const isExists = await this.projectQueryService.getDtoBy({ name: data.name });
+        const isExists = await this.projectQueryService.getDtoBy({ name: dto.name });
         if (isExists) {
           return new ApiResponse("error", undefined, {
             error: "Project with this name already exists"
@@ -46,9 +47,9 @@ export class ProjectService {
           throw new Error(INTERNAL_SERVER_ERROR);
         }
 
-        const url = gravatar.url(data.name, "identicon");
+        const url = gravatar.url(dto.name, "identicon");
         const payload: Partial<Project> = {
-          ...data,
+          ...dto,
           id: uuidService.generate(),
           createdAt: dateUtils.toUnix(),
           updatedAt: dateUtils.toUnix(),
@@ -57,11 +58,6 @@ export class ProjectService {
         };
 
         const project = await manager.getRepository(Project).save(payload);
-        // if (!BROWSER_SDK.includes(data.sdk)) {
-        //   // In server-project we have to create default metrics configurations
-        //   await this.metricsService.addDefaultMetrics(project, manager);
-        // }
-
         if (username !== ADMIN_NAME) {
           const admin = await this.userQueryService.getDtoBy({ email: ADMIN_EMAIL });
           await this.memberService.createMember(
@@ -82,6 +78,10 @@ export class ProjectService {
           isTimePicker: false,
           isBase: true
         }, project, manager);
+
+        const panels = initialDashboardPanels.map((panel) => ({ ...panel, dashboard }));
+        console.log({ panels })
+        await this.dashboardService.batchCreatePanels(panels, manager);
 
         await this.update(project.id, { mainDashboardId: dashboard.id }, manager);
 

@@ -30,10 +30,9 @@ export const TimePickerInput = ({
     <Popover
       disabled={disabled}
       open={open}
-      overrideStyles={{ transitionDuration: 0, marginTop: "10px" }}
+      overrideStyles={{ transitionDuration: 0 }}
       placement="bottom-start"
       content={popoverContent}
-      showArrow={false}
     >
       <div
         onClick={onClick}

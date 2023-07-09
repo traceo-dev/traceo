@@ -31,7 +31,7 @@ export const ColorPicker = ({ color, onChange, children, placement = "bottom" }:
   );
 
   return (
-    <Popover placement={placement} showArrow={false} content={pickerContent()}>
+    <Popover placement={placement} content={pickerContent()}>
       {children}
     </Popover>
   );

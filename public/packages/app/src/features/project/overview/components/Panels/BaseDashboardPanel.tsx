@@ -62,7 +62,6 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
     // To not showing tooltip when there is "preview" mode
     const tooltipValue = title ? undefined : panel?.description;
 
-    const onRemovePanel = () => dispatch(loadDashboard(dashboardId));
     const onNavigate = () => {
       navigate({
         pathname: `/project/${id}/dashboard/${dashboardId}/panel/${panel.id}`,
@@ -121,13 +120,7 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
               />
             )}
             {!isBaseDashboard && (
-              <Popover
-                showArrow={false}
-                trigger="click"
-                placement="bottom-end"
-                overrideStyles={{ marginTop: "15px" }}
-                content={renderOptions()}
-              >
+              <Popover trigger="click" placement="bottom-end" content={renderOptions()}>
                 <EllipsisOutlined className="cursor-pointer hover:text-white" />
               </Popover>
             )}

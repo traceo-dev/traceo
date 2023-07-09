@@ -115,7 +115,7 @@ export class EventQueryService {
             const lastEventTimestamp = project.lastEventAt;
 
             if (!lastEventTimestamp) {
-                return new ApiResponse("success", undefined, NO_TIMESTAMP);
+                return NO_TIMESTAMP;
             }
 
             return dayjs.unix(lastEventTimestamp).utc().isToday() ? dateUtils.formatDate(lastEventTimestamp, "HH:mm") : NO_TIMESTAMP;

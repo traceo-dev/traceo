@@ -57,11 +57,7 @@ export const RightHeaderSection = () => {
         <ServerPermissions>
           <Popover
             placement="bottom-end"
-            showArrow={false}
-            overrideStyles={{
-              marginTop: "15px",
-              transitionDuration: "50ms"
-            }}
+            overrideStyles={{ transitionDuration: "50ms" }}
             content={renderNewResource()}
           >
             <HeaderButton>

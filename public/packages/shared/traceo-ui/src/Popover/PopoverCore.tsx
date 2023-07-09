@@ -1,5 +1,5 @@
 import { joinClasses } from "../utils/classes";
-import { defaultTransitionStyles, transitionStyles, Arrow } from "./style";
+import { defaultTransitionStyles, transitionStyles } from "./style";
 import { Placement } from "@popperjs/core";
 import React, { forwardRef } from "react";
 import { Manager, Reference, Popper } from "react-popper";
@@ -11,21 +11,12 @@ interface PopoverCoreProps {
   children?: JSX.Element;
   placement?: Placement;
   className?: string;
-  showArrow?: boolean;
   chilren?: JSX.Element;
   overrideStyles?: object;
 }
 
 export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
-  const {
-    content,
-    children,
-    placement = "auto",
-    visible,
-    className,
-    showArrow = true,
-    overrideStyles
-  } = props;
+  const { content, children, placement = "auto", visible, className, overrideStyles } = props;
 
   return (
     <Manager ref={ref}>
@@ -34,7 +25,7 @@ export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
       <Transition in={visible} timeout={200} unmountOnExit={true}>
         {(state) => (
           <Popper placement={placement}>
-            {({ ref, style, placement, arrowProps }) => (
+            {({ ref, style, placement }) => (
               <div
                 id="popover-traceo"
                 ref={ref}
@@ -48,7 +39,6 @@ export const PopoverCore = forwardRef<any, PopoverCoreProps>((props, ref) => {
                 className={joinClasses("popper", className)}
               >
                 {content}
-                {showArrow && <Arrow {...arrowProps} placement={placement} data-popper-arrow />}
               </div>
             )}
           </Popper>

@@ -2,7 +2,10 @@ import {
   AreaChartOutlined,
   BarChartOutlined,
   DotChartOutlined,
-  LineChartOutlined
+  FieldNumberOutlined,
+  FontColorsOutlined,
+  LineChartOutlined,
+  NumberOutlined
 } from "@ant-design/icons";
 import {
   DeepPartial,
@@ -13,7 +16,7 @@ import {
   STACK_STRATEGY,
   VISUALIZATION_TYPE
 } from "@traceo/types";
-import { LabelPosition } from "@traceo/ui";
+import { LabelPosition, SelectOptionProps } from "@traceo/ui";
 import { sameArrayValues } from "../../../../core/utils/arrays";
 
 export const unitOptions = Object.values(METRIC_UNIT).map((unit) => ({
@@ -30,10 +33,31 @@ export const mapVisualizationName: Record<VISUALIZATION_TYPE, string> = {
   // [VISUALIZATION_TYPE.TABLE]: "Table"
 };
 
-export const visualizationOptions = Object.values(VISUALIZATION_TYPE).map((type) => ({
-  value: type,
-  label: mapVisualizationName[type]
-}));
+const mapVisualizationDescription: Record<VISUALIZATION_TYPE, string> = {
+  [VISUALIZATION_TYPE.TIME_SERIES]: "Series of data points indexed in time order",
+  [VISUALIZATION_TYPE.HISTOGRAM]:
+    "Graphical representation of data points organized into user-specified ranges",
+  [VISUALIZATION_TYPE.GAUGE]: "Single numerical value that can arbitrarily go up and down",
+  [VISUALIZATION_TYPE.STAT]: "The value corresponds to the specified stat",
+  [VISUALIZATION_TYPE.TEXT]: "Support for markdown text"
+};
+
+const mapVisualizationIcon: Record<VISUALIZATION_TYPE, JSX.Element> = {
+  [VISUALIZATION_TYPE.TIME_SERIES]: <AreaChartOutlined />,
+  [VISUALIZATION_TYPE.HISTOGRAM]: <BarChartOutlined />,
+  [VISUALIZATION_TYPE.GAUGE]: <FieldNumberOutlined />,
+  [VISUALIZATION_TYPE.STAT]: <NumberOutlined />,
+  [VISUALIZATION_TYPE.TEXT]: <FontColorsOutlined />
+};
+
+export const visualizationOptions: SelectOptionProps[] = Object.values(VISUALIZATION_TYPE).map(
+  (type) => ({
+    value: type,
+    label: mapVisualizationName[type],
+    description: mapVisualizationDescription[type],
+    icon: mapVisualizationIcon[type]
+  })
+);
 
 export const mapPlotName: Record<PLOT_TYPE, string> = {
   bar: "Bar",

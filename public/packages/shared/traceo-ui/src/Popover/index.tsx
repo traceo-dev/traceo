@@ -63,10 +63,10 @@ export const Popover: FC<PopoverProps> = ({
         visible={visible}
         content={content}
         placement={placement}
-        showArrow={showArrow}
         overrideStyles={{
           boxShadow: "rgb(1, 4, 9) 0px 8px 24px",
-          zIndex: 999,
+          zIndex: 99999,
+          marginTop: "15px",
           ...overrideStyles
         }}
       >

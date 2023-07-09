@@ -25,6 +25,7 @@ import { Permissions } from "../../../../../core/components/Permissions";
 import { notify } from "../../../../../core/utils/notify";
 import { SelectPanelModal } from "../SelectPanelModal";
 import { useDashboard } from "../../../../../core/hooks/useDashboard";
+import { localStorageService } from "src/core/lib/localStorage";
 
 const MAX_DATE = new Date(dayjs().unix() * 1e3);
 
@@ -59,6 +60,7 @@ export const DashboardToolbar = ({
   });
 
   const onSelectDashboard = (id: string) => {
+    localStorageService.set("dashboard", id);
     navigate({
       pathname: `/project/${project.id}/dashboard/${id}`
     });
@@ -120,12 +122,7 @@ export const DashboardToolbar = ({
     }
 
     return (
-      <Popover
-        placement="bottom"
-        overrideStyles={{ marginTop: "15px" }}
-        showArrow={false}
-        content={renderPopoverContent()}
-      >
+      <Popover placement="bottom" content={renderPopoverContent()}>
         <div className="flex flex-row items-center gap-x-2 cursor-pointer">
           <span>{dashboard.name}</span>
           <CaretDownOutlined />

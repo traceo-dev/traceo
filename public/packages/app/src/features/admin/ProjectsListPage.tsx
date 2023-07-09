@@ -30,7 +30,7 @@ export const ProjectsListPage = () => {
         extra={
           <RouterLink to={"/dashboard/new-project"}>
             <Button size="sm" icon={<PlusOutlined />}>
-              New aplication
+              New project
             </Button>
           </RouterLink>
         }

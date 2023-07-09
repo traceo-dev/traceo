@@ -34,7 +34,6 @@ export const Tooltip = forwardRef<any, TooltipProps>(
           content={tooltipTitle}
           placement={placement}
           overrideStyles={overrideStyles}
-          showArrow={false}
         >
           {/* React.cloneElement(children, { onMouse... }) */}
           {children}
