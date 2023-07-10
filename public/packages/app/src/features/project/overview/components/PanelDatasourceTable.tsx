@@ -1,37 +1,46 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { MetricResponseType } from "@traceo/types";
+import { DashboardPanel, MetricResponseType } from "@traceo/types";
 import { Table, TableColumn } from "@traceo/ui";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import dayjs from "dayjs";
 
 interface Props {
+  panel?: DashboardPanel;
   fields?: string[];
   metricData: MetricResponseType[];
   isLoading: boolean;
 }
-export const PanelDatasourceTable: FC<Props> = ({ fields = [], metricData, isLoading }) => (
-  <ConditionalWrapper
-    isEmpty={metricData.length === 0}
-    isLoading={isLoading}
-    emptyView={<DataNotFound />}
-  >
-    <Table
-      loading={isLoading}
-      collection={metricData}
-      hovered
-      showPagination={true}
-      pageSize={50}
-      rowsCount={metricData?.length}
+export const PanelDatasourceTable: FC<Props> = ({ metricData, isLoading, panel, fields }) => {
+  const columns =
+    fields ??
+    useMemo(() => {
+      return panel?.config.series.map(({ field }) => field);
+    }, [panel]);
+
+  return (
+    <ConditionalWrapper
+      isEmpty={metricData.length === 0}
+      isLoading={isLoading}
+      emptyView={<DataNotFound />}
     >
-      <TableColumn name="Time">
-        {({ item }) => dayjs.unix(Number(item.minute)).format("YYYY-MM-DD HH:mm:ss")}
-      </TableColumn>
-      {fields.map((field, index) => (
-        <TableColumn key={index} name={field}>
-          {({ item }) => <span>{item[field] ? <span>{item[field]}</span> : "-"}</span>}
+      <Table
+        loading={isLoading}
+        collection={metricData}
+        hovered
+        showPagination={true}
+        pageSize={50}
+        rowsCount={metricData?.length}
+      >
+        <TableColumn name="Time">
+          {({ item }) => dayjs.unix(Number(item.minute)).format("YYYY-MM-DD HH:mm:ss")}
         </TableColumn>
-      ))}
-    </Table>
-  </ConditionalWrapper>
-);
+        {columns.map((field, index) => (
+          <TableColumn key={index} name={field}>
+            {({ item }) => <span>{item[field] ? <span>{item[field]}</span> : "-"}</span>}
+          </TableColumn>
+        ))}
+      </Table>
+    </ConditionalWrapper>
+  );
+};

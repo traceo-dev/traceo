@@ -28,10 +28,10 @@ export const Container = styled.div`
   background-color: var(--color-bg-primary);
   position: relative;
   border: 1px solid var(--color-bg-secondary);
-  border-radius: 4px;
+  border-radius: 2px;
 `;
 
-export const Header = styled.span`
+export const Header = styled.div`
   width: 100%;
   padding-top: 12px;
   padding-bottom: 12px;
@@ -40,4 +40,7 @@ export const Header = styled.span`
   font-size: 14px;
   color: var(--color-text-primary);
   border-bottom: 1px solid var(--color-bg-secondary);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;

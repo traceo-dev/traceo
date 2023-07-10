@@ -4,10 +4,16 @@ import { FC } from "react";
 import { CustomizeFormSection } from "./CustomizeFormSection";
 
 interface Props {
+  collapsed?: boolean;
   serie: DeepPartial<IMetricSerie>;
   onDelete: Setter<IMetricSerie>;
 }
-export const CustomizeFormSerieSection: FC<Props> = ({ children, serie, onDelete }) => {
+export const CustomizeFormSerieSection: FC<Props> = ({
+  children,
+  serie,
+  onDelete,
+  collapsed = true
+}) => {
   const backgroundColor = serie.config.color;
   return (
     <CustomizeFormSection
@@ -17,6 +23,7 @@ export const CustomizeFormSerieSection: FC<Props> = ({ children, serie, onDelete
           <span>{serie.name}</span>
         </Row>
       }
+      defaultCollapsed={collapsed}
       description={serie?.description}
       onDelete={() => onDelete(serie as IMetricSerie)}
     >

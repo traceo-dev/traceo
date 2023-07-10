@@ -1,8 +1,5 @@
 import { Page } from "../../../core/components/Page";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../../store/index";
-import { loadDashboard } from "./state/actions";
+import { useState } from "react";
 import { DashboardToolbar } from "./components/Toolbars/DashboardToolbar";
 import { DashboardGridLayout, GridLayout } from "./components/DashboardGrid/DashboardGridLayout";
 import styled from "styled-components";
@@ -30,9 +27,6 @@ const GridPanelItem = styled.div`
 `;
 
 export const DashboardPage = () => {
-  const dispatch = useAppDispatch();
-
-  const { dashboardId } = useParams();
   const { dashboard } = useDashboard();
   const [itemDimensions, setItemDimensions] = useState({});
   const [isRemoveMode, setRemoveMode] = useState<boolean>(false);
@@ -44,12 +38,6 @@ export const DashboardPage = () => {
     from: dayjs().subtract(1, "h").unix(),
     to: dayjs().unix()
   });
-
-  useEffect(() => {
-    fetchDashboardPanels();
-  }, [dashboardId]);
-
-  const fetchDashboardPanels = () => dispatch(loadDashboard(dashboardId));
 
   const generateLayout = () => {
     if (!dashboard || dashboard.panels?.length === 0) {
@@ -152,7 +140,7 @@ export const DashboardPage = () => {
   };
 
   return (
-    <Page>
+    <Page title="Dashboards">
       <Page.Content>
         <DashboardToolbar
           isRemoveMode={isRemoveMode}

@@ -21,12 +21,15 @@ export const SwitchProjectPopover = ({ projects, isLoading }: Props) => {
     );
   }
 
+  const navigateToProject = (projectId: string) => {
+    window.location.href = `/project/${projectId}/dashboard/${project?.mainDashboardId}`;
+  };
+
   const renderOptions = () => {
     const options = availableProjects.map((project) => ({
       icon: <Avatar size="sm" shape="square" alt={project?.name} src={project?.gravatar} />,
       label: project.name,
-      onClick: () =>
-        (window.location.href = `/project/${project?.projectId}/dashboard/${project?.mainDashboardId}`)
+      onClick: () => navigateToProject(project.projectId)
     }));
 
     return <PopoverSelectOptions title="Select project" options={options} />;

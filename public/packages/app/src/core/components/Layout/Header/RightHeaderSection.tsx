@@ -48,7 +48,7 @@ export const RightHeaderSection = () => {
   ];
 
   const renderNewResource = () => {
-    return <PopoverSelectOptions options={createNewOptions} />;
+    return <PopoverSelectOptions title="Create new resource" options={createNewOptions} />;
   };
 
   return (

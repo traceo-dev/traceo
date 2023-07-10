@@ -25,7 +25,6 @@ import { Permissions } from "../../../../../core/components/Permissions";
 import { notify } from "../../../../../core/utils/notify";
 import { SelectPanelModal } from "../SelectPanelModal";
 import { useDashboard } from "../../../../../core/hooks/useDashboard";
-import { localStorageService } from "src/core/lib/localStorage";
 
 const MAX_DATE = new Date(dayjs().unix() * 1e3);
 
@@ -60,7 +59,6 @@ export const DashboardToolbar = ({
   });
 
   const onSelectDashboard = (id: string) => {
-    localStorageService.set("dashboard", id);
     navigate({
       pathname: `/project/${project.id}/dashboard/${id}`
     });

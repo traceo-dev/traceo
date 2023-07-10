@@ -41,7 +41,7 @@ export const configureApi = () => {
         sessionStorage.clear();
         cookie.clear();
 
-        notify.error("Your session timed out. Please log in again.");
+        // notify.error("Your session timed out. Please log in again.");
         window.location.href = "/";
 
         return error.response?.data;

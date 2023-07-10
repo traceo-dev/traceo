@@ -19,7 +19,6 @@ import { useEffect, useState } from "react";
 import { ChooseElementGrid } from "../../core/components/ChooseElementGrid";
 import { resetProjectState } from "../project/state/project/reducers";
 import { AppstoreAddOutlined } from "@ant-design/icons";
-import { RouterLink } from "../../core/components/RouterLink";
 import { useNavigate } from "react-router-dom";
 
 type CreateAppPayload = {
@@ -94,6 +93,7 @@ const CreateProjectPage = () => {
 
   return (
     <Page
+      title="Create project"
       header={{
         icon: <AppstoreAddOutlined />,
         title: "Create new project",
@@ -145,7 +145,9 @@ const CreateProjectPage = () => {
             <Button type="submit" form="create-project-form" loading={loading}>
               Save
             </Button>
-            <Button onClick={() => navigate(-1)} variant="ghost">Cancel</Button>
+            <Button onClick={() => navigate(-1)} variant="ghost">
+              Cancel
+            </Button>
           </ButtonContainer>
         </Card>
       </Page.Content>

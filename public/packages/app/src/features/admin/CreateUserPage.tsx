@@ -17,7 +17,6 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserAddOutlined } from "@ant-design/icons";
-import { RouterLink } from "../../core/components/RouterLink";
 import { resetProjectState } from "../project/state/project/reducers";
 
 type CreateUserPayload = {
@@ -60,6 +59,7 @@ const CreateUserPage = () => {
 
   return (
     <Page
+      title="Create user"
       header={{
         icon: <UserAddOutlined />,
         title: "Create new user",

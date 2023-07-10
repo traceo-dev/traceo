@@ -2,8 +2,7 @@ import {
   BarChartOutlined,
   ClockCircleOutlined,
   NumberOutlined,
-  PlusOutlined,
-  TableOutlined
+  PlusOutlined
 } from "@ant-design/icons";
 import {
   ButtonContainer,
@@ -42,11 +41,6 @@ const eventsPanels: SelectOptionProps[] = [
     icon: <BarChartOutlined />
   },
   {
-    label: "Recent events",
-    value: "recent_events",
-    icon: <TableOutlined />
-  },
-  {
     label: "Last event at",
     value: "last_event_at",
     icon: <ClockCircleOutlined />
@@ -55,19 +49,6 @@ const eventsPanels: SelectOptionProps[] = [
     label: "Today events count",
     value: "today_events_count",
     icon: <NumberOutlined />
-  }
-];
-
-const logsPanels: SelectOptionProps[] = [
-  {
-    label: "Logs plot",
-    value: "logs_plot",
-    icon: <BarChartOutlined />
-  },
-  {
-    label: "Logs table",
-    value: "logs_table",
-    icon: <TableOutlined />
   }
 ];
 
@@ -113,12 +94,13 @@ export const SelectPanelModal: FC<Props> = ({ isOpen, onCancel }) => {
   return (
     <Modal size="xl" title="Select dashboard panel" open={isOpen} onCancel={onCancel}>
       <Space direction="vertical" className="pt-0 px-4 w-full h-full justify-between text-center">
-        <Collapse ghost collapseIconPosition="start" defaultActiveKey="events_section">
+        <Collapse ghost>
           <CollapseItem
             panelKey="events_section"
+            collapsible={false}
             header={
               <Col className="text-start">
-                <Typography weight="semibold">Events</Typography>
+                <Typography weight="semibold">Panels from library</Typography>
                 <Typography size="xs">
                   Panels containing information about all events occurring in this project.
                 </Typography>
@@ -132,22 +114,8 @@ export const SelectPanelModal: FC<Props> = ({ isOpen, onCancel }) => {
             />
           </CollapseItem>
           <CollapseItem
-            panelKey="logs_section"
-            header={
-              <Col className="text-start">
-                <Typography weight="semibold">Logs</Typography>
-                <Typography size="xs">Visualization of logs sent for this project.</Typography>
-              </Col>
-            }
-          >
-            <ChoosePanelGrid
-              options={logsPanels}
-              onSelect={(v) => setSelectedPanel(v)}
-              selected={selectedPanel}
-            />
-          </CollapseItem>
-          <CollapseItem
             panelKey="custom_section"
+            collapsible={false}
             header={
               <Col className="text-start">
                 <Typography weight="semibold">Custom</Typography>

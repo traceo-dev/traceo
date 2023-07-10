@@ -30,7 +30,7 @@ export const CollapseItem: FC<CollapseItemProps> = ({
   defaultActiveKey,
   panelKey
 }) => {
-  const [collapsed, setCollapsed] = useState<boolean>(true);
+  const [collapsed, setCollapsed] = useState<boolean>(collapsible);
 
   useEffect(() => {
     if (defaultActiveKey && defaultActiveKey === panelKey) {
@@ -51,13 +51,14 @@ export const CollapseItem: FC<CollapseItemProps> = ({
   return (
     <>
       <div
-        onClick={() => setCollapsed(!collapsed)}
+        onClick={() => setCollapsed(collapsible && !collapsed)}
         className={joinClasses(
-          "text-sm items-center w-full flex flex-row justify-between p-3 cursor-pointer",
+          "text-sm items-center w-full flex flex-row justify-between p-3",
           conditionClass(
             !ghost,
             "rounded bg-secondary border border-solid border-light-secondary"
           ),
+          conditionClass(collapsible, "cursor-pointer"),
           className
         )}
       >

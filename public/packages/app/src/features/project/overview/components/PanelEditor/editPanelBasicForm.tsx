@@ -43,26 +43,6 @@ export const editPanelBasicForm = (props: EditMetricType) => {
     )
   });
 
-  forms.push({
-    label: "Visualization",
-    component: (
-      <Select
-        options={visualizationOptions}
-        defaultValue={options.config.visualization}
-        onChange={(event) => {
-          setOptions((opt) => {
-            opt.config.visualization = event?.value;
-
-            if (event?.value === VISUALIZATION_TYPE.HISTOGRAM) {
-              opt.config.unit = METRIC_UNIT.NONE;
-              opt.config.tooltip.show = false;
-            }
-          });
-        }}
-      />
-    )
-  });
-
   if (!isHistogram) {
     forms.push({
       label: "Unit",

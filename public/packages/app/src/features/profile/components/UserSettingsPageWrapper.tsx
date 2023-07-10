@@ -8,6 +8,14 @@ import { SettingOutlined } from "@ant-design/icons";
 import { Avatar } from "@traceo/ui";
 import { useEffect } from "react";
 
+const menu: MenuRoute[] = [
+  {
+    href: "/dashboard/profile/settings",
+    label: "Settings",
+    key: "settings",
+    icon: <SettingOutlined />
+  }
+];
 export const UserSettingsPageWrapper = ({ children }) => {
   const user = useUser();
   const dispatch = useAppDispatch();
@@ -16,17 +24,13 @@ export const UserSettingsPageWrapper = ({ children }) => {
     dispatch(loadSignedInUser());
   }, []);
 
-  const menu: MenuRoute[] = [
-    {
-      href: "/dashboard/profile/settings",
-      label: "Settings",
-      key: "settings",
-      icon: <SettingOutlined />
-    }
-  ];
+  const getDocumentTitle = () => {
+    return `Profile - ${user.name}`;
+  };
 
   return (
     <Page
+      title={getDocumentTitle()}
       menuRoutes={menu}
       header={{
         icon: <Avatar size="md" src={user?.gravatar} alt={user.username} />,

@@ -21,6 +21,7 @@ export const SettingsPageWrapper: FC = ({ children }) => {
 
   return (
     <Page
+      title="Settings"
       header={{
         icon: <SettingOutlined />,
         title: "Settings",

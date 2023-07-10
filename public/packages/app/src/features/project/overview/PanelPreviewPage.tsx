@@ -1,6 +1,5 @@
 import { Page } from "../../../core/components/Page";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
-import { conditionClass } from "../../../core/utils/classes";
 import {
   ApiResponse,
   MemberRole,
@@ -13,24 +12,22 @@ import { To, useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import { Permissions } from "../../../core/components/Permissions";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
-import { CheckOutlined, SettingOutlined } from "@ant-design/icons";
+import { SettingOutlined } from "@ant-design/icons";
 import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import api from "../../../core/lib/api";
 import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
-import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
 import { notify } from "../../../core/utils/notify";
-import { PanelDatasourceTable } from "./components/PanelDatasourceTable";
 import { MetricTimeToolbar } from "./components/Toolbars/MetricTimeToolbar";
 import { RemovePanelConfirm } from "./components/RemovePanelConfirm";
 import { useDashboard } from "../../../core/hooks/useDashboard";
 import { useAppDispatch } from "../../../store/index";
 import { loadDashboard } from "./state/actions";
-import { PanelCustomizeForm } from "./components/PanelEditor/PanelCustomizeForm";
 import { getVisualizationComponent, validate } from "./utils";
 import { usePanelQuery } from "./components/Panels/usePanelQuery";
 import { mapVisualizationName } from "./components/utils";
 import { PanelProps } from "./components/Panels/types";
+import { PanelContent } from "./PanelContent";
 
 export const PanelPreviewPage = () => {
   const dispatch = useAppDispatch();
@@ -61,7 +58,7 @@ export const PanelPreviewPage = () => {
     refetch: refetchRawData,
     isLoading: isLoadingRawData,
     isRefetching: isRefetchinRawData
-  } = useReactQuery<[]>({
+  } = useReactQuery<any[]>({
     queryKey: [`metric_ds_raw_${panelId}`],
     url: `/api/metrics/${panelId}/raw-data`,
     params: {
@@ -121,28 +118,7 @@ export const PanelPreviewPage = () => {
     search: `?from=${ranges[0]}&to=${ranges[1]}`
   };
 
-  const getTableFields = () => options?.config.series.map(({ field }) => field);
-
   const renderOperationButtons = () => {
-    if (isCustomizeMode) {
-      return (
-        <Row gap="x-3">
-          <Button
-            icon={<CheckOutlined />}
-            loading={saveLoading}
-            variant="primary"
-            size="sm"
-            onClick={() => onSave()}
-          >
-            Update
-          </Button>
-          <Button variant="danger" size="sm" onClick={() => onDiscard()}>
-            Cancel
-          </Button>
-        </Row>
-      );
-    }
-
     return (
       <Row gap="x-3">
         {isCustomPanel && (
@@ -184,52 +160,41 @@ export const PanelPreviewPage = () => {
     return getVisualizationComponent(visualization, props);
   };
 
+  const getDocumentTitle = () => {
+    return `${isCustomizeMode ? "Edit" : "View"} panel - ${options.title}`;
+  };
+
   return (
     <Page
-      header={{
-        title: (
-          <PreviewPageHeader
-            page="panel preview"
-            title={options.title}
-            description={options.description}
-            backOpts={backOpts}
-          />
-        ),
-        suffix: renderOperationButtons()
-      }}
+      title={getDocumentTitle()}
+      header={
+        !isCustomizeMode && {
+          title: (
+            <PreviewPageHeader
+              page="panel preview"
+              title={options.title}
+              description={options.description}
+              backOpts={backOpts}
+            />
+          ),
+          suffix: renderOperationButtons()
+        }
+      }
     >
-      <Page.Content className="pt-0">
-        <div className="w-full grid grid-cols-12">
-          <div className={conditionClass(isCustomizeMode, "col-span-8 mr-1", "col-span-12")}>
-            {renderPanel()}
-            {isRawDataPreview && (
-              <OptionsCollapseGroup
-                title="Raw data"
-                loading={isLoadingRawData || isRefetchinRawData}
-                extra={
-                  <span className="text-xs font-semibold text-primary">
-                    {(rawData || []).length} rows found
-                  </span>
-                }
-              >
-                <PanelDatasourceTable
-                  fields={getTableFields()}
-                  metricData={rawData}
-                  isLoading={isLoadingRawData || isRefetchinRawData}
-                />
-              </OptionsCollapseGroup>
-            )}
-          </div>
-          {isCustomizeMode && (
-            <div className="col-span-4">
-              <PanelCustomizeForm
-                data={data?.datasource}
-                setOptions={setOptions}
-                options={options}
-              />
-            </div>
-          )}
-        </div>
+      <Page.Content className={!isCustomizeMode && "pt-0"}>
+        <PanelContent
+          data={data}
+          rawData={rawData}
+          isCustomizeMode={isCustomizeMode}
+          isLoading={isLoadingRawData || isRefetchinRawData}
+          isLoadingRaw={isLoadingRawData || isRefetchinRawData}
+          isRawDataPreview={isRawDataPreview && !isCustomizeMode}
+          options={options}
+          setOptions={setOptions}
+          renderPanel={() => renderPanel()}
+          onCreate={onSave}
+          onCancel={onDiscard}
+        />
       </Page.Content>
     </Page>
   );

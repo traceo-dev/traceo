@@ -71,6 +71,7 @@ export const IncidentsListPage = () => {
 
   return (
     <Page
+      title="Incidents"
       header={{
         title: "Incidents",
         description: "List of incidents catched by Traceo SDK connected to your project",

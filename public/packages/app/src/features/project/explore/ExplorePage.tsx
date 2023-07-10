@@ -1,4 +1,4 @@
-import { Button, Row, Select, SelectOptionProps } from "@traceo/ui";
+import { Button, Row, Select, SelectOptionProps, toTitleCase } from "@traceo/ui";
 import { Page } from "../../../core/components/Page";
 import { FC, useEffect, useRef, useState } from "react";
 import {
@@ -79,8 +79,12 @@ export const ExplorePageWrapper: FC = () => {
     setError
   };
 
+  const getDocumentTitle = () => {
+    return `Explore - ${toTitleCase(type)}`;
+  };
+
   return (
-    <Page>
+    <Page title={getDocumentTitle()}>
       <Page.Content>
         <Row className="w-full pb-2 justify-between">
           <Select

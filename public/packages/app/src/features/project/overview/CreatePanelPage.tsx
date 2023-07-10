@@ -8,10 +8,9 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../core/lib/api";
 import { notify } from "../../../core/utils/notify";
-import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { CheckOutlined } from "@ant-design/icons";
 import { initialCustomPanelProps, validate } from "./utils";
-import { PanelCustomizeForm } from "./components/PanelEditor/PanelCustomizeForm";
+import { PanelContent } from "./PanelContent";
 
 const CreatePanelPage = () => {
   const { id, dashboardId } = useParams();
@@ -52,47 +51,31 @@ const CreatePanelPage = () => {
     });
   };
 
+  const renderPanel = () => (
+    <Card>
+      <ConditionalWrapper
+        isEmpty
+        emptyView={
+          <DataNotFound
+            label="Panel preview not available"
+            explanation="Fill in the configuration data for this panel and save to see the preview."
+          />
+        }
+      />
+    </Card>
+  );
+
   return (
-    <Page
-      header={{
-        title: <PreviewPageHeader title={options.title} description={options.description} />,
-        suffix: (
-          <Row className="ustify-end" gap="x-3">
-            <Button
-              icon={<CheckOutlined />}
-              loading={saveLoading}
-              variant="primary"
-              size="sm"
-              onClick={() => onCreate()}
-            >
-              Save
-            </Button>
-            <Button variant="danger" size="sm" onClick={() => onCancel()}>
-              Cancel
-            </Button>
-          </Row>
-        )
-      }}
-    >
-      <Page.Content className="pt-0">
-        <div className="w-full grid grid-cols-12">
-          <div className="col-span-8 mr-1">
-            <Card title="Visualization">
-              <ConditionalWrapper
-                isEmpty
-                emptyView={
-                  <DataNotFound
-                    label="Panel preview not available"
-                    explanation="Fill in the configuration data for this panel and save to see the preview."
-                  />
-                }
-              />
-            </Card>
-          </div>
-          <div className="col-span-4">
-            <PanelCustomizeForm setOptions={setOptions} options={options} />
-          </div>
-        </div>
+    <Page title="Create panel">
+      <Page.Content>
+        <PanelContent
+          isCustomizeMode={true}
+          options={options}
+          setOptions={setOptions}
+          renderPanel={renderPanel}
+          onCancel={onCancel}
+          onCreate={onCreate}
+        />
       </Page.Content>
     </Page>
   );

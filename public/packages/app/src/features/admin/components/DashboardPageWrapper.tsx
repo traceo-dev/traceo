@@ -11,6 +11,27 @@ import {
 } from "@ant-design/icons";
 import { FC } from "react";
 
+const menu: MenuRoute[] = [
+  {
+    href: "/dashboard/admin/users",
+    label: "Users",
+    key: "users",
+    icon: <TeamOutlined />
+  },
+  {
+    href: "/dashboard/admin/apps",
+    label: "Projects",
+    key: "apps",
+    icon: <AppstoreFilled />
+  },
+  {
+    href: "/dashboard/admin/instance",
+    label: "Instance Info",
+    key: "instance",
+    icon: <InfoCircleOutlined />
+  }
+];
+
 interface Props {
   isLoading?: boolean;
 }
@@ -25,29 +46,9 @@ export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
     );
   }
 
-  const menu: MenuRoute[] = [
-    {
-      href: "/dashboard/admin/users",
-      label: "Users",
-      key: "users",
-      icon: <TeamOutlined />
-    },
-    {
-      href: "/dashboard/admin/apps",
-      label: "Projects",
-      key: "apps",
-      icon: <AppstoreFilled />
-    },
-    {
-      href: "/dashboard/admin/instance",
-      label: "Instance Info",
-      key: "instance",
-      icon: <InfoCircleOutlined />
-    }
-  ];
-
   return (
     <Page
+      title="Admin panel"
       header={{
         icon: <SettingOutlined />,
         title: "Admin panel",

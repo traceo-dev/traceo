@@ -8,7 +8,7 @@ interface PageContentProps {
 }
 export const PageContent: FC<PageContentProps> = ({ children, isLoading, className = "" }) => {
   return (
-    <div className={joinClasses("p-9", className)}>
+    <div className={joinClasses(className, "p-9")}>
       {isLoading ? <TraceoLoading /> : children}
     </div>
   );
