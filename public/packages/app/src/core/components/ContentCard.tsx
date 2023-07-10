@@ -40,7 +40,7 @@ export const ContentCard = forwardRef<any, Props>(
         {(name || extra) && (
           <Row
             className={joinClasses(
-              "justify-between px-3 py-3 select-none",
+              "justify-between px-3 py-1.5 select-none",
               conditionClass(isDraggable, "drag-handle cursor-move")
             )}
           >
@@ -58,7 +58,7 @@ export const ContentCard = forwardRef<any, Props>(
           </Row>
         )}
 
-        <div className={joinClasses("mt-1 p-2 h-full", bodyClassName)}>{children}</div>
+        <div className={joinClasses("my-1 p-2 overflow-y-auto", bodyClassName)}>{children}</div>
       </div>
     );
   }

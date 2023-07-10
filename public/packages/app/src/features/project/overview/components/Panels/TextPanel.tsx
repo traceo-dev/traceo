@@ -6,7 +6,6 @@ import styled from "styled-components";
 const Scroll = styled.div`
   position: relative;
   overflow: scroll;
-  height: ${(p) => (p.isHeader ? "calc(100% - 30px)" : "100%")};
   display: flex;
   -webkit-box-flex: 1;
   flex-grow: 1;
@@ -31,7 +30,7 @@ export const TextPanel = ({
       {...rest}
     >
       <Scroll isHeader={!!panel.title}>
-        <MarkdownPreview className="bg-transparent" source={panel.config.text.value} />
+        <MarkdownPreview source={panel.config.text.value} disableCopy={true} />
       </Scroll>
     </BaseDashboardPanel>
   );
