@@ -55,7 +55,6 @@ export class DashboardService {
     }
 
     public async batchCreatePanels(panels: DashboardPanelType[], manager: EntityManager = this.entityManager) {
-        console.log("barch: ", panels);
         return await manager
             .createQueryBuilder()
             .insert()

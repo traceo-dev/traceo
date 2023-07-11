@@ -68,8 +68,6 @@ export const PanelPreviewPage = () => {
     }
   });
 
-  console.log("raw: ", rawData);
-
   useEffect(() => {
     if (data && data.options) {
       setOptions(data.options);

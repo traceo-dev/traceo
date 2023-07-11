@@ -80,7 +80,6 @@ export class ProjectService {
         }, project, manager);
 
         const panels = initialDashboardPanels.map((panel) => ({ ...panel, dashboard }));
-        console.log({ panels })
         await this.dashboardService.batchCreatePanels(panels, manager);
 
         await this.update(project.id, { mainDashboardId: dashboard.id }, manager);
