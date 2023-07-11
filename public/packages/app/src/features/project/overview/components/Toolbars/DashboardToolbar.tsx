@@ -75,7 +75,7 @@ export const DashboardToolbar = ({
       onClick: () => onSelectDashboard(dashboard.id)
     }));
 
-    return <PopoverSelectOptions options={options} />;
+    return <PopoverSelectOptions title="Select dashboard" options={options} />;
   };
 
   const onEditDashboard = () => {

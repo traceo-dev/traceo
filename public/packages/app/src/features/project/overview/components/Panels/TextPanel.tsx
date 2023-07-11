@@ -30,7 +30,11 @@ export const TextPanel = ({
       {...rest}
     >
       <Scroll isHeader={!!panel.title}>
-        <MarkdownPreview source={panel.config.text.value} disableCopy={true} />
+        <MarkdownPreview
+          className="bg-transparent"
+          source={panel.config.text.value}
+          disableCopy={true}
+        />
       </Scroll>
     </BaseDashboardPanel>
   );

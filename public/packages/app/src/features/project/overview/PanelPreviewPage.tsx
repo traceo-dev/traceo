@@ -28,6 +28,7 @@ import { usePanelQuery } from "./components/Panels/usePanelQuery";
 import { mapVisualizationName } from "./components/utils";
 import { PanelProps } from "./components/Panels/types";
 import { PanelContent } from "./PanelContent";
+import { configureStore } from "@reduxjs/toolkit";
 
 export const PanelPreviewPage = () => {
   const dispatch = useAppDispatch();
@@ -39,7 +40,6 @@ export const PanelPreviewPage = () => {
 
   const [options, setOptions] = useImmer<DashboardPanelType>(undefined);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
-  const [saveLoading, setSaveLoading] = useState<boolean>(false);
 
   const isCustomPanel = options?.type === "custom";
   const visualization = options?.config.visualization;
@@ -60,7 +60,7 @@ export const PanelPreviewPage = () => {
     isRefetching: isRefetchinRawData
   } = useReactQuery<any[]>({
     queryKey: [`metric_ds_raw_${panelId}`],
-    url: `/api/metrics/${panelId}/raw-data`,
+    url: `/api/metrics/${id}/raw-data`,
     params: {
       from: ranges[0],
       to: ranges[1],
@@ -68,9 +68,7 @@ export const PanelPreviewPage = () => {
     }
   });
 
-  useEffect(() => {
-    dispatch(loadDashboard(dashboardId));
-  }, []);
+  console.log("raw: ", rawData);
 
   useEffect(() => {
     if (data && data.options) {
@@ -93,8 +91,6 @@ export const PanelPreviewPage = () => {
       return;
     }
 
-    setSaveLoading(true);
-
     const props = {
       ...options,
       dashboardId: dashboardId,
@@ -103,7 +99,6 @@ export const PanelPreviewPage = () => {
 
     await api.patch<ApiResponse<string>>(`/api/dashboard/panel`, props).finally(() => {
       refetch();
-      setSaveLoading(false);
       setCustomizeMode && setCustomizeMode(false);
     });
   };

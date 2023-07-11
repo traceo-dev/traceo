@@ -9,6 +9,9 @@ import { calculateInterval } from "../../../common/helpers/interval";
 import { DashboardPanel } from "../../../db/entities/dashboard-panel.entity";
 import { EventQueryService } from "src/api/event/query/event-query.service";
 
+// Interval for histogram shouldn't be changed due to time range
+const HISTOGRAM_INTERVAL = 15; //seconds
+
 export type AggregateTimeSeries = { minute: number, value: number }[];
 
 export type MetricPreviewType = {
@@ -116,9 +119,6 @@ export class MetricsQueryService {
     let series = [];
     let time = [];
 
-    // Interval for histogram shouldn't be changed due to time range
-    const HISTOGRAM_INTERVAL = 15; //seconds
-
     const interval = query.isHistogram ? HISTOGRAM_INTERVAL : calculateInterval({
       from: query.from,
       to: query.to
@@ -167,10 +167,15 @@ export class MetricsQueryService {
         return new ApiResponse("success", undefined, []);
       }
 
+      const interval = query.isHistogram ? HISTOGRAM_INTERVAL : calculateInterval({
+        from: query.from,
+        to: query.to
+      });
+
       const response = await this.clickhouseService.rawDataMetrics(projectId, {
         ...query,
         fields
-      });
+      }, interval);
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {

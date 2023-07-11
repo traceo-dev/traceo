@@ -36,6 +36,11 @@ const Header = styled.span`
   border-bottom: 1px solid var(--color-bg-secondary);
 `;
 
+const Menu = styled.div`
+  overflow-y: scroll;
+  max-height: 150px;
+`;
+
 export type PopoverSelectOptionsProps = {
   label: string;
   icon?: JSX.Element;
@@ -50,14 +55,16 @@ export const PopoverSelectOptions = ({ options, title }: Props) => {
   return (
     <Wrapper>
       {title && <Header>{title}</Header>}
-      {options.map((option, key) => (
-        <Option key={key} onClick={() => option?.onClick && option?.onClick()}>
-          <Row gap="x-3">
-            {option.icon}
-            {option.label}
-          </Row>
-        </Option>
-      ))}
+      <Menu>
+        {options.map((option, key) => (
+          <Option key={key} onClick={() => option?.onClick && option?.onClick()}>
+            <Row gap="x-3">
+              {option.icon}
+              {option.label}
+            </Row>
+          </Option>
+        ))}
+      </Menu>
     </Wrapper>
   );
 };

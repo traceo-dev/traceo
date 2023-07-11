@@ -50,14 +50,21 @@ const mapVisualizationIcon: Record<VISUALIZATION_TYPE, JSX.Element> = {
   [VISUALIZATION_TYPE.TEXT]: <FontColorsOutlined />
 };
 
-export const visualizationOptions: SelectOptionProps[] = Object.values(VISUALIZATION_TYPE).map(
-  (type) => ({
-    value: type,
-    label: mapVisualizationName[type],
-    description: mapVisualizationDescription[type],
-    icon: mapVisualizationIcon[type]
-  })
-);
+// Available visualizations to select on create/edit panel view
+const AVAILABLE_VISUALIZATIONS = [
+  VISUALIZATION_TYPE.TIME_SERIES,
+  VISUALIZATION_TYPE.HISTOGRAM,
+  VISUALIZATION_TYPE.TEXT
+];
+
+export const visualizationOptions: SelectOptionProps[] = Object.values(
+  AVAILABLE_VISUALIZATIONS
+).map((type) => ({
+  value: type,
+  label: mapVisualizationName[type],
+  description: mapVisualizationDescription[type],
+  icon: mapVisualizationIcon[type]
+}));
 
 export const mapPlotName: Record<PLOT_TYPE, string> = {
   bar: "Bar",
