@@ -1,4 +1,4 @@
-import { TimeRange, Setter, DashboardPanel } from "@traceo/types";
+import { TimeRange, Setter, DashboardPanel, Dashboard } from "@traceo/types";
 
 export interface PanelProps {
   title?: string;
@@ -6,6 +6,7 @@ export interface PanelProps {
   isRemoveMode: boolean;
   isHoverOptions?: boolean;
   panel: DashboardPanel;
+  dashboard?: Dashboard;
   ranges: TimeRange;
   height?: number;
   onChangeTimeRange: Setter<TimeRange>;

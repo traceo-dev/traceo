@@ -1,12 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { DashboardQueryService } from './dashboard-query/dashboard-query.service';
 import { DashboardService } from './dashboard.service';
 import { Dashboard } from '../../db/entities/dashboard.entity';
 import { ApiResponse } from '../../common/types/dto/response.dto';
 import { DashboardPanel } from '../../db/entities/dashboard-panel.entity';
 import { DashboardDto, DashboardPanelDto, LayoutChangeDto } from '../../common/types/dto/dashboard.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
 
+@ApiTags('dashboard')
 @Controller('dashboard')
+@UseGuards(new AuthGuard())
 export class DashboardController {
     constructor(
         private readonly dashboardQueryService: DashboardQueryService,

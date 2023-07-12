@@ -15,6 +15,7 @@ const Option = styled.div`
   cursor: pointer;
   white-space: nowrap;
   color: rgb(204, 204, 220);
+  font-size: 13px;
   display: flex;
   -webkit-box-align: center;
   align-items: center;

@@ -29,6 +29,8 @@ import { TracingModule } from './tracing/tracing.module';
 import { LogsModule } from './logs/logs.module';
 import { LogsController } from "./logs/logs.controller";
 import { DashboardModule } from './dashboard/dashboard.module';
+import { DashboardController } from "./dashboard/dashboard.controller";
+import { EventController } from "./event/event.controller";
 
 const apiControllers = [
   UserController,
@@ -43,7 +45,9 @@ const apiControllers = [
   CaptureController,
   PerformanceController,
   AlertController,
-  LogsController
+  LogsController,
+  DashboardController,
+  EventController
 ];
 @Module({
   imports: [

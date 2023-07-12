@@ -32,6 +32,14 @@ export class DashboardDto {
 }
 
 export class LayoutChangeDto {
+    @IsString()
+    @IsNotEmpty()
+    projectId: string;
+
+    @IsString()
+    @IsNotEmpty()
+    dashboardId: string;
+
     @ValidateNested()
     @Type(() => GridPositionDto)
     positions: GridPositionDto[];

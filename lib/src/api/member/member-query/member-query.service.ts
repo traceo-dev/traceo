@@ -6,6 +6,7 @@ import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { Member } from "../../../db/entities/member.entity";
 import { EntityManager } from "typeorm";
 import { RequestContext } from "../../../common/middlewares/request-context/request-context.model";
+import { MemberRole } from "@traceo/types";
 
 @Injectable()
 export class MemberQueryService {
@@ -136,22 +137,34 @@ export class MemberQueryService {
     return count > 0;
   }
 
-  public async getPermission(projectId: string): Promise<any> {
-    const { id } = RequestContext.user;
-    try {
-      const query = await this.entityManager
-        .getRepository(Member)
-        .createQueryBuilder("member")
-        .where("member.project = :projectId", { projectId })
-        .innerJoin("member.user", "user", "user.id = :id", { id })
-        .getOne();
+  public async getProjectPermission(userId: string, projectId: string, manager: EntityManager = this.entityManager): Promise<MemberRole> {
+    const query = await manager
+      .getRepository(Member)
+      .createQueryBuilder("member")
+      .where("member.project = :projectId", { projectId })
+      .innerJoin("member.user", "user", "user.id = :id", { id: userId })
+      .getOne();
 
-      if (!query) {
-        return new ApiResponse("error", undefined, "No permissions for this project!");
+    if (!query) {
+      return undefined;
+    }
+
+    return query.role;
+  }
+
+  public async getPermission(projectId: string): Promise<ApiResponse<{ role: MemberRole }>> {
+    const { id } = RequestContext.user;
+
+    try {
+      const role = await this.getProjectPermission(id, projectId);
+      if (!role) {
+        return new ApiResponse("error", "No permission for this project!", {
+          reason: "no-permission"
+        });
       }
 
       return new ApiResponse("success", undefined, {
-        role: query.role
+        role: role
       });
     } catch (error) {
       this.logger.error(`[${this.getPermission.name}] Caused by: ${error}`);

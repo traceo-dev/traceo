@@ -3,6 +3,7 @@ import { DashboardController } from './dashboard.controller';
 import { DashboardService } from './dashboard.service';
 import { ProjectQueryService } from '../project/project-query/project-query.service';
 import { DashboardQueryService } from './dashboard-query/dashboard-query.service';
+import { MemberQueryService } from '../member/member-query/member-query.service';
 
 @Module({
   imports: [],
@@ -10,7 +11,8 @@ import { DashboardQueryService } from './dashboard-query/dashboard-query.service
   providers: [
     DashboardService,
     DashboardQueryService,
-    ProjectQueryService
+    ProjectQueryService,
+    MemberQueryService
   ],
   exports: [
     DashboardService,

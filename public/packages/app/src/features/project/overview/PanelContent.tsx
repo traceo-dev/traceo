@@ -28,7 +28,10 @@ export const PanelContent = ({
   isLoadingRaw = false,
   isRawDataPreview = false,
   renderPanel = undefined,
-  data = undefined,
+  data = {
+    datasource: [],
+    options: undefined
+  },
   rawData = [],
   options = undefined,
   setOptions = undefined,

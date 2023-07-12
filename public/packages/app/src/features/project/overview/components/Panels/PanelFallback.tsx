@@ -17,7 +17,7 @@ const InfoHeader = styled.span`
 `;
 
 const InfoExplanation = styled.span`
-  font-size: 14px;
+  font-size: 12px;
 `;
 
 interface Props {
@@ -55,6 +55,9 @@ export const PanelFallback = ({
     return (
       <InfoContainer>
         <InfoHeader>No data</InfoHeader>
+        {isErrorExplain && (
+          <InfoExplanation>No data found for the specified time period.</InfoExplanation>
+        )}
       </InfoContainer>
     );
   }

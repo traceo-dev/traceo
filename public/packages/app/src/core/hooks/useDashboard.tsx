@@ -15,5 +15,5 @@ export const useDashboard = () => {
     dispatch(loadDashboard(dashboardId));
   }, [dashboardId]);
 
-  return { ...state };
+  return state.dashboard;
 };

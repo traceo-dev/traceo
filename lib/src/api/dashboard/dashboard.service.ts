@@ -9,7 +9,9 @@ import { ProjectQueryService } from '../project/project-query/project-query.serv
 import { DashboardDto, DashboardPanelDto, LayoutChangeDto } from '../../common/types/dto/dashboard.dto';
 import { DashboardQueryService } from './dashboard-query/dashboard-query.service';
 import dateUtils from '../../common/helpers/dateUtils';
-import { DashboardPanel as DashboardPanelType } from "@traceo/types";
+import { DashboardPanel as DashboardPanelType, MemberRole } from "@traceo/types";
+import { RequestContext } from 'src/common/middlewares/request-context/request-context.model';
+import { MemberQueryService } from '../member/member-query/member-query.service';
 
 /**
  * TODO: semaphors to crud operations on dashboards/panels
@@ -22,7 +24,8 @@ export class DashboardService {
     constructor(
         private readonly entityManager: EntityManager,
         private readonly projectQueryService: ProjectQueryService,
-        private readonly dashboardQueryService: DashboardQueryService
+        private readonly dashboardQueryService: DashboardQueryService,
+        private readonly memberQueryService: MemberQueryService
     ) {
         this.logger = new Logger(DashboardService.name)
     }
@@ -105,17 +108,35 @@ export class DashboardService {
     }
 
     public async updateDashboardLayout(dto: LayoutChangeDto): Promise<ApiResponse<unknown>> {
-        try {
+        const { id } = RequestContext.user;
+        if (!id) {
+            return;
+        }
+
+        return await this.entityManager.transaction(async (manager) => {
+            const permission = await this.memberQueryService.getProjectPermission(id, dto.projectId, manager);
+
+            const isViewerPermission = [MemberRole.VIEWER].includes(permission);
+            if (isViewerPermission) {
+                return;
+            }
+
+            const dashboard = await this.dashboardQueryService.getDto(dto.dashboardId, manager);
+            if (!dashboard.isEditable) {
+                return;
+            }
+
+            // TODO: make as single query in raw sql
             for (const position of dto.positions) {
                 await this.entityManager.getRepository(DashboardPanel).update({ id: position.i }, {
                     gridPosition: position
                 });
             }
             return new ApiResponse("success", undefined, undefined);
-        } catch (err) {
+        }).catch((err) => {
             this.logger.error(`[${this.updateDashboardLayout.name}] Caused by: ${err}`);
             return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
-        }
+        });
     };
 
     public async removeDashboard(dashboardId: string, projectId: string): Promise<ApiResponse<unknown>> {

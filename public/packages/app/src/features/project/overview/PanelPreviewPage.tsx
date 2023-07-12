@@ -21,20 +21,15 @@ import { notify } from "../../../core/utils/notify";
 import { MetricTimeToolbar } from "./components/Toolbars/MetricTimeToolbar";
 import { RemovePanelConfirm } from "./components/RemovePanelConfirm";
 import { useDashboard } from "../../../core/hooks/useDashboard";
-import { useAppDispatch } from "../../../store/index";
-import { loadDashboard } from "./state/actions";
 import { getVisualizationComponent, validate } from "./utils";
 import { usePanelQuery } from "./components/Panels/usePanelQuery";
 import { mapVisualizationName } from "./components/utils";
 import { PanelProps } from "./components/Panels/types";
 import { PanelContent } from "./PanelContent";
-import { configureStore } from "@reduxjs/toolkit";
 
 export const PanelPreviewPage = () => {
-  const dispatch = useAppDispatch();
-
   const { panelId, id, dashboardId } = useParams();
-  const { dashboard } = useDashboard();
+  const dashboard = useDashboard();
   const { ranges, setRanges } = useTimeRange();
   const { data, refetch } = usePanelQuery(panelId, ranges);
 
@@ -143,7 +138,8 @@ export const PanelPreviewPage = () => {
       isHoverOptions: false,
       panel: options,
       ranges: ranges,
-      onChangeTimeRange: setRanges
+      onChangeTimeRange: setRanges,
+      dashboard
     };
 
     if (isTimePicker) {

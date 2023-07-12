@@ -21,7 +21,6 @@ export const ContentCard = forwardRef<any, Props>(
       bodyClassName = "",
       children,
       loading = false,
-      isDraggable = false,
       tooltip = undefined,
       ...props
     },
@@ -31,19 +30,14 @@ export const ContentCard = forwardRef<any, Props>(
       <div
         ref={ref}
         className={joinClasses(
-          "flex flex-col bg-primary border border-solid border-secondary rounded-[2px] mb-1 relative",
+          "flex flex-col bg-primary border border-solid border-[#26282e] rounded-[2px] mb-1 relative",
           conditionClass(loading, "loading-border"),
           className
         )}
         {...props}
       >
         {(name || extra) && (
-          <Row
-            className={joinClasses(
-              "justify-between px-3 py-1.5 select-none",
-              conditionClass(isDraggable, "drag-handle cursor-move")
-            )}
-          >
+          <Row className="justify-between px-3 py-1.5 select-none">
             {name && (
               <div className="flex flex-row gap-x-2 leading-none items-center cursor-pointer">
                 <span className="font-semibold text-sm">{name}</span>
@@ -58,7 +52,9 @@ export const ContentCard = forwardRef<any, Props>(
           </Row>
         )}
 
-        <div className={joinClasses("my-1 p-2 overflow-y-auto", bodyClassName)}>{children}</div>
+        <div className={joinClasses("my-1 p-2 overflow-y-auto h-full", bodyClassName)}>
+          {children}
+        </div>
       </div>
     );
   }

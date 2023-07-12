@@ -14,7 +14,7 @@ import {
   Input,
   InputSecret
 } from "@traceo/ui";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserAddOutlined } from "@ant-design/icons";
 import { resetProjectState } from "../project/state/project/reducers";
@@ -73,14 +73,14 @@ const CreateUserPage = () => {
         )
       }}
     >
-      <Page.Content>
-        <Card>
+      <Page.Content className="pt-0">
+        <Card title="Basic informations">
           <Form onSubmit={onFinish} id="add-user-form">
             {({ register, errors }) => (
-              <>
+              <Fragment>
                 <FormItem
                   showRequiredMark={true}
-                  className="pt-5"
+                  className="pt-3"
                   label="Username"
                   error={errors.username}
                 >
@@ -90,10 +90,10 @@ const CreateUserPage = () => {
                     })}
                   />
                 </FormItem>
-                <FormItem label="Name" error={errors.name}>
+                <FormItem showRequiredMark={true} label="Name" error={errors.name}>
                   <Input
                     {...register("name", {
-                      required: false
+                      required: true
                     })}
                   />
                 </FormItem>
@@ -123,7 +123,7 @@ const CreateUserPage = () => {
                 {error && (
                   <Alert className="font-semibold" type="error" showIcon title={errorMessage} />
                 )}
-              </>
+              </Fragment>
             )}
           </Form>
 

@@ -3,6 +3,7 @@ import { BaseMetricChart } from "../../../../../core/components/UPlot/BaseMetric
 import { PanelProps } from "./types";
 import { getXAxisFormatter } from "./formatters";
 import { usePanelQuery } from "./usePanelQuery";
+import { conditionClass } from "@traceo/ui";
 
 export const PlotPanel = ({
   panel = undefined,
@@ -10,15 +11,17 @@ export const PlotPanel = ({
   onChangeTimeRange = undefined,
   ...rest
 }: PanelProps) => {
-  const { data, isLoading, refetch, ...queryProps } = usePanelQuery(panel.id, ranges);
+  const { data, isLoading, isError, isEmpty } = usePanelQuery(panel.id, ranges);
 
   return (
     <BaseDashboardPanel
       panel={panel}
       loading={isLoading}
       ranges={ranges}
+      isError={isError}
+      isEmpty={isEmpty}
+      className={conditionClass(isError || isEmpty, "h-full")}
       {...rest}
-      {...queryProps}
     >
       <BaseMetricChart
         height={rest.height}

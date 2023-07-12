@@ -18,7 +18,7 @@ interface UpdateDashboardForm {
 
 const EditDashboardPage = () => {
   const { project } = useProject();
-  const { dashboard } = useDashboard();
+  const dashboard = useDashboard();
 
   const navigate = useNavigate();
 

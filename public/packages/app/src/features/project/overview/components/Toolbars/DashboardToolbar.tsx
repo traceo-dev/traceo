@@ -34,18 +34,19 @@ interface Props {
   onChangeRanges: Setter<TimeRange>;
   isRemoveMode: boolean;
   setRemoveMode: Setter<boolean>;
+  dashboard: Dashboard;
 }
 export const DashboardToolbar = ({
   showTimepicker = true,
   ranges = [undefined, undefined],
   onChangeRanges = undefined,
-  setRemoveMode = undefined
+  setRemoveMode = undefined,
+  dashboard = undefined
 }: Props) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const { project } = useProject();
-  const { dashboard } = useDashboard();
 
   const hasPanels = dashboard && dashboard.panels?.length > 0;
   const isBaseDashboard = dashboard.isBase;
@@ -157,7 +158,7 @@ export const DashboardToolbar = ({
               <Tooltip title="Settings">
                 <SettingFilled onClick={() => onEditDashboard()} className="cursor-pointer" />
               </Tooltip>
-              {hasPanels && (
+              {hasPanels && !isBaseDashboard && (
                 <Tooltip title={dashboard.isEditable ? "Lock dashboard" : "Unlock dashboard"}>
                   <div onClick={() => onLockDashboard()} className="cursor-pointer">
                     {lockIcon}

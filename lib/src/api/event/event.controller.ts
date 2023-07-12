@@ -3,10 +3,12 @@ import { ApiTags } from '@nestjs/swagger';
 import { IEvent } from '@traceo/types';
 import { EventQueryService } from './query/event-query.service';
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { Query } from '@nestjs/common/decorators';
+import { Query, UseGuards } from '@nestjs/common/decorators';
+import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
 
 @ApiTags('event')
 @Controller('event')
+@UseGuards(new AuthGuard())
 export class EventController {
     constructor(
         private readonly eventQueryService: EventQueryService

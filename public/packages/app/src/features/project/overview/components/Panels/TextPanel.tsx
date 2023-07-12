@@ -23,7 +23,6 @@ export const TextPanel = ({
 }: PanelProps) => {
   return (
     <BaseDashboardPanel
-      isErrorExplain={false}
       panel={panel}
       ranges={ranges}
       className="h-full"
