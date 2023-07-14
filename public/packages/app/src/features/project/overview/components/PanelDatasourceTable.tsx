@@ -18,6 +18,11 @@ export const PanelDatasourceTable: FC<Props> = ({ metricData, isLoading, panel, 
       return panel?.config.series.map(({ field }) => field);
     }, [panel]);
 
+  const getColumnName = (field: string) => {
+    const serie = panel?.config.series.find((serie) => serie.field === field);
+    return serie.name;
+  };
+
   return (
     <ConditionalWrapper
       isEmpty={metricData.length === 0}
@@ -36,7 +41,7 @@ export const PanelDatasourceTable: FC<Props> = ({ metricData, isLoading, panel, 
           {({ item }) => dayjs.unix(Number(item.minute)).format("YYYY-MM-DD HH:mm:ss")}
         </TableColumn>
         {columns.map((field, index) => (
-          <TableColumn key={index} name={field}>
+          <TableColumn key={index} name={getColumnName(field)}>
             {({ item }) => <span>{item[field] ? <span>{item[field]}</span> : "-"}</span>}
           </TableColumn>
         ))}

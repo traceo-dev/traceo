@@ -3,6 +3,7 @@ import { MemberProject } from "@traceo/types";
 import { Avatar } from "@traceo/ui";
 import { useProject } from "../../../../core/hooks/useProject";
 import { PopoverSelectOptions } from "../../PopoverSelectOptions";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   isLoading: boolean;
@@ -10,6 +11,7 @@ interface Props {
 }
 export const SwitchProjectPopover = ({ projects, isLoading }: Props) => {
   const { project } = useProject();
+  const navigate = useNavigate();
 
   const availableProjects = projects?.filter((e) => e.projectId !== project.id);
 
@@ -22,7 +24,9 @@ export const SwitchProjectPopover = ({ projects, isLoading }: Props) => {
   }
 
   const navigateToProject = (projectId: string) => {
-    window.location.href = `/project/${projectId}/dashboard/${project?.mainDashboardId}`;
+    navigate({
+      pathname: `/project/${projectId}/dashboard/${project?.mainDashboardId}`
+    });
   };
 
   const renderOptions = () => {

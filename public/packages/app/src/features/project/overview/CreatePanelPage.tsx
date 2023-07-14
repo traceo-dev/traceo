@@ -4,17 +4,16 @@ import { useImmer } from "use-immer";
 import { Card } from "@traceo/ui";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../core/components/DataNotFound";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import api from "../../../core/lib/api";
 import { notify } from "../../../core/utils/notify";
 import { initialCustomPanelProps, validate } from "./utils";
 import { PanelContent } from "./PanelContent";
+import withDashboard from "src/core/hooks/withDashboard";
+import { ProjectDashboardViewType } from "src/core/types/hoc";
 
-const CreatePanelPage = () => {
-  const { id, dashboardId } = useParams();
-
+const CreatePanelPage = ({ project, dashboard }: ProjectDashboardViewType) => {
   const navigate = useNavigate();
-
   const [options, setOptions] = useImmer<DashboardPanel>(initialCustomPanelProps);
 
   const onCreate = async () => {
@@ -27,12 +26,12 @@ const CreatePanelPage = () => {
     await api
       .post<ApiResponse<DashboardPanel>>(`/api/dashboard/panel`, {
         ...options,
-        dashboardId: dashboardId
+        dashboardId: dashboard.id
       })
       .then((resp) => {
         if (resp.status === "success") {
           navigate({
-            pathname: `/project/${id}/dashboard/${dashboardId}`
+            pathname: `/project/${project.id}/dashboard/${dashboard.id}`
           });
         }
       });
@@ -40,7 +39,7 @@ const CreatePanelPage = () => {
 
   const onCancel = () => {
     navigate({
-      pathname: `/project/${id}/dashboard/${dashboardId}`
+      pathname: `/project/${project.id}/dashboard/${dashboard.id}`
     });
   };
 
@@ -74,4 +73,4 @@ const CreatePanelPage = () => {
   );
 };
 
-export default CreatePanelPage;
+export default withDashboard(CreatePanelPage);

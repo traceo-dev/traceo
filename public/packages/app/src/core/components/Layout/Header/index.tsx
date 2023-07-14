@@ -8,7 +8,7 @@ import { RightHeaderSection } from "./RightHeaderSection";
 import { Row } from "@traceo/ui";
 import { BackButton } from "./BackButton";
 
-export const Header = () => {
+const Header = () => {
   const { project } = useProject();
   const { isAdmin } = useUser();
 

@@ -14,20 +14,19 @@ import { Space, Button, Card, FieldLabel, Input, InputGroup, Row } from "@traceo
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateAplication } from "../state/project/actions";
+import { BaseProjectViewType } from "src/core/types/hoc";
 
-export const SettingsDetailsPage = () => {
+export const SettingsDetailsPage = ({ project, permission }: BaseProjectViewType) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const isDemo = useDemo();
-
-  const { isViewer } = useMemberRole();
-  const { project } = useProject();
+  const ref = useRef<HTMLInputElement>();
 
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
   const [isNameEdit, setNameEdit] = useState<boolean>(false);
 
-  const ref = useRef<HTMLInputElement>();
+  const isViewer = permission === MemberRole.VIEWER;
 
   const onUpdateName = () => {
     const name = ref.current.value;

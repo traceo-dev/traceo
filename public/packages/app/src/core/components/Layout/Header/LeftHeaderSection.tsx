@@ -8,10 +8,11 @@ import { useProject } from "../../../../core/hooks/useProject";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { useUser } from "../../../../core/hooks/useUser";
 import { Fragment } from "react";
+import { PreLoad } from "../../PreLoad";
 
 export const LeftHeaderSection = () => {
   const navigate = useNavigate();
-  const { project } = useProject();
+  const { project, isLoading: isLoadingProject } = useProject();
   const { id: userId } = useUser();
 
   const { data: projects = [], isLoading } = useReactQuery<MemberProject[]>({
@@ -29,8 +30,12 @@ export const LeftHeaderSection = () => {
 
     return (
       <Fragment>
-        <Avatar shape="square" size="sm" alt={project?.name} src={project?.gravatar} />
-        <span className="text-xs font-semibold">{project?.name}</span>
+        <PreLoad isLoading={isLoadingProject}>
+          <Row gap="x-2">
+            <Avatar shape="square" size="sm" alt={project?.name} src={project?.gravatar} />
+            <span className="text-xs font-semibold">{project?.name}</span>
+          </Row>
+        </PreLoad>
 
         {projects.length > 1 && (
           <Popover

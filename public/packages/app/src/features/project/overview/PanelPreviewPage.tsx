@@ -20,16 +20,16 @@ import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { notify } from "../../../core/utils/notify";
 import { MetricTimeToolbar } from "./components/Toolbars/MetricTimeToolbar";
 import { RemovePanelConfirm } from "./components/RemovePanelConfirm";
-import { useDashboard } from "../../../core/hooks/useDashboard";
 import { getVisualizationComponent, validate } from "./utils";
 import { usePanelQuery } from "./components/Panels/usePanelQuery";
 import { mapVisualizationName } from "./components/utils";
 import { PanelProps } from "./components/Panels/types";
 import { PanelContent } from "./PanelContent";
+import withDashboard from "src/core/hooks/withDashboard";
+import { ProjectDashboardViewType } from "src/core/types/hoc";
 
-export const PanelPreviewPage = () => {
-  const { panelId, id, dashboardId } = useParams();
-  const dashboard = useDashboard();
+export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewType) => {
+  const { panelId } = useParams();
   const { ranges, setRanges } = useTimeRange();
   const { data, refetch } = usePanelQuery(panelId, ranges);
 
@@ -55,7 +55,7 @@ export const PanelPreviewPage = () => {
     isRefetching: isRefetchinRawData
   } = useReactQuery<any[]>({
     queryKey: [`metric_ds_raw_${panelId}`],
-    url: `/api/metrics/${id}/raw-data`,
+    url: `/api/metrics/${project.id}/raw-data`,
     params: {
       from: ranges[0],
       to: ranges[1],
@@ -86,7 +86,7 @@ export const PanelPreviewPage = () => {
 
     const props = {
       ...options,
-      dashboardId: dashboardId,
+      dashboardId: dashboard.id,
       panelId
     };
 
@@ -102,7 +102,7 @@ export const PanelPreviewPage = () => {
   };
 
   const backOpts: To = {
-    pathname: `/project/${id}/dashboard/${dashboardId}`,
+    pathname: `/project/${project.id}/dashboard/${dashboard.id}`,
     search: `?from=${ranges[0]}&to=${ranges[1]}`
   };
 
@@ -189,4 +189,4 @@ export const PanelPreviewPage = () => {
   );
 };
 
-export default PanelPreviewPage;
+export default withDashboard(PanelPreviewPage);

@@ -6,18 +6,17 @@ import { Page } from "../../../core/components/Page";
 import api from "../../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { useNavigate } from "react-router-dom";
-import { useProject } from "../../../core/hooks/useProject";
 import { Confirm } from "../../../core/components/Confirm";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { useDashboard } from "../../../core/hooks/useDashboard";
+import { BaseProjectViewType } from "src/core/types/hoc";
 
 interface UpdateDashboardForm {
   name: string;
   isEditable: boolean;
 }
 
-const EditDashboardPage = () => {
-  const { project } = useProject();
+const EditDashboardPage = ({ project }: BaseProjectViewType) => {
   const dashboard = useDashboard();
 
   const navigate = useNavigate();

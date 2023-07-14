@@ -9,7 +9,6 @@ interface Props extends Omit<HTMLProps<HTMLDivElement>, "name" | "className"> {
   className?: string;
   bodyClassName?: string;
   loading?: boolean;
-  isDraggable?: boolean;
 }
 
 export const ContentCard = forwardRef<any, Props>(

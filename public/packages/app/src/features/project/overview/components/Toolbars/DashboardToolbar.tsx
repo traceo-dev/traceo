@@ -14,9 +14,8 @@ import {
 } from "@ant-design/icons";
 import { useAppDispatch } from "../../../../../store/index";
 import { Fragment, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PopoverSelectOptions } from "../../../../../core/components/PopoverSelectOptions";
-import { useProject } from "../../../../../core/hooks/useProject";
 import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
 import api from "../../../../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../../../core/utils/constants";
@@ -24,7 +23,6 @@ import { loadDashboard } from "../../state/actions";
 import { Permissions } from "../../../../../core/components/Permissions";
 import { notify } from "../../../../../core/utils/notify";
 import { SelectPanelModal } from "../SelectPanelModal";
-import { useDashboard } from "../../../../../core/hooks/useDashboard";
 
 const MAX_DATE = new Date(dayjs().unix() * 1e3);
 
@@ -43,10 +41,10 @@ export const DashboardToolbar = ({
   setRemoveMode = undefined,
   dashboard = undefined
 }: Props) => {
+  const { id } = useParams();
+
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  const { project } = useProject();
 
   const hasPanels = dashboard && dashboard.panels?.length > 0;
   const isBaseDashboard = dashboard.isBase;
@@ -55,13 +53,13 @@ export const DashboardToolbar = ({
   const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
 
   const { data: dashboards = [], isLoading } = useReactQuery<Dashboard[]>({
-    queryKey: [`dashboards_${project.id}`],
-    url: `/api/dashboard/project/${project.id}`
+    queryKey: [`dashboards_${id}`],
+    url: `/api/dashboard/project/${id}`
   });
 
-  const onSelectDashboard = (id: string) => {
+  const onSelectDashboard = (dashboardId: string) => {
     navigate({
-      pathname: `/project/${project.id}/dashboard/${id}`
+      pathname: `/project/${id}/dashboard/${dashboardId}`
     });
   };
 
@@ -81,7 +79,7 @@ export const DashboardToolbar = ({
 
   const onEditDashboard = () => {
     navigate({
-      pathname: `/project/${project.id}/dashboard/${dashboard.id}/edit`
+      pathname: `/project/${id}/dashboard/${dashboard.id}/edit`
     });
   };
 
@@ -99,7 +97,7 @@ export const DashboardToolbar = ({
       .patch("/api/dashboard", {
         ...dashboard,
         dashboardId: dashboard.id,
-        projectId: project.id,
+        projectId: id,
         isEditable: lockState
       })
       .then(() => {

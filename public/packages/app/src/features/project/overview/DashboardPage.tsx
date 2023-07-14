@@ -12,7 +12,6 @@ import { Button, Col, Typography } from "@traceo/ui";
 import { PlusOutlined } from "@ant-design/icons";
 import { notify } from "../../../core/utils/notify";
 import { SelectPanelModal } from "./components/SelectPanelModal";
-import { useDashboard } from "../../../core/hooks/useDashboard";
 import {
   GRID_MIN_HEIGHT,
   GRID_MIN_WIDTH,
@@ -20,18 +19,16 @@ import {
   getVisualizationComponent
 } from "./utils";
 import { PanelProps } from "./components/Panels/types";
-import { useProject } from "src/core/hooks/useProject";
 import { useParams } from "react-router-dom";
+import { ProjectDashboardViewType } from "src/core/types/hoc";
+import withDashboard from "src/core/hooks/withDashboard";
 
 const GridPanelItem = styled.div`
   position: relative;
   touch-action: manipulation;
 `;
 
-export const DashboardPage = () => {
-  const { id } = useParams();
-  const dashboard = useDashboard();
-  const { permission } = useProject();
+const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewType) => {
   const [itemDimensions, setItemDimensions] = useState({});
   const [isRemoveMode, setRemoveMode] = useState<boolean>(false);
   const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
@@ -62,6 +59,10 @@ export const DashboardPage = () => {
   };
 
   const handleLayoutChange = async (layouts: GridLayout[]) => {
+    if (!dashboard.id) {
+      return;
+    }
+
     const positions = layouts.map((layout) => ({
       x: layout.x,
       y: layout.y,
@@ -73,7 +74,7 @@ export const DashboardPage = () => {
     await api
       .patch(`/api/dashboard/layout`, {
         positions,
-        projectId: id,
+        projectId: project.id,
         dashboardId: dashboard.id
       })
       .catch(() => {
@@ -166,4 +167,4 @@ export const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default withDashboard(DashboardPage);

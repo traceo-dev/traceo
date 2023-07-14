@@ -20,7 +20,6 @@ import {
 } from "src/core/components/PopoverSelectOptions";
 import api from "src/core/lib/api";
 import { notify } from "src/core/utils/notify";
-import { useUser } from "src/core/hooks/useUser";
 import { useProject } from "src/core/hooks/useProject";
 
 interface Props extends Pick<HTMLProps<HTMLDivElement>, "className"> {
@@ -134,7 +133,6 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
         extra={options}
         loading={loading}
         className={className}
-        isDraggable={isEditable}
       >
         {isHover && isHoverOptions && (
           <NoHeaderOptions>

@@ -159,7 +159,7 @@ export class MemberQueryService {
       const role = await this.getProjectPermission(id, projectId);
       if (!role) {
         return new ApiResponse("error", "No permission for this project!", {
-          reason: "no-permission"
+          role: MemberRole.NONE
         });
       }
 

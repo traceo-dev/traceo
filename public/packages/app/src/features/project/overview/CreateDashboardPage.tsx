@@ -15,11 +15,9 @@ import { Page } from "../../../core/components/Page";
 import api from "../../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { useNavigate } from "react-router-dom";
-import { useProject } from "../../../core/hooks/useProject";
+import { BaseProjectViewType } from "src/core/types/hoc";
 
-const CreateDashboardPage = () => {
-  const { project } = useProject();
-
+const CreateDashboardPage = ({ project }: BaseProjectViewType) => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(false);
