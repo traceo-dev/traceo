@@ -1,4 +1,4 @@
-import { LoadingOutlined, SwapOutlined } from "@ant-design/icons";
+import { CaretDownFilled, LoadingOutlined } from "@ant-design/icons";
 import { Row, Avatar, Popover } from "@traceo/ui";
 import { TraceoLogo } from "../../Icons/TraceoLogo";
 import { SwitchProjectPopover } from "./SwitchProjectPopover";
@@ -30,6 +30,8 @@ export const LeftHeaderSection = () => {
 
     return (
       <Fragment>
+        <TraceoLogo size="small" />
+        <span className="text-xl px-1 text-secondary font-[100]">/</span>
         <PreLoad isLoading={isLoadingProject}>
           <Row gap="x-2">
             <Avatar shape="square" size="sm" alt={project?.name} src={project?.gravatar} />
@@ -37,13 +39,12 @@ export const LeftHeaderSection = () => {
           </Row>
         </PreLoad>
 
-        {projects.length > 1 && (
+        {projects.length > 1 && !isLoadingProject && (
           <Popover
             placement="bottom-end"
-            overrideStyles={{ transitionDuration: 0 }}
             content={<SwitchProjectPopover isLoading={isLoading} projects={projects} />}
           >
-            <SwapOutlined className="text-xs cursor-pointer pl-5" />
+            <CaretDownFilled className="p-1 flex text-xs cursor-pointer ml-2 rounded-full hover:bg-secondary" />
           </Popover>
         )}
       </Fragment>
