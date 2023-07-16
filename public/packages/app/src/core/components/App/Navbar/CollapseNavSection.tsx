@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  font-size: 13px;
+  font-size: 14px;
   user-select: none;
 `;
 
@@ -30,6 +30,11 @@ const HeaderWrapper = styled.div`
     props.isActive &&
     css`
       color: #ffffff;
+      background-color: rgb(22 78 99);
+
+      &:hover {
+        background-color: rgb(22 78 99);
+      }
     `}
 `;
 
@@ -41,11 +46,11 @@ const HaderInfo = styled.div`
 `;
 
 const Body = styled.div`
-  max-height: 150px;
   overflow-y: auto;
   padding-inline: 14px;
   border-left: 1px solid var(--color-bg-secondary);
   margin-left: 28px;
+  padding-top: 5px;
 `;
 
 const CollapseIcon = styled.span`

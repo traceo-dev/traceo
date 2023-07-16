@@ -2,31 +2,25 @@ import { Page } from "../../../core/components/Page";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import {
   ApiResponse,
-  MemberRole,
   DashboardPanel as DashboardPanelType,
   VISUALIZATION_TYPE
 } from "@traceo/types";
-import { Button, Row } from "@traceo/ui";
 import { useEffect, useState } from "react";
-import { To, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
-import { Permissions } from "../../../core/components/Permissions";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
-import { SettingOutlined } from "@ant-design/icons";
 import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import api from "../../../core/lib/api";
-import { PreviewPageHeader } from "../../../core/components/PreviewPageHeader";
 import { notify } from "../../../core/utils/notify";
-import { MetricTimeToolbar } from "./components/Toolbars/MetricTimeToolbar";
-import { RemovePanelConfirm } from "./components/RemovePanelConfirm";
+import { PanelToolbar } from "./components/Toolbars/PanelToolbar";
 import { getVisualizationComponent, validate } from "./utils";
 import { usePanelQuery } from "./components/Panels/usePanelQuery";
-import { mapVisualizationName } from "./components/utils";
 import { PanelProps } from "./components/Panels/types";
 import { PanelContent } from "./PanelContent";
 import withDashboard from "src/core/hooks/withDashboard";
 import { ProjectDashboardViewType } from "src/core/types/hoc";
+import { Portal } from "src/core/components/Portal";
 
 export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewType) => {
   const { panelId } = useParams();
@@ -101,38 +95,11 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
     setCustomizeMode(false);
   };
 
-  const backOpts: To = {
-    pathname: `/project/${project.id}/dashboard/${dashboard.id}`,
-    search: `?from=${ranges[0]}&to=${ranges[1]}`
-  };
-
-  const renderOperationButtons = () => {
-    return (
-      <Row gap="x-3">
-        {isCustomPanel && (
-          <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-            <Button size="sm" onClick={() => setCustomizeMode(true)} icon={<SettingOutlined />}>
-              Configure
-            </Button>
-          </Permissions>
-        )}
-
-        {!dashboard.isBase && (
-          <RemovePanelConfirm panelId={panelId}>
-            <Button size="sm" variant="danger">
-              Remove
-            </Button>
-          </RemovePanelConfirm>
-        )}
-      </Row>
-    );
-  };
-
   const renderPanel = () => {
     const visualization = options.config.visualization;
 
     const props: PanelProps = {
-      title: mapVisualizationName[visualization],
+      title: options.title,
       isEditable: false,
       isRemoveMode: false,
       isHoverOptions: false,
@@ -142,10 +109,6 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
       dashboard
     };
 
-    if (isTimePicker) {
-      props.options = <MetricTimeToolbar ranges={ranges} setRanges={setRanges} />;
-    }
-
     return getVisualizationComponent(visualization, props);
   };
 
@@ -154,23 +117,19 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
   };
 
   return (
-    <Page
-      title={getDocumentTitle()}
-      header={
-        !isCustomizeMode && {
-          title: (
-            <PreviewPageHeader
-              page="panel preview"
-              title={options.title}
-              description={options.description}
-              backOpts={backOpts}
-            />
-          ),
-          suffix: renderOperationButtons()
-        }
-      }
-    >
-      <Page.Content className={!isCustomizeMode && "pt-0"}>
+    <Page title={getDocumentTitle()}>
+      <Portal id="dashboard-toolbar">
+        <PanelToolbar
+          isTimePicker={isTimePicker}
+          isCustomPanel={isCustomPanel}
+          dashboard={dashboard}
+          ranges={ranges}
+          setRanges={setRanges}
+          setCustomizeMode={setCustomizeMode}
+        />
+      </Portal>
+
+      <Page.Content>
         <PanelContent
           data={data}
           rawData={rawData}

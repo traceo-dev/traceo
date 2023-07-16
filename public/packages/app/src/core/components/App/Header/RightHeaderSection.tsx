@@ -17,6 +17,7 @@ import { useProject } from "../../../../core/hooks/useProject";
 import styled from "styled-components";
 import { PopoverSelectOptions } from "../../PopoverSelectOptions";
 import { useUser } from "src/core/hooks/useUser";
+import { SDK } from "@traceo/types";
 
 export const RightHeaderSection = () => {
   const { project } = useProject();
@@ -30,30 +31,33 @@ export const RightHeaderSection = () => {
   const onCreateProject = () => navigate("/dashboard/new-project");
   const onCreateUser = () => navigate("/dashboard/new-user");
 
-  const createNewOptions = [
-    {
-      label: "Dashboard",
-      onClick: () => onCreateDashboard(),
-      icon: <AppstoreFilled />
-    },
-    {
-      label: "Project",
-      onClick: () => onCreateProject(),
-      icon: <AppstoreAddOutlined />
-    },
-    {
-      label: "User",
-      onClick: () => onCreateUser(),
-      icon: <UserAddOutlined />
-    }
-  ];
-
   const renderNewResource = () => {
+    const createNewOptions = [
+      {
+        label: "Project",
+        onClick: () => onCreateProject(),
+        icon: <AppstoreAddOutlined />
+      },
+      {
+        label: "User",
+        onClick: () => onCreateUser(),
+        icon: <UserAddOutlined />
+      }
+    ];
+
+    if (![SDK.REACT, SDK.VUE].includes(project.sdk)) {
+      createNewOptions.splice(0, 0, {
+        label: "Dashboard",
+        onClick: () => onCreateDashboard(),
+        icon: <AppstoreFilled />
+      });
+    }
+
     return <PopoverSelectOptions title="Create new resource" options={createNewOptions} />;
   };
 
   return (
-    <Row className="gap-x-5">
+    <Row className="gap-x-5 select-none">
       {isProjectDashboard && (
         <ServerPermissions>
           <Popover
@@ -71,12 +75,12 @@ export const RightHeaderSection = () => {
 
       <a href={GH_REPO_LINK} target="blank" className="text-primary hover:text-white">
         <QuestionCircleOutlined className="icon-btn" />
-        <span className="text-[12px]">Help</span>
+        <span className="text-[12px] font-semibold">Help</span>
       </a>
 
       <RouterLink to={`/dashboard/profile/settings`}>
         <UserOutlined className="icon-btn" />
-        <span className="text-[12px]">{user.name ?? user.username}</span>
+        <span className="text-[12px] font-semibold">{user.name ?? user.username}</span>
       </RouterLink>
 
       <LogoutOutlined onClick={() => logout()} className="icon-btn hover:text-red-400" />

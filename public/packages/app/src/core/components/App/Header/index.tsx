@@ -3,15 +3,16 @@ import { useUser } from "../../../../core/hooks/useUser";
 import { LeftHeaderSection } from "./LeftHeaderSection";
 import { RightHeaderSection } from "./RightHeaderSection";
 import { Row } from "@traceo/ui";
-import { MenuOutlined } from "@ant-design/icons";
+import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
 import { Fragment, useEffect, useState } from "react";
 import { Bradcrumbs } from "./Breadcrumbs";
 import { PortalElement } from "../../Portal";
 
 interface Props {
+  isMenuCollapsed: boolean;
   onClickMenu: () => void;
 }
-const Header = ({ onClickMenu }: Props) => {
+const Header = ({ onClickMenu, isMenuCollapsed = false }: Props) => {
   const { isLoggedIn } = useUser();
   const [isShift, setShift] = useState(false);
 
@@ -39,7 +40,9 @@ const Header = ({ onClickMenu }: Props) => {
       <StickyHeader sticky={isShift}>
         <SecondaryHeader>
           <Row>
-            <MenuOutlined className="cursor-pointer" onClick={() => onClickMenu()} />
+            <span className="cursor-pointer transition-all" onClick={() => onClickMenu()}>
+              {isMenuCollapsed ? <MenuOutlined /> : <CloseOutlined />}
+            </span>
             <Bradcrumbs isShift={isShift} />
           </Row>
 
@@ -61,13 +64,11 @@ const PrimaryHeader = styled.header`
   align-items: center;
   background-color: var(--color-bg-primary);
   border-bottom: 1px solid var(--color-bg-secondary);
-  z-index: 1000;
 `;
 
 const StickyHeader = styled.nav`
   display: flex;
   flex-direction: column;
-  z-index: 1000;
 
   ${(props) =>
     props.sticky &&

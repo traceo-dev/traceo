@@ -23,8 +23,7 @@ const Item = styled.li`
   ${(props) =>
     props.isActive &&
     css`
-      background-color: var(--color-bg-secondary);
-      color: #ffffff;
+      color: rgb(6 182 212);
     `}
 `;
 

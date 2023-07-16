@@ -1,5 +1,6 @@
 import { NavItem } from "@traceo/types";
 import { toTitleCase } from "@traceo/ui";
+import { urlService } from "src/core/lib/url";
 
 const removeQueryParamsFromPathname = (pathname: string) => {
   const indexOfQueryParams = pathname.indexOf("?");
@@ -12,12 +13,16 @@ const removeQueryParamsFromPathname = (pathname: string) => {
   return pathname;
 };
 
+/**
+ * TODO: rewrite this...
+ *
+ * @returns tree of navItems
+ */
 export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
   let mainItem: NavItem = undefined;
   let subItem: NavItem = undefined;
 
   const pathWithoutParams = removeQueryParamsFromPathname(pathname);
-
   const pathSplits = pathname.split("/");
 
   for (const node of navTree) {
@@ -37,7 +42,7 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
   if (!mainItem) {
     if (pathSplits[1] === "project") {
       const page = pathSplits[3];
-      const mainNode = navTree.find((e) => e.id === "dashboards");
+      const dashboardNode = navTree.find((e) => e.id === "dashboards");
 
       switch (page) {
         case "incidents":
@@ -49,7 +54,7 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
           };
           break;
         case "dashboard-create":
-          mainItem = mainNode;
+          mainItem = dashboardNode;
           subItem = {
             id: "dashboard_create",
             label: "New dashboard"
@@ -58,19 +63,33 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
         case "dashboard":
           const dashAction = pathSplits[5];
           if (dashAction === "panel") {
-            mainItem = mainNode;
+            mainItem = dashboardNode;
             subItem = {
               id: "dashboard_panel",
               label: "Panel"
             };
           } else if (dashAction === "panel-create") {
-            mainItem = mainNode;
+            mainItem = dashboardNode;
             subItem = {
               id: "dashboard_create_panel",
               label: "Create panel"
             };
+          } else if (dashAction === "edit") {
+            mainItem = dashboardNode;
+            subItem = {
+              id: "dashboard_edit",
+              label: "Edit"
+            };
           }
 
+          break;
+        case "performance":
+          mainItem = navTree.find((e) => e.id === "performance");
+          const perfType = pathSplits[4];
+          subItem = {
+            id: "performance_preview",
+            label: perfType
+          };
           break;
         default:
           break;
@@ -100,6 +119,14 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
         label: "New user"
       };
     }
+  }
+
+  // guard to back to current selected dashboard
+  if (mainItem?.id === "dashboards") {
+    mainItem = {
+      ...mainItem,
+      url: `/project/${pathSplits[2]}/dashboard/${pathSplits[4]}`
+    };
   }
 
   return {

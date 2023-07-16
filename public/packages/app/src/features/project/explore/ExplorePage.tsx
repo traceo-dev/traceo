@@ -54,14 +54,15 @@ export const ExplorePageWrapper: FC = () => {
   const [exploreType, setExploreType] = useState<EXPLORE_TYPE>(type);
 
   useEffect(() => {
-    setExploreType(type);
+    onChangeExploreType(type);
   }, [type]);
 
-  useEffect(() => {
+  const onChangeExploreType = (type: EXPLORE_TYPE) => {
+    setExploreType(type);
     urlService.setParams({
-      type: exploreType
+      type: type
     });
-  }, [exploreType]);
+  };
 
   const { ranges, setRanges } = useTimeRange({
     from: dayjs().subtract(30, "minute").unix(),
@@ -97,7 +98,7 @@ export const ExplorePageWrapper: FC = () => {
             variant="secondary"
             options={exploreOptions}
             value={exploreType}
-            onChange={(opt) => setExploreType(opt?.value)}
+            onChange={(opt) => onChangeExploreType(opt?.value)}
           />
           <Row gap="x-3" className="text-sm">
             <ExploreRangePicker
@@ -118,9 +119,9 @@ export const ExplorePageWrapper: FC = () => {
           </Row>
         </Row>
 
-        {exploreType === EXPLORE_TYPE.LOGS && <LogsPage {...props} ref={ref} />}
-        {exploreType === EXPLORE_TYPE.TRACING && <TracesPage {...props} ref={ref} />}
-        {exploreType === EXPLORE_TYPE.METRICS && <MetricsPage {...props} ref={ref} />}
+        {type === EXPLORE_TYPE.LOGS && <LogsPage {...props} ref={ref} />}
+        {type === EXPLORE_TYPE.TRACING && <TracesPage {...props} ref={ref} />}
+        {type === EXPLORE_TYPE.METRICS && <MetricsPage {...props} ref={ref} />}
       </Page.Content>
     </Page>
   );

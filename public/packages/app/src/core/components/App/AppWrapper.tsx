@@ -6,7 +6,7 @@ import { Navbar } from "./Navbar";
 import Header from "./Header";
 import { useLocation } from "react-router-dom";
 
-const NavbarOverlay = styled.div`
+const Overlay = styled.div`
   width: 100%;
   height: 100%
     ${(props) =>
@@ -44,15 +44,15 @@ export const AppWrapper: FC = ({ children }) => {
 
   return (
     <div className="flex flex-col relative min-h-screen">
-      <Header onClickMenu={() => onClickMenu()} />
+      <Header isMenuCollapsed={isSidebarCollapsed} onClickMenu={() => onClickMenu()} />
 
       <NotificationContainer />
 
       <div className="flex">
         <Navbar isCollapsed={isSidebarCollapsed} />
-        <NavbarOverlay visible={isOverlay} onClick={() => isOverlay && setSidebarCollapsed(true)}>
+        <Overlay visible={isOverlay} onClick={() => isOverlay && setSidebarCollapsed(true)}>
           <MainBody>{children}</MainBody>
-        </NavbarOverlay>
+        </Overlay>
       </div>
     </div>
   );

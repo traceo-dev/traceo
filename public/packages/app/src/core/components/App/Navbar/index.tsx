@@ -28,8 +28,7 @@ const Nav = styled.nav`
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
   overflow-y: auto;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-block: 20px;
 
   ${(props) =>
     props.isCollapsed &&
@@ -60,7 +59,9 @@ export const Navbar = ({ isCollapsed }: Props) => {
   });
 
   useEffect(() => {
-    refetch();
+    if (project.id) {
+      refetch();
+    }
 
     const tree = buildTree({
       dashboards,
@@ -78,8 +79,11 @@ export const Navbar = ({ isCollapsed }: Props) => {
     return null;
   }
 
+  // useEffect(() => {
+  //   document.title = activeRoute.mainItem?.label;
+  // }, [activeRoute]);
+
   const onSelect = (path: string) => {
-    // TODO: set document.title = ""
     navigate(path);
   };
 
@@ -92,7 +96,7 @@ export const Navbar = ({ isCollapsed }: Props) => {
           icon={treeRoot?.icon as JSX.Element}
           title={treeRoot.label}
           url={treeRoot.url}
-          active={treeRoot === activeRoute.mainItem}
+          active={treeRoot?.id === activeRoute.mainItem?.id}
         >
           {treeRoot.items.length > 0 && (
             <ul className="list-none p-0 m-0">

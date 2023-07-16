@@ -17,7 +17,8 @@ import { VitalsHealthBar } from "./VitalsHealthBar";
 import { VitalsRawData } from "./VitalsRawData";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { ContentCard } from "../../../../core/components/ContentCard";
-import { BaseTimeRangePicker } from "../../../../core/components/BaseTimeRangePicker";
+import { Portal } from "src/core/components/Portal";
+import { ToolbarTimePicker } from "../../../../core/components/ToolbarTimePicker";
 
 const VitalsPreviewPage = () => {
   const { id, name } = useParams();
@@ -75,6 +76,9 @@ const VitalsPreviewPage = () => {
         suffix: <HrefIcon href={WEB_VITALS_DOCS_URL[name]} icon={<QuestionCircleOutlined />} />
       }}
     >
+      <Portal id="dashboard-toolbar">
+        <ToolbarTimePicker ranges={ranges} onChangeRanges={setRanges} />
+      </Portal>
       <Page.Content className="pt-1">
         <Card>
           <SearchWrapper>
@@ -90,7 +94,6 @@ const VitalsPreviewPage = () => {
               options={selectHealthOptions}
               onChange={(opt) => setSelectedHealth(opt?.value)}
             />
-            <BaseTimeRangePicker ranges={ranges} setRanges={setRanges} />
           </SearchWrapper>
         </Card>
         <ContentCard

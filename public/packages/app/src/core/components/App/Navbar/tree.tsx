@@ -5,11 +5,12 @@ import {
   CompassOutlined,
   HomeOutlined,
   InfoCircleOutlined,
+  RocketOutlined,
   SettingOutlined,
   TeamOutlined,
   UserOutlined
 } from "@ant-design/icons";
-import { Dashboard, IProject, IUser, MemberRole, NavItem } from "@traceo/types";
+import { Dashboard, IProject, IUser, MemberRole, NavItem, SDK } from "@traceo/types";
 
 interface TreeProps {
   user: IUser;
@@ -29,6 +30,7 @@ export const buildTree = ({
   if (project.id) {
     const isProjectAdmin = permission === MemberRole.ADMINISTRATOR;
     const isProjectMaintainer = permission === MemberRole.MAINTAINER;
+    const isFrontendProject = [SDK.REACT, SDK.VUE].includes(project.sdk);
 
     const dashboardRoot: NavItem = {
       id: "dashboards",
@@ -59,40 +61,53 @@ export const buildTree = ({
       items: []
     });
 
-    const exploreRoot: NavItem = {
-      id: "explore",
-      label: "Explore",
-      icon: <CompassOutlined />,
-      subtitle: undefined,
-      url: `/project/${project.id}/explore?type=logs`,
-      items: []
-    };
+    if (!isFrontendProject) {
+      const exploreRoot: NavItem = {
+        id: "explore",
+        label: "Explore",
+        icon: <CompassOutlined />,
+        subtitle: undefined,
+        url: `/project/${project.id}/explore?type=logs`,
+        items: []
+      };
 
-    exploreRoot.items.push({
-      id: "explore_logs",
-      label: "Logs",
-      icon: undefined,
-      subtitle: undefined,
-      url: `/project/${project.id}/explore?type=logs`
-    });
+      exploreRoot.items.push({
+        id: "explore_logs",
+        label: "Logs",
+        icon: undefined,
+        subtitle: undefined,
+        url: `/project/${project.id}/explore?type=logs`
+      });
 
-    exploreRoot.items.push({
-      id: "explore_metrics",
-      label: "Metrics",
-      icon: undefined,
-      subtitle: undefined,
-      url: `/project/${project.id}/explore?type=metrics`
-    });
+      exploreRoot.items.push({
+        id: "explore_metrics",
+        label: "Metrics",
+        icon: undefined,
+        subtitle: undefined,
+        url: `/project/${project.id}/explore?type=metrics`
+      });
 
-    exploreRoot.items.push({
-      id: "explore_traces",
-      label: "Traces",
-      icon: undefined,
-      subtitle: undefined,
-      url: `/project/${project.id}/explore?type=tracing`
-    });
+      exploreRoot.items.push({
+        id: "explore_traces",
+        label: "Traces",
+        icon: undefined,
+        subtitle: undefined,
+        url: `/project/${project.id}/explore?type=tracing`
+      });
 
-    treeRoot.push(exploreRoot);
+      treeRoot.push(exploreRoot);
+    }
+
+    if (isFrontendProject) {
+      treeRoot.push({
+        id: "performance",
+        label: "Performance",
+        icon: <RocketOutlined />,
+        items: [],
+        subtitle: undefined,
+        url: `/project/${project.id}/performance`
+      });
+    }
 
     const settingsRoot: NavItem = {
       id: "settings",
