@@ -62,10 +62,10 @@ export const CollapseItem: FC<CollapseItemProps> = ({
           className
         )}
       >
-        <Row>
-          {collapseIconPosition === "start" && <div className="mr-2">{collapseIcon}</div>}
-          {startIcon && <div className="mr-2">{startIcon}</div>}
-          {header && <Typography>{itemHeader}</Typography>}
+        <Row className="items-center gap-x-2">
+          {collapseIconPosition === "start" && collapseIcon}
+          {startIcon}
+          {header && itemHeader}
         </Row>
 
         {collapseIconPosition === "end" && collapseIcon}

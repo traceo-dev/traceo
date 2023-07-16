@@ -1,28 +1,36 @@
 import { Dashboard, MemberRole, Setter, TimeRange } from "@traceo/types";
-import { Popover, Row, TimeRangePicker, Tooltip, conditionClass, joinClasses } from "@traceo/ui";
+import { Row, TimeRangePicker } from "@traceo/ui";
 import dayjs from "dayjs";
 import { relativeTimeOptions } from "../../../explore/components/utils";
-import {
-  LoadingOutlined,
-  AppstoreFilled,
-  CaretDownOutlined,
-  RightOutlined,
-  LockFilled,
-  UnlockFilled,
-  PlusCircleFilled,
-  SettingFilled
-} from "@ant-design/icons";
+import { PlusOutlined, SettingOutlined, LockOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../../../../../store/index";
 import { Fragment, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { PopoverSelectOptions } from "../../../../../core/components/PopoverSelectOptions";
-import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
 import api from "../../../../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../../../core/utils/constants";
 import { loadDashboard } from "../../state/actions";
 import { Permissions } from "../../../../../core/components/Permissions";
 import { notify } from "../../../../../core/utils/notify";
 import { SelectPanelModal } from "../SelectPanelModal";
+import styled from "styled-components";
+
+const ToolbarButton = styled.span`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-inline: 9px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  border-radius: 4px;
+  cursor: pointer;
+  gap: 6px;
+  font-weight: 500;
+  font-size: 12px;
+
+  &:hover {
+    background-color: var(--color-bg-secondary);
+  }
+`;
 
 const MAX_DATE = new Date(dayjs().unix() * 1e3);
 
@@ -30,7 +38,6 @@ interface Props {
   showTimepicker?: boolean;
   ranges: TimeRange;
   onChangeRanges: Setter<TimeRange>;
-  isRemoveMode: boolean;
   setRemoveMode: Setter<boolean>;
   dashboard: Dashboard;
 }
@@ -49,33 +56,7 @@ export const DashboardToolbar = ({
   const hasPanels = dashboard && dashboard.panels?.length > 0;
   const isBaseDashboard = dashboard.isBase;
 
-  const [isHover, setHover] = useState<boolean>(false);
   const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
-
-  const { data: dashboards = [], isLoading } = useReactQuery<Dashboard[]>({
-    queryKey: [`dashboards_${id}`],
-    url: `/api/dashboard/project/${id}`
-  });
-
-  const onSelectDashboard = (dashboardId: string) => {
-    navigate({
-      pathname: `/project/${id}/dashboard/${dashboardId}`
-    });
-  };
-
-  const renderPopoverContent = () => {
-    if (isLoading) {
-      return <LoadingOutlined />;
-    }
-
-    const options = dashboards.map((dashboard) => ({
-      label: dashboard.name,
-      icon: <AppstoreFilled />,
-      onClick: () => onSelectDashboard(dashboard.id)
-    }));
-
-    return <PopoverSelectOptions title="Select dashboard" options={options} />;
-  };
 
   const onEditDashboard = () => {
     navigate({
@@ -107,65 +88,30 @@ export const DashboardToolbar = ({
       .catch(() => notify.error(TRY_AGAIN_LATER_ERROR));
   };
 
-  const lockIcon = dashboard.isEditable ? (
-    <LockFilled />
-  ) : (
-    <UnlockFilled className="text-yellow-600" />
-  );
-
-  const renderSwitch = () => {
-    if (dashboards.length === 1) {
-      return <span>{dashboard.name}</span>;
-    }
-
-    return (
-      <Popover placement="bottom" content={renderPopoverContent()}>
-        <div className="flex flex-row items-center gap-x-2 cursor-pointer">
-          <span>{dashboard.name}</span>
-          <CaretDownOutlined />
-        </div>
-      </Popover>
-    );
-  };
-
   return (
     <Fragment>
-      <Row className="justify-between mb-3">
-        <Row
-          className="gap-x-5 w-full"
-          onMouseEnter={() => setHover(true)}
-          onMouseLeave={() => setHover(false)}
-        >
-          <div className="gap-x-2 text-sm flex flex-row items-center select-none">
-            <AppstoreFilled className="text-sm" />
-            <span>Dashboard</span>
-            <RightOutlined className="text-[9px]" />
-            {renderSwitch()}
-          </div>
+      <Row gap="x-2" className="justify-end">
+        <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+          {!isBaseDashboard && (
+            <ToolbarButton onClick={() => onAddPanel()}>
+              <PlusOutlined />
+              Add panel
+            </ToolbarButton>
+          )}
 
-          <Row
-            className={joinClasses("text-xs gap-x-9 pl-5", conditionClass(!isHover, "hidden"))}
-          >
-            <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-              {!isBaseDashboard && (
-                <Tooltip title="Add new panel">
-                  <PlusCircleFilled onClick={() => onAddPanel()} className="cursor-pointer" />
-                </Tooltip>
-              )}
+          <ToolbarButton onClick={() => onEditDashboard()}>
+            <SettingOutlined />
+            Settings
+          </ToolbarButton>
 
-              <Tooltip title="Settings">
-                <SettingFilled onClick={() => onEditDashboard()} className="cursor-pointer" />
-              </Tooltip>
-              {hasPanels && !isBaseDashboard && (
-                <Tooltip title={dashboard.isEditable ? "Lock dashboard" : "Unlock dashboard"}>
-                  <div onClick={() => onLockDashboard()} className="cursor-pointer">
-                    {lockIcon}
-                  </div>
-                </Tooltip>
-              )}
-            </Permissions>
-          </Row>
-        </Row>
+          {hasPanels && !isBaseDashboard && (
+            <ToolbarButton onClick={() => onLockDashboard()}>
+              <LockOutlined />
+              {dashboard.isEditable ? "Lock dashboard" : "Unlock dashboard"}
+            </ToolbarButton>
+          )}
+        </Permissions>
+
         {showTimepicker && (
           <TimeRangePicker
             value={ranges}
@@ -174,6 +120,8 @@ export const DashboardToolbar = ({
             datesRange={true}
             maxDate={MAX_DATE}
             type="secondary"
+            // TODO: temporary solution, create dedicated time range picker input for dashboards
+            className="border-none text-xs font-semibold hover:ring-0 hover:ring-transparent hover:text-white hover:bg-secondary"
           />
         )}
       </Row>

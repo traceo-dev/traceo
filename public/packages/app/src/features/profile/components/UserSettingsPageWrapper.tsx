@@ -1,3 +1,4 @@
+import { resetProjectState } from "src/features/project/state/project/reducers";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { Page } from "../../../core/components/Page";
 import { useUser } from "../../../core/hooks/useUser";
@@ -22,6 +23,7 @@ export const UserSettingsPageWrapper = ({ children }) => {
 
   useEffect(() => {
     dispatch(loadSignedInUser());
+    dispatch(resetProjectState());
   }, []);
 
   const getDocumentTitle = () => {

@@ -19,9 +19,9 @@ import {
   getVisualizationComponent
 } from "./utils";
 import { PanelProps } from "./components/Panels/types";
-import { useParams } from "react-router-dom";
 import { ProjectDashboardViewType } from "src/core/types/hoc";
 import withDashboard from "src/core/hooks/withDashboard";
+import { Portal } from "../../../core/components/Portal";
 
 const GridPanelItem = styled.div`
   position: relative;
@@ -151,17 +151,16 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
 
   return (
     <Page title="Dashboards">
-      <Page.Content>
+      <Portal id="dashboard-toolbar">
         <DashboardToolbar
-          dashboard={dashboard}
-          isRemoveMode={isRemoveMode}
-          setRemoveMode={setRemoveMode}
-          showTimepicker={showTimepicker}
           ranges={ranges}
           onChangeRanges={setRanges}
+          setRemoveMode={setRemoveMode}
+          dashboard={dashboard}
+          showTimepicker={showTimepicker}
         />
-        {renderContent()}
-      </Page.Content>
+      </Portal>
+      <Page.Content>{renderContent()}</Page.Content>
       <SelectPanelModal isOpen={isSelectPanelModal} onCancel={() => setSelectPanelModal(false)} />
     </Page>
   );

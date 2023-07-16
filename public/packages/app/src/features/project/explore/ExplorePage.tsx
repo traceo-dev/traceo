@@ -15,6 +15,7 @@ import { EXPLORE_TYPE, Setter, TimeRange } from "@traceo/types";
 import { ExploreRangePicker } from "./components/ExploreRangePicker";
 import { MetricsPage } from "./metrics/MetricsPage";
 import { urlService } from "../../../core/lib/url";
+import { useParams } from "react-router-dom";
 
 const exploreOptions: SelectOptionProps[] = [
   {
@@ -49,13 +50,18 @@ export const ExplorePageWrapper: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
-  const [type, setType] = useState<EXPLORE_TYPE>(urlService.getParam<EXPLORE_TYPE>("type"));
+  const type = urlService.getParam<EXPLORE_TYPE>("type");
+  const [exploreType, setExploreType] = useState<EXPLORE_TYPE>(type);
+
+  useEffect(() => {
+    setExploreType(type);
+  }, [type]);
 
   useEffect(() => {
     urlService.setParams({
-      type: type
+      type: exploreType
     });
-  }, [type]);
+  }, [exploreType]);
 
   const { ranges, setRanges } = useTimeRange({
     from: dayjs().subtract(30, "minute").unix(),
@@ -80,7 +86,7 @@ export const ExplorePageWrapper: FC = () => {
   };
 
   const getDocumentTitle = () => {
-    return `Explore - ${toTitleCase(type)}`;
+    return `Explore - ${toTitleCase(exploreType)}`;
   };
 
   return (
@@ -90,15 +96,15 @@ export const ExplorePageWrapper: FC = () => {
           <Select
             variant="secondary"
             options={exploreOptions}
-            value={type}
-            onChange={(opt) => setType(opt?.value)}
+            value={exploreType}
+            onChange={(opt) => setExploreType(opt?.value)}
           />
           <Row gap="x-3" className="text-sm">
             <ExploreRangePicker
               range={ranges}
-              maxRange={type === EXPLORE_TYPE.TRACING ? 168 : 168}
+              maxRange={exploreType === EXPLORE_TYPE.TRACING ? 168 : undefined}
               setRange={(e) => setRanges(e)}
-              type={type}
+              type={exploreType}
             />
             <Button
               icon={<CaretRightFilled />}
@@ -112,9 +118,9 @@ export const ExplorePageWrapper: FC = () => {
           </Row>
         </Row>
 
-        {type === EXPLORE_TYPE.LOGS && <LogsPage {...props} ref={ref} />}
-        {type === EXPLORE_TYPE.TRACING && <TracesPage {...props} ref={ref} />}
-        {type === EXPLORE_TYPE.METRICS && <MetricsPage {...props} ref={ref} />}
+        {exploreType === EXPLORE_TYPE.LOGS && <LogsPage {...props} ref={ref} />}
+        {exploreType === EXPLORE_TYPE.TRACING && <TracesPage {...props} ref={ref} />}
+        {exploreType === EXPLORE_TYPE.METRICS && <MetricsPage {...props} ref={ref} />}
       </Page.Content>
     </Page>
   );

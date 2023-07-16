@@ -5,7 +5,6 @@ import {
   LogoutOutlined,
   AppstoreAddOutlined,
   AppstoreFilled,
-  BarChartOutlined,
   UserAddOutlined
 } from "@ant-design/icons";
 import { Row, Popover } from "@traceo/ui";
@@ -17,9 +16,11 @@ import { useNavigate } from "react-router-dom";
 import { useProject } from "../../../../core/hooks/useProject";
 import styled from "styled-components";
 import { PopoverSelectOptions } from "../../PopoverSelectOptions";
+import { useUser } from "src/core/hooks/useUser";
 
 export const RightHeaderSection = () => {
   const { project } = useProject();
+  const user = useUser();
 
   const navigate = useNavigate();
 
@@ -70,13 +71,13 @@ export const RightHeaderSection = () => {
 
       <a href={GH_REPO_LINK} target="blank" className="text-primary hover:text-white">
         <QuestionCircleOutlined className="icon-btn" />
+        <span className="text-[12px]">Help</span>
       </a>
 
-      {isProjectDashboard && (
-        <RouterLink to={`/dashboard/profile/settings`}>
-          <UserOutlined className="icon-btn" />
-        </RouterLink>
-      )}
+      <RouterLink to={`/dashboard/profile/settings`}>
+        <UserOutlined className="icon-btn" />
+        <span className="text-[12px]">{user.name ?? user.username}</span>
+      </RouterLink>
 
       <LogoutOutlined onClick={() => logout()} className="icon-btn hover:text-red-400" />
     </Row>

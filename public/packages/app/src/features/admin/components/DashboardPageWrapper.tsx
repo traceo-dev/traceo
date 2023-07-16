@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import NotFound from "../../../core/components/Layout/Pages/NotFound";
 import { Page } from "../../../core/components/Page";
 import { PageCenter } from "../../../core/components/PageCenter";
@@ -9,7 +10,9 @@ import {
   SettingOutlined,
   TeamOutlined
 } from "@ant-design/icons";
-import { FC } from "react";
+import { FC, useEffect } from "react";
+import { useAppDispatch } from "src/store";
+import { resetProjectState } from "src/features/project/state/project/reducers";
 
 const menu: MenuRoute[] = [
   {
@@ -37,6 +40,11 @@ interface Props {
 }
 export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
   const user = useUser();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(resetProjectState());
+  }, []);
 
   if (!user.isAdmin) {
     return (

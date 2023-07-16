@@ -56,7 +56,7 @@ export const Page: PageType = ({
         {header && (
           <div
             className={joinClasses(
-              "w-full flex flex-col px-9 pt-9",
+              "w-full flex flex-col px-9 pt-5",
               conditionClass(headerDivider, "border-bottom")
             )}
           >

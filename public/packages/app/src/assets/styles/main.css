@@ -11,6 +11,7 @@
 @import url("./button.css");
 @import url("./uplot.css");
 @import url("./react-grid.css");
+@import url("./header.css");
 
 :root {
   --color-text-primary: #ccccdc;
@@ -145,7 +146,7 @@ table {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--color-bg-primary);
 }
 
 /* Handle */
@@ -156,10 +157,10 @@ table {
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
   opacity: 1;
   transition: opacity 0.3s ease-in-out 0s;
-}
+} */
 
 /* End Scrollbar */
 

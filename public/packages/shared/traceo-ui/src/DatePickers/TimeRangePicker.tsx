@@ -26,6 +26,7 @@ interface Props {
   maxDate?: Date;
   // Input type
   type?: "primary" | "secondary";
+  className?: string;
 }
 
 export const TimeRangePicker = ({
@@ -37,7 +38,8 @@ export const TimeRangePicker = ({
   datesRange = false,
   maxDate = null,
   minDate = null,
-  type = "primary"
+  type = "primary",
+  className = ""
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>(null);
@@ -171,6 +173,7 @@ export const TimeRangePicker = ({
       onClick={() => setOpen(!open)}
       disabled={disabled}
       type={type}
+      className={className}
     />
   );
 };

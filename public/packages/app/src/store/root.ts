@@ -12,6 +12,8 @@ import userReducer from "../features/auth/state/reducers";
 import navbarReducer from "./internal/navbar/reducers";
 import notifyReducer from "./internal/notify/notifyReducer";
 
+import navTreeReducer from "src/core/components/App/Navbar/reducers/navTree";
+
 import { combineReducers, AnyAction } from "redux";
 
 const incidentReducers = {
@@ -32,7 +34,8 @@ const rootReducers = {
   ...navbarReducer,
   ...notifyReducer,
   ...incidentReducers,
-  ...dashboardReducer
+  ...dashboardReducer,
+  ...navTreeReducer
 };
 
 export const appReducers = combineReducers({
