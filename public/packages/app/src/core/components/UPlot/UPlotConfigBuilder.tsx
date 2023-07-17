@@ -6,7 +6,6 @@ import uPlot from "uplot";
 import {
   BaseOptions,
   ChartConfigs,
-  ChartType,
   HistogramOptions,
   HookType,
   TooltipOptions,
@@ -17,7 +16,7 @@ import {
 import { uPlotUtils } from "./utils";
 import { tooltipsPlugin } from "./TooltipPlugin";
 import { stackedOptions } from "./stacked";
-import { PLOT_TYPE } from "@traceo/types";
+import { VISUALIZATION_TYPE, PLOT_TYPE } from "@traceo/types";
 import { calculateHistogramBins, prepareBinsData } from "./histogram";
 
 const defaultAxe: uPlot.Axis = {
@@ -34,7 +33,7 @@ const mapTypeToPaths: Record<PLOT_TYPE, any> = {
 export class UPlotConfigBuilder {
   private stacked = false;
   private isZoom = true;
-  private chartType: ChartType = "timeseries";
+  private chartType: VISUALIZATION_TYPE = VISUALIZATION_TYPE.TIME_SERIES;
   private data: any = undefined;
   private histogram: HistogramOptions = undefined;
 
@@ -57,7 +56,7 @@ export class UPlotConfigBuilder {
     id = undefined,
     height = 300,
     width = undefined,
-    chartType = "timeseries",
+    chartType = VISUALIZATION_TYPE.TIME_SERIES,
     stacked = false,
     data = [[]],
     isZoom = true,

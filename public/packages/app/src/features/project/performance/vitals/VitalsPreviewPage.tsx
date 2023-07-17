@@ -9,7 +9,6 @@ import { PreviewPageHeader } from "../../../../core/components/PreviewPageHeader
 import { Page } from "../../../../core/components/Page";
 import { SearchWrapper } from "../../../../core/components/SearchWrapper";
 import { useTimeRange } from "../../../../core/hooks/useTimeRange";
-import { MetricTimeRangePicker } from "../../metrics/components/MetricTimeRangePicker";
 import { selectHealthOptions, VITALS_DETAILS, WEB_VITALS_DOCS_URL } from "./types";
 import { parseToBins } from "./utils";
 import { renderChart } from "./VitalsChart";
@@ -18,6 +17,8 @@ import { VitalsHealthBar } from "./VitalsHealthBar";
 import { VitalsRawData } from "./VitalsRawData";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { ContentCard } from "../../../../core/components/ContentCard";
+import { Portal } from "src/core/components/Portal";
+import { ToolbarTimePicker } from "../../../../core/components/ToolbarTimePicker";
 
 const VitalsPreviewPage = () => {
   const { id, name } = useParams();
@@ -75,6 +76,9 @@ const VitalsPreviewPage = () => {
         suffix: <HrefIcon href={WEB_VITALS_DOCS_URL[name]} icon={<QuestionCircleOutlined />} />
       }}
     >
+      <Portal id="dashboard-toolbar">
+        <ToolbarTimePicker ranges={ranges} onChangeRanges={setRanges} />
+      </Portal>
       <Page.Content className="pt-1">
         <Card>
           <SearchWrapper>
@@ -90,7 +94,6 @@ const VitalsPreviewPage = () => {
               options={selectHealthOptions}
               onChange={(opt) => setSelectedHealth(opt?.value)}
             />
-            <MetricTimeRangePicker ranges={ranges} setRanges={setRanges} />
           </SearchWrapper>
         </Card>
         <ContentCard

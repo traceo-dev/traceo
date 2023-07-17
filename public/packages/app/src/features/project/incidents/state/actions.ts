@@ -1,9 +1,9 @@
 import api from "../../../../core/lib/api";
-import { ThunkResult } from "@store/types";
+import { ThunkResult } from "../../../../store/types";
+import { isEmptyObject } from "../../../../core/utils/object";
 import { ApiResponse, IIncident, PlotData } from "@traceo/types";
 import { beginIncidentFetch, endIncidentFetch, setIncident } from "./slices/incident.slice";
 import { beginGroupedEventsFetch, setGroupedEvents } from "./slices/grouped-events.slice";
-import { isEmptyObject } from "../../../../core/utils/object";
 
 export const loadIncident = (id: string): ThunkResult<void> => {
   return async (dispatch, getStore) => {

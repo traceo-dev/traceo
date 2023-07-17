@@ -11,9 +11,10 @@ import { uuidService } from "../../common/helpers/uuid";
 import { CreateProjectDto, ProjectDto } from "../../common/types/dto/project.dto";
 import { Project } from "../../db/entities/project.entity";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { BROWSER_SDK, MemberRole } from "@traceo/types";
-import { MetricsService } from "../metrics/metrics.service";
+import { MemberRole, UserStatus } from "@traceo/types";
 import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
+import { DashboardService } from "../dashboard/dashboard.service";
+import { initialDashboardPanels } from "../dashboard/base.dashboards";
 
 @Injectable()
 export class ProjectService {
@@ -24,17 +25,17 @@ export class ProjectService {
     private readonly memberService: MemberService,
     private readonly projectQueryService: ProjectQueryService,
     private readonly userQueryService: UserQueryService,
-    private readonly metricsService: MetricsService
+    private readonly dashboardService: DashboardService
   ) {
     this.logger = new Logger(ProjectService.name);
   }
 
-  public async create(data: CreateProjectDto): Promise<ApiResponse<Project>> {
+  public async create(dto: CreateProjectDto): Promise<ApiResponse<Project>> {
     const { id, username } = RequestContext.user;
 
     return this.entityManager
       .transaction(async (manager) => {
-        const isExists = await this.projectQueryService.getDtoBy({ name: data.name });
+        const isExists = await this.projectQueryService.getDtoBy({ name: dto.name });
         if (isExists) {
           return new ApiResponse("error", undefined, {
             error: "Project with this name already exists"
@@ -42,13 +43,13 @@ export class ProjectService {
         }
 
         const user = await this.userQueryService.getDtoBy({ id });
-        if (!user) {
+        if (!user || [UserStatus.DISABLED, UserStatus.INACTIVE].includes(user.status)) {
           throw new Error(INTERNAL_SERVER_ERROR);
         }
 
-        const url = gravatar.url(data.name, "identicon");
+        const url = gravatar.url(dto.name, "identicon");
         const payload: Partial<Project> = {
-          ...data,
+          ...dto,
           id: uuidService.generate(),
           createdAt: dateUtils.toUnix(),
           updatedAt: dateUtils.toUnix(),
@@ -57,11 +58,6 @@ export class ProjectService {
         };
 
         const project = await manager.getRepository(Project).save(payload);
-        if (!BROWSER_SDK.includes(data.sdk)) {
-          // In server-project we have to create default metrics configurations
-          await this.metricsService.addDefaultMetrics(project, manager);
-        }
-
         if (username !== ADMIN_NAME) {
           const admin = await this.userQueryService.getDtoBy({ email: ADMIN_EMAIL });
           await this.memberService.createMember(
@@ -74,8 +70,22 @@ export class ProjectService {
 
         await this.memberService.createMember(user, project, MemberRole.ADMINISTRATOR, manager);
 
+        // Create basic dashboard
+        const dashboard = await this.dashboardService.create({
+          name: "Basic dashboard",
+          description: undefined,
+          isEditable: false,
+          isTimePicker: false,
+          isBase: true
+        }, project, manager);
+
+        const panels = initialDashboardPanels.map((panel) => ({ ...panel, dashboard }));
+        await this.dashboardService.batchCreatePanels(panels, manager);
+
+        await this.update(project.id, { mainDashboardId: dashboard.id }, manager);
+
         return new ApiResponse("success", "Project successfully created", {
-          redirectUrl: `/project/${project.id}/overview`,
+          redirectUrl: `/project/${project.id}/dashboard/${dashboard.id}`,
           id: project.id
         });
       })

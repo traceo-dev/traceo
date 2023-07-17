@@ -9,7 +9,6 @@ interface PopoverProps {
   children?: JSX.Element;
   placement?: Placement;
   trigger?: TriggerType;
-  showArrow?: boolean;
   overrideStyles?: object;
   open?: boolean;
   disabled?: boolean;
@@ -20,7 +19,6 @@ export const Popover: FC<PopoverProps> = ({
   content,
   placement = "bottom",
   trigger = "click",
-  showArrow = true,
   overrideStyles,
   open = false,
   disabled = false
@@ -45,7 +43,7 @@ export const Popover: FC<PopoverProps> = ({
   const triggerOptions: Record<TriggerType, any> = {
     click: {
       onClick: (event: MouseEvent) => {
-        !disabled && setVisible(true);
+        !disabled && setVisible(!visible);
         event.stopPropagation();
       }
     },
@@ -59,14 +57,15 @@ export const Popover: FC<PopoverProps> = ({
   return (
     <div ref={ref} {...triggerOptions[trigger]}>
       <PopoverCore
-        className="bg-primary rounded-sm z-50 border border-solid border-secondary text-sm"
+        className="bg-primary rounded-sm text-sm"
         visible={visible}
         content={content}
         placement={placement}
-        showArrow={showArrow}
         overrideStyles={{
-          boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
-          ...overrideStyles
+          ...overrideStyles,
+          boxShadow: "rgb(1, 4, 9) 0px 8px 24px",
+          zIndex: 1200,
+          marginTop: "15px"
         }}
       >
         {children}

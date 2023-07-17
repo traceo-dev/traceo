@@ -1,4 +1,4 @@
-import { PLOT_TYPE, UplotDataType } from "@traceo/types";
+import { VISUALIZATION_TYPE, PLOT_TYPE, UplotDataType } from "@traceo/types";
 import uPlot from "uplot";
 
 export type ChartConfigs = {
@@ -22,7 +22,7 @@ export type BaseOptions = CoreUplotOptions & {
     id?: string;
     width?: number;
     height?: number;
-    chartType?: ChartType;
+    chartType?: VISUALIZATION_TYPE;
     stacked?: boolean;
     data?: UplotDataType;
     isZoom?: boolean;
@@ -49,3 +49,11 @@ export type UPlotSerie = uPlot.Series & {
 export type TooltipOptions = {
     show?: boolean;
 }
+
+export type FormatterType = (
+    _self: any,
+    splits: any,
+    _axisIdx: any,
+    _foundSpace: any,
+    _foundIncr: any
+) => string[];

@@ -6,11 +6,12 @@ import { Project } from "./entities/project.entity";
 import { Incident } from "./entities/incident.entity";
 import { Session } from "./entities/session.entity";
 import { PostgresMigration } from "./migrations/postgres.migration";
-import { Metric } from "./entities/metric.entity";
 import { ClickhouseMigration } from "./migrations/clickhouse.migration";
 import { Alert } from "./entities/alert.entity";
 import { AlertRule } from "./entities/alert-rule.entity";
 import { AlertHistory } from "./entities/alert-history.entity";
+import { Dashboard } from "./entities/dashboard.entity";
+import { DashboardPanel } from "./entities/dashboard-panel.entity";
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -29,10 +30,11 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         Alert,
         AlertRule,
         AlertHistory,
+        Dashboard,
+        DashboardPanel,
         Project,
         Incident,
         Member,
-        Metric,
         Session,
         User
       ],

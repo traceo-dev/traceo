@@ -18,10 +18,7 @@
     "isolatedModules": true,
     "incremental": true,
     "allowSyntheticDefaultImports": true,
-    "rootDirs": ["./src", "../../../shared"],
-    "paths": {
-      "@store/*": ["./src/store/*"]
-    }
+    "rootDirs": ["./src", "../../../shared"]
   },
   "exclude": ["node_modules", "dist"]
 }

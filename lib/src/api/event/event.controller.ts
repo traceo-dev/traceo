@@ -3,10 +3,12 @@ import { ApiTags } from '@nestjs/swagger';
 import { IEvent } from '@traceo/types';
 import { EventQueryService } from './query/event-query.service';
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { Query } from '@nestjs/common/decorators';
+import { Query, UseGuards } from '@nestjs/common/decorators';
+import { AuthGuard } from '../../common/decorators/auth-guard.decorator';
 
 @ApiTags('event')
 @Controller('event')
+@UseGuards(new AuthGuard())
 export class EventController {
     constructor(
         private readonly eventQueryService: EventQueryService
@@ -40,13 +42,13 @@ export class EventController {
 
     // overview dashboard
 
-    @Get("/graph/project-daily")
-    async getDailyOverview(@Query("id") id: string): Promise<ApiResponse<unknown>> {
-        return await this.eventQueryService.getTodayEventsGraph(id);
-    }
+    // @Get("/graph/project-daily")
+    // async getDailyOverview(@Query("id") id: string): Promise<ApiResponse<unknown>> {
+    //     return await this.eventQueryService.getTodayEventsGraph(id);
+    // }
 
-    @Get("/graph/project-overview")
-    async getTotalOverview(@Query("id") id: string): Promise<ApiResponse<unknown>> {
-        return await this.eventQueryService.getTotalOverviewGraph(id);
-    }
+    // @Get("/graph/project-overview")
+    // async getTotalOverview(@Query("id") id: string): Promise<ApiResponse<unknown>> {
+    //     return await this.eventQueryService.getTotalOverviewGraph(id);
+    // }
 }

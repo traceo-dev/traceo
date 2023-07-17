@@ -4,7 +4,7 @@ import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { AddToProjectModal } from "../../../../core/components/Modals/AddToProjectModal";
 import { membersAction } from "../../../../core/lib/api/members";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../../store/types";
 import { ProjectMember, MemberProject, MemberRole } from "@traceo/types";
 import { Button, Card, Space, Table, TableColumn, Avatar, Select } from "@traceo/ui";
 import { useState } from "react";

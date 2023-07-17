@@ -1,16 +1,22 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { BadRequestException, Injectable, Logger } from "@nestjs/common";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
-import { ExploreMetricsQueryDto, MetricsQueryDto } from "../../../common/types/dto/metrics.dto";
+import { ExploreMetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { IMetric, MetricPreviewType, MetricType } from "@traceo/types";
-import { Metric } from "../../../db/entities/metric.entity";
-import { Brackets, EntityManager } from "typeorm";
+import { VISUALIZATION_TYPE, PlotData } from "@traceo/types";
+import { EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { calculateInterval } from "../../../common/helpers/interval";
+import { DashboardPanel } from "../../../db/entities/dashboard-panel.entity";
+import { EventQueryService } from "src/api/event/query/event-query.service";
+
+// Interval for histogram shouldn't be changed due to time range
+const HISTOGRAM_INTERVAL = 15; //seconds
 
 export type AggregateTimeSeries = { minute: number, value: number }[];
 
-type GraphByFieldsType = Omit<MetricPreviewType, "options">;
+export type MetricPreviewType = {
+  datasource: PlotData;
+}
 
 @Injectable()
 export class MetricsQueryService {
@@ -18,47 +24,16 @@ export class MetricsQueryService {
 
   constructor(
     private readonly entityManager: EntityManager,
+    private readonly eventService: EventQueryService,
     private readonly clickhouseService: ClickhouseService
   ) {
     this.logger = new Logger(MetricsQueryService.name);
   }
 
-  public async getProjectMetrics(
-    projectId: string,
-    query: MetricsQueryDto
-  ): Promise<ApiResponse<IMetric[]>> {
-    try {
-      const queryBuilder = this.entityManager
-        .getRepository(Metric)
-        .createQueryBuilder("metric")
-        .innerJoinAndSelect("metric.project", "project", "project.id = :projectId", {
-          projectId
-        });
-
-      if (query?.search) {
-        queryBuilder.andWhere(
-          new Brackets((qb) => {
-            qb.where("LOWER(metric.name) LIKE LOWER(:search)", {
-              search: `%${query.search}%`
-            }).orWhere("LOWER(metric.description) LIKE LOWER(:search)", {
-              search: `%${query.search}%`
-            });
-          })
-        );
-      }
-
-      const qb = await queryBuilder.orderBy("metric.createdAt", "DESC").getMany();
-      return new ApiResponse("success", undefined, qb);
-    } catch (err) {
-      this.logger.error(`[${this.getProjectMetrics.name}] Caused by: ${err}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
-    }
-  }
-
   public async getMetricsExploreGraph(
     projectId: string,
     query: ExploreMetricsQueryDto
-  ): Promise<ApiResponse<GraphByFieldsType>> {
+  ): Promise<ApiResponse<MetricPreviewType>> {
     const { fields } = query;
 
     if (!fields || fields.length === 0) {
@@ -80,38 +55,59 @@ export class MetricsQueryService {
 
   public async getMetricGraph(
     projectId: string,
-    metricId: string,
+    panelId: string,
     from: number,
     to: number
   ): Promise<ApiResponse<MetricPreviewType>> {
-    if (!projectId || !metricId) {
-      throw new Error("Project and metric ids are required!");
+    if (!panelId) {
+      throw new Error("Panel ID is required!");
     }
 
     try {
-      const metric = await this.entityManager.getRepository(Metric).findOneBy({
-        id: metricId,
-        project: {
-          id: projectId
-        }
+      const panel = await this.entityManager.getRepository(DashboardPanel).findOneBy({
+        id: panelId
       });
 
-      if (!metric || metric.series.length === 0) {
-        return new ApiResponse("success", undefined, { options: {}, datasource: [] })
+      if (!panel) {
+        return;
       }
 
-      const response = await this.mapAggregateDataSource(projectId, {
-        from, to,
-        fields: metric.series.map((e) => e.field),
-        interval: 1,
-        valueMax: undefined,
-        valueMin: undefined,
-        isHistogram: metric.type === MetricType.HISTOGRAM
-      })
+      const isCustomPanel = panel.type === "custom";
+      const series = panel.config.series;
+      const visualization = panel.config.visualization;
+
+      let datasource = null;
+
+      if (!isCustomPanel) {
+        switch (panel.type) {
+          case "todays_events":
+            datasource = await this.eventService.getTodayEventsGraph(projectId);
+            break;
+          case "today_events_count":
+            datasource = await this.eventService.getTodayEventsCount(projectId);
+            break;
+          case "overview_events":
+            datasource = await this.eventService.getTotalOverviewGraph(projectId);
+            break;
+          case "last_event_at":
+            datasource = await this.eventService.getLastEventTimestamp(projectId);
+          default:
+            break;
+        }
+      } else {
+        datasource = await this.mapAggregateDataSource(projectId, {
+          from, to,
+          fields: series.map((e) => e.field),
+          interval: 1,
+          valueMax: undefined,
+          valueMin: undefined,
+          isHistogram: visualization === VISUALIZATION_TYPE.HISTOGRAM
+        });
+      }
 
       return new ApiResponse("success", undefined, {
-        options: metric,
-        datasource: response
+        options: panel,
+        datasource
       });
     } catch (err) {
       this.logger.error(`[${this.getMetricGraph.name}] Caused by: ${err}`);
@@ -122,9 +118,6 @@ export class MetricsQueryService {
   private async mapAggregateDataSource(projectId: string, query: ExploreMetricsQueryDto) {
     let series = [];
     let time = [];
-
-    // Interval for histogram shouldn't be changed due to time range
-    const HISTOGRAM_INTERVAL = 15; //seconds
 
     const interval = query.isHistogram ? HISTOGRAM_INTERVAL : calculateInterval({
       from: query.from,
@@ -162,25 +155,27 @@ export class MetricsQueryService {
     try {
       let fields = query.fields || [];
 
-      if (query?.metricId) {
-        const metric = await this.entityManager.getRepository(Metric).findOneBy({
-          id: query.metricId,
-          project: {
-            id: projectId
-          }
+      if (query?.panelId) {
+        const metric = await this.entityManager.getRepository(DashboardPanel).findOneBy({
+          id: query.panelId
         });
 
-        fields = metric.series.map((e) => e.field);
+        fields = metric.config.series.map((e) => e.field);
       }
 
       if (fields.length === 0) {
         return new ApiResponse("success", undefined, []);
       }
 
+      const interval = query.isHistogram ? HISTOGRAM_INTERVAL : calculateInterval({
+        from: query.from,
+        to: query.to
+      });
+
       const response = await this.clickhouseService.rawDataMetrics(projectId, {
         ...query,
         fields
-      });
+      }, interval);
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {

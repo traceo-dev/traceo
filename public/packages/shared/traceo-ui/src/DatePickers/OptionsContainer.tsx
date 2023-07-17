@@ -10,15 +10,20 @@ export type RelativeTimeOption = {
 
 interface Props {
   options: RelativeTimeOption[];
-  onSelect: (value: number, unit: ManipulateType) => void;
+  onSelect: (option: RelativeTimeOption) => void;
 }
 export const OptionsContainer = ({ onSelect, options }: Props) => {
+  const onSelectOptions = (e: any, option: RelativeTimeOption) => {
+    e.stopPropagation();
+    onSelect(option);
+  };
+
   return (
     <RelativeTimeWrapper>
       <ul className="pl-0 list-none overflow-y-scroll">
-        {options.map(({ label, unit, value }, index) => (
-          <RelativeTimeOption key={index} onClick={() => onSelect(value, unit)}>
-            {label}
+        {options.map((option, index) => (
+          <RelativeTimeOption key={index} onClick={(e) => onSelectOptions(e, option)}>
+            {option.label}
           </RelativeTimeOption>
         ))}
       </ul>

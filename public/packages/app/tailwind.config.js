@@ -12,11 +12,13 @@ module.exports = {
         secondary: "#22252b",
         canvas: "#131517",
         link: "#6e9fff",
-        contrast: "#ffffff"
+        contrast: "#ffffff",
+        error: "#9a1950"
       },
       textColor: {
         primary: "#CCCCDC",
-        secondary: "#CCCCDCA6"
+        secondary: "#CCCCDCA6",
+        error: "#9a1950"
       },
       fontSize: {
         "2xs": "11px"

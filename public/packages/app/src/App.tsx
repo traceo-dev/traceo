@@ -1,8 +1,8 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "./assets/styles/main.css";
 import "@traceo/ui/dist/styles.css";
+
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Maintenance from "./core/components/Layout/Pages/Maintenance";
-import { NotificationContainer } from "./core/components/Notification/NotificationContainer";
 import { PageCenter } from "./core/components/PageCenter";
 import { TraceoLoading } from "./core/components/TraceoLoading";
 import { ConfigsContextProvider } from "./core/contexts/ConfigsContextProvider";
@@ -13,8 +13,7 @@ import { Suspense } from "react";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { LiveContextProvider } from "./core/contexts/LiveContextProvider";
-import Header from "./core/components/Layout/Header";
-import { TraceoAppWrapper } from "./core/components/Layout/Wrappers/TraceoAppWrapper";
+import { AppWrapper } from "./core/components/App/AppWrapper";
 import { QueryClient, QueryClientProvider, QueryCache } from "react-query";
 
 const queryCache = new QueryCache();
@@ -64,15 +63,6 @@ export const App = () => {
     );
   };
 
-  const renderHeader = () => {
-    const paths = window.location.pathname.split("/");
-    if (!paths.includes("project") && !paths.includes("dashboard")) {
-      return null;
-    }
-
-    return <Header />;
-  };
-
   return (
     <div className="App">
       <Provider store={store}>
@@ -81,11 +71,7 @@ export const App = () => {
             <ConfigsContextProvider>
               <LiveContextProvider>
                 <QueryClientProvider client={queryClient}>
-                  <div className="flex flex-col">
-                    {renderHeader()}
-                    <NotificationContainer />
-                    <TraceoAppWrapper>{renderRoutes()}</TraceoAppWrapper>
-                  </div>
+                  <AppWrapper>{renderRoutes()}</AppWrapper>
                 </QueryClientProvider>
               </LiveContextProvider>
             </ConfigsContextProvider>

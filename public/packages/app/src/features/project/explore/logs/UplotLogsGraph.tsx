@@ -30,7 +30,7 @@ export const UplotLogsGraph = ({ data, onZoom }: Props) => {
         },
         label: "logs",
         bar: {
-          width: 100,
+          width: 90,
           align: 1
         }
       })

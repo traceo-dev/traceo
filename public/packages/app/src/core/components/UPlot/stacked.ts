@@ -38,17 +38,6 @@ const stack = (data: uPlot.AlignedData, omit: any) => {
     };
 }
 
-function getOpts(opts: uPlot.Options) {
-    return {
-        scales: {
-            x: {
-                time: false,
-            },
-        },
-        ...opts
-    };
-}
-
 export const stackedOptions = (options: uPlot.Options, data: uPlot.AlignedData = [[]]): {
     options: uPlot.Options,
     data: UplotDataType
@@ -61,13 +50,17 @@ export const stackedOptions = (options: uPlot.Options, data: uPlot.AlignedData =
         return data[seriesIdx][closestIdx] == null ? null : closestIdx;
     };
 
-    options.series.forEach(s => {
-        s.value = (_u, _v, si, i) => data[si][i];
+    for (const serie of options.series) {
+        if (!serie.value) {
+            continue;
+        }
 
-        s.points = s.points || {};
+        serie.value = (_u, _v, si, i) => data[si][i];
+
+        serie.points = serie.points || {};
 
         // scan raw unstacked data to return only real points
-        s.points.filter = (_u, seriesIdx, show, _gaps) => {
+        serie.points.filter = (_u, seriesIdx, show, _gaps) => {
             if (show) {
                 let pts = [];
                 data[seriesIdx].forEach((v, i) => {
@@ -76,7 +69,7 @@ export const stackedOptions = (options: uPlot.Options, data: uPlot.AlignedData =
                 return pts;
             }
         }
-    });
+    }
 
     // force 0 to be the sum minimum this instead of the bottom series
     options.scales.y = {
@@ -85,18 +78,5 @@ export const stackedOptions = (options: uPlot.Options, data: uPlot.AlignedData =
             return [0, minMax[1]];
         }
     };
-
-    // restack on toggle
-    // options.hooks = {
-    //     setSeries: [
-    //         (u, _i) => {
-    //             let stacked = stack(data, i => !u.series[i].show);
-    //             u.delBand(null);
-    //             stacked.bands.forEach(b => u.addBand(b));
-    //             u.setData(stacked.data as uPlot.AlignedData);
-    //         }
-    //     ],
-    // };
-
     return { options, data: stacked.data as any };
 }

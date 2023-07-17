@@ -8,7 +8,7 @@ import { useAppDispatch } from "../../../store";
 import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import { loadMembers } from "./state/members/actions";
 import { PlusOutlined } from "@ant-design/icons";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../store/types";
 import { MemberRole } from "@traceo/types";
 import { InputSearch, Button, Card } from "@traceo/ui";
 import { useState, useEffect } from "react";

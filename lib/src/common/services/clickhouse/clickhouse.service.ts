@@ -26,7 +26,8 @@ export class ClickhouseService {
 
     public async rawDataMetrics(
         projectId: string,
-        query: ExploreMetricsQueryDto
+        query: ExploreMetricsQueryDto,
+        interval: number
     ): Promise<any> {
         let queryFilters: string[] = [];
 
@@ -34,29 +35,27 @@ export class ClickhouseService {
             queryFilters.push(`arrayFilter(x -> x IS NOT NULL, groupArray(if(name = '${field}', round(value, 2), NULL)))[1] AS ${field}\n`);
         };
 
-        const seriesFields = query.fields.map((e) => `'${e}'`).join(", ");
-
         const sqlQuery = `
             SELECT
                 minute,
                 ${queryFilters.join(",")}
             FROM (
                 SELECT
-                    toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL 1 MINUTE)) AS minute,
+                    toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) AS minute,
                     name,
                     AVG(value) AS value
-                FROM traceo_development.metrics
+                FROM metrics
                 WHERE
                     receive_timestamp >= toUnixTimestamp(toDateTime(${query.from}))
                     AND receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
-                    AND name IN [${seriesFields}]
+                    AND name IN [${this.arrayToQueryString(query.fields)}]
                     AND project_id = '${projectId}'
                 GROUP BY minute, name
             )
             GROUP BY minute
             ORDER BY minute ASC
             WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${query.from}))) TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
-            STEP ${query.interval * 60}
+            STEP ${interval}
         `;
 
         const logs = await this.query({
@@ -463,4 +462,8 @@ export class ClickhouseService {
 
         return await events.json();
     }
+
+    private arrayToQueryString(arr: string[]) {
+        return arr.map((element) => `'${element}'`).join(", ");
+    };
 }

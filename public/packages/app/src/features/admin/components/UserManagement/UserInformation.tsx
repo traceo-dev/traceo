@@ -3,7 +3,7 @@ import { Confirm } from "../../../../core/components/Confirm";
 import api from "../../../../core/lib/api";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { useAppDispatch } from "../../../../store";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../../store/types";
 import { UserStatus, ApiResponse } from "@traceo/types";
 import {
   Button,

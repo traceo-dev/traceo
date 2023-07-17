@@ -65,8 +65,28 @@ const getDashboardRoutes = (): RouteDescriptor[] => {
 const getApplicationRoutes = (): RouteDescriptor[] => {
   return [
     {
-      path: "/project/:id/overview",
-      component: lazy(() => import("../features/project/overview/OverviewPage")),
+      path: "/project/:id/dashboard/:dashboardId",
+      component: lazy(() => import("../features/project/overview/DashboardPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/dashboard-create",
+      component: lazy(() => import("../features/project/overview/CreateDashboardPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/dashboard/:dashboardId/edit",
+      component: lazy(() => import("../features/project/overview/EditDashboardPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/dashboard/:dashboardId/panel-create",
+      component: lazy(() => import("../features/project/overview/CreatePanelPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/dashboard/:dashboardId/panel/:panelId",
+      component: lazy(() => import("../features/project/overview/PanelPreviewPage")),
       wrapper: ProjectDashboardWrapper
     },
     {
@@ -75,17 +95,17 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       wrapper: ProjectDashboardWrapper
     },
     {
-      path: "/project/:id/incidents/:iid/details",
+      path: "/project/:id/incidents/:incidentId/details",
       component: lazy(() => import("../features/project/incidents/IncidentDetailsPage")),
       wrapper: ProjectDashboardWrapper
     },
     {
-      path: "/project/:id/incidents/:iid/analytics",
+      path: "/project/:id/incidents/:incidentId/analytics",
       component: lazy(() => import("../features/project/incidents/IncidentAnalyticsPage")),
       wrapper: ProjectDashboardWrapper
     },
     {
-      path: "/project/:id/incidents/:iid/events",
+      path: "/project/:id/incidents/:incidentId/events",
       component: lazy(() => import("../features/project/incidents/IncidentEventsPage")),
       wrapper: ProjectDashboardWrapper
     },
@@ -134,21 +154,6 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
     //   component: lazy(() => import("../features/project/alerting/CreateAlertPage")),
     //   wrapper: ProjectDashboardWrapper
     // },
-    {
-      path: "/project/:id/metrics",
-      component: lazy(() => import("../features/project/metrics/MetricsPage")),
-      wrapper: ProjectDashboardWrapper
-    },
-    {
-      path: "/project/:id/metrics/create",
-      component: lazy(() => import("../features/project/metrics/CreateMetricPage")),
-      wrapper: ProjectDashboardWrapper
-    },
-    {
-      path: "/project/:id/metrics/preview/:metricId",
-      component: lazy(() => import("../features/project/metrics/MetricPreviewPage")),
-      wrapper: ProjectDashboardWrapper
-    },
     {
       path: "/project/:id/settings/access",
       component: lazy(() => import("../features/project/settings/MembersListPage")),

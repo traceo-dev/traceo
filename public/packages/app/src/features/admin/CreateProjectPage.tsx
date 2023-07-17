@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { ChooseElementGrid } from "../../core/components/ChooseElementGrid";
 import { resetProjectState } from "../project/state/project/reducers";
 import { AppstoreAddOutlined } from "@ant-design/icons";
-import { RouterLink } from "../../core/components/RouterLink";
+import { useNavigate } from "react-router-dom";
 
 type CreateAppPayload = {
   redirectUrl: string;
@@ -52,6 +52,7 @@ const technologyOptions: SelectOptionProps[] = [
 
 const CreateProjectPage = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -92,6 +93,7 @@ const CreateProjectPage = () => {
 
   return (
     <Page
+      title="Create project"
       header={{
         icon: <AppstoreAddOutlined />,
         title: "Create new project",
@@ -107,7 +109,7 @@ const CreateProjectPage = () => {
     >
       <Page.Content>
         <Card>
-          <Typography className="text-white" size="xl" weight="semibold">
+          <Typography size="xl" weight="semibold">
             1. Choose your platform
           </Typography>
           <ChooseElementGrid
@@ -118,7 +120,7 @@ const CreateProjectPage = () => {
           <Form onSubmit={onFinish} className="w-full" id="create-project-form">
             {({ register, errors }) => (
               <div>
-                <Typography className="text-white" size="xl" weight="semibold">
+                <Typography size="xl" weight="semibold">
                   2. Name your project
                 </Typography>
                 <FormItem
@@ -143,9 +145,9 @@ const CreateProjectPage = () => {
             <Button type="submit" form="create-project-form" loading={loading}>
               Save
             </Button>
-            <RouterLink to={"/dashboard/projects"}>
-              <Button variant="ghost">Cancel</Button>
-            </RouterLink>
+            <Button onClick={() => navigate(-1)} variant="ghost">
+              Cancel
+            </Button>
           </ButtonContainer>
         </Card>
       </Page.Content>

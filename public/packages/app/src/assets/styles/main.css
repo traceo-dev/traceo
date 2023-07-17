@@ -10,11 +10,13 @@
 
 @import url("./button.css");
 @import url("./uplot.css");
+@import url("./react-grid.css");
+@import url("./header.css");
 
 :root {
-  --color-text-primary: rgb(204, 204, 220);
-  --color-text-secondary: rgba(204, 204, 220, 0.65);
-  --color-text-disabled: rgba(204, 204, 220, 0.6);
+  --color-text-primary: #ccccdc;
+  --color-text-secondary: #ccccdca6;
+  --color-text-disabled: #ccccdc99;
 
   --color-traceo-primary: #eab308;
 
@@ -22,6 +24,7 @@
   --color-bg-secondary: #22252b;
   --color-bg-light-secondary: #2d3139;
   --color-bg-canvas: #131517;
+  --color-bg-error: #9a1950;
 }
 
 /* Overrides for tailwind styles */
@@ -143,7 +146,7 @@ table {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--color-bg-primary);
 }
 
 /* Handle */
@@ -154,10 +157,10 @@ table {
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
   opacity: 1;
   transition: opacity 0.3s ease-in-out 0s;
-}
+} */
 
 /* End Scrollbar */
 
@@ -224,3 +227,25 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   width: 1px;
 }
 /* END TRACES */
+
+/* @uiw/react-markdown-preview */
+
+.wmde-markdown h1,
+.wmde-markdown h2,
+.wmde-markdown h3,
+.wmde-markdown h4,
+.wmde-markdown h5,
+.wmde-markdown h6 {
+  border-bottom: none !important;
+}
+
+.wmde-markdown h1 .octicon-link,
+.wmde-markdown h2 .octicon-link,
+.wmde-markdown h3 .octicon-link,
+.wmde-markdown h4 .octicon-link,
+.wmde-markdown h5 .octicon-link,
+.wmde-markdown h6 .octicon-link {
+  display: none !important;
+}
+
+/* END */

@@ -1,4 +1,4 @@
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../../store/types";
 import { Card, FieldLabel, Typography } from "@traceo/ui";
 import { useSelector } from "react-redux";
 

@@ -1,33 +1,39 @@
 import {
-  IMetric,
+  DashboardPanel,
+  DeepPartial,
   METRIC_UNIT,
-  MetricType,
   PLOT_TYPE,
   Setter,
   TimeRange,
-  UplotDataType
+  UplotDataType,
+  VISUALIZATION_TYPE
 } from "@traceo/types";
 import { HTMLProps, useMemo } from "react";
 import BaseUPlotChart from "./BaseUPlotChart";
 import { UPlotConfigBuilder } from "./UPlotConfigBuilder";
 import { hook } from "./hooks";
 import { calculateOpacity } from "../../../core/utils/colors";
-import { ChartType } from "./types";
+import { FormatterType } from "./types";
 
 interface Props extends Omit<HTMLProps<HTMLElement>, "height"> {
   datasource: UplotDataType;
-  metric: IMetric;
+  panel: DeepPartial<DashboardPanel>;
   height?: number;
   extra?: JSX.Element;
   isLoading?: boolean;
   onZoom?: Setter<TimeRange>;
   panelName?: JSX.Element | string;
+  xFormatter?: FormatterType;
 }
 
-const buildSeries = (builder: UPlotConfigBuilder, metric: IMetric) => {
-  if (metric.series && metric.series.length > 0) {
-    for (const serie of metric.series) {
-      const isHistogram = metric.type === MetricType.HISTOGRAM;
+const buildSeries = (builder: UPlotConfigBuilder, panel: DeepPartial<DashboardPanel>) => {
+  const series = panel.config.series || [];
+  const config = panel.config;
+  const visualization = config.visualization;
+
+  if (series && series.length > 0) {
+    for (const serie of series) {
+      const isHistogram = visualization === VISUALIZATION_TYPE.HISTOGRAM;
       const chartType = isHistogram ? PLOT_TYPE.BAR : (serie.config.type as PLOT_TYPE);
       const isArea = serie.config.area.show;
       const areaOpacity = serie.config.area.opacity;
@@ -38,7 +44,7 @@ const buildSeries = (builder: UPlotConfigBuilder, metric: IMetric) => {
         width: serie.config.lineWidth,
         fill: calculateOpacity(serie.config.color, isArea ? areaOpacity : 0),
         points: {
-          show: metric.config.line.marker.show
+          show: config.line.marker.show
         },
         bar: {
           width: serie.config.barWidth,
@@ -52,43 +58,47 @@ const buildSeries = (builder: UPlotConfigBuilder, metric: IMetric) => {
 
 export const BaseMetricChart = ({
   datasource = [[], []],
-  metric = undefined,
+  panel = undefined,
   onZoom = undefined,
-  height = 350
+  height = 350,
+  xFormatter
 }: Props) => {
-  const isHistogram = metric?.type === MetricType.HISTOGRAM;
-  const isTimeseries = metric?.type === MetricType.TIME_SERIES;
+  const config = panel.config;
+  const histogram = config?.histogram;
+  const cUnit = panel.config.unit;
+  const visualization = config.visualization;
 
-  const mapMetricType: Record<MetricType, ChartType> = {
-    histogram: "histogram",
-    time_series: "timeseries"
-  };
+  const isHistogram = visualization === VISUALIZATION_TYPE.HISTOGRAM;
+  const isTimeseries = visualization === VISUALIZATION_TYPE.TIME_SERIES;
+
+  const unit = cUnit === METRIC_UNIT.NONE ? "" : cUnit;
 
   const configs = useMemo(() => {
-    const showLegend = metric?.config.legend.show;
-    const showXAxis = metric?.config.axis.showX;
-    const showYAxis = metric?.config.axis.showY;
-    const showGridLines = metric?.config.axis.showGridLines;
-    const unit = metric?.unit === METRIC_UNIT.NONE ? "" : metric?.unit;
+    const showLegend = config.legend.show;
+    const showXAxis = config.axis.showX;
+    const showYAxis = config.axis.showY;
+    const showFloatLabels = config.axis?.showFloatLabels ?? true;
+    const showGridLines = config.axis.showGridLines;
 
-    const stacked = metric.config.stack.show;
-    const showTooltip = !stacked && metric?.config.tooltip.show;
+    const stacked = config.stack.show;
+    const showTooltip = !stacked && config.tooltip.show;
 
     const plotHeight = !showLegend ? height + 30 : height;
 
     const builder = new UPlotConfigBuilder();
-    buildSeries(builder, metric);
+    buildSeries(builder, panel);
 
     return builder
       .addBase({
-        chartType: mapMetricType[metric?.type],
+        chartType: panel.config.visualization,
         height: plotHeight,
+        isZoom: !isHistogram && panel.type === "custom",
         stacked,
         data: datasource,
         histogram: {
-          bucketSize: metric?.config.histogram?.bucket.size,
-          max: metric.config.histogram?.max ?? undefined,
-          min: metric.config.histogram?.min ?? 0
+          bucketSize: histogram.bucket.size,
+          max: histogram.max ?? undefined,
+          min: histogram.min ?? 0
         }
       })
       .addLegend({
@@ -100,11 +110,13 @@ export const BaseMetricChart = ({
         show: showXAxis,
         grid: {
           show: showGridLines
-        }
+        },
+        formatter: xFormatter
       })
       .addAxe({
         scale: "y",
         show: showYAxis,
+        showFloatLabels,
         grid: {
           show: showGridLines
         },
@@ -124,7 +136,7 @@ export const BaseMetricChart = ({
         show: showTooltip
       })
       .build();
-  }, [metric, datasource]);
+  }, [panel, datasource, height]);
 
   return <BaseUPlotChart configs={configs} />;
 };

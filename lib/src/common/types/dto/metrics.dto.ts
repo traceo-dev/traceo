@@ -7,9 +7,10 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  ValidateIf,
   ValidateNested
 } from "class-validator";
-import { METRIC_UNIT, MetricType, PLOT_TYPE, TOOLTIP_POSITION } from "@traceo/types";
+import { METRIC_UNIT, PLOT_TYPE, TOOLTIP_POSITION, VISUALIZATION_TYPE } from "@traceo/types";
 import { ApiPropertyOptional } from "@nestjs/swagger";
 
 export class MetricQueryDto {
@@ -25,7 +26,7 @@ export class MetricQueryDto {
 
   @IsOptional()
   @IsString()
-  metricId?: string;
+  panelId?: string;
 }
 
 export class ExploreMetricsQueryDto extends MetricQueryDto {
@@ -37,7 +38,7 @@ export class ExploreMetricsQueryDto extends MetricQueryDto {
 
   @IsOptional()
   interval: number = 1;
-  
+
   isHistogram: boolean = false;
 }
 
@@ -73,7 +74,7 @@ class UpdateTooltipMetricDto {
   show: boolean = false;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   position: TOOLTIP_POSITION = "right";
 }
 
@@ -126,6 +127,24 @@ class UpdateLineMetricDto {
   marker: UpdateMarkerMetricDto;
 }
 
+class UpdateMetricTextDto {
+  @IsInt()
+  @IsOptional()
+  size: number = 24;
+
+  @IsInt()
+  @IsOptional()
+  weight: number = 500;
+
+  @IsString()
+  @IsOptional()
+  color: string = "rect";
+
+  @IsString()
+  @IsOptional()
+  value: string;
+}
+
 class UpdateMetricAxisDto {
   @IsBoolean()
   @IsNotEmpty()
@@ -138,9 +157,26 @@ class UpdateMetricAxisDto {
   @IsBoolean()
   @IsNotEmpty()
   showGridLines: boolean = true;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  showFloatLabels: boolean = true;
 }
 
-class UpdateConfigMetricDto {
+export class UpdateOptionsMetricDto {
+  @IsEnum(METRIC_UNIT)
+  @IsOptional()
+  @ApiPropertyOptional()
+  unit: METRIC_UNIT = METRIC_UNIT.NONE;
+
+  @ValidateNested()
+  // @IsNotEmpty()
+  @IsArray({
+    always: true
+  })
+  @Type(() => UpdateSerieMetricDto)
+  series: UpdateSerieMetricDto[];
+
   @ValidateNested()
   @Type(() => UpdateHistogramDto)
   histogram: UpdateHistogramDto;
@@ -168,6 +204,14 @@ class UpdateConfigMetricDto {
   @ValidateNested()
   @Type(() => UpdateMetricAxisDto)
   axis: UpdateMetricAxisDto;
+
+  @IsString()
+  @IsNotEmpty()
+  visualization: VISUALIZATION_TYPE = VISUALIZATION_TYPE.TIME_SERIES;
+
+  @ValidateNested()
+  @Type(() => UpdateMetricTextDto)
+  text: UpdateMetricTextDto;
 }
 
 class UpdateSerieMetricConfigDto {
@@ -190,7 +234,7 @@ class UpdateSerieMetricConfigDto {
   area: UpdateAreaMetricDto;
 }
 
-export class UpdateSerieMetricDto {
+class UpdateSerieMetricDto {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -209,7 +253,8 @@ export class UpdateSerieMetricDto {
   unit: METRIC_UNIT = METRIC_UNIT.NONE;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
+  // @IsNotEmpty()
   field: string;
 
   // @IsString()
@@ -221,37 +266,3 @@ export class UpdateSerieMetricDto {
   config: UpdateSerieMetricConfigDto;
 }
 
-export class UpdateMetricDto {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @IsString()
-  @IsOptional()
-  description: string;
-
-  @IsString()
-  @IsNotEmpty()
-  type: MetricType = MetricType.TIME_SERIES;
-
-  // @IsBoolean()
-  // @IsNotEmpty()
-  // show: boolean;
-
-  @ValidateNested()
-  @IsNotEmpty()
-  @IsArray({
-    always: true
-  })
-  @Type(() => UpdateSerieMetricDto)
-  series: UpdateSerieMetricDto[];
-
-  @IsEnum(METRIC_UNIT)
-  @IsOptional()
-  @ApiPropertyOptional()
-  unit: METRIC_UNIT = METRIC_UNIT.NONE;
-
-  @ValidateNested()
-  @Type(() => UpdateConfigMetricDto)
-  config: UpdateConfigMetricDto;
-}

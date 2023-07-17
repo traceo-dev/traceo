@@ -1,6 +1,6 @@
 import { useProject } from "../../hooks/useProject";
 import api from "../../lib/api";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../store/types";
 import { IUser, MemberRole } from "@traceo/types";
 import { Select, FormItem, Button, ButtonContainer, Space, Avatar, Modal } from "@traceo/ui";
 import { useState, FormEvent } from "react";

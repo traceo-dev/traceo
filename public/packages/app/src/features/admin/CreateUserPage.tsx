@@ -14,10 +14,10 @@ import {
   Input,
   InputSecret
 } from "@traceo/ui";
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserAddOutlined } from "@ant-design/icons";
-import { RouterLink } from "../../core/components/RouterLink";
+import { resetProjectState } from "../project/state/project/reducers";
 
 type CreateUserPayload = {
   id: string;
@@ -30,6 +30,10 @@ const CreateUserPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>(null);
+
+  useEffect(() => {
+    dispatch(resetProjectState());
+  }, []);
 
   const onFinish = async (form: AddUserProps) => {
     setLoading(true);
@@ -55,6 +59,7 @@ const CreateUserPage = () => {
 
   return (
     <Page
+      title="Create user"
       header={{
         icon: <UserAddOutlined />,
         title: "Create new user",
@@ -68,14 +73,14 @@ const CreateUserPage = () => {
         )
       }}
     >
-      <Page.Content>
-        <Card>
+      <Page.Content className="pt-0">
+        <Card title="Basic informations">
           <Form onSubmit={onFinish} id="add-user-form">
             {({ register, errors }) => (
-              <>
+              <Fragment>
                 <FormItem
                   showRequiredMark={true}
-                  className="pt-5"
+                  className="pt-3"
                   label="Username"
                   error={errors.username}
                 >
@@ -85,10 +90,10 @@ const CreateUserPage = () => {
                     })}
                   />
                 </FormItem>
-                <FormItem label="Name" error={errors.name}>
+                <FormItem showRequiredMark={true} label="Name" error={errors.name}>
                   <Input
                     {...register("name", {
-                      required: false
+                      required: true
                     })}
                   />
                 </FormItem>
@@ -118,7 +123,7 @@ const CreateUserPage = () => {
                 {error && (
                   <Alert className="font-semibold" type="error" showIcon title={errorMessage} />
                 )}
-              </>
+              </Fragment>
             )}
           </Form>
 
@@ -126,9 +131,9 @@ const CreateUserPage = () => {
             <Button type="submit" form="add-user-form" loading={loading}>
               Confirm
             </Button>
-            <RouterLink to={"/dashboard/admin/users"}>
-              <Button variant="ghost">Cancel</Button>
-            </RouterLink>
+            <Button onClick={() => navigate(-1)} variant="ghost">
+              Cancel
+            </Button>
           </ButtonContainer>
         </Card>
       </Page.Content>

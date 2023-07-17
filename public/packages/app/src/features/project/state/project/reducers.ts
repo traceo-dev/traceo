@@ -9,7 +9,7 @@ interface State {
 
 const initialState: State = {
   project: {} as IProject,
-  permission: null,
+  permission: undefined,
   isLoading: false
 };
 

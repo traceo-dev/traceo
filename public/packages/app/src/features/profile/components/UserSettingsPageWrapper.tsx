@@ -1,3 +1,4 @@
+import { resetProjectState } from "src/features/project/state/project/reducers";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { Page } from "../../../core/components/Page";
 import { useUser } from "../../../core/hooks/useUser";
@@ -8,25 +9,30 @@ import { SettingOutlined } from "@ant-design/icons";
 import { Avatar } from "@traceo/ui";
 import { useEffect } from "react";
 
+const menu: MenuRoute[] = [
+  {
+    href: "/dashboard/profile/settings",
+    label: "Settings",
+    key: "settings",
+    icon: <SettingOutlined />
+  }
+];
 export const UserSettingsPageWrapper = ({ children }) => {
   const user = useUser();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(loadSignedInUser());
+    dispatch(resetProjectState());
   }, []);
 
-  const menu: MenuRoute[] = [
-    {
-      href: "/dashboard/profile/settings",
-      label: "Settings",
-      key: "settings",
-      icon: <SettingOutlined />
-    }
-  ];
+  const getDocumentTitle = () => {
+    return `Profile - ${user.name}`;
+  };
 
   return (
     <Page
+      title={getDocumentTitle()}
       menuRoutes={menu}
       header={{
         icon: <Avatar size="md" src={user?.gravatar} alt={user.username} />,

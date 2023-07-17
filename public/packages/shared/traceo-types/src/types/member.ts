@@ -4,7 +4,8 @@ import { IUser } from "./user";
 export enum MemberRole {
   ADMINISTRATOR = "Administrator",
   MAINTAINER = "Maintainer",
-  VIEWER = "Viewer"
+  VIEWER = "Viewer",
+  NONE = "None"
 }
 
 export interface IMember {

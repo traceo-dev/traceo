@@ -1,7 +1,7 @@
 import { CodePreview } from "../../../../core/components/CodePreview";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../../store/types";
 import {
   Card,
   Tooltip,

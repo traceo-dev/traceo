@@ -26,6 +26,7 @@ interface Props {
   maxDate?: Date;
   // Input type
   type?: "primary" | "secondary";
+  className?: string;
 }
 
 export const TimeRangePicker = ({
@@ -37,7 +38,8 @@ export const TimeRangePicker = ({
   datesRange = false,
   maxDate = null,
   minDate = null,
-  type = "primary"
+  type = "primary",
+  className = ""
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>(null);
@@ -93,6 +95,8 @@ export const TimeRangePicker = ({
 
   const handleOnChangeTimeFrom = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
+      e.stopPropagation();
+
       const time = e.currentTarget.value;
       if (time && typeof time === "string") {
         const date = setTimeToUnix(time, selectedValue[0]);
@@ -104,6 +108,8 @@ export const TimeRangePicker = ({
 
   const handleOnChangeTimeTo = useCallback(
     (e: React.FormEvent<HTMLInputElement>) => {
+      e.stopPropagation();
+
       const time = e.currentTarget.value;
       if (time && typeof time === "string") {
         const date = setTimeToUnix(time, selectedValue[1]);
@@ -114,7 +120,8 @@ export const TimeRangePicker = ({
   );
 
   const handleOnClickOption = useCallback(
-    (value: number, unit: ManipulateType) => {
+    (option: RelativeTimeOption) => {
+      const { value, unit } = option;
       const from = dayjs().subtract(value, unit).unix();
       const to = dayjs().unix();
       setSelectedValue([from, to]);
@@ -122,45 +129,51 @@ export const TimeRangePicker = ({
     [selectedValue]
   );
 
-  const popoverContent = (
-    <PickerWrapper>
-      <CalendarHeader title="Select time range" />
-      <Row className="grid grid-cols-12">
-        {hasOptions && <OptionsContainer options={options} onSelect={handleOnClickOption} />}
-        <div className={joinClasses(conditionClass(hasOptions, "col-span-8", "col-span-12"))}>
-          <CalendarBody
-            className="p-3"
-            width={300}
-            range={datesRange}
-            values={selectedValue}
-            onChange={(date) => handleOnChangeCalendar(date)}
-            maxDate={maxDate}
-            minDate={minDate}
-          />
-          <TimeWrapper>
-            <FieldLabel labelSize="xs" label="Time from" className="w-full">
-              <Input type="time" value={from} onChange={handleOnChangeTimeFrom} />
-            </FieldLabel>
-            <FieldLabel labelSize="xs" label="Time to" className="w-full">
-              <Input type="time" value={to} onChange={handleOnChangeTimeTo} />
-            </FieldLabel>
-          </TimeWrapper>
-          {error && <Alert type="error" message={error} />}
-        </div>
-      </Row>
-      <CalendarFooter disabledApplyBtn={!!error} onSubmit={handleOnSubmit} />
-    </PickerWrapper>
-  );
+  const renderContent = () => {
+    return (
+      <PickerWrapper>
+        <CalendarHeader title="Select time range" />
+        <Row className="grid grid-cols-12">
+          {hasOptions && <OptionsContainer options={options} onSelect={handleOnClickOption} />}
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={joinClasses(conditionClass(hasOptions, "col-span-8", "col-span-12"))}
+          >
+            <CalendarBody
+              className="p-3"
+              width={300}
+              range={datesRange}
+              values={selectedValue}
+              onChange={(date) => handleOnChangeCalendar(date)}
+              maxDate={maxDate}
+              minDate={minDate}
+            />
+            <TimeWrapper>
+              <FieldLabel labelSize="xs" label="Time from" className="w-full">
+                <Input type="time" value={from} onChange={handleOnChangeTimeFrom} />
+              </FieldLabel>
+              <FieldLabel labelSize="xs" label="Time to" className="w-full">
+                <Input type="time" value={to} onChange={handleOnChangeTimeTo} />
+              </FieldLabel>
+            </TimeWrapper>
+            {error && <Alert type="error" message={error} />}
+          </div>
+        </Row>
+        <CalendarFooter disabledApplyBtn={!!error} onSubmit={handleOnSubmit} />
+      </PickerWrapper>
+    );
+  };
 
   return (
     <TimePickerInput
       open={open}
-      popoverContent={popoverContent}
+      popoverContent={renderContent()}
       values={value}
       range={datesRange}
-      onClick={() => setOpen(true)}
+      onClick={() => setOpen(!open)}
       disabled={disabled}
       type={type}
+      className={className}
     />
   );
 };

@@ -58,8 +58,8 @@ interface TableProps {
 export const Table: FC<TableProps> = (props: TableProps) => {
   const {
     children,
-    collection,
-    className,
+    collection = [],
+    className = undefined,
     striped = false,
     hovered = false,
     loading = false,

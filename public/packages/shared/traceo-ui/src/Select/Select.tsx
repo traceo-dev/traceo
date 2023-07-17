@@ -1,7 +1,7 @@
 import { conditionClass, joinClasses } from "../utils/classes";
 import { defaultStyles } from "./styles";
 import { SelectMenuOptionProps, SelectOptionProps } from "./types";
-import { DownOutlined, LoadingOutlined, SearchOutlined } from "@ant-design/icons";
+import { CaretDownFilled, LoadingOutlined, SearchOutlined } from "@ant-design/icons";
 import { FC, forwardRef } from "react";
 import {
   ActionMeta,
@@ -11,11 +11,6 @@ import {
   GroupBase,
   MenuPlacement
 } from "react-select";
-
-/**
- * TODO:
- * - multi
- */
 
 interface SelectProps {
   options: SelectOptionProps[];
@@ -97,7 +92,7 @@ const Option: FC<SelectMenuOptionProps> = ({ data, innerProps, innerRef, isSelec
       )}
       <div className="flex flex-col">
         <span className="text-sm">{data.label}</span>
-        <span className="text-xs font-normal">{data.description}</span>
+        <span className="text-xs font-normal text-secondary">{data.description}</span>
       </div>
     </div>
   );
@@ -129,7 +124,7 @@ export const Select = forwardRef<any, SelectProps>((props, ref) => {
         Control,
         SelectContainer,
         DropdownIndicator(props: any) {
-          return props.selectProps.menuIsOpen ? <SearchOutlined /> : <DownOutlined />;
+          return props.selectProps.menuIsOpen ? <SearchOutlined /> : <CaretDownFilled />;
         },
         LoadingIndicator(_: any) {
           return <LoadingOutlined />;

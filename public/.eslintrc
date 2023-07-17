@@ -20,6 +20,7 @@
     "react/prop-types": "off",
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
+    "no-case-declarations": "off",
     "curly": "error",
     "dot-notation": "off",
     "eol-last": "error",

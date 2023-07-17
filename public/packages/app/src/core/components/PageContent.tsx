@@ -8,7 +8,7 @@ interface PageContentProps {
 }
 export const PageContent: FC<PageContentProps> = ({ children, isLoading, className = "" }) => {
   return (
-    <div className={joinClasses("p-9 overflow-x-hidden", className)}>
+    <div className={joinClasses(className, "py-6 px-9")}>
       {isLoading ? <TraceoLoading /> : children}
     </div>
   );

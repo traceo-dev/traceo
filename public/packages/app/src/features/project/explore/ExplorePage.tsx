@@ -1,4 +1,4 @@
-import { Button, Row, Select, SelectOptionProps } from "@traceo/ui";
+import { Button, Row, Select, SelectOptionProps, toTitleCase } from "@traceo/ui";
 import { Page } from "../../../core/components/Page";
 import { FC, useEffect, useRef, useState } from "react";
 import {
@@ -15,6 +15,7 @@ import { EXPLORE_TYPE, Setter, TimeRange } from "@traceo/types";
 import { ExploreRangePicker } from "./components/ExploreRangePicker";
 import { MetricsPage } from "./metrics/MetricsPage";
 import { urlService } from "../../../core/lib/url";
+import { useParams } from "react-router-dom";
 
 const exploreOptions: SelectOptionProps[] = [
   {
@@ -49,13 +50,19 @@ export const ExplorePageWrapper: FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
 
-  const [type, setType] = useState<EXPLORE_TYPE>(urlService.getParam<EXPLORE_TYPE>("type"));
+  const type = urlService.getParam<EXPLORE_TYPE>("type");
+  const [exploreType, setExploreType] = useState<EXPLORE_TYPE>(type);
 
   useEffect(() => {
+    onChangeExploreType(type);
+  }, [type]);
+
+  const onChangeExploreType = (type: EXPLORE_TYPE) => {
+    setExploreType(type);
     urlService.setParams({
       type: type
     });
-  }, [type]);
+  };
 
   const { ranges, setRanges } = useTimeRange({
     from: dayjs().subtract(30, "minute").unix(),
@@ -79,22 +86,26 @@ export const ExplorePageWrapper: FC = () => {
     setError
   };
 
+  const getDocumentTitle = () => {
+    return `Explore - ${toTitleCase(exploreType)}`;
+  };
+
   return (
-    <Page>
+    <Page title={getDocumentTitle()}>
       <Page.Content>
-        <Row className="w-full py-3 justify-between">
+        <Row className="w-full pb-2 justify-between">
           <Select
             variant="secondary"
             options={exploreOptions}
-            value={type}
-            onChange={(opt) => setType(opt?.value)}
+            value={exploreType}
+            onChange={(opt) => onChangeExploreType(opt?.value)}
           />
           <Row gap="x-3" className="text-sm">
             <ExploreRangePicker
               range={ranges}
-              maxRange={type === EXPLORE_TYPE.TRACING ? 168 : 168}
+              maxRange={exploreType === EXPLORE_TYPE.TRACING ? 168 : undefined}
               setRange={(e) => setRanges(e)}
-              type={type}
+              type={exploreType}
             />
             <Button
               icon={<CaretRightFilled />}

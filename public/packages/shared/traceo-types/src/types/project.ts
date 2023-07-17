@@ -16,19 +16,12 @@ export interface IProject {
   updatedAt?: number;
 
   incidentsCount: number;
-  // membersCount: number;
-
   isIntegrated: boolean;
 
-  // security?: ISecurity;
   apiKey: string;
-}
 
-// export interface ISecurity {
-//   apiKey: string;
-//   lastUpdate: number;
-//   generatedBy: string;
-// }
+  mainDashboardId: string;
+}
 
 export interface IProjectResponse extends Omit<IProject, "influxDS" | "owner"> {
   member: {

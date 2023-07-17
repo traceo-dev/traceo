@@ -2,9 +2,9 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn } from 
 import { User } from "./user.entity";
 import { Incident } from "./incident.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IUser, IIncident, SDK, IMetric, Dictionary, IProject, IMember } from "@traceo/types";
-import { Metric } from "./metric.entity";
+import { IUser, IIncident, SDK, IProject, IMember } from "@traceo/types";
 import { Member } from "./member.entity";
+import { Dashboard } from "./dashboard.entity";
 
 @Entity()
 export class Project extends BaseEntity implements IProject {
@@ -49,6 +49,13 @@ export class Project extends BaseEntity implements IProject {
   })
   isIntegrated: boolean;
 
+  // TODO: nullable->false
+  @Column({
+    type: "varchar",
+    nullable: true
+  })
+  mainDashboardId: string;
+
   @OneToMany(() => Incident, (incident) => incident.project, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE"
@@ -56,16 +63,13 @@ export class Project extends BaseEntity implements IProject {
   incidents?: IIncident[];
   incidentsCount: number = 0;
 
-  @OneToMany(() => Metric, (metric) => metric.project, {
-    onUpdate: "CASCADE",
-    onDelete: "CASCADE"
-  })
-  metrics?: IMetric[];
-
   @OneToMany(() => Member, (member) => member.project, {
     onUpdate: "CASCADE",
     onDelete: "CASCADE"
   })
   members?: IMember[];
   membersCount: number;
+
+  @OneToMany(() => Dashboard, (dashboard) => dashboard.project)
+  dashboards: Dashboard[];
 }

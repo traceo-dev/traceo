@@ -2,19 +2,26 @@ import { RightOutlined } from "@ant-design/icons";
 import dateUtils from "../../../core/utils/date";
 import { MemberProject } from "@traceo/types";
 import { Typography, Avatar, Row } from "@traceo/ui";
-import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   project: MemberProject;
 }
-export const ProjectCard: FC<Props> = ({ project }) => {
+export const ProjectCard = ({ project }: Props) => {
+  const navigate = useNavigate();
   const lastEventAt = project?.lastEventAt
     ? "Last error " + dateUtils.fromNow(project?.lastEventAt)
     : "-- : --";
 
+  const onSelect = () => {
+    navigate({
+      pathname: `/project/${project.projectId}/dashboard/${project?.mainDashboardId}`
+    });
+  };
+
   return (
     <Row
-      onClick={() => (window.location.href = `/project/${project.projectId}/overview`)}
+      onClick={() => onSelect()}
       className="md:col-span-2 lg:col-span-4 justify-between p-5 m-2 bg-secondary rounded-md cursor-pointer hover:bg-light-secondary"
     >
       <Row>

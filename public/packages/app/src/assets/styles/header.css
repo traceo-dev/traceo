@@ -1,0 +1,25 @@
+.show-logo-breadcrumb {
+  transition: transform 0.25s ease;
+  transform: translate3d(5px, 0, 0);
+  margin-left: 5px;
+}
+
+.hide-logo-breadcrumb {
+  transition: transform 0.25s ease;
+  transform: translate3d(0px, 0, 0);
+  margin-left: -20px;
+}
+
+.show-logo {
+  visibility: visible;
+  transform: translate3d(0, 0px, 0);
+  transition: all 0.25s ease;
+}
+
+.hide-logo {
+  transform: translate3d(0, -5px, 0);
+  transition: all 0.15s ease;
+  visibility: hidden;
+  appearance: none;
+  opacity: 0;
+}

@@ -1,9 +1,9 @@
 import { useAppDispatch } from "../../store";
+import { StoreState } from "../../store/types";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";
 import { UserApplications } from "./components/UserManagement/UserApplications";
 import { UserInformation } from "./components/UserManagement/UserInformation";
 import { UserPermissions } from "./components/UserManagement/UserPermissions";
-import { StoreState } from "@store/types";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";

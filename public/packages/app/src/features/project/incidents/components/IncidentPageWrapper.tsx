@@ -16,43 +16,39 @@ import { useParams } from "react-router-dom";
 import { useIncidentSelector } from "../../../../core/hooks/useIncidentSelector";
 import { Row } from "@traceo/ui";
 
+const menu: MenuRoute[] = [
+  {
+    href: "/project/:id/incidents/:incidentId/details",
+    label: "Details",
+    key: "details",
+    icon: <InfoCircleOutlined />
+  },
+  {
+    href: "/project/:id/incidents/:incidentId/analytics",
+    label: "Analytics",
+    key: "analytics",
+    icon: <StockOutlined />
+  },
+  {
+    href: "/project/:id/incidents/:incidentId/events",
+    label: "Events",
+    key: "events",
+    icon: <WarningOutlined />
+  }
+];
+
 const IncidentPageWrapper = ({ children }) => {
-  const { iid } = useParams();
+  const { incidentId } = useParams();
   const { incident, isLoading } = useIncidentSelector();
   const dispatch = useAppDispatch();
 
-  const menu: MenuRoute[] = [
-    {
-      href: "/project/:id/incidents/:iid/details",
-      label: "Details",
-      key: "details",
-      icon: <InfoCircleOutlined />
-    },
-    {
-      href: "/project/:id/incidents/:iid/analytics",
-      label: "Analytics",
-      key: "analytics",
-      icon: <StockOutlined />
-    },
-    {
-      href: "/project/:id/incidents/:iid/events",
-      label: "Events",
-      // badge: (
-      //   <div className="bg-yellow-600 text-black text-xs border rounded-full px-2 font-semibold">
-      //     {incident.eventsCount}
-      //   </div>
-      // ),
-      key: "events",
-      icon: <WarningOutlined />
-    }
-  ];
-
   useEffect(() => {
-    dispatch(loadIncident(iid));
+    dispatch(loadIncident(incidentId));
   }, []);
 
   return (
     <Page
+      title={incident.name}
       header={{
         title: (
           <PreviewPageHeader

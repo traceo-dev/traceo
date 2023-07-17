@@ -7,7 +7,7 @@ import { loadAlert } from "../state/actions";
 import { useAppDispatch } from "../../../../store";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../../store/types";
 import { Button, Row } from "@traceo/ui";
 import api from "../../../../core/lib/api";
 import { Confirm } from "../../../../core/components/Confirm";

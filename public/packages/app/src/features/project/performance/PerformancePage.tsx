@@ -7,12 +7,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { Page } from "../../../core/components/Page";
-import { SearchWrapper } from "../../../core/components/SearchWrapper";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
-import { MetricTimeRangePicker } from "../metrics/components/MetricTimeRangePicker";
 import { VITALS_DETAILS, WEB_VITALS_DOCS_URL } from "./vitals/types";
 import { calculateVitalsAvg } from "./vitals/utils";
 import { renderChart } from "./vitals/VitalsChart";
+import { Portal } from "src/core/components/Portal";
+import { ToolbarTimePicker } from "../../../core/components/ToolbarTimePicker";
 
 const SUPPORTED_WEB_VITALS = [
   VitalsEnum.CLS,
@@ -81,10 +81,10 @@ const PerformancePage = () => {
       }}
       headerDivider={true}
     >
-      <Page.Content className="pt-0">
-        <SearchWrapper className="justify-end my-5">
-          <MetricTimeRangePicker type="secondary" ranges={ranges} setRanges={setRanges} />
-        </SearchWrapper>
+      <Portal id="dashboard-toolbar">
+        <ToolbarTimePicker ranges={ranges} onChangeRanges={setRanges} />
+      </Portal>
+      <Page.Content className="pt-5">
         <div className="flex flex-col w-full">
           {VITALS_DETAILS.map(({ description, field, name }, key) => (
             <Card

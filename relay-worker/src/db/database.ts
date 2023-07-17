@@ -4,7 +4,6 @@ import {
     IEvent,
     IIncident,
     LogEventPayload,
-    MetricPayload,
     BrowserPerfsPayloadEvent,
     getHealthByValue,
     VitalsEnum,
@@ -157,7 +156,8 @@ export class DatabaseService {
     public async createEvent({ details, incident_id, project_id }: Partial<IEvent>): Promise<IEvent> {
         const timestamp = dayjs().unix();
 
-        await this.updateIncidentOnEvent({ incident_id, timestamp: timestamp });
+        await this.updateIncidentOnEvent({ incident_id, timestamp });
+        await this.updateProjectLastEventAt(project_id, timestamp);
 
         const event: IEvent = {
             id: randomUUID(),
@@ -210,7 +210,7 @@ export class DatabaseService {
 
         const now = dayjs().unix();
 
-        const insert: MetricPayload[] = [];
+        const insert = [];
         for (const metric of payload) {
             // Temporary histogram data are not used.
             if (metric.dataPointType === DataPointType.HISTOGRAM) {

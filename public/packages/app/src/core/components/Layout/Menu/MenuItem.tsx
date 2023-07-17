@@ -1,6 +1,6 @@
 import { useProject } from "../../../hooks/useProject";
 import { MenuRoute } from "../../../types/navigation";
-import { StoreState } from "@store/types";
+import { StoreState } from "../../../../store/types";
 import { Space } from "@traceo/ui";
 import { FC } from "react";
 import { useSelector } from "react-redux";
@@ -23,7 +23,7 @@ export const MenuItem: FC<Props> = ({ menu }) => {
   const handlePath = (link: string) =>
     link
       .replace(":id", String(project.id))
-      .replace(":iid", incident.id)
+      .replace(":incidentId", incident.id)
       .replace(":aid", alert.id);
 
   return (

@@ -29,12 +29,6 @@ export const IncidentsTable: FC<Props> = ({
     navigate(`/project/${project.id}/incidents/${incident.id}/details`);
   };
 
-  console.log({
-    rowsCount,
-    count: incidents?.length,
-    page
-  });
-
   return (
     <Table
       onRowClick={(item) => handleOnRowClick(item)}
