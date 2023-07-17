@@ -24,7 +24,7 @@
     "@nestjs/common": "9.0.5",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "9.0.5",
-    "@nestjs/jwt": "^8.0.0",
+    "@nestjs/jwt": "^10.1.0",
     "@nestjs/microservices": "9.0.5",
     "@nestjs/passport": "^10.0.0",
     "@nestjs/platform-express": "^9.4.3",
