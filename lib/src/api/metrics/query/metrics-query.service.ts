@@ -7,7 +7,7 @@ import { EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { calculateInterval } from "../../../common/helpers/interval";
 import { DashboardPanel } from "../../../db/entities/dashboard-panel.entity";
-import { EventQueryService } from "src/api/event/query/event-query.service";
+import { EventQueryService } from "../../../api/event/query/event-query.service";
 
 // Interval for histogram shouldn't be changed due to time range
 const HISTOGRAM_INTERVAL = 15; //seconds

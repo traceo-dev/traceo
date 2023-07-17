@@ -9,7 +9,7 @@ import {
 } from "@traceo/types";
 import { useNavigate, useParams } from "react-router-dom";
 import { DeleteOutlined, DragOutlined, EllipsisOutlined, EyeOutlined } from "@ant-design/icons";
-import { useAppDispatch } from "src/store";
+import { useAppDispatch } from "../../../../../store";
 import { loadDashboard } from "../../state/actions";
 import { PanelFallback } from "./PanelFallback";
 import styled from "styled-components";
@@ -17,10 +17,10 @@ import { Popover } from "@traceo/ui";
 import {
   PopoverSelectOptions,
   PopoverSelectOptionsProps
-} from "src/core/components/PopoverSelectOptions";
-import api from "src/core/lib/api";
-import { notify } from "src/core/utils/notify";
-import { useProject } from "src/core/hooks/useProject";
+} from "../../../../../core/components/PopoverSelectOptions";
+import api from "../../../../../core/lib/api";
+import { notify } from "../../../../../core/utils/notify";
+import { useProject } from "../../../../../core/hooks/useProject";
 
 interface Props extends Pick<HTMLProps<HTMLDivElement>, "className"> {
   title?: string;

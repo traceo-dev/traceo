@@ -17,7 +17,7 @@ import { VitalsHealthBar } from "./VitalsHealthBar";
 import { VitalsRawData } from "./VitalsRawData";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { ContentCard } from "../../../../core/components/ContentCard";
-import { Portal } from "src/core/components/Portal";
+import { Portal } from "../../../../core/components/Portal";
 import { ToolbarTimePicker } from "../../../../core/components/ToolbarTimePicker";
 
 const VitalsPreviewPage = () => {

@@ -9,8 +9,8 @@ import {
   TeamOutlined
 } from "@ant-design/icons";
 import { FC, useEffect } from "react";
-import { useAppDispatch } from "src/store";
-import { resetProjectState } from "src/features/project/state/project/reducers";
+import { useAppDispatch } from "../../../store";
+import { resetProjectState } from "../../../features/project/state/project/reducers";
 
 const menu: MenuRoute[] = [
   {

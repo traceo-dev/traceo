@@ -11,7 +11,7 @@ import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import { VITALS_DETAILS, WEB_VITALS_DOCS_URL } from "./vitals/types";
 import { calculateVitalsAvg } from "./vitals/utils";
 import { renderChart } from "./vitals/VitalsChart";
-import { Portal } from "src/core/components/Portal";
+import { Portal } from "../../../core/components/Portal";
 import { ToolbarTimePicker } from "../../../core/components/ToolbarTimePicker";
 
 const SUPPORTED_WEB_VITALS = [

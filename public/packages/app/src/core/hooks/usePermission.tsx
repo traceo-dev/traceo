@@ -2,8 +2,8 @@ import { ApiResponse, MemberRole } from "@traceo/types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../lib/api";
-import { useAppDispatch } from "src/store";
-import { setPermission } from "src/features/project/state/project/reducers";
+import { useAppDispatch } from "../../store";
+import { setPermission } from "../../features/project/state/project/reducers";
 
 type PermissionType = {
   role: MemberRole;

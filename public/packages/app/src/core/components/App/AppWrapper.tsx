@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { NotificationContainer } from "../Notification/NotificationContainer";
-import { useUser } from "src/core/hooks/useUser";
+import { useUser } from "../../../core/hooks/useUser";
 import { Navbar } from "./Navbar";
 import Header from "./Header";
 import { useLocation } from "react-router-dom";

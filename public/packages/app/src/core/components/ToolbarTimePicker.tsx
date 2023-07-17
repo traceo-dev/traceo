@@ -1,7 +1,7 @@
 import { Setter, TimeRange } from "@traceo/types";
 import { TimeRangePicker } from "@traceo/ui";
 import dayjs from "dayjs";
-import { relativeTimeOptions } from "src/features/project/explore/components/utils";
+import { relativeTimeOptions } from "../../features/project/explore/components/utils";
 
 const MAX_DATE = new Date(dayjs().unix() * 1e3);
 

@@ -1,10 +1,10 @@
 import { Row, Avatar, conditionClass } from "@traceo/ui";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { StoreState } from "src/store/types";
+import { StoreState } from "../../../../store/types";
 import styled, { css } from "styled-components";
 import { getActiveRoute } from "../utils";
-import { useProject } from "src/core/hooks/useProject";
+import { useProject } from "../../../../core/hooks/useProject";
 import { useMemo } from "react";
 
 const StartBreadcrumb = styled.div`

@@ -1,5 +1,5 @@
 import { DASHBOARD_PANEL_TYPE } from "@traceo/types";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../../../core/utils/date";
 
 const todayFormatter = () => {
     return (_self, splits, _axisIdx, _foundSpace, _foundIncr) => {

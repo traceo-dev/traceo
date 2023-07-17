@@ -1,9 +1,7 @@
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { Confirm } from "../../../core/components/Confirm";
 import { Permissions } from "../../../core/components/Permissions";
-import { useProject } from "../../../core/hooks/useProject";
 import { useDemo } from "../../../core/hooks/useDemo";
-import { useMemberRole } from "../../../core/hooks/useMemberRole";
 import api from "../../../core/lib/api";
 import { notify } from "../../../core/utils/notify";
 import { useAppDispatch } from "../../../store";
@@ -14,7 +12,7 @@ import { Space, Button, Card, FieldLabel, Input, InputGroup, Row } from "@traceo
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateAplication } from "../state/project/actions";
-import { BaseProjectViewType } from "src/core/types/hoc";
+import { BaseProjectViewType } from "../../../core/types/hoc";
 
 export const SettingsDetailsPage = ({ project, permission }: BaseProjectViewType) => {
   const navigate = useNavigate();

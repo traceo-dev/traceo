@@ -1,17 +1,13 @@
 import { Injectable } from "@nestjs/common/decorators";
 import { Logger } from "@nestjs/common";
-import { IEvent, UplotDataType } from "@traceo/types";
+import { IEvent } from "@traceo/types";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import dayjs from "dayjs";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
-import { BadRequestError } from "src/common/helpers/errors";
-import { ProjectQueryService } from "src/api/project/project-query/project-query.service";
-import dateUtils from "src/common/helpers/dateUtils";
-
-type GraphResponse = {
-    graph: UplotDataType
-}
+import { BadRequestError } from "../../../common/helpers/errors";
+import { ProjectQueryService } from "../../../api/project/project-query/project-query.service";
+import dateUtils from "../../../common/helpers/dateUtils";
 
 @Injectable()
 export class EventQueryService {

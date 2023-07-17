@@ -1,4 +1,4 @@
-import { useProject } from "src/core/hooks/useProject";
+import { useProject } from "../../../../core/hooks/useProject";
 import { Page } from "../../../../core/components/Page";
 import { MenuRoute } from "../../../../core/types/navigation";
 import { InfoCircleOutlined, SettingOutlined, TeamOutlined } from "@ant-design/icons";

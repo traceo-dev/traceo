@@ -9,9 +9,9 @@ import api from "../../../core/lib/api";
 import { notify } from "../../../core/utils/notify";
 import { initialCustomPanelProps, validate } from "./utils";
 import { PanelContent } from "./PanelContent";
-import withDashboard from "src/core/hooks/withDashboard";
-import { ProjectDashboardViewType } from "src/core/types/hoc";
-import { Portal } from "src/core/components/Portal";
+import withDashboard from "../../../core/hooks/withDashboard";
+import { ProjectDashboardViewType } from "../../../core/types/hoc";
+import { Portal } from "../../../core/components/Portal";
 import { CreatePanelToolbar } from "./components/Toolbars/CreatePanelToolbar";
 
 const CreatePanelPage = ({ project, dashboard }: ProjectDashboardViewType) => {

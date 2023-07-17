@@ -9,10 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { useDashboard } from "../../../core/hooks/useDashboard";
-import { BaseProjectViewType } from "src/core/types/hoc";
-import { Portal } from "src/core/components/Portal";
+import { BaseProjectViewType } from "../../../core/types/hoc";
+import { Portal } from "../../../core/components/Portal";
 import { EditDashboardToolbar } from "./components/Toolbars/EditDashboardToolbar";
-import { useAppDispatch } from "src/store";
+import { useAppDispatch } from "../../../store";
 import { loadDashboard } from "./state/actions";
 
 interface UpdateDashboardForm {
