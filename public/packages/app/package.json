@@ -62,7 +62,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
-    "@types/react": "17.0.2",
+    "@types/react": "18.2.15",
     "@types/react-dom": "18.2.5",
     "@types/babel-generator": "^6.25.5",
     "@typescript-eslint/eslint-plugin": "^5.36.1",
