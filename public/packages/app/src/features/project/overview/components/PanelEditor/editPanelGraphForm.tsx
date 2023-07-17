@@ -151,5 +151,20 @@ export const editPanelAxisForm = (props: Props) => {
     )
   });
 
+  forms.push({
+    label: "Show float labels",
+    labelPosition: "horizontal",
+    component: (
+      <Switch
+        value={options.config?.axis?.showFloatLabels}
+        onChange={(e) => {
+          setOptions((opt) => {
+            opt.config.axis.showFloatLabels = e.target["checked"];
+          });
+        }}
+      />
+    )
+  });
+
   return forms;
 };

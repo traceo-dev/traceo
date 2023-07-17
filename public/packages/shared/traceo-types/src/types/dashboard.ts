@@ -58,6 +58,7 @@ export interface PanelConfiguration {
         showX?: boolean;
         showY?: boolean;
         showGridLines?: boolean;
+        showFloatLabels?: boolean;
     };
     text: {
         size?: number;

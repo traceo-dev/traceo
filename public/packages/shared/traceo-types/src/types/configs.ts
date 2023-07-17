@@ -3,7 +3,7 @@ import { IUser } from "./user";
 export type EnvType = "development" | "production";
 
 export type NavItem = {
-  id: string;
+  id?: string;
   icon?: JSX.Element | string;
   label: string;
   subtitle?: string;

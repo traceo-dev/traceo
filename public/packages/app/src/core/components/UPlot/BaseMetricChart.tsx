@@ -77,6 +77,7 @@ export const BaseMetricChart = ({
     const showLegend = config.legend.show;
     const showXAxis = config.axis.showX;
     const showYAxis = config.axis.showY;
+    const showFloatLabels = config.axis?.showFloatLabels ?? true;
     const showGridLines = config.axis.showGridLines;
 
     const stacked = config.stack.show;
@@ -115,6 +116,7 @@ export const BaseMetricChart = ({
       .addAxe({
         scale: "y",
         show: showYAxis,
+        showFloatLabels,
         grid: {
           show: showGridLines
         },

@@ -67,7 +67,8 @@ const panelConfig: PanelConfiguration = {
   axis: {
     showX: true,
     showY: true,
-    showGridLines: true
+    showGridLines: true,
+    showFloatLabels: false
   },
   stack: {
     show: false,

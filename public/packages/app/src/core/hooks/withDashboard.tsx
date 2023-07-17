@@ -25,9 +25,9 @@ const withDashboard = <T extends BaseDashboardViewType>(
       };
     }, [dashboardId]);
 
-    if (state.isLoading) {
-      return <TraceoLoading />;
-    }
+    // if (state.isLoading) {
+    //   return <TraceoLoading />;
+    // }
 
     return <WrappedComponent dashboard={state.dashboard} {...props} />;
   };

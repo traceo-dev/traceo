@@ -26,7 +26,7 @@ interface Props {
 }
 
 export const DashboardGridLayout: FC<Props> = ({
-  layout,
+  layout = [],
   handleLayoutChange,
   handleResize,
   isEditable,
@@ -34,7 +34,7 @@ export const DashboardGridLayout: FC<Props> = ({
 }) => {
   return (
     <ResponsiveGridLayout
-      layouts={{ lg: layout }}
+      layouts={{ lg: [...layout] }}
       margin={GRID_MARGIN}
       containerPadding={GRID_PADDING}
       breakpoints={GRID_BREAKPOINTS}

@@ -20,7 +20,7 @@ export const PanelDatasourceTable: FC<Props> = ({ metricData, isLoading, panel, 
 
   const getColumnName = (field: string) => {
     const serie = panel?.config.series.find((serie) => serie.field === field);
-    return serie.name;
+    return serie?.name;
   };
 
   return (

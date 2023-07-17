@@ -4,6 +4,7 @@ import {
   DeepPartial,
   IMetricSerie,
   METRIC_UNIT,
+  PLOT_TYPE,
   VISUALIZATION_TYPE
 } from "@traceo/types";
 import { Input, InputArea, InputColor, Select, SelectOptionProps, Switch } from "@traceo/ui";

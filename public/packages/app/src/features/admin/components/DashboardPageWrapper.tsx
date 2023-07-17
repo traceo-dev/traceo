@@ -1,7 +1,5 @@
-import { useDispatch } from "react-redux";
 import NotFound from "../../../core/components/Layout/Pages/NotFound";
 import { Page } from "../../../core/components/Page";
-import { PageCenter } from "../../../core/components/PageCenter";
 import { useUser } from "../../../core/hooks/useUser";
 import { MenuRoute } from "../../../core/types/navigation";
 import {
@@ -47,11 +45,7 @@ export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
   }, []);
 
   if (!user.isAdmin) {
-    return (
-      <PageCenter>
-        <NotFound />
-      </PageCenter>
-    );
+    return <NotFound />;
   }
 
   return (

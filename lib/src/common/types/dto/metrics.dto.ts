@@ -157,6 +157,10 @@ class UpdateMetricAxisDto {
   @IsBoolean()
   @IsNotEmpty()
   showGridLines: boolean = true;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  showFloatLabels: boolean = true;
 }
 
 export class UpdateOptionsMetricDto {
