@@ -69,7 +69,7 @@
     "babel-plugin-named-exports-order": "^0.0.2",
     "babel-preset-react": "^6.24.1",
     "copy-webpack-plugin": "^11.0.0",
-    "css-loader": "6.7.1",
+    "css-loader": "6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "eslint-webpack-plugin": "^4.0.1",
     "html-loader": "4.2.0",
