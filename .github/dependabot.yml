@@ -9,16 +9,16 @@ updates:
     directory: "/lib"
     target-branch: "develop"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   - package-ecosystem: "npm"
     directory: "/relay-worker"
     target-branch: "develop"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
 
   - package-ecosystem: "npm"
     directory: "/public"
     target-branch: "develop"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
