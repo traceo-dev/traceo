@@ -17,10 +17,7 @@ import { DashboardPanel } from "./entities/dashboard-panel.entity";
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
   async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
     return {
-      migrations: [
-        PostgresMigration,
-        ClickhouseMigration
-      ],
+      migrations: [PostgresMigration, ClickhouseMigration],
       migrationsTransactionMode: "each",
       migrationsRun: true,
       logging: false,

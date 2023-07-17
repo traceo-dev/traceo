@@ -1,5 +1,5 @@
 import { ApiPropertyOptional, ApiProperty } from "@nestjs/swagger";
-import { IsOptional, IsString, IsNotEmpty, IsEmail, IsBoolean, IsEnum } from "class-validator";
+import { IsOptional, IsString, IsNotEmpty, IsBoolean, IsEnum } from "class-validator";
 import { UserStatus } from "@traceo/types";
 
 export class CreateUserDto {

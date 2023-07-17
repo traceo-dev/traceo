@@ -3,92 +3,91 @@ import { IsNotEmpty, IsOptional, IsString, ValidateNested } from "class-validato
 import { UpdateOptionsMetricDto } from "./metrics.dto";
 import { Type } from "class-transformer";
 
-export class DashboardQueryDto { }
+export class DashboardQueryDto {}
 
 export class DashboardDto {
-    @IsOptional()
-    @IsString()
-    dashboardId?: string;
+  @IsOptional()
+  @IsString()
+  dashboardId?: string;
 
-    @IsNotEmpty()
-    @IsString()
-    projectId?: string;
+  @IsNotEmpty()
+  @IsString()
+  projectId?: string;
 
-    @IsNotEmpty()
-    @IsString()
-    name: string;
+  @IsNotEmpty()
+  @IsString()
+  name: string;
 
-    @IsOptional()
-    @IsString()
-    description: string;
+  @IsOptional()
+  @IsString()
+  description: string;
 
-    @IsOptional()
-    isEditable?: boolean = true;
+  @IsOptional()
+  isEditable?: boolean = true;
 
-    @IsOptional()
-    isTimePicker: boolean = true;
+  @IsOptional()
+  isTimePicker = true;
 
-    isBase?: boolean = true;
+  isBase?: boolean = true;
 }
 
 export class LayoutChangeDto {
-    @IsString()
-    @IsNotEmpty()
-    projectId: string;
+  @IsString()
+  @IsNotEmpty()
+  projectId: string;
 
-    @IsString()
-    @IsNotEmpty()
-    dashboardId: string;
+  @IsString()
+  @IsNotEmpty()
+  dashboardId: string;
 
-    @ValidateNested()
-    @Type(() => GridPositionDto)
-    positions: GridPositionDto[];
+  @ValidateNested()
+  @Type(() => GridPositionDto)
+  positions: GridPositionDto[];
 }
 
 class GridPositionDto {
-    @IsOptional()
-    i: string;
+  @IsOptional()
+  i: string;
 
-    @IsNotEmpty()
-    x: number;
+  @IsNotEmpty()
+  x: number;
 
-    @IsNotEmpty()
-    y: number;
+  @IsNotEmpty()
+  y: number;
 
-    @IsNotEmpty()
-    w: number;
+  @IsNotEmpty()
+  w: number;
 
-    @IsNotEmpty()
-    h: number;
+  @IsNotEmpty()
+  h: number;
 }
 
 export class DashboardPanelDto {
-    @IsOptional()
-    @IsString()
-    panelId?: string;
+  @IsOptional()
+  @IsString()
+  panelId?: string;
 
-    @IsNotEmpty()
-    @IsString()
-    dashboardId: string;
+  @IsNotEmpty()
+  @IsString()
+  dashboardId: string;
 
-    @IsOptional()
-    @IsString()
-    title: string;
+  @IsOptional()
+  @IsString()
+  title: string;
 
-    @IsOptional()
-    @IsString()
-    description: string;
+  @IsOptional()
+  @IsString()
+  description: string;
 
-    @IsNotEmpty()
-    @IsString()
-    type: DASHBOARD_PANEL_TYPE = "custom";
+  @IsNotEmpty()
+  @IsString()
+  type: DASHBOARD_PANEL_TYPE = "custom";
 
-    @ValidateNested()
-    @Type(() => GridPositionDto)
-    gridPosition: GridPositionDto;
+  @ValidateNested()
+  @Type(() => GridPositionDto)
+  gridPosition: GridPositionDto;
 
-    @ValidateNested()
-    @Type(() => UpdateOptionsMetricDto)
-    config: UpdateOptionsMetricDto;
+  @ValidateNested()
+  @Type(() => UpdateOptionsMetricDto)
+  config: UpdateOptionsMetricDto;
 }
-

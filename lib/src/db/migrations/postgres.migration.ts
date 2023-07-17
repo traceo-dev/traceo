@@ -23,32 +23,36 @@ export class PostgresMigration implements MigrationInterface {
 
     /**
      * If there is not user then we have to configure everything like:
-     * 
+     *
      * 1. Create admin user with admin/admin
      */
 
-    await connection.transaction(async (manager) => {
-      const user = await manager.getRepository(User).findOneBy({ email: ADMIN_EMAIL });
-      if (!user) {
-        const now = dateUtils.toUnix();
-        const password = tokenService.generate("admin");
-        const url = gravatar.url("admin", "retro");
+    await connection
+      .transaction(async (manager) => {
+        const user = await manager.getRepository(User).findOneBy({ email: ADMIN_EMAIL });
+        if (!user) {
+          const now = dateUtils.toUnix();
+          const password = tokenService.generate("admin");
+          const url = gravatar.url("admin", "retro");
 
-        const user: Partial<User> = {
-          email: ADMIN_EMAIL,
-          name: "admin",
-          username: "admin",
-          isAdmin: true,
-          gravatar: url,
-          password,
-          isPasswordUpdated: false,
-          createdAt: now,
-          status: UserStatus.ACTIVE
-        };
-        await manager.getRepository(User).save(user);
-      }
-    }).then(() => this.logger.log(`[Traceo] Postgres migration run successfully.`))
-      .catch((err) => this.logger.error(`[Traceo] Cannot run Postgres migration. Caused by: ${err}`));
+          const user: Partial<User> = {
+            email: ADMIN_EMAIL,
+            name: "admin",
+            username: "admin",
+            isAdmin: true,
+            gravatar: url,
+            password,
+            isPasswordUpdated: false,
+            createdAt: now,
+            status: UserStatus.ACTIVE
+          };
+          await manager.getRepository(User).save(user);
+        }
+      })
+      .then(() => this.logger.log("[Traceo] Postgres migration run successfully."))
+      .catch((err) =>
+        this.logger.error(`[Traceo] Cannot run Postgres migration. Caused by: ${err}`)
+      );
   }
 
   async down(queryRunner: QueryRunner): Promise<any> {

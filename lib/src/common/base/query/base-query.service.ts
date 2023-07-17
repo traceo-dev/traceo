@@ -45,7 +45,7 @@ export abstract class BaseQueryService<ENTITY extends BaseEntity, QUERY extends 
    *    totalCount: number;
    *    page: number
    * }
-   * 
+   *
    * Wrapped by ApiResponse.
    */
   public async getPaginateApiListDto(query: QUERY): Promise<ApiResponse<PaginateType<ENTITY>>> {
@@ -94,7 +94,10 @@ export abstract class BaseQueryService<ENTITY extends BaseEntity, QUERY extends 
     }
 
     const count = await queryBuilder.getCount();
-    const { entities } = await queryBuilder.take(take).skip(page > 0 ? (page - 1) * take : 0).getRawAndEntities();
+    const { entities } = await queryBuilder
+      .take(take)
+      .skip(page > 0 ? (page - 1) * take : 0)
+      .getRawAndEntities();
 
     return {
       totalCount: count,

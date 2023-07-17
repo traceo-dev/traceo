@@ -11,9 +11,7 @@ import { DashboardService } from "../dashboard/dashboard.service";
 import { DashboardQueryService } from "../dashboard/dashboard-query/dashboard-query.service";
 
 @Module({
-  imports: [
-    PassportModule.register({ defaultStrategy: "jwt" }),
-  ],
+  imports: [PassportModule.register({ defaultStrategy: "jwt" })],
   providers: [
     ProjectService,
     ProjectQueryService,
@@ -26,4 +24,4 @@ import { DashboardQueryService } from "../dashboard/dashboard-query/dashboard-qu
   controllers: [ProjectsController, ProjectController],
   exports: [ProjectService, ProjectQueryService]
 })
-export class ProjectModule { }
+export class ProjectModule {}

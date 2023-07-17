@@ -14,9 +14,9 @@ import { ProjectQueryService } from "../project/project-query/project-query.serv
     DashboardQueryService,
     MemberQueryService,
     UserQueryService,
-    ProjectQueryService,
+    ProjectQueryService
   ],
   controllers: [ViewController],
   exports: [ViewService]
 })
-export class ViewModule { }
+export class ViewModule {}

@@ -137,7 +137,11 @@ export class MemberQueryService {
     return count > 0;
   }
 
-  public async getProjectPermission(userId: string, projectId: string, manager: EntityManager = this.entityManager): Promise<MemberRole> {
+  public async getProjectPermission(
+    userId: string,
+    projectId: string,
+    manager: EntityManager = this.entityManager
+  ): Promise<MemberRole> {
     const query = await manager
       .getRepository(Member)
       .createQueryBuilder("member")

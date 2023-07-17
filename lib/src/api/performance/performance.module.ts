@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { ClickhouseModule } from '../../common/services/clickhouse/clickhouse.module';
-import { PerformanceController } from './performance.controller';
-import { PerformanceService } from './performance.service';
+import { Module } from "@nestjs/common";
+import { ClickhouseModule } from "../../common/services/clickhouse/clickhouse.module";
+import { PerformanceController } from "./performance.controller";
+import { PerformanceService } from "./performance.service";
 
 @Module({
   imports: [ClickhouseModule],
@@ -9,4 +9,4 @@ import { PerformanceService } from './performance.service';
   providers: [PerformanceService],
   exports: [PerformanceService]
 })
-export class PerformanceModule { }
+export class PerformanceModule {}

@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { useProject } from "../../../../core/hooks/useProject";
 import styled from "styled-components";
 import { PopoverSelectOptions } from "../../PopoverSelectOptions";
-import { useUser } from "src/core/hooks/useUser";
+import { useUser } from "../../../../core/hooks/useUser";
 import { SDK } from "@traceo/types";
 
 export const RightHeaderSection = () => {

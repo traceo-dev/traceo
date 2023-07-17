@@ -11,16 +11,16 @@ import { UserQueryService } from "./user-query/user-query.service";
 @Controller("user")
 @UseGuards(new AuthGuard())
 export class UserController {
-  constructor(readonly userService: UserService, readonly queryService: UserQueryService) { }
+  constructor(readonly userService: UserService, readonly queryService: UserQueryService) {}
 
   @Get()
   async getSignedInUser(): Promise<ApiResponse<IUser>> {
     return await this.queryService.getSignedInUser();
   }
 
-  @Get('/notifications')
+  @Get("/notifications")
   async getUserNotifications(): Promise<ApiResponse<Notification[]>> {
-    return await this.queryService.getUserNotifications()
+    return await this.queryService.getUserNotifications();
   }
 
   @Post("/new")

@@ -11,9 +11,7 @@ import { MetricPreviewType, MetricsQueryService } from "./query/metrics-query.se
 @Controller("metrics")
 @UseGuards(new AuthGuard())
 export class MetricsController {
-  constructor(
-    private readonly metricsQueryService: MetricsQueryService
-  ) { }
+  constructor(private readonly metricsQueryService: MetricsQueryService) {}
 
   @Get("/:id/preview/:metricId")
   async getMetricGraph(
@@ -42,9 +40,7 @@ export class MetricsController {
   }
 
   @Get("/fields/:id")
-  async getMetricsFields(
-    @Param("id") id: string
-  ): Promise<ApiResponse<MetricPreviewType>> {
+  async getMetricsFields(@Param("id") id: string): Promise<ApiResponse<MetricPreviewType>> {
     return await this.metricsQueryService.getMetricFields(id);
   }
 }

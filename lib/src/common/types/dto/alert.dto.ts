@@ -1,123 +1,130 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { AlertEnumType, AlertSeverity, AlertStatus, LogicOperator } from "@traceo/types";
 import { Type } from "class-transformer";
-import { IsString, IsNotEmpty, IsOptional, IsBoolean, IsArray, ValidateNested } from "class-validator";
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsBoolean,
+  IsArray,
+  ValidateNested
+} from "class-validator";
 import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
 
 export class AlertQueryDto extends BaseDtoQuery {
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    status: AlertStatus;
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  status: AlertStatus;
 }
 
 export class AlertHistoryQueryDto extends BaseDtoQuery {
-    @IsString()
-    @IsNotEmpty()
-    alertId: string;
+  @IsString()
+  @IsNotEmpty()
+  alertId: string;
 }
 
 export class AlertDto {
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    projectId: string;
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  projectId: string;
 
-    @IsString()
-    @IsNotEmpty()
-    type: AlertEnumType;
+  @IsString()
+  @IsNotEmpty()
+  type: AlertEnumType;
 
-    @IsString()
-    @IsNotEmpty()
-    name: string;
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-    @IsString()
-    @IsNotEmpty()
-    status: AlertStatus;
+  @IsString()
+  @IsNotEmpty()
+  status: AlertStatus;
 
-    @IsOptional()
-    @ApiPropertyOptional()
-    mutedEndAt: number;
+  @IsOptional()
+  @ApiPropertyOptional()
+  mutedEndAt: number;
 
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    description: string;
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  description: string;
 
-    @IsNotEmpty()
-    minTimeInterval: number;
+  @IsNotEmpty()
+  minTimeInterval: number;
 
-    @IsString()
-    @IsNotEmpty()
-    severity: AlertSeverity;
+  @IsString()
+  @IsNotEmpty()
+  severity: AlertSeverity;
 
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    logicOperator: LogicOperator;
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  logicOperator: LogicOperator;
 
-    @IsBoolean()
-    @IsNotEmpty()
-    inAppNotification: boolean;
+  @IsBoolean()
+  @IsNotEmpty()
+  inAppNotification: boolean;
 
-    @IsBoolean()
-    @IsNotEmpty()
-    emailNotification: boolean;
+  @IsBoolean()
+  @IsNotEmpty()
+  emailNotification: boolean;
 
-    @ValidateNested()
-    @Type(() => AlertRuleDto)
-    rules: AlertRuleDto[];
+  @ValidateNested()
+  @Type(() => AlertRuleDto)
+  rules: AlertRuleDto[];
 
-    // list of ids
-    @IsArray()
-    @IsOptional()
-    @ApiPropertyOptional()
-    recipients: string[];
+  // list of ids
+  @IsArray()
+  @IsOptional()
+  @ApiPropertyOptional()
+  recipients: string[];
 }
 
 class AlertRuleDto {
-    /**
-     * This field is filled in only in edit
-     */
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    id: string;
+  /**
+   * This field is filled in only in edit
+   */
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  id: string;
 
-    @IsString()
-    @IsNotEmpty()
-    type: string;
+  @IsString()
+  @IsNotEmpty()
+  type: string;
 
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    field: string;
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  field: string;
 
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    operator: string;
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  operator: string;
 
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    value: string;
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  value: string;
 
-    @IsOptional()
-    @ApiPropertyOptional()
-    count: number;
+  @IsOptional()
+  @ApiPropertyOptional()
+  count: number;
 
-    @IsOptional()
-    @ApiPropertyOptional()
-    time: number;
+  @IsOptional()
+  @ApiPropertyOptional()
+  time: number;
 
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    incidentId: string;
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  incidentId: string;
 
-    @IsString()
-    @IsOptional()
-    @ApiPropertyOptional()
-    metricId: string;
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  metricId: string;
 }

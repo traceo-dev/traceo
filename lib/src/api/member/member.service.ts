@@ -33,10 +33,7 @@ export class MemberService {
     const { projectId, userId, role } = body;
     return this.entityManager
       .transaction(async (manager) => {
-        const exists = await this.awrQueryService.memberExists(
-          { userId, projectId },
-          manager
-        );
+        const exists = await this.awrQueryService.memberExists({ userId, projectId }, manager);
         if (exists) {
           return new ApiResponse("error", "User is already in this project");
         }

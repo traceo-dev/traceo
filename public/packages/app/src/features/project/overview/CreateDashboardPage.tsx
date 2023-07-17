@@ -15,7 +15,7 @@ import { Page } from "../../../core/components/Page";
 import api from "../../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { useNavigate } from "react-router-dom";
-import { BaseProjectViewType } from "src/core/types/hoc";
+import { BaseProjectViewType } from "../../../core/types/hoc";
 
 const CreateDashboardPage = ({ project }: BaseProjectViewType) => {
   const navigate = useNavigate();

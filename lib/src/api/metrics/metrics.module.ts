@@ -6,13 +6,9 @@ import { MetricsQueryService } from "./query/metrics-query.service";
 import { EventModule } from "../event/event.module";
 
 @Module({
-  imports: [
-    PassportModule.register({ defaultStrategy: "jwt" }),
-    ClickhouseModule,
-    EventModule
-  ],
-  providers: [MetricsQueryService,],
+  imports: [PassportModule.register({ defaultStrategy: "jwt" }), ClickhouseModule, EventModule],
+  providers: [MetricsQueryService],
   controllers: [MetricsController],
   exports: [MetricsQueryService]
 })
-export class MetricsModule { }
+export class MetricsModule {}

@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ExploreMetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
@@ -7,16 +7,16 @@ import { EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { calculateInterval } from "../../../common/helpers/interval";
 import { DashboardPanel } from "../../../db/entities/dashboard-panel.entity";
-import { EventQueryService } from "src/api/event/query/event-query.service";
+import { EventQueryService } from "../../../api/event/query/event-query.service";
 
 // Interval for histogram shouldn't be changed due to time range
 const HISTOGRAM_INTERVAL = 15; //seconds
 
-export type AggregateTimeSeries = { minute: number, value: number }[];
+export type AggregateTimeSeries = { minute: number; value: number }[];
 
 export type MetricPreviewType = {
   datasource: PlotData;
-}
+};
 
 @Injectable()
 export class MetricsQueryService {
@@ -96,7 +96,8 @@ export class MetricsQueryService {
         }
       } else {
         datasource = await this.mapAggregateDataSource(projectId, {
-          from, to,
+          from,
+          to,
           fields: series.map((e) => e.field),
           interval: 1,
           valueMax: undefined,
@@ -116,16 +117,23 @@ export class MetricsQueryService {
   }
 
   private async mapAggregateDataSource(projectId: string, query: ExploreMetricsQueryDto) {
-    let series = [];
+    const series = [];
     let time = [];
 
-    const interval = query.isHistogram ? HISTOGRAM_INTERVAL : calculateInterval({
-      from: query.from,
-      to: query.to
-    });
+    const interval = query.isHistogram
+      ? HISTOGRAM_INTERVAL
+      : calculateInterval({
+          from: query.from,
+          to: query.to
+        });
 
     for (const field of query.fields) {
-      const aggregatedMetric = await this.clickhouseService.aggregateMetrics(projectId, field, query, interval);
+      const aggregatedMetric = await this.clickhouseService.aggregateMetrics(
+        projectId,
+        field,
+        query,
+        interval
+      );
       if (time.length === 0) {
         time = aggregatedMetric.map(({ minute }) => minute);
       }
@@ -151,7 +159,10 @@ export class MetricsQueryService {
     }
   }
 
-  public async getMetricRawData(projectId: string, query: ExploreMetricsQueryDto): Promise<ApiResponse<any>> {
+  public async getMetricRawData(
+    projectId: string,
+    query: ExploreMetricsQueryDto
+  ): Promise<ApiResponse<any>> {
     try {
       let fields = query.fields || [];
 
@@ -167,15 +178,21 @@ export class MetricsQueryService {
         return new ApiResponse("success", undefined, []);
       }
 
-      const interval = query.isHistogram ? HISTOGRAM_INTERVAL : calculateInterval({
-        from: query.from,
-        to: query.to
-      });
+      const interval = query.isHistogram
+        ? HISTOGRAM_INTERVAL
+        : calculateInterval({
+            from: query.from,
+            to: query.to
+          });
 
-      const response = await this.clickhouseService.rawDataMetrics(projectId, {
-        ...query,
-        fields
-      }, interval);
+      const response = await this.clickhouseService.rawDataMetrics(
+        projectId,
+        {
+          ...query,
+          fields
+        },
+        interval
+      );
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {

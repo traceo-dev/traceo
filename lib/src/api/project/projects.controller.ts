@@ -10,9 +10,7 @@ import { AuthGuard } from "../../common/decorators/auth-guard.decorator";
 @Controller("projects")
 @UseGuards(new AuthGuard())
 export class ProjectsController {
-  constructor(
-    readonly projectQueryService: ProjectQueryService
-  ) {}
+  constructor(readonly projectQueryService: ProjectQueryService) {}
 
   @Get("/search")
   async getProjects(@Query() query: BaseDtoQuery): Promise<ApiResponse<IProject[]>> {

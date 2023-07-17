@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { Header, Container } from "./components";
 import { editPanelSerieForm } from "./editPanelSeriesForm";
 import { CustomizeFormSerieSection } from "./CustomizeFormSerieSection";
-import { randomHexColor } from "src/core/utils/colors";
+import { randomHexColor } from "../../../../../core/utils/colors";
 import { PlusOutlined } from "@ant-design/icons";
 
 interface Props {

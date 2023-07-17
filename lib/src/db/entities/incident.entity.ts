@@ -1,10 +1,4 @@
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn
-} from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
 import { BaseEntity } from "../../common/base/base.entity";
@@ -63,7 +57,7 @@ export class Incident extends BaseEntity implements IIncident {
     nullable: false,
     name: "events_count"
   })
-  eventsCount: number = 0;
+  eventsCount = 0;
 
   @ManyToOne(() => Project, {
     onUpdate: "CASCADE",

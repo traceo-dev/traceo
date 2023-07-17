@@ -71,13 +71,17 @@ export class ProjectService {
         await this.memberService.createMember(user, project, MemberRole.ADMINISTRATOR, manager);
 
         // Create basic dashboard
-        const dashboard = await this.dashboardService.create({
-          name: "Basic dashboard",
-          description: undefined,
-          isEditable: false,
-          isTimePicker: false,
-          isBase: true
-        }, project, manager);
+        const dashboard = await this.dashboardService.create(
+          {
+            name: "Basic dashboard",
+            description: undefined,
+            isEditable: false,
+            isTimePicker: false,
+            isBase: true
+          },
+          project,
+          manager
+        );
 
         const panels = initialDashboardPanels.map((panel) => ({ ...panel, dashboard }));
         await this.dashboardService.batchCreatePanels(panels, manager);

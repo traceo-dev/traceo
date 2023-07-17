@@ -1,4 +1,4 @@
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
 import { QueryResponseType } from "../../utils";
 import { useParams } from "react-router-dom";
 import { RefetchOptions } from "react-query";

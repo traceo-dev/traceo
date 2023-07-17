@@ -50,9 +50,7 @@ export class MemberController {
   }
 
   @Post("/project/add")
-  public async addUserToProject(
-    @Body() body: CreateMemberDto
-  ): Promise<ApiResponse<unknown>> {
+  public async addUserToProject(@Body() body: CreateMemberDto): Promise<ApiResponse<unknown>> {
     return await this.amrService.addUserToProject(body);
   }
 

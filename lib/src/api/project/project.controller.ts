@@ -13,7 +13,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { BaseDtoQuery } from "../../common/base/query/base-query.model";
 import { CreateProjectDto, ProjectDto } from "../../common/types/dto/project.dto";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { IProject, ILog, LogsQuery } from "@traceo/types";
+import { IProject } from "@traceo/types";
 import { ProjectQueryService } from "./project-query/project-query.service";
 import { ProjectService } from "./project.service";
 import { AuthGuard } from "../../common/decorators/auth-guard.decorator";
@@ -38,9 +38,7 @@ export class ProjectController {
   }
 
   @Post()
-  async createProject(
-    @Body() body: CreateProjectDto
-  ): Promise<ApiResponse<IProject>> {
+  async createProject(@Body() body: CreateProjectDto): Promise<ApiResponse<IProject>> {
     return await this.projectService.create(body);
   }
 

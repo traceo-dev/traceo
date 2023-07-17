@@ -19,8 +19,8 @@ import {
   getVisualizationComponent
 } from "./utils";
 import { PanelProps } from "./components/Panels/types";
-import { ProjectDashboardViewType } from "src/core/types/hoc";
-import withDashboard from "src/core/hooks/withDashboard";
+import { ProjectDashboardViewType } from "../../../core/types/hoc";
+import withDashboard from "../../../core/hooks/withDashboard";
 import { Portal } from "../../../core/components/Portal";
 
 const GridPanelItem = styled.div`

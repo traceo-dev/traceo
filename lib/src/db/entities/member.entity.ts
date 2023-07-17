@@ -1,5 +1,12 @@
 import { BaseEntity } from "../../common/base/base.entity";
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from "typeorm";
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
 import { IMember, MemberRole } from "@traceo/types";

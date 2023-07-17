@@ -18,9 +18,9 @@ import { getVisualizationComponent, validate } from "./utils";
 import { usePanelQuery } from "./components/Panels/usePanelQuery";
 import { PanelProps } from "./components/Panels/types";
 import { PanelContent } from "./PanelContent";
-import withDashboard from "src/core/hooks/withDashboard";
-import { ProjectDashboardViewType } from "src/core/types/hoc";
-import { Portal } from "src/core/components/Portal";
+import withDashboard from "../../../core/hooks/withDashboard";
+import { ProjectDashboardViewType } from "../../../core/types/hoc";
+import { Portal } from "../../../core/components/Portal";
 
 export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewType) => {
   const { panelId } = useParams();

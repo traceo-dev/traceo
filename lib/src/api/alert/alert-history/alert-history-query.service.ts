@@ -5,22 +5,30 @@ import { AlertHistory } from "../../../db/entities/alert-history.entity";
 import { EntityManager, SelectQueryBuilder } from "typeorm";
 
 @Injectable()
-export class AlertHistoryQueryService extends BaseQueryService<AlertHistory, AlertHistoryQueryDto> {
-    constructor(readonly entityManager: EntityManager) {
-        super(entityManager, AlertHistory);
-    }
+export class AlertHistoryQueryService extends BaseQueryService<
+  AlertHistory,
+  AlertHistoryQueryDto
+> {
+  constructor(readonly entityManager: EntityManager) {
+    super(entityManager, AlertHistory);
+  }
 
-    public extendQueryBuilder(builder: SelectQueryBuilder<AlertHistory>, query: AlertHistoryQueryDto): SelectQueryBuilder<AlertHistory> {
-        builder.leftJoinAndSelect("alert-history.alert", "alert", "alert.id = :id", { id: query.alertId });
+  public extendQueryBuilder(
+    builder: SelectQueryBuilder<AlertHistory>,
+    query: AlertHistoryQueryDto
+  ): SelectQueryBuilder<AlertHistory> {
+    builder.leftJoinAndSelect("alert-history.alert", "alert", "alert.id = :id", {
+      id: query.alertId
+    });
 
-        return builder;
-    }
+    return builder;
+  }
 
-    public get builderAlias(): string {
-        return "alert-history";
-    }
+  public get builderAlias(): string {
+    return "alert-history";
+  }
 
-    public selectedColumns(): string[] {
-        return [];
-    }
+  public selectedColumns(): string[] {
+    return [];
+  }
 }

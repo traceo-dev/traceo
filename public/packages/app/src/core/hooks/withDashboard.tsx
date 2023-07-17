@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useAppDispatch } from "src/store";
+import { useAppDispatch } from "../../store";
 import { BaseDashboardViewType } from "../types/hoc";
-import { loadDashboard } from "src/features/project/overview/state/actions";
+import { loadDashboard } from "../../features/project/overview/state/actions";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/store/types";
-import { TraceoLoading } from "../components/TraceoLoading";
+import { StoreState } from "../../store/types";
 
 const withDashboard = <T extends BaseDashboardViewType>(
   WrappedComponent: React.ComponentType<T>

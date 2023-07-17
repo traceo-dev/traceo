@@ -61,7 +61,7 @@ export class Project extends BaseEntity implements IProject {
     onDelete: "CASCADE"
   })
   incidents?: IIncident[];
-  incidentsCount: number = 0;
+  incidentsCount = 0;
 
   @OneToMany(() => Member, (member) => member.project, {
     onUpdate: "CASCADE",

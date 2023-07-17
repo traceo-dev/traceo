@@ -7,7 +7,6 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  ValidateIf,
   ValidateNested
 } from "class-validator";
 import { METRIC_UNIT, PLOT_TYPE, TOOLTIP_POSITION, VISUALIZATION_TYPE } from "@traceo/types";
@@ -37,9 +36,9 @@ export class ExploreMetricsQueryDto extends MetricQueryDto {
   valueMin?: number;
 
   @IsOptional()
-  interval: number = 1;
+  interval = 1;
 
-  isHistogram: boolean = false;
+  isHistogram = false;
 }
 
 export class MetricsQueryDto {
@@ -50,10 +49,10 @@ export class MetricsQueryDto {
 
 class UpdateHistogramBucketDto {
   @IsNotEmpty()
-  size: number = 5;
+  size = 5;
 
   @IsNotEmpty()
-  offset: number = 0;
+  offset = 0;
 }
 
 class UpdateHistogramDto {
@@ -71,7 +70,7 @@ class UpdateHistogramDto {
 class UpdateTooltipMetricDto {
   @IsBoolean()
   @IsNotEmpty()
-  show: boolean = false;
+  show = false;
 
   @IsString()
   @IsOptional()
@@ -81,17 +80,17 @@ class UpdateTooltipMetricDto {
 class UpdateLegendMetricDto {
   @IsBoolean()
   @IsNotEmpty()
-  show: boolean = false;
+  show = false;
 
   @IsString()
   @IsNotEmpty()
-  orient: string = "vertical";
+  orient = "vertical";
 }
 
 class UpdateStackMetricDto {
   @IsBoolean()
   @IsOptional()
-  show: boolean = false;
+  show = false;
 
   @IsString()
   @IsOptional()
@@ -101,26 +100,26 @@ class UpdateStackMetricDto {
 class UpdateAreaMetricDto {
   @IsBoolean()
   @IsNotEmpty()
-  show: boolean = false;
+  show = false;
 
   // @IsInt()
   @IsNotEmpty()
-  opacity: number = 50;
+  opacity = 50;
 }
 
 class UpdateMarkerMetricDto {
   @IsBoolean()
   @IsNotEmpty()
-  show: boolean = false;
+  show = false;
 
   @IsString()
   @IsOptional()
-  shape: string = "rect";
+  shape = "rect";
 }
 class UpdateLineMetricDto {
   @IsInt()
   @IsNotEmpty()
-  width: number = 1;
+  width = 1;
 
   @ValidateNested()
   @Type(() => UpdateMarkerMetricDto)
@@ -130,15 +129,15 @@ class UpdateLineMetricDto {
 class UpdateMetricTextDto {
   @IsInt()
   @IsOptional()
-  size: number = 24;
+  size = 24;
 
   @IsInt()
   @IsOptional()
-  weight: number = 500;
+  weight = 500;
 
   @IsString()
   @IsOptional()
-  color: string = "rect";
+  color = "rect";
 
   @IsString()
   @IsOptional()
@@ -148,19 +147,19 @@ class UpdateMetricTextDto {
 class UpdateMetricAxisDto {
   @IsBoolean()
   @IsNotEmpty()
-  showX: boolean = true;
+  showX = true;
 
   @IsBoolean()
   @IsNotEmpty()
-  showY: boolean = true;
+  showY = true;
 
   @IsBoolean()
   @IsNotEmpty()
-  showGridLines: boolean = true;
+  showGridLines = true;
 
   @IsBoolean()
   @IsNotEmpty()
-  showFloatLabels: boolean = true;
+  showFloatLabels = true;
 }
 
 export class UpdateOptionsMetricDto {
@@ -245,7 +244,7 @@ class UpdateSerieMetricDto {
 
   @IsBoolean()
   @IsOptional()
-  show: boolean = true;
+  show = true;
 
   @IsEnum(METRIC_UNIT)
   @IsOptional()
@@ -265,4 +264,3 @@ class UpdateSerieMetricDto {
   @Type(() => UpdateSerieMetricConfigDto)
   config: UpdateSerieMetricConfigDto;
 }
-

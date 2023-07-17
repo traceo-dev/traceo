@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
-import { TracingController } from './tracing.controller';
-import { TracingService } from './tracing.service';
-import { PassportModule } from '@nestjs/passport';
-import { ClickhouseModule } from '../../common/services/clickhouse/clickhouse.module';
-import { TracingQueryService } from './tracing-query/tracing-query.service';
+import { Module } from "@nestjs/common";
+import { TracingController } from "./tracing.controller";
+import { TracingService } from "./tracing.service";
+import { PassportModule } from "@nestjs/passport";
+import { ClickhouseModule } from "../../common/services/clickhouse/clickhouse.module";
+import { TracingQueryService } from "./tracing-query/tracing-query.service";
 
 @Module({
   imports: [PassportModule.register({ defaultStrategy: "jwt" }), ClickhouseModule],
@@ -11,4 +11,4 @@ import { TracingQueryService } from './tracing-query/tracing-query.service';
   providers: [TracingService, TracingQueryService],
   exports: [TracingService, TracingQueryService]
 })
-export class TracingModule { }
+export class TracingModule {}

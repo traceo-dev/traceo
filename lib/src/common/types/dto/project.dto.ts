@@ -1,7 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { SDK } from "@traceo/types";
-import { Type } from "class-transformer";
-import { IsString, IsNotEmpty, IsOptional, MaxLength, ValidateNested } from "class-validator";
+import { IsString, IsNotEmpty, IsOptional } from "class-validator";
 import { BaseDtoQuery } from "../../base/query/base-query.model";
 
 export class ProjectDtoQuery extends BaseDtoQuery {}

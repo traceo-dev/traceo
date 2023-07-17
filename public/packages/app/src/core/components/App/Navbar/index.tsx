@@ -1,16 +1,16 @@
-import { useUser } from "src/core/hooks/useUser";
+import { useUser } from "../../../../core/hooks/useUser";
 import styled, { css } from "styled-components";
-import { useProject } from "src/core/hooks/useProject";
+import { useProject } from "../../../../core/hooks/useProject";
 import { CollapseNavSection } from "./CollapseNavSection";
 import { useEffect } from "react";
 import { buildTree } from "./tree";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Dashboard } from "@traceo/types";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { NavItem } from "./NavItem";
 import { useSelector } from "react-redux";
-import { StoreState } from "src/store/types";
-import { useAppDispatch } from "src/store";
+import { StoreState } from "../../../../store/types";
+import { useAppDispatch } from "../../../../store";
 import { setNavTree } from "./reducers/navTree";
 import { getActiveRoute } from "../utils";
 

@@ -9,17 +9,16 @@ import { EntityManager, SelectQueryBuilder } from "typeorm";
 export class ProjectQueryService extends BaseQueryService<Project, BaseDtoQuery> {
   private logger: Logger;
 
-  constructor(
-    readonly entityManager: EntityManager,
-  ) {
+  constructor(readonly entityManager: EntityManager) {
     super(entityManager, Project);
     this.logger = new Logger(ProjectQueryService.name);
   }
 
   public override async getApiDto(id: string): Promise<ApiResponse<Project>> {
-    const resp = await this.entityManager.getRepository(Project)
-      .createQueryBuilder('project')
-      .where('project.id = :id', { id })
+    const resp = await this.entityManager
+      .getRepository(Project)
+      .createQueryBuilder("project")
+      .where("project.id = :id", { id })
       .loadRelationCountAndMap("project.incidentsCount", "project.incidents")
       .getOne();
 

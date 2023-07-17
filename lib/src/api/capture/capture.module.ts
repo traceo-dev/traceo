@@ -4,9 +4,9 @@ import { CaptureController } from "./capture.controller";
 import { CaptureService } from "./capture.service";
 
 @Module({
-    imports: [KafkaModule],
-    providers: [CaptureService],
-    controllers: [CaptureController],
-    exports: [CaptureService]
+  imports: [KafkaModule],
+  providers: [CaptureService],
+  controllers: [CaptureController],
+  exports: [CaptureService]
 })
-export class CaptureModule { }
+export class CaptureModule {}
