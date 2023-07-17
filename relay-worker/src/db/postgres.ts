@@ -1,8 +1,9 @@
 import { Pool } from "pg";
 import { RelayWorkerConfig } from "../config";
+import { Logger } from "../logger";
 
 export const createPostgresClient = async (configs: RelayWorkerConfig) => {
-    console.log('☢ Connection to Postgres ...');
+    Logger.log('☢ Connection to Postgres ...');
 
     const pool = new Pool({
         database: configs.PG_DB_NAME,
@@ -22,11 +23,11 @@ export const createPostgresClient = async (configs: RelayWorkerConfig) => {
          */
         await pool.query('SELECT datname FROM pg_database;');
 
-        console.log('✔ Postgres is ready.');
+        Logger.log('✔ Postgres is ready.');
 
         return { pool, client };
     } catch (err) {
-        console.error(`❌ Could not connect to Postgres. Caused by: ${err}`);
+        Logger.error(`❌ Could not connect to Postgres. Caused by: ${err}`);
         pool?.end();
 
         throw err;

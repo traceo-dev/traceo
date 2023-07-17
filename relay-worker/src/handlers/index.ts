@@ -6,6 +6,7 @@ import { Core } from "../types";
 import { handleMetricsEvent } from "./process-metrics-handler";
 import { handleBrowserPerformance } from "./process-browser-perfs-handler";
 import { handleTracesEvent } from "./process-traces-handler";
+import { Logger } from "../logger";
 
 type EventHandlerType = {
     core: Core,
@@ -30,7 +31,7 @@ export const eventHandler = async ({
     const kafkaMessage = message.value.toString();
 
     if (!db) {
-        console.error(`❌ Database instance has not been properly initialized. Cannot process incoming events.`)
+        Logger.error(`❌ Database instance has not been properly initialized. Cannot process incoming events.`)
         return;
     }
 
@@ -38,7 +39,7 @@ export const eventHandler = async ({
 
     if (!handler) {
         const message = `❌ Cannot find handler for this topic: ${topic}`;
-        console.error(message);
+        Logger.error(message);
 
         return;
     }

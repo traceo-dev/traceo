@@ -1,8 +1,9 @@
+import { Logger } from "../logger";
 import { Core, RelayEventType } from "../types";
 import { ReadableSpan } from "@traceo/types";
 
 export const handleTracesEvent = async (core: Core, message: string): Promise<any> => {
-    console.info("☢ Processing incoming trace event from kafka ...")
+    Logger.log("☢ Processing incoming trace event from kafka ...")
     const db = core.db;
 
     try {
@@ -16,11 +17,11 @@ export const handleTracesEvent = async (core: Core, message: string): Promise<an
             payload
         });
 
-        console.log(`✔ Inserted ${rowsCount} spans to project: ${project_id}`);
+        Logger.log(`✔ Inserted ${rowsCount} spans to project: ${project_id}`);
 
         return rowsCount;
     } catch (error) {
-        console.error(`❌ Cannot process incoming trace event. Caused by: ${error}`);
+        Logger.error(`❌ Cannot process incoming trace event. Caused by: ${error}`);
         throw error;
     }
 }

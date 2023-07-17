@@ -2,11 +2,12 @@ import { RelayWorkerConfig } from "./config";
 import { createKafkaClient, startEventConsumer } from "./kafka";
 import { Core } from "./types";
 import { createClickhouseClient, createPostgresClient, DatabaseService } from "./db";
+import { Logger } from "./logger";
 
 export const initWorker = async (
     configs: RelayWorkerConfig,
 ): Promise<{ core: Core }> => {
-    console.debug('☢ Starting traceo worker ...')
+    Logger.log('☢ Starting traceo worker ...')
 
     let core: Core = undefined;
 
@@ -26,17 +27,17 @@ export const initWorker = async (
     const consumer = await startEventConsumer({ configs, core });
 
     const onShutdown = async () => {
-        console.debug('☢ Worker shutdown in progress. Trying to disconnect from kafka producer/consumer ...');
+        Logger.log('☢ Worker shutdown in progress. Trying to disconnect from kafka producer/consumer ...');
 
         Promise.all([
             producer?.disconnect(),
             consumer?.disconnect(),
             clickhouse?.close()
         ]).catch((err) => {
-            console.error(err);
+            Logger.error(err);
         });
 
-        console.info('🖐 Bye bye bye!');
+        Logger.log('🖐 Bye bye bye!');
 
         process.exit(0);
     }

@@ -3,9 +3,10 @@ import { RelayWorkerConfig } from "./config";
 import { eventHandler } from "./handlers";
 import { KAFKA_TOPIC } from "@traceo/types";
 import { Core } from "./types";
+import { Logger } from "./logger";
 
 export const createKafkaClient = async (configs: RelayWorkerConfig) => {
-    console.log('☢ Connection to Kafka ...');
+    Logger.log('☢ Connection to Kafka ...');
 
     const kafka = new Kafka({
         brokers: configs.KAFKA_HOSTS.split(","),
@@ -25,7 +26,7 @@ export const createKafkaClient = async (configs: RelayWorkerConfig) => {
     const topics = Object.values(KAFKA_TOPIC).filter((t) => !kafkaTopics.includes(t)).map((topic) => ({ topic }));
     if (topics.length > 0) {
         await admin.createTopics({ topics: topics });
-        console.log(`✔ Created kafka topics: ${topics}`);
+        Logger.log(`✔ Created kafka topics: ${topics}`);
     }
     await admin.disconnect()
 
@@ -39,7 +40,7 @@ export const createKafkaClient = async (configs: RelayWorkerConfig) => {
 
     await producer.connect();
 
-    console.log('✔ Kafka is ready.')
+    Logger.log('✔ Kafka is ready.')
 
     return { kafka, producer };
 }
@@ -54,15 +55,15 @@ export const startEventConsumer = async (
     });
 
     consumer.on('consumer.group_join', ({ payload }) => {
-        console.info(`✔ Kafka join group: ${payload.groupId}`)
+        Logger.log(`✔ Kafka join group: ${payload.groupId}`)
     });
 
     consumer.on('consumer.connect', () => {
-        console.info('✔ Kafka consumer connected.')
+        Logger.log('✔ Kafka consumer connected.')
     });
 
     consumer.on('consumer.disconnect', () => {
-        console.info('❌ Kafka consumer disconnected!')
+        Logger.log('❌ Kafka consumer disconnected!')
     });
 
     const topics: string[] = Object.values(KAFKA_TOPIC).map((topic) => topic);
@@ -84,7 +85,7 @@ export const startEventConsumer = async (
         });
     } catch (err) {
         const message = `❌ Error while running kafka consumer: ${err}`;
-        console.error(message);
+        Logger.error(message);
         throw err;
     }
 

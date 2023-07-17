@@ -17,6 +17,7 @@ import format from "pg-format";
 import { ClickHouseClient } from "@clickhouse/client";
 import { CLICKHOUSE_TABLE } from "./clickhouse";
 import { randomUUID } from "crypto";
+import { Logger } from "../logger";
 
 export class DatabaseService {
     pool: Pool;
@@ -65,7 +66,7 @@ export class DatabaseService {
             return result;
         } catch (err) {
             await client.query('ROLLBACK');
-            console.error(`❌ The Postgres transaction has been rolled back. Caused by: ${err}`)
+            Logger.error(`❌ The Postgres transaction has been rolled back. Caused by: ${err}`)
 
             throw err;
         } finally {

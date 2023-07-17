@@ -1,8 +1,9 @@
 import { BrowserPerfsPayloadEvent } from "@traceo/types";
 import { Core, RelayEventType } from "../types";
+import { Logger } from "../logger";
 
 export const handleBrowserPerformance = async (core: Core, message: string): Promise<any> => {
-    console.info("☢ Processing incoming browser performance event from kafka ...")
+    Logger.log("☢ Processing incoming browser performance event from kafka ...")
 
     try {
         const browserPayload = JSON.parse(message) as RelayEventType<BrowserPerfsPayloadEvent[]>;
@@ -10,11 +11,11 @@ export const handleBrowserPerformance = async (core: Core, message: string): Pro
         const payload = browserPayload.payload;
 
         const count = await core.db.insertClickhouseBrowserPerformance({ projectId: project_id, payload })
-        console.info(`✔ Inserted ${count} browser perfomances for project: ${project_id}`);
+        Logger.log(`✔ Inserted ${count} browser perfomances for project: ${project_id}`);
 
         return count;
     } catch (error) {
-        console.error(`❌ Cannot process incoming event. Caused by: ${error}`);
+        Logger.error(`❌ Cannot process incoming event. Caused by: ${error}`);
         throw error;
     }
 }

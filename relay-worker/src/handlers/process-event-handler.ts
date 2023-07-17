@@ -2,17 +2,18 @@ import { IIncident, IncidentEventPayload, IncidentStatus, SDK } from "@traceo/ty
 import dayjs from "dayjs";
 import { DatabaseService } from "../db/database";
 import { Core, RelayEventType } from "../types";
+import { Logger } from "../logger";
 
 type IncidentEvent = RelayEventType<IncidentEventPayload>;
 
 export const handleIncidentEvent = async (core: Core, message: string): Promise<void> => {
-    console.info("☢ Processing incoming incident event from kafka ...")
+    Logger.log("☢ Processing incoming incident event from kafka ...")
 
     try {
         const incidentEvent = JSON.parse(message) as IncidentEvent;
         await captureEvent(incidentEvent, core.db);
     } catch (error) {
-        console.error(`❌ Cannot process incoming event. Caused by: ${error}`);
+        Logger.error(`❌ Cannot process incoming event. Caused by: ${error}`);
         throw error;
     }
 }
@@ -27,7 +28,7 @@ const captureEvent = async ({
     const project = await db.getProjectById(project_id);
 
     if (!project) {
-        console.error(`❌ Cannot process incident event. Caused by: Cannot find project with provided id: ${project_id}.`);
+        Logger.error(`❌ Cannot process incident event. Caused by: Cannot find project with provided id: ${project_id}.`);
         return;
     }
 
@@ -49,7 +50,7 @@ const captureEvent = async ({
 
         await db.createIncident(incident, payload);
 
-        console.info(`✔ New incident created for project: ${project_id}, sdk: ${sdk}, name: ${payload["type"]}`);
+        Logger.log(`✔ New incident created for project: ${project_id}, sdk: ${sdk}, name: ${payload["type"]}`);
 
         return;
     }
@@ -61,7 +62,7 @@ const captureEvent = async ({
         details: payload?.details || undefined,
     });
 
-    console.info(`✔ Created new Event: ${event.id} for incident: ${incident.id}`)
+    Logger.log(`✔ Created new Event: ${event.id} for incident: ${incident.id}`)
 
     return event;
 }
