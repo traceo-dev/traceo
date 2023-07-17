@@ -25,8 +25,12 @@ export const TimePickerInput = ({
   className = ""
 }: Props) => {
   const parseInput = () => {
-    if (value) return parseDateTime(value);
-    if (values) return parseInputValue(values);
+    if (value) {
+      return parseDateTime(value);
+    }
+    if (values) {
+      return parseInputValue(values);
+    }
   };
   return (
     <Popover

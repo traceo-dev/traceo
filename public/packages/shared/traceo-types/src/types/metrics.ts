@@ -1,4 +1,4 @@
-export type UUIntType = Uint32Array | Uint16Array | Uint8Array | BigInt64Array | BigInt;
+export type UUIntType = Uint32Array | Uint16Array | Uint8Array | BigInt64Array | bigint;
 export enum MetricType {
   TIME_SERIES = "time_series",
   HISTOGRAM = "histogram"
@@ -56,10 +56,10 @@ export interface MetricsQuery {
 }
 
 export type MetricResponseType = {
-  timestamp: number[]
+  timestamp: number[];
 } & {
-  [x: string]: number[]
-}
+  [x: string]: number[];
+};
 
 export type TOOLTIP_PLACEMENT = "bottom" | "inside" | "left" | "right" | "top";
 

@@ -2,109 +2,109 @@ import { IMember } from "./member";
 import { ProjectMember } from "./project";
 
 export enum AlertStatus {
-    ACTIVE = "active",
-    INACTIVE = "inactive",
-    MUTED = "muted"
+  ACTIVE = "active",
+  INACTIVE = "inactive",
+  MUTED = "muted"
 }
 
 export enum AlertSeverity {
-    INFO = "info",
-    WARNING = "warning",
-    CRITICAL = "critical"
+  INFO = "info",
+  WARNING = "warning",
+  CRITICAL = "critical"
 }
 
 export enum AlertEnumType {
-    INCIDENT = "incident",
-    PERFORMANCE = "performance",
-    METRIC = "metric",
-    LOGS = "logs"
+  INCIDENT = "incident",
+  PERFORMANCE = "performance",
+  METRIC = "metric",
+  LOGS = "logs"
 }
 
 export enum OperatorEnum {
-    STARTS_WITH = "starts_with",
-    LIKE = "like",
-    EQUALS = "equals"
+  STARTS_WITH = "starts_with",
+  LIKE = "like",
+  EQUALS = "equals"
 }
 
 export enum LogicOperator {
-    ALL = "all",
-    ANY = "any"
+  ALL = "all",
+  ANY = "any"
 }
 
 export enum TimeUnit {
-    HOURS = "hours",
-    MINUTES = "min",
-    DAYS = "days"
+  HOURS = "hours",
+  MINUTES = "min",
+  DAYS = "days"
 }
 
 export interface IAlertRule {
-    id: string;
+  id: string;
 
-    lastTriggered: number;
+  lastTriggered: number;
 
-    type: string;
+  type: string;
 
-    field: string;
+  field: string;
 
-    operator: string;
+  operator: string;
 
-    value: string;
+  value: string;
 
-    count: number;
+  count: number;
 
-    // value provided in minutes
-    time: number;
+  // value provided in minutes
+  time: number;
 
-    incidentId: string;
+  incidentId: string;
 
-    metricId: string;
+  metricId: string;
 
-    createdAt?: number;
+  createdAt?: number;
 }
 
 export interface IAlert {
-    id: string;
+  id: string;
 
-    lastTriggered: number;
+  lastTriggered: number;
 
-    // time when alert should change status from muted to active
-    mutedEndAt: number;
+  // time when alert should change status from muted to active
+  mutedEndAt: number;
 
-    status: AlertStatus;
+  status: AlertStatus;
 
-    type: AlertEnumType;
+  type: AlertEnumType;
 
-    name: string;
+  name: string;
 
-    description: string;
+  description: string;
 
-    severity: AlertSeverity;
+  severity: AlertSeverity;
 
-    logicOperator: LogicOperator;
+  logicOperator: LogicOperator;
 
-    inAppNotification: boolean;
+  inAppNotification: boolean;
 
-    emailNotification: boolean;
+  emailNotification: boolean;
 
-    minTimeInterval: number;
+  minTimeInterval: number;
 
-    rules: IAlertRule[];
+  rules: IAlertRule[];
 
-    history: IAlertHistory[];
+  history: IAlertHistory[];
 
-    recipients: IMember[];
+  recipients: IMember[];
 
-    createdAt?: number;
+  createdAt?: number;
 }
 
 export interface IAlertHistory {
-    id: string;
+  id: string;
 
-    reason: string;
+  reason: string;
 
-    triggeredAt: number;
+  triggeredAt: number;
 
-    createdAt?: number;
+  createdAt?: number;
 
-    alert: IAlert;
+  alert: IAlert;
 }

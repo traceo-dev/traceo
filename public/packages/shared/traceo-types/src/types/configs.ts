@@ -9,7 +9,7 @@ export type NavItem = {
   subtitle?: string;
   url?: string;
   items?: NavItem[];
-}
+};
 
 export interface ViewConfigData {
   user: Partial<IUser>;

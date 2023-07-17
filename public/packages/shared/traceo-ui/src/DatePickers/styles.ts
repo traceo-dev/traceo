@@ -19,4 +19,4 @@ export const Header = styled.div`
   width: 100%;
   padding: 0.75rem; /* 12px */
   border-bottom: 1px solid var(--color-bg-secondary);
-`
+`;

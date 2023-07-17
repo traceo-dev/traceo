@@ -22,7 +22,7 @@ export const BaseXAxis = ({
         lineStyle: {
           color: theme.chart.splitLine.color,
           width: theme.chart.splitLine.width
-        },
+        }
       },
       splitLine
     ),

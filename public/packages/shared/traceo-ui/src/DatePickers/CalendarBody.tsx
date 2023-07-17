@@ -26,8 +26,12 @@ export const CalendarBody: FC<Props> = ({
   maxDate = null
 }) => {
   const parseValueToDate = () => {
-    if (value) return new Date(value * 1e3);
-    if (values) return parseUnixToDate(values, range);
+    if (value) {
+      return new Date(value * 1e3);
+    }
+    if (values) {
+      return parseUnixToDate(values, range);
+    }
   };
   return (
     <CalendarWrapper className={className} width={width}>

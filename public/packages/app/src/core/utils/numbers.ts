@@ -1,3 +1,3 @@
 export const isFloat = (value: any): boolean => {
-    return typeof value === 'number' && value % 1 !== 0;
-}
+  return typeof value === "number" && value % 1 !== 0;
+};

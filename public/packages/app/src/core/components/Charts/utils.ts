@@ -28,4 +28,4 @@ export const timeAxisFormatter = (value: number, from: number, to: number) => {
   }
 
   return v.format("DD/MM");
-}
+};

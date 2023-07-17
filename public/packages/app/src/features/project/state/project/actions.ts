@@ -38,7 +38,7 @@ export const loadProject = (props?: LoadApplicationType): ThunkResult<void> => {
 
 type PermissionType = {
   role: MemberRole;
-}
+};
 export const loadPermission = (props?: LoadApplicationType): ThunkResult<void> => {
   return async (dispatch) => {
     try {

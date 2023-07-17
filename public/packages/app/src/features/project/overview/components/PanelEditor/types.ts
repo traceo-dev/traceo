@@ -3,10 +3,8 @@ import { SelectOptionProps } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
 
 export type FormProps = {
-    data?: UplotDataType;
-    options: DashboardPanel;
-    serieFieldOptions?: SelectOptionProps[];
-    setOptions: (
-        arg: DashboardPanel | DraftFunction<DashboardPanel>
-    ) => void;
-}
+  data?: UplotDataType;
+  options: DashboardPanel;
+  serieFieldOptions?: SelectOptionProps[];
+  setOptions: (arg: DashboardPanel | DraftFunction<DashboardPanel>) => void;
+};

@@ -4,16 +4,16 @@ import { ApiResponse, Dashboard } from "@traceo/types";
 import { beginDashboardFetch, endDashboardFetch, setDashboard } from "./reducers";
 
 export const loadDashboard = (id: string): ThunkResult<void> => {
-    return async (dispatch) => {
-        if (!id) {
-            return;
-        }
+  return async (dispatch) => {
+    if (!id) {
+      return;
+    }
 
-        dispatch(beginDashboardFetch());
+    dispatch(beginDashboardFetch());
 
-        const { data } = await api.get<ApiResponse<Dashboard>>(`/api/dashboard/${id}`);
-        dispatch(setDashboard(data));
+    const { data } = await api.get<ApiResponse<Dashboard>>(`/api/dashboard/${id}`);
+    dispatch(setDashboard(data));
 
-        dispatch(endDashboardFetch());
-    };
+    dispatch(endDashboardFetch());
+  };
 };

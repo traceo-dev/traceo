@@ -4,70 +4,69 @@ import { Attributes, HrTime } from "./metrics";
  * Types from Open Telemetry repository: https://github.com/open-telemetry/opentelemetry-js
  */
 
-
 export enum SpanKind {
-    /** Default value. Indicates that the span is used internally. */
-    INTERNAL = 0,
-    /**
-     * Indicates that the span covers server-side handling of an RPC or other
-     * remote request.
-     */
-    SERVER = 1,
-    /**
-     * Indicates that the span covers the client-side wrapper around an RPC or
-     * other remote request.
-     */
-    CLIENT = 2,
-    /**
-     * Indicates that the span describes producer sending a message to a
-     * broker. Unlike client and server, there is no direct critical path latency
-     * relationship between producer and consumer spans.
-     */
-    PRODUCER = 3,
-    /**
-     * Indicates that the span describes consumer receiving a message from a
-     * broker. Unlike client and server, there is no direct critical path latency
-     * relationship between producer and consumer spans.
-     */
-    CONSUMER = 4
+  /** Default value. Indicates that the span is used internally. */
+  INTERNAL = 0,
+  /**
+   * Indicates that the span covers server-side handling of an RPC or other
+   * remote request.
+   */
+  SERVER = 1,
+  /**
+   * Indicates that the span covers the client-side wrapper around an RPC or
+   * other remote request.
+   */
+  CLIENT = 2,
+  /**
+   * Indicates that the span describes producer sending a message to a
+   * broker. Unlike client and server, there is no direct critical path latency
+   * relationship between producer and consumer spans.
+   */
+  PRODUCER = 3,
+  /**
+   * Indicates that the span describes consumer receiving a message from a
+   * broker. Unlike client and server, there is no direct critical path latency
+   * relationship between producer and consumer spans.
+   */
+  CONSUMER = 4
 }
 
 export interface TraceState {
-    /**
-     * Create a new TraceState which inherits from this TraceState and has the
-     * given key set.
-     * The new entry will always be added in the front of the list of states.
-     *
-     * @param key key of the TraceState entry.
-     * @param value value of the TraceState entry.
-     */
-    set(key: string, value: string): TraceState;
-    /**
-     * Return a new TraceState which inherits from this TraceState but does not
-     * contain the given key.
-     *
-     * @param key the key for the TraceState entry to be removed.
-     */
-    unset(key: string): TraceState;
-    /**
-     * Returns the value to which the specified key is mapped, or `undefined` if
-     * this map contains no mapping for the key.
-     *
-     * @param key with which the specified value is to be associated.
-     * @returns the value to which the specified key is mapped, or `undefined` if
-     *     this map contains no mapping for the key.
-     */
-    get(key: string): string | undefined;
-    /**
-     * Serializes the TraceState to a `list` as defined below. The `list` is a
-     * series of `list-members` separated by commas `,`, and a list-member is a
-     * key/value pair separated by an equals sign `=`. Spaces and horizontal tabs
-     * surrounding `list-members` are ignored. There can be a maximum of 32
-     * `list-members` in a `list`.
-     *
-     * @returns the serialized string.
-     */
-    serialize(): string;
+  /**
+   * Create a new TraceState which inherits from this TraceState and has the
+   * given key set.
+   * The new entry will always be added in the front of the list of states.
+   *
+   * @param key key of the TraceState entry.
+   * @param value value of the TraceState entry.
+   */
+  set(key: string, value: string): TraceState;
+  /**
+   * Return a new TraceState which inherits from this TraceState but does not
+   * contain the given key.
+   *
+   * @param key the key for the TraceState entry to be removed.
+   */
+  unset(key: string): TraceState;
+  /**
+   * Returns the value to which the specified key is mapped, or `undefined` if
+   * this map contains no mapping for the key.
+   *
+   * @param key with which the specified value is to be associated.
+   * @returns the value to which the specified key is mapped, or `undefined` if
+   *     this map contains no mapping for the key.
+   */
+  get(key: string): string | undefined;
+  /**
+   * Serializes the TraceState to a `list` as defined below. The `list` is a
+   * series of `list-members` separated by commas `,`, and a list-member is a
+   * key/value pair separated by an equals sign `=`. Spaces and horizontal tabs
+   * surrounding `list-members` are ignored. There can be a maximum of 32
+   * `list-members` in a `list`.
+   *
+   * @returns the serialized string.
+   */
+  serialize(): string;
 }
 
 /**
@@ -75,76 +74,76 @@ export interface TraceState {
  * serialized and propagated along side of a {@link Baggage}.
  */
 export interface SpanContext {
-    /**
-     * The ID of the trace that this span belongs to. It is worldwide unique
-     * with practically sufficient probability by being made as 16 randomly
-     * generated bytes, encoded as a 32 lowercase hex characters corresponding to
-     * 128 bits.
-     */
-    traceId: string;
-    /**
-     * The ID of the Span. It is globally unique with practically sufficient
-     * probability by being made as 8 randomly generated bytes, encoded as a 16
-     * lowercase hex characters corresponding to 64 bits.
-     */
-    spanId: string;
-    /**
-     * Only true if the SpanContext was propagated from a remote parent.
-     */
-    isRemote?: boolean;
-    /**
-     * Trace flags to propagate.
-     *
-     * It is represented as 1 byte (bitmap). Bit to represent whether trace is
-     * sampled or not. When set, the least significant bit documents that the
-     * caller may have recorded trace data. A caller who does not record trace
-     * data out-of-band leaves this flag unset.
-     *
-     * see {@link TraceFlags} for valid flag values.
-     */
-    traceFlags: number;
-    /**
-     * Tracing-system-specific info to propagate.
-     *
-     * The tracestate field value is a `list` as defined below. The `list` is a
-     * series of `list-members` separated by commas `,`, and a list-member is a
-     * key/value pair separated by an equals sign `=`. Spaces and horizontal tabs
-     * surrounding `list-members` are ignored. There can be a maximum of 32
-     * `list-members` in a `list`.
-     * More Info: https://www.w3.org/TR/trace-context/#tracestate-field
-     *
-     * Examples:
-     *     Single tracing system (generic format):
-     *         tracestate: rojo=00f067aa0ba902b7
-     *     Multiple tracing systems (with different formatting):
-     *         tracestate: rojo=00f067aa0ba902b7,congo=t61rcWkgMzE
-     */
-    traceState?: TraceState;
+  /**
+   * The ID of the trace that this span belongs to. It is worldwide unique
+   * with practically sufficient probability by being made as 16 randomly
+   * generated bytes, encoded as a 32 lowercase hex characters corresponding to
+   * 128 bits.
+   */
+  traceId: string;
+  /**
+   * The ID of the Span. It is globally unique with practically sufficient
+   * probability by being made as 8 randomly generated bytes, encoded as a 16
+   * lowercase hex characters corresponding to 64 bits.
+   */
+  spanId: string;
+  /**
+   * Only true if the SpanContext was propagated from a remote parent.
+   */
+  isRemote?: boolean;
+  /**
+   * Trace flags to propagate.
+   *
+   * It is represented as 1 byte (bitmap). Bit to represent whether trace is
+   * sampled or not. When set, the least significant bit documents that the
+   * caller may have recorded trace data. A caller who does not record trace
+   * data out-of-band leaves this flag unset.
+   *
+   * see {@link TraceFlags} for valid flag values.
+   */
+  traceFlags: number;
+  /**
+   * Tracing-system-specific info to propagate.
+   *
+   * The tracestate field value is a `list` as defined below. The `list` is a
+   * series of `list-members` separated by commas `,`, and a list-member is a
+   * key/value pair separated by an equals sign `=`. Spaces and horizontal tabs
+   * surrounding `list-members` are ignored. There can be a maximum of 32
+   * `list-members` in a `list`.
+   * More Info: https://www.w3.org/TR/trace-context/#tracestate-field
+   *
+   * Examples:
+   *     Single tracing system (generic format):
+   *         tracestate: rojo=00f067aa0ba902b7
+   *     Multiple tracing systems (with different formatting):
+   *         tracestate: rojo=00f067aa0ba902b7,congo=t61rcWkgMzE
+   */
+  traceState?: TraceState;
 }
 
 export interface SpanStatus {
-    /** The status code of this message. */
-    code: SpanStatusCode;
-    /** A developer-facing error message. */
-    message?: string;
+  /** The status code of this message. */
+  code: SpanStatusCode;
+  /** A developer-facing error message. */
+  message?: string;
 }
 /**
  * An enumeration of status codes.
  */
 export enum SpanStatusCode {
-    /**
-     * The default status.
-     */
-    UNSET = 0,
-    /**
-     * The operation has been validated by an Application developer or
-     * Operator to have completed successfully.
-     */
-    OK = 1,
-    /**
-     * The operation contains an error.
-     */
-    ERROR = 2
+  /**
+   * The default status.
+   */
+  UNSET = 0,
+  /**
+   * The operation has been validated by an Application developer or
+   * Operator to have completed successfully.
+   */
+  OK = 1,
+  /**
+   * The operation contains an error.
+   */
+  ERROR = 2
 }
 
 /**
@@ -163,12 +162,12 @@ export enum SpanStatusCode {
  *    Service Provider) can be correlated.
  */
 export interface Link {
-    /** The {@link SpanContext} of a linked span. */
-    context: SpanContext;
-    /** A set of {@link Attributes} on the link. */
-    attributes?: Attributes;
-    /** Count of attributes of the link that were dropped due to collection limits */
-    droppedAttributesCount?: number;
+  /** The {@link SpanContext} of a linked span. */
+  context: SpanContext;
+  /** A set of {@link Attributes} on the link. */
+  attributes?: Attributes;
+  /** Count of attributes of the link that were dropped due to collection limits */
+  droppedAttributesCount?: number;
 }
 
 /**
@@ -176,11 +175,11 @@ export interface Link {
  * A timed event is an event with a timestamp.
  */
 export interface TimedEvent {
-    time: HrTime;
-    /** The name of the event. */
-    name: string;
-    /** The attributes of the event. */
-    attributes?: Attributes;
+  time: HrTime;
+  /** The name of the event. */
+  name: string;
+  /** The attributes of the event. */
+  attributes?: Attributes;
 }
 
 /**
@@ -188,13 +187,13 @@ export interface TimedEvent {
  * collected.
  */
 export class Resource {
-    /**
-     * A dictionary of attributes with string keys and values that provide
-     * information about the entity as numbers, strings or booleans
-     * TODO: Consider to add check/validation on attributes.
-     */
-    readonly attributes: Attributes;
-    static readonly EMPTY: Resource;
+  /**
+   * A dictionary of attributes with string keys and values that provide
+   * information about the entity as numbers, strings or booleans
+   * TODO: Consider to add check/validation on attributes.
+   */
+  readonly attributes: Attributes;
+  static readonly EMPTY: Resource;
 }
 
 /**
@@ -203,24 +202,23 @@ export class Resource {
  * available on ReadableSpan and MetricRecord for use by the export pipeline.
  */
 export interface InstrumentationLibrary {
-    readonly name: string;
-    readonly version?: string;
+  readonly name: string;
+  readonly version?: string;
 }
 
-
 export interface ReadableSpan {
-    readonly name: string;
-    readonly kind: SpanKind;
-    readonly spanContext: SpanContext;
-    readonly parentSpanId?: string;
-    readonly startTime: HrTime;
-    readonly endTime: HrTime;
-    readonly status: SpanStatus;
-    readonly attributes: Attributes;
-    readonly links: Link[];
-    readonly events: TimedEvent[];
-    readonly duration: HrTime;
-    readonly ended: boolean;
-    readonly resource: Resource;
-    readonly instrumentationLibrary: InstrumentationLibrary;
+  readonly name: string;
+  readonly kind: SpanKind;
+  readonly spanContext: SpanContext;
+  readonly parentSpanId?: string;
+  readonly startTime: HrTime;
+  readonly endTime: HrTime;
+  readonly status: SpanStatus;
+  readonly attributes: Attributes;
+  readonly links: Link[];
+  readonly events: TimedEvent[];
+  readonly duration: HrTime;
+  readonly ended: boolean;
+  readonly resource: Resource;
+  readonly instrumentationLibrary: InstrumentationLibrary;
 }

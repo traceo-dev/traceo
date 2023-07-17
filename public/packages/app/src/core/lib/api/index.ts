@@ -68,7 +68,7 @@ export const configureApi = () => {
       ...config
     };
   });
-}
+};
 
 const get = <T>(url: string, params?: any, config?: AxiosRequestConfig): Promise<T> =>
   Axios.get(url, { ...config, params });

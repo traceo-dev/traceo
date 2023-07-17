@@ -27,6 +27,6 @@ export interface PaginateType<T> {
   totalCount: number;
   page: number;
   result: T[];
-};
+}
 
 export type PaginateApiResponse<T> = ApiResponse<PaginateType<T>>;

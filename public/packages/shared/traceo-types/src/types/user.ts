@@ -30,7 +30,7 @@ export interface IUser {
 
   lastActiveAt?: number;
   createdAt?: number;
-  
+
   // defaultOrganizationId: string;
 
   // organizations: IMember[];

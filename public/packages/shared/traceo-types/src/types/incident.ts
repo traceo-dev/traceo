@@ -24,7 +24,7 @@ export interface IIncident {
   stack: string;
   // eq. BadRequestException
   name: string;
-  // eq. 
+  // eq.
   message: string;
 
   // time when last error occur for this incident
@@ -54,7 +54,7 @@ export interface IncidentEventPayload {
   stack: string;
   stackFrames?: StackFrame[];
 
-  details?: string
+  details?: string;
 }
 
 export interface StackFrame {
@@ -102,13 +102,13 @@ export const mapIncidentStatus: Record<IncidentStatusSearch, string> = {
 export enum IncidentSortBy {
   LAST_SEEN = "lastEventAt",
   FIRST_SEEN = "createdAt",
-  STATUS = "status",
+  STATUS = "status"
   // ERRORS_COUNT = "eventsCount"
 }
 
 export const mapIncidentSort: Record<IncidentSortBy, string> = {
   [IncidentSortBy.LAST_SEEN]: "Last seen",
   [IncidentSortBy.FIRST_SEEN]: "First seen",
-  [IncidentSortBy.STATUS]: "Status",
+  [IncidentSortBy.STATUS]: "Status"
   // [IncidentSortBy.ERRORS_COUNT]: "Events count"
 };

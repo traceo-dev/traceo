@@ -22,7 +22,7 @@ const LogItem = styled.tr<{
   line-height: 1rem;
   border-left: 3px solid;
   padding-left: 6px;
-  border-color: #3B82F5;
+  border-color: #3b82f5;
   margin-bottom: 2px;
 
   &:hover {

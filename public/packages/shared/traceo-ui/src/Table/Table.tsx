@@ -82,7 +82,7 @@ export const Table: FC<TableProps> = (props: TableProps) => {
     const indexOfLastItem = page * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-    const currentItems = !!onPageChange
+    const currentItems = onPageChange
       ? collection
       : collection?.slice(indexOfFirstItem, indexOfLastItem);
 

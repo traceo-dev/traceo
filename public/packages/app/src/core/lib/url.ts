@@ -14,7 +14,7 @@ const setParams = (params: Record<string, any>) => {
 const getParam = <T>(param: string) => {
   const search = new URLSearchParams(window.location.search);
   return search.get(param) as T;
-}
+};
 
 export const urlService = {
   setParams,

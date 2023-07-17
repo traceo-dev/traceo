@@ -25,13 +25,13 @@ export * from "./dashboard";
 export type SafeReturnType = string | number;
 
 export type DeepPartial<T> = T extends object
-    ? {
-        [P in keyof T]?: DeepPartial<T[P]>;
+  ? {
+      [P in keyof T]?: DeepPartial<T[P]>;
     }
-    : T;
+  : T;
 
 export type Dictionary<T> = {
-    [key: string]: T;
+  [key: string]: T;
 };
 
 export type Setter<S> = (arg: S) => void;

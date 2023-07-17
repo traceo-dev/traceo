@@ -25,7 +25,7 @@ export interface ILog {
 
 /**
  * Payload incoming from SDK
- * 
+ *
  * TODO: unix -> precise_timestamp
  */
 export interface LogEventPayload {
