@@ -1,5 +1,5 @@
 import { ApiResponse } from "@traceo/types";
-import { Alert, Button, Card, Form, FormItem, Input, RadioButtonGroup, Row } from "@traceo/ui";
+import { Alert, Button, Card, Form, FormItem, Input, RadioButtonGroup } from "@traceo/ui";
 import { Fragment, useState } from "react";
 import { AppstoreFilled } from "@ant-design/icons";
 import { Page } from "../../../core/components/Page";
@@ -10,6 +10,10 @@ import { Confirm } from "../../../core/components/Confirm";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { useDashboard } from "../../../core/hooks/useDashboard";
 import { BaseProjectViewType } from "src/core/types/hoc";
+import { Portal } from "src/core/components/Portal";
+import { EditDashboardToolbar } from "./components/Toolbars/EditDashboardToolbar";
+import { useAppDispatch } from "src/store";
+import { loadDashboard } from "./state/actions";
 
 interface UpdateDashboardForm {
   name: string;
@@ -20,8 +24,8 @@ const EditDashboardPage = ({ project }: BaseProjectViewType) => {
   const dashboard = useDashboard();
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
@@ -29,7 +33,6 @@ const EditDashboardPage = ({ project }: BaseProjectViewType) => {
   const [isTimePicker, setTimePicker] = useState<boolean>(dashboard.isTimePicker);
 
   const onFinish = async (form: UpdateDashboardForm) => {
-    setLoading(true);
     const { name } = form;
 
     const props = {
@@ -45,15 +48,13 @@ const EditDashboardPage = ({ project }: BaseProjectViewType) => {
       .patch<ApiResponse<unknown>>("/api/dashboard", props)
       .then((response) => {
         if (response.status === "success") {
+          dispatch(loadDashboard(dashboard.id));
           navigate(`/project/${project.id}/dashboard/${dashboard.id}`);
         }
       })
       .catch(() => {
         setError(true);
         setErrorMessage(TRY_AGAIN_LATER_ERROR);
-      })
-      .finally(() => {
-        setLoading(false);
       });
   };
 
@@ -79,19 +80,12 @@ const EditDashboardPage = ({ project }: BaseProjectViewType) => {
       header={{
         icon: <AppstoreFilled />,
         title: "Dashboard settings",
-        description: <p className="m-0 pt-1">Customize this dashboard to your needs.</p>,
-        suffix: (
-          <Row gap="x-3">
-            <Button type="submit" form="edit-dashboard-form" loading={loading}>
-              Save
-            </Button>
-            <Button onClick={() => navigate(-1)} variant="ghost">
-              Cancel
-            </Button>
-          </Row>
-        )
+        description: <p className="m-0 pt-1">Customize this dashboard to your needs.</p>
       }}
     >
+      <Portal id="dashboard-toolbar">
+        <EditDashboardToolbar onCancel={() => navigate(-1)} />
+      </Portal>
       <Page.Content>
         <Card title="Basic information">
           <Form

@@ -1,8 +1,7 @@
 import { NavItem } from "@traceo/types";
 import { toTitleCase } from "@traceo/ui";
-import { urlService } from "src/core/lib/url";
 
-const removeQueryParamsFromPathname = (pathname: string) => {
+const removeParams = (pathname: string) => {
   const indexOfQueryParams = pathname.indexOf("?");
 
   if (indexOfQueryParams !== -1) {
@@ -13,20 +12,15 @@ const removeQueryParamsFromPathname = (pathname: string) => {
   return pathname;
 };
 
-/**
- * TODO: rewrite this...
- *
- * @returns tree of navItems
- */
 export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
   let mainItem: NavItem = undefined;
   let subItem: NavItem = undefined;
 
-  const pathWithoutParams = removeQueryParamsFromPathname(pathname);
+  const pathWithoutParams = removeParams(pathname);
   const pathSplits = pathname.split("/");
 
   for (const node of navTree) {
-    const nodePath = removeQueryParamsFromPathname(node.url);
+    const nodePath = removeParams(node.url);
     if (nodePath === pathWithoutParams) {
       mainItem = node;
     }
@@ -49,14 +43,12 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
           mainItem = navTree.find((e) => e.id === "incidents");
           const label = pathSplits[5];
           subItem = {
-            id: "incident_details",
             label: toTitleCase(label)
           };
           break;
         case "dashboard-create":
           mainItem = dashboardNode;
           subItem = {
-            id: "dashboard_create",
             label: "New dashboard"
           };
           break;
@@ -65,19 +57,16 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
           if (dashAction === "panel") {
             mainItem = dashboardNode;
             subItem = {
-              id: "dashboard_panel",
               label: "Panel"
             };
           } else if (dashAction === "panel-create") {
             mainItem = dashboardNode;
             subItem = {
-              id: "dashboard_create_panel",
               label: "Create panel"
             };
           } else if (dashAction === "edit") {
             mainItem = dashboardNode;
             subItem = {
-              id: "dashboard_edit",
               label: "Edit"
             };
           }
@@ -87,7 +76,6 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
           mainItem = navTree.find((e) => e.id === "performance");
           const perfType = pathSplits[4];
           subItem = {
-            id: "performance_preview",
             label: perfType
           };
           break;
@@ -99,7 +87,6 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
     if (pathSplits[2] === "admin") {
       mainItem = navTree.find((e) => e.id === "admin_panel");
       subItem = {
-        id: "admin_details",
         label: pathSplits[4]
       };
     }
@@ -107,7 +94,6 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
     if (pathSplits[2] === "new-project") {
       mainItem = navTree.find((e) => e.id === "overview");
       subItem = {
-        id: "new_project",
         label: "New project"
       };
     }
@@ -115,7 +101,6 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
     if (pathSplits[2] === "new-user") {
       mainItem = navTree.find((e) => e.id === "overview");
       subItem = {
-        id: "new_user",
         label: "New user"
       };
     }

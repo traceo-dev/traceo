@@ -8,10 +8,11 @@ interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "
   className?: string;
 }
 
-const Button = styled.div`
+const Button = styled.button`
   display: flex;
   flex-direction: row;
-  border-radius: 4px;
+  border-radius: 2px;
+  border: none;
   cursor: pointer;
   user-select: none;
   color: var(--color-text-primary);
@@ -66,7 +67,8 @@ export const ToolbarButton = ({
   disabled = false,
   name = undefined,
   isActive = false,
-  className = ""
+  className = "",
+  ...rest
 }: Props) => {
   return (
     <Button
@@ -75,6 +77,7 @@ export const ToolbarButton = ({
       isDisabled={disabled}
       isName={!!name}
       onClick={() => onClick()}
+      {...rest}
     >
       <span>{icon}</span>
       <span>{name}</span>

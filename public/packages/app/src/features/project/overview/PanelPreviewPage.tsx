@@ -120,12 +120,15 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
     <Page title={getDocumentTitle()}>
       <Portal id="dashboard-toolbar">
         <PanelToolbar
+          isCustomizeMode={isCustomizeMode}
           isTimePicker={isTimePicker}
           isCustomPanel={isCustomPanel}
           dashboard={dashboard}
           ranges={ranges}
           setRanges={setRanges}
           setCustomizeMode={setCustomizeMode}
+          onSave={onSave}
+          onDiscard={onDiscard}
         />
       </Portal>
 
@@ -140,8 +143,6 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
           options={options}
           setOptions={setOptions}
           renderPanel={() => renderPanel()}
-          onCreate={onSave}
-          onCancel={onDiscard}
         />
       </Page.Content>
     </Page>

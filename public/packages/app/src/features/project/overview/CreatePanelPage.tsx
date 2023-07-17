@@ -11,6 +11,8 @@ import { initialCustomPanelProps, validate } from "./utils";
 import { PanelContent } from "./PanelContent";
 import withDashboard from "src/core/hooks/withDashboard";
 import { ProjectDashboardViewType } from "src/core/types/hoc";
+import { Portal } from "src/core/components/Portal";
+import { CreatePanelToolbar } from "./components/Toolbars/CreatePanelToolbar";
 
 const CreatePanelPage = ({ project, dashboard }: ProjectDashboardViewType) => {
   const navigate = useNavigate();
@@ -59,14 +61,15 @@ const CreatePanelPage = ({ project, dashboard }: ProjectDashboardViewType) => {
 
   return (
     <Page title="Create panel">
+      <Portal id="dashboard-toolbar">
+        <CreatePanelToolbar onCancel={onCancel} onSave={onCreate} />
+      </Portal>
       <Page.Content>
         <PanelContent
           isCustomizeMode={true}
           options={options}
           setOptions={setOptions}
           renderPanel={renderPanel}
-          onCancel={onCancel}
-          onCreate={onCreate}
         />
       </Page.Content>
     </Page>

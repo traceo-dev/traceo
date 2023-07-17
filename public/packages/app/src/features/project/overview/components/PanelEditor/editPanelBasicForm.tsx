@@ -1,7 +1,7 @@
 import { DashboardPanel, DeepPartial, METRIC_UNIT, VISUALIZATION_TYPE } from "@traceo/types";
 import { Input, InputArea, Select } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-import { PanelEditOption, unitOptions } from "../utils";
+import { PanelEditOption, unitOptions, visualizationOptions } from "../utils";
 
 type EditMetricType = {
   options: DashboardPanel;
@@ -14,6 +14,25 @@ export const editPanelBasicForm = (props: EditMetricType) => {
   const visualization = props.options.config.visualization;
   const hasUnitField = [VISUALIZATION_TYPE.TIME_SERIES].includes(visualization);
 
+  forms.push({
+    label: "Visualization type",
+    component: (
+      <Select
+        options={visualizationOptions}
+        defaultValue={options.config.visualization}
+        onChange={(event) => {
+          setOptions((opt) => {
+            opt.config.visualization = event?.value;
+
+            if (event?.value === VISUALIZATION_TYPE.HISTOGRAM) {
+              opt.config.unit = METRIC_UNIT.NONE;
+              opt.config.tooltip.show = false;
+            }
+          });
+        }}
+      />
+    )
+  });
   forms.push({
     label: "Name",
     component: (
