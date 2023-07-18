@@ -39,7 +39,7 @@ export const MenuItem: FC<Props> = ({ menu }) => {
   );
 };
 
-const MenuItemWrapper = styled.div`
+const MenuItemWrapper = styled.div<{ isActive: boolean }>`
   list-style: none;
   position: relative;
   display: flex;

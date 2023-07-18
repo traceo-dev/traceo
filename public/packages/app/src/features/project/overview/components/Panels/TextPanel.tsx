@@ -23,7 +23,7 @@ export const TextPanel = ({
 }: PanelProps) => {
   return (
     <BaseDashboardPanel panel={panel} ranges={ranges} className="h-full" {...rest}>
-      <Scroll isHeader={!!panel.title}>
+      <Scroll>
         <MarkdownPreview
           className="bg-transparent"
           source={panel.config.text.value}

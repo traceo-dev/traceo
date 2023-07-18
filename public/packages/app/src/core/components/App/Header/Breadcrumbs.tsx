@@ -7,7 +7,7 @@ import { getActiveRoute } from "../utils";
 import { useProject } from "../../../../core/hooks/useProject";
 import { useMemo } from "react";
 
-const StartBreadcrumb = styled.div`
+const StartBreadcrumb = styled.div<{ isSingle: boolean }>`
   display: flex;
   user-select: none;
   font-weight: 500;
@@ -63,30 +63,30 @@ const EndBreadcrumb = styled.div`
   cursor: text;
 `;
 
-const MiddleBreadcrumb = styled.div`
-  user-select: text;
-  font-weight: 500;
-  text-align: center;
-  vertical-align: baseline;
-  font-size: 0.8571rem;
-  background-color: var(--color-bg-secondary);
-  color: var(--color-text-primary);
-  clip-path: polygon(
-    0px 0px,
-    calc(100% - 8px) 0px,
-    100% 50%,
-    calc(100% - 8px) 100%,
-    0px 100%,
-    8px 50%
-  );
-  line-height: 16px;
-  padding-block: 4px;
-  padding-inline: 16px;
-  max-inline-size: 160px;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
-`;
+// const MiddleBreadcrumb = styled.div`
+//   user-select: text;
+//   font-weight: 500;
+//   text-align: center;
+//   vertical-align: baseline;
+//   font-size: 0.8571rem;
+//   background-color: var(--color-bg-secondary);
+//   color: var(--color-text-primary);
+//   clip-path: polygon(
+//     0px 0px,
+//     calc(100% - 8px) 0px,
+//     100% 50%,
+//     calc(100% - 8px) 100%,
+//     0px 100%,
+//     8px 50%
+//   );
+//   line-height: 16px;
+//   padding-block: 4px;
+//   padding-inline: 16px;
+//   max-inline-size: 160px;
+//   overflow: hidden !important;
+//   text-overflow: ellipsis !important;
+//   white-space: nowrap !important;
+// `;
 
 interface Props {
   isShift: boolean;

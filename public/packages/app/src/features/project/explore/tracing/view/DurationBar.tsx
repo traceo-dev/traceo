@@ -9,7 +9,7 @@ interface Props {
   span: Span;
 }
 
-const Bar = styled.div`
+const Bar = styled.div<{ isRoot: boolean; width: number; left: number }>`
   height: 8px;
   background-color: green;
   border-radius: 2px;

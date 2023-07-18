@@ -70,7 +70,7 @@ const PrimaryHeader = styled.header`
   border-bottom: 1px solid var(--color-bg-secondary);
 `;
 
-const StickyHeader = styled.nav`
+const StickyHeader = styled.nav<{ sticky: boolean }>`
   display: flex;
   flex-direction: column;
 

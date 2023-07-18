@@ -6,7 +6,7 @@ interface Props {
   active: boolean;
 }
 
-const Item = styled.li`
+const Item = styled.li<{ isActive: boolean }>`
   border-radius: 6px;
   cursor: pointer;
   display: flex;

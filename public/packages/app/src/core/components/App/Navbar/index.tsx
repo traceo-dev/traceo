@@ -12,7 +12,7 @@ import { useAppDispatch } from "../../../../store";
 import { setNavTree } from "./reducers/navTree";
 import { getActiveRoute } from "../utils";
 
-const Nav = styled.nav`
+const Nav = styled.nav<{ isCollapsed: boolean }>`
   height: calc(100vh - 80px);
   width: 320px;
   display: flex;

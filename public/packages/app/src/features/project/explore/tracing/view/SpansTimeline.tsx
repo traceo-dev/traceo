@@ -3,7 +3,7 @@ import { calculateLeftSpacePercentage } from "./utils";
 import styled from "styled-components";
 import { Row } from "@traceo/ui";
 
-const DurationBar = styled.div`
+const DurationBar = styled.div<{ width: number; left: number }>`
   height: 2px;
   background-color: green;
   position: relative;

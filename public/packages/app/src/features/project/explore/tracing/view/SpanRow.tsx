@@ -6,7 +6,7 @@ import { Span, TreeSpan } from "@traceo/types";
 import { DurationBar } from "./DurationBar";
 import styled from "styled-components";
 
-const SpanWrapper = styled.div`
+const SpanWrapper = styled.div<{ expanded: boolean }>`
   display: flex;
   cursor: pointer;
   line-height: 1.25rem;
@@ -31,7 +31,7 @@ const SpanRowInfo = styled.div`
   font-weight: 400;
 `;
 
-const ServiceNameSpan = styled.div`
+const ServiceNameSpan = styled.div<{ isRootSpan: boolean }>`
   border-left: 4px solid ${(p) => (p.isRootSpan ? "#7A3BEC" : "#F4AA27")};
   padding-left: 8px;
   margin-left: 8px;

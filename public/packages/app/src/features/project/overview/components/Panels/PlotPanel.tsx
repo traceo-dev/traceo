@@ -13,6 +13,11 @@ export const PlotPanel = ({
 }: PanelProps) => {
   const { data, isLoading, isError, isEmpty } = usePanelQuery(panel.id, ranges);
 
+  console.log({
+    isEmpty,
+    isError,
+    data
+  });
   return (
     <BaseDashboardPanel
       panel={panel}

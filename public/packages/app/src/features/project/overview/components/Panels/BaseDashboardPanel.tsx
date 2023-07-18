@@ -68,7 +68,7 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
     const isBaseDashboard = dashboard?.isBase;
     const isMaintainer = [MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER].includes(permission);
     // To not showing tooltip when there is "preview" mode
-    const tooltipValue = title ? undefined : panel?.description;
+    // const tooltipValue = title ? undefined : panel?.description;
 
     const onNavigate = () => {
       navigate({

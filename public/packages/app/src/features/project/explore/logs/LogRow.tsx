@@ -1,5 +1,5 @@
 import { DownOutlined, RightOutlined } from "@ant-design/icons";
-import { ILog, LogLevel } from "@traceo/types";
+import { ILog } from "@traceo/types";
 import { Col, conditionClass, joinClasses } from "@traceo/ui";
 import { useState } from "react";
 import styled from "styled-components";
@@ -7,7 +7,7 @@ import { LogDetailsForm } from "./LogDetailsForm";
 import dateUtils from "../../../../core/utils/date";
 
 const LogItem = styled.tr<{
-  level: LogLevel;
+  isSelected: boolean;
 }>`
   display: flex;
   flex-direction: row;
