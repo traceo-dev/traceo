@@ -15,7 +15,8 @@ import { EXPLORE_TYPE, Setter, TimeRange } from "@traceo/types";
 import { ExploreRangePicker } from "./components/ExploreRangePicker";
 import { MetricsPage } from "./metrics/MetricsPage";
 import { urlService } from "../../../core/lib/url";
-import { useParams } from "react-router-dom";
+
+const MAX_HOUR_RANGE = 168;
 
 const exploreOptions: SelectOptionProps[] = [
   {
@@ -103,7 +104,7 @@ export const ExplorePageWrapper: FC = () => {
           <Row gap="x-3" className="text-sm">
             <ExploreRangePicker
               range={ranges}
-              maxRange={exploreType === EXPLORE_TYPE.TRACING ? 168 : undefined}
+              maxRange={MAX_HOUR_RANGE}
               setRange={(e) => setRanges(e)}
               type={exploreType}
             />

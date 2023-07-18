@@ -16,7 +16,11 @@ const Header = ({ onClickMenu, isMenuCollapsed = false }: Props) => {
   const { isLoggedIn } = useUser();
   const [isShift, setShift] = useState(false);
 
-  if (!isLoggedIn) {
+  const pathSplits = window.location.pathname.split("/");
+  const hasHeader =
+    isLoggedIn && (pathSplits.includes("project") || pathSplits.includes("dashboard"));
+
+  if (!hasHeader) {
     return null;
   }
 

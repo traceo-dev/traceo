@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IProject, MemberRole } from "@traceo/types";
+import { Dashboard, IProject, MemberRole } from "@traceo/types";
 
 interface State {
   project: IProject;
   permission: MemberRole;
+  dashboards: Dashboard[];
   isLoading: boolean;
 }
 
 const initialState: State = {
   project: {} as IProject,
   permission: undefined,
+  dashboards: [],
   isLoading: false
 };
 
@@ -28,6 +30,10 @@ const projectSlice = createSlice({
       ...state,
       permission: action.payload
     }),
+    setDashboards: (state, action: PayloadAction<Dashboard[]>): State => ({
+      ...state,
+      dashboards: action.payload
+    }),
     resetProjectState: (): State => ({ ...initialState })
   }
 });
@@ -35,6 +41,7 @@ const projectSlice = createSlice({
 export const {
   setProject,
   setPermission,
+  setDashboards,
   resetProjectState,
   beginProjectFetch,
   endProjectFetch

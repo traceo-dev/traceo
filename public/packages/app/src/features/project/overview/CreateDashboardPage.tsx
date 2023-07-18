@@ -16,9 +16,12 @@ import api from "../../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { useNavigate } from "react-router-dom";
 import { BaseProjectViewType } from "../../../core/types/hoc";
+import { useAppDispatch } from "../../../store";
+import { loadDashboards } from "../state/project/actions";
 
 const CreateDashboardPage = ({ project }: BaseProjectViewType) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
@@ -35,6 +38,7 @@ const CreateDashboardPage = ({ project }: BaseProjectViewType) => {
       })
       .then((response) => {
         if (response.status === "success") {
+          dispatch(loadDashboards({ id: project.id }));
           navigate({
             pathname: `/project/${project.id}/dashboard/${response.data.id}`
           });

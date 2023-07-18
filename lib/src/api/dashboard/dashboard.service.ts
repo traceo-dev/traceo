@@ -14,7 +14,7 @@ import {
 import { DashboardQueryService } from "./dashboard-query/dashboard-query.service";
 import dateUtils from "../../common/helpers/dateUtils";
 import { DashboardPanel as DashboardPanelType, MemberRole } from "@traceo/types";
-import { RequestContext } from "src/common/middlewares/request-context/request-context.model";
+import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
 import { MemberQueryService } from "../member/member-query/member-query.service";
 
 /**

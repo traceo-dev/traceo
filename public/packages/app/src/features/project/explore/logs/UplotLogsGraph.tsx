@@ -1,5 +1,3 @@
-/* eslint @typescript-eslint/no-unused-expressions: 0 */
-
 import uPlot from "uplot";
 import BaseUPlotChart from "../../../../core/components/UPlot/BaseUPlotChart";
 import { PLOT_TYPE, Setter, UplotDataType } from "@traceo/types";
@@ -30,7 +28,7 @@ export const UplotLogsGraph = ({ data, onZoom }: Props) => {
         },
         label: "logs",
         bar: {
-          width: 90,
+          width: 75,
           align: 1
         }
       })

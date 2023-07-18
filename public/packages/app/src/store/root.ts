@@ -12,7 +12,7 @@ import userReducer from "../features/auth/state/reducers";
 import navbarReducer from "./internal/navbar/reducers";
 import notifyReducer from "./internal/notify/notifyReducer";
 
-import navTreeReducer from "src/core/components/App/Navbar/reducers/navTree";
+import navTreeReducer from "../../core/components/App/Navbar/reducers/navTree";
 
 import { combineReducers, AnyAction } from "redux";
 

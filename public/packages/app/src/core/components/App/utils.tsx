@@ -1,5 +1,6 @@
 import { NavItem } from "@traceo/types";
 import { toTitleCase } from "@traceo/ui";
+import { urlService } from "../../core/lib/url";
 
 const removeParams = (pathname: string) => {
   const indexOfQueryParams = pathname.indexOf("?");
@@ -108,9 +109,12 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
 
   // guard to back to current selected dashboard
   if (mainItem?.id === "dashboards") {
+    const timestampFrom = urlService.getParam("from");
+    const timestampTo = urlService.getParam("to");
+
     mainItem = {
       ...mainItem,
-      url: `/project/${pathSplits[2]}/dashboard/${pathSplits[4]}`
+      url: `/project/${pathSplits[2]}/dashboard/${pathSplits[4]}?from=${timestampFrom}&to=${timestampTo}`
     };
   }
 

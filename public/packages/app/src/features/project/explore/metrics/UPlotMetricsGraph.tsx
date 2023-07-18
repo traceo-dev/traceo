@@ -49,7 +49,11 @@ export const UPlotMetricsGraph = ({
         points: {
           show: markers
         },
-        label: serie.name
+        label: serie.name,
+        bar: {
+          width: 75,
+          align: 1
+        }
       });
     }
 

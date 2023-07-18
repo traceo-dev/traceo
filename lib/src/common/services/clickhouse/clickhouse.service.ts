@@ -61,9 +61,8 @@ export class ClickhouseService {
             )
             GROUP BY minute
             ORDER BY minute ASC
-            WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${
-              query.from
-            }))) TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
+            WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${query.from
+      }))) TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
             STEP ${interval}
         `;
 
@@ -97,13 +96,12 @@ export class ClickhouseService {
                 AND name = '${name}'
                 AND project_id = '${projectId}'
             GROUP BY minute
-            HAVING ${query.valueMax ? `value <= ${query.valueMax}` : "1=1"} AND ${
-      query.valueMin ? `value >= ${query.valueMin}` : "1=1"
-    }
+            HAVING ${query.valueMax ? `value <= ${query.valueMax}` : "1=1"} AND ${query.valueMin ? `value >= ${query.valueMin}` : "1=1"
+      }
             ORDER BY minute ASC
-            WITH FILL FROM toUnixTimestamp(toStartOfMinute(toDateTime(${
-              query.from
-            }))) TO toUnixTimestamp(toStartOfMinute(toDateTime(${query.to})))
+            WITH FILL 
+              FROM toUnixTimestamp(toStartOfInterval(toDateTime(${query.from}), INTERVAL ${interval} SECOND)) 
+              TO   toUnixTimestamp(toStartOfInterval(toDateTime(${query.to}), INTERVAL ${interval} SECOND))
             STEP ${interval}
         `;
 
@@ -175,25 +173,28 @@ export class ClickhouseService {
     interval: number
   ): Promise<{ minute: number; count: number }[]> {
     const sqlQuery = `
-            SELECT
-                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) as minute,
-                COUNT(*) as count
-            FROM logs
-            WHERE 
-                receive_timestamp >= toUnixTimestamp(toDateTime(${query.from})) 
-            AND 
-                receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
-            ${
-              query.search
-                ? `AND LOWER(message) LIKE '%${query.search?.toLowerCase() ?? ""}%'`
-                : ""
-            }
-            GROUP BY minute
-            ORDER BY minute ASC
-            WITH FILL FROM toUnixTimestamp(toDateTime(${query.from}))
-                      TO toUnixTimestamp(toDateTime(${query.to}))
-            STEP ${interval}
-        `;
+        SELECT
+            toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) as minute,
+            COUNT(*) as count
+        FROM
+        (
+            SELECT toUnixTimestamp(toDateTime(receive_timestamp)) AS receive_timestamp
+            FROM traceo_development.logs
+            WHERE
+                receive_timestamp >= toUnixTimestamp(toDateTime(${query.from}))
+                AND receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
+                ${query.search
+        ? `AND LOWER(message) LIKE '%${query.search?.toLowerCase() ?? ""}%'`
+        : ""
+      }
+        )
+        GROUP BY minute
+        ORDER BY minute ASC
+        WITH FILL 
+          FROM toUnixTimestamp(toStartOfInterval(toDateTime(${query.from}), INTERVAL ${interval} SECOND)) 
+          TO   toUnixTimestamp(toStartOfInterval(toDateTime(${query.to}), INTERVAL ${interval} SECOND))
+        STEP 300
+    `;
 
     const logs = await this.query({
       query: sqlQuery,

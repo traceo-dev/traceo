@@ -5,8 +5,6 @@ import { CollapseNavSection } from "./CollapseNavSection";
 import { useEffect } from "react";
 import { buildTree } from "./tree";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Dashboard } from "@traceo/types";
-import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { NavItem } from "./NavItem";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../store/types";
@@ -41,28 +39,18 @@ interface Props {
   isCollapsed: boolean;
 }
 export const Navbar = ({ isCollapsed }: Props) => {
+  const { id } = useParams();
+  const { project, permission, dashboards } = useProject();
+
   const user = useUser();
+
   const navigate = useNavigate();
   const location = useLocation();
-  const { project, permission } = useProject();
-  const { id } = useParams();
 
   const dispatch = useAppDispatch();
   const navTree = useSelector((state: StoreState) => state.navTree.navTree);
 
-  const { data: dashboards = [], refetch } = useReactQuery<Dashboard[]>({
-    queryKey: [`dashboards_${project?.id}`],
-    url: `/api/dashboard/project/${project?.id}`,
-    options: {
-      enabled: !!project?.id
-    }
-  });
-
   useEffect(() => {
-    if (project.id) {
-      refetch();
-    }
-
     const tree = buildTree({
       dashboards,
       project,
@@ -71,17 +59,13 @@ export const Navbar = ({ isCollapsed }: Props) => {
     });
 
     dispatch(setNavTree(tree));
-  }, [id, project, location]);
+  }, [id, project, location, dashboards]);
 
   const activeRoute = getActiveRoute(navTree, location.pathname);
 
   if (!user.isLoggedIn) {
     return null;
   }
-
-  // useEffect(() => {
-  //   document.title = activeRoute.mainItem?.label;
-  // }, [activeRoute]);
 
   const onSelect = (path: string) => {
     navigate(path);

@@ -129,7 +129,7 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
         onMouseEnter={() => setHover && setHover(true)}
         onMouseLeave={() => setHover && setHover(false)}
         name={panelName}
-        tooltip={tooltipValue}
+        // tooltip={tooltipValue}
         extra={options}
         loading={loading}
         className={className}

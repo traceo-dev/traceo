@@ -28,7 +28,7 @@ export const TraceoLogo: FC<Props> = ({ size, onClick, name = false, className }
   };
 
   return (
-    <Space className={joinClasses(className)} onClick={() => onClick()}>
+    <Space className={joinClasses(className)} onClick={() => onClick && onClick()}>
       <div
         className={joinClasses(
           mapLogoSize[size],

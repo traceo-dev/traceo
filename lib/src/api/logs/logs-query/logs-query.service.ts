@@ -4,7 +4,6 @@ import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { LogsQuery } from "../../../common/types/dto/logs.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { calculateInterval } from "../../../common/helpers/interval";
 
 type LogsResponseType = {
   logs: ILog[];
@@ -38,11 +37,9 @@ export class LogsQueryService {
 
   public async getLogsGraphPayload(query: LogsQuery): Promise<ApiResponse<GraphResposnseType>> {
     try {
-      const interval = calculateInterval({
-        from: query.from,
-        to: query.to
-      });
-      const logs = await this.clickhouseClient.loadLogsTimeSeries(query, interval);
+      // 5 minutes interval
+      const INTERVAL = 60 * 5;
+      const logs = await this.clickhouseClient.loadLogsTimeSeries(query, INTERVAL);
 
       // TODO: Mapping should be also in clickhouse query
       const time = logs.map((e) => e.minute);

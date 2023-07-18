@@ -22,11 +22,22 @@ import { PanelProps } from "./components/Panels/types";
 import { ProjectDashboardViewType } from "../../../core/types/hoc";
 import withDashboard from "../../../core/hooks/withDashboard";
 import { Portal } from "../../../core/components/Portal";
+import { areArraysEqual } from "../../../core/utils/arrays";
 
 const GridPanelItem = styled.div`
   position: relative;
   touch-action: manipulation;
 `;
+
+const mapPanelGridPosition = (panels: DashboardPanel[]) => {
+  return (panels ?? []).map((panel) => ({
+    i: panel.id,
+    x: panel.gridPosition.x,
+    y: panel.gridPosition.y,
+    w: panel.gridPosition.w,
+    h: panel.gridPosition.h
+  }));
+};
 
 const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewType) => {
   const [itemDimensions, setItemDimensions] = useState({});
@@ -47,12 +58,8 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
       return [];
     }
 
-    return dashboard.panels?.map((panel) => ({
-      i: panel.id,
-      x: panel.gridPosition.x,
-      y: panel.gridPosition.y,
-      w: panel.gridPosition.w,
-      h: panel.gridPosition.h,
+    return mapPanelGridPosition(dashboard.panels).map((panel) => ({
+      ...panel,
       minW: GRID_MIN_WIDTH,
       minH: GRID_MIN_HEIGHT
     }));
@@ -71,15 +78,20 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
       i: layout.i
     }));
 
-    await api
-      .patch(`/api/dashboard/layout`, {
-        positions,
-        projectId: project.id,
-        dashboardId: dashboard.id
-      })
-      .catch(() => {
-        notify.error("The dashboard layout cannot be changed. Please try again later!");
-      });
+    // Update latout position only when there are changes
+    const isLayoutToUpdate = areArraysEqual(positions, mapPanelGridPosition(dashboard.panels));
+    if (!isLayoutToUpdate) {
+      // TODO: send only changed positions
+      await api
+        .patch(`/api/dashboard/layout`, {
+          positions,
+          projectId: project.id,
+          dashboardId: dashboard.id
+        })
+        .catch(() => {
+          notify.error("The dashboard layout cannot be changed. Please try again later!");
+        });
+    }
   };
 
   const onChangeTimeRange = (range: TimeRange) => {
