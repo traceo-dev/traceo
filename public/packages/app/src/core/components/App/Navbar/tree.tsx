@@ -10,7 +10,8 @@ import {
   TeamOutlined,
   UserOutlined
 } from "@ant-design/icons";
-import { Dashboard, IProject, IUser, MemberRole, NavItem, SDK } from "@traceo/types";
+import { Dashboard, IProject, IUser, MemberRole, SDK } from "@traceo/types";
+import { NavItem } from "./types";
 
 interface TreeProps {
   user: IUser;

@@ -1,6 +1,6 @@
-import { NavItem } from "@traceo/types";
 import { toTitleCase } from "@traceo/ui";
 import { urlService } from "../../../core/lib/url";
+import { NavItem } from "./Navbar/types";
 
 const removeParams = (pathname: string) => {
   const indexOfQueryParams = pathname.indexOf("?");

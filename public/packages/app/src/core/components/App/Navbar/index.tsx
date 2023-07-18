@@ -5,12 +5,12 @@ import { CollapseNavSection } from "./CollapseNavSection";
 import { useEffect } from "react";
 import { buildTree } from "./tree";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { NavItem } from "./NavItem";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../store/types";
 import { useAppDispatch } from "../../../../store";
 import { setNavTree } from "./reducers/navTree";
 import { getActiveRoute } from "../utils";
+import { NavItem } from "./NavItem";
 
 const Nav = styled.nav<{ isCollapsed: boolean }>`
   height: calc(100vh - 80px);

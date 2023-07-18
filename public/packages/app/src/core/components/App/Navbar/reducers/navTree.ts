@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { NavItem } from "@traceo/types";
+import { NavItem } from "../types";
 
 export interface NavTreeState {
   navTree: NavItem[];

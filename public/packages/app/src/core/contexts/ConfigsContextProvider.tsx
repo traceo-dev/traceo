@@ -6,8 +6,7 @@ import React, { useContext, useEffect, useState } from "react";
 const initialConfigs: ViewConfigData = {
   demoMode: false,
   user: {},
-  env: "development",
-  navTree: []
+  env: "development"
 };
 
 export const ConfigContext = React.createContext<ViewConfigData>(initialConfigs);
