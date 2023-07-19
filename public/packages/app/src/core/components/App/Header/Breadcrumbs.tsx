@@ -7,7 +7,7 @@ import { getActiveRoute } from "../utils";
 import { useProject } from "../../../../core/hooks/useProject";
 import { useMemo } from "react";
 
-const StartBreadcrumb = styled.div<{ isSingle: boolean }>`
+const StartBreadcrumb = styled.div`
   display: flex;
   user-select: none;
   font-weight: 500;

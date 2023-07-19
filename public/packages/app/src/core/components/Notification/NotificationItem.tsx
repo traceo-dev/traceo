@@ -41,7 +41,7 @@ const durationMap: Record<NotifyType, number> = {
   success: 3000
 };
 
-const Notify = styled.div<{ type: NotifyType }>`
+const Notify = styled.div`
   border: 1px solid ${(p) => mapBorderColor[p.type]};
   background-color: ${(p) => mapBgColor[p.type]};
   border-radius: 4px;

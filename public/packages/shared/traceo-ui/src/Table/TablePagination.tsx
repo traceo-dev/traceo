@@ -13,8 +13,8 @@ const PaginationButton = styled.div`
   &:hover {
     background-color: var(--color-bg-light-secondary);
   }
-  ${({ disabled }) => {
-    if (disabled) {
+  ${({ isDisabled }) => {
+    if (isDisabled) {
       return `
         pointer-events: none;
         opacity: 25%;
@@ -61,7 +61,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
       )}
       <Row className="text-xs border border-solid rounded border-light-secondary max-w-min">
         <PaginationButton
-          disabled={currentPage === 1}
+          isDisabled={currentPage === 1}
           onClick={() => handlePageChange(currentPage - 1)}
         >
           <LeftOutlined />
@@ -70,7 +70,7 @@ export const TablePagination: FC<TablePaginationProps> = ({
           <span>{currentPage}</span>
         </div>
         <PaginationButton
-          disabled={currentPage === pagesCount || totalRowsCount === 0 || !totalRowsCount}
+          isDisabled={currentPage === pagesCount || totalRowsCount === 0 || !totalRowsCount}
           onClick={() => handlePageChange(currentPage + 1)}
         >
           <RightOutlined />

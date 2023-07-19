@@ -12,7 +12,7 @@ import { setNavTree } from "./reducers/navTree";
 import { getActiveRoute } from "../utils";
 import { NavItem } from "./NavItem";
 
-const Nav = styled.nav<{ isCollapsed: boolean }>`
+const Nav = styled.nav`
   height: calc(100vh - 80px);
   width: 320px;
   display: flex;

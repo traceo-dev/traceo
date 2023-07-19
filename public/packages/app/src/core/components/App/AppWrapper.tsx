@@ -6,7 +6,7 @@ import { Navbar } from "./Navbar";
 import Header from "./Header";
 import { useLocation } from "react-router-dom";
 
-const Overlay = styled.div<{ visible: boolean }>`
+const Overlay = styled.div`
   width: 100%;
   height: 100%
     ${(props) =>

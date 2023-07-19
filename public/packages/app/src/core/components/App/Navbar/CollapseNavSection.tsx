@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   user-select: none;
 `;
 
-const HeaderWrapper = styled.div<{ isActive: boolean }>`
+const HeaderWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;

@@ -13,11 +13,6 @@ export const PlotPanel = ({
 }: PanelProps) => {
   const { data, isLoading, isError, isEmpty } = usePanelQuery(panel.id, ranges);
 
-  console.log({
-    isEmpty,
-    isError,
-    data
-  });
   return (
     <BaseDashboardPanel
       panel={panel}
@@ -26,6 +21,7 @@ export const PlotPanel = ({
       isError={isError}
       isEmpty={isEmpty}
       className={conditionClass(isError || isEmpty, "h-full")}
+      bodyClassName="p-0 overflow-x-hidden"
       {...rest}
     >
       <BaseMetricChart

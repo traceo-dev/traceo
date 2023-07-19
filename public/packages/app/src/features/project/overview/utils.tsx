@@ -23,7 +23,7 @@ export const GRID_MARGIN = [4, 4];
 export const GRID_COLS = { lg: 24, md: 12, sm: 6, xs: 4, xxs: 2 };
 export const GRID_ROW_HEIGHT = 30;
 export const GRID_PADDING = [0, 0];
-export const GRID_BASE_PANEL_HEIGHT = 92;
+export const GRID_BASE_PANEL_HEIGHT = 76;
 export const GRID_MIN_WIDTH = 3;
 export const GRID_MIN_HEIGHT = 3;
 

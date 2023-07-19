@@ -43,7 +43,6 @@ export const loadProject = (props?: LoadProjectType): ThunkResult<void> => {
 export const loadDashboards = (props: LoadProjectType): ThunkResult<void> => {
   return async (dispatch) => {
     const { data } = await api.get<ApiResponse<Dashboard[]>>(`/api/dashboard/project/${props.id}`);
-    console.log("dashboards: ", data);
     dispatch(setDashboards(data))
   }
 }

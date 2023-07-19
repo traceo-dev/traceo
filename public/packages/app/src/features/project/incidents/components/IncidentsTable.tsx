@@ -6,7 +6,6 @@ import { Avatar, Table, TableColumn, Tooltip } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { mapHeaderStatusIcon } from "./utils";
-import styled from "styled-components";
 
 interface Props {
   incidents: IIncident[];
@@ -93,12 +92,3 @@ export const IncidentsTable: FC<Props> = ({
     </Table>
   );
 };
-
-const NewIncidentPill = styled.div`
-  display: inline-flex;
-  align-items: center;
-  height: 20px;
-  border-radius: 20px;
-  border: 1px solid var(--color-traceo-primary);
-  padding: 0px 8px;
-`;

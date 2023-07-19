@@ -35,6 +35,7 @@ interface Props extends Pick<HTMLProps<HTMLDivElement>, "className"> {
   isErrorExplain?: boolean;
   isHoverOptions?: boolean;
   ranges: TimeRange;
+  bodyClassName?: string;
 }
 
 export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
@@ -45,6 +46,7 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
       panel = undefined,
       loading = false,
       className = undefined,
+      bodyClassName = undefined,
       isEditable = false,
       isErrorExplain = true,
       isHoverOptions = true,
@@ -133,6 +135,7 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
         extra={options}
         loading={loading}
         className={className}
+        bodyClassName={bodyClassName}
       >
         {isHover && isHoverOptions && (
           <NoHeaderOptions>

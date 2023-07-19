@@ -66,7 +66,7 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
   };
 
   const handleLayoutChange = async (layouts: GridLayout[]) => {
-    if (!dashboard.id) {
+    if (!dashboard.id || !project.id) {
       return;
     }
 

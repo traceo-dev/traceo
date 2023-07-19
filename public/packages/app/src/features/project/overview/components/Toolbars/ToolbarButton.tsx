@@ -8,7 +8,7 @@ interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "
   className?: string;
 }
 
-const Button = styled.button<{ isActive: boolean; isDisabled: boolean; isName: boolean }>`
+const Button = styled.button`
   display: flex;
   flex-direction: row;
   border-radius: 2px;

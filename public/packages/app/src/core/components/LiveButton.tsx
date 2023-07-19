@@ -26,9 +26,7 @@ export const LiveButton = ({
   );
 };
 
-const LiveWrapper = styled.div<{
-  live: boolean;
-}>`
+const LiveWrapper = styled.div`
   border: 1px solid var(--color-bg-canvas);
   border-radius: 4px;
   display: flex;

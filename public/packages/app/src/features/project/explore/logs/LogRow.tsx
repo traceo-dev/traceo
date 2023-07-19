@@ -6,9 +6,7 @@ import styled from "styled-components";
 import { LogDetailsForm } from "./LogDetailsForm";
 import dateUtils from "../../../../core/utils/date";
 
-const LogItem = styled.tr<{
-  isSelected: boolean;
-}>`
+const LogItem = styled.tr`
   display: flex;
   flex-direction: row;
   align-items: center;

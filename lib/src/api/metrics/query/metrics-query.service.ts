@@ -49,7 +49,7 @@ export class MetricsQueryService {
       });
     } catch (error) {
       this.logger.error(`[${this.getMetricsExploreGraph.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }
 
@@ -112,7 +112,7 @@ export class MetricsQueryService {
       });
     } catch (err) {
       this.logger.error(`[${this.getMetricGraph.name}] Caused by: ${err}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }
 
@@ -155,7 +155,7 @@ export class MetricsQueryService {
       return new ApiResponse("success", undefined, response);
     } catch (error) {
       this.logger.error(`[${this.getMetricFields.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }
 
@@ -197,7 +197,7 @@ export class MetricsQueryService {
       return new ApiResponse("success", undefined, response);
     } catch (error) {
       this.logger.error(`[${this.getMetricRawData.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }
 }

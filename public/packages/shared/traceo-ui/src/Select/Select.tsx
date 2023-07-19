@@ -102,7 +102,7 @@ export const Select = forwardRef<any, SelectProps>((props, ref) => {
   const {
     loadingMessage = "Loading ...",
     emptyMessage = "No options",
-    options,
+    options = [],
     value,
     defaultValue,
     width = 150,

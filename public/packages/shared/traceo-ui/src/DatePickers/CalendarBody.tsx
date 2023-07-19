@@ -49,9 +49,7 @@ export const CalendarBody: FC<Props> = ({
   );
 };
 
-const CalendarWrapper = styled.div<{
-  width?: number;
-}>`
+const CalendarWrapper = styled.div`
   ${(p) => p.width && `width: ${p.width}px !important`};
 
   .react-calendar__navigation {

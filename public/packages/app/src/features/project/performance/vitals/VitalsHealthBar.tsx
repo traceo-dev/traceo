@@ -12,10 +12,7 @@ const VitalBar = styled.div`
   margin-bottom: 4px;
 `;
 
-const BarPart = styled.div<{
-  width;
-  color;
-}>`
+const BarPart = styled.div`
   height: 100%;
   width: ${(p) => p.width}%;
   background-color: ${(p) => p.color};

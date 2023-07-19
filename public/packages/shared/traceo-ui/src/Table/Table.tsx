@@ -12,7 +12,7 @@ const TableWrapper = styled.table`
   width: 100%;
 `;
 
-const TableThead = styled.thead<{ scrollable: boolean }>`
+const TableThead = styled.thead`
   background-color: var(--color-bg-secondary);
 
   ${(p) =>
@@ -24,7 +24,7 @@ const TableThead = styled.thead<{ scrollable: boolean }>`
   `}
 `;
 
-const TableTbody = styled.tbody<{ scrollable: boolean }>`
+const TableTbody = styled.tbody`
   margin-top: 4px;
 
   ${(p) =>

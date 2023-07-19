@@ -32,7 +32,7 @@ export const PanelCustomizeForm: FC<Props> = (props: Props) => {
 
     const formProps = {
       ...props,
-      serieFieldOptions: fieldsOptions
+      serieFieldOptions: fieldsOptions ?? []
     };
 
     const visualizationComponent: Record<VISUALIZATION_TYPE, JSX.Element> = {
