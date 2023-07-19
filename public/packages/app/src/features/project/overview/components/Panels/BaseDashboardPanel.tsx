@@ -98,7 +98,7 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
         }
       ];
 
-      if (!isBaseDashboard && isMaintainer) {
+      if (isMaintainer) {
         options.push({
           label: "Remove",
           icon: <DeleteOutlined />,
@@ -109,7 +109,7 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
     };
 
     const renderPanelOptions = () => {
-      if (isBaseDashboard || !isMaintainer) {
+      if (!isMaintainer) {
         return (
           <EyeOutlined
             className="cursor-pointer hover:text-white text-xs px-1"
@@ -139,9 +139,7 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
       >
         {isHover && isHoverOptions && (
           <NoHeaderOptions>
-            {isEditable && !isBaseDashboard && (
-              <DragOutlined className="drag-handle cursor-move hover:text-white" />
-            )}
+            {isEditable && <DragOutlined className="drag-handle cursor-move hover:text-white" />}
             {renderPanelOptions()}
           </NoHeaderOptions>
         )}

@@ -33,8 +33,6 @@ export const DashboardToolbar = ({
   const dispatch = useAppDispatch();
 
   const hasPanels = dashboard && dashboard.panels?.length > 0;
-  const isBaseDashboard = dashboard.isBase;
-
   const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
 
   const onEditDashboard = () => {
@@ -62,7 +60,7 @@ export const DashboardToolbar = ({
       })
       .then(() => {
         dispatch(loadDashboard(dashboard.id));
-        notify.success(`Dashbord ${lockState ? "locked" : "unlocked"}.`);
+        notify.success(`Dashbord ${lockState ? "unlocked" : "locked"}.`);
       })
       .catch(() => notify.error(TRY_AGAIN_LATER_ERROR));
   };
@@ -71,13 +69,7 @@ export const DashboardToolbar = ({
     <Fragment>
       <Row gap="x-2" className="justify-end">
         <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-          {!isBaseDashboard && (
-            <ToolbarButton
-              name="Add panel"
-              icon={<PlusOutlined />}
-              onClick={() => onAddPanel()}
-            />
-          )}
+          <ToolbarButton name="Add panel" icon={<PlusOutlined />} onClick={() => onAddPanel()} />
 
           <ToolbarButton
             name="Settings"
@@ -85,7 +77,7 @@ export const DashboardToolbar = ({
             onClick={() => onEditDashboard()}
           />
 
-          {hasPanels && !isBaseDashboard && (
+          {hasPanels && (
             <ToolbarButton
               name={dashboard.isEditable ? "Lock dashboard" : "Unlock dashboard"}
               icon={<LockOutlined />}

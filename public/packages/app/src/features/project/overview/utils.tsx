@@ -235,7 +235,8 @@ export const dashboardPanelOptions: Record<DASHBOARD_PANEL_TYPE, DeepPartial<Das
     }
   },
   logs_plot: undefined,
-  logs_table: undefined
+  logs_table: undefined,
+  welcome: undefined
 };
 
 export const validate = (options: DashboardPanel) => {

@@ -9,20 +9,19 @@ import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";
 import { ColumnSection } from "../../../core/components/ColumnSection";
 import { useDashboard } from "../../../core/hooks/useDashboard";
-import { BaseProjectViewType } from "../../../core/types/hoc";
+import { ProjectDashboardViewType } from "../../../core/types/hoc";
 import { Portal } from "../../../core/components/Portal";
 import { EditDashboardToolbar } from "./components/Toolbars/EditDashboardToolbar";
 import { useAppDispatch } from "../../../store";
 import { loadDashboard } from "./state/actions";
+import withDashboard from "../../../core/hooks/withDashboard";
 
 interface UpdateDashboardForm {
   name: string;
   isEditable: boolean;
 }
 
-const EditDashboardPage = ({ project }: BaseProjectViewType) => {
-  const dashboard = useDashboard();
-
+const EditDashboardPage = ({ project, dashboard }: ProjectDashboardViewType) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -77,6 +76,7 @@ const EditDashboardPage = ({ project }: BaseProjectViewType) => {
 
   return (
     <Page
+      title={`${dashboard.name} - Edit`}
       header={{
         icon: <AppstoreFilled />,
         title: "Dashboard settings",
@@ -108,39 +108,36 @@ const EditDashboardPage = ({ project }: BaseProjectViewType) => {
                       })}
                     />
                   </FormItem>
-                  {!dashboard.isBase && (
-                    <Fragment>
-                      <FormItem
-                        className="pt-5 w-1/2"
-                        tooltip="Allow to change layout"
-                        label="Is editable"
-                        error={errors.isEditable}
-                      >
-                        <RadioButtonGroup
-                          options={[
-                            { label: "Yes", value: true },
-                            { label: "No", value: false }
-                          ]}
-                          onChange={(bool) => setEditable(bool)}
-                          value={isEditable}
-                        />
-                      </FormItem>
-                      <FormItem
-                        className="pt-5 w-1/2"
-                        label="Show time picker"
-                        error={errors.isTimePicker}
-                      >
-                        <RadioButtonGroup
-                          options={[
-                            { label: "Yes", value: true },
-                            { label: "No", value: false }
-                          ]}
-                          onChange={(bool) => setTimePicker(bool)}
-                          value={isTimePicker}
-                        />
-                      </FormItem>
-                    </Fragment>
-                  )}
+                  <FormItem
+                    className="pt-5 w-1/2"
+                    tooltip="Allow to change dashboard grid layout."
+                    label="Is editable"
+                    error={errors.isEditable}
+                  >
+                    <RadioButtonGroup
+                      options={[
+                        { label: "Yes", value: true },
+                        { label: "No", value: false }
+                      ]}
+                      onChange={(bool) => setEditable(bool)}
+                      value={isEditable}
+                    />
+                  </FormItem>
+                  <FormItem
+                    className="pt-5 w-1/2"
+                    label="Show time picker"
+                    tooltip="Remember that time picker is working only for custom panels."
+                    error={errors.isTimePicker}
+                  >
+                    <RadioButtonGroup
+                      options={[
+                        { label: "Yes", value: true },
+                        { label: "No", value: false }
+                      ]}
+                      onChange={(bool) => setTimePicker(bool)}
+                      value={isTimePicker}
+                    />
+                  </FormItem>
                 </Fragment>
               </ColumnSection>
             )}
@@ -166,4 +163,4 @@ const EditDashboardPage = ({ project }: BaseProjectViewType) => {
   );
 };
 
-export default EditDashboardPage;
+export default withDashboard(EditDashboardPage);

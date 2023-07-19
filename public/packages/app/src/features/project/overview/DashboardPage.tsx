@@ -44,7 +44,7 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
   const [isRemoveMode, setRemoveMode] = useState<boolean>(false);
   const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
 
-  const showTimepicker = dashboard.panels?.length !== 0 && dashboard.isTimePicker;
+  const showTimepicker = dashboard && dashboard.panels?.length !== 0 && dashboard.isTimePicker;
   const isMaintainer = [MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER].includes(permission);
   const isEditable = dashboard.isEditable && isMaintainer;
 

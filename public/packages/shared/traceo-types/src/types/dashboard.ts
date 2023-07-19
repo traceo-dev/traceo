@@ -96,6 +96,7 @@ export interface DashboardPanel {
 }
 
 export type DASHBOARD_PANEL_TYPE =
+  | "welcome"
   | "todays_events"
   | "overview_events"
   | "recent_events"
