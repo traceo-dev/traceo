@@ -1,3 +1,5 @@
+<img src="https://github.com/traceo-dev/traceo/blob/develop/public/packages/app/public/traceo-fav.PNG" width="100px">
+
 # Traceo Documentation
 Traceo is an open-source, self-hosted set of tools for monitoring application health by collecting and aggregating data from the software.
 
@@ -38,6 +40,8 @@ The administrator panel is intended only for authorized persons who have adminis
 ### Users
 A user is any person authorized to use the Traceo application. To create a new user, go to the list of all instance users and click **New user** button. We will then be redirected to a page with basic data about the new user that needs to be filled in. After creating the user, provide the credentials to the appropriate person who should immediately change the password to access the account.
 
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/admin-panel.PNG">
+
 #### User details
 In the user view, each administrator has the ability to change their data. Be sure to do this with care and discuss any name or email changes with the relevant user.
 
@@ -71,7 +75,11 @@ The instance Info contains all the information about the currently installed ver
 The project overview is a set of screens responsible for a clear representation of data collected by the SDK connected to the software. 
 
 ### Navigation
-Switching between screens in the project is done from the left sidebar. To view it, click on the Hamburger icon located on the left side in the project header. The available options differ in the permissions held in the entire Traceo instance and the role played in the project. Some of the available screens are described below.
+Switching between screens in the project is done from the left sidebar. To view it, click on the Hamburger icon located on the left side in the project header. 
+
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/sidebar.PNG">
+
+The available options differ in the permissions held in the entire Traceo instance and the role played in the project. Some of the available screens are described below.
 
 ### Add new member to project
 To add a new user to the project, go to the settings screen and then the Access tab. Click on the **Add** button and fill in the form by selecting the appropriate user from the list and assigning roles to him.
@@ -121,11 +129,13 @@ Each incident has one of three different statuses that should be changed by the 
 ### Incident details
 You can learn more about the incident on the incident details page.
 
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/incident-details.PNG">
+
 Once an incident is captured by the SDK, all the key information needed by the person responsible for resolving the issue is retrieved.
 
 The most important section on this screen is to graphically show where in the code the exception occurred for each subsequent trace pulled from the entire stack-trace of the exception.
 
-[code image here]
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/incident-code.PNG">
 
 It is also possible to view the stack trace in its raw form, i.e. as it was initially captured by the SDK.
 
@@ -151,7 +161,7 @@ A table with details for each event captured in the currently displayed incident
 ## Dashboards
 Dashboards are a way to group visualizations of the data you want to see. Each dashboard has panels, each of which is responsible for displaying visualized information.
 
-[dashboard image here]
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-dashboard.PNG">
 
 After creating a new project, a base dashboard containing information about incidents is automatically created for it. Note that the underlying dashboard cannot be deleted.
 
@@ -161,7 +171,7 @@ Projects can have multiple dashboards. To create a new dashboard (only project a
 
 The dashboard toolbar is a collection of tools at the top of the screen that allow you to customize your dashboard. Each option is visible when you have the appropriate permissions for the project.
 
-[dashboard toolbar image here]
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/dashboard-toolbar.PNG">
 
 Options are available:
 - **Add panel** - the ability to add a new panel to the dashboard. (Administrators and Maintainers)
@@ -175,6 +185,8 @@ Options are available:
 ### Dashboard panel
 The panel is the basic visualization element in the dashboard overview.
 
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-dashboard-panel.PNG">
+
 At the moment there are four types of panels:
 - **From library** - panels from the library are non-editable panels for users and non-changeable time intervals from the time picker in the dashboard toolbar.
 
@@ -187,6 +199,8 @@ At the moment there are four types of panels:
 ### Create new panel
 
 To create a new panel, select the Add panel option from the dashboard overview view on the toolbar. After selecting this option, a modal will be displayed with a panel type selection. If you select a **Custom** panel, you will be redirected to the screen for creating a new panel.
+
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/panel-edit.PNG">
 
 The new panel creation screen is divided into three sections.
 
@@ -251,6 +265,8 @@ The exploration screen allows you to search for three types of data:
 - Metrics
 - Traces
 
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/explore-toolbar.PNG">
+
 You can select the type using the Select button in the upper left corner of the screen. On the right side of the screen there is a time selector where you can specify the time range for which you want to get the data. The time range cannot exceed 168h (7 days).
 
 ### Logs
@@ -258,14 +274,12 @@ A log, in a computing context, is an automatically generated and time-stamped do
 
 An example of how to collect logs using Traceo SDK can be found [here](https://github.com/traceo-dev/traceo-javascript/tree/develop/packages/node#logger).
 
-[img here]
-
 For the exploration of logs, there is a chart with the intensity of log occurrences and in a table with logs found for a given time period. The table can contain up to 2000 logs, so it is important to specify the specific time period in which you want to search for the logs you need.
 
 ### Metrics
 Metrics are a set of data collected by the SDK in your software and used for extensive analytics, such as the performance of your software. Metrics are collected using the OpenTelemetry library. More information on integration can be found [here](https://github.com/traceo-dev/traceo-javascript/tree/develop/packages/opentelemetry-node).
 
-[img here]
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/explore-metrics-preview.PNG" width="270px">
 
 To view the metrics you are interested in, select the appropriate series from the drop-down menu. Each series is colored automatically. 
 
@@ -278,6 +292,6 @@ Tracing is a low-level practice used to profile and analyze application code by 
 
 To search for a specific track that interests you the most, you can use the advanced search engine in the expanded Options section. There you will find a number of options for the most narrowed search.
 
-[img here]
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/trace-preview.PNG" width="270px">
 
 The main trace visualization is in the table below. After clicking on the TRACEI ID, its overview will open on the left, containing its details along with a time visualization of the occurrence of traces associated with it.
