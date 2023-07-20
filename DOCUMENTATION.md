@@ -129,8 +129,6 @@ Each incident has one of three different statuses that should be changed by the 
 ### Incident details
 You can learn more about the incident on the incident details page.
 
-<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/incident-details.PNG">
-
 Once an incident is captured by the SDK, all the key information needed by the person responsible for resolving the issue is retrieved.
 
 The most important section on this screen is to graphically show where in the code the exception occurred for each subsequent trace pulled from the entire stack-trace of the exception.
@@ -279,7 +277,7 @@ For the exploration of logs, there is a chart with the intensity of log occurren
 ### Metrics
 Metrics are a set of data collected by the SDK in your software and used for extensive analytics, such as the performance of your software. Metrics are collected using the OpenTelemetry library. More information on integration can be found [here](https://github.com/traceo-dev/traceo-javascript/tree/develop/packages/opentelemetry-node).
 
-<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/explore-metrics-preview.PNG" width="270px">
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/explore-metrics-preview.PNG">
 
 To view the metrics you are interested in, select the appropriate series from the drop-down menu. Each series is colored automatically. 
 
@@ -292,6 +290,6 @@ Tracing is a low-level practice used to profile and analyze application code by 
 
 To search for a specific track that interests you the most, you can use the advanced search engine in the expanded Options section. There you will find a number of options for the most narrowed search.
 
-<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/trace-preview.PNG" width="270px">
+<img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/trace-preview.PNG">
 
 The main trace visualization is in the table below. After clicking on the TRACE ID, its overview will open on the left, containing its details along with a time visualization of the occurrence of traces associated with it.
