@@ -18,7 +18,7 @@ export class TracingQueryService {
       return new ApiResponse("success", undefined, response);
     } catch (error) {
       this.logger.error(`[${this.getRootTraces.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }
 
@@ -28,7 +28,7 @@ export class TracingQueryService {
       return new ApiResponse("success", undefined, response);
     } catch (error) {
       this.logger.error(`[${this.getSpansByTraceId.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }
 
@@ -42,7 +42,7 @@ export class TracingQueryService {
       return new ApiResponse("success", undefined, response);
     } catch (error) {
       this.logger.error(`[${this.getServiceNames.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }
 
@@ -56,7 +56,7 @@ export class TracingQueryService {
       return new ApiResponse("success", undefined, response);
     } catch (error) {
       this.logger.error(`[${this.getServiceNames.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, error);
+      return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }
 }
