@@ -11,7 +11,7 @@ interface Props {
 export const CustomizeFormSerieSection: FC<Props> = ({
   children,
   serie,
-  onDelete,
+  onDelete = undefined,
   collapsed = true
 }) => {
   const backgroundColor = serie.config.color;

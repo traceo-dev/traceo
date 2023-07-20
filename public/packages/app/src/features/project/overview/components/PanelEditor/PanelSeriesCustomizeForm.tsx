@@ -1,4 +1,4 @@
-import { UplotDataType, DashboardPanel, IMetricSerie } from "@traceo/types";
+import { UplotDataType, DashboardPanel, IMetricSerie, VISUALIZATION_TYPE } from "@traceo/types";
 import { FieldLabel, SelectOptionProps, Tooltip } from "@traceo/ui";
 import { FC } from "react";
 import { DraftFunction } from "use-immer";
@@ -18,6 +18,8 @@ interface Props {
 
 export const PanelSeriesCustomizeForm: FC<Props> = (props: Props) => {
   const { id } = useParams();
+
+  const isHistogram = props.options.config.visualization === VISUALIZATION_TYPE.HISTOGRAM;
 
   const { data: fieldsOptions = [] } = useReactQuery<SelectOptionProps[]>({
     queryKey: [`panels_fields_key`],
@@ -58,12 +60,14 @@ export const PanelSeriesCustomizeForm: FC<Props> = (props: Props) => {
     <Container>
       <Header>
         <span>Datasource series</span>
-        <Tooltip title="Add new serie">
-          <PlusOutlined
-            onClick={() => onAddNewSerie()}
-            className="flex p-1 hover:bg-secondary cursor-pointer rounded-full"
-          />
-        </Tooltip>
+        {!isHistogram && (
+          <Tooltip title="Add new serie">
+            <PlusOutlined
+              onClick={() => onAddNewSerie()}
+              className="flex p-1 hover:bg-secondary cursor-pointer rounded-full"
+            />
+          </Tooltip>
+        )}
       </Header>
       <div className="max-h-[750px] overflow-y-scroll">
         {props.options.config.series.map((serie, index) => {
@@ -81,7 +85,7 @@ export const PanelSeriesCustomizeForm: FC<Props> = (props: Props) => {
               key={index}
               serie={serie}
               collapsed={index !== 0}
-              onDelete={() => onDeleteSerie(serie as IMetricSerie)}
+              onDelete={() => !isHistogram && onDeleteSerie(serie as IMetricSerie)}
             >
               {editPanelSerieForm(serieProps).map((opt, index) => (
                 <FieldLabel

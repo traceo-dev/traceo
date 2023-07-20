@@ -104,7 +104,7 @@ export const ExplorePageWrapper: FC = () => {
           <Row gap="x-3" className="text-sm">
             <ExploreRangePicker
               range={ranges}
-              maxRange={MAX_HOUR_RANGE}
+              maxRange={type === EXPLORE_TYPE.LOGS ? 6 : MAX_HOUR_RANGE}
               setRange={(e) => setRanges(e)}
               type={exploreType}
             />

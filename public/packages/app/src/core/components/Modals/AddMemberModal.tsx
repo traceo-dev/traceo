@@ -52,7 +52,11 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
     description: user?.email
   }));
 
-  const roleOptions = Object.values(MemberRole).map((role) => ({
+  const roleOptions = Object.values([
+    MemberRole.ADMINISTRATOR,
+    MemberRole.MAINTAINER,
+    MemberRole.VIEWER
+  ]).map((role) => ({
     label: role,
     value: role
   }));

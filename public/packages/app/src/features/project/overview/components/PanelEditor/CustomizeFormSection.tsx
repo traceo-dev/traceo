@@ -1,10 +1,4 @@
-import {
-  DeleteOutlined,
-  DownOutlined,
-  EyeInvisibleOutlined,
-  EyeOutlined,
-  RightOutlined
-} from "@ant-design/icons";
+import { DeleteOutlined, DownOutlined, RightOutlined } from "@ant-design/icons";
 import { FieldLabel, Row, Tooltip } from "@traceo/ui";
 import { FC, useState } from "react";
 import { PanelEditOption } from "../utils";
@@ -42,22 +36,16 @@ export const FormSection = ({
 interface Props {
   title: string | JSX.Element;
   description?: string;
-  defaultMetric?: boolean;
   defaultCollapsed?: boolean;
-  show?: boolean;
   onDelete?: () => void;
-  onHide?: () => void;
   extra?: JSX.Element;
 }
 export const CustomizeFormSection: FC<Props> = ({
   children = undefined,
   title = "",
   description = undefined,
-  show = true,
-  defaultMetric = false,
   defaultCollapsed = true,
-  onHide,
-  onDelete,
+  onDelete = undefined,
   extra = undefined
 }) => {
   const [collapsed, setCollapsed] = useState<boolean>(defaultCollapsed);
@@ -69,19 +57,6 @@ export const CustomizeFormSection: FC<Props> = ({
     onDelete();
   };
 
-  const onHideSection = (e: any) => {
-    e.stopPropagation();
-    onHide();
-  };
-
-  const eyeIcon = (
-    <Tooltip title={show ? "Hide serie" : "Show serie"}>
-      <div className="hover:text-blue-400" onClick={onHideSection}>
-        {show ? <EyeOutlined /> : <EyeInvisibleOutlined />}
-      </div>
-    </Tooltip>
-  );
-
   const trashIcon = (
     <Tooltip title="Remove serie">
       <DeleteOutlined className="hover:text-red-400 pl-2" onClick={onRemove} />
@@ -89,7 +64,7 @@ export const CustomizeFormSection: FC<Props> = ({
   );
 
   return (
-    <div className="border-bottom w-full flex flex-col text-primary text-sm">
+    <div className="border-bottom w-full flex flex-col text-primary text-sm select-none">
       <Row
         onClick={() => setCollapsed(!collapsed)}
         className="p-2 justify-between w-full hover:bg-secondary hover:text-white duration-200 cursor-pointer"
@@ -101,13 +76,10 @@ export const CustomizeFormSection: FC<Props> = ({
             {description && <span className="text-xs">{description}</span>}
           </div>
         </Row>
-        {!defaultMetric && (
-          <Row gap="x-5">
-            {onHide && eyeIcon}
-            {onDelete && trashIcon}
-            {extra}
-          </Row>
-        )}
+        <Row gap="x-5">
+          {trashIcon}
+          {extra}
+        </Row>
       </Row>
       {!collapsed && <div className="pl-6 pr-3 pt-5">{children}</div>}
     </div>

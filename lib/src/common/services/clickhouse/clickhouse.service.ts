@@ -329,11 +329,11 @@ export class ClickhouseService {
     }
 
     if (query?.durationMax) {
-      sqlQuery += `AND duration <= ${query.durationMax} \n`;
+      sqlQuery += `AND greaterOrEquals(${query.durationMax}, duration) \n`;
     }
 
     if (query?.durationMin) {
-      sqlQuery += `AND duration => ${query.durationMin} \n`;
+      sqlQuery += `AND greaterOrEquals(duration, ${query.durationMin}) \n`;
     }
 
     const search = query?.search;
@@ -347,6 +347,7 @@ export class ClickhouseService {
     sqlQuery += "ORDER BY receive_timestamp DESC\n";
     sqlQuery += `LIMIT ${query?.take || 100} `;
 
+    console.log(sqlQuery)
     const spans = await this.query({
       query: sqlQuery,
       format: "JSONEachRow"

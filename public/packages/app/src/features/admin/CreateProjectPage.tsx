@@ -143,7 +143,7 @@ const CreateProjectPage = () => {
           )}
           <ButtonContainer className="pt-5" justify="start">
             <Button type="submit" form="create-project-form" loading={loading}>
-              Save
+              Confirm
             </Button>
             <Button onClick={() => navigate(-1)} variant="ghost">
               Cancel

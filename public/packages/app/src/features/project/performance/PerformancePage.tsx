@@ -1,6 +1,6 @@
 import { LoadingOutlined, RocketOutlined } from "@ant-design/icons";
 import { VitalsEnum, VitalsResponse } from "@traceo/types";
-import { Alert, Card } from "@traceo/ui";
+import { Card } from "@traceo/ui";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";

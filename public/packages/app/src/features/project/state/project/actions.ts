@@ -1,6 +1,6 @@
 import api from "../../../../core/lib/api";
 import { ThunkResult } from "../../../../store/types";
-import { beginProjectFetch, setPermission, setProject, resetProjectState, setDashboards, endProjectFetch } from "./reducers";
+import { beginProjectFetch, setPermission, setProject, resetProjectState, setDashboards } from "./reducers";
 import { ApiResponse, Dashboard, IProject, MemberRole, UpdateProjectProps } from "@traceo/types";
 
 export type LoadProjectType = {

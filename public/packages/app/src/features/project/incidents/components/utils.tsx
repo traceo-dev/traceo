@@ -1,7 +1,4 @@
 import {
-  CheckCircleOutlined,
-  WarningOutlined,
-  ThunderboltOutlined,
   BarChartOutlined,
   LineChartOutlined,
   CheckCircleFilled,

@@ -1,15 +1,12 @@
 import {
   DASHBOARD_PANEL_TYPE,
   DashboardPanel,
-  DeepPartial,
   IMetricSerie,
-  METRIC_UNIT,
-  PLOT_TYPE,
   VISUALIZATION_TYPE
 } from "@traceo/types";
 import { Input, InputArea, InputColor, Select, SelectOptionProps, Switch } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
-import { unitOptions, plotOptions, PanelEditOption } from "../utils";
+import { plotOptions, PanelEditOption } from "../utils";
 
 type SerieFormProps = {
   index: number;
@@ -88,21 +85,6 @@ export const editPanelSerieForm = (props: SerieFormProps) => {
   });
 
   if (!isHistogram) {
-    forms.push({
-      label: "Unit",
-      component: (
-        <Select
-          options={unitOptions}
-          defaultValue={serie.unit ?? METRIC_UNIT.NONE}
-          onChange={(a) => {
-            setOptions((opt) => {
-              opt.config.series[index].unit = a?.value;
-            });
-          }}
-        />
-      )
-    });
-
     forms.push({
       label: "Plot type",
       component: (
