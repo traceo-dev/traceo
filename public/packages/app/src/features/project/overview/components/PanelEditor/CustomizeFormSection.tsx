@@ -57,7 +57,7 @@ export const CustomizeFormSection: FC<Props> = ({
     onDelete();
   };
 
-  const trashIcon = (
+  const trashIcon = onDelete && (
     <Tooltip title="Remove serie">
       <DeleteOutlined className="hover:text-red-400 pl-2" onClick={onRemove} />
     </Tooltip>

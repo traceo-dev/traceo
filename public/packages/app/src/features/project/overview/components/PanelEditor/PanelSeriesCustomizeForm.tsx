@@ -85,7 +85,7 @@ export const PanelSeriesCustomizeForm: FC<Props> = (props: Props) => {
               key={index}
               serie={serie}
               collapsed={index !== 0}
-              onDelete={() => !isHistogram && onDeleteSerie(serie as IMetricSerie)}
+              onDelete={() => onDeleteSerie(serie as IMetricSerie)}
             >
               {editPanelSerieForm(serieProps).map((opt, index) => (
                 <FieldLabel

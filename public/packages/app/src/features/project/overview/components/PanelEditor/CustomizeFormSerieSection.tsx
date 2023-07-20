@@ -25,7 +25,7 @@ export const CustomizeFormSerieSection: FC<Props> = ({
       }
       defaultCollapsed={collapsed}
       description={serie?.description}
-      onDelete={() => onDelete(serie as IMetricSerie)}
+      onDelete={() => onDelete && onDelete(serie as IMetricSerie)}
     >
       {children}
     </CustomizeFormSection>
