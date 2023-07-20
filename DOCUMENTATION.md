@@ -294,4 +294,4 @@ To search for a specific track that interests you the most, you can use the adva
 
 <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/trace-preview.PNG" width="270px">
 
-The main trace visualization is in the table below. After clicking on the TRACEI ID, its overview will open on the left, containing its details along with a time visualization of the occurrence of traces associated with it.
+The main trace visualization is in the table below. After clicking on the TRACE ID, its overview will open on the left, containing its details along with a time visualization of the occurrence of traces associated with it.
