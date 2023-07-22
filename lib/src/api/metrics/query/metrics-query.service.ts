@@ -98,7 +98,7 @@ export class MetricsQueryService {
         datasource = await this.mapAggregateDataSource(projectId, {
           from,
           to,
-          fields: series.map((e) => e.field),
+          fields: series.map((e) => e.datasource.field),
           interval: 1,
           valueMax: undefined,
           valueMin: undefined,
@@ -171,7 +171,7 @@ export class MetricsQueryService {
           id: query.panelId
         });
 
-        fields = metric.config.series.map((e) => e.field);
+        fields = metric.config.series.map((e) => e.datasource.field);
       }
 
       if (fields.length === 0) {

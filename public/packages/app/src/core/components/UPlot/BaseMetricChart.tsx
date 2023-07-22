@@ -50,7 +50,7 @@ const buildSeries = (builder: UPlotConfigBuilder, panel: DeepPartial<DashboardPa
           width: serie.config.barWidth,
           align: isHistogram ? 1 : 0
         },
-        label: serie.field
+        label: serie.datasource.field
       });
     }
   }

@@ -213,6 +213,20 @@ export class UpdateOptionsMetricDto {
   text: UpdateMetricTextDto;
 }
 
+class UpdateSerieDatasourceDto {
+  @IsString()
+  @IsOptional()
+  field: PLOT_TYPE;
+
+  @IsString()
+  @IsOptional()
+  query: PLOT_TYPE;
+
+  @IsString()
+  @IsOptional()
+  formula: PLOT_TYPE;
+}
+
 class UpdateSerieMetricConfigDto {
   @IsString()
   @IsNotEmpty()
@@ -234,10 +248,6 @@ class UpdateSerieMetricConfigDto {
 }
 
 class UpdateSerieMetricDto {
-  // @IsString()
-  // @IsOptional()
-  // name: string;
-
   @IsString()
   @IsOptional()
   description: string;
@@ -251,14 +261,9 @@ class UpdateSerieMetricDto {
   @ApiPropertyOptional()
   unit: METRIC_UNIT = METRIC_UNIT.NONE;
 
-  @IsString()
-  @IsOptional()
-  // @IsNotEmpty()
-  field: string;
-
-  // @IsString()
-  // @IsOptional()
-  // type: string;
+  @ValidateNested()
+  @Type(() => UpdateSerieDatasourceDto)
+  datasource: UpdateSerieDatasourceDto;
 
   @ValidateNested()
   @Type(() => UpdateSerieMetricConfigDto)

@@ -23,7 +23,7 @@ import { ProjectDashboardViewType } from "../../../core/types/hoc";
 import withDashboard from "../../../core/hooks/withDashboard";
 import { Portal } from "../../../core/components/Portal";
 import { areArraysEqual } from "../../../core/utils/arrays";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../core/utils/date";
 
 const GridPanelItem = styled.div`
   position: relative;
@@ -162,9 +162,9 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
     );
   };
 
-  const hasEditPermission = [MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER].includes(
-    permission
-  );
+  const hasEditPermission =
+    [MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER].includes(permission) &&
+    dashboard.isEditable;
 
   return (
     <Page title="Dashboards">

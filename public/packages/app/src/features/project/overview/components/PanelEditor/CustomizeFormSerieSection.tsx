@@ -20,8 +20,8 @@ export const CustomizeFormSerieSection: FC<Props> = ({
       title={
         <Row gap="x-2">
           <div className="w-3 h-3 rounded-full" style={{ backgroundColor }} />
-          <span className={conditionClass(!serie?.field, "italic text-secondary font-normal")}>
-            {serie?.field ?? "No field selected"}
+          <span className={conditionClass(!serie.datasource?.field, "italic text-secondary font-normal")}>
+            {serie.datasource?.field ?? "No field selected"}
           </span>
         </Row>
       }

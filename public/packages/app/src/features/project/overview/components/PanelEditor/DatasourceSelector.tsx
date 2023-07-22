@@ -1,14 +1,14 @@
 import { PlusOutlined, CloseOutlined, DatabaseFilled } from "@ant-design/icons";
 import { IMetricSerie, DashboardPanel, VISUALIZATION_TYPE } from "@traceo/types";
-import { Popover, Row, Select, SelectOptionProps } from "@traceo/ui";
+import { Row, Select, SelectOptionProps } from "@traceo/ui";
 import { Fragment } from "react";
-import { DataNotFound } from "src/core/components/DataNotFound";
-import { OptionsCollapseGroup } from "src/features/project/explore/components/OptionsCollapseGroup";
+import { DataNotFound } from "../../../../../core/components/DataNotFound";
+import { OptionsCollapseGroup } from "../../../../../features/project/explore/components/OptionsCollapseGroup";
 import { DraftFunction } from "use-immer";
 import { ToolbarButton } from "../Toolbars/ToolbarButton";
-import { randomHexColor } from "src/core/utils/colors";
+import { randomHexColor } from "../../../../../core/utils/colors";
 import { useParams } from "react-router-dom";
-import { useReactQuery } from "src/core/hooks/useReactQuery";
+import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
 import { QueryResponseType } from "../../utils";
 
 interface Props {
@@ -30,7 +30,9 @@ export const DatasourceSelector = ({ options, setOptions, data }: Props) => {
   const onAddNewSerie = () => {
     const serie: IMetricSerie = {
       description: undefined,
-      field: undefined,
+      datasource: {
+        field: undefined
+      },
       config: {
         area: {
           show: false,
@@ -114,11 +116,11 @@ const Datasource = ({
         <DatabaseFilled style={{ color: serie.config.color }} />
         <span>Field:</span>
         <Select
-          defaultValue={serie.field}
+          defaultValue={serie.datasource.field}
           options={options}
           onChange={(opt) =>
             setOptions((e) => {
-              e.config.series[index].field = opt?.value;
+              e.config.series[index].datasource.field = opt?.value;
             })
           }
         />

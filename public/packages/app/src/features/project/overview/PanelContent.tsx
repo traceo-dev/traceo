@@ -9,7 +9,7 @@ import { DraftFunction } from "use-immer";
 import { useState } from "react";
 import styled, { css } from "styled-components";
 import { DatasourceSelector } from "./components/PanelEditor/DatasourceSelector";
-import { DataNotFound } from "src/core/components/DataNotFound";
+import { DataNotFound } from "../../../core/components/DataNotFound";
 import { TextEditor } from "./components/PanelEditor/TextEditor";
 
 type Option = "basic" | "datasource";

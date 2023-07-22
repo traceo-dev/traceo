@@ -8,7 +8,11 @@ export type IMetricSerie = {
   name?: string;
   description?: string;
   unit?: METRIC_UNIT;
-  field: string;
+  datasource: {
+    field?: string;
+    query?: string;
+    formula?: string;
+  }
   config: {
     lineWidth?: number;
     barWidth?: number;

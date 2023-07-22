@@ -15,11 +15,11 @@ export const PanelDatasourceTable: FC<Props> = ({ metricData, isLoading, panel, 
   const columns =
     fields ??
     useMemo(() => {
-      return panel?.config.series.map(({ field }) => field);
+      return panel?.config.series.map(({ datasource }) => datasource.field);
     }, [panel]);
 
   const getColumnName = (field: string) => {
-    const serie = panel?.config.series.find((serie) => serie.field === field);
+    const serie = panel?.config.series.find((serie) => serie.datasource.field === field);
     return serie?.name;
   };
 

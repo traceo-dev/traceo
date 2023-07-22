@@ -21,6 +21,8 @@ export const editPanelStackForm = (props: Props) => {
   forms.push({
     label: "Show stack",
     labelPosition: "horizontal",
+    tooltip:
+      "Stack is available only when each data source has the same plot type. Tooltip is not available when this option is selected.",
     component: (
       <Switch
         value={options.config.stack?.show}
@@ -87,6 +89,7 @@ export const editPanelLegendForm = (props: Props) => {
 
   forms.push({
     label: "Show legend",
+    tooltip: "Tooltip is inactive when stack option is selected.",
     labelPosition: "horizontal",
     component: (
       <Switch

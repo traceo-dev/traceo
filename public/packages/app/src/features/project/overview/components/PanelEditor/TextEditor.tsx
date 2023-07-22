@@ -1,7 +1,7 @@
 import { QuestionCircleFilled } from "@ant-design/icons";
 import { DashboardPanel } from "@traceo/types";
 import { InputArea, Row } from "@traceo/ui";
-import { OptionsCollapseGroup } from "src/features/project/explore/components/OptionsCollapseGroup";
+import { OptionsCollapseGroup } from "../../../../../features/project/explore/components/OptionsCollapseGroup";
 import { DraftFunction } from "use-immer";
 
 interface Props {

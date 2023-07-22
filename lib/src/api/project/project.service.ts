@@ -73,8 +73,8 @@ export class ProjectService {
         // Create basic dashboard
         const dashboard = await this.dashboardService.create(
           {
-            name: "Basic dashboard",
-            description: undefined,
+            name: "Events Dashboard",
+            description: "Visualization of captured events in correlation with the time of their occurrence.",
             isEditable: false,
             isTimePicker: false,
             isBase: true

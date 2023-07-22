@@ -80,6 +80,9 @@ export const initialDashboardPanels: DashboardPanel[] = [
       visualization: VISUALIZATION_TYPE.TIME_SERIES,
       series: [
         {
+          datasource: {
+            field: "events_overview_plot",
+          },
           config: {
             area: {
               opacity: 100,
@@ -92,7 +95,6 @@ export const initialDashboardPanels: DashboardPanel[] = [
           },
           name: "Events",
           description: undefined,
-          field: "events_overview_plot",
           unit: METRIC_UNIT.NONE
         }
       ]
@@ -113,6 +115,9 @@ export const initialDashboardPanels: DashboardPanel[] = [
       visualization: VISUALIZATION_TYPE.TIME_SERIES,
       series: [
         {
+          datasource: {
+            field: "events_overview_plot",
+          },
           config: {
             area: {
               opacity: 50,
@@ -125,7 +130,6 @@ export const initialDashboardPanels: DashboardPanel[] = [
           },
           name: "Events",
           description: undefined,
-          field: "events_overview_plot",
           unit: METRIC_UNIT.NONE
         }
       ]

@@ -26,7 +26,7 @@ export const editPanelSerieForm = (props: SerieFormProps) => {
 
   forms.push({
     label: "Datasource field",
-    component: <Input value={serie.field} disabled={true} />
+    component: <Input value={serie.datasource.field} disabled={true} />
   });
 
   forms.push({

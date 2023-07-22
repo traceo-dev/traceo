@@ -12,7 +12,7 @@ import withDashboard from "../../../core/hooks/withDashboard";
 import { ProjectDashboardViewType } from "../../../core/types/hoc";
 import { Portal } from "../../../core/components/Portal";
 import { CreatePanelToolbar } from "./components/Toolbars/CreatePanelToolbar";
-import { ContentCard } from "src/core/components/ContentCard";
+import { ContentCard } from "../../../core/components/ContentCard";
 
 const CreatePanelPage = ({ project, dashboard }: ProjectDashboardViewType) => {
   const navigate = useNavigate();

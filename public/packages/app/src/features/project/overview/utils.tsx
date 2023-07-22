@@ -110,6 +110,9 @@ export const initialCustomPanelProps: DashboardPanel = {
       {
         name: "New serie",
         description: undefined,
+        datasource: {
+          field: undefined
+        },
         config: {
           area: {
             opacity: 50,
@@ -120,7 +123,7 @@ export const initialCustomPanelProps: DashboardPanel = {
           lineWidth: 1,
           type: "line"
         },
-        field: undefined,
+
         unit: METRIC_UNIT.NONE
       }
     ]
@@ -155,7 +158,9 @@ export const dashboardPanelOptions: Record<DASHBOARD_PANEL_TYPE, DeepPartial<Das
           },
           name: "Events",
           description: undefined,
-          field: "events_overview_plot",
+          datasource: {
+            field: "events_overview_plot"
+          },
           unit: METRIC_UNIT.NONE
         }
       ]
@@ -187,7 +192,9 @@ export const dashboardPanelOptions: Record<DASHBOARD_PANEL_TYPE, DeepPartial<Das
           },
           name: "Events",
           description: undefined,
-          field: "events_overview_plot",
+          datasource: {
+            field: "events_overview_plot"
+          },
           unit: METRIC_UNIT.NONE
         }
       ]
@@ -256,9 +263,9 @@ export const validate = (options: DashboardPanel) => {
     errors.push("You have to add at least one serie to this panel.");
   }
 
-  const missingField = series.find((serie) => !serie?.field);
+  const missingField = series.find((serie) => !serie?.datasource.field);
   if (missingField && !canHaveNoSeries) {
-    errors.push("Your serie does not have a required field value.");
+    errors.push("Your serie does not have a required datasource field value.");
   }
 
   return errors;

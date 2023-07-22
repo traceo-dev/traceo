@@ -113,15 +113,15 @@ const EditDashboardPage = ({ project, dashboard }: ProjectDashboardViewType) => 
             {({ register, errors }) => (
               <ColumnSection subtitle="Update basic information about this dashboard.">
                 <Fragment>
-                  <FormItem className="pt-2 w-1/2" label="Name" error={errors.name}>
+                  <FormItem className="pt-2 w-3/4" label="Name" error={errors.name}>
                     <Input
                       {...register("name", {
                         required: true
                       })}
                     />
                   </FormItem>
-                  <FormItem className="pt-2 w-1/2" label="Description" error={errors.name}>
-                    <InputArea maxLength={124} {...register("description")} />
+                  <FormItem className="pt-2 w-3/4" label="Description" error={errors.name}>
+                    <InputArea rows={6} maxLength={124} {...register("description")} />
                   </FormItem>
                   <FormItem
                     className="pt-5 w-1/2"
