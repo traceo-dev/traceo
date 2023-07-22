@@ -16,7 +16,8 @@ export const defaultStyles = (width: number | string | undefined): StylesConfig 
       }),
       menuList: (provided) => ({
         ...provided,
-        zIndex: 999
+        zIndex: 999,
+        maxHeight: "180px"
       }),
       menu: (provided) => ({
         ...provided,

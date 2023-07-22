@@ -3,6 +3,7 @@ import { METRIC_UNIT, IMetricSerie } from "./metrics";
 export interface Dashboard {
   id: string;
   createdAt?: number;
+  updatedAt?: number;
 
   name: string;
   description: string;

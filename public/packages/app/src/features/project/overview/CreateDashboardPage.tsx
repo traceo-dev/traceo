@@ -19,6 +19,10 @@ import { BaseProjectViewType } from "../../../core/types/hoc";
 import { useAppDispatch } from "../../../store";
 import { loadDashboards } from "../state/project/actions";
 
+interface CreateDashboardProps {
+  name: string;
+  description: string;
+}
 const CreateDashboardPage = ({ project }: BaseProjectViewType) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -27,13 +31,14 @@ const CreateDashboardPage = ({ project }: BaseProjectViewType) => {
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
-  const onFinish = async (form: CreateProjectProps) => {
+  const onFinish = async (form: CreateDashboardProps) => {
     setLoading(true);
-    const { name } = form;
+    const { name, description } = form;
 
     await api
       .post<ApiResponse<{ id: string }>>("/api/dashboard", {
         name,
+        description,
         projectId: project.id
       })
       .then((response) => {
@@ -85,6 +90,9 @@ const CreateDashboardPage = ({ project }: BaseProjectViewType) => {
                       required: true
                     })}
                   />
+                </FormItem>
+                <FormItem className="pt-9 w-1/2" label="Description" error={errors.name}>
+                  <Input {...register("description")} />
                 </FormItem>
               </div>
             )}

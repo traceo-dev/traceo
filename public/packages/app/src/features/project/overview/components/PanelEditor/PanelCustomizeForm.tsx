@@ -1,5 +1,5 @@
 import { CustomizeFormSection } from "./CustomizeFormSection";
-import { UplotDataType, DashboardPanel, VISUALIZATION_TYPE } from "@traceo/types";
+import { DashboardPanel, VISUALIZATION_TYPE } from "@traceo/types";
 import { FieldLabel, SelectOptionProps } from "@traceo/ui";
 import { FC, useMemo } from "react";
 import { DraftFunction } from "use-immer";
@@ -8,11 +8,9 @@ import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
 import { useParams } from "react-router-dom";
 import { HistogramForm } from "./HistogramForm";
 import { TimeseriesForm } from "./TimeseriesForm";
-import { Header, Container } from "./components";
-import { TextForm } from "./TextForm";
+import { Container } from "./components";
 
 interface Props {
-  data?: UplotDataType;
   options: DashboardPanel;
   setOptions: (arg: DashboardPanel | DraftFunction<DashboardPanel>) => void;
 }
@@ -40,7 +38,7 @@ export const PanelCustomizeForm: FC<Props> = (props: Props) => {
       [VISUALIZATION_TYPE.HISTOGRAM]: <HistogramForm {...formProps} />,
       [VISUALIZATION_TYPE.GAUGE]: undefined,
       [VISUALIZATION_TYPE.STAT]: undefined,
-      [VISUALIZATION_TYPE.TEXT]: <TextForm {...formProps} />
+      [VISUALIZATION_TYPE.TEXT]: undefined
     };
 
     if (panelType === "custom") {
@@ -52,7 +50,6 @@ export const PanelCustomizeForm: FC<Props> = (props: Props) => {
 
   return (
     <Container>
-      <Header>Customize visualization</Header>
       <div className="max-h-[750px] overflow-y-scroll">
         <CustomizeFormSection title="Basic" defaultCollapsed={false}>
           {basicOptions.map((opt, index) => (

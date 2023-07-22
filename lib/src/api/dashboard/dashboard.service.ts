@@ -43,6 +43,7 @@ export class DashboardService {
       project,
       isEditable: true,
       createdAt: dateUtils.toUnix(),
+      updatedAt: dateUtils.toUnix(),
       ...dto
     });
   }
@@ -101,7 +102,10 @@ export class DashboardService {
       const { dashboardId, projectId, ...rest } = dto;
       const dashboard = await this.entityManager
         .getRepository(Dashboard)
-        .update({ id: dashboardId }, rest);
+        .update({ id: dashboardId }, {
+          ...rest,
+          updatedAt: dateUtils.toUnix()
+        });
       return new ApiResponse("success", undefined, dashboard);
     } catch (err) {
       this.logger.error(`[${this.updateDashboard.name}] Caused by: ${err}`);

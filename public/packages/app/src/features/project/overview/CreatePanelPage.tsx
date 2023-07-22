@@ -1,7 +1,6 @@
 import { Page } from "../../../core/components/Page";
 import { ApiResponse, DashboardPanel } from "@traceo/types";
 import { useImmer } from "use-immer";
-import { Card } from "@traceo/ui";
 import { ConditionalWrapper } from "../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../core/components/DataNotFound";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +12,7 @@ import withDashboard from "../../../core/hooks/withDashboard";
 import { ProjectDashboardViewType } from "../../../core/types/hoc";
 import { Portal } from "../../../core/components/Portal";
 import { CreatePanelToolbar } from "./components/Toolbars/CreatePanelToolbar";
+import { ContentCard } from "src/core/components/ContentCard";
 
 const CreatePanelPage = ({ project, dashboard }: ProjectDashboardViewType) => {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const CreatePanelPage = ({ project, dashboard }: ProjectDashboardViewType) => {
   };
 
   const renderPanel = () => (
-    <Card>
+    <ContentCard name="Visualization">
       <ConditionalWrapper
         isEmpty
         emptyView={
@@ -56,7 +56,7 @@ const CreatePanelPage = ({ project, dashboard }: ProjectDashboardViewType) => {
           />
         }
       />
-    </Card>
+    </ContentCard>
   );
 
   return (

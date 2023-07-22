@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import { BaseDashboardPanel } from "./BaseDashboardPanel";
 import { PanelProps } from "./types";
 import MarkdownPreview from "@uiw/react-markdown-preview";
@@ -21,8 +22,10 @@ export const TextPanel = ({
   ranges = [undefined, undefined],
   ...rest
 }: PanelProps) => {
+  const { panelId } = useParams();
   return (
-    <BaseDashboardPanel panel={panel} ranges={ranges} className="h-full" {...rest}>
+    // There should be h-full only in dashboard panel preview
+    <BaseDashboardPanel panel={panel} ranges={ranges} className={!panelId && "h-full"} {...rest}>
       <Scroll>
         <MarkdownPreview
           className="bg-transparent"

@@ -1,5 +1,14 @@
 import { ApiResponse } from "@traceo/types";
-import { Alert, Button, Card, Form, FormItem, Input, RadioButtonGroup } from "@traceo/ui";
+import {
+  Alert,
+  Button,
+  Card,
+  Form,
+  FormItem,
+  Input,
+  InputArea,
+  RadioButtonGroup
+} from "@traceo/ui";
 import { Fragment, useState } from "react";
 import { AppstoreFilled } from "@ant-design/icons";
 import { Page } from "../../../core/components/Page";
@@ -8,7 +17,6 @@ import { TRY_AGAIN_LATER_ERROR } from "../../../core/utils/constants";
 import { useNavigate } from "react-router-dom";
 import { Confirm } from "../../../core/components/Confirm";
 import { ColumnSection } from "../../../core/components/ColumnSection";
-import { useDashboard } from "../../../core/hooks/useDashboard";
 import { ProjectDashboardViewType } from "../../../core/types/hoc";
 import { Portal } from "../../../core/components/Portal";
 import { EditDashboardToolbar } from "./components/Toolbars/EditDashboardToolbar";
@@ -18,7 +26,9 @@ import withDashboard from "../../../core/hooks/withDashboard";
 
 interface UpdateDashboardForm {
   name: string;
+  description: string;
   isEditable: boolean;
+  isTimePicker: boolean;
 }
 
 const EditDashboardPage = ({ project, dashboard }: ProjectDashboardViewType) => {
@@ -32,11 +42,12 @@ const EditDashboardPage = ({ project, dashboard }: ProjectDashboardViewType) => 
   const [isTimePicker, setTimePicker] = useState<boolean>(dashboard.isTimePicker);
 
   const onFinish = async (form: UpdateDashboardForm) => {
-    const { name } = form;
+    const { name, description } = form;
 
     const props = {
       ...dashboard,
       name,
+      description,
       dashboardId: dashboard.id,
       projectId: project.id,
       isEditable,
@@ -92,6 +103,7 @@ const EditDashboardPage = ({ project, dashboard }: ProjectDashboardViewType) => 
             onSubmit={onFinish}
             defaultValues={{
               name: dashboard.name,
+              description: dashboard.description,
               isEditable: dashboard.isEditable,
               isTimePicker: dashboard.isTimePicker
             }}
@@ -107,6 +119,9 @@ const EditDashboardPage = ({ project, dashboard }: ProjectDashboardViewType) => 
                         required: true
                       })}
                     />
+                  </FormItem>
+                  <FormItem className="pt-2 w-1/2" label="Description" error={errors.name}>
+                    <InputArea maxLength={124} {...register("description")} />
                   </FormItem>
                   <FormItem
                     className="pt-5 w-1/2"

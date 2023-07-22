@@ -256,11 +256,6 @@ export const validate = (options: DashboardPanel) => {
     errors.push("You have to add at least one serie to this panel.");
   }
 
-  const missingName = series.find((serie) => !serie?.name);
-  if (missingName) {
-    errors.push("Your serie does not have a required name value.");
-  }
-
   const missingField = series.find((serie) => !serie?.field);
   if (missingField && !canHaveNoSeries) {
     errors.push("Your serie does not have a required field value.");

@@ -1,83 +1,35 @@
-import { UplotDataType, DashboardPanel, IMetricSerie, VISUALIZATION_TYPE } from "@traceo/types";
-import { FieldLabel, SelectOptionProps, Tooltip } from "@traceo/ui";
+import { DashboardPanel, IMetricSerie, PLOT_TYPE } from "@traceo/types";
+import { FieldLabel } from "@traceo/ui";
 import { FC } from "react";
 import { DraftFunction } from "use-immer";
-import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
-import { useParams } from "react-router-dom";
-import { Header, Container } from "./components";
+import { Container } from "./components";
 import { editPanelSerieForm } from "./editPanelSeriesForm";
 import { CustomizeFormSerieSection } from "./CustomizeFormSerieSection";
-import { randomHexColor } from "../../../../../core/utils/colors";
-import { PlusOutlined } from "@ant-design/icons";
+import { BarChartOutlined, DotChartOutlined, LineChartOutlined } from "@ant-design/icons";
 
 interface Props {
-  data?: UplotDataType;
   options: DashboardPanel;
   setOptions: (arg: DashboardPanel | DraftFunction<DashboardPanel>) => void;
 }
 
-export const PanelSeriesCustomizeForm: FC<Props> = (props: Props) => {
-  const { id } = useParams();
+const mapPlotTypeToIcon: Record<PLOT_TYPE, JSX.Element> = {
+  [PLOT_TYPE.BAR]: <BarChartOutlined />,
+  [PLOT_TYPE.LINE]: <LineChartOutlined />,
+  [PLOT_TYPE.SPLINE]: <LineChartOutlined />,
+  [PLOT_TYPE.POINTS]: <DotChartOutlined />
+};
 
-  const isHistogram = props.options.config.visualization === VISUALIZATION_TYPE.HISTOGRAM;
-
-  const { data: fieldsOptions = [] } = useReactQuery<SelectOptionProps[]>({
-    queryKey: [`panels_fields_key`],
-    url: `/api/metrics/fields/${id}`
-  });
-
-  const onDeleteSerie = (serie: IMetricSerie) => {
-    const newSeries = props.options.config.series.filter((s) => s !== serie);
-    props.setOptions((opt) => {
-      opt.config.series = newSeries;
-    });
-  };
-
-  const onAddNewSerie = () => {
-    const serie: IMetricSerie = {
-      name: "New serie",
-      description: undefined,
-      config: {
-        area: {
-          show: false,
-          opacity: 50
-        },
-        barWidth: 5,
-        color: randomHexColor(),
-        lineWidth: 1,
-        type: "line"
-      },
-      field: undefined
-    };
-
-    props.data.push([]);
-    props.setOptions((opt) => {
-      opt.config.series.push(serie);
-    });
-  };
-
+export const PanelSeriesCustomizeForm: FC<Props> = ({ options, setOptions }: Props) => {
   return (
     <Container>
-      <Header>
-        <span>Datasource series</span>
-        {!isHistogram && (
-          <Tooltip title="Add new serie">
-            <PlusOutlined
-              onClick={() => onAddNewSerie()}
-              className="flex p-1 hover:bg-secondary cursor-pointer rounded-full"
-            />
-          </Tooltip>
-        )}
-      </Header>
       <div className="max-h-[750px] overflow-y-scroll">
-        {props.options.config.series.map((serie, index) => {
+        {options.config.series.map((serie, index) => {
           const serieProps = {
             index,
             serie: serie as IMetricSerie,
-            setOptions: props.setOptions,
-            visualization: props.options.config.visualization,
-            serieFieldOptions: fieldsOptions,
-            panelType: props.options.type
+            setOptions: setOptions,
+            visualization: options.config.visualization,
+            panelType: options.type
           };
 
           return (
@@ -85,7 +37,7 @@ export const PanelSeriesCustomizeForm: FC<Props> = (props: Props) => {
               key={index}
               serie={serie}
               collapsed={index !== 0}
-              onDelete={() => onDeleteSerie(serie as IMetricSerie)}
+              extra={mapPlotTypeToIcon[serie.config.type]}
             >
               {editPanelSerieForm(serieProps).map((opt, index) => (
                 <FieldLabel

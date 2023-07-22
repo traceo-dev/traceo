@@ -234,9 +234,9 @@ class UpdateSerieMetricConfigDto {
 }
 
 class UpdateSerieMetricDto {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
+  // @IsString()
+  // @IsOptional()
+  // name: string;
 
   @IsString()
   @IsOptional()

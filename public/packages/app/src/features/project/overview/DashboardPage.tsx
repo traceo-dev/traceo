@@ -8,7 +8,7 @@ import { DashboardPanel, MemberRole, TimeRange } from "@traceo/types";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
 import { PageCenter } from "../../../core/components/PageCenter";
-import { Button, Col, Typography } from "@traceo/ui";
+import { Button, Col, Typography, conditionClass, joinClasses } from "@traceo/ui";
 import { PlusOutlined } from "@ant-design/icons";
 import { notify } from "../../../core/utils/notify";
 import { SelectPanelModal } from "./components/SelectPanelModal";
@@ -23,6 +23,7 @@ import { ProjectDashboardViewType } from "../../../core/types/hoc";
 import withDashboard from "../../../core/hooks/withDashboard";
 import { Portal } from "../../../core/components/Portal";
 import { areArraysEqual } from "../../../core/utils/arrays";
+import dateUtils from "src/core/utils/date";
 
 const GridPanelItem = styled.div`
   position: relative;
@@ -161,6 +162,10 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
     );
   };
 
+  const hasEditPermission = [MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER].includes(
+    permission
+  );
+
   return (
     <Page title="Dashboards">
       <Portal id="dashboard-toolbar">
@@ -172,9 +177,34 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
           showTimepicker={showTimepicker}
         />
       </Portal>
-      <Page.Content>{renderContent()}</Page.Content>
+      <Page.Content>
+        <Header dashboard={dashboard} hasEditPermission={hasEditPermission} />
+        {renderContent()}
+      </Page.Content>
       <SelectPanelModal isOpen={isSelectPanelModal} onCancel={() => setSelectPanelModal(false)} />
     </Page>
+  );
+};
+
+const Header = ({ dashboard, hasEditPermission }) => {
+  return (
+    <div className="flex flex-row justify-between pb-9">
+      <div className="flex flex-col">
+        <span className="text-[28px] font-semibold">{dashboard.name}</span>
+        <span
+          className={joinClasses(
+            "text-sm",
+            conditionClass(!dashboard.description, "text-secondary italic")
+          )}
+        >
+          {dashboard.description ?? "No description provided"}
+        </span>
+      </div>
+      <div className="text-xs text-secondary flex flex-col text-end">
+        <span>{hasEditPermission ? "You can edit" : "Read-only"}</span>
+        <span>Last update&nbsp;{dateUtils.fromNow(dashboard?.updatedAt)}</span>
+      </div>
+    </div>
   );
 };
 

@@ -4,14 +4,13 @@ import {
   IMetricSerie,
   VISUALIZATION_TYPE
 } from "@traceo/types";
-import { Input, InputArea, InputColor, Select, SelectOptionProps, Switch } from "@traceo/ui";
+import { Input, InputArea, InputColor, Select, Switch } from "@traceo/ui";
 import { DraftFunction } from "use-immer";
 import { plotOptions, PanelEditOption } from "../utils";
 
 type SerieFormProps = {
   index: number;
   serie: IMetricSerie;
-  serieFieldOptions: SelectOptionProps[];
   setOptions: (arg: DashboardPanel | DraftFunction<DashboardPanel>) => void;
   panelType: DASHBOARD_PANEL_TYPE;
   visualization: VISUALIZATION_TYPE;
@@ -24,6 +23,11 @@ export const editPanelSerieForm = (props: SerieFormProps) => {
   const config = serie.config;
   const serieType = config.type;
   const isArea = config.area.show;
+
+  forms.push({
+    label: "Datasource field",
+    component: <Input value={serie.field} disabled={true} />
+  });
 
   forms.push({
     label: "Color",
@@ -41,20 +45,6 @@ export const editPanelSerieForm = (props: SerieFormProps) => {
   });
 
   forms.push({
-    label: "Name",
-    component: (
-      <Input
-        value={serie.name}
-        onChange={(e) => {
-          setOptions((opt) => {
-            opt.config.series[index].name = e.target["value"];
-          });
-        }}
-      />
-    )
-  });
-
-  forms.push({
     label: "Description",
     component: (
       <InputArea
@@ -63,21 +53,6 @@ export const editPanelSerieForm = (props: SerieFormProps) => {
         onChange={(e) => {
           setOptions((opt) => {
             opt.config.series[index].description = e.target["value"];
-          });
-        }}
-      />
-    )
-  });
-
-  forms.push({
-    label: "Field",
-    component: (
-      <Select
-        options={props.serieFieldOptions}
-        defaultValue={serie.field}
-        onChange={(a) => {
-          setOptions((opt) => {
-            opt.config.series[index].field = a?.value;
           });
         }}
       />

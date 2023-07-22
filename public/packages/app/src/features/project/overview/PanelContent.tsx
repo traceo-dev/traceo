@@ -1,11 +1,19 @@
-import { conditionClass } from "@traceo/ui";
+import { Card, Row, conditionClass } from "@traceo/ui";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
 import { PanelDatasourceTable } from "./components/PanelDatasourceTable";
 import { PanelCustomizeForm } from "./components/PanelEditor/PanelCustomizeForm";
 import { PanelSeriesCustomizeForm } from "./components/PanelEditor/PanelSeriesCustomizeForm";
 import { QueryResponseType } from "./utils";
-import { DashboardPanel, VISUALIZATION_TYPE } from "@traceo/types";
+import { DashboardPanel, Setter, VISUALIZATION_TYPE } from "@traceo/types";
 import { DraftFunction } from "use-immer";
+import { useState } from "react";
+import styled, { css } from "styled-components";
+import { DatasourceSelector } from "./components/PanelEditor/DatasourceSelector";
+import { DataNotFound } from "src/core/components/DataNotFound";
+import { TextEditor } from "./components/PanelEditor/TextEditor";
+
+type Option = "basic" | "datasource";
+
 interface Props {
   isCustomizeMode?: boolean;
   isRawDataPreview?: boolean;
@@ -31,30 +39,26 @@ export const PanelContent = ({
   options = undefined,
   setOptions = undefined
 }: Props) => {
-  const hasSeries = ![VISUALIZATION_TYPE.TEXT, VISUALIZATION_TYPE.STAT].includes(
-    options.config.visualization
-  );
+  const [customizeOption, setCustomizeOption] = useState<Option>("basic");
+
+  const visualization = options.config.visualization;
+  const hasSeries = ![VISUALIZATION_TYPE.TEXT, VISUALIZATION_TYPE.STAT].includes(visualization);
+  const seriesCount = options.config.series.length ?? 0;
 
   return (
     <div className="w-full grid grid-cols-12">
-      {isCustomizeMode && hasSeries && (
-        <div className="col-span-3">
-          <PanelSeriesCustomizeForm
-            data={data?.datasource}
-            setOptions={setOptions}
-            options={options}
-          />
-        </div>
-      )}
-      <div
-        className={conditionClass(
-          isCustomizeMode,
-          `col-span-${!hasSeries ? "9" : "6"} mx-1`,
-          "col-span-12"
-        )}
-      >
+      <div className={conditionClass(isCustomizeMode, `col-span-8 mx-1`, "col-span-12")}>
         {renderPanel()}
-        {isRawDataPreview && !isCustomizeMode && (
+
+        {isCustomizeMode && visualization === VISUALIZATION_TYPE.TEXT && (
+          <TextEditor options={options} setOptions={setOptions} />
+        )}
+
+        {isCustomizeMode && hasSeries && (
+          <DatasourceSelector data={data} options={options} setOptions={setOptions} />
+        )}
+
+        {!isCustomizeMode && isRawDataPreview && (
           <OptionsCollapseGroup
             title="Raw data"
             loading={isLoading}
@@ -69,10 +73,76 @@ export const PanelContent = ({
         )}
       </div>
       {isCustomizeMode && (
-        <div className="col-span-3">
-          <PanelCustomizeForm data={data?.datasource} setOptions={setOptions} options={options} />
+        <div className="col-span-4 flex flex-col gap-1">
+          {hasSeries && (
+            <OptionSwitcher
+              option={customizeOption}
+              onChange={setCustomizeOption}
+              datasourceCount={seriesCount}
+            />
+          )}
+
+          {customizeOption === "basic" && (
+            <PanelCustomizeForm setOptions={setOptions} options={options} />
+          )}
+
+          {customizeOption === "datasource" &&
+            (options.config.series.length === 0 ? (
+              <Card>
+                <DataNotFound label="Datasources not found" />
+              </Card>
+            ) : (
+              <PanelSeriesCustomizeForm setOptions={setOptions} options={options} />
+            ))}
         </div>
       )}
     </div>
+  );
+};
+
+interface SwitcherProps {
+  option: Option;
+  onChange: Setter<Option>;
+  datasourceCount: number;
+}
+
+const OptionSwitcherContainer = styled.div`
+  font-size: 13px;
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid var(--color-bg-secondary);
+  font-weight: 500;
+  padding: 3px;
+  gap: 3px;
+`;
+
+const SwitcherOption = styled.span`
+  width: 50%;
+  padding: 5px;
+  padding-inline: 12px;
+  cursor: pointer;
+  background-color: var(--color-bg-canvas);
+
+  ${(props) =>
+    props.isSelected &&
+    css`
+      background-color: var(--color-bg-primary);
+    `}
+`;
+
+const OptionSwitcher = ({ option, onChange, datasourceCount = 0 }: SwitcherProps) => {
+  return (
+    <OptionSwitcherContainer>
+      <SwitcherOption isSelected={option === "basic"} onClick={() => onChange("basic")}>
+        Basic visualization
+      </SwitcherOption>
+      <SwitcherOption isSelected={option === "datasource"} onClick={() => onChange("datasource")}>
+        <Row className="justify-between">
+          <span>Datasource options</span>
+          <span className="text-yellow-600">{datasourceCount}</span>
+        </Row>
+      </SwitcherOption>
+    </OptionSwitcherContainer>
   );
 };

@@ -1,18 +1,18 @@
-import { DeepPartial, IMetricSerie, Setter } from "@traceo/types";
-import { Row } from "@traceo/ui";
+import { DeepPartial, IMetricSerie } from "@traceo/types";
+import { Row, conditionClass } from "@traceo/ui";
 import { FC } from "react";
 import { CustomizeFormSection } from "./CustomizeFormSection";
 
 interface Props {
   collapsed?: boolean;
   serie: DeepPartial<IMetricSerie>;
-  onDelete: Setter<IMetricSerie>;
+  extra?: JSX.Element;
 }
 export const CustomizeFormSerieSection: FC<Props> = ({
   children,
   serie,
-  onDelete = undefined,
-  collapsed = true
+  collapsed = true,
+  extra = undefined
 }) => {
   const backgroundColor = serie.config.color;
   return (
@@ -20,12 +20,14 @@ export const CustomizeFormSerieSection: FC<Props> = ({
       title={
         <Row gap="x-2">
           <div className="w-3 h-3 rounded-full" style={{ backgroundColor }} />
-          <span>{serie.name}</span>
+          <span className={conditionClass(!serie?.field, "italic text-secondary font-normal")}>
+            {serie?.field ?? "No field selected"}
+          </span>
         </Row>
       }
       defaultCollapsed={collapsed}
       description={serie?.description}
-      onDelete={() => onDelete && onDelete(serie as IMetricSerie)}
+      extra={extra}
     >
       {children}
     </CustomizeFormSection>

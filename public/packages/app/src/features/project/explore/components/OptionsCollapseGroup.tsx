@@ -29,7 +29,7 @@ export const OptionsCollapseGroup = ({
   return (
     <div
       className={joinClasses(
-        "mb-2 p-3 pb-0 text-sm w-full flex flex-col rounded bg-primary border border-solid border-secondary rounded-sm",
+        "mb-1 p-3 pb-0 text-sm w-full flex flex-col rounded bg-primary border border-solid border-secondary rounded-sm",
         conditionClass(loading, "loading-border")
       )}
     >

@@ -26,7 +26,9 @@ export const Portal = ({ children, id = BASE_PORTAL_ID }: Props) => {
     }
 
     return () => {
-      mount.removeChild(element);
+      if (mount) {
+        mount.removeChild(element);
+      }
     };
   }, [element, mount]);
 

@@ -139,7 +139,7 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
           isCustomizeMode={isCustomizeMode}
           isLoading={isLoadingRawData || isRefetchinRawData}
           isLoadingRaw={isLoadingRawData || isRefetchinRawData}
-          isRawDataPreview={isRawDataPreview && !isCustomizeMode}
+          isRawDataPreview={isRawDataPreview}
           options={options}
           setOptions={setOptions}
           renderPanel={() => renderPanel()}
