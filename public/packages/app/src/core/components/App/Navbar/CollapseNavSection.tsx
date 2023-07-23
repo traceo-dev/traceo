@@ -29,12 +29,7 @@ const HeaderWrapper = styled.div`
   ${(props) =>
     props.isActive &&
     css`
-      color: #ffffff;
-      background-color: rgb(22 78 99);
-
-      &:hover {
-        background-color: rgb(22 78 99);
-      }
+      color: rgb(6 182 212);
     `}
 `;
 
@@ -51,6 +46,12 @@ const Body = styled.div`
   border-left: 1px solid var(--color-bg-secondary);
   margin-left: 28px;
   padding-top: 5px;
+  max-height: 180px;
+  direction: rtl;
+`;
+
+const BodyContent = styled.div`
+  direction: ltr;
 `;
 
 const CollapseIcon = styled.span`
@@ -92,7 +93,7 @@ export const CollapseNavSection = ({
 
   const onClick = () => navigate(url);
 
-  const onCollapse = (e: any) => {
+  const toggleSidebar = (e: any) => {
     e.stopPropagation();
     setCollapsed(!isCollapsed);
   };
@@ -105,10 +106,14 @@ export const CollapseNavSection = ({
           <span className="font-normal">{title}</span>
         </HaderInfo>
 
-        {expandIcon && <CollapseIcon onClick={onCollapse}>{collapseIcon}</CollapseIcon>}
+        {expandIcon && <CollapseIcon onClick={toggleSidebar}>{collapseIcon}</CollapseIcon>}
       </HeaderWrapper>
 
-      {!isCollapsed && <Body>{children}</Body>}
+      {!isCollapsed && (
+        <Body>
+          <BodyContent>{children}</BodyContent>
+        </Body>
+      )}
     </Wrapper>
   );
 };

@@ -19,7 +19,7 @@ export type QueryResponseType = {
 };
 
 export const GRID_BREAKPOINTS = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
-export const GRID_MARGIN = [4, 4];
+export const GRID_MARGIN = [6, 6];
 export const GRID_COLS = { lg: 24, md: 12, sm: 6, xs: 4, xxs: 2 };
 export const GRID_ROW_HEIGHT = 30;
 export const GRID_PADDING = [0, 0];

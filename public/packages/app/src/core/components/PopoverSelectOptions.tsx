@@ -60,7 +60,7 @@ export const PopoverSelectOptions = ({ options, title }: Props) => {
         {options.map((option, key) => (
           <Option key={key} onClick={() => option?.onClick && option?.onClick()}>
             <Row gap="x-3">
-              {option.icon}
+              <span className="text-secondary">{option.icon}</span>
               {option.label}
             </Row>
           </Option>

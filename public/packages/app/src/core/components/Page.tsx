@@ -5,7 +5,7 @@ import { PageCenter } from "./PageCenter";
 import { PageContent } from "./PageContent";
 import { TraceoLoading } from "./TraceoLoading";
 import { PageHeader, PageHeaderProps, conditionClass, joinClasses } from "@traceo/ui";
-import { FC, useEffect } from "react";
+import { FC, Fragment, useEffect } from "react";
 
 interface PageProps {
   title?: string;
@@ -52,7 +52,7 @@ export const Page: PageType = ({
     }
 
     return (
-      <div>
+      <Fragment>
         {header && (
           <div
             className={joinClasses(
@@ -66,7 +66,7 @@ export const Page: PageType = ({
         )}
 
         {children}
-      </div>
+      </Fragment>
     );
   };
 

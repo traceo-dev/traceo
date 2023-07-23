@@ -3,18 +3,17 @@ import { useUser } from "../../../../core/hooks/useUser";
 import { LeftHeaderSection } from "./LeftHeaderSection";
 import { RightHeaderSection } from "./RightHeaderSection";
 import { Row } from "@traceo/ui";
-import { CloseOutlined, MenuOutlined } from "@ant-design/icons";
+import { HomeFilled } from "@ant-design/icons";
 import { Fragment, useEffect, useState } from "react";
 import { Bradcrumbs } from "./Breadcrumbs";
 import { PortalElement } from "../../Portal";
+import { Link } from "react-router-dom";
+import { useProject } from "../../../../core/hooks/useProject";
 
-interface Props {
-  isMenuCollapsed: boolean;
-  onClickMenu: () => void;
-}
-const Header = ({ onClickMenu, isMenuCollapsed = false }: Props) => {
+const Header = () => {
   const { isLoggedIn } = useUser();
   const [isShift, setShift] = useState(false);
+  const { project } = useProject();
 
   const pathSplits = window.location.pathname.split("/");
   const hasHeader =
@@ -44,9 +43,16 @@ const Header = ({ onClickMenu, isMenuCollapsed = false }: Props) => {
       <StickyHeader sticky={isShift}>
         <SecondaryHeader>
           <Row>
-            <span className="cursor-pointer transition-all" onClick={() => onClickMenu()}>
-              {isMenuCollapsed ? <MenuOutlined /> : <CloseOutlined />}
-            </span>
+            <Link
+              className="text-primary cursor-pointer hover:text-secondary"
+              to={
+                project.id
+                  ? `/project/${project.id}/dashboard/${project.mainDashboardId}`
+                  : `/dashboard/projects`
+              }
+            >
+              <HomeFilled />
+            </Link>
             <Bradcrumbs isShift={isShift} />
           </Row>
 
@@ -68,6 +74,7 @@ const PrimaryHeader = styled.header`
   align-items: center;
   background-color: var(--color-bg-primary);
   border-bottom: 1px solid var(--color-bg-secondary);
+  z-index: 2;
 `;
 
 const StickyHeader = styled.nav`
@@ -98,6 +105,7 @@ const SecondaryHeader = styled.nav`
   justify-content: space-between;
   padding-inline: 36px;
   transition: box-shadow 0.2s ease;
+  z-index: 2;
 `;
 
 export default Header;

@@ -4,10 +4,9 @@ import {
   BugOutlined,
   CompassOutlined,
   HomeOutlined,
-  InfoCircleOutlined,
+  PlusOutlined,
   RocketOutlined,
   SettingOutlined,
-  TeamOutlined,
   UserOutlined
 } from "@ant-design/icons";
 import { Dashboard, IProject, IUser, MemberRole, SDK } from "@traceo/types";
@@ -41,6 +40,15 @@ export const buildTree = ({
       url: `/project/${project.id}/dashboard/${project.mainDashboardId}`,
       items: []
     };
+
+    if ([MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER].includes(permission)) {
+      dashboardRoot.items.push({
+        id: "new_dashboard",
+        label: "New dashboard",
+        icon: <PlusOutlined />,
+        url: `/project/${project.id}/dashboard-create`
+      });
+    }
 
     for (const dashboard of dashboards) {
       dashboardRoot.items.push({
@@ -122,7 +130,7 @@ export const buildTree = ({
     settingsRoot.items.push({
       id: "settings_details",
       label: "Details",
-      icon: <InfoCircleOutlined />,
+      icon: undefined,
       subtitle: undefined,
       url: `/project/${project.id}/settings/details`
     });
@@ -131,7 +139,7 @@ export const buildTree = ({
       settingsRoot.items.push({
         id: "settings_access",
         label: "Access",
-        icon: <TeamOutlined />,
+        icon: undefined,
         subtitle: undefined,
         url: `/project/${project.id}/settings/access`
       });
@@ -156,6 +164,7 @@ export const buildTree = ({
       icon: <HomeOutlined />,
       subtitle: undefined,
       url: `/dashboard/admin/users`,
+      collapsed: true,
       items: []
     };
 
@@ -192,6 +201,7 @@ export const buildTree = ({
     icon: <UserOutlined />,
     subtitle: undefined,
     url: "/dashboard/profile/settings",
+    collapsed: true,
     items: []
   };
 

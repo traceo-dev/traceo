@@ -11,34 +11,62 @@ import { useAppDispatch } from "../../../../store";
 import { setNavTree } from "./reducers/navTree";
 import { getActiveRoute } from "../utils";
 import { NavItem } from "./NavItem";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Tooltip, conditionClass, joinClasses } from "@traceo/ui";
 
-const Nav = styled.nav`
-  height: calc(100vh - 80px);
+const SidebarMenu = styled.nav`
   width: 320px;
   display: flex;
+  inset: 0px;
   flex-direction: column;
+  padding-top: 8px;
+  z-index: 1;
   position: fixed;
-  left: 0px;
-  z-index: 1100;
-  background-color: var(--color-bg-primary);
+  box-sizing: content-box;
   border-right: 1px solid var(--color-bg-secondary);
+  background-color: var(--color-bg-canvas);
+  box-shadow: rgb(1, 4, 9) 0px 8px 24px;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
-  overflow-y: auto;
-  padding-block: 20px;
 
   ${(props) =>
     props.isCollapsed &&
     css`
-      transform: translateX(-100%);
+      background-color: var(--color-bg-primary);
+      transform: translateX(-92%);
     `}
+`;
+
+const ToggleIcon = styled.button`
+  width: 24px;
+  height: 24px;
+  background-color: var(--color-bg-secondary);
+  color: rgb(204, 204, 220);
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 105px;
+  right: -10px;
+  border: 1px solid rgba(204, 204, 220, 0.07);
+  border-radius: 10%;
+  z-index: 1500;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 12px;
+
+  &:hover {
+    background-color: var(--color-bg-primary);
+  }
 `;
 
 interface Props {
   isCollapsed: boolean;
+  toggleSidebar: () => void;
 }
-export const Navbar = ({ isCollapsed }: Props) => {
+export const Navbar = ({ isCollapsed, toggleSidebar }: Props) => {
   const { id } = useParams();
   const { project, permission, dashboards } = useProject();
 
@@ -72,30 +100,47 @@ export const Navbar = ({ isCollapsed }: Props) => {
   };
 
   return (
-    <Nav isCollapsed={isCollapsed}>
-      {navTree.map((treeRoot, index) => (
-        <CollapseNavSection
-          key={index}
-          expandIcon={treeRoot.items.length > 0}
-          icon={treeRoot?.icon as JSX.Element}
-          title={treeRoot.label}
-          url={treeRoot.url}
-          active={treeRoot?.id === activeRoute.mainItem?.id}
-        >
-          {treeRoot.items.length > 0 && (
-            <ul className="list-none p-0 m-0">
-              {treeRoot.items.map((item, index) => (
-                <NavItem
-                  key={index}
-                  active={item?.id === activeRoute.subItem?.id}
-                  label={item.label}
-                  onClick={() => onSelect(item.url)}
-                />
-              ))}
-            </ul>
+    <div className="relative flex">
+      <SidebarMenu isCollapsed={isCollapsed}>
+        <Tooltip placement="right" title="Toggle sidebar">
+          <ToggleIcon onClick={() => toggleSidebar()}>
+            {isCollapsed ? <RightOutlined /> : <LeftOutlined />}
+          </ToggleIcon>
+        </Tooltip>
+
+        <div
+          className={joinClasses(
+            "relative flex flex-col pt-[80px] overflow-y-auto",
+            conditionClass(isCollapsed, "overflow-y-hidden pointer-events-none")
           )}
-        </CollapseNavSection>
-      ))}
-    </Nav>
+        >
+          {navTree.map((treeRoot, index) => (
+            <CollapseNavSection
+              key={index}
+              expandIcon={treeRoot.items.length > 0}
+              icon={treeRoot?.icon as JSX.Element}
+              title={treeRoot.label}
+              url={treeRoot.url}
+              deafultCollapsed={treeRoot.collapsed}
+              active={treeRoot?.id === activeRoute.mainItem?.id}
+            >
+              {treeRoot.items.length > 0 && (
+                <ul className="list-none p-0 m-0">
+                  {treeRoot.items.map((item, index) => (
+                    <NavItem
+                      key={index}
+                      active={item?.id === activeRoute.subItem?.id}
+                      label={item.label}
+                      icon={item?.icon}
+                      onClick={() => onSelect(item.url)}
+                    />
+                  ))}
+                </ul>
+              )}
+            </CollapseNavSection>
+          ))}
+        </div>
+      </SidebarMenu>
+    </div>
   );
 };

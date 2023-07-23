@@ -4,5 +4,6 @@ export type NavItem = {
     label: string;
     subtitle?: string;
     url?: string;
+    collapsed?: boolean;
     items?: NavItem[];
 };

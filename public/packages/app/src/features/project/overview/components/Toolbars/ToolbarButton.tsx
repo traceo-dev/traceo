@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, forwardRef } from "react";
 import styled, { css } from "styled-components";
 
 interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "onClick"> {
@@ -61,26 +61,32 @@ const Button = styled.button`
         `}
 `;
 
-export const ToolbarButton = ({
-  icon = undefined,
-  onClick = undefined,
-  disabled = false,
-  name = undefined,
-  isActive = false,
-  className = "",
-  ...rest
-}: Props) => {
-  return (
-    <Button
-      className={className}
-      isActive={isActive}
-      isDisabled={disabled}
-      isName={!!name}
-      onClick={() => onClick()}
-      {...rest}
-    >
-      <span>{icon}</span>
-      <span>{name}</span>
-    </Button>
-  );
-};
+export const ToolbarButton = forwardRef<HTMLButtonElement, Props>(
+  (
+    {
+      icon = undefined,
+      onClick = undefined,
+      disabled = false,
+      name = undefined,
+      isActive = false,
+      className = "",
+      ...rest
+    },
+    ref
+  ) => {
+    return (
+      <Button
+        ref={ref}
+        className={className}
+        isActive={isActive}
+        isDisabled={disabled}
+        isName={!!name}
+        onClick={() => onClick()}
+        {...rest}
+      >
+        <span>{icon}</span>
+        <span>{name}</span>
+      </Button>
+    );
+  }
+);

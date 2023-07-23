@@ -12,7 +12,7 @@ export const TextEditor = ({ options, setOptions }: Props) => {
   return (
     <OptionsCollapseGroup title="Text editor" deafultCollapsed={false}>
       <InputArea
-        rows={25}
+        rows={16}
         defaultValue={options.config.text.value}
         onChange={(e) => {
           setOptions((opt) => {

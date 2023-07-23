@@ -105,7 +105,7 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
           onClick: () => onRemove()
         });
       }
-      return <PopoverSelectOptions title="Options" options={options} />;
+      return <PopoverSelectOptions options={options} />;
     };
 
     const renderPanelOptions = () => {

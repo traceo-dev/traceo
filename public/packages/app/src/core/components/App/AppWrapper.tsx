@@ -24,7 +24,8 @@ const MainBody = styled.div`
   position: relative;
   flex: 1 1 0%;
   min-height: calc(100vh - 80px);
-  overflow-y: auto;
+  overflow-y: hidden;
+  margin-left: 32px;
 `;
 
 export const AppWrapper: FC = ({ children }) => {
@@ -44,12 +45,15 @@ export const AppWrapper: FC = ({ children }) => {
 
   return (
     <div className="flex flex-col relative min-h-screen">
-      <Header isMenuCollapsed={isSidebarCollapsed} onClickMenu={() => onClickMenu()} />
+      <Header />
 
       <NotificationContainer />
 
       <div className="flex">
-        <Navbar isCollapsed={isSidebarCollapsed} />
+        <Navbar
+          isCollapsed={isSidebarCollapsed}
+          toggleSidebar={() => setSidebarCollapsed(!isSidebarCollapsed)}
+        />
         <Overlay visible={isOverlay} onClick={() => isOverlay && setSidebarCollapsed(true)}>
           <MainBody>{children}</MainBody>
         </Overlay>

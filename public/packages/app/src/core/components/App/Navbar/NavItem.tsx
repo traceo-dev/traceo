@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 interface Props {
+  icon?: JSX.Element;
   label: string;
   onClick?: () => void;
   active: boolean;
@@ -27,9 +28,10 @@ const Item = styled.li`
     `}
 `;
 
-export const NavItem = ({ label, active, onClick }: Props) => {
+export const NavItem = ({ label = "", icon = undefined, active = false, onClick }: Props) => {
   return (
     <Item isActive={active} onClick={onClick}>
+      {icon && <span className="text-xs mr-1">{icon}</span>}
       {label}
     </Item>
   );
