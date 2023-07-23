@@ -22,10 +22,10 @@ const SidebarMenu = styled.nav`
   padding-top: 8px;
   z-index: 1;
   position: fixed;
-  box-sizing: content-box;
   border-right: 1px solid var(--color-bg-secondary);
   background-color: var(--color-bg-canvas);
-  box-shadow: rgb(1, 4, 9) 0px 8px 24px;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
@@ -39,26 +39,24 @@ const SidebarMenu = styled.nav`
 `;
 
 const ToggleIcon = styled.button`
-  width: 24px;
-  height: 24px;
+  position: absolute;
   background-color: var(--color-bg-secondary);
-  color: rgb(204, 204, 220);
-  box-shadow: none;
+  border: 1px solid var(--color-bg-light-secondary);
+  border-radius: 10%;
+  color: var(--color-text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
   top: 105px;
   right: -10px;
-  border: 1px solid rgba(204, 204, 220, 0.07);
-  border-radius: 10%;
-  z-index: 1500;
   cursor: pointer;
   font-size: 12px;
-  padding: 12px;
+  padding: 6px;
+  z-index: 1200;
 
   &:hover {
     background-color: var(--color-bg-primary);
+    border-color: var(--color-bg-secondary);
   }
 `;
 
