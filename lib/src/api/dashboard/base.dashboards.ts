@@ -49,22 +49,22 @@ const basePanelConfigs: PanelConfiguration = {
 };
 
 export const initialDashboardPanels: DashboardPanel[] = [
-  {
-    title: "",
-    type: "welcome",
-    description: undefined,
-    gridPosition: { x: 0, y: 0, h: 8, w: 24 },
-    config: {
-      ...basePanelConfigs,
-      visualization: VISUALIZATION_TYPE.TEXT,
-      text: {
-        size: 0,
-        weight: 0,
-        color: "",
-        value: "# Welcome 👋\n\nYou don't know how to start integrations in Traceo SDK? That's no problem, read the [README](https://github.com/traceo-dev/traceo-javascript) for your target SDK for this project and follow the instructions. It shouldn't take more than 5 minutes!\n\nIn case of problems with the integration or with the use of the Traceo platform, please create a ticket [here](https://github.com/traceo-dev/traceo/issues/new).\n\nRemember that every comment or idea to improve the application is valuable. Therefore, we ask you to provide [feedback](https://github.com/traceo-dev/traceo/discussions/new?category=ideas).\n\n\n\n"
-      }
-    }
-  },
+  // {
+  //   title: "",
+  //   type: "welcome",
+  //   description: undefined,
+  //   gridPosition: { x: 0, y: 0, h: 8, w: 24 },
+  //   config: {
+  //     ...basePanelConfigs,
+  //     visualization: VISUALIZATION_TYPE.TEXT,
+  //     text: {
+  //       size: 0,
+  //       weight: 0,
+  //       color: "",
+  //       value: "# Welcome 👋\n\nYou don't know how to start integrations in Traceo SDK? That's no problem, read the [README](https://github.com/traceo-dev/traceo-javascript) for your target SDK for this project and follow the instructions. It shouldn't take more than 5 minutes!\n\nIn case of problems with the integration or with the use of the Traceo platform, please create a ticket [here](https://github.com/traceo-dev/traceo/issues/new).\n\nRemember that every comment or idea to improve the application is valuable. Therefore, we ask you to provide [feedback](https://github.com/traceo-dev/traceo/discussions/new?category=ideas).\n\n\n\n"
+  //     }
+  //   }
+  // },
   {
     title: "Today's events",
     type: "todays_events",
