@@ -21,7 +21,7 @@ To start using the Traceo platform, you need to integrate with the [Traceo SDK](
 - [`@traceo-sdk/vue`](https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/vue) - Vue
 
 # Documentation
-The Traceo documentation can be found [here](https://github.com/traceo-dev/traceo/blob/develop/INSTALL.md).
+The Traceo documentation can be found [here](https://github.com/traceo-dev/traceo/blob/develop/DOCUMENTATION.md).
 
 # Installation
 Full installation guide can be found [here](https://github.com/traceo-dev/traceo/blob/develop/INSTALL.md).
