@@ -11,8 +11,6 @@ import { useAppDispatch } from "../../../../store";
 import { setNavTree } from "./reducers/navTree";
 import { getActiveRoute } from "../utils";
 import { NavItem } from "./NavItem";
-import { LeftOutlined, RightOutlined } from "@ant-design/icons";
-import { Tooltip, conditionClass, joinClasses } from "@traceo/ui";
 
 const SidebarMenu = styled.nav`
   width: 320px;
@@ -33,38 +31,14 @@ const SidebarMenu = styled.nav`
   ${(props) =>
     props.isCollapsed &&
     css`
-      background-color: var(--color-bg-primary);
-      transform: translateX(-92%);
+      transform: translateX(-100%);
     `}
-`;
-
-const ToggleIcon = styled.button`
-  position: absolute;
-  background-color: var(--color-bg-secondary);
-  border: 1px solid var(--color-bg-light-secondary);
-  border-radius: 10%;
-  color: var(--color-text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  top: 105px;
-  right: -10px;
-  cursor: pointer;
-  font-size: 12px;
-  padding: 6px;
-  z-index: 1200;
-
-  &:hover {
-    background-color: var(--color-bg-primary);
-    border-color: var(--color-bg-secondary);
-  }
 `;
 
 interface Props {
   isCollapsed: boolean;
-  toggleSidebar: () => void;
 }
-export const Navbar = ({ isCollapsed, toggleSidebar }: Props) => {
+export const Navbar = ({ isCollapsed }: Props) => {
   const { id } = useParams();
   const { project, permission, dashboards } = useProject();
 
@@ -100,18 +74,7 @@ export const Navbar = ({ isCollapsed, toggleSidebar }: Props) => {
   return (
     <div className="relative flex">
       <SidebarMenu isCollapsed={isCollapsed}>
-        <Tooltip placement="right" title="Toggle sidebar">
-          <ToggleIcon onClick={() => toggleSidebar()}>
-            {isCollapsed ? <RightOutlined /> : <LeftOutlined />}
-          </ToggleIcon>
-        </Tooltip>
-
-        <div
-          className={joinClasses(
-            "relative flex flex-col pt-[80px] overflow-y-auto",
-            conditionClass(isCollapsed, "overflow-y-hidden pointer-events-none")
-          )}
-        >
+        <div className="relative flex flex-col pt-[80px] overflow-y-auto">
           {navTree.map((treeRoot, index) => (
             <CollapseNavSection
               key={index}
@@ -119,7 +82,6 @@ export const Navbar = ({ isCollapsed, toggleSidebar }: Props) => {
               icon={treeRoot?.icon as JSX.Element}
               title={treeRoot.label}
               url={treeRoot.url}
-              deafultCollapsed={treeRoot.collapsed ?? false}
               active={treeRoot?.id === activeRoute.mainItem?.id}
             >
               {treeRoot.items.length > 0 && (

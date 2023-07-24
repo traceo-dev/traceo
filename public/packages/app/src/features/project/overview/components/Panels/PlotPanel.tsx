@@ -3,7 +3,7 @@ import { BaseMetricChart } from "../../../../../core/components/UPlot/BaseMetric
 import { PanelProps } from "./types";
 import { getXAxisFormatter } from "./formatters";
 import { usePanelQuery } from "./usePanelQuery";
-import { conditionClass } from "@traceo/ui";
+import { conditionClass, joinClasses } from "@traceo/ui";
 
 export const PlotPanel = ({
   panel = undefined,
@@ -20,7 +20,7 @@ export const PlotPanel = ({
       ranges={ranges}
       isError={isError}
       isEmpty={isEmpty}
-      className={conditionClass(isError || isEmpty, "h-full overflow-hidden")}
+      className={joinClasses("overflow-y-hidden", conditionClass(isError || isEmpty, "h-full"))}
       bodyClassName="p-0 overflow-y-hidden"
       {...rest}
     >

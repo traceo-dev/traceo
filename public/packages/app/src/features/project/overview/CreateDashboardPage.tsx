@@ -7,6 +7,7 @@ import {
   Form,
   FormItem,
   Input,
+  InputArea,
   Typography
 } from "@traceo/ui";
 import { useState } from "react";
@@ -92,7 +93,7 @@ const CreateDashboardPage = ({ project }: BaseProjectViewType) => {
                   />
                 </FormItem>
                 <FormItem className="pt-9 w-1/2" label="Description" error={errors.name}>
-                  <Input {...register("description")} />
+                  <InputArea rows={6} maxLength={124} {...register("description")} />
                 </FormItem>
               </div>
             )}

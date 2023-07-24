@@ -216,7 +216,10 @@ export const TimeRangePicker = ({
 const RelativeOptionsList = styled.div`
   display: flex;
   flex-direction: column;
-  margin-inline: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-top: 4px;
+  margin-bottom: 4px;
   overflow-y: auto;
   max-height: 160px;
 `;

@@ -164,7 +164,6 @@ export const buildTree = ({
       icon: <HomeOutlined />,
       subtitle: undefined,
       url: `/dashboard/admin/users`,
-      collapsed: true,
       items: []
     };
 
@@ -201,7 +200,6 @@ export const buildTree = ({
     icon: <UserOutlined />,
     subtitle: undefined,
     url: "/dashboard/profile/settings",
-    collapsed: true,
     items: []
   };
 

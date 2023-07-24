@@ -3,17 +3,20 @@ import { useUser } from "../../../../core/hooks/useUser";
 import { LeftHeaderSection } from "./LeftHeaderSection";
 import { RightHeaderSection } from "./RightHeaderSection";
 import { Row } from "@traceo/ui";
-import { HomeFilled } from "@ant-design/icons";
+import { CloseOutlined, HomeFilled, MenuOutlined } from "@ant-design/icons";
 import { Fragment, useEffect, useState } from "react";
 import { Bradcrumbs } from "./Breadcrumbs";
 import { PortalElement } from "../../Portal";
 import { Link } from "react-router-dom";
 import { useProject } from "../../../../core/hooks/useProject";
 
-const Header = () => {
+interface Props {
+  isCollapsed: boolean;
+  toggleSidebar: () => void;
+}
+const Header = ({ isCollapsed = true, toggleSidebar }: Props) => {
   const { isLoggedIn } = useUser();
   const [isShift, setShift] = useState(false);
-  const { project } = useProject();
 
   const pathSplits = window.location.pathname.split("/");
   const hasHeader =
@@ -43,16 +46,9 @@ const Header = () => {
       <StickyHeader sticky={isShift}>
         <SecondaryHeader>
           <Row>
-            <Link
-              className="text-primary cursor-pointer hover:text-secondary"
-              to={
-                project.id
-                  ? `/project/${project.id}/dashboard/${project.mainDashboardId}`
-                  : `/dashboard/projects`
-              }
-            >
-              <HomeFilled />
-            </Link>
+            <span className="cursor-pointer" onClick={toggleSidebar}>
+              {isCollapsed ? <MenuOutlined /> : <CloseOutlined />}
+            </span>
             <Bradcrumbs isShift={isShift} />
           </Row>
 
