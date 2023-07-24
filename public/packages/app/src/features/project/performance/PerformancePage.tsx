@@ -1,6 +1,6 @@
 import { LoadingOutlined, RocketOutlined } from "@ant-design/icons";
 import { VitalsEnum, VitalsResponse } from "@traceo/types";
-import { Card } from "@traceo/ui";
+import { Card, TimeRangePicker } from "@traceo/ui";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -12,7 +12,6 @@ import { VITALS_DETAILS, WEB_VITALS_DOCS_URL } from "./vitals/types";
 import { calculateVitalsAvg } from "./vitals/utils";
 import { renderChart } from "./vitals/VitalsChart";
 import { Portal } from "../../../core/components/Portal";
-import { ToolbarTimePicker } from "../../../core/components/ToolbarTimePicker";
 
 const SUPPORTED_WEB_VITALS = [
   VitalsEnum.CLS,
@@ -82,7 +81,7 @@ const PerformancePage = () => {
       headerDivider={true}
     >
       <Portal id="dashboard-toolbar">
-        <ToolbarTimePicker ranges={ranges} onChangeRanges={setRanges} />
+        <TimeRangePicker value={ranges} submit={setRanges} type="secondary" />
       </Portal>
       <Page.Content className="pt-5">
         <div className="flex flex-col w-full">

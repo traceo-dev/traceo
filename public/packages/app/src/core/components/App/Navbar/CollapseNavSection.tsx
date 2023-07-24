@@ -29,7 +29,7 @@ const HeaderWrapper = styled.div`
   ${(props) =>
     props.isActive &&
     css`
-      color: rgb(6 182 212);
+      color: var(--color-text-active);
     `}
 `;
 

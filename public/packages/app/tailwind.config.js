@@ -13,7 +13,8 @@ module.exports = {
         canvas: "#131517",
         link: "#6e9fff",
         contrast: "#ffffff",
-        error: "#9a1950"
+        error: "#9a1950",
+        active: "#06b6d4"
       },
       textColor: {
         primary: "#CCCCDC",

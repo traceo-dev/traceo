@@ -119,7 +119,7 @@ export const Navbar = ({ isCollapsed, toggleSidebar }: Props) => {
               icon={treeRoot?.icon as JSX.Element}
               title={treeRoot.label}
               url={treeRoot.url}
-              deafultCollapsed={treeRoot.collapsed}
+              deafultCollapsed={treeRoot.collapsed ?? false}
               active={treeRoot?.id === activeRoute.mainItem?.id}
             >
               {treeRoot.items.length > 0 && (

@@ -1,20 +1,19 @@
-import { Alert, FieldLabel, Input, Row } from "../index";
+import { Alert, FieldLabel, Input, Popover } from "../index";
 import { useEffect, useState, useCallback } from "react";
 import { CalendarDatesType, CalendarBody } from "./CalendarBody";
-import dayjs, { ManipulateType } from "dayjs";
-import { conditionClass, joinClasses } from "../utils/classes";
+import dayjs from "dayjs";
 import { PickerWrapper, TimeWrapper } from "./styles";
-import { TimePickerInput } from "./TimePickerInput";
-import { setTimeToUnix, validateInput } from "./utils";
-import { CalendarHeader } from "./CalendarHeader";
+import { parseInputValue, relativeTimeOptions, setTimeToUnix, validateInput } from "./utils";
 import { CalendarFooter } from "./CalendarFooter";
-import { OptionsContainer, RelativeTimeOption } from "./OptionsContainer";
+import { RelativeTimeOption } from "./types";
+import { ClockCircleOutlined, DownOutlined } from "@ant-design/icons";
+import styled, { css } from "styled-components";
 
 interface Props {
   value: [number, number];
   submit: (val: [number, number]) => void;
   // List of options on panel left side
-  options?: RelativeTimeOption[];
+  isRelativeOptions?: boolean;
   // The longest time period (in hours) available between from and to
   maxHourPeriod?: number;
   disabled?: boolean;
@@ -26,30 +25,39 @@ interface Props {
   maxDate?: Date;
   // Input type
   type?: "primary" | "secondary";
-  className?: string;
 }
+
+const MAX_DATE = new Date(dayjs().unix() * 1e3);
 
 export const TimeRangePicker = ({
   submit,
+  isRelativeOptions = true,
   value = null,
-  options = [],
-  maxHourPeriod = null,
   disabled = false,
-  datesRange = false,
-  maxDate = null,
+  datesRange = true,
+  maxDate = MAX_DATE,
   minDate = null,
-  type = "primary",
-  className = ""
+  type = "primary"
 }: Props) => {
   const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState<string>(null);
   const [selectedValue, setSelectedValue] = useState<[number, number]>(value);
   const [from, setFrom] = useState<string>(null);
   const [to, setTo] = useState<string>(null);
+  const [selectedRelativeTime, setSelectedRelativeTime] = useState<RelativeTimeOption>(undefined);
 
-  const hasOptions = options.length > 0;
+  const setRelativeTime = () => {
+    const from = dayjs.unix(selectedValue[0]);
+    const to = dayjs.unix(selectedValue[1]);
+
+    const diff = Math.abs(from.diff(to, "minutes"));
+    const option = relativeTimeOptions.find((opt) => opt.value === diff) ?? undefined;
+
+    setSelectedRelativeTime(option);
+  };
 
   useEffect(() => {
+    setRelativeTime();
     setSelectedValue(value);
   }, [value]);
 
@@ -60,7 +68,7 @@ export const TimeRangePicker = ({
     setFrom(from.format("HH:mm"));
     setTo(to.format("HH:mm"));
 
-    const error = validateInput(from, to, maxHourPeriod);
+    const error = validateInput(from, to);
     setError(error);
   }, [selectedValue]);
 
@@ -119,61 +127,177 @@ export const TimeRangePicker = ({
     [selectedValue]
   );
 
-  const handleOnClickOption = useCallback(
-    (option: RelativeTimeOption) => {
-      const { value, unit } = option;
-      const from = dayjs().subtract(value, unit).unix();
-      const to = dayjs().unix();
-      setSelectedValue([from, to]);
-    },
-    [selectedValue]
-  );
+  const onClickOption = (option: RelativeTimeOption) => {
+    const { value, unit } = option;
+    const from = dayjs().subtract(value, unit).unix();
+    const to = dayjs().unix();
+
+    setSelectedValue([from, to]);
+    setSelectedRelativeTime(option);
+
+    submit([from, to]);
+  };
 
   const renderContent = () => {
     return (
       <PickerWrapper>
-        <CalendarHeader title="Select time range" />
-        <Row className="grid grid-cols-12">
-          {hasOptions && <OptionsContainer options={options} onSelect={handleOnClickOption} />}
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className={joinClasses(conditionClass(hasOptions, "col-span-8", "col-span-12"))}
-          >
-            <CalendarBody
-              className="p-3"
-              width={300}
-              range={datesRange}
-              values={selectedValue}
-              onChange={(date) => handleOnChangeCalendar(date)}
-              maxDate={maxDate}
-              minDate={minDate}
-            />
-            <TimeWrapper>
-              <FieldLabel labelSize="xs" label="Time from" className="w-full">
-                <Input type="time" value={from} onChange={handleOnChangeTimeFrom} />
-              </FieldLabel>
-              <FieldLabel labelSize="xs" label="Time to" className="w-full">
-                <Input type="time" value={to} onChange={handleOnChangeTimeTo} />
-              </FieldLabel>
-            </TimeWrapper>
-            {error && <Alert type="error" message={error} />}
-          </div>
-        </Row>
+        <div onClick={(e) => e.stopPropagation()}>
+          <CalendarBody
+            className="p-3"
+            width={300}
+            range={true}
+            values={selectedValue}
+            onChange={(date) => handleOnChangeCalendar(date)}
+            maxDate={maxDate}
+            minDate={minDate}
+          />
+          <TimeWrapper>
+            <FieldLabel labelSize="xs" label="From" className="w-full">
+              <Input type="time" value={from} onChange={handleOnChangeTimeFrom} />
+            </FieldLabel>
+            <FieldLabel labelSize="xs" label="To" className="w-full">
+              <Input type="time" value={to} onChange={handleOnChangeTimeTo} />
+            </FieldLabel>
+          </TimeWrapper>
+          {error && <Alert type="error" message={error} />}
+        </div>
         <CalendarFooter disabledApplyBtn={!!error} onSubmit={handleOnSubmit} />
       </PickerWrapper>
     );
   };
 
+  const relativeOptions = () => {
+    return (
+      <RelativeOptionsList>
+        {relativeTimeOptions.map((opt, index) => (
+          <RelativeOption
+            isSelected={opt === selectedRelativeTime}
+            onClick={() => onClickOption(opt)}
+            key={index}
+          >
+            <span className="pl-5">{opt.label}</span>
+          </RelativeOption>
+        ))}
+      </RelativeOptionsList>
+    );
+  };
+
   return (
-    <TimePickerInput
-      open={open}
-      popoverContent={renderContent()}
-      values={value}
-      range={datesRange}
-      onClick={() => setOpen(!open)}
-      disabled={disabled}
-      type={type}
-      className={className}
-    />
+    <PickerContainer variant={type}>
+      {isRelativeOptions && (
+        <Popover content={relativeOptions()}>
+          <RelativePicker variant={type}>
+            <span className="text-xs">
+              <DownOutlined />
+            </span>
+            <span>{selectedRelativeTime?.label ?? "Custom"}</span>
+          </RelativePicker>
+        </Popover>
+      )}
+
+      <Popover
+        disabled={disabled}
+        open={open}
+        overrideStyles={{ transitionDuration: 0 }}
+        placement="bottom-start"
+        content={renderContent()}
+      >
+        <TimePicker variant={type}>
+          <span className="text-xs">
+            <ClockCircleOutlined />
+          </span>
+          <span>{parseInputValue(value)}</span>
+        </TimePicker>
+      </Popover>
+    </PickerContainer>
   );
 };
+
+const RelativeOptionsList = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-inline: 4px;
+  overflow-y: auto;
+  max-height: 160px;
+`;
+
+const RelativeOption = styled.div`
+  padding: 4px;
+  min-width: 160px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-bg-secondary);
+  }
+
+  ${(props) =>
+    props.isSelected &&
+    css`
+      color: var(--color-text-active);
+      font-weight: 500;
+    `}
+`;
+
+const PickerContainer = styled.div`
+  display: flex;
+  row-direction: row;
+  align-items: center;
+
+  ${(props) =>
+    props.variant === "primary" &&
+    css`
+      &:hover {
+        box-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width))
+          var(--tw-ring-color);
+        --tw-ring-color: rgb(96 165 250);
+        border-radius: 2px;
+      }
+    `}
+`;
+
+const Picker = styled.div`
+  column-gap: 8px;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  align-items: center;
+  font-size: 12px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-inline: 8px;
+  background-color: var(--color-bg-secondary);
+  whitespace: no-wrap;
+  font-weight: 500;
+
+  &:hover {
+    background-color: var(--color-bg-light-secondary);
+    color: #ffffff;
+  }
+
+  ${(props) =>
+    props.variant === "primary" &&
+    css`
+      background-color: var(--color-bg-primary);
+      padding-top: 4px;
+      padding-bottom: 4px;
+      border: 1px solid var(--color-bg-secondary);
+      font-size: 13px;
+      font-weight: 400;
+
+      &:hover {
+        background-color: var(--color-bg-secondary);
+        color: var(--color-text-primary);
+      }
+    `}
+`;
+
+const RelativePicker = styled(Picker)`
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+  border-right: 0px;
+`;
+
+const TimePicker = styled(Picker)`
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+`;

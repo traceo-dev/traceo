@@ -12,7 +12,8 @@ module.exports = {
         secondary: "#22252b",
         canvas: "#131517",
         contrast: "#ffffff",
-        error: "#9a1950"
+        error: "#9a1950",
+        active: "#06b6d4"
       },
       textColor: {
         primary: "#CCCCDC",

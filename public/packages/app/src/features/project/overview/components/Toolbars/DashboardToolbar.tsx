@@ -1,5 +1,5 @@
 import { Dashboard, MemberRole, Setter, TimeRange } from "@traceo/types";
-import { Row } from "@traceo/ui";
+import { Row, TimeRangePicker } from "@traceo/ui";
 import { PlusOutlined, SettingOutlined, LockOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../../../../../store/index";
 import { Fragment, useState } from "react";
@@ -11,7 +11,6 @@ import { Permissions } from "../../../../../core/components/Permissions";
 import { notify } from "../../../../../core/utils/notify";
 import { SelectPanelModal } from "../SelectPanelModal";
 import { ToolbarButton } from "./ToolbarButton";
-import { ToolbarTimePicker } from "../../../../../core/components/ToolbarTimePicker";
 
 interface Props {
   showTimepicker?: boolean;
@@ -86,7 +85,13 @@ export const DashboardToolbar = ({
           )}
         </Permissions>
 
-        {showTimepicker && <ToolbarTimePicker ranges={ranges} onChangeRanges={onChangeRanges} />}
+        {showTimepicker && (
+          <TimeRangePicker
+            value={ranges}
+            submit={(val: TimeRange) => onChangeRanges(val)}
+            type="secondary"
+          />
+        )}
       </Row>
       <SelectPanelModal isOpen={isSelectPanelModal} onCancel={() => setSelectPanelModal(false)} />
     </Fragment>

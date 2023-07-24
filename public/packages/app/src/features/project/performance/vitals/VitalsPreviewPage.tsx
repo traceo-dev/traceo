@@ -1,6 +1,6 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { VitalsEnum, Performance, VitalsHealthType } from "@traceo/types";
-import { Card, InputSearch, Select } from "@traceo/ui";
+import { Card, InputSearch, Select, TimeRangePicker } from "@traceo/ui";
 import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -18,7 +18,6 @@ import { VitalsRawData } from "./VitalsRawData";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { ContentCard } from "../../../../core/components/ContentCard";
 import { Portal } from "../../../../core/components/Portal";
-import { ToolbarTimePicker } from "../../../../core/components/ToolbarTimePicker";
 
 const VitalsPreviewPage = () => {
   const { id, name } = useParams();
@@ -77,7 +76,7 @@ const VitalsPreviewPage = () => {
       }}
     >
       <Portal id="dashboard-toolbar">
-        <ToolbarTimePicker ranges={ranges} onChangeRanges={setRanges} />
+        <TimeRangePicker value={ranges} submit={setRanges} type="secondary" />
       </Portal>
       <Page.Content className="pt-1">
         <Card>
