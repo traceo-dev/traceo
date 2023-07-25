@@ -46,6 +46,21 @@ export const setTimeToUnix = (time: string, initialDate: number) => {
 
 export const relativeTimeOptions: RelativeTimeOption[] = [
   {
+    label: "Last 5 minutes",
+    value: 5,
+    unit: "minutes"
+  },
+  {
+    label: "Last 10 minutes",
+    value: 10,
+    unit: "minutes"
+  },
+  {
+    label: "Last 15 minutes",
+    value: 15,
+    unit: "minutes"
+  },
+  {
     label: "Last 30 minutes",
     value: 30,
     unit: "minutes"

@@ -73,8 +73,8 @@ export class ProjectService {
         // Create basic dashboard
         const dashboard = await this.dashboardService.create(
           {
-            name: "Events Dashboard",
-            description: "Visualization of captured events in correlation with the time of their occurrence.",
+            name: "Base Dashboard",
+            description: undefined,
             isEditable: false,
             isTimePicker: false,
             isBase: true
@@ -82,9 +82,6 @@ export class ProjectService {
           project,
           manager
         );
-
-        const panels = initialDashboardPanels.map((panel) => ({ ...panel, dashboard }));
-        await this.dashboardService.batchCreatePanels(panels, manager);
 
         await this.update(project.id, { mainDashboardId: dashboard.id }, manager);
 

@@ -74,6 +74,20 @@ export class ClickhouseService {
     return logs.json();
   }
 
+  public async randomValues(count: number = 100): Promise<{ value: number }[]> {
+    const sqlQuery = `
+      SELECT 0 + (rand() * (1 - 0)) AS value
+      FROM numbers(${count});
+    `;
+
+    const random = await this.query({
+      query: sqlQuery,
+      format: "JSONEachRow"
+    });
+
+    return random.json();
+  }
+
   public async aggregateMetrics(
     projectId: string,
     name: string,

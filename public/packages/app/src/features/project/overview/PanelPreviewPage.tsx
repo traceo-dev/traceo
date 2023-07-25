@@ -103,6 +103,7 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
       isEditable: false,
       isRemoveMode: false,
       isHoverOptions: false,
+      height: 600,
       panel: options,
       ranges: ranges,
       onChangeTimeRange: setRanges,

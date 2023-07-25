@@ -20,8 +20,8 @@ export const PlotPanel = ({
       ranges={ranges}
       isError={isError}
       isEmpty={isEmpty}
-      className={joinClasses("overflow-y-hidden", conditionClass(isError || isEmpty, "h-full"))}
-      bodyClassName="p-0 overflow-y-hidden"
+      className={joinClasses("overflow-hidden", conditionClass(isError || isEmpty, "h-full"))}
+      bodyClassName="p-0 overflow-hidden"
       {...rest}
     >
       <BaseMetricChart

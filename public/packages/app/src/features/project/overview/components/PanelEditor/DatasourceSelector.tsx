@@ -83,6 +83,7 @@ export const DatasourceSelector = ({ options, setOptions, data }: Props) => {
 
         {series.map((serie, index) => (
           <Datasource
+            key={index}
             index={index}
             options={fieldsOptions}
             serie={serie}

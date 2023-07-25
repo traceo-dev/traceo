@@ -2,14 +2,13 @@ import { Dashboard, MemberRole, Setter, TimeRange } from "@traceo/types";
 import { Row, TimeRangePicker } from "@traceo/ui";
 import { PlusOutlined, SettingOutlined, LockOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../../../../../store/index";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../../../../core/lib/api";
 import { TRY_AGAIN_LATER_ERROR } from "../../../../../core/utils/constants";
 import { loadDashboard } from "../../state/actions";
 import { Permissions } from "../../../../../core/components/Permissions";
 import { notify } from "../../../../../core/utils/notify";
-import { SelectPanelModal } from "../SelectPanelModal";
 import { ToolbarButton } from "./ToolbarButton";
 
 interface Props {
@@ -32,7 +31,6 @@ export const DashboardToolbar = ({
   const dispatch = useAppDispatch();
 
   const hasPanels = dashboard && dashboard.panels?.length > 0;
-  const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
 
   const onEditDashboard = () => {
     navigate({
@@ -41,7 +39,9 @@ export const DashboardToolbar = ({
   };
 
   const onAddPanel = () => {
-    setSelectPanelModal(true);
+    navigate({
+      pathname: `/project/${id}/dashboard/${dashboard.id}/panel-create`
+    });
   };
 
   const onLockDashboard = async () => {
@@ -93,7 +93,6 @@ export const DashboardToolbar = ({
           />
         )}
       </Row>
-      <SelectPanelModal isOpen={isSelectPanelModal} onCancel={() => setSelectPanelModal(false)} />
     </Fragment>
   );
 };

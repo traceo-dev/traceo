@@ -3,7 +3,7 @@ import { Controller, Get, Param } from "@nestjs/common";
 import { UseGuards } from "@nestjs/common/decorators";
 import { ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "../../common/decorators/auth-guard.decorator";
-import { ExploreMetricsQueryDto } from "../../common/types/dto/metrics.dto";
+import { ExploreMetricsQueryDto, MetricPanelDatasourceQueryDto } from "../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../common/types/dto/response.dto";
 import { MetricPreviewType, MetricsQueryService } from "./query/metrics-query.service";
 
@@ -11,16 +11,15 @@ import { MetricPreviewType, MetricsQueryService } from "./query/metrics-query.se
 @Controller("metrics")
 @UseGuards(new AuthGuard())
 export class MetricsController {
-  constructor(private readonly metricsQueryService: MetricsQueryService) {}
+  constructor(private readonly metricsQueryService: MetricsQueryService) { }
 
   @Get("/:id/preview/:metricId")
   async getMetricGraph(
     @Param("id") id: string,
     @Param("metricId") metricId: string,
-    @Query("from") from: number,
-    @Query("to") to: number
+    @Query() query: MetricPanelDatasourceQueryDto
   ): Promise<ApiResponse<MetricPreviewType>> {
-    return await this.metricsQueryService.getMetricGraph(id, metricId, from, to);
+    return await this.metricsQueryService.getMetricGraph(id, metricId, query);
   }
 
   @Get("/:id/explore")

@@ -1,4 +1,4 @@
-import { Card, Row, conditionClass } from "@traceo/ui";
+import { Card, Row, Tooltip, conditionClass } from "@traceo/ui";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
 import { PanelDatasourceTable } from "./components/PanelDatasourceTable";
 import { PanelCustomizeForm } from "./components/PanelEditor/PanelCustomizeForm";
@@ -11,6 +11,7 @@ import styled, { css } from "styled-components";
 import { DatasourceSelector } from "./components/PanelEditor/DatasourceSelector";
 import { DataNotFound } from "../../../core/components/DataNotFound";
 import { TextEditor } from "./components/PanelEditor/TextEditor";
+import { ExclamationCircleFilled, QuestionCircleFilled, WarningFilled } from "@ant-design/icons";
 
 type Option = "basic" | "datasource";
 
@@ -45,6 +46,10 @@ export const PanelContent = ({
   const hasSeries = ![VISUALIZATION_TYPE.TEXT, VISUALIZATION_TYPE.STAT].includes(visualization);
   const seriesCount = options.config.series.length ?? 0;
 
+  const hasRandomDatasource =
+    options.config.series.filter(({ datasource }) => datasource.field === "random_datasource")
+      .length > 0;
+
   return (
     <div className="w-full grid grid-cols-12">
       <div className={conditionClass(isCustomizeMode, `col-span-8 mx-1`, "col-span-12")}>
@@ -60,7 +65,16 @@ export const PanelContent = ({
 
         {!isCustomizeMode && isRawDataPreview && (
           <OptionsCollapseGroup
-            title="Raw data"
+            title={
+              <Row className="gap-x-2">
+                <span>Raw data</span>
+                {hasRandomDatasource && (
+                  <Tooltip title="This visualization has one or more series with random data. Table overview for these series is not available.">
+                    <WarningFilled className="text-error cursor-pointer" />
+                  </Tooltip>
+                )}
+              </Row>
+            }
             loading={isLoading}
             extra={
               <span className="text-xs font-semibold text-primary">

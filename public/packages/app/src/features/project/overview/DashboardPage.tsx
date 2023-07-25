@@ -24,6 +24,7 @@ import withDashboard from "../../../core/hooks/withDashboard";
 import { Portal } from "../../../core/components/Portal";
 import { areArraysEqual } from "../../../core/utils/arrays";
 import dateUtils from "../../../core/utils/date";
+import { Permissions } from "../../../core/components/Permissions";
 
 const GridPanelItem = styled.div`
   position: relative;
@@ -138,11 +139,13 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
               Show everything you need in one place. Create new panels and add them to this
               dashboard to keep all your information at your fingertips.
             </span>
-            <div className="justify-center">
-              <Button onClick={() => setSelectPanelModal(true)} icon={<PlusOutlined />}>
-                Add panel
-              </Button>
-            </div>
+            <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
+              <div className="justify-center">
+                <Button onClick={() => setSelectPanelModal(true)} icon={<PlusOutlined />}>
+                  Add panel
+                </Button>
+              </div>
+            </Permissions>
           </Col>
         </PageCenter>
       );

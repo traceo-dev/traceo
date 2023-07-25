@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { RefetchOptions } from "react-query";
 import { TimeRange } from "@traceo/types";
 import { useEffect } from "react";
+import dateUtils from "../../../../../core/utils/date";
 
 interface HookResponse {
   data: QueryResponseType;
@@ -20,7 +21,8 @@ export const usePanelQuery = (panelId: string, ranges: TimeRange): HookResponse 
     url: `/api/metrics/${id}/preview/${panelId}`,
     params: {
       from: ranges[0],
-      to: ranges[1]
+      to: ranges[1],
+      tz: dateUtils.guessTz()
     },
     options: {
       refetchOnMount: false,

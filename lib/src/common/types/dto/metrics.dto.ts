@@ -28,6 +28,18 @@ export class MetricQueryDto {
   panelId?: string;
 }
 
+export class MetricPanelDatasourceQueryDto {
+  @IsNotEmpty()
+  from: number;
+
+  @IsNotEmpty()
+  to: number;
+
+  @IsNotEmpty()
+  @IsString()
+  tz: string;
+}
+
 export class ExploreMetricsQueryDto extends MetricQueryDto {
   @IsOptional()
   valueMax?: number;
