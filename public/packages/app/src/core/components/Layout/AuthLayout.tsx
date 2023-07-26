@@ -1,6 +1,7 @@
 import { TraceoLogo } from "../Icons/TraceoLogo";
 import { Row, Space, Typography } from "@traceo/ui";
 import { FC } from "react";
+import { useUser } from "../../../core/hooks/useUser";
 
 interface Props {
   children: JSX.Element;
@@ -8,6 +9,12 @@ interface Props {
 }
 
 export const AuthLayout: FC<Props> = ({ children, title }) => {
+  const { isLoggedIn } = useUser();
+
+  if (isLoggedIn) {
+    window.location.href = "/dashboard/projects";
+  }
+  
   return (
     <div className="w-full grid grid-cols-2">
       <div className="col-span-1">

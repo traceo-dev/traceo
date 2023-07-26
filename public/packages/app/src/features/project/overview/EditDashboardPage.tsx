@@ -23,6 +23,7 @@ import { EditDashboardToolbar } from "./components/Toolbars/EditDashboardToolbar
 import { useAppDispatch } from "../../../store";
 import { loadDashboard } from "./state/actions";
 import withDashboard from "../../../core/hooks/withDashboard";
+import { loadDashboards } from "../state/project/actions";
 
 interface UpdateDashboardForm {
   name: string;
@@ -76,6 +77,7 @@ const EditDashboardPage = ({ project, dashboard }: ProjectDashboardViewType) => 
       })
       .then((response) => {
         if (response.status === "success") {
+          dispatch(loadDashboards({ id: dashboard.id }));
           navigate(response.data.redirectUrl);
         }
       })

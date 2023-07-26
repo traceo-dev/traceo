@@ -67,10 +67,13 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
     const [isHover, setHover] = useState<boolean>(false);
 
     const panelName = !title ? panel.title : title;
-    const isBaseDashboard = dashboard?.isBase;
     const isMaintainer = [MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER].includes(permission);
     // To not showing tooltip when there is "preview" mode
     // const tooltipValue = title ? undefined : panel?.description;
+
+    const hasRandomDatasource =
+      panel.config.series.filter(({ datasource }) => datasource.field === "random_datasource")
+        .length > 0;
 
     const onNavigate = () => {
       navigate({
@@ -131,7 +134,9 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
         onMouseEnter={() => setHover && setHover(true)}
         onMouseLeave={() => setHover && setHover(false)}
         name={panelName}
-        // tooltip={tooltipValue}
+        tooltip={
+          hasRandomDatasource && "This panel has one or more series with random datasource."
+        }
         extra={options}
         loading={loading}
         className={className}

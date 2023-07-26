@@ -11,7 +11,6 @@ import { PageCenter } from "../../../core/components/PageCenter";
 import { Button, Col, Typography, conditionClass, joinClasses } from "@traceo/ui";
 import { PlusOutlined } from "@ant-design/icons";
 import { notify } from "../../../core/utils/notify";
-import { SelectPanelModal } from "./components/SelectPanelModal";
 import {
   GRID_MIN_HEIGHT,
   GRID_MIN_WIDTH,
@@ -25,6 +24,7 @@ import { Portal } from "../../../core/components/Portal";
 import { areArraysEqual } from "../../../core/utils/arrays";
 import dateUtils from "../../../core/utils/date";
 import { Permissions } from "../../../core/components/Permissions";
+import { useNavigate } from "react-router-dom";
 
 const GridPanelItem = styled.div`
   position: relative;
@@ -44,11 +44,12 @@ const mapPanelGridPosition = (panels: DashboardPanel[]) => {
 const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewType) => {
   const [itemDimensions, setItemDimensions] = useState({});
   const [isRemoveMode, setRemoveMode] = useState<boolean>(false);
-  const [isSelectPanelModal, setSelectPanelModal] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const showTimepicker = dashboard && dashboard.panels?.length !== 0 && dashboard.isTimePicker;
   const isMaintainer = [MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER].includes(permission);
-  const isEditable = dashboard.isEditable && isMaintainer;
+  const isEditable = dashboard && dashboard.isEditable && isMaintainer;
 
   const { ranges, setRanges } = useTimeRange({
     from: dayjs().subtract(1, "h").unix(),
@@ -127,6 +128,12 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
     });
   };
 
+  const onAddPanel = () => {
+    navigate({
+      pathname: `/project/${project.id}/dashboard/${dashboard.id}/panel-create`
+    });
+  };
+
   const renderContent = () => {
     if (dashboard && dashboard.panels?.length === 0) {
       return (
@@ -141,7 +148,7 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
             </span>
             <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
               <div className="justify-center">
-                <Button onClick={() => setSelectPanelModal(true)} icon={<PlusOutlined />}>
+                <Button onClick={() => onAddPanel()} icon={<PlusOutlined />}>
                   Add panel
                 </Button>
               </div>
@@ -184,7 +191,6 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
         <Header dashboard={dashboard} hasEditPermission={hasEditPermission} />
         {renderContent()}
       </Page.Content>
-      <SelectPanelModal isOpen={isSelectPanelModal} onCancel={() => setSelectPanelModal(false)} />
     </Page>
   );
 };
