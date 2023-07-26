@@ -185,9 +185,7 @@ The panel is the basic visualization element in the dashboard overview.
 
 <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-dashboard-panel.PNG">
 
-At the moment there are four types of panels:
-- **From library** - panels from the library are non-editable panels for users and non-changeable time intervals from the time picker in the dashboard toolbar.
-
+At the moment there are three types of panels:
 - **Time series** - times series graph is a data visualization tool that illustrates data points at successive intervals of time. Each point on the chart corresponds to both a time and a quantity that is being measured.
 
 - **Histogram** - a histogram is a graphical representation of data points organized into user-specified ranges. Similar in appearance to a bar graph, the histogram condenses a data series into an easily interpreted visual by taking many data points and grouping them into logical ranges or bins.
@@ -196,7 +194,7 @@ At the moment there are four types of panels:
 
 ### Create new panel
 
-To create a new panel, select the Add panel option from the dashboard overview view on the toolbar. After selecting this option, a modal will be displayed with a panel type selection. If you select a **Custom** panel, you will be redirected to the screen for creating a new panel.
+To create a new panel, select the Add panel option from the dashboard overview view on the toolbar. After selecting this option, a you will be redirected to the screen for creating a new panel.
 
 <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/docs/panel-edit.PNG">
 
