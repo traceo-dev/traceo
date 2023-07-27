@@ -143,7 +143,6 @@ const EditDashboardPage = ({ project, dashboard }: ProjectDashboardViewType) => 
                   <FormItem
                     className="pt-5 w-1/2"
                     label="Show time picker"
-                    tooltip="Remember that time picker is working only for custom panels."
                     error={errors.isTimePicker}
                   >
                     <RadioButtonGroup
