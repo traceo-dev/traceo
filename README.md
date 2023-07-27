@@ -11,6 +11,16 @@ Traceo is an open-source, self-hosted set of tools for monitoring application he
 
 Gathering the information you need is done using the [Traceo SDK](https://github.com/traceo-io/traceo-node), a library for NodeJS that can be downloaded from npm. Implementations for more technologies and programming languages will also be added in the near future.
 
+
+# Screenshots
+<p align="center">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-incident.PNG" width="270">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-dashboard.PNG" width="270">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-dashboard-panel.PNG" width="270">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-explore-metrics.PNG" width="270">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf.PNG" width="270">
+</p>
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -32,8 +42,6 @@ Full installation guide can be found [here](https://github.com/traceo-dev/traceo
 
 # Features
 With the following features you will be able to fully control your software
-
-![20230727_130337 (1)](https://github.com/traceo-dev/traceo/assets/44099572/0d370693-dd64-4c14-8d5a-c6f04995fcc4)
 
 - [Catch all exceptions in your software](https://github.com/traceo-dev/traceo-javascript/tree/develop/packages/node#incidents-handling)
 - Collect [logs](https://github.com/traceo-dev/traceo-javascript/blob/develop/packages/node/README.md#logger), [metrics](https://github.com/traceo-dev/traceo-javascript/blob/develop/packages/opentelemetry-node/README.md#metrics) and [spans](https://github.com/traceo-dev/traceo-javascript/blob/develop/packages/opentelemetry-node/README.md#spans)
