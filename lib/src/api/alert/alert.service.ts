@@ -1,5 +1,5 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { AlertStatus } from "@traceo/types";
+import { AlertEnumType, AlertStatus } from "@traceo/types";
 import { INTERNAL_SERVER_ERROR } from "../../common/helpers/constants";
 import dateUtils from "../../common/helpers/dateUtils";
 import { AlertDto } from "../../common/types/dto/alert.dto";
@@ -9,6 +9,7 @@ import { Alert } from "../../db/entities/alert.entity";
 import { Member } from "../../db/entities/member.entity";
 import { EntityManager } from "typeorm";
 import { AlertQueryService } from "./alert-query/alert-query.service";
+import { AlertEngineService } from "./alert-engine/alert-engine.service";
 
 @Injectable()
 export class AlertService {
@@ -16,6 +17,7 @@ export class AlertService {
 
   constructor(
     private readonly entityManager: EntityManager,
+    private readonly alertEngine: AlertEngineService,
     private readonly alertQueryService: AlertQueryService
   ) {
     this.logger = new Logger(AlertService.name);
@@ -45,6 +47,10 @@ export class AlertService {
 
         const rules: Partial<AlertRule>[] = dto.rules.map((rule) => ({ ...rule, alert }));
         await manager.getRepository(AlertRule).save(rules);
+
+        if (alert.type !== AlertEnumType.INCIDENT) {
+          this.alertEngine.createJob(alert);
+        }
       });
 
       return new ApiResponse("success", "Alert created successfully", undefined);
@@ -62,6 +68,8 @@ export class AlertService {
         .where("alert.id = :alertId", { alertId })
         .delete()
         .execute();
+
+      this.alertEngine.removeJob(alertId);
 
       return new ApiResponse("success", "Alert removed");
     } catch (err) {
@@ -140,7 +148,7 @@ export class AlertService {
             name: update.name,
             description: update.description,
             severity: update.severity,
-            minTimeInterval: update.minTimeInterval,
+            minNotifyInterval: update.minNotifyInterval,
             type: update.type,
             status: update.status,
             logicOperator: update.logicOperator,
@@ -154,7 +162,7 @@ export class AlertService {
         return new ApiResponse("success", "Alert updated");
       })
       .catch((err) => {
-        this.logger.error(`[${this.delete.name}] Caused by: ${err}`);
+        this.logger.error(`[${this.update.name}] Caused by: ${err}`);
         return new ApiResponse("error", INTERNAL_SERVER_ERROR, err);
       });
   }

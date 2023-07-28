@@ -389,6 +389,23 @@ export class ClickhouseService {
     return resp;
   }
 
+  public async loadEventsCountForIncidentInTimeRange(incident_id: string, time: number): Promise<number> {
+    const sqlQuery = `
+      SELECT COUNT(*) as count
+      FROM events
+      WHERE incident_id = '${incident_id}'
+      AND created_at > ${time}
+    `
+    const events = await this.query({
+      query: sqlQuery,
+      format: "JSONEachRow"
+    });
+
+    const resp = await events.json<number>();
+    console.log("loadEventsCountForIncidentInTimeRange: ", resp);
+    return resp;
+  }
+
   public async loadEventsForProject(project_id: string): Promise<IEvent[]> {
     const sqlQuery = `
             SELECT * FROM events 

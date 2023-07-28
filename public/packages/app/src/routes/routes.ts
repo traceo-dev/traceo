@@ -124,36 +124,31 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       component: lazy(() => import("../features/project/explore/ExplorePage")),
       wrapper: ProjectDashboardWrapper
     },
-    // {
-    //   path: "/project/:id/explore/tracing",
-    //   component: lazy(() => import("../features/project/explore/tracing/TracesPage")),
-    //   wrapper: ProjectDashboardWrapper
-    // },
-    // {
-    //   path: "/project/:id/alerting",
-    //   component: lazy(() => import("../features/project/alerting/AlertsListPage")),
-    //   wrapper: ProjectDashboardWrapper
-    // },
-    // {
-    //   path: "/project/:id/alerting/:aid/details",
-    //   component: lazy(() => import("../features/project/alerting/AlertPreviewPage")),
-    //   wrapper: ProjectDashboardWrapper
-    // },
-    // {
-    //   path: "/project/:id/alerting/:aid/history",
-    //   component: lazy(() => import("../features/project/alerting/AlertHistoryPage")),
-    //   wrapper: ProjectDashboardWrapper
-    // },
-    // {
-    //   path: "/project/:id/alerting/:aid/edit",
-    //   component: lazy(() => import("../features/project/alerting/EditAlertPage")),
-    //   wrapper: ProjectDashboardWrapper
-    // },
-    // {
-    //   path: "/project/:id/alerting/create",
-    //   component: lazy(() => import("../features/project/alerting/CreateAlertPage")),
-    //   wrapper: ProjectDashboardWrapper
-    // },
+    {
+      path: "/project/:id/alerting",
+      component: lazy(() => import("../features/project/alerting/AlertsListPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/alerting/:alertId/details",
+      component: lazy(() => import("../features/project/alerting/AlertPreviewPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/alerting/:alertId/history",
+      component: lazy(() => import("../features/project/alerting/AlertHistoryPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/alerting/:alertId/edit",
+      component: lazy(() => import("../features/project/alerting/EditAlertPage")),
+      wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/alerting/create",
+      component: lazy(() => import("../features/project/alerting/CreateAlertPage")),
+      wrapper: ProjectDashboardWrapper
+    },
     {
       path: "/project/:id/settings/access",
       component: lazy(() => import("../features/project/settings/MembersListPage")),

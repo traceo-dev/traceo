@@ -12,6 +12,10 @@ import {
 import api from "../../../core/lib/api";
 import { AlertMutableForm } from "./AlertMutableForm";
 import { RouterLink } from "../../../core/components/RouterLink";
+import { Fragment } from "react";
+import { Portal } from "src/core/components/Portal";
+import { ToolbarButton } from "../overview/components/Toolbars/ToolbarButton";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 
 const initialAlert: Partial<IAlert> = {
   type: AlertEnumType.INCIDENT,
@@ -23,7 +27,7 @@ const initialAlert: Partial<IAlert> = {
   inAppNotification: true,
   emailNotification: false,
   severity: AlertSeverity.WARNING,
-  minTimeInterval: 5
+  minNotifyInterval: 5
 };
 
 const CreateAlertPage = () => {
@@ -41,22 +45,28 @@ const CreateAlertPage = () => {
   };
 
   return (
-    <AlertMutableForm
-      headerTitle="Alerting / Create"
-      defaultValues={initialAlert}
-      onSubmit={(alert) => onFinish(alert)}
-      headerSuffix={
+    <Fragment>
+      <Portal id="dashboard-toolbar">
         <Row gap="x-3">
           <RouterLink to={`/project/${id}/alerting`}>
-            <Button variant="danger">Cancel</Button>
+            <ToolbarButton icon={<CloseOutlined />} name="Cancel" className="bg-error text-white" />
           </RouterLink>
 
-          <Button type="submit" form="alert-form" variant="primary">
-            Save
-          </Button>
+          <ToolbarButton
+            type="submit"
+            form="alert-form"
+            icon={<CheckOutlined />}
+            name="Save"
+            className="bg-cyan-600 text-white"
+          />
         </Row>
-      }
-    />
+      </Portal>
+      <AlertMutableForm
+        headerTitle="Alerting / Create"
+        defaultValues={initialAlert}
+        onSubmit={(alert) => onFinish(alert)}
+      />
+    </Fragment>
   );
 };
 

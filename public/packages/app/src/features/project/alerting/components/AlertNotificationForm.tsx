@@ -1,4 +1,4 @@
-import { Typography, Switch } from "@traceo/ui";
+import { Typography, Switch, Tooltip } from "@traceo/ui";
 import { Section, SectionHeader, SectionContent, NotificationSwitchWrapper } from "../utils";
 import { Setter } from "@traceo/types";
 
@@ -31,9 +31,13 @@ export const AlertNotificationForm = ({
               Delivery of internal notifications in the Traceo application.
             </Typography>
           </div>
-          <Switch value={isInAppNotify} onChange={(e) => setInAppNotify(e.target["checked"])} />
+          <Switch
+            disabled
+            value={isInAppNotify}
+            onChange={(e) => setInAppNotify(e.target["checked"])}
+          />
         </NotificationSwitchWrapper>
-        <NotificationSwitchWrapper>
+        <NotificationSwitchWrapper className="opacity-60">
           <div className="flex flex-col">
             <Typography size="md" weight="semibold">
               Email notifications
@@ -43,7 +47,11 @@ export const AlertNotificationForm = ({
               basic informations section.
             </Typography>
           </div>
-          <Switch value={isEmailNotify} onChange={(e) => setEmailNotify(e.target["checked"])} />
+          <Switch
+            disabled
+            value={isEmailNotify}
+            onChange={(e) => setEmailNotify(e.target["checked"])}
+          />
         </NotificationSwitchWrapper>
       </SectionContent>
     </Section>

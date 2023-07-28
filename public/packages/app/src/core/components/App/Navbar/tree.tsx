@@ -1,4 +1,5 @@
 import {
+  AlertOutlined,
   AppstoreFilled,
   AppstoreOutlined,
   BugOutlined,
@@ -106,6 +107,15 @@ export const buildTree = ({
 
       treeRoot.push(exploreRoot);
     }
+
+    treeRoot.push({
+      id: "alerting",
+      label: "Alerting",
+      icon: <AlertOutlined />,
+      subtitle: undefined,
+      url: `/project/${project.id}/alerting`,
+      items: []
+    });
 
     if (isFrontendProject) {
       treeRoot.push({

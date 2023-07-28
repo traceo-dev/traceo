@@ -44,7 +44,7 @@ export const IncidentRulesSelector = ({
   const onRemoveRule = (rule: IAlertRule) => setRules(rules.filter(({ id }) => id !== rule.id));
 
   return (
-    <div className="flex flex-col gap-y-5">
+    <div className="flex flex-col gap-y-5 text-sm">
       <Row gap="x-2">
         <span>Trigger when your incident matches</span>
         <Select

@@ -24,7 +24,7 @@ export const MenuItem: FC<Props> = ({ menu }) => {
     link
       .replace(":id", String(project.id))
       .replace(":incidentId", incident.id)
-      .replace(":aid", alert.id);
+      .replace(":alertId", alert.id);
 
   return (
     <NavLink to={handlePath(menu.href)} className="text-inherit">

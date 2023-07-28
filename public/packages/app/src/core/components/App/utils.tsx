@@ -47,6 +47,13 @@ export const getActiveRoute = (navTree: NavItem[], pathname: string) => {
             label: toTitleCase(label)
           };
           break;
+        case "alerting":
+          mainItem = navTree.find((e) => e.id === "alerting");
+          const alertLabel = pathSplits[5];
+          subItem = {
+            label: toTitleCase(alertLabel)
+          };
+          break;
         case "dashboard-create":
           mainItem = dashboardNode;
           subItem = {

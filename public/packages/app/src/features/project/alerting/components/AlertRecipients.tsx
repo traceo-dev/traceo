@@ -83,11 +83,11 @@ export const AlertRecipients = ({ setSelectedMembers, selectedMembers = [] }: Pr
             <Row gap="x-3">
               <Avatar size="sm" alt={member?.user.name} src={member?.user.gravatar} />
               <div className="flex flex-col">
-                <span>{member?.user.name}</span>
-                <span>{member?.user.email}</span>
+                <span className="text-sm font-semibold">{member?.user.name}</span>
+                <span className="text-xs">{member?.user.email}</span>
               </div>
             </Row>
-            <Row gap="x-9">
+            <Row gap="x-5">
               {member?.user.email && <MailOutlined />}
               <BellOutlined />
               <MinusOutlined

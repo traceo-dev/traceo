@@ -1,4 +1,4 @@
-import { BellOutlined } from "@ant-design/icons";
+import { AlertOutlined } from "@ant-design/icons";
 import {
   AlertEnumType,
   LogicOperator,
@@ -22,14 +22,12 @@ import { notify } from "../../../core/utils/notify";
 
 interface Props {
   headerTitle?: string;
-  headerSuffix?: string | JSX.Element;
   defaultValues: Partial<IAlert>;
   //   TODO: add type
   onSubmit: (alert: Dictionary<any>) => void;
 }
 export const AlertMutableForm = ({
   headerTitle = "Alerting",
-  headerSuffix = null,
   defaultValues,
   onSubmit
 }: Props) => {
@@ -50,7 +48,7 @@ export const AlertMutableForm = ({
     name: defaultValues.name,
     description: defaultValues.description,
     severity: defaultValues.severity,
-    minTimeInterval: defaultValues.minTimeInterval
+    minNotifyInterval: defaultValues.minNotifyInterval
   };
 
   const onFinish = async (alertProps: AlertFormType) => {
@@ -84,16 +82,19 @@ export const AlertMutableForm = ({
     <Page
       header={{
         title: headerTitle,
-        suffix: headerSuffix,
         description: "Get informed about disturbing behavior as soon as it occurs.",
-        icon: <BellOutlined />
+        icon: <AlertOutlined />
       }}
     >
       <Page.Content>
         <Card>
           <AlertTypeForm alertType={alertType} setAlertType={setAlertType} />
 
-          <AlertBasicForm defaultValues={defaultFormValues} onFinish={onFinish} />
+          <AlertBasicForm
+            alertType={alertType}
+            defaultValues={defaultFormValues}
+            onFinish={onFinish}
+          />
 
           <AlertRulesForm
             rules={rules}

@@ -24,7 +24,7 @@ export type AlertFormType = {
   name: string;
   description: string;
   severity: AlertSeverity;
-  minTimeInterval: number;
+  minNotifyInterval: number;
 };
 
 export const mapAlertTypeToIcon: Record<AlertEnumType, JSX.Element> = {
@@ -118,19 +118,9 @@ export const alertOptions: SelectOptionProps[] = [
     icon: <AlertOutlined className="text-3xl text-yellow-500" />
   },
   {
-    label: "Web performance",
-    value: AlertEnumType.PERFORMANCE,
-    icon: <RocketOutlined className="text-3xl text-yellow-500" />
-  },
-  {
     label: "Metrics",
     value: AlertEnumType.METRIC,
     icon: <BarChartOutlined className="text-3xl text-yellow-500" />
-  },
-  {
-    label: "Logs",
-    value: AlertEnumType.LOGS,
-    icon: <AlignLeftOutlined className="text-3xl text-yellow-500" />
   }
 ];
 
@@ -152,7 +142,7 @@ export const SectionHeader = ({ title, description = null, index }) => {
       <span className="text-xl font-semibold">{index}.</span>
       <div className="flex flex-col pl-3">
         <span className="font-semibold text-xl text-primary">{title}</span>
-        {description && <span className="text-md text-primary">{description}</span>}
+        {description && <span className="text-sm text-primary">{description}</span>}
       </div>
     </Row>
   );
@@ -176,7 +166,7 @@ export const RowContainer = styled.div`
   gap-row: 12px;
   border: 1px solid var(--color-bg-light-secondary);
   border-radius: 6px;
-  padding: 6px;
+  padding: 9px;
   padding-inline: 12px;
   align-items: center;
   margin-bottom: 9px;

@@ -1,4 +1,4 @@
-import { BellOutlined, PlusOutlined } from "@ant-design/icons";
+import { AlertOutlined, BellOutlined, PlusOutlined } from "@ant-design/icons";
 import { AlertStatus, IAlert, PaginateType, SortOrder } from "@traceo/types";
 import { Button, Card, InputSearch, Select, Table, TableColumn } from "@traceo/ui";
 import { useEffect, useState } from "react";
@@ -18,6 +18,8 @@ import { useAppDispatch } from "../../../store/index";
 import { resetAlertState } from "./state/alert.slice";
 import { SortIcons } from "../../../core/components/SortIcons";
 import { RouterLink } from "../../../core/components/RouterLink";
+import { Portal } from "src/core/components/Portal";
+import { ToolbarButton } from "../overview/components/Toolbars/ToolbarButton";
 
 const ALERT_PAGE_SIZE = 15;
 const AlertsListPage = () => {
@@ -72,14 +74,14 @@ const AlertsListPage = () => {
       header={{
         title: "Alerting",
         description: "Get informed about disturbing behavior as soon as it occurs.",
-        icon: <BellOutlined />,
-        suffix: (
-          <RouterLink to={`/project/${id}/alerting/create`}>
-            <Button icon={<PlusOutlined />}>Create new</Button>
-          </RouterLink>
-        )
+        icon: <AlertOutlined />
       }}
     >
+      <Portal id="dashboard-toolbar">
+        <RouterLink to={`/project/${id}/alerting/create`}>
+          <ToolbarButton icon={<PlusOutlined />} name="Create new" />
+        </RouterLink>
+      </Portal>
       <Page.Content>
         <Card>
           <SearchWrapper className="pt-2 pb-12">

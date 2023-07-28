@@ -8,14 +8,14 @@ import dateUtils from "../../../core/utils/date";
 
 const ALERT_HISTORY_PAGE_SIZE = 15;
 const AlertHistoryPage = () => {
-  const { aid } = useParams();
+  const { alertId } = useParams();
   const [page, setPage] = useState<number>(1);
 
   const { data: response, isLoading } = useReactQuery<PaginateType<IAlertHistory[]>>({
     queryKey: ["alert-history"],
     url: `/api/alert/history`,
     params: {
-      alertId: aid
+      alertId: alertId
     }
   });
 

@@ -11,6 +11,14 @@ import {
 } from "class-validator";
 import { BaseDtoQuery } from "../../../common/base/query/base-query.model";
 
+export enum IncidentRule {
+  OCCUR_NEW_INCIDENT = "occur_new_incident",
+  OCCUR_NEW_INCIDENT_WITH = "occur_new_incident_with",
+  OCCUR_MORE_THAN = "occur_more_than",
+  INCIDENT_CHANGED_STATUS = "incident_changed_status",
+  EVENTS_NUMBER_INTERVAL = "events_number_interval"
+}
+
 export class AlertQueryDto extends BaseDtoQuery {
   @IsString()
   @IsOptional()
@@ -52,7 +60,13 @@ export class AlertDto {
   description: string;
 
   @IsNotEmpty()
-  minTimeInterval: number;
+  minNotifyInterval: number;
+
+  @IsOptional()
+  minTriggerInterval: number;
+
+  @IsOptional()
+  lastTriggered: number;
 
   @IsString()
   @IsNotEmpty()

@@ -1,20 +1,22 @@
-import { AlertSeverity, Setter } from "@traceo/types";
-import { Form, FormItem, Select, InputArea, Input } from "@traceo/ui";
+import { AlertEnumType, AlertSeverity, Setter } from "@traceo/types";
+import { Form, FormItem, Select, InputArea, Input, Row } from "@traceo/ui";
 import { Section, SectionHeader, SectionContent } from "../utils";
 
 type AlertFormType = {
   name: string;
   description: string;
   severity: AlertSeverity;
-  minTimeInterval: number;
+  minNotifyInterval: number;
+  minTriggerInterval: number;
 };
 
 interface Props {
+  alertType: AlertEnumType;
   onFinish: Setter<AlertFormType>;
   defaultValues?: Partial<AlertFormType>;
 }
 
-export const AlertBasicForm = ({ onFinish, defaultValues }: Props) => {
+export const AlertBasicForm = ({ alertType, onFinish, defaultValues }: Props) => {
   return (
     <Section>
       <SectionHeader
@@ -50,20 +52,39 @@ export const AlertBasicForm = ({ onFinish, defaultValues }: Props) => {
               <FormItem label="Description" error={errors.description}>
                 <InputArea {...register("description")} />
               </FormItem>
-              <FormItem
-                className="w-1/4"
-                label="Min. time interval"
-                error={errors.minTimeInterval}
-                tooltip="The minimum time interval to receive the next alert of the same type. Value passed in minutes."
-              >
-                <Input
-                  min={1}
-                  type="number"
-                  {...register("minTimeInterval", {
-                    required: true
-                  })}
-                />
-              </FormItem>
+              <Row className="gap-x-2">
+                {alertType === AlertEnumType.METRIC && (
+                  <FormItem
+                    className="w-2/4"
+                    label="Min. trigger interval"
+                    error={errors.minTriggerInterval}
+                    tooltip="Value (in minutes) specifying how often the conditions for this alert will be checked."
+                  >
+                    <Input
+                      min={1}
+                      type="number"
+                      {...register("minTriggerInterval", {
+                        required: true
+                      })}
+                    />
+                  </FormItem>
+                )}
+
+                <FormItem
+                  className="w-2/4"
+                  label="Min. time interval"
+                  error={errors.minNotifyInterval}
+                  tooltip="The minimum time interval to receive the next alert of the same type. Value passed in minutes."
+                >
+                  <Input
+                    min={1}
+                    type="number"
+                    {...register("minNotifyInterval", {
+                      required: true
+                    })}
+                  />
+                </FormItem>
+              </Row>
             </>
           )}
         </Form>

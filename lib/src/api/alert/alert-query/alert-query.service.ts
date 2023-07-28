@@ -3,6 +3,7 @@ import { BaseQueryService } from "../../../common/base/query/base-query.service"
 import { AlertQueryDto } from "../../../common/types/dto/alert.dto";
 import { Alert } from "../../../db/entities/alert.entity";
 import { Brackets, EntityManager, SelectQueryBuilder } from "typeorm";
+import { AlertEnumType, AlertStatus } from "@traceo/types";
 
 @Injectable()
 export class AlertQueryService extends BaseQueryService<Alert, AlertQueryDto> {
@@ -26,6 +27,18 @@ export class AlertQueryService extends BaseQueryService<Alert, AlertQueryDto> {
       .leftJoinAndSelect("alert.recipients", "recipients")
       .leftJoinAndSelect("recipients.user", "user")
       .getOne();
+  }
+
+  public async getActiveIncidentAlerts() {
+    return await this.entityManager
+      .getRepository(Alert)
+      .createQueryBuilder("alert")
+      .where("alert.status = :status", { status: AlertStatus.ACTIVE })
+      .andWhere("alert.type = :type", { type: AlertEnumType.INCIDENT })
+      .leftJoinAndSelect("alert.rules", "rules")
+      .leftJoinAndSelect("alert.recipients", "recipients")
+      .leftJoinAndSelect("alert.project", "project")
+      .getMany();
   }
 
   public extendQueryBuilder(
