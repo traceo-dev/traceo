@@ -2,11 +2,13 @@ import { ILog } from "@traceo/types";
 import dateUtils from "../../../../core/utils/date";
 import styled from "styled-components";
 
-const DetailsWrapper = styled.div`
+const DetailsWrapper = styled.tr`
   padding: 12px;
   border: 1px solid var(--color-bg-secondary);
   border-radius: 12px;
   font-size: 12px;
+  width: 100%;
+  display: flex;
 `;
 
 interface DetailsProps {
@@ -25,8 +27,10 @@ const DetailsRow = ({ name, value }: DetailsProps) => {
 export const LogDetailsForm = (log: ILog) => {
   return (
     <DetailsWrapper>
-      <DetailsRow name="message" value={log?.message} />
-      <DetailsRow name="timestamp" value={dateUtils.formatToMs(log?.precise_timestamp)} />
+      <td className="w-full">
+        <DetailsRow name="message" value={log?.message} />
+        <DetailsRow name="timestamp" value={dateUtils.formatToMs(log?.precise_timestamp)} />
+      </td>
     </DetailsWrapper>
   );
 };

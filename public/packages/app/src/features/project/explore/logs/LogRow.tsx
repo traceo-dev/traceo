@@ -1,7 +1,7 @@
 import { DownOutlined, RightOutlined } from "@ant-design/icons";
 import { ILog } from "@traceo/types";
-import { Col, conditionClass, joinClasses } from "@traceo/ui";
-import { useState } from "react";
+import { conditionClass, joinClasses } from "@traceo/ui";
+import { Fragment, useState } from "react";
 import styled from "styled-components";
 import { LogDetailsForm } from "./LogDetailsForm";
 import dateUtils from "../../../../core/utils/date";
@@ -40,7 +40,7 @@ export const LogRow = ({ log, showTime = true, verboseLog = true }: Props) => {
   const [isCollapsed, setCollapsed] = useState<boolean>(true);
 
   return (
-    <Col>
+    <Fragment>
       <LogItem isSelected={!isCollapsed} onClick={() => setCollapsed(!isCollapsed)}>
         <td className="text-[8px] pr-5">{isCollapsed ? <RightOutlined /> : <DownOutlined />}</td>
         {showTime && (
@@ -61,6 +61,6 @@ export const LogRow = ({ log, showTime = true, verboseLog = true }: Props) => {
         </td>
       </LogItem>
       {!isCollapsed && <LogDetailsForm {...log} />}
-    </Col>
+    </Fragment>
   );
 };
