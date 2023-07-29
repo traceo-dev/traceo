@@ -20,14 +20,11 @@ export const editPanelHistogramForm = (props: Props) => {
       <Input
         type="number"
         min={1}
-        max={100}
         value={config.histogram?.bucket?.size}
         onChange={(e) => {
-          if (e.target["value"] <= 100) {
-            setOptions((opt) => {
-              opt.config.histogram.bucket.size = Number(e.target["value"]);
-            });
-          }
+          setOptions((opt) => {
+            opt.config.histogram.bucket.size = Number(e.target["value"]);
+          });
         }}
       />
     )
