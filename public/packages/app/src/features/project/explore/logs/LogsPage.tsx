@@ -20,6 +20,7 @@ import { InlineFields } from "../components/InlineFields";
 import { ActionButton } from "../../../../core/components/ActionButton";
 import { ButtonOptionsWrapper } from "../components";
 import { UplotLogsGraph } from "./UplotLogsGraph";
+import styled from "styled-components";
 
 export const LogsPage = forwardRef(
   (

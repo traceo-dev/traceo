@@ -6,9 +6,9 @@ import { PanelProps } from "./types";
 import { PanelLazyLoader } from "./PanelLoazyLoader";
 import React from "react";
 import { QueryResponseType } from "../../utils";
-import api from "src/core/lib/api";
+import api from "../../../../../core/lib/api";
 import { ApiResponse } from "@traceo/types";
-import dateUtils from "src/core/utils/date";
+import dateUtils from "../../../../../core/utils/date";
 import { conditionClass, joinClasses } from "@traceo/ui";
 
 export interface State {
