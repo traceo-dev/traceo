@@ -29,4 +29,6 @@ export type LogsQueryProps = {
   from: number;
   to: number;
   take?: number;
+  skip?: number;
+  search?: string;
 };

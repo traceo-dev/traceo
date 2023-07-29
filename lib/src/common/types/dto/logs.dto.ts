@@ -17,5 +17,9 @@ export class LogsQuery extends BaseDtoQuery {
   @IsInt()
   @Max(2000)
   @IsOptional()
-  readonly take?: number = 250;
+  readonly take?: number = 100;
+
+  @Type(() => Number)
+  @IsInt()
+  readonly skip?: number = 0;
 }

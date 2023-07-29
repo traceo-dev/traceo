@@ -147,24 +147,22 @@ export class ClickhouseService {
     const selectedFields = fields.length > 0 ? fields.join(", ") : fields[0];
 
     let sqlQuery = `
-            SELECT ${selectedFields} FROM logs 
-            WHERE project_id = '${query.projectId}'
-            AND receive_timestamp >= ${query.from}
-            AND receive_timestamp <= ${query.to}
-        `;
+        SELECT ${selectedFields} FROM logs 
+        WHERE project_id = '${query.projectId}'
+        AND receive_timestamp >= ${query.from}
+        AND receive_timestamp <= ${query.to}
+    `;
 
     const search = query?.search;
     if (search) {
       sqlQuery += `AND LOWER(message) LIKE '%${search.toLowerCase()}%'\n`;
     }
 
-    sqlQuery += "ORDER BY precise_timestamp DESC\n";
-
-    let limit = query.take ?? 1000;
-    if (limit && limit > 1000) {
-      limit = 2000;
-    }
-    sqlQuery += `LIMIT ${limit}`;
+    sqlQuery += `
+      ORDER BY precise_timestamp DESC
+      LIMIT ${query?.take ?? 100} 
+      OFFSET ${query.skip ?? 0}
+    `;
 
     const logs = await this.query({
       query: sqlQuery,
@@ -361,7 +359,6 @@ export class ClickhouseService {
     sqlQuery += "ORDER BY receive_timestamp DESC\n";
     sqlQuery += `LIMIT ${query?.take || 100} `;
 
-    console.log(sqlQuery)
     const spans = await this.query({
       query: sqlQuery,
       format: "JSONEachRow"

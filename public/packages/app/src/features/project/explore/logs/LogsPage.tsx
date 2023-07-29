@@ -14,7 +14,7 @@ import {
   MenuUnfoldOutlined,
   UpOutlined
 } from "@ant-design/icons";
-import { Col, Input, InputSearch } from "@traceo/ui";
+import { Col, InputSearch } from "@traceo/ui";
 import { Field } from "../components/Field";
 import { InlineFields } from "../components/InlineFields";
 import { ActionButton } from "../../../../core/components/ActionButton";
@@ -40,7 +40,6 @@ export const LogsPage = forwardRef(
 
     const [graphLoading, setGraphLoading] = useState<boolean>(false);
 
-    const [limit, setLimit] = useState<number>(1000);
     const [search, setSearch] = useState<string>(undefined);
 
     const [showLogTime, setShowLogTime] = useState<boolean>(true);
@@ -50,65 +49,76 @@ export const LogsPage = forwardRef(
       fetch
     }));
 
-    const baseQueryProps = {
-      projectId: id,
-      search
-    };
-
-    const fetch = async () => {
-      const props = {
-        from: ranges[0],
-        to: ranges[1],
-        ...baseQueryProps
-      };
-
-      await loadData(props);
-    };
-
-    const loadData = async (props: LogsQueryProps) => {
-      setLoading(true);
+    const fetch = async (props?: Partial<LogsQueryProps>) => {
       setGraphLoading(true);
 
       await logsApi
-        .loadGraph(props)
+        .loadGraph({
+          from: ranges[0],
+          to: ranges[1],
+          projectId: id,
+          search,
+          ...props
+        })
         .then((resp) => {
           setGraph(resp.data.graph);
         })
         .finally(() => setGraphLoading(false));
 
+      await fetchTableLogs(0, props);
+    };
+
+    const fetchTableLogs = async (skip: number, props?: Partial<LogsQueryProps>) => {
+      setLoading(true);
+
       await logsApi
         .loadLogs({
-          ...props,
-          take: limit
+          from: ranges[0],
+          to: ranges[1],
+          take: 100,
+          skip,
+          projectId: id,
+          search,
+          ...props
         })
         .then((resp) => {
-          setLogs(resp.data.logs);
+          const newLogs = resp.data.logs ?? [];
+
+          if (skip > 0) {
+            setLogs([...logs, ...newLogs]);
+          } else {
+            setLogs(newLogs);
+          }
         })
         .finally(() => setLoading(false));
     };
 
+    const onNext = async (skip: number) => {
+      if (loading) {
+        return;
+      }
+
+      await fetchTableLogs(skip);
+    };
+
     const onZoom = async (ranges: TimeRange) => {
       setRanges(ranges);
-
-      await loadData({
+      await fetch({
         from: ranges[0],
-        to: ranges[1],
-        ...baseQueryProps
+        to: ranges[1]
       });
     };
 
     const getQueriesLabel = () => {
       const queries: string[] = [];
-
-      search && queries.push(`Search: ${search}`);
-      limit && queries.push(`Limit: ${limit}`);
-
+      if (search) {
+        queries.push(`Search: ${search}`);
+      }
       return queries.join(", ");
     };
 
     const clearQuery = () => {
       inputRef.current.value = null;
-      setLimit(250);
     };
 
     const scrollTop = () => {
@@ -143,21 +153,6 @@ export const LogsPage = forwardRef(
               />
             </Field>
           </InlineFields>
-          <InlineFields>
-            <Field
-              title="Limit"
-              tooltip="The number of returned result. When empty then first 1000 results are returned. Max 2000."
-              className="col-span-3"
-            >
-              <Input
-                type="number"
-                min={1}
-                max={2000}
-                value={limit}
-                onChange={(e) => setLimit(e.target["value"])}
-              />
-            </Field>
-          </InlineFields>
         </OptionsCollapseGroup>
         <OptionsCollapseGroup
           title="Graph"
@@ -174,16 +169,7 @@ export const LogsPage = forwardRef(
           </ConditionalWrapper>
         </OptionsCollapseGroup>
 
-        <OptionsCollapseGroup
-          title="Logs"
-          deafultCollapsed={true}
-          loading={loading}
-          extra={
-            <span className="text-xs font-semibold text-primary">
-              {(logs || []).length} logs found
-            </span>
-          }
-        >
+        <OptionsCollapseGroup title="Logs" deafultCollapsed={false} loading={loading}>
           <ButtonOptionsWrapper>
             <ActionButton
               icon={<DownOutlined />}
@@ -211,7 +197,13 @@ export const LogsPage = forwardRef(
             />
           </ButtonOptionsWrapper>
 
-          <LogsList ref={tableRef} verboseLog={verboseLog} showTime={showLogTime} logs={logs} />
+          <LogsList
+            ref={tableRef}
+            onScroll={onNext}
+            verboseLog={verboseLog}
+            showTime={showLogTime}
+            logs={logs}
+          />
         </OptionsCollapseGroup>
       </Col>
     );
