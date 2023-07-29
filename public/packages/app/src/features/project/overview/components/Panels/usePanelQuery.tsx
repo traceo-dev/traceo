@@ -3,7 +3,6 @@ import { QueryResponseType } from "../../utils";
 import { useParams } from "react-router-dom";
 import { RefetchOptions } from "react-query";
 import { TimeRange } from "@traceo/types";
-import { useEffect } from "react";
 import dateUtils from "../../../../../core/utils/date";
 
 interface HookResponse {
@@ -14,9 +13,22 @@ interface HookResponse {
   refetch: (options?: RefetchOptions) => void;
 }
 
-export const usePanelQuery = (panelId: string, ranges: TimeRange): HookResponse => {
+export const usePanelQuery = (
+  panelId: string,
+  ranges: TimeRange,
+  enabled = false
+): HookResponse => {
   const { id } = useParams();
-  const { data, refetch, isRefetching, isLoading, isError } = useReactQuery<QueryResponseType>({
+  const {
+    data = {
+      datasource: [],
+      options: undefined
+    },
+    refetch,
+    isRefetching,
+    isLoading,
+    isError
+  } = useReactQuery<QueryResponseType>({
     queryKey: [`panel_query_ds_${panelId}`],
     url: `/api/metrics/${id}/preview/${panelId}`,
     params: {
@@ -26,13 +38,10 @@ export const usePanelQuery = (panelId: string, ranges: TimeRange): HookResponse 
     },
     options: {
       refetchOnMount: false,
-      retryOnMount: false
+      retryOnMount: false,
+      enabled
     }
   });
-
-  useEffect(() => {
-    refetch();
-  }, [ranges]);
 
   const hasData = data && !isLoading && (data.datasource || data.datasource?.length > 0);
 

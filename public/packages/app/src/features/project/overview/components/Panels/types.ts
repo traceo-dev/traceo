@@ -1,4 +1,4 @@
-import { TimeRange, Setter, DashboardPanel, Dashboard } from "@traceo/types";
+import { TimeRange, Setter, DashboardPanel, Dashboard, IProject } from "@traceo/types";
 
 export interface PanelProps {
   title?: string;
@@ -11,4 +11,6 @@ export interface PanelProps {
   height?: number;
   onChangeTimeRange: Setter<TimeRange>;
   options?: JSX.Element;
+  project: IProject;
+  lazy?: boolean;
 }

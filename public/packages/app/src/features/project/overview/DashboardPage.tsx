@@ -115,7 +115,9 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
       ranges,
       height: plotHeight,
       dashboard,
-      onChangeTimeRange
+      onChangeTimeRange,
+      project,
+      lazy: true
     };
 
     return getVisualizationComponent(visualization, props);

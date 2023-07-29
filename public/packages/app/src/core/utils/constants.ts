@@ -1,4 +1,4 @@
-export const VERSION = "1.2.0";
+export const VERSION = "1.2.2";
 
 export const GH_REPO_LINK = "https://github.com/traceo-dev/traceo";
 export const GH_REPO_ISSUE_LINK = "https://github.com/traceo-dev/traceo/issues/new";

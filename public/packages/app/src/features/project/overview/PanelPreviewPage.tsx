@@ -25,7 +25,7 @@ import { Portal } from "../../../core/components/Portal";
 export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewType) => {
   const { panelId } = useParams();
   const { ranges, setRanges } = useTimeRange();
-  const { data, refetch } = usePanelQuery(panelId, ranges);
+  const { data, refetch } = usePanelQuery(panelId, ranges, true);
 
   const [options, setOptions] = useImmer<DashboardPanelType>(undefined);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
@@ -64,6 +64,7 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
   }, [data, panelId]);
 
   useEffect(() => {
+    refetch();
     refetchRawData();
   }, [ranges]);
 
@@ -107,7 +108,9 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
       panel: options,
       ranges: ranges,
       onChangeTimeRange: setRanges,
-      dashboard
+      dashboard,
+      project,
+      lazy: false
     };
 
     return getVisualizationComponent(visualization, props);
