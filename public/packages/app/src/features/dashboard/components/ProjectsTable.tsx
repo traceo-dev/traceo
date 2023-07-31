@@ -44,6 +44,8 @@ export const ProjectsTable = () => {
     params: { order, sortBy, search: search, userId: user.id }
   });
 
+  const hasProjects = projects && projects.length > 0;
+
   useEffect(() => {
     refetch();
   }, [order, sortBy, search]);
@@ -68,7 +70,7 @@ export const ProjectsTable = () => {
       </SearchWrapper>
       <ConditionalWrapper
         isLoading={isLoading}
-        isEmpty={projects?.length === 0}
+        isEmpty={!hasProjects}
         emptyView={<EmptyProjectsList constraints={search} />}
       >
         <div className="grid grid-cols-12 pt-5">

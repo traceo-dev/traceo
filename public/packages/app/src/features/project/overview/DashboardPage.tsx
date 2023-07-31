@@ -136,20 +136,22 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
     });
   };
 
+  const hasPanels = dashboard && dashboard.panels?.length === 0;
+
   const renderContent = () => {
-    if (dashboard && dashboard.panels?.length === 0) {
+    if (hasPanels) {
       return (
         <PageCenter>
-          <Col className="text-center gap-y-9">
+          <Col className="text-center gap-y-9 leading-3">
             <Typography size="xxxl" weight="bold">
               You have no panels here...
             </Typography>
-            <span>
-              Show everything you need in one place. Create new panels and add them to this
-              dashboard to keep all your information at your fingertips.
+            <span className="text-secondary">
+              Create new panels and add them to this dashboard to keep all your information at
+              your fingertips.
             </span>
             <Permissions statuses={[MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER]}>
-              <div className="justify-center">
+              <div className="justify-center pt-5">
                 <Button onClick={() => onAddPanel()} icon={<PlusOutlined />}>
                   Add panel
                 </Button>
