@@ -74,10 +74,10 @@ export class ClickhouseService {
     return logs.json();
   }
 
-  public async randomValues(count: number = 100): Promise<{ value: number }[]> {
+  public async randomValues(count: number = 100) {
     const sqlQuery = `
-      SELECT 0 + (rand() * (1 - 0)) AS value
-      FROM numbers(${count});
+      SELECT groupArray(floor(randNormal(100, 5))) AS random
+      FROM numbers(${count})    
     `;
 
     const random = await this.query({
@@ -85,22 +85,18 @@ export class ClickhouseService {
       format: "JSONEachRow"
     });
 
-    return random.json();
+    return await random.json();
   }
 
-  public async createTimestampSerie(query: ExploreMetricsQueryDto, interval: number = 1): Promise<{ time: number }[]> {
+  public async createTimestampSerie(query: ExploreMetricsQueryDto, interval: number = 1) {
     const sqlQuery = `
-      SELECT toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) as time
-      FROM metrics
-      WHERE
-        receive_timestamp >= toUnixTimestamp(toDateTime(${query.from}))
-        AND receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
-      GROUP BY time
-      ORDER BY time ASC
-      WITH FILL 
-        FROM toUnixTimestamp(toStartOfInterval(toDateTime(${query.from}), INTERVAL ${interval} SECOND)) 
-        TO   toUnixTimestamp(toStartOfInterval(toDateTime(${query.to}), INTERVAL ${interval} SECOND))
-      STEP ${interval}
+      SELECT groupArray(time) as timestamps
+      FROM (
+        SELECT toUnixTimestamp(toDateTime(start) + INTERVAL ${interval} SECOND) AS time
+        FROM (
+          SELECT arrayJoin(range(toUnixTimestamp(${query.from}), toUnixTimestamp(${query.to}), ${interval})) AS start
+        )
+      )
     `;
 
     const logs = await this.query({
@@ -111,22 +107,21 @@ export class ClickhouseService {
     return logs.json();
   }
 
-  public async aggregateMetrics(
+  public async queryAggregatedMetrics(
     projectId: string,
     name: string,
     query: ExploreMetricsQueryDto,
-    interval: number
-  ): Promise<AggregateTimeSeries> {
+  ) {
     /**
      * TIPS:
      * - Use HAVING instead of WHERE in aggregated queries
      * - When HAVING is used then GROUP BY should be before this clause.
      */
     const sqlQuery = `
-      SELECT value
+      SELECT groupArray(value) as metric_value
       FROM (
         SELECT
-          toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) as minute,
+          toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${query.interval} SECOND)) as minute,
           round(AVG(value), 2) as value
         FROM metrics
         WHERE
@@ -138,9 +133,9 @@ export class ClickhouseService {
         HAVING ${query.valueMax ? `value <= ${query.valueMax}` : "1=1"} AND ${query.valueMin ? `value >= ${query.valueMin}` : "1=1"}
         ORDER BY minute ASC
         WITH FILL 
-          FROM toUnixTimestamp(toStartOfInterval(toDateTime(${query.from}), INTERVAL ${interval} SECOND)) 
-          TO   toUnixTimestamp(toStartOfInterval(toDateTime(${query.to}), INTERVAL ${interval} SECOND))
-        STEP ${interval}
+          FROM toUnixTimestamp(toStartOfInterval(toDateTime(${query.from}), INTERVAL ${query.interval} SECOND)) 
+          TO   toUnixTimestamp(toStartOfInterval(toDateTime(${query.to}), INTERVAL ${query.interval} SECOND))
+        STEP ${query.interval}
       )
     `;
 
@@ -154,11 +149,11 @@ export class ClickhouseService {
 
   public async loadMetricsFields(projectId: string): Promise<{ name: string }[]> {
     const sqlQuery = `
-            SELECT DISTINCT name
-            FROM metrics
-            WHERE project_id = '${projectId}'
-            ORDER BY name ASC
-        `;
+        SELECT DISTINCT name
+        FROM metrics
+        WHERE project_id = '${projectId}'
+        ORDER BY name ASC
+    `;
 
     const fields = await this.query({
       query: sqlQuery,
@@ -222,15 +217,13 @@ export class ClickhouseService {
                 AND receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
                 ${query.search
         ? `AND LOWER(message) LIKE '%${query.search?.toLowerCase() ?? ""}%'`
-        : ""
-      }
-        )
+        : ""})
         GROUP BY minute
         ORDER BY minute ASC
         WITH FILL 
           FROM toUnixTimestamp(toStartOfInterval(toDateTime(${query.from}), INTERVAL ${interval} SECOND)) 
           TO   toUnixTimestamp(toStartOfInterval(toDateTime(${query.to}), INTERVAL ${interval} SECOND))
-        STEP 300
+        STEP ${interval}
     `;
 
     const logs = await this.query({
@@ -499,12 +492,10 @@ export class ClickhouseService {
     return await events.json();
   }
 
-  public async loadProjectEventsGraph(
-    project_id: string,
-    query: ExploreMetricsQueryDto
-  ): Promise<{ time: number; count: number }[]> {
-
+  public async loadProjectEventsGraph(project_id: string, query: ExploreMetricsQueryDto) {
     const sqlQuery = `
+      SELECT groupArray(count) as events_count
+      FROM (
         SELECT
             toUnixTimestamp(toStartOfInterval(toDateTime(precise_timestamp), INTERVAL ${query.interval} SECOND)) as time,
             COUNT(*) as count
@@ -516,6 +507,7 @@ export class ClickhouseService {
         ORDER BY time ASC
         WITH FILL FROM toUnixTimestamp(toDateTime(${query.from})) TO toUnixTimestamp(toDateTime(${query.to}))
         STEP ${query.interval}
+      )
     `;
 
     const events = await this.query({

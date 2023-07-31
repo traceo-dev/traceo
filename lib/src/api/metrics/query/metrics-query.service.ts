@@ -7,14 +7,13 @@ import { EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { calculateInterval } from "../../../common/helpers/interval";
 import { DashboardPanel } from "../../../db/entities/dashboard-panel.entity";
-import { EventQueryService } from "../../../api/event/query/event-query.service";
 
 // Interval for histogram shouldn't be changed due to time range
 const HISTOGRAM_INTERVAL = 15; //seconds
 
 export type AggregateTimeSeries = { minute: number; value: number }[];
 
-export type MetricPreviewType = {
+export type DatasourceType = {
   datasource: PlotData;
 };
 
@@ -29,16 +28,15 @@ export class MetricsQueryService {
 
   constructor(
     private readonly entityManager: EntityManager,
-    private readonly eventService: EventQueryService,
     private readonly clickhouseService: ClickhouseService
   ) {
     this.logger = new Logger(MetricsQueryService.name);
   }
 
-  public async getMetricsExploreGraph(
+  public async getExploreGraphDatasource(
     projectId: string,
     query: ExploreMetricsQueryDto
-  ): Promise<ApiResponse<MetricPreviewType>> {
+  ): Promise<ApiResponse<DatasourceType>> {
     const { fields } = query;
 
     if (!fields || fields.length === 0) {
@@ -53,14 +51,12 @@ export class MetricsQueryService {
         datasource: response
       });
     } catch (error) {
-      this.logger.error(`[${this.getMetricsExploreGraph.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.getExploreGraphDatasource.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }
 
-  public async getMetricGraph(projectId: string, panelId: string, query: MetricPanelDatasourceQueryDto): Promise<ApiResponse<MetricPreviewType>> {
-    const { from, to } = query;
-
+  public async getPanelGraphDatasource(projectId: string, panelId: string, query: MetricPanelDatasourceQueryDto): Promise<ApiResponse<DatasourceType>> {
     if (!panelId) {
       throw new Error("Panel ID is required!");
     }
@@ -79,8 +75,7 @@ export class MetricsQueryService {
       const dsFields = series.map((e) => e.datasource.field);
 
       const datasource = await this.queryDatasource(projectId, {
-        from,
-        to,
+        ...query,
         fields: dsFields,
         isHistogram: visualization === VISUALIZATION_TYPE.HISTOGRAM
       });
@@ -90,7 +85,7 @@ export class MetricsQueryService {
         datasource
       });
     } catch (err) {
-      this.logger.error(`[${this.getMetricGraph.name}] Caused by: ${err}`);
+      this.logger.error(`[${this.getPanelGraphDatasource.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }
@@ -108,27 +103,22 @@ export class MetricsQueryService {
     /**
      * Generating basic timestamp series for x-axis
      */
-    const time = await this.getTimestampSerie(query, interval);
+    const generatedTimestamp = await this.clickhouseService.createTimestampSerie(query, interval);
+    const time = generatedTimestamp[0].timestamps ?? [];
 
     for (const field of query.fields) {
       switch (field) {
         case BASIC_DATASOURCES.EVENTS:
-          const values = await this.eventService.getTotalOverviewGraph(query, projectId, interval);
-          series.push(values);
+          const eventsGraph = await this.clickhouseService.loadProjectEventsGraph(projectId, { ...query, interval });
+          series.push(eventsGraph[0].events_count ?? []);
           break;
         case BASIC_DATASOURCES.RANDOM:
-          const random = await this.clickhouseService.randomValues(time.length);
-          const result = random.map(({ value }) => Number(String(value).substring(0, 3)));
-          series.push(result);
+          const randomGraph = await this.clickhouseService.randomValues(time.length);
+          series.push(randomGraph[0].random ?? []);
           break;
         default:
-          const metrics = await this.clickhouseService.aggregateMetrics(
-            projectId,
-            field,
-            query,
-            interval
-          );
-          series.push(metrics.map(({ value }) => value));
+          const metrics = await this.clickhouseService.queryAggregatedMetrics(projectId, field, { ...query, interval });
+          series.push(metrics[0].metric_value);
           break;
       }
     }
@@ -136,12 +126,7 @@ export class MetricsQueryService {
     return [time, ...series];
   }
 
-  private async getTimestampSerie(query: ExploreMetricsQueryDto, interval: number = 1) {
-    const timestamp = await this.clickhouseService.createTimestampSerie(query, interval);
-    return timestamp.map(({ time }) => time);
-  }
-
-  public async getMetricFields(projectId: string): Promise<ApiResponse<any>> {
+  public async getDatasourceFields(projectId: string): Promise<ApiResponse<any>> {
     let availableFields: { value: string, label: string }[] = [];
 
     try {
@@ -151,7 +136,7 @@ export class MetricsQueryService {
         label: e["name"]
       }));
     } catch (err) {
-      this.logger.error(`[${this.getMetricFields.name}] Caused by: ${err}`);
+      this.logger.error(`[${this.getDatasourceFields.name}] Caused by: ${err}`);
     }
 
     // Overview for events received by system
@@ -169,7 +154,7 @@ export class MetricsQueryService {
     return new ApiResponse("success", undefined, availableFields);
   }
 
-  public async getMetricRawData(
+  public async getPanelRawDataDatasource(
     projectId: string,
     query: ExploreMetricsQueryDto
   ): Promise<ApiResponse<any>> {
@@ -195,18 +180,13 @@ export class MetricsQueryService {
           to: query.to
         });
 
-      const response = await this.clickhouseService.rawDataMetrics(
-        projectId,
-        {
-          ...query,
-          fields
-        },
-        interval
-      );
+      const response = await this.clickhouseService.rawDataMetrics(projectId, {
+        ...query, fields
+      }, interval);
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {
-      this.logger.error(`[${this.getMetricRawData.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.getPanelRawDataDatasource.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }

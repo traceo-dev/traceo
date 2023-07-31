@@ -97,7 +97,7 @@ export class EventQueryService {
   public async getTotalOverviewGraph(query: ExploreMetricsQueryDto, projectId: string, interval: number) {
     try {
       const eventsGraph = await this.clickhouse.loadProjectEventsGraph(projectId, { ...query, interval });
-      return eventsGraph.map(({ count }) => count);
+      return eventsGraph[0].events_count;
     } catch (error) {
       this.logger.error(`[${this.getTotalOverviewGraph.name}] Caused by: ${error}`);
       throw new BadRequestError(error);
@@ -142,22 +142,4 @@ export class EventQueryService {
 
     return [time, count];
   }
-
-  // private async getProjectGraphPayload(
-  //   projectId: string,
-  //   from: number,
-  //   to: number,
-  //   interval = 60
-  // ) {
-  //   const eventsGraph = await this.clickhouse.loadProjectEventsGraph(projectId, {
-  //     from,
-  //     to,
-  //     interval
-  //   });
-
-  //   const time = eventsGraph.map((e) => e.time);
-  //   const count = eventsGraph.map((e) => e.count);
-
-  //   return [time, count];
-  // }
 }
