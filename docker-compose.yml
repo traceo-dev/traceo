@@ -3,7 +3,7 @@ version: "3.9"
 # Images
 x-traceo-image: &traceo-image traceo/traceo:latest
 x-postgres-image: &postgres-image postgres:14
-x-clickhouse-image: &clickhouse-image clickhouse/clickhouse-server:22.8
+x-clickhouse-image: &clickhouse-image clickhouse/clickhouse-server:23.7.1
 x-zookeeper-image: &zookeeper-image zookeeper:3.7.0
 x-kafka-image: &kafka-image bitnami/kafka:2.8.1-debian-10-r99
 
