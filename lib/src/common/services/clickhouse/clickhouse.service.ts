@@ -191,7 +191,7 @@ export class ClickhouseService {
         FROM
         (
             SELECT toUnixTimestamp(toDateTime(receive_timestamp)) AS receive_timestamp
-            FROM traceo_development.logs
+            FROM logs
             WHERE
                 receive_timestamp >= toUnixTimestamp(toDateTime(${query.from}))
                 AND receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))

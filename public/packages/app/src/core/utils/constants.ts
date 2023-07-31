@@ -1,9 +1,8 @@
-export const VERSION = "1.2.2";
+export const VERSION = "1.2.3";
 
 export const GH_REPO_LINK = "https://github.com/traceo-dev/traceo";
 export const GH_REPO_ISSUE_LINK = "https://github.com/traceo-dev/traceo/issues/new";
 export const GH_SDK_REPO_LINK = "https://github.com/traceo-dev/traceo-node";
-export const INFLUX2_DOCS = "https://docs.influxdata.com/influxdb/v2.4/install/";
 export const ADMIN_EMAIL = "admin@localhost";
 
 export const REQUIRED_FIELD_ERROR = "This field is required!";
