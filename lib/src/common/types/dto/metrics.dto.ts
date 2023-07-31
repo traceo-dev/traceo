@@ -35,6 +35,7 @@ export class MetricPanelDatasourceQueryDto {
   @IsNotEmpty()
   to: number;
 
+  // timezone
   @IsNotEmpty()
   @IsString()
   tz: string;
@@ -42,13 +43,13 @@ export class MetricPanelDatasourceQueryDto {
 
 export class ExploreMetricsQueryDto extends MetricQueryDto {
   @IsOptional()
-  valueMax?: number;
+  valueMax?: number = undefined;
 
   @IsOptional()
-  valueMin?: number;
+  valueMin?: number = undefined;
 
   @IsOptional()
-  interval = 1;
+  interval?: number = 1;
 
   isHistogram = false;
 }

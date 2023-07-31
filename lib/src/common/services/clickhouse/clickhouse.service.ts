@@ -88,6 +88,29 @@ export class ClickhouseService {
     return random.json();
   }
 
+  public async createTimestampSerie(query: ExploreMetricsQueryDto, interval: number = 1): Promise<{ time: number }[]> {
+    const sqlQuery = `
+      SELECT toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) as time
+      FROM metrics
+      WHERE
+        receive_timestamp >= toUnixTimestamp(toDateTime(${query.from}))
+        AND receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
+      GROUP BY time
+      ORDER BY time ASC
+      WITH FILL 
+        FROM toUnixTimestamp(toStartOfInterval(toDateTime(${query.from}), INTERVAL ${interval} SECOND)) 
+        TO   toUnixTimestamp(toStartOfInterval(toDateTime(${query.to}), INTERVAL ${interval} SECOND))
+      STEP ${interval}
+    `;
+
+    const logs = await this.query({
+      query: sqlQuery,
+      format: "JSONEachRow"
+    });
+
+    return logs.json();
+  }
+
   public async aggregateMetrics(
     projectId: string,
     name: string,
@@ -100,31 +123,33 @@ export class ClickhouseService {
      * - When HAVING is used then GROUP BY should be before this clause.
      */
     const sqlQuery = `
-            SELECT
-                toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) as minute,
-                round(AVG(value), 2) as value
-            FROM metrics
-            WHERE
-                receive_timestamp >= toUnixTimestamp(toDateTime(${query.from}))
-                AND receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
-                AND name = '${name}'
-                AND project_id = '${projectId}'
-            GROUP BY minute
-            HAVING ${query.valueMax ? `value <= ${query.valueMax}` : "1=1"} AND ${query.valueMin ? `value >= ${query.valueMin}` : "1=1"
-      }
-            ORDER BY minute ASC
-            WITH FILL 
-              FROM toUnixTimestamp(toStartOfInterval(toDateTime(${query.from}), INTERVAL ${interval} SECOND)) 
-              TO   toUnixTimestamp(toStartOfInterval(toDateTime(${query.to}), INTERVAL ${interval} SECOND))
-            STEP ${interval}
-        `;
+      SELECT value
+      FROM (
+        SELECT
+          toUnixTimestamp(toStartOfInterval(toDateTime(receive_timestamp), INTERVAL ${interval} SECOND)) as minute,
+          round(AVG(value), 2) as value
+        FROM metrics
+        WHERE
+            receive_timestamp >= toUnixTimestamp(toDateTime(${query.from}))
+            AND receive_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
+            AND name = '${name}'
+            AND project_id = '${projectId}'
+        GROUP BY minute
+        HAVING ${query.valueMax ? `value <= ${query.valueMax}` : "1=1"} AND ${query.valueMin ? `value >= ${query.valueMin}` : "1=1"}
+        ORDER BY minute ASC
+        WITH FILL 
+          FROM toUnixTimestamp(toStartOfInterval(toDateTime(${query.from}), INTERVAL ${interval} SECOND)) 
+          TO   toUnixTimestamp(toStartOfInterval(toDateTime(${query.to}), INTERVAL ${interval} SECOND))
+        STEP ${interval}
+      )
+    `;
 
-    const logs = await this.query({
+    const response = await this.query({
       query: sqlQuery,
       format: "JSONEachRow"
     });
 
-    return logs.json();
+    return response.json();
   }
 
   public async loadMetricsFields(projectId: string): Promise<{ name: string }[]> {
@@ -474,28 +499,24 @@ export class ClickhouseService {
     return await events.json();
   }
 
-  /**
-   * interval provided in minutes
-   */
   public async loadProjectEventsGraph(
     project_id: string,
-    { from, to, interval }: { from: number; to: number; interval: number }
+    query: ExploreMetricsQueryDto
   ): Promise<{ time: number; count: number }[]> {
-    const STEP = 60 * interval; //step should be in seconds
 
     const sqlQuery = `
-            SELECT
-                toUnixTimestamp(toStartOfInterval(toDateTime(precise_timestamp), INTERVAL ${interval} minute)) as time,
-                COUNT(*) as count
-            FROM events
-            WHERE precise_timestamp >= toUnixTimestamp(toDateTime(${from})) 
-            AND precise_timestamp <= toUnixTimestamp(toDateTime(${to}))
-            AND project_id = '${project_id}'
-            GROUP BY time
-            ORDER BY time ASC
-            WITH FILL FROM toUnixTimestamp(toDateTime(${from})) TO toUnixTimestamp(toDateTime(${to}))
-            STEP ${STEP}
-        `;
+        SELECT
+            toUnixTimestamp(toStartOfInterval(toDateTime(precise_timestamp), INTERVAL ${query.interval} SECOND)) as time,
+            COUNT(*) as count
+        FROM events
+        WHERE precise_timestamp >= toUnixTimestamp(toDateTime(${query.from})) 
+        AND precise_timestamp <= toUnixTimestamp(toDateTime(${query.to}))
+        AND project_id = '${project_id}'
+        GROUP BY time
+        ORDER BY time ASC
+        WITH FILL FROM toUnixTimestamp(toDateTime(${query.from})) TO toUnixTimestamp(toDateTime(${query.to}))
+        STEP ${query.interval}
+    `;
 
     const events = await this.query({
       query: sqlQuery,

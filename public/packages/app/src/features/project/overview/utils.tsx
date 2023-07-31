@@ -115,10 +115,10 @@ export const initialCustomPanelProps: DashboardPanel = {
         },
         config: {
           area: {
-            opacity: 50,
+            opacity: 90,
             show: false
           },
-          barWidth: 50,
+          barWidth: 90,
           color: randomHexColor(),
           lineWidth: 1,
           type: "line"
