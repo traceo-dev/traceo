@@ -135,15 +135,13 @@ export const buildTree = ({
       url: `/project/${project.id}/settings/details`
     });
 
-    if (isProjectAdmin || isProjectMaintainer) {
-      settingsRoot.items.push({
-        id: "settings_access",
-        label: "Access",
-        icon: undefined,
-        subtitle: undefined,
-        url: `/project/${project.id}/settings/access`
-      });
-    }
+    settingsRoot.items.push({
+      id: "settings_access",
+      label: "Access",
+      icon: undefined,
+      subtitle: undefined,
+      url: `/project/${project.id}/settings/access`
+    });
 
     treeRoot.push(settingsRoot);
   } else {

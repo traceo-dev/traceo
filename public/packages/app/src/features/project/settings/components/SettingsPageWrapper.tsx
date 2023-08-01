@@ -1,35 +1,24 @@
-import { useProject } from "../../../../core/hooks/useProject";
 import { Page } from "../../../../core/components/Page";
 import { MenuRoute } from "../../../../core/types/navigation";
 import { InfoCircleOutlined, SettingOutlined, TeamOutlined } from "@ant-design/icons";
-import { FC, useMemo } from "react";
-import { MemberRole } from "@traceo/types";
+import { FC } from "react";
+
+const routes: MenuRoute[] = [
+  {
+    href: "/project/:id/settings/details",
+    label: "Details",
+    key: "details",
+    icon: <InfoCircleOutlined />
+  },
+  {
+    href: "/project/:id/settings/access",
+    label: "Access",
+    key: "access",
+    icon: <TeamOutlined />
+  }
+];
 
 export const SettingsPageWrapper: FC = ({ children }) => {
-  const { permission } = useProject();
-
-  const menu = useMemo(() => {
-    const routes: MenuRoute[] = [
-      {
-        href: "/project/:id/settings/details",
-        label: "Details",
-        key: "details",
-        icon: <InfoCircleOutlined />
-      }
-    ];
-
-    if ([MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER].includes(permission)) {
-      routes.push({
-        href: "/project/:id/settings/access",
-        label: "Access",
-        key: "access",
-        icon: <TeamOutlined />
-      });
-    }
-
-    return routes;
-  }, [permission]);
-
   return (
     <Page
       title="Settings"
@@ -38,7 +27,7 @@ export const SettingsPageWrapper: FC = ({ children }) => {
         title: "Settings",
         description: "Manage project settings for your team."
       }}
-      menuRoutes={menu}
+      menuRoutes={routes}
     >
       <Page.Content className="pt-0">{children}</Page.Content>
     </Page>

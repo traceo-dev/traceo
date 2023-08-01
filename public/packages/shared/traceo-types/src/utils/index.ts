@@ -1,4 +1,4 @@
-export const isEmpty = <T>(arr: T[]): boolean => {
+export const isEmpty = <T>(arr: T[] = []): boolean => {
     return arr && arr.length === 0;
 }
 

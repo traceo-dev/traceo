@@ -20,11 +20,20 @@ export const ProjectMembersTable: FC<Props> = ({ collection, postExecute, classN
 
   const navigate = useNavigate();
 
-  const options = [
-    { label: "Administrator", value: MemberRole.ADMINISTRATOR },
-    { label: "Maintainer", value: MemberRole.MAINTAINER },
-    { label: "Viewer", value: MemberRole.VIEWER }
-  ];
+  const getAvailableOptions = () => {
+    const options = [
+      { label: "Administrator", value: MemberRole.ADMINISTRATOR },
+      { label: "Maintainer", value: MemberRole.MAINTAINER },
+      { label: "Viewer", value: MemberRole.VIEWER }
+    ];
+
+    if (permission === MemberRole.MAINTAINER) {
+      return [{ label: "Viewer", value: MemberRole.VIEWER }];
+    }
+
+    // administrator
+    return options;
+  };
 
   const onUpdateRole = async (member: ProjectMember, role: MemberRole) => {
     await membersAction.onUpdateRole(member, role, () => postExecute());
@@ -69,7 +78,7 @@ export const ProjectMembersTable: FC<Props> = ({ collection, postExecute, classN
                 isDisabled={item.email === ADMIN_EMAIL}
                 onChange={(opt) => onUpdateRole(item, opt?.value)}
                 defaultValue={item.role}
-                options={options}
+                options={getAvailableOptions()}
                 menuPlacement="auto"
               />
             </div>

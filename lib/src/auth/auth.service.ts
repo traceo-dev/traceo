@@ -63,7 +63,7 @@ export class AuthService {
         const sessionId = await this.authTokenService.createUserToken(
           {
             userID: user.id,
-            userName: user.name
+            userName: user.username
           },
           req
         );

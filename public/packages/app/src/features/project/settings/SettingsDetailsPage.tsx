@@ -13,15 +13,18 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateAplication } from "../state/project/actions";
 import { BaseProjectViewType } from "../../../core/types/hoc";
+import { useUser } from "src/core/hooks/useUser";
 
 export const SettingsDetailsPage = ({ project, permission }: BaseProjectViewType) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const isDemo = useDemo();
+  const { isAdmin } = useUser();
   const ref = useRef<HTMLInputElement>();
 
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
+  const [loadingLeave, setLoadingLeave] = useState<boolean>(false);
   const [isNameEdit, setNameEdit] = useState<boolean>(false);
 
   const isViewer = permission === MemberRole.VIEWER;
@@ -48,6 +51,22 @@ export const SettingsDetailsPage = ({ project, permission }: BaseProjectViewType
       })
       .finally(() => {
         setLoadingDelete(false);
+      });
+  };
+
+  const leave = async () => {
+    setLoadingLeave(true);
+    await api
+      .delete<ApiResponse<unknown>>(`/api/member/leave`, {
+        id: project.id
+      })
+      .then((response) => {
+        if (response.status === "success") {
+          navigate("/dashboard/projects");
+        }
+      })
+      .finally(() => {
+        setLoadingLeave(false);
       });
   };
 
@@ -107,9 +126,27 @@ export const SettingsDetailsPage = ({ project, permission }: BaseProjectViewType
       <Permissions statuses={[MemberRole.MAINTAINER, MemberRole.ADMINISTRATOR]}>
         <ApiKeySection />
       </Permissions>
-      <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
-        <Card title="Danger zone">
+      <Card title="Danger zone">
+        <ColumnSection
+          title={<span className="text-red-600 font-semibold">Leave project</span>}
+          subtitle="Once you leave a project, you won't be able to view all of its data until administrators add you back to it."
+        >
+          <Space className="w-full mb-5">
+            <Confirm
+              auth={true}
+              description="Are you sure that you want to leave this project?"
+              onOk={() => leave()}
+            >
+              <Button variant="danger" loading={loadingLeave}>
+                Leave project
+              </Button>
+            </Confirm>
+          </Space>
+        </ColumnSection>
+
+        <Permissions statuses={[MemberRole.ADMINISTRATOR]}>
           <ColumnSection
+            className="mt-12"
             title={<span className="text-red-600 font-semibold">Delete project</span>}
             subtitle="Note that the removal of the project is immediate and irreversible. Only members with `Administrator` role can perform this operation."
           >
@@ -120,13 +157,13 @@ export const SettingsDetailsPage = ({ project, permission }: BaseProjectViewType
                 onOk={() => remove()}
               >
                 <Button variant="danger" loading={loadingDelete}>
-                  Delete
+                  Delete project
                 </Button>
               </Confirm>
             </Space>
           </ColumnSection>
-        </Card>
-      </Permissions>
+        </Permissions>
+      </Card>
     </SettingsPageWrapper>
   );
 };
