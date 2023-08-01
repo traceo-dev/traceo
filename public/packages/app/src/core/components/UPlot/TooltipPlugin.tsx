@@ -105,8 +105,8 @@ const TooltipContent = ({ uPlot }: Props) => {
 
           if (serie.show && idx) {
             const value = data[index][idx] ?? [];
-            const stroke = serie["_stroke"].toString();
-            const fill = serie["_fill"].toString();
+            const stroke = serie["_stroke"]?.toString();
+            const fill = serie["_fill"]?.toString();
             const color = stroke ?? fill;
 
             return (

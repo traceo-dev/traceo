@@ -8,28 +8,29 @@ export const StatPanel = ({
   ranges = [undefined, undefined],
   ...rest
 }: PanelProps) => {
-  const { data, isLoading, ...queryProps } = usePanelQuery(panel.id, ranges);
+  // const { panel, isLoading, ...queryProps } = usePanelQuery(panel.id, ranges);
 
-  const panelStyle: React.CSSProperties = {
-    fontSize: panel.config.text.size,
-    fontWeight: panel.config.text.weight,
-    color: panel.config.text.color
-  };
+  // const panelStyle: React.CSSProperties = {
+  //   fontSize: panel.config.text.size,
+  //   fontWeight: panel.config.text.weight,
+  //   color: panel.config.text.color
+  // };
 
   return (
-    <BaseDashboardPanel
-      loading={isLoading}
-      isErrorExplain={false}
-      panel={panel}
-      ranges={ranges}
-      className="h-full"
-      {...rest}
-      {...queryProps}
-    >
-      <StatContainer>
-        <span style={panelStyle}>{data?.datasource}</span>
-      </StatContainer>
-    </BaseDashboardPanel>
+    <></>
+    // <BaseDashboardPanel
+    //   loading={isLoading}
+    //   isErrorExplain={false}
+    //   panel={panel}
+    //   ranges={ranges}
+    //   className="h-full"
+    //   {...rest}
+    //   {...queryProps}
+    // >
+    //   <StatContainer>
+    //     <span style={panelStyle}>{data?.datasource}</span>
+    //   </StatContainer>
+    // </BaseDashboardPanel>
   );
 };
 

@@ -1,4 +1,4 @@
-import { IMember, ProjectMember, Setter } from "@traceo/types";
+import { IMember, ProjectMember, Setter, isEmpty } from "@traceo/types";
 import { Avatar, Row, Select, SelectOptionProps } from "@traceo/ui";
 import { useEffect } from "react";
 import { loadMembers } from "../../settings/state/members/actions";
@@ -71,7 +71,7 @@ export const AlertRecipients = ({ setSelectedMembers, selectedMembers = [] }: Pr
       </SearchWrapper>
 
       <div className="pt-3">
-        {selectedMembers.length === 0 && (
+        {isEmpty(selectedMembers) && (
           <RowContainer>
             <div className="w-full text-center justify-center py-5">
               <span>Recipients not selected</span>

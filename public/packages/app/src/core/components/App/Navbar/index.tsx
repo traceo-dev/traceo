@@ -11,6 +11,7 @@ import { useAppDispatch } from "../../../../store";
 import { setNavTree } from "./reducers/navTree";
 import { getActiveRoute } from "../utils";
 import { NavItem } from "./NavItem";
+import { isEmpty } from "@traceo/types";
 
 const SidebarMenu = styled.nav`
   width: 320px;
@@ -78,13 +79,13 @@ export const Navbar = ({ isCollapsed }: Props) => {
           {navTree.map((treeRoot, index) => (
             <CollapseNavSection
               key={index}
-              expandIcon={treeRoot.items.length > 0}
+              expandIcon={!isEmpty(treeRoot.items)}
               icon={treeRoot?.icon as JSX.Element}
               title={treeRoot.label}
               url={treeRoot.url}
               active={treeRoot?.id === activeRoute.mainItem?.id}
             >
-              {treeRoot.items.length > 0 && (
+              {!isEmpty(treeRoot.items) && (
                 <ul className="list-none p-0 m-0">
                   {treeRoot.items.map((item, index) => (
                     <NavItem

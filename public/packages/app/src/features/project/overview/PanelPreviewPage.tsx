@@ -3,13 +3,13 @@ import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import {
   ApiResponse,
   DashboardPanel as DashboardPanelType,
-  VISUALIZATION_TYPE
+  VISUALIZATION_TYPE,
+  isEmpty
 } from "@traceo/types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useImmer } from "use-immer";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
-import { isEmptyObject } from "../../../core/utils/object";
 import { TraceoLoading } from "../../../core/components/TraceoLoading";
 import api from "../../../core/lib/api";
 import { notify } from "../../../core/utils/notify";
@@ -21,17 +21,18 @@ import { PanelContent } from "./PanelContent";
 import withDashboard from "../../../core/hooks/withDashboard";
 import { ProjectDashboardViewType } from "../../../core/types/hoc";
 import { Portal } from "../../../core/components/Portal";
+import { isEmptyObject } from "../../../core/utils/object";
 
 export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewType) => {
   const { panelId } = useParams();
   const { ranges, setRanges } = useTimeRange();
-  const { data, refetch } = usePanelQuery(panelId, ranges, true);
+  const { panel, refetch } = usePanelQuery();
 
-  const [options, setOptions] = useImmer<DashboardPanelType>(undefined);
+  const [panelOptions, setPanelOptions] = useImmer<DashboardPanelType>(panel);
   const [isCustomizeMode, setCustomizeMode] = useState<boolean>(false);
 
-  const isCustomPanel = options?.type === "custom";
-  const visualization = options?.config.visualization;
+  const isCustomPanel = panelOptions?.type === "custom";
+  const visualization = panelOptions?.config.visualization;
 
   const isTimePicker =
     ![VISUALIZATION_TYPE.STAT, VISUALIZATION_TYPE.TEXT].includes(visualization) &&
@@ -49,7 +50,7 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
     isRefetching: isRefetchinRawData
   } = useReactQuery<any[]>({
     queryKey: [`metric_ds_raw_${panelId}`],
-    url: `/api/metrics/${project.id}/raw-data`,
+    url: `/api/metrics/${project.id}/raw-data/datasource`,
     params: {
       from: ranges[0],
       to: ranges[1],
@@ -58,29 +59,27 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
   });
 
   useEffect(() => {
-    if (data && data.options) {
-      setOptions(data.options);
-    }
-  }, [data, panelId]);
+    setPanelOptions(panel);
+  }, [panel]);
 
   useEffect(() => {
     refetch();
     refetchRawData();
   }, [ranges]);
 
-  if (!options || isEmptyObject(options)) {
+  if (!panelOptions || isEmptyObject(panelOptions)) {
     return <TraceoLoading />;
   }
 
   const onSave = async () => {
-    const errors = validate(options);
-    if (errors.length > 0) {
+    const errors = validate(panelOptions);
+    if (!isEmpty(errors)) {
       notify.error(errors[0]);
       return;
     }
 
     const props = {
-      ...options,
+      ...panelOptions,
       dashboardId: dashboard.id,
       panelId
     };
@@ -92,20 +91,20 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
   };
 
   const onDiscard = () => {
-    setOptions(data.options);
+    setPanelOptions(panel);
     setCustomizeMode(false);
   };
 
   const renderPanel = () => {
-    const visualization = options.config.visualization;
+    const visualization = panelOptions.config.visualization;
 
     const props: PanelProps = {
-      title: options.title,
+      title: panelOptions.title,
       isEditable: false,
       isRemoveMode: false,
       isHoverOptions: false,
-      height: 600,
-      panel: options,
+      height: isCustomizeMode ? 300 : 600,
+      panel: panelOptions,
       ranges: ranges,
       onChangeTimeRange: setRanges,
       dashboard,
@@ -117,7 +116,7 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
   };
 
   const getDocumentTitle = () => {
-    return `${isCustomizeMode ? "Edit" : "View"} panel - ${options.title}`;
+    return `${isCustomizeMode ? "Edit" : "View"} panel - ${panelOptions?.title}`;
   };
 
   return (
@@ -138,14 +137,13 @@ export const PanelPreviewPage = ({ dashboard, project }: ProjectDashboardViewTyp
 
       <Page.Content>
         <PanelContent
-          data={data}
           rawData={rawData}
           isCustomizeMode={isCustomizeMode}
           isLoading={isLoadingRawData || isRefetchinRawData}
           isLoadingRaw={isLoadingRawData || isRefetchinRawData}
           isRawDataPreview={isRawDataPreview}
-          options={options}
-          setOptions={setOptions}
+          options={panelOptions}
+          setOptions={setPanelOptions}
           renderPanel={() => renderPanel()}
         />
       </Page.Content>

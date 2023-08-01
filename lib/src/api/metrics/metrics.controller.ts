@@ -13,13 +13,12 @@ import { DatasourceType, MetricsQueryService } from "./query/metrics-query.servi
 export class MetricsController {
   constructor(private readonly metricsQueryService: MetricsQueryService) { }
 
-  @Get("/:id/preview/:metricId")
+  @Get("/:id/graph/datasource")
   async getMetricGraph(
     @Param("id") id: string,
-    @Param("metricId") metricId: string,
     @Query() query: MetricPanelDatasourceQueryDto
   ): Promise<ApiResponse<DatasourceType>> {
-    return await this.metricsQueryService.getPanelGraphDatasource(id, metricId, query);
+    return await this.metricsQueryService.getPanelGraphDatasource(id, query);
   }
 
   @Get("/:id/explore")
@@ -30,7 +29,7 @@ export class MetricsController {
     return await this.metricsQueryService.getExploreGraphDatasource(id, query);
   }
 
-  @Get("/:id/raw-data")
+  @Get("/:id/raw-data/datasource")
   async getMetricsRawData(
     @Param("id") id: string,
     @Query() query: ExploreMetricsQueryDto

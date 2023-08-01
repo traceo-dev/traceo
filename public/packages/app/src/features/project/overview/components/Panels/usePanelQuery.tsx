@@ -1,55 +1,34 @@
 import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
-import { QueryResponseType } from "../../utils";
 import { useParams } from "react-router-dom";
 import { RefetchOptions } from "react-query";
-import { TimeRange } from "@traceo/types";
-import dateUtils from "../../../../../core/utils/date";
+import { DashboardPanel } from "@traceo/types";
 
 interface HookResponse {
-  data: QueryResponseType;
+  panel: DashboardPanel;
   isLoading: boolean;
   isError: boolean;
   isEmpty: boolean;
   refetch: (options?: RefetchOptions) => void;
 }
 
-export const usePanelQuery = (
-  panelId: string,
-  ranges: TimeRange,
-  enabled = false
-): HookResponse => {
-  const { id } = useParams();
+export const usePanelQuery = (): HookResponse => {
+  const { panelId } = useParams();
   const {
-    data = {
-      datasource: [],
-      options: undefined
-    },
+    data: datasource,
     refetch,
     isRefetching,
     isLoading,
     isError
-  } = useReactQuery<QueryResponseType>({
+  } = useReactQuery<DashboardPanel>({
     queryKey: [`panel_query_ds_${panelId}`],
-    url: `/api/metrics/${id}/preview/${panelId}`,
-    params: {
-      from: ranges[0],
-      to: ranges[1],
-      tz: dateUtils.guessTz()
-    },
-    options: {
-      refetchOnMount: false,
-      retryOnMount: false,
-      enabled
-    }
+    url: `/api/dashboard/panel/${panelId}`
   });
 
-  const hasData = data && !isLoading && (data.datasource || data.datasource?.length > 0);
-
   return {
-    data,
+    panel: datasource,
     refetch,
     isLoading: isRefetching || isLoading,
     isError,
-    isEmpty: !hasData
+    isEmpty: !datasource
   };
 };

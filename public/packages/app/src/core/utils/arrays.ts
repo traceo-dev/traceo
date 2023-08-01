@@ -1,5 +1,3 @@
-import { Dictionary } from "@traceo/types";
-
 export const stringIncludes = (string: string, value: string | number | boolean) => {
   return string?.toLowerCase().includes(value.toString().toLowerCase());
 };
@@ -25,7 +23,7 @@ export const sameArrayValues = (arr: string[]) => {
 };
 
 // Check if two arrays has this same values on every field
-export const areArraysEqual = (arr1: Dictionary<unknown>[], arr2: Dictionary<unknown>[]): boolean => {
+export const areArraysOfObjectsEqual = <T>(arr1: T[], arr2: T[]): boolean => {
   if (arr1.length !== arr2.length) {
     return false;
   }
@@ -47,6 +45,20 @@ export const areArraysEqual = (arr1: Dictionary<unknown>[], arr2: Dictionary<unk
       if (obj1[key] !== obj2[key]) {
         return false;
       }
+    }
+  }
+
+  return true;
+}
+
+export const areArraysEqual = (arr1: string[], arr2: string[]): boolean => {
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false;
     }
   }
 

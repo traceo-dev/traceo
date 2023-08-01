@@ -5,7 +5,8 @@ import {
   IAlertRule,
   IMember,
   IAlert,
-  Dictionary
+  Dictionary,
+  isEmpty
 } from "@traceo/types";
 import { Card } from "@traceo/ui";
 import { useState } from "react";
@@ -43,7 +44,7 @@ export const AlertMutableForm = ({
   const [isInAppNotify, setInAppNotify] = useState<boolean>(defaultValues.inAppNotification);
   const [isEmailNotify, setEmailNotify] = useState<boolean>(defaultValues.emailNotification);
 
-  const [isAllMembers, setAllMembers] = useState<boolean>(defaultValues.recipients.length === 0);
+  const [isAllMembers, setAllMembers] = useState<boolean>(isEmpty(defaultValues.recipients));
   const [selectedMembers, setSelectedMembers] = useState<IMember[]>(defaultValues.recipients);
 
   const defaultFormValues = {
@@ -54,12 +55,12 @@ export const AlertMutableForm = ({
   };
 
   const onFinish = async (alertProps: AlertFormType) => {
-    if (rules.length === 0) {
+    if (isEmpty(rules)) {
       notify.error("You have to add at least one rule!");
       return;
     }
 
-    if (!isAllMembers && selectedMembers.length === 0) {
+    if (!isAllMembers && isEmpty(selectedMembers)) {
       notify.error(
         "You have to add at least one member or switch 'All members' options for recipient!"
       );

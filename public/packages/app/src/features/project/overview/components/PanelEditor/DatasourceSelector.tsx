@@ -1,5 +1,5 @@
 import { PlusOutlined, CloseOutlined, DatabaseFilled } from "@ant-design/icons";
-import { IMetricSerie, DashboardPanel, VISUALIZATION_TYPE } from "@traceo/types";
+import { IMetricSerie, DashboardPanel, VISUALIZATION_TYPE, isEmpty } from "@traceo/types";
 import { Row, Select, SelectOptionProps } from "@traceo/ui";
 import { Fragment } from "react";
 import { DataNotFound } from "../../../../../core/components/DataNotFound";
@@ -7,25 +7,15 @@ import { OptionsCollapseGroup } from "../../../../../features/project/explore/co
 import { DraftFunction } from "use-immer";
 import { ToolbarButton } from "../Toolbars/ToolbarButton";
 import { randomHexColor } from "../../../../../core/utils/colors";
-import { useParams } from "react-router-dom";
-import { useReactQuery } from "../../../../../core/hooks/useReactQuery";
-import { QueryResponseType } from "../../utils";
 
 interface Props {
-  data: QueryResponseType;
   options: DashboardPanel;
+  fieldsOptions: SelectOptionProps[];
   setOptions: (arg: DashboardPanel | DraftFunction<DashboardPanel>) => void;
 }
-export const DatasourceSelector = ({ options, setOptions, data }: Props) => {
-  const { id } = useParams();
-
+export const DatasourceSelector = ({ options, setOptions, fieldsOptions = [] }: Props) => {
   const series = options.config.series ?? [];
   const isHistogram = options.config.visualization === VISUALIZATION_TYPE.HISTOGRAM;
-
-  const { data: fieldsOptions = [] } = useReactQuery<SelectOptionProps[]>({
-    queryKey: [`panels_fields_key`],
-    url: `/api/metrics/fields/${id}`
-  });
 
   const onAddNewSerie = () => {
     const serie: IMetricSerie = {
@@ -44,8 +34,6 @@ export const DatasourceSelector = ({ options, setOptions, data }: Props) => {
         type: "line"
       }
     };
-
-    data.datasource.push([]);
     setOptions((opt) => {
       opt.config.series.push(serie);
     });
@@ -74,7 +62,7 @@ export const DatasourceSelector = ({ options, setOptions, data }: Props) => {
       scrollableBody={false}
     >
       <Fragment>
-        {series.length === 0 && (
+        {isEmpty(series) && (
           <DataNotFound
             label="No datasource fields selected"
             explanation="Select up to 10 datasource fields to visualize the data in the graph."

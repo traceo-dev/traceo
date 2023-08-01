@@ -7,7 +7,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { InputSearch, Button, Card } from "@traceo/ui";
 import { useState } from "react";
 import { useReactQuery } from "../../core/hooks/useReactQuery";
-import { IProject } from "@traceo/types";
+import { IProject, isEmpty } from "@traceo/types";
 import { RouterLink } from "../../core/components/RouterLink";
 
 export const ProjectsListPage = () => {
@@ -44,7 +44,7 @@ export const ProjectsListPage = () => {
           />
         </SearchWrapper>
         <ConditionalWrapper
-          isEmpty={projects?.length === 0}
+          isEmpty={isEmpty(projects)}
           isLoading={isLoading}
           emptyView={<DataNotFound label="Applications not found. Create first one!" />}
         >

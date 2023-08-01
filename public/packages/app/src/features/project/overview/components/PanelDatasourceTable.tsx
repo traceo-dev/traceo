@@ -1,6 +1,6 @@
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
-import { DashboardPanel, MetricResponseType } from "@traceo/types";
+import { DashboardPanel, MetricResponseType, isEmpty } from "@traceo/types";
 import { Table, TableColumn } from "@traceo/ui";
 import { FC, useMemo } from "react";
 import dayjs from "dayjs";
@@ -20,7 +20,7 @@ export const PanelDatasourceTable: FC<Props> = ({ metricData, isLoading, panel, 
 
   return (
     <ConditionalWrapper
-      isEmpty={metricData.length === 0}
+      isEmpty={isEmpty(metricData)}
       isLoading={isLoading}
       emptyView={<DataNotFound />}
     >

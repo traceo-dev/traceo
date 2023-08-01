@@ -16,6 +16,7 @@ import {
 } from "@traceo/ui";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { isEmpty } from "@traceo/types";
 
 type StackTraceType = "traces" | "raw";
 
@@ -33,7 +34,7 @@ export const StacktraceSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
   const [type, setType] = useState<StackTraceType>("traces");
 
-  const isTraces = incident?.traces?.length > 0;
+  const isTraces = !isEmpty(incident?.traces);
 
   if (!isTraces) {
     return null;

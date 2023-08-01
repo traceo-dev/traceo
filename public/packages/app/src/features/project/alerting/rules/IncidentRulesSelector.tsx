@@ -4,7 +4,7 @@ import { LOGICAL_OPERATORS_OPTIONS, LogicOperator } from "./types";
 import { IncidentRuleRow } from "./IncidentRuleRow";
 import { RowContainer } from "../utils";
 import { Updater } from "use-immer";
-import { IAlertRule, IIncident, PaginateType, Setter } from "@traceo/types";
+import { IAlertRule, IIncident, PaginateType, Setter, isEmpty } from "@traceo/types";
 import { useParams } from "react-router-dom";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
 import { v4 as uuid } from "uuid";
@@ -56,7 +56,7 @@ export const IncidentRulesSelector = ({
         <span>of the following rules</span>
       </Row>
 
-      {rules?.length === 0 && (
+      {isEmpty(rules) && (
         <RowContainer>
           <div className="w-full text-center justify-center py-5">
             <span>Rules not defined</span>

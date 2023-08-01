@@ -23,7 +23,8 @@ import {
   EXPLORE_PLOT_TYPE,
   AVAILABLE_COLORS,
   TimeRange,
-  UplotDataType
+  UplotDataType,
+  isEmpty
 } from "@traceo/types";
 import { ButtonOptionsWrapper } from "../components";
 import { UPlotMetricsGraph } from "./UPlotMetricsGraph";
@@ -133,7 +134,7 @@ export const MetricsPage = forwardRef(
     const getQueriesLabel = () => {
       const queries: string[] = [];
       const s = series.map((e) => e.name);
-      series.length > 0 && queries.push(`Series: ${s.join("; ")}`);
+      !isEmpty(series) && queries.push(`Series: ${s.join("; ")}`);
       valueMax && queries.push(`Value max: ${valueMax}`);
       valueMin && queries.push(`Value min: ${valueMin}`);
       return queries.join(", ");
@@ -278,7 +279,7 @@ export const MetricsPage = forwardRef(
             />
           </ButtonOptionsWrapper>
           <ConditionalWrapper
-            isEmpty={(graph && graph[0]?.length === 0) || series.length === 0}
+            isEmpty={isEmpty(graph[0]) || isEmpty(series)}
             emptyView={<DataNotFound label="No results for graph" />}
           >
             <UPlotMetricsGraph

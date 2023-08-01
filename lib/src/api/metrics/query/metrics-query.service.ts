@@ -2,7 +2,7 @@ import { Injectable, Logger } from "@nestjs/common";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ExploreMetricsQueryDto, MetricPanelDatasourceQueryDto } from "../../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { VISUALIZATION_TYPE, PlotData } from "@traceo/types";
+import { VISUALIZATION_TYPE, PlotData, isEmpty } from "@traceo/types";
 import { EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { calculateInterval } from "../../../common/helpers/interval";
@@ -37,51 +37,26 @@ export class MetricsQueryService {
     projectId: string,
     query: ExploreMetricsQueryDto
   ): Promise<ApiResponse<DatasourceType>> {
-    const { fields } = query;
-
-    if (!fields || fields.length === 0) {
-      return new ApiResponse("success", undefined, {
-        datasource: []
-      });
-    }
-
-    try {
-      const response = await this.queryDatasource(projectId, query);
-      return new ApiResponse("success", undefined, {
-        datasource: response
-      });
-    } catch (error) {
-      this.logger.error(`[${this.getExploreGraphDatasource.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
-    }
+    return await this.getPanelGraphDatasource(projectId, {
+      ...query,
+      tz: undefined,
+      panelId: undefined,
+      visualization: VISUALIZATION_TYPE.TIME_SERIES
+    });
   }
 
-  public async getPanelGraphDatasource(projectId: string, panelId: string, query: MetricPanelDatasourceQueryDto): Promise<ApiResponse<DatasourceType>> {
-    if (!panelId) {
-      throw new Error("Panel ID is required!");
-    }
+  public async getPanelGraphDatasource(projectId: string, query: MetricPanelDatasourceQueryDto): Promise<ApiResponse<DatasourceType>> {
+    let datasourceFields: string[] = query.fields;
+    const visualization = query.visualization;
 
     try {
-      const panel = await this.entityManager.getRepository(DashboardPanel).findOneBy({
-        id: panelId
-      });
-
-      if (!panel) {
-        return;
-      }
-
-      const series = panel.config.series;
-      const visualization = panel.config.visualization;
-      const dsFields = series.map((e) => e.datasource.field);
-
       const datasource = await this.queryDatasource(projectId, {
         ...query,
-        fields: dsFields,
+        fields: datasourceFields,
         isHistogram: visualization === VISUALIZATION_TYPE.HISTOGRAM
       });
 
       return new ApiResponse("success", undefined, {
-        options: panel,
         datasource
       });
     } catch (err) {
@@ -113,7 +88,7 @@ export class MetricsQueryService {
           series.push(eventsGraph[0].events_count ?? []);
           break;
         case BASIC_DATASOURCES.RANDOM:
-          const randomGraph = await this.clickhouseService.randomValues(time.length);
+          const randomGraph = await this.clickhouseService.randomValues(time.length ?? 0);
           series.push(randomGraph[0].random ?? []);
           break;
         default:
@@ -169,7 +144,7 @@ export class MetricsQueryService {
         fields = metric.config.series.map((e) => e.datasource.field);
       }
 
-      if (fields.length === 0) {
+      if (isEmpty(fields)) {
         return new ApiResponse("success", undefined, []);
       }
 

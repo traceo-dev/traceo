@@ -29,6 +29,10 @@ export class MetricQueryDto {
 }
 
 export class MetricPanelDatasourceQueryDto {
+  @IsString()
+  @IsOptional()
+  panelId: string;
+
   @IsNotEmpty()
   from: number;
 
@@ -39,6 +43,13 @@ export class MetricPanelDatasourceQueryDto {
   @IsNotEmpty()
   @IsString()
   tz: string;
+
+  @IsArray()
+  @IsOptional()
+  fields: string[] = [];
+
+  @IsEnum(VISUALIZATION_TYPE)
+  visualization: VISUALIZATION_TYPE = VISUALIZATION_TYPE.TIME_SERIES;
 }
 
 export class ExploreMetricsQueryDto extends MetricQueryDto {

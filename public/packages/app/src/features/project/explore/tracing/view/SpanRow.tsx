@@ -2,7 +2,7 @@ import { DownOutlined, RightOutlined } from "@ant-design/icons";
 import { Row, Col } from "@traceo/ui";
 import { useState } from "react";
 import { SpanDetails } from "./SpanDetails";
-import { Span, TreeSpan } from "@traceo/types";
+import { Span, TreeSpan, isEmpty } from "@traceo/types";
 import { DurationBar } from "./DurationBar";
 import styled from "styled-components";
 
@@ -58,7 +58,7 @@ export const SpanRow = ({
   const [expanded, setExpanded] = useState<boolean>(isRootSpan);
   const [expandedDetails, setExpandedDetails] = useState<boolean>(false);
 
-  const hasChildrens = span.childrens?.length > 0;
+  const hasChildrens = !isEmpty(span.childrens);
   const isShowedChildrens = expanded && hasChildrens;
   const childrens = span.childrens;
 

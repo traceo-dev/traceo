@@ -7,9 +7,10 @@ import { PanelLazyLoader } from "./PanelLoazyLoader";
 import React from "react";
 import { QueryResponseType } from "../../utils";
 import api from "../../../../../core/lib/api";
-import { ApiResponse } from "@traceo/types";
+import { ApiResponse, VISUALIZATION_TYPE, isEmpty } from "@traceo/types";
 import dateUtils from "../../../../../core/utils/date";
 import { conditionClass, joinClasses } from "@traceo/ui";
+import { areArraysEqual } from "src/core/utils/arrays";
 
 export interface State {
   data: QueryResponseType;
@@ -37,9 +38,17 @@ export class PlotPanel extends React.Component<PanelProps, State> {
     this.onVisibleChange = this.onVisibleChange.bind(this);
   }
 
+  retrieveDatasourceFields() {
+    const { panel } = this.props;
+    return panel.config.series.map(({ datasource }) => datasource?.field);
+  }
+
   async loadDatasource() {
     if (this.state.isVisible || !this.props.lazy) {
       const { ranges, project, panel } = this.props;
+
+      const datasourceFields = this.retrieveDatasourceFields();
+      const visualization = panel.config?.visualization ?? VISUALIZATION_TYPE.TIME_SERIES;
 
       this.setState({ isLoading: true, isError: false, isEmpty: false });
       /**
@@ -47,16 +56,19 @@ export class PlotPanel extends React.Component<PanelProps, State> {
        * use subscribers and rxjs
        */
       await api
-        .get<ApiResponse<QueryResponseType>>(`/api/metrics/${project.id}/preview/${panel.id}`, {
+        .get<ApiResponse<QueryResponseType>>(`/api/metrics/${project.id}/graph/datasource`, {
+          panelId: panel.id,
           from: ranges[0],
           to: ranges[1],
-          tz: dateUtils.guessTz()
+          tz: dateUtils.guessTz(),
+          fields: datasourceFields,
+          visualization
         })
         .then((res) => {
           this.setState({
             data: res.data,
             isLoading: true,
-            isEmpty: res.data.datasource.length === 0
+            isEmpty: isEmpty(res.data.datasource)
           });
         })
         .catch(() => {
@@ -77,6 +89,17 @@ export class PlotPanel extends React.Component<PanelProps, State> {
     if (this.props.ranges !== prevProps.ranges) {
       this.loadDatasource();
     }
+
+    // // In case when to datasource has been added new query/field
+    const { series: panelSeries } = this.props.panel.config;
+    const { series: prevPanelSeries } = prevProps.panel.config;
+
+    const currFields = panelSeries.map(({ datasource }) => datasource.field);
+    const prevFields = prevPanelSeries.map(({ datasource }) => datasource.field);
+
+    if (!areArraysEqual(currFields, prevFields)) {
+      this.loadDatasource();
+    }
   }
 
   onVisibleChange(isVisible: boolean) {
@@ -92,12 +115,12 @@ export class PlotPanel extends React.Component<PanelProps, State> {
 
     return (
       <BaseDashboardPanel
+        {...this.props}
+        {...this.state}
         loading={isLoading}
         className={joinClasses("overflow-hidden", conditionClass(lazy, "h-full"))}
         // TODO: no idea why overflow-hidden not working for y...
         bodyClassName="p-0 overflow-hidden overflow-y-hidden"
-        {...this.props}
-        {...this.state}
       >
         <BaseMetricChart
           height={height}
@@ -110,7 +133,7 @@ export class PlotPanel extends React.Component<PanelProps, State> {
   }
 
   render() {
-    const { lazy } = this.props;
+    const { lazy = false } = this.props;
 
     return lazy ? (
       <PanelLazyLoader onVisibleChange={this.onVisibleChange}>

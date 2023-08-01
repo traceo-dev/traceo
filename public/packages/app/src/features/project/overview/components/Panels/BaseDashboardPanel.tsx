@@ -5,7 +5,8 @@ import {
   Dashboard,
   DashboardPanel as DashboardPanelType,
   MemberRole,
-  TimeRange
+  TimeRange,
+  isEmpty as isEmptyArray
 } from "@traceo/types";
 import { useNavigate, useParams } from "react-router-dom";
 import { DeleteOutlined, DragOutlined, EllipsisOutlined, EyeOutlined } from "@ant-design/icons";
@@ -49,12 +50,11 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
       bodyClassName = undefined,
       isEditable = false,
       isErrorExplain = true,
-      isHoverOptions = true,
+      isHoverOptions = false,
       isError = false,
       isEmpty = false,
       ranges = [undefined, undefined],
-      options = undefined,
-      dashboard = undefined
+      options = undefined
     },
     ref
   ) => {
@@ -71,9 +71,9 @@ export const BaseDashboardPanel = forwardRef<HTMLDivElement, Props>(
     // To not showing tooltip when there is "preview" mode
     // const tooltipValue = title ? undefined : panel?.description;
 
-    const hasRandomDatasource =
+    const hasRandomDatasource = !isEmptyArray(
       panel.config.series.filter(({ datasource }) => datasource.field === "random_datasource")
-        .length > 0;
+    );
 
     const onNavigate = () => {
       navigate({
