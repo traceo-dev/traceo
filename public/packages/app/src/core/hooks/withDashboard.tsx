@@ -5,6 +5,7 @@ import { BaseDashboardViewType } from "../types/hoc";
 import { loadDashboard } from "../../features/project/overview/state/actions";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../store/types";
+import { TraceoLoading } from "../components/TraceoLoading";
 
 const withDashboard = <T extends BaseDashboardViewType>(
   WrappedComponent: React.ComponentType<T>
@@ -24,9 +25,9 @@ const withDashboard = <T extends BaseDashboardViewType>(
       };
     }, [dashboardId]);
 
-    // if (state.isLoading) {
-    //   return <TraceoLoading />;
-    // }
+    if (state.isLoading) {
+      return <TraceoLoading />;
+    }
 
     return <WrappedComponent dashboard={state.dashboard} {...props} />;
   };
