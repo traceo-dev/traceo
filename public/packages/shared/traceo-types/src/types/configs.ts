@@ -6,4 +6,5 @@ export interface ViewConfigData {
   user: Partial<IUser>;
   demoMode: boolean;
   env: EnvType;
+  version: string;
 }

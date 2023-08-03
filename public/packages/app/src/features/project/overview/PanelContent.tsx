@@ -1,17 +1,18 @@
-import { Card, Row, Tooltip, conditionClass } from "@traceo/ui";
+import { Card, Row, SelectOptionProps, Tooltip, conditionClass } from "@traceo/ui";
 import { OptionsCollapseGroup } from "../explore/components/OptionsCollapseGroup";
 import { PanelDatasourceTable } from "./components/PanelDatasourceTable";
 import { PanelCustomizeForm } from "./components/PanelEditor/PanelCustomizeForm";
 import { PanelSeriesCustomizeForm } from "./components/PanelEditor/PanelSeriesCustomizeForm";
-import { QueryResponseType } from "./utils";
-import { DashboardPanel, Setter, VISUALIZATION_TYPE } from "@traceo/types";
+import { DashboardPanel, Setter, VISUALIZATION_TYPE, isEmpty } from "@traceo/types";
 import { DraftFunction } from "use-immer";
 import { useState } from "react";
 import styled, { css } from "styled-components";
 import { DatasourceSelector } from "./components/PanelEditor/DatasourceSelector";
 import { DataNotFound } from "../../../core/components/DataNotFound";
 import { TextEditor } from "./components/PanelEditor/TextEditor";
-import { ExclamationCircleFilled, QuestionCircleFilled, WarningFilled } from "@ant-design/icons";
+import { WarningFilled } from "@ant-design/icons";
+import { useReactQuery } from "../../../core/hooks/useReactQuery";
+import { useParams } from "react-router-dom";
 
 type Option = "basic" | "datasource";
 
@@ -21,7 +22,6 @@ interface Props {
   isLoading?: boolean;
   isLoadingRaw?: boolean;
   renderPanel: () => void;
-  data?: QueryResponseType;
   rawData?: any[];
   options: DashboardPanel;
   setOptions: (arg: DashboardPanel | DraftFunction<DashboardPanel>) => void;
@@ -32,23 +32,25 @@ export const PanelContent = ({
   isLoadingRaw = false,
   isRawDataPreview = false,
   renderPanel = undefined,
-  data = {
-    datasource: [],
-    options: undefined
-  },
   rawData = [],
   options = undefined,
   setOptions = undefined
 }: Props) => {
+  const { id } = useParams();
   const [customizeOption, setCustomizeOption] = useState<Option>("basic");
 
   const visualization = options.config.visualization;
   const hasSeries = ![VISUALIZATION_TYPE.TEXT, VISUALIZATION_TYPE.STAT].includes(visualization);
   const seriesCount = options.config.series.length ?? 0;
 
-  const hasRandomDatasource =
+  const hasRandomDatasource = !isEmpty(
     options.config.series.filter(({ datasource }) => datasource.field === "random_datasource")
-      .length > 0;
+  );
+
+  const { data: fieldsOptions = [] } = useReactQuery<SelectOptionProps[]>({
+    queryKey: [`panels_fields_key`],
+    url: `/api/metrics/fields/${id}`
+  });
 
   return (
     <div className="w-full grid grid-cols-12">
@@ -60,7 +62,11 @@ export const PanelContent = ({
         )}
 
         {isCustomizeMode && hasSeries && (
-          <DatasourceSelector data={data} options={options} setOptions={setOptions} />
+          <DatasourceSelector
+            options={options}
+            fieldsOptions={fieldsOptions}
+            setOptions={setOptions}
+          />
         )}
 
         {!isCustomizeMode && isRawDataPreview && (
@@ -101,7 +107,7 @@ export const PanelContent = ({
           )}
 
           {customizeOption === "datasource" &&
-            (options.config.series.length === 0 ? (
+            (isEmpty(options.config.series) ? (
               <Card>
                 <DataNotFound label="Datasources not found" />
               </Card>

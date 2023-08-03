@@ -22,7 +22,7 @@ services:
 
   clickhouse:
     container_name: traceo-clickhouse
-    image: clickhouse/clickhouse-server:22.8
+    image: clickhouse/clickhouse-server:23.7.1
     restart: on-failure
     ports:
       - "8123:8123"

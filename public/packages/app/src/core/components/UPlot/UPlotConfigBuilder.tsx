@@ -16,7 +16,7 @@ import {
 import { uPlotUtils } from "./utils";
 import { tooltipsPlugin } from "./TooltipPlugin";
 import { stackedOptions } from "./stacked";
-import { VISUALIZATION_TYPE, PLOT_TYPE } from "@traceo/types";
+import { VISUALIZATION_TYPE, PLOT_TYPE, isEmpty } from "@traceo/types";
 import { calculateHistogramBins, prepareBinsData } from "./histogram";
 
 const defaultAxe: uPlot.Axis = {
@@ -249,7 +249,7 @@ export class UPlotConfigBuilder {
       });
     }
 
-    if (this.axes.length === 0) {
+    if (isEmpty(this.axes)) {
       this.addAxe({ scale: "x", ...defaultAxe });
       this.addAxe({ scale: "y", ...defaultAxe });
     }

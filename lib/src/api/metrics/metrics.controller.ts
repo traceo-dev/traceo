@@ -5,7 +5,7 @@ import { ApiTags } from "@nestjs/swagger";
 import { AuthGuard } from "../../common/decorators/auth-guard.decorator";
 import { ExploreMetricsQueryDto, MetricPanelDatasourceQueryDto } from "../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { MetricPreviewType, MetricsQueryService } from "./query/metrics-query.service";
+import { DatasourceType, MetricsQueryService } from "./query/metrics-query.service";
 
 @ApiTags("metrics")
 @Controller("metrics")
@@ -13,33 +13,32 @@ import { MetricPreviewType, MetricsQueryService } from "./query/metrics-query.se
 export class MetricsController {
   constructor(private readonly metricsQueryService: MetricsQueryService) { }
 
-  @Get("/:id/preview/:metricId")
+  @Get("/:id/graph/datasource")
   async getMetricGraph(
     @Param("id") id: string,
-    @Param("metricId") metricId: string,
     @Query() query: MetricPanelDatasourceQueryDto
-  ): Promise<ApiResponse<MetricPreviewType>> {
-    return await this.metricsQueryService.getMetricGraph(id, metricId, query);
+  ): Promise<ApiResponse<DatasourceType>> {
+    return await this.metricsQueryService.getPanelGraphDatasource(id, query);
   }
 
   @Get("/:id/explore")
   async getMetricsExploreGraph(
     @Param("id") id: string,
     @Query() query: ExploreMetricsQueryDto
-  ): Promise<ApiResponse<MetricPreviewType>> {
-    return await this.metricsQueryService.getMetricsExploreGraph(id, query);
+  ): Promise<ApiResponse<DatasourceType>> {
+    return await this.metricsQueryService.getExploreGraphDatasource(id, query);
   }
 
-  @Get("/:id/raw-data")
+  @Get("/:id/raw-data/datasource")
   async getMetricsRawData(
     @Param("id") id: string,
     @Query() query: ExploreMetricsQueryDto
-  ): Promise<ApiResponse<MetricPreviewType>> {
-    return await this.metricsQueryService.getMetricRawData(id, query);
+  ): Promise<ApiResponse<DatasourceType>> {
+    return await this.metricsQueryService.getPanelRawDataDatasource(id, query);
   }
 
   @Get("/fields/:id")
-  async getMetricsFields(@Param("id") id: string): Promise<ApiResponse<MetricPreviewType>> {
-    return await this.metricsQueryService.getMetricFields(id);
+  async getMetricsFields(@Param("id") id: string): Promise<ApiResponse<DatasourceType>> {
+    return await this.metricsQueryService.getDatasourceFields(id);
   }
 }

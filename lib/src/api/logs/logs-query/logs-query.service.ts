@@ -37,8 +37,8 @@ export class LogsQueryService {
 
   public async getLogsGraphPayload(query: LogsQuery): Promise<ApiResponse<GraphResposnseType>> {
     try {
-      // 5 minutes interval
-      const INTERVAL = 60 * 5;
+      // 2 minutes interval
+      const INTERVAL = 60 * 2;
       const logs = await this.clickhouseClient.loadLogsTimeSeries(query, INTERVAL);
 
       // TODO: Mapping should be also in clickhouse query

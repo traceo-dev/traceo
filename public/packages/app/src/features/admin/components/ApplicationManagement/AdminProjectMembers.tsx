@@ -1,6 +1,6 @@
 import { ProjectMembersTable } from "../../../../core/components/ProjectMembersTable";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
-import { ProjectMember } from "@traceo/types";
+import { ProjectMember, isEmpty } from "@traceo/types";
 import { Space, Typography, Card } from "@traceo/ui";
 import { useParams } from "react-router-dom";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
@@ -21,7 +21,7 @@ export const AdminProjectMembers = () => {
   return (
     <Card title="Project members">
       <ConditionalWrapper
-        isEmpty={members?.length === 0}
+        isEmpty={isEmpty(members)}
         emptyView={
           <Space className="w-full justify-center">
             <Typography className="w-full justify-center">No members</Typography>

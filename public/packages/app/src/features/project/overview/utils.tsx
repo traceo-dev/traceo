@@ -5,9 +5,9 @@ import {
   METRIC_UNIT,
   PanelConfiguration,
   VISUALIZATION_TYPE,
-  UplotDataType
+  UplotDataType,
+  isEmpty
 } from "@traceo/types";
-import { randomHexColor } from "../../../core/utils/colors";
 import { PanelProps } from "./components/Panels/types";
 import { PlotPanel } from "./components/Panels/PlotPanel";
 import { StatPanel } from "./components/Panels/StatPanel";
@@ -105,28 +105,7 @@ export const initialCustomPanelProps: DashboardPanel = {
   },
   config: {
     ...panelConfig,
-    visualization: VISUALIZATION_TYPE.TIME_SERIES,
-    series: [
-      {
-        name: "New serie",
-        description: undefined,
-        datasource: {
-          field: undefined
-        },
-        config: {
-          area: {
-            opacity: 50,
-            show: false
-          },
-          barWidth: 50,
-          color: randomHexColor(),
-          lineWidth: 1,
-          type: "line"
-        },
-
-        unit: METRIC_UNIT.NONE
-      }
-    ]
+    visualization: VISUALIZATION_TYPE.TIME_SERIES
   }
 };
 
@@ -259,7 +238,7 @@ export const validate = (options: DashboardPanel) => {
   }
 
   const series = options.config.series;
-  if (series.length === 0) {
+  if (isEmpty(series)) {
     errors.push("You have to add at least one serie to this panel.");
   }
 

@@ -3,7 +3,7 @@ import { TimeRange, Setter, DashboardPanel, Dashboard, IProject } from "@traceo/
 export interface PanelProps {
   title?: string;
   isEditable: boolean;
-  isRemoveMode: boolean;
+  isRemoveMode?: boolean;
   isHoverOptions?: boolean;
   panel: DashboardPanel;
   dashboard?: Dashboard;

@@ -6,7 +6,8 @@ import {
   MAP_MAX_VALUE,
   VitalsHealthType,
   VITALS_THRESHOLD,
-  Range
+  Range,
+  isEmpty
 } from "@traceo/types";
 
 export enum HEALTH_COLOR {
@@ -94,7 +95,7 @@ export const barColor = (field: VitalsEnum, value: number) => {
 };
 
 export const calculateVitalsAvg = (field: string, data: VitalsBinType[]): string => {
-  if (!data || data.length === 0) {
+  if (isEmpty(data)) {
     return "-";
   }
 
@@ -123,7 +124,7 @@ export const calculateHealthPercentage = (
   type: VitalsEnum,
   list: Performance[]
 ): Record<VitalsHealthType, number> => {
-  if (!list || list.length === 0 || !type) {
+  if (isEmpty(list) || !type) {
     return;
   }
 
@@ -153,7 +154,7 @@ export const calculateHealthPercentage = (
  * TODO: put this funciton to utils in traceo/types and reuse also in performance.service in backendF
  */
 export const parseToBins = (perfs: Performance[]) => {
-  if (!perfs || perfs.length === 0) {
+  if (isEmpty(perfs)) {
     return;
   }
 

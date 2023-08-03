@@ -4,7 +4,7 @@ import { SortIcons } from "../../../core/components/SortIcons";
 import { useUser } from "../../../core/hooks/useUser";
 import { ProjectCard } from "./ProjectCard";
 import { EmptyProjectsList } from "./EmptyProjectsList";
-import { SortOrder, MemberProject } from "@traceo/types";
+import { SortOrder, MemberProject, isEmpty } from "@traceo/types";
 import { InputSearch, Select } from "@traceo/ui";
 import { useEffect, useState } from "react";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
@@ -44,7 +44,7 @@ export const ProjectsTable = () => {
     params: { order, sortBy, search: search, userId: user.id }
   });
 
-  const hasProjects = projects && projects.length > 0;
+  const hasProjects = !isEmpty(projects);
 
   useEffect(() => {
     refetch();

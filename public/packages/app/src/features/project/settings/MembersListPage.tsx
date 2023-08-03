@@ -9,7 +9,7 @@ import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import { loadMembers } from "./state/members/actions";
 import { PlusOutlined } from "@ant-design/icons";
 import { StoreState } from "../../../store/types";
-import { MemberRole } from "@traceo/types";
+import { MemberRole, isEmpty } from "@traceo/types";
 import { InputSearch, Button, Card } from "@traceo/ui";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -51,7 +51,7 @@ export const MembersListPage = () => {
             onChange={setSearch}
           />
           <ConditionalWrapper
-            isEmpty={members?.length === 0}
+            isEmpty={isEmpty(members)}
             isLoading={!hasFetched}
             emptyView={<DataNotFound label="Members not found" />}
           >

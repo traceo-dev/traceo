@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Performance, VitalsEnum } from "@traceo/types";
+import { Performance, VitalsEnum, isEmpty } from "@traceo/types";
 import { useMemo } from "react";
 import { calculateHealthPercentage, healthColor } from "./utils";
 import { useParams } from "react-router-dom";
@@ -30,7 +30,7 @@ export const VitalsHealthBar = ({ list }: Props) => {
     return barHealth;
   }, [list]);
 
-  if (!list || list.length === 0) {
+  if (isEmpty(list)) {
     return null;
   }
 

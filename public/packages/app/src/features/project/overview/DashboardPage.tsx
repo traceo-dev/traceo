@@ -4,7 +4,7 @@ import { DashboardToolbar } from "./components/Toolbars/DashboardToolbar";
 import { DashboardGridLayout, GridLayout } from "./components/DashboardGrid/DashboardGridLayout";
 import styled from "styled-components";
 import api from "../../../core/lib/api";
-import { DashboardPanel, MemberRole, TimeRange } from "@traceo/types";
+import { DashboardPanel, MemberRole, TimeRange, isEmpty } from "@traceo/types";
 import { useTimeRange } from "../../../core/hooks/useTimeRange";
 import dayjs from "dayjs";
 import { PageCenter } from "../../../core/components/PageCenter";
@@ -21,7 +21,7 @@ import { PanelProps } from "./components/Panels/types";
 import { ProjectDashboardViewType } from "../../../core/types/hoc";
 import withDashboard from "../../../core/hooks/withDashboard";
 import { Portal } from "../../../core/components/Portal";
-import { areArraysEqual } from "../../../core/utils/arrays";
+import { areArraysOfObjectsEqual } from "../../../core/utils/arrays";
 import dateUtils from "../../../core/utils/date";
 import { Permissions } from "../../../core/components/Permissions";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +47,7 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
 
   const navigate = useNavigate();
 
-  const showTimepicker = dashboard && dashboard.panels?.length !== 0 && dashboard.isTimePicker;
+  const showTimepicker = !isEmpty(dashboard.panels) && dashboard.isTimePicker;
   const isMaintainer = [MemberRole.ADMINISTRATOR, MemberRole.MAINTAINER].includes(permission);
   const isEditable = dashboard && dashboard.isEditable && isMaintainer;
 
@@ -57,7 +57,7 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
   });
 
   const generateLayout = () => {
-    if (!dashboard || dashboard.panels?.length === 0) {
+    if (isEmpty(dashboard.panels)) {
       return [];
     }
 
@@ -82,7 +82,10 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
     }));
 
     // Update latout position only when there are changes
-    const isLayoutToUpdate = areArraysEqual(positions, mapPanelGridPosition(dashboard.panels));
+    const isLayoutToUpdate = areArraysOfObjectsEqual(
+      positions,
+      mapPanelGridPosition(dashboard.panels)
+    );
     if (!isLayoutToUpdate) {
       // TODO: send only changed positions
       await api
@@ -111,6 +114,7 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
     const props: PanelProps = {
       isEditable,
       isRemoveMode,
+      isHoverOptions: true,
       panel,
       ranges,
       height: plotHeight,
@@ -136,10 +140,8 @@ const DashboardPage = ({ permission, dashboard, project }: ProjectDashboardViewT
     });
   };
 
-  const hasPanels = dashboard && dashboard.panels?.length === 0;
-
   const renderContent = () => {
-    if (hasPanels) {
+    if (isEmpty(dashboard.panels)) {
       return (
         <PageCenter>
           <Col className="text-center gap-y-9 leading-3">

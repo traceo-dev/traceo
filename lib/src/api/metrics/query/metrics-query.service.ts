@@ -2,21 +2,25 @@ import { Injectable, Logger } from "@nestjs/common";
 import { INTERNAL_SERVER_ERROR } from "../../../common/helpers/constants";
 import { ExploreMetricsQueryDto, MetricPanelDatasourceQueryDto } from "../../../common/types/dto/metrics.dto";
 import { ApiResponse } from "../../../common/types/dto/response.dto";
-import { VISUALIZATION_TYPE, PlotData } from "@traceo/types";
+import { VISUALIZATION_TYPE, PlotData, isEmpty } from "@traceo/types";
 import { EntityManager } from "typeorm";
 import { ClickhouseService } from "../../../common/services/clickhouse/clickhouse.service";
 import { calculateInterval } from "../../../common/helpers/interval";
 import { DashboardPanel } from "../../../db/entities/dashboard-panel.entity";
-import { EventQueryService } from "../../../api/event/query/event-query.service";
 
 // Interval for histogram shouldn't be changed due to time range
 const HISTOGRAM_INTERVAL = 15; //seconds
 
 export type AggregateTimeSeries = { minute: number; value: number }[];
 
-export type MetricPreviewType = {
+export type DatasourceType = {
   datasource: PlotData;
 };
+
+enum BASIC_DATASOURCES {
+  RANDOM = "random_datasource",
+  EVENTS = "events_overview"
+}
 
 @Injectable()
 export class MetricsQueryService {
@@ -24,75 +28,45 @@ export class MetricsQueryService {
 
   constructor(
     private readonly entityManager: EntityManager,
-    private readonly eventService: EventQueryService,
     private readonly clickhouseService: ClickhouseService
   ) {
     this.logger = new Logger(MetricsQueryService.name);
   }
 
-  public async getMetricsExploreGraph(
+  public async getExploreGraphDatasource(
     projectId: string,
     query: ExploreMetricsQueryDto
-  ): Promise<ApiResponse<MetricPreviewType>> {
-    const { fields } = query;
-
-    if (!fields || fields.length === 0) {
-      return new ApiResponse("success", undefined, {
-        datasource: []
-      });
-    }
-
-    try {
-      const response = await this.mapAggregateDataSource(projectId, query);
-      return new ApiResponse("success", undefined, {
-        datasource: response
-      });
-    } catch (error) {
-      this.logger.error(`[${this.getMetricsExploreGraph.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
-    }
+  ): Promise<ApiResponse<DatasourceType>> {
+    return await this.getPanelGraphDatasource(projectId, {
+      ...query,
+      tz: undefined,
+      panelId: undefined,
+      visualization: VISUALIZATION_TYPE.TIME_SERIES
+    });
   }
 
-  public async getMetricGraph(projectId: string, panelId: string, { from, to }: MetricPanelDatasourceQueryDto): Promise<ApiResponse<MetricPreviewType>> {
-    if (!panelId) {
-      throw new Error("Panel ID is required!");
-    }
+  public async getPanelGraphDatasource(projectId: string, query: MetricPanelDatasourceQueryDto): Promise<ApiResponse<DatasourceType>> {
+    let datasourceFields: string[] = query.fields;
+    const visualization = query.visualization;
 
     try {
-      const panel = await this.entityManager.getRepository(DashboardPanel).findOneBy({
-        id: panelId
-      });
-
-      if (!panel) {
-        return;
-      }
-
-      const series = panel.config.series;
-      const visualization = panel.config.visualization;
-
-      const datasource = await this.mapAggregateDataSource(projectId, {
-        from,
-        to,
-        fields: series.map((e) => e.datasource.field),
-        interval: 1,
-        valueMax: undefined,
-        valueMin: undefined,
+      const datasource = await this.queryDatasource(projectId, {
+        ...query,
+        fields: datasourceFields,
         isHistogram: visualization === VISUALIZATION_TYPE.HISTOGRAM
       });
 
       return new ApiResponse("success", undefined, {
-        options: panel,
         datasource
       });
     } catch (err) {
-      this.logger.error(`[${this.getMetricGraph.name}] Caused by: ${err}`);
+      this.logger.error(`[${this.getPanelGraphDatasource.name}] Caused by: ${err}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }
 
-  private async mapAggregateDataSource(projectId: string, query: ExploreMetricsQueryDto) {
+  private async queryDatasource(projectId: string, query: ExploreMetricsQueryDto) {
     const series = [];
-    let time = [];
 
     const interval = query.isHistogram
       ? HISTOGRAM_INTERVAL
@@ -101,60 +75,61 @@ export class MetricsQueryService {
         to: query.to
       });
 
+    /**
+     * Generating basic timestamp series for x-axis
+     */
+    const generatedTimestamp = await this.clickhouseService.createTimestampSerie(query, interval);
+    const time = generatedTimestamp[0].timestamps ?? [];
+
     for (const field of query.fields) {
-      const aggregatedMetric = await this.clickhouseService.aggregateMetrics(
-        projectId,
-        field,
-        query,
-        interval
-      );
-      if (time.length === 0) {
-        time = aggregatedMetric.map(({ minute }) => minute);
-      }
-
-      /**
-       * TODO: Rewrite this for new clickhouse version and use internal randXXX functions 
-       * to generate values between 0 and 999.
-       * 
-       * Right now it generate 12-digits values, so we substring just first 4 digits.
-       * Create also function to generate just timestamp interval.
-       */
-
-      if (field === "random_datasource") {
-        const random = await this.clickhouseService.randomValues(time.length);
-        const datasource = random.map(({ value }) => Number(String(value).substring(0, 3)));
-        series.push(datasource);
-      } else {
-        const serie = aggregatedMetric.map(({ value }) => value);
-        series.push(serie);
+      switch (field) {
+        case BASIC_DATASOURCES.EVENTS:
+          const eventsGraph = await this.clickhouseService.loadProjectEventsGraph(projectId, { ...query, interval });
+          series.push(eventsGraph[0].events_count ?? []);
+          break;
+        case BASIC_DATASOURCES.RANDOM:
+          const randomGraph = await this.clickhouseService.randomValues(time.length ?? 0);
+          series.push(randomGraph[0].random ?? []);
+          break;
+        default:
+          const metrics = await this.clickhouseService.queryAggregatedMetrics(projectId, field, { ...query, interval });
+          series.push(metrics[0].metric_value);
+          break;
       }
     }
 
     return [time, ...series];
   }
 
-  public async getMetricFields(projectId: string): Promise<ApiResponse<any>> {
+  public async getDatasourceFields(projectId: string): Promise<ApiResponse<any>> {
+    let availableFields: { value: string, label: string }[] = [];
+
     try {
       const services = await this.clickhouseService.loadMetricsFields(projectId);
-      const response = services.map((e) => ({
+      availableFields = services.map((e) => ({
         value: e["name"],
         label: e["name"]
       }));
-
-      // Pushing random serie to visualization tests
-      response.push({
-        label: "random_datasource",
-        value: "random_datasource"
-      });
-
-      return new ApiResponse("success", undefined, response);
-    } catch (error) {
-      this.logger.error(`[${this.getMetricFields.name}] Caused by: ${error}`);
-      return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
+    } catch (err) {
+      this.logger.error(`[${this.getDatasourceFields.name}] Caused by: ${err}`);
     }
+
+    // Overview for events received by system
+    availableFields.push({
+      label: BASIC_DATASOURCES.EVENTS,
+      value: BASIC_DATASOURCES.EVENTS
+    })
+
+    // Random serie to visualization tests
+    availableFields.push({
+      label: BASIC_DATASOURCES.RANDOM,
+      value: BASIC_DATASOURCES.RANDOM
+    });
+
+    return new ApiResponse("success", undefined, availableFields);
   }
 
-  public async getMetricRawData(
+  public async getPanelRawDataDatasource(
     projectId: string,
     query: ExploreMetricsQueryDto
   ): Promise<ApiResponse<any>> {
@@ -169,7 +144,7 @@ export class MetricsQueryService {
         fields = metric.config.series.map((e) => e.datasource.field);
       }
 
-      if (fields.length === 0) {
+      if (isEmpty(fields)) {
         return new ApiResponse("success", undefined, []);
       }
 
@@ -180,18 +155,13 @@ export class MetricsQueryService {
           to: query.to
         });
 
-      const response = await this.clickhouseService.rawDataMetrics(
-        projectId,
-        {
-          ...query,
-          fields
-        },
-        interval
-      );
+      const response = await this.clickhouseService.rawDataMetrics(projectId, {
+        ...query, fields
+      }, interval);
 
       return new ApiResponse("success", undefined, response);
     } catch (error) {
-      this.logger.error(`[${this.getMetricRawData.name}] Caused by: ${error}`);
+      this.logger.error(`[${this.getPanelRawDataDatasource.name}] Caused by: ${error}`);
       return new ApiResponse("error", INTERNAL_SERVER_ERROR, []);
     }
   }

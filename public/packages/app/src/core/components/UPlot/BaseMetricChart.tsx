@@ -31,28 +31,30 @@ const buildSeries = (builder: UPlotConfigBuilder, panel: DeepPartial<DashboardPa
   const config = panel.config;
   const visualization = config.visualization;
 
-  if (series && series.length > 0) {
-    for (const serie of series) {
-      const isHistogram = visualization === VISUALIZATION_TYPE.HISTOGRAM;
-      const chartType = isHistogram ? PLOT_TYPE.BAR : (serie.config.type as PLOT_TYPE);
-      const isArea = serie.config.area.show;
-      const areaOpacity = serie.config.area.opacity;
-
-      builder.addSerie({
-        type: chartType,
-        stroke: serie.config.color,
-        width: serie.config.lineWidth,
-        fill: calculateOpacity(serie.config.color, isArea ? areaOpacity : 0),
-        points: {
-          show: config.line.marker.show
-        },
-        bar: {
-          width: serie.config.barWidth,
-          align: isHistogram ? 1 : 0
-        },
-        label: serie.datasource.field
-      });
+  for (const serie of series) {
+    if (!serie.datasource.field) {
+      continue;
     }
+
+    const isHistogram = visualization === VISUALIZATION_TYPE.HISTOGRAM;
+    const chartType = isHistogram ? PLOT_TYPE.BAR : (serie.config.type as PLOT_TYPE);
+    const isArea = serie.config.area.show;
+    const areaOpacity = serie.config.area.opacity;
+
+    builder.addSerie({
+      type: chartType,
+      stroke: serie.config.color,
+      width: serie.config.lineWidth,
+      fill: calculateOpacity(serie.config.color, isArea ? areaOpacity : 0),
+      points: {
+        show: config.line.marker.show
+      },
+      bar: {
+        width: serie.config.barWidth,
+        align: isHistogram ? 1 : 0
+      },
+      label: serie.datasource.field
+    });
   }
 };
 
@@ -86,6 +88,8 @@ export const BaseMetricChart = ({
     const plotHeight = !showLegend ? height + 30 : height;
 
     const builder = new UPlotConfigBuilder();
+
+    // Create series objects for builder
     buildSeries(builder, panel);
 
     return builder

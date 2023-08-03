@@ -8,10 +8,7 @@ import { ClickhouseService } from "../../../common/services/clickhouse/clickhous
 import { BadRequestError } from "../../../common/helpers/errors";
 import { ProjectQueryService } from "../../../api/project/project-query/project-query.service";
 import dateUtils from "../../../common/helpers/dateUtils";
-
-type GraphResponse = {
-  graph: UplotDataType;
-};
+import { ExploreMetricsQueryDto } from "../../../common/types/dto/metrics.dto";
 
 @Injectable()
 export class EventQueryService {
@@ -76,59 +73,55 @@ export class EventQueryService {
 
   // project analytics
 
-  public async getTodayEventsGraph(projectId: string) {
-    const from = dayjs().startOf("day").unix();
-    const to = dayjs().endOf("day").add(1, "h").unix();
+  // public async getTodayEventsGraph(projectId: string) {
+  //   const from = dayjs().startOf("day").unix();
+  //   const to = dayjs().endOf("day").add(1, "h").unix();
 
+  //   try {
+  //     return await this.getProjectGraphPayload(projectId, from, to);
+  //   } catch (error) {
+  //     this.logger.error(`[${this.getTodayEventsGraph.name}] Caused by: ${error}`);
+  //     throw new BadRequestError(error);
+  //   }
+  // }
+
+  // public async getTodayEventsCount(projectId: string) {
+  //   try {
+  //     return await this.clickhouse.loadTodayEventsCount(projectId);
+  //   } catch (error) {
+  //     this.logger.error(`[${this.getTodayEventsCount.name}] Caused by: ${error}`);
+  //     throw new BadRequestError(error);
+  //   }
+  // }
+
+  public async getTotalOverviewGraph(query: ExploreMetricsQueryDto, projectId: string, interval: number) {
     try {
-      return await this.getProjectGraphPayload(projectId, from, to);
-    } catch (error) {
-      this.logger.error(`[${this.getTodayEventsGraph.name}] Caused by: ${error}`);
-      throw new BadRequestError(error);
-    }
-  }
-
-  public async getTodayEventsCount(projectId: string) {
-    try {
-      return await this.clickhouse.loadTodayEventsCount(projectId);
-    } catch (error) {
-      this.logger.error(`[${this.getTodayEventsCount.name}] Caused by: ${error}`);
-      throw new BadRequestError(error);
-    }
-  }
-
-  public async getTotalOverviewGraph(projectId: string) {
-    const from = dayjs().subtract(1, "months").unix();
-    const to = dayjs().add(12, "h").utc().unix();
-
-    const INTERVAL = 60 * 24; //24h
-
-    try {
-      return await this.getProjectGraphPayload(projectId, from, to, INTERVAL);
+      const eventsGraph = await this.clickhouse.loadProjectEventsGraph(projectId, { ...query, interval });
+      return eventsGraph[0].events_count;
     } catch (error) {
       this.logger.error(`[${this.getTotalOverviewGraph.name}] Caused by: ${error}`);
       throw new BadRequestError(error);
     }
   }
 
-  public async getLastEventTimestamp(projectId: string) {
-    const NO_TIMESTAMP = "--:--";
-    try {
-      const project = await this.projectQuery.getDto(projectId);
-      const lastEventTimestamp = project.lastEventAt;
+  // public async getLastEventTimestamp(projectId: string) {
+  //   const NO_TIMESTAMP = "--:--";
+  //   try {
+  //     const project = await this.projectQuery.getDto(projectId);
+  //     const lastEventTimestamp = project.lastEventAt;
 
-      if (!lastEventTimestamp) {
-        return NO_TIMESTAMP;
-      }
+  //     if (!lastEventTimestamp) {
+  //       return NO_TIMESTAMP;
+  //     }
 
-      return dayjs.unix(lastEventTimestamp).utc().isToday()
-        ? dateUtils.formatDate(lastEventTimestamp, "HH:mm")
-        : NO_TIMESTAMP;
-    } catch (error) {
-      this.logger.error(`[${this.getLastEventTimestamp.name}] Caused by: ${error}`);
-      throw new BadRequestError(error);
-    }
-  }
+  //     return dayjs.unix(lastEventTimestamp).utc().isToday()
+  //       ? dateUtils.formatDate(lastEventTimestamp, "HH:mm")
+  //       : NO_TIMESTAMP;
+  //   } catch (error) {
+  //     this.logger.error(`[${this.getLastEventTimestamp.name}] Caused by: ${error}`);
+  //     throw new BadRequestError(error);
+  //   }
+  // }
 
   // helpers
 
@@ -146,24 +139,6 @@ export class EventQueryService {
 
     const time = events.map((e) => e.time);
     const count = events.map((e) => e.count);
-
-    return [time, count];
-  }
-
-  private async getProjectGraphPayload(
-    projectId: string,
-    from: number,
-    to: number,
-    interval = 60
-  ) {
-    const eventsGraph = await this.clickhouse.loadProjectEventsGraph(projectId, {
-      from,
-      to,
-      interval
-    });
-
-    const time = eventsGraph.map((e) => e.time);
-    const count = eventsGraph.map((e) => e.count);
 
     return [time, count];
   }

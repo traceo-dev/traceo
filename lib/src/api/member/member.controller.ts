@@ -26,7 +26,7 @@ export class MemberController {
   constructor(
     private readonly amrService: MemberService,
     private readonly amrQueryService: MemberQueryService
-  ) {}
+  ) { }
 
   @Get("/permission")
   async getPermission(@Query("id") id: string): Promise<ApiResponse<IProjectResponse>> {
@@ -57,6 +57,13 @@ export class MemberController {
   @Patch()
   public async updateMember(@Body() body: UpdateMemberDto): Promise<ApiResponse<unknown>> {
     return await this.amrService.updateMember(body);
+  }
+
+  @Delete('/leave')
+  public async leaveProject(
+    @Query("id") id: string
+  ): Promise<ApiResponse<unknown>> {
+    return await this.amrService.leaveProject(id);
   }
 
   @Delete()

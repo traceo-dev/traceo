@@ -1,4 +1,4 @@
-import { ILog } from "@traceo/types";
+import { ILog, isEmpty } from "@traceo/types";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
 import { DataNotFound } from "../../../../core/components/DataNotFound";
 import { TableLazyLoader } from "../../../../core/components/TableLazyLoader";
@@ -26,7 +26,7 @@ export const LogsList = forwardRef<any, ListProps>(
     return (
       <ConditionalWrapper
         emptyView={<DataNotFound label="Logs not found" />}
-        isEmpty={logs?.length === 0}
+        isEmpty={isEmpty(logs)}
       >
         <TableLazyLoader ref={ref} onScrollBottom={onScroll} nextSkip={logs?.length}>
           <LogsTable>

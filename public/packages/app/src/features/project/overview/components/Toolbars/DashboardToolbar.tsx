@@ -1,4 +1,4 @@
-import { Dashboard, MemberRole, Setter, TimeRange } from "@traceo/types";
+import { Dashboard, MemberRole, Setter, TimeRange, isEmpty } from "@traceo/types";
 import { Row, TimeRangePicker } from "@traceo/ui";
 import { PlusOutlined, SettingOutlined, LockOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../../../../../store/index";
@@ -30,7 +30,7 @@ export const DashboardToolbar = ({
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const hasPanels = dashboard && dashboard.panels?.length > 0;
+  const hasPanels = !isEmpty(dashboard.panels);
 
   const onEditDashboard = () => {
     navigate({

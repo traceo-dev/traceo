@@ -29,26 +29,38 @@ export class MetricQueryDto {
 }
 
 export class MetricPanelDatasourceQueryDto {
+  @IsString()
+  @IsOptional()
+  panelId: string;
+
   @IsNotEmpty()
   from: number;
 
   @IsNotEmpty()
   to: number;
 
+  // timezone
   @IsNotEmpty()
   @IsString()
   tz: string;
+
+  @IsArray()
+  @IsOptional()
+  fields: string[] = [];
+
+  @IsEnum(VISUALIZATION_TYPE)
+  visualization: VISUALIZATION_TYPE = VISUALIZATION_TYPE.TIME_SERIES;
 }
 
 export class ExploreMetricsQueryDto extends MetricQueryDto {
   @IsOptional()
-  valueMax?: number;
+  valueMax?: number = undefined;
 
   @IsOptional()
-  valueMin?: number;
+  valueMin?: number = undefined;
 
   @IsOptional()
-  interval = 1;
+  interval?: number = 1;
 
   isHistogram = false;
 }

@@ -5,7 +5,7 @@ import { AddToProjectModal } from "../../../../core/components/Modals/AddToProje
 import { membersAction } from "../../../../core/lib/api/members";
 import { ADMIN_EMAIL } from "../../../../core/utils/constants";
 import { StoreState } from "../../../../store/types";
-import { ProjectMember, MemberProject, MemberRole } from "@traceo/types";
+import { ProjectMember, MemberProject, MemberRole, isEmpty } from "@traceo/types";
 import { Button, Card, Space, Table, TableColumn, Avatar, Select } from "@traceo/ui";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -55,7 +55,7 @@ export const UserApplications = () => {
       >
         <ConditionalWrapper
           emptyView={<DataNotFound label="No projects found" />}
-          isEmpty={projects?.length === 0}
+          isEmpty={isEmpty(projects)}
           isLoading={isLoading}
         >
           <Table collection={projects} striped>

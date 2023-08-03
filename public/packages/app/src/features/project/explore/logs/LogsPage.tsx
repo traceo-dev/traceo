@@ -1,4 +1,4 @@
-import { ILog, LogsQueryProps, TimeRange, UplotDataType } from "@traceo/types";
+import { ILog, LogsQueryProps, TimeRange, UplotDataType, isEmpty } from "@traceo/types";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ConditionalWrapper } from "../../../../core/components/ConditionLayout";
@@ -162,7 +162,7 @@ export const LogsPage = forwardRef(
           scrollableBody={false}
         >
           <ConditionalWrapper
-            isLoading={graph && graph[0].length === 0 && graphLoading}
+            isLoading={isEmpty(graph[0]) && graphLoading}
             isEmpty={!graph || (graph && graph[0].length <= 1)}
             emptyView={<DataNotFound label="No results for graph" />}
           >

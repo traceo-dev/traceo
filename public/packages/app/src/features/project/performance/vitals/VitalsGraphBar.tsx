@@ -1,5 +1,5 @@
 import { LoadingOutlined } from "@ant-design/icons";
-import { VitalsEnum, Performance } from "@traceo/types";
+import { VitalsEnum, Performance, isEmpty } from "@traceo/types";
 import { useMemo } from "react";
 import { mapHealthToIcon } from "./types";
 import {
@@ -26,7 +26,7 @@ export const VitalsGraphBar = ({ name, performances }: Props) => {
     return vitalsFormatter(name, percentil);
   }, [performances]);
 
-  if (!performances || performances.length === 0) {
+  if (isEmpty(performances)) {
     return null;
   }
 
