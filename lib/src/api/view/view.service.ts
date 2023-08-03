@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { ApiResponse } from "../../common/types/dto/response.dto";
 import { EnvType, ViewConfigData } from "@traceo/types";
 import { EntityManager } from "typeorm";
-import { SESSION_NAME } from "../../common/helpers/constants";
+import { SESSION_NAME, VERSION } from "../../common/helpers/constants";
 import { Session } from "../../db/entities/session.entity";
 import { UserQueryService } from "../user/user-query/user-query.service";
 import { Request } from "express";
@@ -33,6 +33,7 @@ export class ViewService {
 
     settings.env = process.env.NODE_ENV as EnvType;
     settings.demoMode = isDemo;
+    settings.version = VERSION;
 
     return new ApiResponse("success", undefined, settings);
   }

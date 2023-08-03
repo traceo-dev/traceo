@@ -13,14 +13,12 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateAplication } from "../state/project/actions";
 import { BaseProjectViewType } from "../../../core/types/hoc";
-import { useUser } from "src/core/hooks/useUser";
 
 export const SettingsDetailsPage = ({ project, permission }: BaseProjectViewType) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const isDemo = useDemo();
-  const { isAdmin } = useUser();
   const ref = useRef<HTMLInputElement>();
 
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);

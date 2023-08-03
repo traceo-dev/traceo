@@ -10,7 +10,7 @@ import api from "../../../../../core/lib/api";
 import { ApiResponse, VISUALIZATION_TYPE, isEmpty } from "@traceo/types";
 import dateUtils from "../../../../../core/utils/date";
 import { conditionClass, joinClasses } from "@traceo/ui";
-import { areArraysEqual } from "src/core/utils/arrays";
+import { areArraysEqual } from "../../../../../core/utils/arrays";
 
 export interface State {
   data: QueryResponseType;
