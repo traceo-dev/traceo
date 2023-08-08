@@ -72,7 +72,7 @@ export const StacktraceSection = () => {
               panelKey={String(index)}
               header={
                 <span>
-                  {trace.filename} {trace.lineNo}:{trace.columnNo}
+                  {trace.absPath} at {trace.function} in line {trace.lineNo}
                 </span>
               }
               startIcon={
@@ -104,9 +104,11 @@ export const StacktraceSection = () => {
                   <FieldLabel label="Line No.">
                     <span className="text-link text-sm">{trace?.lineNo}</span>
                   </FieldLabel>
-                  <FieldLabel label="Column No.">
-                    <span className="text-link text-sm">{trace?.columnNo}</span>
-                  </FieldLabel>
+                  {trace?.columnNo !== 0 && (
+                    <FieldLabel label="Column No.">
+                      <span className="text-link text-sm">{trace?.columnNo}</span>
+                    </FieldLabel>
+                  )}
                 </Row>
                 {trace.code && <CodePreview trace={trace} />}
               </div>
