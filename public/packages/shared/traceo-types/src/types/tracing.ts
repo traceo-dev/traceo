@@ -1,3 +1,5 @@
+import { Dictionary } from "../../../../../../../traceo-node/packages/browser/dist";
+
 export type Span = {
   id: string;
   trace_id: string;
@@ -32,3 +34,24 @@ export type Span = {
 export type TreeSpan = Span & {
   childrens: TreeSpan[];
 };
+
+export type TraceoSpan = {
+  name: string;
+  kind: string;
+  status: string;
+  statusMessage: string;
+  traceId: string;
+  spanId: string;
+  parentSpanId: string;
+  serviceName: string;
+  startEpochNanos: number;
+  endEpochNanos: number;
+  attributes: Dictionary<String>;
+  events: TraceoSpanEvent[];
+}
+
+export type TraceoSpanEvent = {
+  name: string;
+  epochNanos: number;
+  attributes: Dictionary<string>;
+}

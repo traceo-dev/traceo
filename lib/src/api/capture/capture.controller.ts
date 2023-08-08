@@ -5,7 +5,9 @@ import {
   IncidentEventPayload,
   Dictionary,
   BrowserPerfsPayloadEvent,
-  MetricData
+  MetricData,
+  TraceoMetric,
+  TraceoSpan
 } from "@traceo/types";
 import { Request } from "express";
 import { ApiResponse } from "../../common/types/dto/response.dto";
@@ -52,7 +54,7 @@ export class CaptureController {
 
   @Post("/metrics")
   async handleMetrics(
-    @Body() data: MetricData[],
+    @Body() data: TraceoMetric[],
     @Headers() headers: Dictionary<string>,
     @Req() req: Request
   ): Promise<ApiResponse<string> | undefined | void> {
@@ -69,7 +71,7 @@ export class CaptureController {
 
   @Post("/traces")
   async handleTracing(
-    @Body() body: MetricData[],
+    @Body() body: TraceoSpan[],
     @Headers() headers: Dictionary<string>,
     @Req() req: Request
   ): Promise<ApiResponse<string> | undefined | void> {

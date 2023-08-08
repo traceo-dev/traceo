@@ -94,3 +94,10 @@ export enum STACK_STRATEGY {
   POSITIVE = "positive",
   NEGATIVE = "negative"
 }
+
+export type TraceoMetric = {
+  name: string;
+  type: string;
+  value: number;
+  unixTimestamp: number;
+}

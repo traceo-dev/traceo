@@ -1,5 +1,5 @@
 import { Core, RelayEventType } from "../types";
-import { MetricData } from "@traceo/types";
+import { MetricData, TraceoMetric } from "@traceo/types";
 import { Logger } from "../logger";
 
 export const handleMetricsEvent = async (core: Core, message: string): Promise<any> => {
@@ -7,7 +7,7 @@ export const handleMetricsEvent = async (core: Core, message: string): Promise<a
     const db = core.db;
 
     try {
-        const metrics = JSON.parse(message) as RelayEventType<MetricData[]>;
+        const metrics = JSON.parse(message) as RelayEventType<TraceoMetric[]>;
 
         const payload = metrics.payload;
         const project_id = metrics.projectId;
