@@ -230,28 +230,24 @@ export class DatabaseService {
         const now = dayjs().unix();
 
         const spans = payload.map((span) => {
-             // nanos eq. 1691525415017000000
-            const statrtEpochMillis = Number(BigInt(span.startEpochNanos) / BigInt(1000000));
-            const endEpochMillis = Number(BigInt(span.endEpochNanos) / BigInt(1000000));
-            
-            const duration = (endEpochMillis - statrtEpochMillis) * 1000;
-            const span_duration = Number(duration.toFixed(3));
+            const start_time = span.startEpochNanos;
+            const end_time = span.endEpochNanos;
+            const duration = (end_time - start_time) * 1000;
 
             return {
                 id: randomUUID(),
                 name: span.name,
                 kind: span.kind,
-                status: span.status,
                 status_message: span.statusMessage,
                 trace_id: span.traceId,
                 span_id: span.spanId,
                 parent_span_id: span?.parentSpanId,
-                attributes: span.attributes,
-                events: span.events,
-                service_name: span.serviceName,
-                duration: span_duration,
-                start_time: statrtEpochMillis,
-                end_time: endEpochMillis,
+                attributes: JSON.stringify(span.attributes),
+                events: JSON.stringify(span.events),
+                service_name: span.serviceName ?? "unknown",
+                duration,
+                start_time,
+                end_time,
                 receive_timestamp: now,
                 project_id
             };

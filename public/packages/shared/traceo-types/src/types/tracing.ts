@@ -1,4 +1,4 @@
-import { Dictionary } from "../../../../../../../traceo-node/packages/browser/dist";
+import { Dictionary } from ".";
 
 export type Span = {
   id: string;

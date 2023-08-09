@@ -95,7 +95,7 @@ export const CREATE_TRACING_TABLE = `
         end_time Float64,
         duration Float64,
         receive_timestamp DateTime,
-        kind UInt128,
+        kind String,
         attributes String,
         events String,
         project_id String
