@@ -18,7 +18,7 @@ import {
 import { useEffect, useState } from "react";
 import { ChooseElementGrid } from "../../core/components/ChooseElementGrid";
 import { resetProjectState } from "../project/state/project/reducers";
-import { AppstoreAddOutlined } from "@ant-design/icons";
+import { AppstoreAddOutlined, BarChartOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
 type CreateAppPayload = {
@@ -29,14 +29,14 @@ type CreateAppPayload = {
 
 const technologyOptions: SelectOptionProps[] = [
   {
+    label: "Java",
+    value: SDK.JAVA,
+    icon: <img src={`/img/svg/${SDK.JAVA}.svg`} width="40" />
+  },
+  {
     label: "NodeJS",
     value: SDK.NODE,
     icon: <img src={`/img/svg/${SDK.NODE}.svg`} width="30" />
-  },
-  {
-    label: "NestJS",
-    value: SDK.NESTJS,
-    icon: <img src={`/img/svg/${SDK.NESTJS}.svg`} width="40" />
   },
   {
     label: "React",
@@ -58,7 +58,7 @@ const CreateProjectPage = () => {
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
-  const [selectedPlatform, setSelectedPlatform] = useState<SDK>(SDK.NODE);
+  const [selectedPlatform, setSelectedPlatform] = useState<SDK>(SDK.JAVA);
 
   useEffect(() => {
     dispatch(resetProjectState());

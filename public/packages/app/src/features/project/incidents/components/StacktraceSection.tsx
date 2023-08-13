@@ -42,12 +42,7 @@ export const StacktraceSection = () => {
 
   return (
     <Card title="Stack Trace" className="h-auto">
-      <Alert
-        title={<span className="text-white">{incident.name}</span>}
-        message={incident.message}
-        type="error"
-      />
-      <div className="w-full py-9">
+      <div className="w-full pt-0 pb-5">
         <RadioButtonGroup
           className="float-right"
           size="sm"
@@ -71,9 +66,13 @@ export const StacktraceSection = () => {
             <CollapseItem
               panelKey={String(index)}
               header={
-                <span>
-                  {trace.absPath} at {trace.function} in line {trace.lineNo}
-                </span>
+                <div className="flex gap-x-2">
+                  <span>{trace.absPath}</span>
+                  <span className="text-secondary">at</span>
+                  <span>{trace.function}</span>
+                  <span className="text-secondary">in line</span>
+                  <span>{trace.lineNo}</span>
+                </div>
               }
               startIcon={
                 <Tooltip
