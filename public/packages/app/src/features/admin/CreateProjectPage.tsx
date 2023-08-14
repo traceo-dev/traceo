@@ -20,6 +20,7 @@ import { ChooseElementGrid } from "../../core/components/ChooseElementGrid";
 import { resetProjectState } from "../project/state/project/reducers";
 import { AppstoreAddOutlined, BarChartOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { SdkIcon } from "../../core/components/SdkIcon";
 
 type CreateAppPayload = {
   redirectUrl: string;
@@ -31,22 +32,22 @@ const technologyOptions: SelectOptionProps[] = [
   {
     label: "Java",
     value: SDK.JAVA,
-    icon: <img src={`/img/svg/${SDK.JAVA}.svg`} width="40" />
+    icon: <SdkIcon sdk={SDK.JAVA} width={40} />
   },
   {
     label: "NodeJS",
     value: SDK.NODE,
-    icon: <img src={`/img/svg/${SDK.NODE}.svg`} width="30" />
+    icon: <SdkIcon sdk={SDK.NODE} width={40} />
   },
   {
     label: "React",
     value: SDK.REACT,
-    icon: <img src={`/img/svg/${SDK.REACT}.svg`} width="40" />
+    icon: <SdkIcon sdk={SDK.REACT} width={40} />
   },
   {
     label: "Vue",
     value: SDK.VUE,
-    icon: <img src={`/img/svg/${SDK.VUE}.svg`} width="40" />
+    icon: <SdkIcon sdk={SDK.VUE} width={40} />
   }
 ];
 

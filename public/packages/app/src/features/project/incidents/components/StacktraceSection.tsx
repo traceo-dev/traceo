@@ -84,7 +84,7 @@ export const StacktraceSection = () => {
                 panelKey={String(index)}
                 header={
                   <div className="flex gap-x-2">
-                    <Truncate maxLength={100} leftTrim value={trace.filename} />
+                    <Truncate maxLength={70} leftTrim value={trace.filename} />
                     <span className="text-secondary">at</span>
                     <span>{trace.function}</span>
                     <span className="text-secondary">in line</span>

@@ -11,7 +11,7 @@ import { ApiResponse } from "../../common/types/dto/response.dto";
 import { MemberRole } from "@traceo/types";
 import { Project } from "../../db/entities/project.entity";
 import { User } from "../../db/entities/user.entity";
-import { RequestContext } from "src/common/middlewares/request-context/request-context.model";
+import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
 
 /**
  * Member is an user attached to project

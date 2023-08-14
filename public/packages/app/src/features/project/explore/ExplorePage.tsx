@@ -23,8 +23,8 @@ const exploreOptions: SelectOptionProps[] = [
     icon: <BarChartOutlined className="text-yellow-500" />
   },
   {
-    label: "Traces",
-    value: EXPLORE_TYPE.TRACING,
+    label: "Spans",
+    value: EXPLORE_TYPE.SPANS,
     icon: <NodeExpandOutlined className="text-yellow-500" />
   }
 ];
@@ -90,7 +90,7 @@ export const ExplorePageWrapper: FC = () => {
         return <LogsPage {...props} ref={ref} />;
       case EXPLORE_TYPE.METRICS:
         return <MetricsPage {...props} ref={ref} />;
-      case EXPLORE_TYPE.TRACING:
+      case EXPLORE_TYPE.SPANS:
         return <TracesPage {...props} ref={ref} />;
       default:
         break;
