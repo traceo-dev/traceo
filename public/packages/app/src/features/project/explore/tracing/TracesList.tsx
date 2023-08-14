@@ -1,7 +1,7 @@
 import { Setter, Span } from "@traceo/types";
 import { Table, TableColumn, Tooltip } from "@traceo/ui";
 import dateUtils from "../../../../core/utils/date";
-import { mapStatusName } from "./utils";
+import { parseDuration } from "./utils";
 
 interface Props {
   spans: Span[];
@@ -10,21 +10,6 @@ interface Props {
 }
 
 export const TracesList = ({ spans = [], loading = false, onSelectTrace = undefined }: Props) => {
-  const parseStatus = (span: Span) => {
-    if (!span?.status) {
-      return null;
-    }
-
-    if (!span?.status_message) {
-      return <span>{mapStatusName[span.status]}</span>;
-    }
-
-    return (
-      <Tooltip title={span?.status_message}>
-        <span>{mapStatusName[span.status]}</span>
-      </Tooltip>
-    );
-  };
   return (
     <Table collection={spans} loading={loading} emptyLabel="Traces not found">
       <TableColumn name="Trace ID">
@@ -39,7 +24,7 @@ export const TracesList = ({ spans = [], loading = false, onSelectTrace = undefi
       </TableColumn>
       <TableColumn name="Name" value="name" />
       <TableColumn name="Service" value="service_name" />
-      <TableColumn name="Status">{({ item }) => parseStatus(item)}</TableColumn>
+      <TableColumn name="Status" value="status" />
       <TableColumn name="Start time">
         {({ item }) => (
           <span className="whitespace-nowrap">
@@ -48,7 +33,7 @@ export const TracesList = ({ spans = [], loading = false, onSelectTrace = undefi
         )}
       </TableColumn>
       <TableColumn name="Duration">
-        {({ item }) => <span>{Number(item.duration).toFixed(2)}ms</span>}
+        {({ item }) => <span>{parseDuration(Number(item.duration))}</span>}
       </TableColumn>
     </Table>
   );

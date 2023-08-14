@@ -55,3 +55,17 @@ export type TraceoSpanEvent = {
   epochNanos: number;
   attributes: Dictionary<string>;
 }
+
+export enum TraceoSpanStatus {
+  Unset,
+  OK,
+  Error
+}
+
+export enum TraceoSpanKind {
+  INTERNAL,
+  SERVER,
+  PRODUCER,
+  CONSUMER,
+  CLIENT
+}

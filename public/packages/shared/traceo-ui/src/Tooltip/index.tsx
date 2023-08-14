@@ -21,14 +21,14 @@ export const Tooltip = forwardRef<any, TooltipProps>(
       );
 
     const overrideStyles = {
-      maxWidth: "250px",
+      // maxWidth: "250px",
       margin: "10px"
     };
 
     return (
       <div onMouseEnter={() => setVisible(true)} onMouseLeave={() => setVisible(false)}>
         <PopoverCore
-          className="bg-secondary rounded-sm px-2 z-50 shadow-2xl"
+          className="bg-secondary border border-light-secondary border-solid rounded-sm rounded px-2 py-1 z-50 shadow-2xl"
           ref={ref}
           visible={visible}
           content={tooltipTitle}

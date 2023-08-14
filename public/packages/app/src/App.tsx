@@ -69,11 +69,11 @@ export const App = () => {
         <PersistGate loading={null} persistor={persistedRedux}>
           <BrowserRouter>
             <ConfigsContextProvider>
-              <LiveContextProvider>
-                <QueryClientProvider client={queryClient}>
-                  <AppWrapper>{renderRoutes()}</AppWrapper>
-                </QueryClientProvider>
-              </LiveContextProvider>
+              {/* <LiveContextProvider> */}
+              <QueryClientProvider client={queryClient}>
+                <AppWrapper>{renderRoutes()}</AppWrapper>
+              </QueryClientProvider>
+              {/* </LiveContextProvider> */}
             </ConfigsContextProvider>
           </BrowserRouter>
         </PersistGate>

@@ -1,12 +1,6 @@
 import { Span, SpanKind, SpanStatusCode } from "@traceo/types";
 import dayjs from "dayjs";
 
-export const mapStatusName: Record<SpanStatusCode, string> = {
-  [SpanStatusCode.ERROR]: "Error",
-  [SpanStatusCode.OK]: "OK",
-  [SpanStatusCode.UNSET]: "Unset"
-};
-
 export const mapKindName: Record<SpanKind, string> = {
   [SpanKind.CLIENT]: "Client",
   [SpanKind.CONSUMER]: "Consumer",
@@ -26,4 +20,19 @@ export const prepareSpansToDownload = (spans: Span[]) => {
   }
 
   return spans;
+};
+
+export const parseDuration = (duration: number) => {
+  if (duration >= 1000) {
+    const seconds = duration / 1000;
+
+    if (seconds >= 60) {
+      const minutes = seconds / 60;
+      return `${minutes.toFixed(2)}min`;
+    }
+
+    return `${seconds.toFixed(2)}s`;
+  }
+
+  return `${duration.toFixed(2)}ms`;
 };

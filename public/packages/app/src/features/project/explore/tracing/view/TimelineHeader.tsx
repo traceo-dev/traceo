@@ -1,6 +1,7 @@
 import { Setter, Span } from "@traceo/types";
 import { Row } from "@traceo/ui";
 import { useRef } from "react";
+import { parseDuration } from "../utils";
 
 interface Props {
   root: Span;
@@ -70,10 +71,10 @@ export const TimelineHeader = ({
         className="z-90 px-1 bg-primary border-left justify-between text-[12px] select-none overflow-x-hidden"
       >
         <span>0ms</span>
-        <span>{(root.duration * 0.25).toFixed(2)}ms</span>
-        <span>{(root.duration * 0.5).toFixed(2)}ms</span>
-        <span>{(root.duration * 0.75).toFixed(2)}ms</span>
-        <span>{root.duration.toFixed(2)}ms</span>
+        <span>{parseDuration(root.duration * 0.25)}</span>
+        <span>{parseDuration(root.duration * 0.5)}</span>
+        <span>{parseDuration(root.duration * 0.75)}</span>
+        <span>{parseDuration(root.duration)}</span>
       </Row>
     </div>
   );

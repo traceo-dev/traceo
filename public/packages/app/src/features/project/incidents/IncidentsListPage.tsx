@@ -12,7 +12,7 @@ import {
 import { InputSearch, Select, Card, Row } from "@traceo/ui";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { AlertOutlined, SortAscendingOutlined, SortDescendingOutlined } from "@ant-design/icons";
+import { AlertOutlined, BugOutlined, SortAscendingOutlined, SortDescendingOutlined } from "@ant-design/icons";
 import { resetIncidentState } from "./state/slices/incident.slice";
 import { resetGroupedEvents } from "./state/slices/grouped-events.slice";
 import { useReactQuery } from "../../../core/hooks/useReactQuery";
@@ -73,7 +73,7 @@ export const IncidentsListPage = () => {
       header={{
         title: "Incidents",
         description: "List of incidents catched by Traceo SDK connected to your project",
-        icon: <AlertOutlined />
+        icon: <BugOutlined />
       }}
     >
       <Page.Content className="pt-1">

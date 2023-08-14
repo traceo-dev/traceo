@@ -16,7 +16,6 @@ export class RequestContextMiddleware implements NestMiddleware<Request, Respons
 
   async use(req: ExtendedRequest, res: Response, next: () => void) {
     const sessionID = req.cookies[SESSION_NAME];
-    console.log("session: ", sessionID);
     if (!sessionID) {
       throw new UnauthorizedException();
     } else {

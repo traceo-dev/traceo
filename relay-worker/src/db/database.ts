@@ -78,7 +78,14 @@ export class DatabaseService {
     }
 
     public async getIncident({ name, message, projectId }: { name: string, message: string, projectId: string }, client: PoolClient = this.client): Promise<IIncident | undefined> {
-        const result = await client.query<IIncident>(`SELECT * FROM incident WHERE name = $1 AND message = $2 AND project_id = $3`, [name, message, projectId]);
+        let sqlQuery = `SELECT * FROM incident WHERE name = '${name}' AND project_id = '${projectId}'`;
+
+        if (message) {
+            sqlQuery += `AND message = '${message}'`;
+        }
+        
+        const result = await client.query<IIncident>(sqlQuery);
+        // get only first incident
         return result.rows[0];
     }
 
@@ -238,6 +245,7 @@ export class DatabaseService {
                 id: randomUUID(),
                 name: span.name,
                 kind: span.kind,
+                status: span.status,
                 status_message: span.statusMessage,
                 trace_id: span.traceId,
                 span_id: span.spanId,
