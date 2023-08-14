@@ -57,8 +57,8 @@ The full Traceo platform documentation can be found [here](https://github.com/tr
 # SDK
 To start using the Traceo platform, you need to integrate with the [Traceo SDK](https://github.com/traceo-io/traceo-node). Information about the process of implementing the SDK in your software is included in the README file of each SDK.
 
-- [`traceo-sdk/java`](https://github.com/traceo-dev/traceo-java/tree/master/traceo-sdk) - Java
-- [`traceo-sdk/opentelemetry-java`](https://github.com/traceo-dev/traceo-java/tree/master/traceo-sdk-opentelemetry) - Open Telemetry for Java
+- [`traceo-sdk/java`]([https://github.com/traceo-dev/traceo-java/tree/master/traceo-sdk](https://github.com/traceo-dev/traceo-java/blob/master/traceo-sdk/README.md)) - Java
+- [`traceo-sdk/opentelemetry-java`]([https://github.com/traceo-dev/traceo-java/tree/master/traceo-sdk-opentelemetry](https://github.com/traceo-dev/traceo-java/blob/master/traceo-sdk-opentelemetry/README.md)) - Open Telemetry for Java
 - [`traceo-sdk/node`](https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/node) - NodeJS
 - [`traceo-sdk/opentelemetry-node`](https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/opentelemetry-node) - Open Telemetry for NodeJS
 - [`traceo-sdk/react`](https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/react) - React
