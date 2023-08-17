@@ -15,7 +15,7 @@ Gathering the information you need is done using the [Traceo SDK](https://github
 # Screenshots
 <p align="center">
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-incident.PNG" width="270">
-  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-dashboard.PNG" width="270">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-incidents-list.PNG" width="270">
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-dashboard-panel.PNG" width="270">
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-explore-metrics.PNG" width="270">
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf.PNG" width="270">
