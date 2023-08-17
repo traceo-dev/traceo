@@ -7,15 +7,11 @@ export const PlatformSection = () => {
 
   return (
     <Card title="Platform" className="h-auto">
-      <FieldLabel label="Platform">
-        <Typography>{incident?.platform?.platform}</Typography>
-      </FieldLabel>
-      <FieldLabel label="Arch">
-        <Typography>{incident?.platform?.arch}</Typography>
-      </FieldLabel>
-      <FieldLabel label="Release">
-        <Typography>{incident?.platform?.release}</Typography>
-      </FieldLabel>
+      {Object.entries(incident?.platform || {}).map(([key, value]) => (
+        <FieldLabel label={key}>
+          <Typography>{value}</Typography>
+        </FieldLabel>
+      ))}
     </Card>
   );
 };

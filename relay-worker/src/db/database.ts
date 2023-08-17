@@ -81,7 +81,8 @@ export class DatabaseService {
         let sqlQuery = `SELECT * FROM incident WHERE name = '${name}' AND project_id = '${projectId}'`;
 
         if (message) {
-            sqlQuery += `AND message = '${message}'`;
+            // $4 - help to avoid issues with escaping both single and double quotes
+            sqlQuery += ` AND message = $$${message}$$`;
         }
         
         const result = await client.query<IIncident>(sqlQuery);
@@ -135,7 +136,7 @@ export class DatabaseService {
             createdAt,
             now,
             project.id,
-            platform,
+            JSON.stringify(platform),
             0
         ]);
 

@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 import { User } from "./user.entity";
 import { Project } from "./project.entity";
 import { BaseEntity } from "../../common/base/base.entity";
-import { IIncident, IProject, Platform, SDK, Trace } from "@traceo/types";
+import { Dictionary, IIncident, IProject, Platform, SDK, Trace } from "@traceo/types";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",
@@ -80,7 +80,7 @@ export class Incident extends BaseEntity implements IIncident {
     type: "simple-json",
     nullable: true
   })
-  platform: Platform;
+  platform: Dictionary<string | number>;
 
   @Column({
     type: "simple-json",

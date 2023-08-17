@@ -109,8 +109,9 @@ export const SpanRow = ({
       )}
 
       {isShowedChildrens &&
-        childrens.map((child) => (
+        childrens.map((child, index) => (
           <SpanRow
+            key={index}
             left={left}
             right={right}
             root={root}
