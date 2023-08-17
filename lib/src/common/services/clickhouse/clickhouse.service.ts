@@ -355,7 +355,7 @@ export class ClickhouseService {
     }
 
     if (query?.traceKind) {
-      sqlQuery += `AND kind = ${query.traceKind} \n`;
+      sqlQuery += `AND kind = '${query.traceKind.toUpperCase()}' \n`;
     }
 
     if (query?.durationMax) {

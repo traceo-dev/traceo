@@ -5,6 +5,7 @@ import { SpanDetails } from "./SpanDetails";
 import { Span, TreeSpan, isEmpty } from "@traceo/types";
 import { DurationBar } from "./DurationBar";
 import styled from "styled-components";
+import { parseDuration } from "../utils";
 
 const SpanWrapper = styled.div`
   display: flex;
@@ -88,7 +89,7 @@ export const SpanRow = ({
               {span.service_name}
             </ServiceNameSpan>
             <span className="pl-2 text-xs text-gray-600">
-              {span.name} ({span.duration.toFixed(2)}ms)
+              {span.name} ({parseDuration(span.duration)})
             </span>
           </Row>
         </SpanRowInfo>
@@ -108,8 +109,9 @@ export const SpanRow = ({
       )}
 
       {isShowedChildrens &&
-        childrens.map((child) => (
+        childrens.map((child, index) => (
           <SpanRow
+            key={index}
             left={left}
             right={right}
             root={root}

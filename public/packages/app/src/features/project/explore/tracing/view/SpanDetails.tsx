@@ -4,6 +4,7 @@ import { Col, Row } from "@traceo/ui";
 import dayjs from "dayjs";
 import { FC, useMemo, useState } from "react";
 import { copyToClipboad } from "../../../../../core/utils/clipboard";
+import { parseDuration } from "../utils";
 
 interface DetailsRowProps {
   name: string;
@@ -68,6 +69,14 @@ export const SpanDetails = ({ span }: DetailsProps) => {
     return Object.keys(obj).length;
   };
 
+  const getDurationValue = () => {
+    if (span.duration < 1000) {
+      return parseDuration(span.duration);
+    }
+
+    return `${parseDuration(span.duration)} (${span.duration.toFixed(2)}ms)`;
+  };
+
   return (
     <Col>
       <DetailsWrapper>
@@ -81,6 +90,7 @@ export const SpanDetails = ({ span }: DetailsProps) => {
           copyable={!!span.parent_span_id}
         />
         <DetailRow name="Child count" value={span.childrens.length} />
+        <DetailRow name="Status" value={span.status} />
         <DetailRow
           name="Start time"
           value={`${dayjs.unix(span.start_time).format("YYYY-MM-DD HH:mm:ss:SSS")} (${
@@ -93,7 +103,7 @@ export const SpanDetails = ({ span }: DetailsProps) => {
             span.end_time
           })`}
         />
-        <DetailRow name="Duration" value={`${span.duration.toFixed(2)}ms`} />
+        <DetailRow name="Duration" value={getDurationValue()} />
       </DetailsWrapper>
 
       <ExpandSection name={`Attributes (${getFieldsCount(attributes)})`}>

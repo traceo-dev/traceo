@@ -1,10 +1,4 @@
-import {
-  BarChartOutlined,
-  LineChartOutlined,
-  CheckCircleFilled,
-  WarningFilled,
-  ThunderboltFilled
-} from "@ant-design/icons";
+import { CheckCircleFilled, WarningFilled, ThunderboltFilled } from "@ant-design/icons";
 import {
   ProjectMember,
   IncidentStatus,
@@ -22,6 +16,12 @@ export const assignOptions = (members: ProjectMember[]) =>
     value: member.userId,
     icon: <Avatar alt={member.name} src={member.gravatar} size="sm" className="mt-1" />
   }));
+
+export const mapIncidentRgbColor: Record<IncidentStatus, string> = {
+  [IncidentStatus.RESOLVED]: "rgb(34 197 94)",
+  [IncidentStatus.UNRESOLVED]: "rgb(239 68 68)",
+  [IncidentStatus.IN_PROGRESS]: "rgb(168 85 247)"
+};
 
 export const mapIncidentTwTextColor: Record<IncidentStatus, string> = {
   [IncidentStatus.RESOLVED]: "text-green-500",
@@ -73,14 +73,3 @@ export const sortOptions = Object.values(IncidentSortBy).map((sort) => ({
   label: mapIncidentSortName[sort],
   value: sort
 }));
-
-export const changeBarOptions = [
-  {
-    label: <BarChartOutlined />,
-    value: "bar"
-  },
-  {
-    label: <LineChartOutlined />,
-    value: "line"
-  }
-];

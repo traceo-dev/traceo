@@ -2,6 +2,7 @@ import { IProject } from "./project";
 import { BrowserInfoType } from "./browser";
 import { SDK } from "./sdk";
 import { IUser } from "./user";
+import { Dictionary } from ".";
 
 export enum IncidentStatus {
   RESOLVED = "resolved",
@@ -35,7 +36,7 @@ export interface IIncident {
   assigned: Pick<IUser, "id" | "name" | "gravatar">;
   // information about incident platform only for backend SDKs
   // for browsers this infomation is persisted inside IError structure
-  platform?: Platform;
+  platform?: Dictionary<string | number>;
 
   traces: Array<Trace>;
 

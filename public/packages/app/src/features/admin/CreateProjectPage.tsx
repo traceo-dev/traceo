@@ -18,8 +18,9 @@ import {
 import { useEffect, useState } from "react";
 import { ChooseElementGrid } from "../../core/components/ChooseElementGrid";
 import { resetProjectState } from "../project/state/project/reducers";
-import { AppstoreAddOutlined } from "@ant-design/icons";
+import { AppstoreAddOutlined, BarChartOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { SdkIcon } from "../../core/components/SdkIcon";
 
 type CreateAppPayload = {
   redirectUrl: string;
@@ -29,24 +30,24 @@ type CreateAppPayload = {
 
 const technologyOptions: SelectOptionProps[] = [
   {
-    label: "NodeJS",
-    value: SDK.NODE,
-    icon: <img src={`/img/svg/${SDK.NODE}.svg`} width="30" />
+    label: "Java",
+    value: SDK.JAVA,
+    icon: <SdkIcon sdk={SDK.JAVA} width={40} />
   },
   {
-    label: "NestJS",
-    value: SDK.NESTJS,
-    icon: <img src={`/img/svg/${SDK.NESTJS}.svg`} width="40" />
+    label: "NodeJS",
+    value: SDK.NODE,
+    icon: <SdkIcon sdk={SDK.NODE} width={40} />
   },
   {
     label: "React",
     value: SDK.REACT,
-    icon: <img src={`/img/svg/${SDK.REACT}.svg`} width="40" />
+    icon: <SdkIcon sdk={SDK.REACT} width={40} />
   },
   {
     label: "Vue",
     value: SDK.VUE,
-    icon: <img src={`/img/svg/${SDK.VUE}.svg`} width="40" />
+    icon: <SdkIcon sdk={SDK.VUE} width={40} />
   }
 ];
 
@@ -58,7 +59,7 @@ const CreateProjectPage = () => {
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>(null);
 
-  const [selectedPlatform, setSelectedPlatform] = useState<SDK>(SDK.NODE);
+  const [selectedPlatform, setSelectedPlatform] = useState<SDK>(SDK.JAVA);
 
   useEffect(() => {
     dispatch(resetProjectState());

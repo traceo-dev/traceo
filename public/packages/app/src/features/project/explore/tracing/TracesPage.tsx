@@ -1,29 +1,36 @@
-import { Col, Input, InputSearch, Select, SelectOptionProps, conditionClass } from "@traceo/ui";
+import {
+  Col,
+  Input,
+  InputSearch,
+  Select,
+  SelectOptionProps,
+  conditionClass,
+  toTitleCase
+} from "@traceo/ui";
 import { ExploreViewProps } from "../ExplorePage";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import { Span, SpanKind, SpanStatusCode } from "@traceo/types";
+import { Span, TraceoSpanKind, TraceoSpanStatus } from "@traceo/types";
 import { useParams } from "react-router-dom";
 import { OptionsCollapseGroup } from "../components/OptionsCollapseGroup";
 import { Field } from "../components/Field";
 import { DeleteOutlined } from "@ant-design/icons";
 import { useReactQuery } from "../../../../core/hooks/useReactQuery";
-import { mapStatusName, mapKindName } from "./utils";
 import { tracingApi } from "./api";
 import { TracesList } from "./TracesList";
 import { InlineFields } from "../components/InlineFields";
 import { TracePreview } from "./TracePreview";
 
-const statusOptions = Object.keys(SpanStatusCode)
+const statusOptions = Object.values(TraceoSpanStatus)
   .slice(0, 3)
   .map((e) => ({
-    label: mapStatusName[e],
+    label: toTitleCase(e.toString()),
     value: e
   }));
 
-const kindOptions = Object.keys(SpanKind)
+const kindOptions = Object.values(TraceoSpanKind)
   .slice(0, 5)
   .map((e) => ({
-    label: mapKindName[e],
+    label: toTitleCase(e.toString()),
     value: e
   }));
 

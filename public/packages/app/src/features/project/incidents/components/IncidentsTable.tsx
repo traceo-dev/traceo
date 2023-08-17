@@ -1,11 +1,13 @@
 import { useProject } from "../../../../core/hooks/useProject";
 import dateUtils from "../../../../core/utils/date";
 import { UserOutlined } from "@ant-design/icons";
-import { IIncident, mapIncidentStatus } from "@traceo/types";
+import { IIncident, IncidentStatus, mapIncidentStatus } from "@traceo/types";
 import { Avatar, Table, TableColumn, Tooltip } from "@traceo/ui";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { mapHeaderStatusIcon } from "./utils";
+import { mapHeaderStatusIcon, mapIncidentRgbColor, statusOptions } from "./utils";
+import styled from "styled-components";
+import { SdkIcon } from "../../../../core/components/SdkIcon";
 
 interface Props {
   incidents: IIncident[];
@@ -42,14 +44,7 @@ export const IncidentsTable: FC<Props> = ({
       rowsCount={rowsCount}
     >
       <TableColumn name="Details" width={600}>
-        {({ item }) => (
-          <div className="flex flex-col leading-5">
-            <span className="font-semibold">{item.name}</span>
-            <span className="text-[12px] truncate xl:max-w-[400px] md:max-w-[200px]">
-              {item?.message}
-            </span>
-          </div>
-        )}
+        {({ item }) => <DetailsColumn {...item} />}
       </TableColumn>
       <TableColumn name="Status">
         {({ item }) => (
@@ -68,7 +63,7 @@ export const IncidentsTable: FC<Props> = ({
           </Tooltip>
         )}
       </TableColumn>
-      <TableColumn name="Last seen">
+      {/* <TableColumn name="Last seen">
         {({ item }) => (
           <Tooltip title={dateUtils.formatDate(item?.createdAt, "YYYY-MM-DD HH:mm")}>
             <span className="text-xs whitespace-nowrap">
@@ -76,7 +71,7 @@ export const IncidentsTable: FC<Props> = ({
             </span>
           </Tooltip>
         )}
-      </TableColumn>
+      </TableColumn> */}
       <TableColumn name="Events">
         {({ item }) => <span className="text-sm">{item?.eventsCount}</span>}
       </TableColumn>
@@ -90,5 +85,32 @@ export const IncidentsTable: FC<Props> = ({
         }
       </TableColumn>
     </Table>
+  );
+};
+
+const DetailsWraper = styled.div<{ status: IncidentStatus }>`
+  border-left: 5px solid ${(props) => mapIncidentRgbColor[props.status]};
+  border-radius: 3px;
+  padding-left: 12px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const DetailsColumn = (incident: IIncident) => {
+  const recentTrace = incident?.traces[0];
+
+  return (
+    <DetailsWraper status={incident.status}>
+      <div className="flex flex-row gap-x-1 items-center">
+        <SdkIcon sdk={incident.sdk} />
+        <span className="font-semibold text-md pl-1">{incident.name}</span>
+        <span className="text-secondary text-xs">in</span>
+        <span className="text-xs">{recentTrace.filename}</span>
+      </div>
+      <span className="text-xs py-1">{incident.message}</span>
+      <span className="text-xs text-secondary">
+        Last seen {dateUtils.fromNow(incident?.lastEventAt)}
+      </span>
+    </DetailsWraper>
   );
 };

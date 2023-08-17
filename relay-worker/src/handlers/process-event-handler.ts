@@ -34,7 +34,7 @@ const captureEvent = async ({
 
     const incident = await db.getIncident({
         name: payload.name,
-        message: payload.message,
+        message: payload.message ?? null,
         projectId: project_id
     });
 

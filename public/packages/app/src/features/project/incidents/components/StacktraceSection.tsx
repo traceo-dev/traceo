@@ -1,6 +1,11 @@
 import { CodePreview } from "../../../../core/components/CodePreview";
 import { joinClasses, conditionClass } from "../../../../core/utils/classes";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  DownOutlined,
+  ExclamationCircleOutlined,
+  FileOutlined,
+  UpOutlined
+} from "@ant-design/icons";
 import { StoreState } from "../../../../store/types";
 import {
   Card,
@@ -11,12 +16,12 @@ import {
   RadioButtonGroup,
   Space,
   Typography,
-  Alert,
   Row
 } from "@traceo/ui";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { isEmpty } from "@traceo/types";
+import { Truncate } from "./TruncatePath";
 
 type StackTraceType = "traces" | "raw";
 
@@ -33,21 +38,27 @@ const stacktraceTypeOptions = [
 export const StacktraceSection = () => {
   const { incident } = useSelector((state: StoreState) => state.incident);
   const [type, setType] = useState<StackTraceType>("traces");
+  const [isToggleTraces, setToggleTraces] = useState<boolean>(false);
 
-  const isTraces = !isEmpty(incident?.traces);
-
-  if (!isTraces) {
+  const traces = incident?.traces;
+  if (isEmpty(traces)) {
     return null;
   }
 
+  const toggleTraces = () => setToggleTraces(!isToggleTraces);
+
+  const getTraces = () => {
+    if (!isToggleTraces) {
+      const removeCount = 15 - traces.length;
+      return traces.slice(0, removeCount);
+    }
+
+    return traces;
+  };
+
   return (
     <Card title="Stack Trace" className="h-auto">
-      <Alert
-        title={<span className="text-white">{incident.name}</span>}
-        message={incident.message}
-        type="error"
-      />
-      <div className="w-full py-9">
+      <div className="w-full pt-0 pb-5">
         <RadioButtonGroup
           className="float-right"
           size="sm"
@@ -66,53 +77,81 @@ export const StacktraceSection = () => {
       )}
 
       {type === "traces" && (
-        <Collapse className="my-5" defaultActiveKey={"0"}>
-          {incident?.traces?.map((trace, index) => (
-            <CollapseItem
-              panelKey={String(index)}
-              header={
-                <span>
-                  {trace.filename} {trace.lineNo}:{trace.columnNo}
-                </span>
-              }
-              startIcon={
-                <Tooltip
-                  title={
-                    trace.internal
-                      ? "This exception has been thrown in your code"
-                      : "This exception has been thrown in third-party external library"
-                  }
-                >
-                  <ExclamationCircleOutlined
-                    className={joinClasses(
-                      "mr-2",
-                      conditionClass(trace.internal, "text-amber-500", "text-cyan-500")
+        <Fragment>
+          <Collapse className="my-5" defaultActiveKey={"0"}>
+            {getTraces().map((trace, index) => (
+              <CollapseItem
+                panelKey={String(index)}
+                header={
+                  <div className="flex gap-x-2">
+                    <Truncate maxLength={70} leftTrim value={trace.filename} />
+                    <span className="text-secondary">at</span>
+                    <span>{trace.function}</span>
+                    <span className="text-secondary">in line</span>
+                    <span>{trace.lineNo}</span>
+                  </div>
+                }
+                startIcon={
+                  <Tooltip
+                    title={
+                      trace.internal
+                        ? "This exception has been thrown in your code"
+                        : "This exception has been thrown in third-party external library"
+                    }
+                  >
+                    <ExclamationCircleOutlined
+                      className={joinClasses(
+                        "mr-2",
+                        conditionClass(trace.internal, "text-amber-500", "text-cyan-500")
+                      )}
+                    />
+                  </Tooltip>
+                }
+                key={index}
+              >
+                <div>
+                  <Row className="gap-x-2 items-center text-sm mb-9 text-link">
+                    <Tooltip title="File path">
+                      <FileOutlined />
+                    </Tooltip>
+                    <span>{trace?.absPath}</span>
+                  </Row>
+                  <Row className="justify-between p-5">
+                    <FieldLabel label="Function">
+                      <span className="text-link text-sm">{trace?.function}</span>
+                    </FieldLabel>
+                    <FieldLabel label="Extension">
+                      <span className="text-link text-sm">{trace?.extension}</span>
+                    </FieldLabel>
+                    <FieldLabel label="Line No.">
+                      <span className="text-link text-sm">{trace?.lineNo}</span>
+                    </FieldLabel>
+                    {trace?.columnNo !== 0 && (
+                      <FieldLabel label="Column No.">
+                        <span className="text-link text-sm">{trace?.columnNo}</span>
+                      </FieldLabel>
                     )}
-                  />
-                </Tooltip>
-              }
-              key={index}
-            >
-              <div>
-                <Row className="justify-between p-5">
-                  <FieldLabel label="Function">
-                    <span className="text-link text-sm">{trace?.function}</span>
-                  </FieldLabel>
-                  <FieldLabel label="Extension">
-                    <span className="text-link text-sm">{trace?.extension}</span>
-                  </FieldLabel>
-                  <FieldLabel label="Line No.">
-                    <span className="text-link text-sm">{trace?.lineNo}</span>
-                  </FieldLabel>
-                  <FieldLabel label="Column No.">
-                    <span className="text-link text-sm">{trace?.columnNo}</span>
-                  </FieldLabel>
-                </Row>
-                {trace.code && <CodePreview trace={trace} />}
-              </div>
-            </CollapseItem>
-          ))}
-        </Collapse>
+                  </Row>
+                  {trace.code && <CodePreview trace={trace} />}
+                </div>
+              </CollapseItem>
+            ))}
+          </Collapse>
+          {traces.length > 15 && (
+            <div className="flex w-full justify-center text-xs">
+              <Row
+                onClick={() => toggleTraces()}
+                gap="x-2"
+                className="items-center  hover:bg-secondary cursor-pointer px-2 py-1 rounded"
+              >
+                <span>
+                  Show {isToggleTraces ? "less" : `all ${incident?.traces.length} traces`}
+                </span>
+                {isToggleTraces ? <UpOutlined /> : <DownOutlined />}
+              </Row>
+            </div>
+          )}
+        </Fragment>
       )}
     </Card>
   );

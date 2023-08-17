@@ -97,11 +97,11 @@ export const buildTree = ({
       });
 
       exploreRoot.items.push({
-        id: "explore_traces",
-        label: "Traces",
+        id: "explore_spans",
+        label: "Spans",
         icon: undefined,
         subtitle: undefined,
-        url: `/project/${project.id}/explore?type=tracing`
+        url: `/project/${project.id}/explore?type=spans`
       });
 
       treeRoot.push(exploreRoot);

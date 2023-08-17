@@ -5,7 +5,6 @@ import { useParams } from "react-router-dom";
 import { MemberRole } from "@traceo/types";
 import { initProject } from "../../features/project/state/project/actions";
 import { useAppDispatch } from "../../store";
-import { useLive } from "./useLive";
 import { useProject } from "./useProject";
 import { Col, Typography } from "@traceo/ui";
 import { BaseProjectViewType } from "../types/hoc";
@@ -17,16 +16,12 @@ const withProject = (WrappedComponent: React.ComponentType<BaseProjectViewType>)
     const { project, isLoading, permission } = useProject();
 
     const dispatch = useAppDispatch();
-    const live = useLive();
-
     useEffect(() => {
       dispatch(
         initProject({
           id
         })
       );
-
-      live.subscribe(id);
 
       return () => {
         setIsMounted(false);

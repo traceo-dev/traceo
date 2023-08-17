@@ -7,10 +7,8 @@ import {
     BrowserPerfsPayloadEvent,
     getHealthByValue,
     VitalsEnum,
-    MetricData,
-    DataPointType,
-    ReadableSpan,
-    Span
+    TraceoSpan,
+    TraceoMetric
 } from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
@@ -80,7 +78,15 @@ export class DatabaseService {
     }
 
     public async getIncident({ name, message, projectId }: { name: string, message: string, projectId: string }, client: PoolClient = this.client): Promise<IIncident | undefined> {
-        const result = await client.query<IIncident>(`SELECT * FROM incident WHERE name = $1 AND message = $2 AND project_id = $3`, [name, message, projectId]);
+        let sqlQuery = `SELECT * FROM incident WHERE name = '${name}' AND project_id = '${projectId}'`;
+
+        if (message) {
+            // $4 - help to avoid issues with escaping both single and double quotes
+            sqlQuery += ` AND message = $$${message}$$`;
+        }
+        
+        const result = await client.query<IIncident>(sqlQuery);
+        // get only first incident
         return result.rows[0];
     }
 
@@ -130,7 +136,7 @@ export class DatabaseService {
             createdAt,
             now,
             project.id,
-            platform,
+            JSON.stringify(platform),
             0
         ]);
 
@@ -204,38 +210,20 @@ export class DatabaseService {
         return values.length;
     }
 
-    public async insertClickhouseMetrics({ project_id, payload }: { project_id: string, payload: MetricData[] }) {
+    public async insertClickhouseMetrics({ project_id, payload }: { project_id: string, payload: TraceoMetric[] }) {
         if (!project_id) {
             return;
         }
 
         const now = dayjs().unix();
-
-        const insert = [];
-        for (const metric of payload) {
-            // Temporary histogram data are not used.
-            if (metric.dataPointType === DataPointType.HISTOGRAM) {
-                continue;
-            }
-
-            const obj = {
-                id: randomUUID(),
-                name: metric.descriptor.name,
-                receive_timestamp: now,
-                project_id
-            }
-
-            for (const point of metric.dataPoints) {
-                // There is no need to store values with 0 because clickhouse fill with 0 while querying
-                if (point.value && point.value !== 0) {
-                    insert.push({
-                        ...obj,
-                        timestamp: point.startTime?.[0] || now,
-                        value: point.value
-                    });
-                }
-            }
-        }
+        const insert = payload.map((metric) => ({
+            id: randomUUID(),
+            name: metric.name,
+            value: metric.value,
+            timestamp: metric.unixTimestamp,
+            receive_timestamp: now,
+            project_id
+        }));
 
         await this.clickClient.insert({
             table: CLICKHOUSE_TABLE.MERICS,
@@ -246,39 +234,32 @@ export class DatabaseService {
         return insert.length;
     }
 
-    public async insertClickhouseSpans({ project_id, payload }: { project_id: string, payload: ReadableSpan[] }) {
+    public async insertClickhouseSpans({ project_id, payload }: { project_id: string, payload: TraceoSpan[] }) {
         const now = dayjs().unix();
 
-        const spans: Span[] = payload.map((span) => {
-            const start_time = span.startTime[0] + span.startTime[1] / 1e9;
-            const end_time = span.endTime[0] + span.endTime[1] / 1e9;
-
+        const spans = payload.map((span) => {
+            const start_time = span.startEpochNanos;
+            const end_time = span.endEpochNanos;
             const duration = (end_time - start_time) * 1000;
-            const span_duration = Number(duration.toFixed(3));
-
-            const service_name = span.resource.attributes["service.name"] as string;
-            const span_service_name = service_name.startsWith("unknown_service") ? "unknown" : service_name;
-
-            const ctx = span.spanContext
 
             return {
                 id: randomUUID(),
                 name: span.name,
                 kind: span.kind,
-                status: span.status?.code.toString(),
-                status_message: span.status?.message,
-                trace_id: ctx.traceId,
-                span_id: ctx.spanId,
+                status: span.status,
+                status_message: span.statusMessage,
+                trace_id: span.traceId,
+                span_id: span.spanId,
                 parent_span_id: span?.parentSpanId,
                 attributes: JSON.stringify(span.attributes),
                 events: JSON.stringify(span.events),
-                service_name: span_service_name,
-                duration: span_duration,
+                service_name: span.serviceName ?? "unknown",
+                duration,
                 start_time,
                 end_time,
                 receive_timestamp: now,
                 project_id
-            }
+            };
         });
 
         await this.clickClient.insert({

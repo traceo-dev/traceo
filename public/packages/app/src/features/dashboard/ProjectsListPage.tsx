@@ -6,12 +6,10 @@ import { loadSignedInUser } from "../auth/state/actions";
 import { ProjectsTable } from "./components/ProjectsTable";
 import { Card } from "@traceo/ui";
 import { useEffect } from "react";
-import { useLive } from "../../core/hooks/useLive";
 import { resetIncidentState } from "../project/incidents/state/slices/incident.slice";
 
 export const ProjectsListPage = () => {
   const dispatch = useAppDispatch();
-  const live = useLive();
 
   useEffect(() => {
     dispatch(loadSignedInUser());
@@ -20,9 +18,6 @@ export const ProjectsListPage = () => {
     // Cleaning project stores
     dispatch(resetIncidentState());
     dispatch(resetProjectState());
-
-    // Reset socket connections after exiting the project
-    live.emit("leave_all_rooms");
   }, []);
 
   return (

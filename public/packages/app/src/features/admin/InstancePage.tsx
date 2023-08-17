@@ -1,4 +1,4 @@
-import { useConfig } from "src/core/contexts/ConfigsContextProvider";
+import { useConfig } from "../../core/contexts/ConfigsContextProvider";
 import { DescriptionRow, Descriptions } from "../../core/components/Descriptions";
 import dateUtils from "../../core/utils/date";
 import { DashboardPageWrapper } from "./components/DashboardPageWrapper";

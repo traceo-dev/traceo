@@ -1,6 +1,6 @@
 export enum EXPLORE_TYPE {
   LOGS = "logs",
-  TRACING = "tracing",
+  SPANS = "spans",
   METRICS = "metrics"
 }
 
