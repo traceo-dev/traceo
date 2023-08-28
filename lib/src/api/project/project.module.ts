@@ -9,6 +9,7 @@ import { UserQueryService } from "../user/user-query/user-query.service";
 import { ProjectsController } from "./projects.controller";
 import { DashboardService } from "../dashboard/dashboard.service";
 import { DashboardQueryService } from "../dashboard/dashboard-query/dashboard-query.service";
+import { ProjectFactory } from "./project.factory";
 
 @Module({
   imports: [PassportModule.register({ defaultStrategy: "jwt" })],
@@ -19,7 +20,8 @@ import { DashboardQueryService } from "../dashboard/dashboard-query/dashboard-qu
     MemberQueryService,
     UserQueryService,
     DashboardService,
-    DashboardQueryService
+    DashboardQueryService,
+    ProjectFactory
   ],
   controllers: [ProjectsController, ProjectController],
   exports: [ProjectService, ProjectQueryService]

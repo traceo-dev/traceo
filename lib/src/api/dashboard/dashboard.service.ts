@@ -39,11 +39,12 @@ export class DashboardService {
     project: Project,
     manager: EntityManager = this.entityManager
   ) {
+    const unix = dateUtils.toUnix();
     return await manager.getRepository(Dashboard).save({
       project,
       isEditable: true,
-      createdAt: dateUtils.toUnix(),
-      updatedAt: dateUtils.toUnix(),
+      createdAt: unix,
+      updatedAt: unix,
       ...dto
     });
   }

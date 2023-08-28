@@ -1,20 +1,16 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { MemberService } from "../member/member.service";
 import { EntityManager } from "typeorm";
 import * as crypto from "crypto";
 import { ProjectQueryService } from "./project-query/project-query.service";
 import { UserQueryService } from "../user/user-query/user-query.service";
-import { ADMIN_NAME, ADMIN_EMAIL, INTERNAL_SERVER_ERROR } from "../../common/helpers/constants";
+import { INTERNAL_SERVER_ERROR } from "../../common/helpers/constants";
 import dateUtils from "../../common/helpers/dateUtils";
-import { gravatar } from "../../common/helpers/gravatar";
-import { uuidService } from "../../common/helpers/uuid";
 import { CreateProjectDto, ProjectDto } from "../../common/types/dto/project.dto";
 import { Project } from "../../db/entities/project.entity";
 import { ApiResponse } from "../../common/types/dto/response.dto";
-import { MemberRole, UserStatus } from "@traceo/types";
+import { UserStatus } from "@traceo/types";
 import { RequestContext } from "../../common/middlewares/request-context/request-context.model";
-import { DashboardService } from "../dashboard/dashboard.service";
-import { initialDashboardPanels } from "../dashboard/base.dashboards";
+import { ProjectFactory } from "./project.factory";
 
 @Injectable()
 export class ProjectService {
@@ -22,16 +18,15 @@ export class ProjectService {
 
   constructor(
     private readonly entityManager: EntityManager,
-    private readonly memberService: MemberService,
     private readonly projectQueryService: ProjectQueryService,
     private readonly userQueryService: UserQueryService,
-    private readonly dashboardService: DashboardService
+    private readonly projectFactory: ProjectFactory
   ) {
     this.logger = new Logger(ProjectService.name);
   }
 
   public async create(dto: CreateProjectDto): Promise<ApiResponse<Project>> {
-    const { id, username } = RequestContext.user;
+    const { id } = RequestContext.user;
 
     return this.entityManager
       .transaction(async (manager) => {
@@ -47,46 +42,13 @@ export class ProjectService {
           throw new Error(INTERNAL_SERVER_ERROR);
         }
 
-        const url = gravatar.url(dto.name, "identicon");
-        const payload: Partial<Project> = {
-          ...dto,
-          id: uuidService.generate(),
-          createdAt: dateUtils.toUnix(),
-          updatedAt: dateUtils.toUnix(),
-          owner: user,
-          gravatar: url
-        };
-
-        const project = await manager.getRepository(Project).save(payload);
-        if (username !== ADMIN_NAME) {
-          const admin = await this.userQueryService.getDtoBy({ email: ADMIN_EMAIL });
-          await this.memberService.createMember(
-            admin,
-            project,
-            MemberRole.ADMINISTRATOR,
-            manager
-          );
+        const project = await this.projectFactory.create(user, dto, manager);
+        if (!project) {
+          return new ApiResponse("error", "Error while creating the project. Please try again later.", undefined);
         }
 
-        await this.memberService.createMember(user, project, MemberRole.ADMINISTRATOR, manager);
-
-        // Create basic dashboard
-        const dashboard = await this.dashboardService.create(
-          {
-            name: "Base Dashboard",
-            description: undefined,
-            isEditable: false,
-            isTimePicker: false,
-            isBase: true
-          },
-          project,
-          manager
-        );
-
-        await this.update(project.id, { mainDashboardId: dashboard.id }, manager);
-
         return new ApiResponse("success", "Project successfully created", {
-          redirectUrl: `/project/${project.id}/dashboard/${dashboard.id}`,
+          redirectUrl: `/project/${project.id}/dashboard/${project.mainDashboardId}`,
           id: project.id
         });
       })
