@@ -15,7 +15,7 @@ Gathering the information you need is done using the [Traceo SDK](https://github
 # Screenshots
 <p align="center">
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-incident.PNG" width="270">
-  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-dashboard.PNG" width="270">
+  <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-incidents-list.PNG" width="270">
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-dashboard-panel.PNG" width="270">
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/v1.2.0/traceo-explore-metrics.PNG" width="270">
   <img src="https://github.com/traceo-io/traceo/raw/develop/.github/screenshots/traceo-web-perf.PNG" width="270">
@@ -55,14 +55,17 @@ And many more!
 The full Traceo platform documentation can be found [here](https://github.com/traceo-dev/traceo/blob/develop/DOCUMENTATION.md). In case of problems, don't be afraid to start a discussion on Github.
 
 # SDK
-To start using the Traceo platform, you need to integrate with the [Traceo SDK](https://github.com/traceo-io/traceo-node). Information about the process of implementing the SDK in your software is included in the README file of each SDK.
+To start using the Traceo platform, you need to integrate with one of the Traceo SDKs. Information about the process of implementing the SDK in your software is included in the README file of each SDK.
 
-- [`traceo-sdk/java`](https://github.com/traceo-dev/traceo-java/blob/master/traceo-sdk/README.md) - Java
-- [`traceo-sdk/opentelemetry-java`](https://github.com/traceo-dev/traceo-java/blob/master/traceo-sdk-opentelemetry/README.md) - Open Telemetry for Java
-- [`traceo-sdk/node`](https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/node) - NodeJS
-- [`traceo-sdk/opentelemetry-node`](https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/opentelemetry-node) - Open Telemetry for NodeJS
-- [`traceo-sdk/react`](https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/react) - React
-- [`traceo-sdk/vue`](https://github.com/traceo-dev/traceo-sdk/tree/develop/packages/vue) - Vue
+| Platform | SDK  | Version   |
+| :---: | :---: | :---: |
+| ![My Skills](https://skillicons.dev/icons?i=java&perLine=1) | [traceo-sdk/java](https://github.com/traceo-dev/traceo-java/blob/master/traceo-sdk/README.md)  | [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.traceo/traceo-sdk/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.traceo/traceo-sdk/) |
+| ![My Skills](https://skillicons.dev/icons?i=java&perLine=1) | [traceo-sdk/opentelemetry](https://github.com/traceo-dev/traceo-java/blob/master/traceo-sdk-opentelemetry/README.md) |[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.traceo/traceo-sdk-opentelemetry/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.traceo/traceo-sdk-opentelemetry/) |
+| [![My Skills](https://skillicons.dev/icons?i=js&perLine=1)](https://skillicons.dev) | [traceo-sdk/node](https://github.com/traceo-dev/traceo-javascript/tree/develop/packages/traceo-sdk-node)  | [![npm version](https://badge.fury.io/js/@traceo-sdk%2Fnode.svg)](https://badge.fury.io/js/@traceo-sdk%2Fnode) |
+| ![My Skills](https://skillicons.dev/icons?i=js&perLine=1) |  [traceo-sdk/opentelemetry-node](https://github.com/traceo-dev/traceo-javascript/tree/develop/packages/traceo-sdk-opentelemetry)  |  [![npm version](https://badge.fury.io/js/@traceo-sdk%2Fopentelemetry-node.svg)](https://badge.fury.io/js/@traceo-sdk%2Fopentelemetry-node) |
+| ![My Skills](https://skillicons.dev/icons?i=react&perLine=1) | [traceo-sdk/react](https://github.com/traceo-dev/traceo-javascript/tree/develop/packages/traceo-sdk-react)  | [![npm version](https://badge.fury.io/js/@traceo-sdk%2Freact.svg)](https://badge.fury.io/js/@traceo-sdk%2Freact) |
+| ![My Skills](https://skillicons.dev/icons?i=vue&perLine=1) | [traceo-sdk/vue](https://github.com/traceo-dev/traceo-javascript/tree/develop/packages/traceo-sdk-vue) | [![npm version](https://badge.fury.io/js/@traceo-sdk%2Fvue.svg)](https://badge.fury.io/js/@traceo-sdk%2Fvue) |
+
 
 Remember that for each version of the Traceo platform there may be a specific SDK version. You can monitor them in [Release](https://github.com/traceo-dev/traceo/releases).
 
