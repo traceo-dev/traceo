@@ -1,6 +1,6 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Space } from "@traceo/ui";
-import { FC } from "react";
+import { FC, Fragment } from "react";
 import styled from "styled-components";
 
 interface Props {
@@ -28,7 +28,7 @@ export const ConditionalWrapper: FC<Props> = ({
     return <PositionedWrapper>{emptyView}</PositionedWrapper>;
   }
 
-  return <>{children}</>;
+  return <Fragment>{children}</Fragment>;
 };
 
 const PositionedWrapper = styled.div`

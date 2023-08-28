@@ -19,6 +19,7 @@ import {
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateUser } from "../../state/users/actions";
+import { Fragment } from "react";
 
 interface UserProps {
   email: string;
@@ -101,7 +102,7 @@ export const UserInformation = () => {
   };
 
   return (
-    <>
+    <Fragment>
       {isAdmin && (
         <Alert
           type="warning"
@@ -121,7 +122,7 @@ export const UserInformation = () => {
             onSubmit={onFinish}
           >
             {({ register, errors }) => (
-              <>
+              <Fragment>
                 <FormItem disabled={isAdmin} label="Name" error={errors.name}>
                   <Input
                     {...register("name", {
@@ -147,7 +148,7 @@ export const UserInformation = () => {
                     })}
                   />
                 </FormItem>
-              </>
+              </Fragment>
             )}
           </Form>
           {!isAdmin && (
@@ -159,6 +160,6 @@ export const UserInformation = () => {
           )}
         </ColumnSection>
       </Card>
-    </>
+    </Fragment>
   );
 };

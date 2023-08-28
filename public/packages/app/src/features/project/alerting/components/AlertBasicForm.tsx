@@ -1,6 +1,7 @@
 import { AlertSeverity, Setter } from "@traceo/types";
 import { Form, FormItem, Select, InputArea, Input } from "@traceo/ui";
 import { Section, SectionHeader, SectionContent } from "../utils";
+import { Fragment } from "react";
 
 type AlertFormType = {
   name: string;
@@ -25,7 +26,7 @@ export const AlertBasicForm = ({ onFinish, defaultValues }: Props) => {
       <SectionContent>
         <Form defaultValues={defaultValues} onSubmit={onFinish} id="alert-form">
           {({ register, errors, setValue }) => (
-            <>
+            <Fragment>
               <FormItem showRequiredMark={true} label="Severity" error={errors.name}>
                 <Select
                   {...register("severity", {
@@ -64,7 +65,7 @@ export const AlertBasicForm = ({ onFinish, defaultValues }: Props) => {
                   })}
                 />
               </FormItem>
-            </>
+            </Fragment>
           )}
         </Form>
       </SectionContent>

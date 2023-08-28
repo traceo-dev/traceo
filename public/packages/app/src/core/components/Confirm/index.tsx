@@ -9,7 +9,7 @@ import {
   Alert,
   Modal
 } from "@traceo/ui";
-import { FC, useState } from "react";
+import { FC, Fragment, useState } from "react";
 import { useUser } from "../../../core/hooks/useUser";
 
 interface CheckCredentialsResponse {
@@ -63,10 +63,10 @@ export const Confirm: FC<Props> = ({
   };
 
   return (
-    <>
+    <Fragment>
       <Space onClick={() => setOpen(true)}>{children}</Space>
       <Modal open={isOpen} title={title} onCancel={onCancel}>
-        <>
+        <Fragment>
           <Space className="w-full" direction="vertical">
             <Space className="w-full text-sm">{description}</Space>
             {auth && (
@@ -97,8 +97,8 @@ export const Confirm: FC<Props> = ({
               Cancel
             </Button>
           </ButtonContainer>
-        </>
+        </Fragment>
       </Modal>
-    </>
+    </Fragment>
   );
 };

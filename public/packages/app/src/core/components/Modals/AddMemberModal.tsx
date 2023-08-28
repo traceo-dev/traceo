@@ -65,42 +65,40 @@ export const AddMemberModal = ({ isOpen, onCancel }) => {
   const onChangeUser = (userId: string) => setUserId(userId);
 
   return (
-    <>
-      <Modal title="Add member" onCancel={onClose} open={isOpen}>
-        <Space direction="vertical" className="w-full">
-          <form id="add-member-form" onSubmit={onFinish}>
-            <FormItem label="User">
-              <Select
-                value={userId}
-                onChange={(opt) => onChangeUser(opt?.value)}
-                isLoading={isLoading}
-                options={usersOptions}
-              />
-            </FormItem>
-            <FormItem label="Role">
-              <Select
-                value={role}
-                onChange={(opt) => onChangeRole(opt?.value)}
-                options={roleOptions}
-              />
-            </FormItem>
-          </form>
+    <Modal title="Add member" onCancel={onClose} open={isOpen}>
+      <Space direction="vertical" className="w-full">
+        <form id="add-member-form" onSubmit={onFinish}>
+          <FormItem label="User">
+            <Select
+              value={userId}
+              onChange={(opt) => onChangeUser(opt?.value)}
+              isLoading={isLoading}
+              options={usersOptions}
+            />
+          </FormItem>
+          <FormItem label="Role">
+            <Select
+              value={role}
+              onChange={(opt) => onChangeRole(opt?.value)}
+              options={roleOptions}
+            />
+          </FormItem>
+        </form>
 
-          <ButtonContainer className="float-left">
-            <Button
-              disabled={!role || !userId}
-              loading={loading}
-              type="submit"
-              form="add-member-form"
-            >
-              OK
-            </Button>
-            <Button variant="ghost" onClick={onClose}>
-              Cancel
-            </Button>
-          </ButtonContainer>
-        </Space>
-      </Modal>
-    </>
+        <ButtonContainer className="float-left">
+          <Button
+            disabled={!role || !userId}
+            loading={loading}
+            type="submit"
+            form="add-member-form"
+          >
+            OK
+          </Button>
+          <Button variant="ghost" onClick={onClose}>
+            Cancel
+          </Button>
+        </ButtonContainer>
+      </Space>
+    </Modal>
   );
 };

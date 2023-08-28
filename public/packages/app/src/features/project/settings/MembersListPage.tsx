@@ -11,7 +11,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { StoreState } from "../../../store/types";
 import { MemberRole, isEmpty } from "@traceo/types";
 import { InputSearch, Button, Card } from "@traceo/ui";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -33,7 +33,7 @@ export const MembersListPage = () => {
   }, [search]);
 
   return (
-    <>
+    <Fragment>
       <SettingsPageWrapper>
         <Card
           title="Collaborators"
@@ -70,7 +70,7 @@ export const MembersListPage = () => {
           dispatch(loadMembers(queryParams));
         }}
       />
-    </>
+    </Fragment>
   );
 };
 

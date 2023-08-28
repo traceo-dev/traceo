@@ -42,72 +42,70 @@ export const UserApplications = () => {
   };
 
   return (
-    <>
-      <Card
-        title="Projects list"
-        extra={
-          !isAdmin && (
-            <Space className="w-full justify-end">
-              <Button onClick={() => setOpenAddAppDrawer(true)}>Add user to project</Button>
-            </Space>
-          )
-        }
+    <Card
+      title="Projects list"
+      extra={
+        !isAdmin && (
+          <Space className="w-full justify-end">
+            <Button onClick={() => setOpenAddAppDrawer(true)}>Add user to project</Button>
+          </Space>
+        )
+      }
+    >
+      <ConditionalWrapper
+        emptyView={<DataNotFound label="No projects found" />}
+        isEmpty={isEmpty(projects)}
+        isLoading={isLoading}
       >
-        <ConditionalWrapper
-          emptyView={<DataNotFound label="No projects found" />}
-          isEmpty={isEmpty(projects)}
-          isLoading={isLoading}
-        >
-          <Table collection={projects} striped>
-            <TableColumn width={15}>
-              {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.name} />}
-            </TableColumn>
-            <TableColumn name="Name" value="name" />
-            <TableColumn name="Role" className="py-0">
-              {({ item }) => {
-                if (user.email === ADMIN_EMAIL) {
-                  return <span>{item.role}</span>;
-                }
+        <Table collection={projects} striped>
+          <TableColumn width={15}>
+            {({ item }) => <Avatar size="sm" src={item?.gravatar} alt={item?.name} />}
+          </TableColumn>
+          <TableColumn name="Name" value="name" />
+          <TableColumn name="Role" className="py-0">
+            {({ item }) => {
+              if (user.email === ADMIN_EMAIL) {
+                return <span>{item.role}</span>;
+              }
 
+              return (
+                <div className="max-w-min">
+                  <Select
+                    isDisabled={item.email === ADMIN_EMAIL}
+                    onChange={(opt) => onUpdateRole(item, opt?.value)}
+                    defaultValue={item.role}
+                    options={options}
+                    menuPlacement="auto"
+                  />
+                </div>
+              );
+            }}
+          </TableColumn>
+          <TableColumn width={100} />
+          <TableColumn width={50}>
+            {({ item }) => {
+              if (user.email !== ADMIN_EMAIL) {
                 return (
-                  <div className="max-w-min">
-                    <Select
-                      isDisabled={item.email === ADMIN_EMAIL}
-                      onChange={(opt) => onUpdateRole(item, opt?.value)}
-                      defaultValue={item.role}
-                      options={options}
-                      menuPlacement="auto"
-                    />
-                  </div>
+                  <Confirm
+                    description="Are you sure you want to remove this user from project?"
+                    onOk={() => onRemoveFromProject(item)}
+                  >
+                    <Button size="xs" variant="danger">
+                      Remove
+                    </Button>
+                  </Confirm>
                 );
-              }}
-            </TableColumn>
-            <TableColumn width={100} />
-            <TableColumn width={50}>
-              {({ item }) => {
-                if (user.email !== ADMIN_EMAIL) {
-                  return (
-                    <Confirm
-                      description="Are you sure you want to remove this user from project?"
-                      onOk={() => onRemoveFromProject(item)}
-                    >
-                      <Button size="xs" variant="danger">
-                        Remove
-                      </Button>
-                    </Confirm>
-                  );
-                }
-              }}
-            </TableColumn>
-          </Table>
-        </ConditionalWrapper>
+              }
+            }}
+          </TableColumn>
+        </Table>
+      </ConditionalWrapper>
 
-        <AddToProjectModal
-          isOpen={isOpenAddAppDrawer}
-          onCancel={() => setOpenAddAppDrawer(false)}
-          postExecute={() => refetch()}
-        />
-      </Card>
-    </>
+      <AddToProjectModal
+        isOpen={isOpenAddAppDrawer}
+        onCancel={() => setOpenAddAppDrawer(false)}
+        postExecute={() => refetch()}
+      />
+    </Card>
   );
 };

@@ -9,7 +9,7 @@ import { ApiKeySection } from "./components/ApiKeySection";
 import SettingsPageWrapper from "./components/SettingsPageWrapper";
 import { ApiResponse, MemberRole } from "@traceo/types";
 import { Space, Button, Card, FieldLabel, Input, InputGroup, Row } from "@traceo/ui";
-import { useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { updateAplication } from "../state/project/actions";
 import { BaseProjectViewType } from "../../../core/types/hoc";
@@ -83,14 +83,14 @@ export const SettingsDetailsPage = ({ project, permission }: BaseProjectViewType
     }
 
     return (
-      <>
+      <Fragment>
         <Button size="xs" onClick={onUpdateName}>
           Save
         </Button>
         <Button size="xs" variant="ghost" onClick={() => setNameEdit(false)}>
           Cancel
         </Button>
-      </>
+      </Fragment>
     );
   };
 

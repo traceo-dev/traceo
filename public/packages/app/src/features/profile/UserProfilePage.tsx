@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { ColumnSection } from "../../core/components/ColumnSection";
 import { ConditionalWrapper } from "../../core/components/ConditionLayout";
 import { useUser } from "../../core/hooks/useUser";
@@ -48,7 +49,7 @@ const UserProfilePage = () => {
               className="w-2/3"
             >
               {({ register, errors }) => (
-                <>
+                <Fragment>
                   <FormItem label="Name" error={errors?.name} disabled={user.isAdmin}>
                     <Input
                       {...register("name", {
@@ -68,7 +69,7 @@ const UserProfilePage = () => {
                       })}
                     />
                   </FormItem>
-                </>
+                </Fragment>
               )}
             </Form>
             {!user.isAdmin && (
@@ -89,7 +90,7 @@ const UserProfilePage = () => {
         >
           <Form onSubmit={onFinishUpdatePassword} id="update-password-form" className="w-2/3">
             {({ register, errors }) => (
-              <>
+              <Fragment>
                 <FormItem label="Password" error={errors.password}>
                   <InputSecret
                     {...register("password", {
@@ -109,7 +110,7 @@ const UserProfilePage = () => {
                     })}
                   />
                 </FormItem>
-              </>
+              </Fragment>
             )}
           </Form>
           <ButtonContainer justify="start">

@@ -2,7 +2,7 @@ import { Row } from "../Row";
 import { Typography } from "../Typography";
 import { conditionClass, joinClasses } from "../utils/classes";
 import { DownOutlined, LoadingOutlined, RightOutlined } from "@ant-design/icons";
-import { FC, useEffect, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 
 interface CollapseItemProps {
   header?: string | JSX.Element;
@@ -49,7 +49,7 @@ export const CollapseItem: FC<CollapseItemProps> = ({
   );
 
   return (
-    <>
+    <Fragment>
       <div
         onClick={() => setCollapsed(collapsible && !collapsed)}
         className={joinClasses(
@@ -80,6 +80,6 @@ export const CollapseItem: FC<CollapseItemProps> = ({
           {children}
         </div>
       )}
-    </>
+    </Fragment>
   );
 };

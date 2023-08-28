@@ -17,7 +17,7 @@ import { StoreState } from "../../../store/types";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "../../../store";
 import { updateAlert } from "./state/actions";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { MuteAlertModal } from "../../../core/components/Modals/MuteAlertModal";
 
 const AlertPreviewPage = () => {
@@ -36,7 +36,7 @@ const AlertPreviewPage = () => {
   };
 
   return (
-    <>
+    <Fragment>
       <AlertPageWrapper>
         <div className="w-full grid grid-cols-12">
           <div className="col-span-9">
@@ -118,7 +118,7 @@ const AlertPreviewPage = () => {
         </div>
       </AlertPageWrapper>
       <MuteAlertModal isOpen={isMutedModalOpen} onCancel={() => setMutedModalOpen(false)} />
-    </>
+    </Fragment>
   );
 };
 

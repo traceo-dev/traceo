@@ -1,6 +1,6 @@
 import { Trace } from "@traceo/types";
 import { Space } from "@traceo/ui";
-import { FC } from "react";
+import { FC, Fragment } from "react";
 
 interface Props {
   trace: Trace;
@@ -8,7 +8,7 @@ interface Props {
 
 export const CodePreview: FC<Props> = ({ trace }) => {
   return (
-    <>
+    <Fragment>
       <Space className="code-container rounded-md p-3 mb-5 bg-secondary text-white w-full">
         <ol start={trace?.lineNo - 5} className="ml-2 w-full">
           {trace.preCode?.map((code, index) => (
@@ -38,6 +38,6 @@ export const CodePreview: FC<Props> = ({ trace }) => {
           color: #d67709;
         }
       `}</style>
-    </>
+    </Fragment>
   );
 };

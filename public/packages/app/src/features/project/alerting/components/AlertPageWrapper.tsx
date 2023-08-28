@@ -5,7 +5,7 @@ import { PreviewPageHeader } from "../../../../core/components/PreviewPageHeader
 import { MenuRoute } from "../../../../core/types/navigation";
 import { loadAlert } from "../state/actions";
 import { useAppDispatch } from "../../../../store";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { StoreState } from "../../../../store/types";
 import { Button, Row } from "@traceo/ui";
@@ -59,10 +59,10 @@ const AlertPageWrapper = ({ children }) => {
               <Row className="pt-2 text-xs">
                 <span className="text-sm mr-1">{mapSeverityToSpan[alert?.severity]}</span>
                 {alert?.description && (
-                  <>
+                  <Fragment>
                     <RightOutlined className="text-[8px] px-2" />
                     <span className="font-normal">{alert?.description}</span>
-                  </>
+                  </Fragment>
                 )}
               </Row>
             }
