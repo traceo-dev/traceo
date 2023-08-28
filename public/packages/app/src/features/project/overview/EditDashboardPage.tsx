@@ -123,7 +123,7 @@ const EditDashboardPage = ({ project, dashboard }: ProjectDashboardViewType) => 
                     />
                   </FormItem>
                   <FormItem className="pt-2 w-3/4" label="Description" error={errors.name}>
-                    <InputArea rows={6} maxLength={124} {...register("description")} />
+                    <InputArea rows={4} maxLength={124} {...register("description")} />
                   </FormItem>
                   <FormItem
                     className="pt-5 w-1/2"
