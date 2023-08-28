@@ -37,7 +37,7 @@
     "css-loader": "6.8.1",
     "css-minimizer-webpack-plugin": "^5.0.0",
     "eslint-webpack-plugin": "^4.0.1",
-    "lint-staged": "^13.2.2",
+    "lint-staged": "^14.0.1",
     "mini-css-extract-plugin": "^2.6.1",
     "postcss": "^8.4.18",
     "postcss-loader": "^7.0.1",
