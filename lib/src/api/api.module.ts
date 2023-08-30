@@ -31,6 +31,7 @@ import { LogsController } from "./logs/logs.controller";
 import { DashboardModule } from "./dashboard/dashboard.module";
 import { DashboardController } from "./dashboard/dashboard.controller";
 import { EventController } from "./event/event.controller";
+import { DatasourceModule } from './datasource/datasource.module';
 
 const apiControllers = [
   UserController,
@@ -66,7 +67,8 @@ const apiControllers = [
     AlertModule,
     TracingModule,
     LogsModule,
-    DashboardModule
+    DashboardModule,
+    DatasourceModule
   ],
   controllers: apiControllers
 })

@@ -12,6 +12,7 @@ import { AlertRule } from "./entities/alert-rule.entity";
 import { AlertHistory } from "./entities/alert-history.entity";
 import { Dashboard } from "./entities/dashboard.entity";
 import { DashboardPanel } from "./entities/dashboard-panel.entity";
+import { Datasource } from "./entities/datasource.entity";
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -29,6 +30,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         AlertHistory,
         Dashboard,
         DashboardPanel,
+        Datasource,
         Project,
         Incident,
         Member,

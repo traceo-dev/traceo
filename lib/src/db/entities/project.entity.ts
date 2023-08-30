@@ -5,6 +5,7 @@ import { BaseEntity } from "../../common/base/base.entity";
 import { IUser, IIncident, SDK, IProject, IMember } from "@traceo/types";
 import { Member } from "./member.entity";
 import { Dashboard } from "./dashboard.entity";
+import { Datasource } from "./datasource.entity";
 
 @Entity()
 export class Project extends BaseEntity implements IProject {
@@ -72,4 +73,7 @@ export class Project extends BaseEntity implements IProject {
 
   @OneToMany(() => Dashboard, (dashboard) => dashboard.project)
   dashboards: Dashboard[];
+
+  @OneToMany(() => Datasource, (datasource) => datasource.project)
+  datasources: Datasource[];
 }

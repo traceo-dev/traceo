@@ -163,6 +163,11 @@ const getApplicationRoutes = (): RouteDescriptor[] => {
       path: "/project/:id/settings/details",
       component: lazy(() => import("../features/project/settings/SettingsDetailsPage")),
       wrapper: ProjectDashboardWrapper
+    },
+    {
+      path: "/project/:id/settings/datasources",
+      component: lazy(() => import("../features/project/settings/DatasourceListPage")),
+      wrapper: ProjectDashboardWrapper
     }
   ];
 };

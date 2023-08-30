@@ -143,6 +143,14 @@ export const buildTree = ({
       url: `/project/${project.id}/settings/access`
     });
 
+    settingsRoot.items.push({
+      id: "settings_datasources",
+      label: "Datasources",
+      icon: undefined,
+      subtitle: undefined,
+      url: `/project/${project.id}/settings/datasources`
+    });
+
     treeRoot.push(settingsRoot);
   } else {
     treeRoot.push({

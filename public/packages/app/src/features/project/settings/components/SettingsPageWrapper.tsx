@@ -1,6 +1,6 @@
 import { Page } from "../../../../core/components/Page";
 import { MenuRoute } from "../../../../core/types/navigation";
-import { InfoCircleOutlined, SettingOutlined, TeamOutlined } from "@ant-design/icons";
+import { DatabaseOutlined, InfoCircleOutlined, SettingOutlined, TeamOutlined } from "@ant-design/icons";
 import { FC } from "react";
 
 const routes: MenuRoute[] = [
@@ -15,6 +15,12 @@ const routes: MenuRoute[] = [
     label: "Access",
     key: "access",
     icon: <TeamOutlined />
+  },
+  {
+    href: "/project/:id/settings/datasources",
+    label: "Datasources",
+    key: "datasources",
+    icon: <DatabaseOutlined />
   }
 ];
 

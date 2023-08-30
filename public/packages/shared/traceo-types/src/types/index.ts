@@ -21,6 +21,7 @@ export * from "./opentelemetry";
 export * from "./tracing";
 export * from "./explore";
 export * from "./dashboard";
+export * from "./datasource";
 
 export type SafeReturnType = string | number;
 
