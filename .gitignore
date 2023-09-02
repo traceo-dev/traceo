@@ -44,8 +44,14 @@ lerna-debug.log*
 
 *.tgz
 
-traceo_sqlite_db
-*.sqlite
-
 .eslintcache
 storage
+
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.logs
+*.iml
+.idea/
