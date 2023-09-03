@@ -74,7 +74,7 @@
     "eslint-webpack-plugin": "^4.0.1",
     "html-loader": "4.2.0",
     "html-webpack-plugin": "^5.5.0",
-    "lint-staged": "^13.2.2",
+    "lint-staged": "^14.0.1",
     "mini-css-extract-plugin": "^2.6.1",
     "ngtemplate-loader": "2.1.0",
     "postcss": "^8.4.18",
