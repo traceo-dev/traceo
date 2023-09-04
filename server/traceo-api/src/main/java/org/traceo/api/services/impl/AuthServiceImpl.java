@@ -78,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
         return cookie;
     }
 
-    private SessionEntity createSession(UserEntity user, HttpServletRequest request) {
+    public SessionEntity createSession(UserEntity user, HttpServletRequest request) {
         SessionEntity session = new SessionEntity();
         LocalDateTime maxAge = LocalDateTime.now().plusHours(24);
 

@@ -1,5 +1,6 @@
 package org.traceo.api.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class UserController {
     public void update() {}
 
     @PostMapping("/new")
-    public ApiResponse create(@RequestBody CreateUserDto dto) {
+    public ApiResponse create(@Valid @RequestBody CreateUserDto dto) {
         return userService.create(dto);
     }
 

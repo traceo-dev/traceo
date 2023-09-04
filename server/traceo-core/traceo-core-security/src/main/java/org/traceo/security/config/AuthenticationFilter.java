@@ -25,7 +25,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String sessionId = CookiesUtils.getValue(request.getCookies(), SESSION_NAME);
         if (sessionId != null) {
             Optional<SessionEntity> sessionEntity = sessionRepository.findBySessionID(sessionId);
