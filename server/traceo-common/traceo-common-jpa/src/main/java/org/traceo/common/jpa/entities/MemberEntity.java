@@ -9,11 +9,10 @@ import org.traceo.common.transport.enums.MemberRoleEnum;
 @Table(name = "traceo_project_member")
 @Getter
 @Setter
-public class MemberEntity {
+public class MemberEntity extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq")
-    @SequenceGenerator(name = "member_seq", sequenceName = "member_sequence", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(nullable = false)
     private MemberRoleEnum role = MemberRoleEnum.NONE;

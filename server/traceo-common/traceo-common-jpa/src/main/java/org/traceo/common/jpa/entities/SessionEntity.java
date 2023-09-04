@@ -5,16 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "traceo_user_session")
 @Getter
 @Setter
-public class SessionEntity {
+public class SessionEntity extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "session_seq")
-    @SequenceGenerator(name = "session_seq", sequenceName = "session_sequence", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(unique = true, name = "session_id")
     private String sessionID;
@@ -29,8 +29,8 @@ public class SessionEntity {
     private String userIP;
 
     @Column(nullable = false, name = "expiry_at")
-    private BigDecimal expiryAt;
+    private long expiryAt;
 
     @Column
-    private BigDecimal revokedAt;
+    private long revokedAt;
 }

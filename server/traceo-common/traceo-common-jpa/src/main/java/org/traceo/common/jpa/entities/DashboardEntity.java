@@ -11,11 +11,10 @@ import java.util.List;
 @Table(name = "traceo_dashboard")
 @Getter
 @Setter
-public class DashboardEntity {
+public class DashboardEntity extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dashboard_seq")
-    @SequenceGenerator(name = "dashboard_seq", sequenceName = "dashboard_sequence", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(nullable = false)
     private String name;

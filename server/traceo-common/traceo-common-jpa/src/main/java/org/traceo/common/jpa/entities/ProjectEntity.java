@@ -13,12 +13,11 @@ import java.util.Set;
 @Table(name = "traceo_project")
 @Getter
 @Setter
-public class ProjectEntity {
+public class ProjectEntity extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_seq")
-    @SequenceGenerator(name = "project_seq", sequenceName = "project_sequence", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(unique = true)
     private String name;
@@ -36,7 +35,7 @@ public class ProjectEntity {
     private String gravatar;
 
     @Column(name = "last_event_at")
-    private BigDecimal lastEventAt;
+    private long lastEventAt;
 
     @Column(name = "is_integrated")
     private boolean isIntegrated = false;

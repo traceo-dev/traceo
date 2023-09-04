@@ -3,19 +3,16 @@ package org.traceo.common.jpa.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.Session;
 import org.traceo.common.transport.enums.UserStatusEnum;
 
-import java.util.Set;
 
 @Entity
 @Table(name = "traceo_user")
 @Getter @Setter
-public class UserEntity {
+public class UserEntity extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     private String name;
     private String username;
@@ -25,7 +22,7 @@ public class UserEntity {
     private String password;
 
     private String gravatar;
-    private UserStatusEnum status;
+    private UserStatusEnum status = UserStatusEnum.ACTIVE;
 
     @Column(name = "is_admin")
     private boolean isAdmin;
@@ -34,5 +31,5 @@ public class UserEntity {
     private boolean isPasswordUpdated;
 
     @Column(name = "last_active_at")
-    private Long lastActiveAt;
+    private long lastActiveAt;
 }

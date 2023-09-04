@@ -12,11 +12,10 @@ import org.traceo.common.transport.dto.PanelGridPosition;
 @Table(name = "traceo_dashboard_panel")
 @Getter
 @Setter
-public class DashboardPanelEntity {
+public class DashboardPanelEntity extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dashboard_panel_seq")
-    @SequenceGenerator(name = "dashboard_panel_seq", sequenceName = "dashboard_panel_sequence", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(nullable = false)
     private String title;

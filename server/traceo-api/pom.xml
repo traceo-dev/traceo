@@ -25,7 +25,19 @@
 
         <dependency>
             <groupId>org.traceo</groupId>
+            <artifactId>traceo-core-security</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.traceo</groupId>
             <artifactId>traceo-common-transport</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.traceo</groupId>
+            <artifactId>traceo-common-utils</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

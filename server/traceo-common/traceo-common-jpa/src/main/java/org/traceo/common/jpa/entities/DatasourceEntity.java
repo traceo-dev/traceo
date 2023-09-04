@@ -12,11 +12,10 @@ import org.traceo.common.transport.enums.DatasourceProviderEnum;
 @Table(name = "traceo_datasource")
 @Getter
 @Setter
-public class DatasourceEntity {
+public class DatasourceEntity extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "datasource_seq")
-    @SequenceGenerator(name = "datasource_seq", sequenceName = "datasource_sequence", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(unique = true, nullable = false)
     private String name;

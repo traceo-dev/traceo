@@ -19,11 +19,10 @@ import java.util.Map;
 @Table(name = "traceo_incident")
 @Getter
 @Setter
-public class IncidentEntity {
+public class IncidentEntity extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "incident_seq")
-    @SequenceGenerator(name = "incident_seq", sequenceName = "incident_sequence", allocationSize = 1)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(nullable = false)
     private SdkEnum sdk;

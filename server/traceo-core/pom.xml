@@ -13,6 +13,7 @@
 
     <modules>
         <module>traceo-core-services</module>
+        <module>traceo-core-security</module>
     </modules>
 
     <dependencies>
