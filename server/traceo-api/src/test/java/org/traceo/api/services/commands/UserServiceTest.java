@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.traceo.api.TestConfig;
-import org.traceo.api.models.dto.CreateUserDto;
+import org.traceo.api.models.dto.UserDto;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.UserRepository;
 import org.traceo.common.transport.enums.ResponseStatus;
@@ -28,8 +28,8 @@ public class UserServiceTest {
     @BeforeEach
     public void setUp() { }
 
-    private CreateUserDto prepareUserDto() {
-        CreateUserDto dto = new CreateUserDto();
+    private UserDto prepareUserDto() {
+        UserDto dto = new UserDto();
         dto.setEmail("test@test");
         dto.setName("test_name");
         dto.setPassword("test_password");

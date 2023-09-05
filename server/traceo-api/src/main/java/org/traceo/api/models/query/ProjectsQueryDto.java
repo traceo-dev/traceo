@@ -1,7 +1,8 @@
 package org.traceo.api.models.query;
 
 import lombok.Getter;
+import lombok.Setter;
+import org.traceo.common.transport.query.BaseDtoQuery;
 
-@Getter
-public class ProjectsQueryDto {
-}
+@Getter @Setter
+public class ProjectsQueryDto extends BaseDtoQuery { }

@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.traceo.api.models.dto.UpdateUserDto;
 import org.traceo.api.services.commands.UserService;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.UserRepository;
-import org.traceo.api.models.dto.CreateUserDto;
+import org.traceo.api.models.dto.UserDto;
 import org.traceo.common.transport.enums.UserStatusEnum;
 import org.traceo.common.transport.response.ApiResponse;
 
@@ -28,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public ApiResponse create(CreateUserDto dto) {
+    public ApiResponse create(UserDto dto) {
         Optional<UserEntity> userEntity = userRepository.findByUsernameOrEmail(dto.getUsername(), dto.getEmail());
         if (userEntity.isPresent()) {
             UserEntity user = userEntity.get();
@@ -54,7 +53,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ApiResponse update(UpdateUserDto dto) {
+    public ApiResponse update(UserDto dto) {
         return null;
     }
 

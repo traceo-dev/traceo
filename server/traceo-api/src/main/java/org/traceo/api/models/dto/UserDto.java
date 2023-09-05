@@ -4,9 +4,10 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.traceo.common.transport.enums.UserStatusEnum;
 
 @Getter @Setter
-public class CreateUserDto {
+public class UserDto {
     @NotBlank(message = "Name is required")
     private String name;
 
@@ -18,4 +19,7 @@ public class CreateUserDto {
 
     @NotBlank(message = "Password is required")
     private String password;
+
+    private UserStatusEnum status;
+    private boolean isAdmin;
 }

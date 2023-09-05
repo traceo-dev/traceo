@@ -1,7 +1,15 @@
 package org.traceo.api.models.dto;
 
 import lombok.Getter;
+import lombok.Setter;
+import org.traceo.common.transport.dto.PanelGridPosition;
 
-@Getter
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter @Setter
 public class DashboardLayoutDto {
+    private String projectId;
+    private String dashboardId;
+    private final List<PanelGridPosition> positions = new ArrayList<>();
 }

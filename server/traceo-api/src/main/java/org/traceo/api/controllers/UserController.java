@@ -1,15 +1,11 @@
 package org.traceo.api.controllers;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.traceo.api.models.dto.UpdateUserDto;
 import org.traceo.api.services.commands.UserService;
-import org.traceo.api.models.dto.CreateUserDto;
+import org.traceo.api.models.dto.UserDto;
 import org.traceo.api.services.queries.UserQueryService;
 import org.traceo.common.transport.response.ApiResponse;
-import org.traceo.security.config.ContextHolder;
 
 @RestController
 @RequestMapping("/api/user")
@@ -40,12 +36,12 @@ public class UserController {
     }
 
     @PatchMapping()
-    public ApiResponse update(@Valid @RequestBody UpdateUserDto dto) {
+    public ApiResponse update(@Valid @RequestBody UserDto dto) {
         return userService.update(dto);
     }
 
     @PostMapping("/new")
-    public ApiResponse create(@Valid @RequestBody CreateUserDto dto) {
+    public ApiResponse create(@Valid @RequestBody UserDto dto) {
         return userService.create(dto);
     }
 

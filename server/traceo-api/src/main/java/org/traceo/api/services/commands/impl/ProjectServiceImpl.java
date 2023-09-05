@@ -1,8 +1,7 @@
 package org.traceo.api.services.commands.impl;
 
 import org.springframework.stereotype.Service;
-import org.traceo.api.models.dto.CreateProjectDto;
-import org.traceo.api.models.dto.UpdateProjectDto;
+import org.traceo.api.models.dto.ProjectDto;
 import org.traceo.api.services.commands.ProjectService;
 import org.traceo.common.transport.response.ApiResponse;
 
@@ -10,12 +9,12 @@ import org.traceo.common.transport.response.ApiResponse;
 public class ProjectServiceImpl implements ProjectService {
 
     @Override
-    public ApiResponse create(CreateProjectDto dto) {
+    public ApiResponse create(ProjectDto dto) {
         return null;
     }
 
     @Override
-    public ApiResponse update(UpdateProjectDto dto) {
+    public ApiResponse update(ProjectDto dto) {
         return null;
     }
 

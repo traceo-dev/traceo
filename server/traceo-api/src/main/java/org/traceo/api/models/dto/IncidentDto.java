@@ -1,11 +1,11 @@
-package org.traceo.api.models.query;
+package org.traceo.api.models.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.traceo.common.transport.enums.IncidentStatusEnum;
-import org.traceo.common.transport.query.BaseDtoQuery;
 
 @Getter @Setter
-public class IncidentsQueryDto extends BaseDtoQuery {
+public class IncidentDto {
     private IncidentStatusEnum status;
+    private String assignedId;
 }

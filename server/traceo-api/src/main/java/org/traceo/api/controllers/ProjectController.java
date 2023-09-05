@@ -1,8 +1,7 @@
 package org.traceo.api.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import org.traceo.api.models.dto.CreateProjectDto;
-import org.traceo.api.models.dto.UpdateProjectDto;
+import org.traceo.api.models.dto.ProjectDto;
 import org.traceo.api.models.query.ProjectsQueryDto;
 import org.traceo.api.services.commands.ProjectService;
 import org.traceo.api.services.queries.ProjectQueryService;
@@ -40,12 +39,12 @@ public class ProjectController {
     }
 
     @PostMapping
-    private ApiResponse create(@RequestBody CreateProjectDto dto) {
+    private ApiResponse create(@RequestBody ProjectDto dto) {
         return projectService.create(dto);
     }
 
     @PatchMapping
-    private ApiResponse update(@RequestBody UpdateProjectDto dto) {
+    private ApiResponse update(@RequestBody ProjectDto dto) {
         return projectService.update(dto);
     }
 

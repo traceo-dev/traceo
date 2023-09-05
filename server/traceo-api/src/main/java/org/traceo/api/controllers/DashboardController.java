@@ -36,22 +36,22 @@ public class DashboardController {
     }
 
     @PostMapping
-    private ApiResponse createDashboard(@RequestBody CreateDashboardDto dto) {
+    private ApiResponse createDashboard(@RequestBody DashboardDto dto) {
         return dashboardService.create(dto);
     }
 
     @PostMapping("/panel")
-    private ApiResponse createDashboardPanel(@RequestBody CreateDashboardPanelDto dto) {
+    private ApiResponse createDashboardPanel(@RequestBody DashboardPanelDto dto) {
         return dashboardPanelService.create(dto);
     }
 
     @PatchMapping()
-    private ApiResponse updateDashboard(@RequestBody UpdateDashboardDto dto) {
+    private ApiResponse updateDashboard(@RequestBody DashboardDto dto) {
         return dashboardService.update(dto);
     }
 
     @PatchMapping("/panel")
-    private ApiResponse updateDashboardPanel(@RequestBody UpdateDashboardPanelDto dto) {
+    private ApiResponse updateDashboardPanel(@RequestBody DashboardPanelDto dto) {
         return dashboardPanelService.update(dto);
     }
 

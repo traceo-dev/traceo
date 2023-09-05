@@ -1,8 +1,7 @@
 package org.traceo.api.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import org.traceo.api.models.dto.CreateMemberDto;
-import org.traceo.api.models.dto.UpdateMemberDto;
+import org.traceo.api.models.dto.MemberDto;
 import org.traceo.api.models.query.MembersQueryDto;
 import org.traceo.api.services.commands.MemberService;
 import org.traceo.api.services.queries.MemberQueryService;
@@ -26,12 +25,12 @@ public class MemberController {
     }
 
     @PostMapping("/project/add")
-    private ApiResponse create(@RequestBody CreateMemberDto dto) {
+    private ApiResponse create(@RequestBody MemberDto dto) {
         return memberService.create(dto);
     }
 
     @PatchMapping
-    private ApiResponse update(@RequestBody UpdateMemberDto dto) {
+    private ApiResponse update(@RequestBody MemberDto dto) {
         return memberService.update(dto);
     }
 

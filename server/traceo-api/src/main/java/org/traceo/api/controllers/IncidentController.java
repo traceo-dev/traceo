@@ -1,7 +1,7 @@
 package org.traceo.api.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import org.traceo.api.models.dto.UpdateIncidentDto;
+import org.traceo.api.models.dto.IncidentDto;
 import org.traceo.api.models.query.IncidentsQueryDto;
 import org.traceo.api.services.commands.IncidentService;
 import org.traceo.api.services.queries.IncidentQueryService;
@@ -12,7 +12,6 @@ import org.traceo.common.transport.response.ApiResponse;
 public class IncidentController {
     private final IncidentService incidentService;
     private final IncidentQueryService incidentQueryService;
-
 
     public IncidentController(IncidentService incidentService, IncidentQueryService incidentQueryService) {
         this.incidentService = incidentService;
@@ -30,7 +29,7 @@ public class IncidentController {
     }
 
     @PatchMapping
-    private ApiResponse updateIncident(@RequestBody UpdateIncidentDto dto) {
+    private ApiResponse updateIncident(@RequestBody IncidentDto dto) {
         return incidentService.update(dto);
     }
 

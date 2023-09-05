@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.traceo.api.services.commands.AuthService;
+import org.traceo.api.services.commands.UserService;
 import org.traceo.api.services.commands.impl.AuthServiceImpl;
 import org.traceo.api.services.commands.impl.UserServiceImpl;
 
@@ -16,12 +18,12 @@ import org.traceo.api.services.commands.impl.UserServiceImpl;
 @EntityScan(basePackages = "org.traceo.common.jpa")
 public class TestConfig {
     @Bean
-    public AuthServiceImpl authService() {
+    public AuthService authService() {
         return new AuthServiceImpl();
     }
 
     @Bean
-    public UserServiceImpl userService() {
+    public UserService userService() {
         return new UserServiceImpl();
     }
 
