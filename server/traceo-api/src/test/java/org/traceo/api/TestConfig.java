@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.traceo.api.services.impl.AuthServiceImpl;
-import org.traceo.api.services.impl.UserServiceImpl;
+import org.traceo.api.services.commands.impl.AuthServiceImpl;
+import org.traceo.api.services.commands.impl.UserServiceImpl;
 
 @Configuration
 @ComponentScan(basePackages = "org.traceo.common.jpa")

@@ -5,18 +5,26 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.traceo.api.models.AuthCredentials;
-import org.traceo.api.services.AuthService;
-import org.traceo.api.services.impl.AuthServiceImpl;
+import org.traceo.api.models.dto.UpdatePasswordDto;
+import org.traceo.api.models.dto.UserCredentialsDto;
+import org.traceo.api.services.commands.AuthService;
+import org.traceo.api.services.queries.AuthQueryService;
 import org.traceo.common.transport.response.ApiResponse;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
     private final AuthService authService;
+    private final AuthQueryService authQueryService;
 
-    @Autowired
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, AuthQueryService authQueryService) {
         this.authService = authService;
+        this.authQueryService = authQueryService;
+    }
+
+    @GetMapping("/signed-in")
+    public ApiResponse getSignedInUser() {
+        return authQueryService.getSignedInUser();
     }
 
     @PostMapping("/login")
@@ -38,8 +46,12 @@ public class AuthController {
     }
 
     @PostMapping("/check")
-    private void check() {}
+    private ApiResponse checkCredentials(@RequestBody UserCredentialsDto dto) {
+        return authService.checkCredentials(dto);
+    }
 
     @PostMapping("/update-password")
-    private void updatePassword() {}
+    private ApiResponse updatePassword(@RequestBody UpdatePasswordDto dto) {
+        return authService.updatePassword(dto);
+    }
 }

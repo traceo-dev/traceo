@@ -1,4 +1,4 @@
-package org.traceo.api.services.impl;
+package org.traceo.api.services.commands.impl;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.extern.slf4j.Slf4j;
@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.traceo.api.services.UserService;
+import org.traceo.api.models.dto.UpdateUserDto;
+import org.traceo.api.services.commands.UserService;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.UserRepository;
 import org.traceo.api.models.dto.CreateUserDto;
@@ -50,6 +51,16 @@ public class UserServiceImpl implements UserService {
         UserEntity user = userRepository.save(entity);
 
         return ApiResponse.ofSuccess("New user account has been created", new CreateUserResponse(user.getId()));
+    }
+
+    @Override
+    public ApiResponse update(UpdateUserDto dto) {
+        return null;
+    }
+
+    @Override
+    public ApiResponse delete(String id) {
+        return null;
     }
 
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)

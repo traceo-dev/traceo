@@ -1,4 +1,4 @@
-package org.traceo.api;
+package org.traceo.api.services.commands;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.traceo.api.TestConfig;
 import org.traceo.api.models.dto.CreateUserDto;
-import org.traceo.api.services.UserService;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.UserRepository;
 import org.traceo.common.transport.enums.ResponseStatus;

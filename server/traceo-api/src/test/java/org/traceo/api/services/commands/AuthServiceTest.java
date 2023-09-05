@@ -1,4 +1,4 @@
-package org.traceo.api;
+package org.traceo.api.services.commands;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -11,8 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.traceo.api.TestConfig;
 import org.traceo.api.models.AuthCredentials;
-import org.traceo.api.services.AuthService;
 import org.traceo.common.jpa.entities.SessionEntity;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.SessionRepository;

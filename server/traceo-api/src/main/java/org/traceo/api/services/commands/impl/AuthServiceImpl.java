@@ -1,4 +1,4 @@
-package org.traceo.api.services.impl;
+package org.traceo.api.services.commands.impl;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.traceo.api.models.AuthCredentials;
-import org.traceo.api.services.AuthService;
+import org.traceo.api.models.dto.UpdatePasswordDto;
+import org.traceo.api.models.dto.UserCredentialsDto;
+import org.traceo.api.services.commands.AuthService;
 import org.traceo.common.jpa.entities.SessionEntity;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.SessionRepository;
@@ -105,5 +107,15 @@ public class AuthServiceImpl implements AuthService {
         sessionRepository.deleteBySessionID(details.getSessionId());
 
         return ApiResponse.ofSuccess();
+    }
+
+    @Override
+    public ApiResponse checkCredentials(UserCredentialsDto dto) {
+        return null;
+    }
+
+    @Override
+    public ApiResponse updatePassword(UpdatePasswordDto dto) {
+        return null;
     }
 }
