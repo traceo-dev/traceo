@@ -1,7 +1,7 @@
 package org.traceo.api.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import org.traceo.api.models.dto.IncidentDto;
+import org.traceo.common.transport.dto.api.IncidentDto;
 import org.traceo.api.models.query.IncidentsQueryDto;
 import org.traceo.api.services.commands.IncidentService;
 import org.traceo.api.services.queries.IncidentQueryService;

@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.traceo.api.TestConfig;
-import org.traceo.api.models.dto.UserDto;
+import org.traceo.common.transport.dto.api.UserDto;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.UserRepository;
 import org.traceo.common.transport.enums.ResponseStatus;

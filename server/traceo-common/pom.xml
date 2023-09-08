@@ -15,6 +15,7 @@
         <module>traceo-common-transport</module>
         <module>traceo-common-jpa</module>
         <module>traceo-common-utils</module>
+        <module>traceo-common-creators</module>
     </modules>
 
     <dependencies>

@@ -1,7 +1,7 @@
 package org.traceo.api.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import org.traceo.api.models.dto.MemberDto;
+import org.traceo.common.transport.dto.api.MemberDto;
 import org.traceo.api.models.query.MembersQueryDto;
 import org.traceo.api.services.commands.MemberService;
 import org.traceo.api.services.queries.MemberQueryService;
@@ -39,7 +39,7 @@ public class MemberController {
         return memberService.remove(id);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/leave")
     private ApiResponse leaveProject(@RequestParam String id) {
         return memberService.leave(id);
     }

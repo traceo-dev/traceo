@@ -1,7 +1,7 @@
 package org.traceo.api.services.commands.impl;
 
 import org.springframework.stereotype.Service;
-import org.traceo.api.models.dto.ProjectDto;
+import org.traceo.common.transport.dto.api.ProjectDto;
 import org.traceo.api.services.commands.ProjectService;
 import org.traceo.common.transport.response.ApiResponse;
 

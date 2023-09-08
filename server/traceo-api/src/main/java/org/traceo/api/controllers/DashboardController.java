@@ -1,10 +1,12 @@
 package org.traceo.api.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import org.traceo.api.models.dto.*;
 import org.traceo.api.services.commands.DashboardPanelService;
 import org.traceo.api.services.commands.DashboardService;
 import org.traceo.api.services.queries.DashboardQueryService;
+import org.traceo.common.transport.dto.api.DashboardDto;
+import org.traceo.common.transport.dto.api.DashboardLayoutDto;
+import org.traceo.common.transport.dto.api.DashboardPanelDto;
 import org.traceo.common.transport.response.ApiResponse;
 
 @RestController

@@ -2,11 +2,10 @@ package org.traceo.api.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.traceo.api.models.AuthCredentials;
-import org.traceo.api.models.dto.UpdatePasswordDto;
-import org.traceo.api.models.dto.UserCredentialsDto;
+import org.traceo.common.transport.dto.api.UpdatePasswordDto;
+import org.traceo.common.transport.dto.api.UserCredentialsDto;
 import org.traceo.api.services.commands.AuthService;
 import org.traceo.api.services.queries.AuthQueryService;
 import org.traceo.common.transport.response.ApiResponse;

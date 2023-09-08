@@ -1,7 +1,7 @@
 package org.traceo.api.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import org.traceo.api.models.dto.ProjectDto;
+import org.traceo.common.transport.dto.api.ProjectDto;
 import org.traceo.api.models.query.ProjectsQueryDto;
 import org.traceo.api.services.commands.ProjectService;
 import org.traceo.api.services.queries.ProjectQueryService;

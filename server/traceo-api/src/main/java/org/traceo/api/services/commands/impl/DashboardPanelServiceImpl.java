@@ -1,7 +1,7 @@
 package org.traceo.api.services.commands.impl;
 
 import org.springframework.stereotype.Service;
-import org.traceo.api.models.dto.DashboardPanelDto;
+import org.traceo.common.transport.dto.api.DashboardPanelDto;
 import org.traceo.api.services.commands.DashboardPanelService;
 import org.traceo.common.transport.response.ApiResponse;
 

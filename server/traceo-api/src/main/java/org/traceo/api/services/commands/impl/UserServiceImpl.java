@@ -5,16 +5,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.traceo.api.exceptions.UserNotExistsException;
 import org.traceo.api.services.commands.UserService;
+import org.traceo.common.creators.builders.UserBuilder;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.SessionRepository;
 import org.traceo.common.jpa.repositories.UserRepository;
-import org.traceo.api.models.dto.UserDto;
-import org.traceo.common.transport.enums.UserStatusEnum;
+import org.traceo.common.transport.dto.api.UserDto;
 import org.traceo.common.transport.response.ApiResponse;
 import org.traceo.security.config.ContextHolder;
 import org.traceo.security.model.ContextDetails;
@@ -35,9 +34,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private SessionRepository sessionRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     public ApiResponse create(UserDto dto) {
         Optional<UserEntity> userEntity = userRepository.findByUsernameOrEmail(dto.getUsername(), dto.getEmail());
         if (userEntity.isPresent()) {
@@ -49,14 +45,11 @@ public class UserServiceImpl implements UserService {
             return ApiResponse.ofError("User with this email already exists.");
         }
 
-        UserEntity entity = new UserEntity();
-        entity.setName(dto.getName());
-        entity.setEmail(dto.getEmail());
-        entity.setUsername(dto.getUsername());
-        entity.setStatus(UserStatusEnum.INACTIVE);
-        entity.setAdmin(false);
-        entity.setPasswordUpdated(false);
-        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        UserEntity entity = UserBuilder
+                .standard()
+                .withModel(dto)
+                .withPassword(dto.getPassword())
+                .build();
 
         UserEntity user = userRepository.save(entity);
 
@@ -91,6 +84,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public ApiResponse delete(String id) {
         ContextDetails ctx = ContextHolder.getDetails();
         try {

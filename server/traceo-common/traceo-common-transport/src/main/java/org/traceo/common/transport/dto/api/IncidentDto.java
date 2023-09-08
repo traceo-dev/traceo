@@ -1,4 +1,4 @@
-package org.traceo.api.models.dto;
+package org.traceo.common.transport.dto.api;
 
 import lombok.Getter;
 import lombok.Setter;

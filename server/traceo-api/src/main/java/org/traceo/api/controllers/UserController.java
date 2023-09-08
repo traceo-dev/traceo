@@ -3,7 +3,7 @@ package org.traceo.api.controllers;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.traceo.api.services.commands.UserService;
-import org.traceo.api.models.dto.UserDto;
+import org.traceo.common.transport.dto.api.UserDto;
 import org.traceo.api.services.queries.UserQueryService;
 import org.traceo.common.transport.response.ApiResponse;
 

@@ -1,6 +1,6 @@
 package org.traceo.api.services.commands;
 
-import org.traceo.api.models.dto.MemberDto;
+import org.traceo.common.transport.dto.api.MemberDto;
 import org.traceo.common.transport.response.ApiResponse;
 
 public interface MemberService {
