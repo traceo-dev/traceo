@@ -68,13 +68,7 @@ public class UserServiceImpl implements UserService {
                 throw new UserNotExistsException();
             }
 
-            UserEntity user = userEntity.get();
-            user.setEmail(dto.getEmail());
-            user.setName(dto.getName());
-            user.setStatus(dto.getStatus());
-            user.setAdmin(dto.isAdmin());
-
-            userRepository.save(user);
+            userRepository.updateByUsername(dto.getUsername(), dto);
 
             return ApiResponse.ofSuccess("User updated.");
         } catch (Exception e) {

@@ -35,4 +35,15 @@ public class DashboardEntity extends BaseEntity {
             CascadeType.PERSIST
     })
     private List<DashboardPanelEntity> panels = new ArrayList<>();
+
+    public static DashboardEntity createDefaultForProject(ProjectEntity project) {
+        DashboardEntity entity = new DashboardEntity();
+        entity.setName("Base dashboard");
+        entity.setProject(project);
+        entity.setBase(true);
+        entity.setTimePicker(true);
+        entity.setEditable(true);
+
+        return entity;
+    }
 }

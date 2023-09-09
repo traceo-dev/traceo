@@ -3,9 +3,9 @@ package org.traceo.common.jpa.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.traceo.common.transport.enums.SdkEnum;
+import org.traceo.common.transport.dto.api.ProjectDto;
+import org.traceo.common.transport.enums.TraceoSdk;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,8 +22,11 @@ public class ProjectEntity extends BaseEntity {
     @Column(unique = true)
     private String name;
 
+    @Column
+    private String description;
+
     @Column(nullable = false)
-    private SdkEnum sdk; //TODO: enum
+    private TraceoSdk sdk; //TODO: enum
 
     @Column(name = "api_key")
     private String apiKey;
@@ -65,4 +68,12 @@ public class ProjectEntity extends BaseEntity {
             CascadeType.REMOVE
     }, mappedBy = "project")
     private Set<DatasourceEntity> datasources = new HashSet<>();
+
+    public static ProjectEntity mapModelToEntity(ProjectDto projectDto) {
+        ProjectEntity entity = new ProjectEntity();
+        entity.setName(projectDto.getName());
+        entity.setDescription(projectDto.getDescription());
+        entity.setSdk(projectDto.getSdk());
+        return entity;
+    }
 }

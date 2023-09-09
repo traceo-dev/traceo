@@ -1,6 +1,6 @@
 package org.traceo.common.transport.enums;
 
-public enum MetricUnitEnum {
+public enum MetricUnit {
     PERCENTAGE,
     MEGABYTES,
     KILOBYTES,

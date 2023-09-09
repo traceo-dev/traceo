@@ -2,7 +2,7 @@ package org.traceo.common.transport.dto.api;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.traceo.common.transport.enums.UserStatusEnum;
+import org.traceo.common.transport.enums.UserStatus;
 
 @Getter @Setter
 public class UserDto {
@@ -12,6 +12,6 @@ public class UserDto {
     private String password;
     private String gravatar;
 
-    private UserStatusEnum status;
+    private UserStatus status;
     private boolean isAdmin;
 }

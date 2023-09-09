@@ -1,6 +1,6 @@
 package org.traceo.common.transport.enums;
 
-public enum IncidentStatusEnum {
+public enum IncidentStatus {
     RESOLVED,
     UNRESOLVED,
     IN_PROGRESS

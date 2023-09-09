@@ -1,6 +1,6 @@
 package org.traceo.common.transport.enums;
 
-public enum MemberRoleEnum {
+public enum MemberRole {
     ADMINISTRATOR,
     MAINTAINER,
     VIEWER,

@@ -5,7 +5,7 @@ import org.traceo.common.transport.response.ApiResponse;
 
 public interface ProjectService {
     ApiResponse create(ProjectDto dto);
-    ApiResponse update(ProjectDto dto);
+    ApiResponse update(String id, ProjectDto dto);
     ApiResponse delete(String id);
 
     ApiResponse generateApiKey(String id);

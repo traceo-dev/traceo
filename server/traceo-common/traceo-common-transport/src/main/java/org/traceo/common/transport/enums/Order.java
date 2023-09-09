@@ -1,6 +1,6 @@
 package org.traceo.common.transport.enums;
 
-public enum OrderEnum {
+public enum Order {
     ASC,
     DESC
 }

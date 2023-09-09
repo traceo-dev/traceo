@@ -1,6 +1,6 @@
 package org.traceo.common.transport.enums;
 
-public enum VisualizationTypeEnum {
+public enum VisualizationType {
     TIME_SERIES,
     HISTOGRAM,
     GAUGE,

@@ -1,6 +1,6 @@
 package org.traceo.common.transport.enums;
 
-public enum SdkEnum {
+public enum TraceoSdk {
     NODE,
     REACT,
     VUE,

@@ -43,9 +43,9 @@ public class ProjectController {
         return projectService.create(dto);
     }
 
-    @PatchMapping
-    private ApiResponse update(@RequestBody ProjectDto dto) {
-        return projectService.update(dto);
+    @PatchMapping("/{id}")
+    private ApiResponse update(@PathVariable String id, @RequestBody ProjectDto dto) {
+        return projectService.update(id, dto);
     }
 
     @DeleteMapping("/{id}")

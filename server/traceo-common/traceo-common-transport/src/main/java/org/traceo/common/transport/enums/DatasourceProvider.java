@@ -1,6 +1,6 @@
 package org.traceo.common.transport.enums;
 
-public enum DatasourceProviderEnum {
+public enum DatasourceProvider {
     HTTP,
     MONGODB,
     POSTGRESQL,

@@ -3,7 +3,7 @@ package org.traceo.common.transport.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.traceo.common.transport.enums.MetricUnitEnum;
+import org.traceo.common.transport.enums.MetricUnit;
 
 @Getter
 @Setter
@@ -11,7 +11,7 @@ import org.traceo.common.transport.enums.MetricUnitEnum;
 public class PanelSerieDto {
     private String name;
     private String description;
-    private MetricUnitEnum unit = MetricUnitEnum.NONE;
+    private MetricUnit unit = MetricUnit.NONE;
     private DatasourceDTO datasource = new DatasourceDTO();
     private ConfigDTO config = new ConfigDTO();
 

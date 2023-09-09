@@ -6,8 +6,8 @@ import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import org.traceo.common.transport.dto.IncidentTraceDto;
-import org.traceo.common.transport.enums.IncidentStatusEnum;
-import org.traceo.common.transport.enums.SdkEnum;
+import org.traceo.common.transport.enums.IncidentStatus;
+import org.traceo.common.transport.enums.TraceoSdk;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,10 +25,10 @@ public class IncidentEntity extends BaseEntity {
     private String id;
 
     @Column(nullable = false)
-    private SdkEnum sdk;
+    private TraceoSdk sdk;
 
     @Column(nullable = false)
-    private IncidentStatusEnum status;
+    private IncidentStatus status;
 
     @Column(nullable = false)
     private String name;

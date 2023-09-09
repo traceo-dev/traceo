@@ -19,7 +19,7 @@ import org.traceo.common.jpa.entities.SessionEntity;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.SessionRepository;
 import org.traceo.common.jpa.repositories.UserRepository;
-import org.traceo.common.transport.enums.UserStatusEnum;
+import org.traceo.common.transport.enums.UserStatus;
 import org.traceo.common.transport.response.ApiResponse;
 import org.traceo.security.model.ContextDetails;
 import org.traceo.security.config.ContextHolder;
@@ -60,12 +60,12 @@ public class AuthServiceImpl implements AuthService {
                 return ApiResponse.ofError("Bad password.");
             }
 
-            if (user.getStatus().equals(UserStatusEnum.DISABLED)) {
+            if (user.getStatus().equals(UserStatus.DISABLED)) {
                 return ApiResponse.ofError("User suspended. Contact with administrator of this Traceo Platform.");
             }
 
-            if (user.getStatus().equals(UserStatusEnum.INACTIVE)) {
-                user.setStatus(UserStatusEnum.ACTIVE);
+            if (user.getStatus().equals(UserStatus.INACTIVE)) {
+                user.setStatus(UserStatus.ACTIVE);
                 userRepository.save(user);
             }
 

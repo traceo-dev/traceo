@@ -3,8 +3,7 @@ package org.traceo.common.jpa.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.traceo.common.transport.dto.api.UserDto;
-import org.traceo.common.transport.enums.UserStatusEnum;
+import org.traceo.common.transport.enums.UserStatus;
 
 
 @Entity
@@ -23,7 +22,7 @@ public class UserEntity extends BaseEntity {
     private String password;
 
     private String gravatar;
-    private UserStatusEnum status = UserStatusEnum.ACTIVE;
+    private UserStatus status = UserStatus.ACTIVE;
 
     @Column(name = "is_admin")
     private boolean isAdmin;

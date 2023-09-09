@@ -18,7 +18,7 @@ import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.SessionRepository;
 import org.traceo.common.jpa.repositories.UserRepository;
 import org.traceo.common.transport.enums.ResponseStatus;
-import org.traceo.common.transport.enums.UserStatusEnum;
+import org.traceo.common.transport.enums.UserStatus;
 import org.traceo.common.transport.response.ApiResponse;
 import org.traceo.security.config.ContextHolder;
 import org.traceo.security.model.AuthenticationContextDto;
@@ -49,13 +49,13 @@ public class AuthServiceTest {
         UserEntity user = new UserEntity();
         user.setUsername("test_user");
         user.setPassword(passwordEncoder.encode("test_password"));
-        user.setStatus(UserStatusEnum.ACTIVE);
+        user.setStatus(UserStatus.ACTIVE);
         userRepository.save(user);
 
         UserEntity disabledUser = new UserEntity();
         disabledUser.setUsername("disabled_user");
         disabledUser.setPassword(passwordEncoder.encode("test_password"));
-        disabledUser.setStatus(UserStatusEnum.DISABLED);
+        disabledUser.setStatus(UserStatus.DISABLED);
         userRepository.save(disabledUser);
     }
 

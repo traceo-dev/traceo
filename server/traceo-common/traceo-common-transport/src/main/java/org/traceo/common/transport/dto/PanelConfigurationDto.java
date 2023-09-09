@@ -1,8 +1,8 @@
 package org.traceo.common.transport.dto;
 
 import lombok.Data;
-import org.traceo.common.transport.enums.MetricUnitEnum;
-import org.traceo.common.transport.enums.VisualizationTypeEnum;
+import org.traceo.common.transport.enums.MetricUnit;
+import org.traceo.common.transport.enums.VisualizationType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,8 +10,8 @@ import java.util.List;
 
 @Data
 public class PanelConfigurationDto implements Serializable {
-    private MetricUnitEnum unit = MetricUnitEnum.NONE;
-    private VisualizationTypeEnum visualization = VisualizationTypeEnum.TIME_SERIES;
+    private MetricUnit unit = MetricUnit.NONE;
+    private VisualizationType visualization = VisualizationType.TIME_SERIES;
     private List<PanelSerieDto> series = new ArrayList<>();
     private HistogramDTO histogram;
     private StackDTO stack;
