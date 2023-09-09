@@ -18,7 +18,7 @@ public class UserBuilder {
     }
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
 //    Entry method for builder
     public static UserBuilder standard() {

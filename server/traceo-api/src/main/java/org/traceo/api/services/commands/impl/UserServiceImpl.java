@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.traceo.api.exceptions.UserNotExistsException;
@@ -28,11 +27,13 @@ public class UserServiceImpl implements UserService {
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private static final String ADMIN_EMAIL = "admin@localhost";
 
-    @Autowired
-    private UserRepository userRepository;
+    private final  UserRepository userRepository;
+    private final SessionRepository sessionRepository;
 
-    @Autowired
-    private SessionRepository sessionRepository;
+    public UserServiceImpl(UserRepository userRepository, SessionRepository sessionRepository) {
+        this.userRepository = userRepository;
+        this.sessionRepository = sessionRepository;
+    }
 
     public ApiResponse create(UserDto dto) {
         Optional<UserEntity> userEntity = userRepository.findByUsernameOrEmail(dto.getUsername(), dto.getEmail());

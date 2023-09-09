@@ -19,7 +19,7 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, String> 
 
     @Transactional
     @Modifying
-    @Query("UPDATE ProjectEntity p SET p.name = :#{#update.name}, p.description = :#{#update.description} WHERE p.id = :projecId")
+    @Query("UPDATE ProjectEntity p SET p.name = :#{#update.name}, p.description = :#{#update.description} WHERE p.id = :projectId")
     void update(@Param("projectId") String projectId, @Param("update") ProjectDto dto);
 
     @Transactional
