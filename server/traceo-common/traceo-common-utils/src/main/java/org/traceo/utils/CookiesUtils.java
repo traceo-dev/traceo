@@ -10,6 +10,9 @@ import java.util.Objects;
 public class CookiesUtils {
     public static Cookie get(Cookie[] cookies, String name) {
         Objects.requireNonNull(name, "Name cannot be null!");
+        if (cookies == null || cookies.length == 0) {
+            return null;
+        }
 
         return Arrays.stream(cookies)
                 .filter(c -> c.getName().equals(name))

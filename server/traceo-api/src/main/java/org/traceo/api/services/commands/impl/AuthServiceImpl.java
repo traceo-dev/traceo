@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.traceo.api.exceptions.UserNotExistsException;
+import org.traceo.api.exceptions.AuthenticationException;
+import org.traceo.api.exceptions.PermissionException;
+import org.traceo.api.exceptions.ResourceNotFoundException;
 import org.traceo.api.models.AuthCredentials;
+import org.traceo.api.models.response.LoginResponse;
 import org.traceo.common.transport.dto.api.UpdatePasswordDto;
 import org.traceo.common.transport.dto.api.UserCredentialsDto;
 import org.traceo.api.services.commands.AuthService;
@@ -20,22 +23,18 @@ import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.SessionRepository;
 import org.traceo.common.jpa.repositories.UserRepository;
 import org.traceo.common.transport.enums.UserStatus;
-import org.traceo.common.transport.response.ApiResponse;
 import org.traceo.security.model.ContextDetails;
 import org.traceo.security.config.ContextHolder;
 import org.traceo.utils.CookiesUtils;
 import org.traceo.utils.TimeUtils;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
 @Transactional
 @Service
 public class AuthServiceImpl implements AuthService {
-    private final Logger logger = LoggerFactory.getLogger(AuthServiceImpl.class);
-
     private static final String SESSION_NAME = "traceo_session";
     private static final int COOKIE_MAX_AGE = 3600 * 24; // 1 hour = 60 minutes * 60 seconds * 24 hours
 
@@ -48,22 +47,18 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public ApiResponse login(AuthCredentials credentials, HttpServletResponse response, HttpServletRequest request) {
+    public LoginResponse login(AuthCredentials credentials, HttpServletResponse response, HttpServletRequest request) {
+        UserEntity user = userRepository
+                .findByUsername(credentials.username())
+                .orElseThrow(() -> new ResourceNotFoundException("User with provided username does not exists."));
+
+        checkCredentials(credentials.password(), user.getPassword());
+
+        if (user.getStatus().equals(UserStatus.DISABLED)) {
+            throw new PermissionException("User suspended. Contact with administrator of this Traceo Platform.");
+        }
+
         try {
-            Optional<UserEntity> userEntity = userRepository.findByUsername(credentials.username());
-            if (userEntity.isEmpty()) {
-                return ApiResponse.ofError("User with provided username does not exists.");
-            }
-
-            UserEntity user = userEntity.get();
-            if (!passwordEncoder.matches(credentials.password(), user.getPassword())) {
-                return ApiResponse.ofError("Bad password.");
-            }
-
-            if (user.getStatus().equals(UserStatus.DISABLED)) {
-                return ApiResponse.ofError("User suspended. Contact with administrator of this Traceo Platform.");
-            }
-
             if (user.getStatus().equals(UserStatus.INACTIVE)) {
                 user.setStatus(UserStatus.ACTIVE);
                 userRepository.save(user);
@@ -74,10 +69,16 @@ public class AuthServiceImpl implements AuthService {
 
             response.addCookie(createSessionCookie(session));
 
-            return ApiResponse.ofSuccess();
-        } catch (Exception e) {
-            logger.error("Failed to login.", e);
-            return ApiResponse.ofError("Failed to login.");
+            return new LoginResponse(user.getId(), session.getSessionID());
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Failed to login.", e);
+        }
+    }
+
+    private void checkCredentials(CharSequence rawPassword, String encodedPassword) {
+        boolean isCorrect = passwordEncoder.matches(rawPassword, encodedPassword);
+        if (!isCorrect) {
+            throw new AuthenticationException("Wrong password.");
         }
     }
 
@@ -103,69 +104,55 @@ public class AuthServiceImpl implements AuthService {
         return session;
     }
 
-    public ApiResponse logout(HttpServletResponse response, HttpServletRequest request) {
+    public void logout(HttpServletResponse response, HttpServletRequest request) {
         ContextDetails details = ContextHolder.getDetails();
 
         Cookie[] cookies = request.getCookies();
 
         Cookie cookie = CookiesUtils.get(cookies, SESSION_NAME);
         if (cookie == null) {
-            return ApiResponse.ofError("Cookie with session id not found!");
+            throw new ResourceNotFoundException("Cookie with session id not found!");
         }
 
         try {
             CookiesUtils.clearCookie(response, SESSION_NAME);
             sessionRepository.deleteBySessionID(details.getSessionId());
-
-            return ApiResponse.ofSuccess();
-        } catch (Exception e) {
-            logger.error("Failed to logout. ", e);
-            return ApiResponse.ofError("Failed to logout.");
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Failed to logout.", e);
         }
     }
 
-    public record CheckCredentialsDto(boolean isCorrect) {}
-
     @Override
-    public ApiResponse checkCredentials(UserCredentialsDto dto) {
+    public boolean checkCredentials(UserCredentialsDto dto) {
         try {
-            Optional<UserEntity> userEntity = userRepository.findByUsername(dto.username());
-            if (userEntity.isPresent()) {
-                UserEntity user = userEntity.get();
-                boolean isOk = passwordEncoder.matches(dto.password(), user.getPassword());
-                return ApiResponse.ofSuccess(new CheckCredentialsDto(isOk));
-            }
+            UserEntity user = userRepository
+                    .findByUsername(dto.username())
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found."));
 
-            return ApiResponse.ofError(new CheckCredentialsDto(false));
-        } catch (Exception e){
-            logger.error("Failed to check credentials.", e);
-            return ApiResponse.ofError("Failed to check credentials.");
+            return passwordEncoder.matches(dto.password(), user.getPassword());
+        } catch (RuntimeException e){
+            throw new RuntimeException("Failed to check credentials.", e);
         }
     }
 
     @Override
-    public ApiResponse updatePassword(UpdatePasswordDto dto) {
+    public void updatePassword(UpdatePasswordDto dto) {
         ContextDetails ctx = ContextHolder.getDetails();
 
         try {
-            Optional<UserEntity> userEntity = userRepository.findById(ctx.getUserId());
-            if (userEntity.isEmpty()) {
-                throw new UserNotExistsException();
-            }
-
-            UserEntity user = userEntity.get();
+            UserEntity user = userRepository
+                    .findById(ctx.getUserId())
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
             boolean isOkPassword = passwordEncoder.matches(dto.password(), user.getPassword());
             if (!isOkPassword) {
-                return ApiResponse.ofError("Wrong password.");
+                throw new AuthenticationException("Wrong password");
             }
 
             user.setPassword(passwordEncoder.encode(dto.newPassword()));
             userRepository.save(user);
-            return ApiResponse.ofSuccess("Password updated.");
-        } catch (Exception e) {
-            logger.error("Failed to update password.", e);
-            return ApiResponse.ofError("Failed to update password.");
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Failed to update password.", e);
         }
     }
 }

@@ -9,22 +9,16 @@ import org.traceo.common.transport.response.ApiResponse;
 @Service
 public class DashboardServiceImpl implements DashboardService {
     @Override
-    public ApiResponse create(DashboardDto dto) {
+    public String create(DashboardDto dto) {
         return null;
     }
 
     @Override
-    public ApiResponse update(DashboardDto dto) {
-        return null;
-    }
+    public void update(DashboardDto dto) { }
 
     @Override
-    public ApiResponse remove(String id) {
-        return null;
-    }
+    public void remove(String id) { }
 
     @Override
-    public ApiResponse updateLayout(DashboardLayoutDto dto) {
-        return null;
-    }
+    public void updateLayout(DashboardLayoutDto dto) { }
 }

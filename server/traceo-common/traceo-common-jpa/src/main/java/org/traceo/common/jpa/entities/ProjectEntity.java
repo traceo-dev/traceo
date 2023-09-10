@@ -76,4 +76,14 @@ public class ProjectEntity extends BaseEntity {
         entity.setSdk(projectDto.getSdk());
         return entity;
     }
+
+    public static ProjectDto mapEntityToModel(ProjectEntity entity) {
+        ProjectDto dto = new ProjectDto();
+        dto.setId(entity.getId());
+        dto.setMainDashboardId(entity.getMainDashboardId());
+        dto.setName(entity.getName());
+        dto.setDescription(entity.getDescription());
+        dto.setSdk(entity.getSdk());
+        return dto;
+    }
 }

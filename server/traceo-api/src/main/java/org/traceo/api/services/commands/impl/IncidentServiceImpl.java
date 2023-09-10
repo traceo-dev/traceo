@@ -8,12 +8,8 @@ import org.traceo.common.transport.response.ApiResponse;
 @Service
 public class IncidentServiceImpl implements IncidentService {
     @Override
-    public ApiResponse update(IncidentDto dto) {
-        return null;
-    }
+    public void update(IncidentDto dto) { }
 
     @Override
-    public ApiResponse delete(String id) {
-        return null;
-    }
+    public void delete(String id) { }
 }

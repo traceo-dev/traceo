@@ -4,7 +4,7 @@ import org.traceo.common.transport.dto.api.UserDto;
 import org.traceo.common.transport.response.ApiResponse;
 
 public interface UserService {
-    ApiResponse create(UserDto dto);
-    ApiResponse update(UserDto dto);
-    ApiResponse delete(String id);
+    String create(UserDto dto);
+    void update(UserDto dto);
+    void delete(String id);
 }

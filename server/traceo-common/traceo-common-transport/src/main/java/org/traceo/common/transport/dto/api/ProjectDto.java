@@ -6,6 +6,8 @@ import org.traceo.common.transport.enums.TraceoSdk;
 
 @Getter @Setter
 public class ProjectDto {
+    private String id;
+    private String mainDashboardId;
     private String name;
     private String description;
     private TraceoSdk sdk;

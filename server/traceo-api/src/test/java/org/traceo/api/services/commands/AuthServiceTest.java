@@ -12,7 +12,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.traceo.api.TestConfig;
+import org.traceo.api.exceptions.AuthenticationException;
+import org.traceo.api.exceptions.PermissionException;
+import org.traceo.api.exceptions.ResourceNotFoundException;
 import org.traceo.api.models.AuthCredentials;
+import org.traceo.api.models.response.LoginResponse;
 import org.traceo.common.jpa.entities.SessionEntity;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.SessionRepository;
@@ -68,16 +72,16 @@ public class AuthServiceTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
 
-        ApiResponse apiResponse = authService.login(credentials, response, request);
-
-        assertEquals(ResponseStatus.SUCCESS, apiResponse.getStatus());
-
-        // Check if a session was created in the database
         UserEntity user = userRepository.findByUsername(username).orElse(null);
         assertNotNull(user);
 
-        SessionEntity session = sessionRepository.findByUserID(user.getId()).orElse(null);
+        LoginResponse loginResponse = authService.login(credentials, response, request);
+        SessionEntity session = sessionRepository.findBySessionID(loginResponse.sessionId()).orElse(null);
+
         assertNotNull(session);
+        assertEquals(session.getUserID(), user.getId());
+        assertEquals(session.getUserID(), loginResponse.userId());
+        assertEquals(session.getSessionID(), loginResponse.sessionId());
     }
 
     @Test
@@ -86,15 +90,21 @@ public class AuthServiceTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
 
-        ApiResponse apiResponse = authService.login(credentials, response, request);
-        assertEquals(ResponseStatus.ERROR, apiResponse.getStatus());
+        Exception exception = assertThrows(ResourceNotFoundException.class, () -> {
+            authService.login(credentials, response, request);
+        });
+
+        assertEquals(exception.getMessage(), "User with provided username does not exists.");
 
         AuthCredentials credentials2 = new AuthCredentials("test_user", "invalid_password");
         MockHttpServletRequest request2 = new MockHttpServletRequest();
         MockHttpServletResponse response2 = new MockHttpServletResponse();
 
-        ApiResponse apiResponse2 = authService.login(credentials2, response2, request2);
-        assertEquals(ResponseStatus.ERROR, apiResponse2.getStatus());
+        Exception exception2 = assertThrows(AuthenticationException.class, () -> {
+            authService.login(credentials2, response2, request2);
+        });
+
+        assertEquals(exception2.getMessage(), "Wrong password.");
 
         // Ensure no session was created in the database
         UserEntity user = userRepository.findByUsername("test_user").orElse(null);
@@ -110,41 +120,44 @@ public class AuthServiceTest {
         MockHttpServletRequest request = new MockHttpServletRequest();
         MockHttpServletResponse response = new MockHttpServletResponse();
 
-        ApiResponse apiResponse = authService.login(credentials, response, request);
-        assertEquals(ResponseStatus.ERROR, apiResponse.getStatus());
+        Exception exception = assertThrows(PermissionException.class, () -> {
+            authService.login(credentials, response, request);
+        });
+
+        assertEquals(exception.getMessage(), "User suspended. Contact with administrator of this Traceo Platform.");
     }
 
     @Test
     @Disabled // TODO:
     public void testLogout() {
-        final String username = "test_user";
-        final String password = "test_password";
-
-        AuthCredentials credentials = new AuthCredentials(username, password);
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        MockHttpServletResponse response = new MockHttpServletResponse();
-        ApiResponse loginApiResponse = authService.login(credentials, response, request);
-
-        assertEquals(ResponseStatus.SUCCESS, loginApiResponse.getStatus());
-
-        String sessionId = CookiesUtils.getValue(response.getCookies(), "traceo_session");
-
-        // Mock auth context holder
-        ContextDetails contextDetails = new ContextDetails(null, username, sessionId);
-        Authentication authentication = new AuthenticationContextDto(null, contextDetails);
-
-        ContextHolder.setAuthentication(authentication);
-
-        ContextDetails details = ContextHolder.getDetails();
-        assertNotNull(details);
-
-        ApiResponse logoutApiResponse = authService.logout(response, request);
-
-        assertEquals(ResponseStatus.SUCCESS, logoutApiResponse.getStatus());
-
-        // Ensure the session was deleted from the database
-        SessionEntity session = sessionRepository.findBySessionID(details.getSessionId()).orElse(null);
-        assertNull(session);
+//        final String username = "test_user";
+//        final String password = "test_password";
+//
+//        AuthCredentials credentials = new AuthCredentials(username, password);
+//
+//        MockHttpServletRequest request = new MockHttpServletRequest();
+//        MockHttpServletResponse response = new MockHttpServletResponse();
+//        ApiResponse loginApiResponse = authService.login(credentials, response, request);
+//
+//        assertEquals(ResponseStatus.SUCCESS, loginApiResponse.getStatus());
+//
+//        String sessionId = CookiesUtils.getValue(response.getCookies(), "traceo_session");
+//
+//        // Mock auth context holder
+//        ContextDetails contextDetails = new ContextDetails(null, username, sessionId);
+//        Authentication authentication = new AuthenticationContextDto(null, contextDetails);
+//
+//        ContextHolder.setAuthentication(authentication);
+//
+//        ContextDetails details = ContextHolder.getDetails();
+//        assertNotNull(details);
+//
+//        ApiResponse logoutApiResponse = authService.logout(response, request);
+//
+//        assertEquals(ResponseStatus.SUCCESS, logoutApiResponse.getStatus());
+//
+//        // Ensure the session was deleted from the database
+//        SessionEntity session = sessionRepository.findBySessionID(details.getSessionId()).orElse(null);
+//        assertNull(session);
     }
 }

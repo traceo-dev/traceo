@@ -4,7 +4,7 @@ import org.traceo.common.transport.dto.api.DashboardPanelDto;
 import org.traceo.common.transport.response.ApiResponse;
 
 public interface DashboardPanelService {
-    ApiResponse create(DashboardPanelDto dto);
-    ApiResponse update(DashboardPanelDto dto);
-    ApiResponse remove(String id);
+    String create(DashboardPanelDto dto);
+    void update(DashboardPanelDto dto);
+    void remove(String id);
 }

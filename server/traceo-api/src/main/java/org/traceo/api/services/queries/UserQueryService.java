@@ -2,10 +2,14 @@ package org.traceo.api.services.queries;
 
 import org.traceo.api.models.query.ProjectsQueryDto;
 import org.traceo.api.models.query.UsersQueryDto;
+import org.traceo.common.transport.dto.api.ProjectDto;
+import org.traceo.common.transport.dto.api.UserDto;
 import org.traceo.common.transport.response.ApiResponse;
 
+import java.util.List;
+
 public interface UserQueryService {
-    ApiResponse getUser(String id);
-    ApiResponse getUsers(UsersQueryDto query);
-    ApiResponse getUserProjects(String id, ProjectsQueryDto query);
+    UserDto getUser(String id);
+    List<UserDto> getUsers(UsersQueryDto query);
+    List<ProjectDto> getUserProjects(String id, ProjectsQueryDto query);
 }

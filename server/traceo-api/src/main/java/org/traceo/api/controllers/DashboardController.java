@@ -1,6 +1,9 @@
 package org.traceo.api.controllers;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.traceo.api.models.response.CreateResponse;
 import org.traceo.api.services.commands.DashboardPanelService;
 import org.traceo.api.services.commands.DashboardService;
 import org.traceo.api.services.queries.DashboardQueryService;
@@ -8,6 +11,8 @@ import org.traceo.common.transport.dto.api.DashboardDto;
 import org.traceo.common.transport.dto.api.DashboardLayoutDto;
 import org.traceo.common.transport.dto.api.DashboardPanelDto;
 import org.traceo.common.transport.response.ApiResponse;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/dashboard")
@@ -23,52 +28,62 @@ public class DashboardController {
     }
 
     @GetMapping("/{id}")
-    private ApiResponse getDashboard(@PathVariable String id) {
-        return dashboardQueryService.getDashboard(id);
+    private ResponseEntity<ApiResponse> getDashboard(@PathVariable String id) {
+        DashboardDto response = dashboardQueryService.getDashboard(id);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(response), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/panels")
-    private ApiResponse getDashboardPanels(@PathVariable String id) {
-        return dashboardQueryService.getDashboardPanels(id);
+    private ResponseEntity<ApiResponse> getDashboardPanels(@PathVariable String id) {
+        List<DashboardPanelDto> response = dashboardQueryService.getDashboardPanels(id);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(response), HttpStatus.OK);
     }
 
     @GetMapping("/panel/{id}")
-    private ApiResponse getDashboardPanel(@PathVariable String id) {
-        return dashboardQueryService.getDashboardPanel(id);
+    private ResponseEntity<ApiResponse> getDashboardPanel(@PathVariable String id) {
+        DashboardPanelDto response = dashboardQueryService.getDashboardPanel(id);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(response), HttpStatus.OK);
     }
 
     @PostMapping
-    private ApiResponse createDashboard(@RequestBody DashboardDto dto) {
-        return dashboardService.create(dto);
+    private ResponseEntity<ApiResponse> createDashboard(@RequestBody DashboardDto dto) {
+        String id = dashboardService.create(dto);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(new CreateResponse((id))), HttpStatus.OK);
     }
 
     @PostMapping("/panel")
-    private ApiResponse createDashboardPanel(@RequestBody DashboardPanelDto dto) {
-        return dashboardPanelService.create(dto);
+    private ResponseEntity<ApiResponse> createDashboardPanel(@RequestBody DashboardPanelDto dto) {
+        String id = dashboardPanelService.create(dto);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(new CreateResponse((id))), HttpStatus.OK);
     }
 
     @PatchMapping()
-    private ApiResponse updateDashboard(@RequestBody DashboardDto dto) {
-        return dashboardService.update(dto);
+    private ResponseEntity<ApiResponse> updateDashboard(@RequestBody DashboardDto dto) {
+        dashboardService.update(dto);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
     }
 
     @PatchMapping("/panel")
-    private ApiResponse updateDashboardPanel(@RequestBody DashboardPanelDto dto) {
-        return dashboardPanelService.update(dto);
+    private ResponseEntity<ApiResponse> updateDashboardPanel(@RequestBody DashboardPanelDto dto) {
+        dashboardPanelService.update(dto);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
     }
 
     @PatchMapping("/layout")
-    private ApiResponse updateDashboardLayout(@RequestBody DashboardLayoutDto dto) {
-        return dashboardService.updateLayout(dto);
+    private ResponseEntity<ApiResponse> updateDashboardLayout(@RequestBody DashboardLayoutDto dto) {
+        dashboardService.updateLayout(dto);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
     }
 
     @DeleteMapping()
-    private ApiResponse removeDashboard(@RequestParam String dashboardId, @RequestParam String projectId) {
-        return dashboardService.remove(dashboardId);
+    private ResponseEntity<ApiResponse> removeDashboard(@RequestParam String dashboardId, @RequestParam String projectId) {
+        dashboardService.remove(dashboardId);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
     }
 
     @DeleteMapping("/panel/{id}")
-    private ApiResponse removePanel(@PathVariable String id) {
-        return dashboardPanelService.remove(id);
+    private ResponseEntity<ApiResponse> removePanel(@PathVariable String id) {
+        dashboardPanelService.remove(id);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
     }
 }

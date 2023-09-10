@@ -6,14 +6,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.traceo.api.exceptions.UserNotExistsException;
+import org.traceo.api.exceptions.*;
 import org.traceo.api.services.commands.UserService;
 import org.traceo.common.creators.builders.UserBuilder;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.SessionRepository;
 import org.traceo.common.jpa.repositories.UserRepository;
 import org.traceo.common.transport.dto.api.UserDto;
-import org.traceo.common.transport.response.ApiResponse;
 import org.traceo.security.config.ContextHolder;
 import org.traceo.security.model.ContextDetails;
 
@@ -35,15 +34,15 @@ public class UserServiceImpl implements UserService {
         this.sessionRepository = sessionRepository;
     }
 
-    public ApiResponse create(UserDto dto) {
+    public String create(UserDto dto) {
         Optional<UserEntity> userEntity = userRepository.findByUsernameOrEmail(dto.getUsername(), dto.getEmail());
         if (userEntity.isPresent()) {
             UserEntity user = userEntity.get();
             if (dto.getUsername().equals(user.getUsername())) {
-                return ApiResponse.ofError("User with this username already exists.");
+                throw new NotUniqueField("User with this username already exists.");
             }
 
-            return ApiResponse.ofError("User with this email already exists.");
+            throw new NotUniqueField("User with this email already exists.");
         }
 
         UserEntity entity = UserBuilder
@@ -54,46 +53,47 @@ public class UserServiceImpl implements UserService {
 
         UserEntity user = userRepository.save(entity);
 
-        return ApiResponse.ofSuccess("New user account has been created", new CreateUserResponse(user.getId()));
+        return user.getId();
     }
 
     @Override
-    public ApiResponse update(UserDto dto) {
+    public void update(UserDto dto) {
         if (dto.isAdmin() && ADMIN_EMAIL.equals(dto.getEmail())) {
-            return ApiResponse.ofSuccess("The administrator account cannot be modified.");
+            throw new ModifyException("The administrator account cannot be modified.");
         }
 
+//        UserEntity userEntity = userRepository
+//                .findByUsername(dto.getUsername())
+//                .orElseThrow(() -> new ResourceNotFoundException("User not found."));
+
         try {
-            Optional<UserEntity> userEntity = userRepository.findByUsername(dto.getUsername());
-            if (userEntity.isEmpty()) {
-                throw new UserNotExistsException();
-            }
-
             userRepository.updateByUsername(dto.getUsername(), dto);
-
-            return ApiResponse.ofSuccess("User updated.");
-        } catch (Exception e) {
-            logger.error("Failed to update.", e);
-            return ApiResponse.ofError("Failed to update.");
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     @Transactional
-    public ApiResponse delete(String id) {
+    public void delete(String id) {
         ContextDetails ctx = ContextHolder.getDetails();
+        UserEntity user = userRepository
+                .findById(ctx.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found."));
+
+        if (!user.isAdmin()) {
+            throw new PermissionException("Only users with admin role can remove other account");
+        }
+
+        UserEntity updateUser = userRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found."));
+
+        if (updateUser.getEmail().equals("admin@localhost")) {
+            throw new ModifyException("Cannot remove root admin account.");
+        }
+
         try {
-            Optional<UserEntity> userEntity = userRepository.findById(ctx.getUserId());
-            if (userEntity.isEmpty()) {
-                throw new UserNotExistsException();
-            }
-
-            UserEntity user = userEntity.get();
-
-            if (!user.isAdmin()) {
-                return ApiResponse.ofError("Only users with admin role can remove other account");
-            }
-
 //            Removing all sessions
             sessionRepository.deleteAllByUserID(id);
 
@@ -101,14 +101,8 @@ public class UserServiceImpl implements UserService {
             userRepository.deleteById(id);
 
             logger.info("User with id: {} removed.", id);
-
-            return ApiResponse.ofSuccess("User successfully removed");
-        } catch (Exception e) {
-            logger.error("Failed to delete.", e);
-            return ApiResponse.ofError("Failed to delete.");
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
         }
     }
-
-    @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-    private record CreateUserResponse(String id) implements Serializable { }
 }
