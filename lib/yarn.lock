@@ -352,13 +352,17 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@clickhouse/client@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@clickhouse/client/-/client-0.0.15.tgz#1fd508f769d7a0061711a07d5f5bcf97ccba851e"
-  integrity sha512-BvUXRorcOrFqFKp6yc7QrPSAQwDcVokEXjRPJzPI70/i60lXnWSan4zCgXl/aOM1B15v/GRGp7Kv6pZ8u2tHIA==
+"@clickhouse/client-common@0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@clickhouse/client-common/-/client-common-0.2.2.tgz#0690046241140a51ba5b0c0b9298c3cb3cf20974"
+  integrity sha512-jlom9zLfcDzX9E3off93ZD3CPOkClyM213Y7TN1datkuRGKMvVyj1k0KXaMekhbRev+FTe85CqfoD5eq6qOnPg==
+
+"@clickhouse/client@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@clickhouse/client/-/client-0.2.2.tgz#a6358aa2342ee3f2850cdb2f47a9e1d6fbde5757"
+  integrity sha512-2faBnDS4x7ZkcOZqi3f6H967kH+nOfJLhBTWWjz0wTSBnEJBXRtePhN/ZY0NJIKc9Ga5w41Pf67mQgm6Dm/1/w==
   dependencies:
-    node-abort-controller "^3.0.1"
-    uuid "^9.0.0"
+    "@clickhouse/client-common" "0.2.2"
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
