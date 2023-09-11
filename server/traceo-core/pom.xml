@@ -14,6 +14,7 @@
     <modules>
         <module>traceo-core-services</module>
         <module>traceo-core-security</module>
+        <module>traceo-core-kafka</module>
     </modules>
 
     <dependencies>
