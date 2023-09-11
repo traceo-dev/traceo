@@ -1,10 +1,13 @@
 package org.traceo.common.transport.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
-//TODO: docs
+@Getter @Setter
 public class PanelGridPosition implements Serializable {
-    private int i;
+    private String i;
     private int x;
     private int y;
     private int h;

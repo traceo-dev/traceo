@@ -3,6 +3,7 @@ package org.traceo.common.jpa.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.traceo.common.transport.dto.api.DashboardDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,24 @@ public class DashboardEntity extends BaseEntity {
             CascadeType.PERSIST
     })
     private List<DashboardPanelEntity> panels = new ArrayList<>();
+
+    public static DashboardEntity mapToEntity(DashboardDto dto, ProjectEntity project) {
+        DashboardEntity entity = new DashboardEntity();
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setProject(project);
+        return entity;
+    }
+
+    public static DashboardDto mapToModel(DashboardEntity entity) {
+        DashboardDto dto = new DashboardDto();
+        dto.setDashboardId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setDescription(entity.getDescription());
+        dto.setEditable(entity.isEditable());
+        dto.setTimePicker(entity.isTimePicker());
+        return dto;
+    }
 
     public static DashboardEntity createDefaultForProject(ProjectEntity project) {
         DashboardEntity entity = new DashboardEntity();
