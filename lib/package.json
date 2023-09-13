@@ -19,7 +19,7 @@
     "../public/packages/shared/traceo-types"
   ],
   "dependencies": {
-    "@clickhouse/client": "^0.0.15",
+    "@clickhouse/client": "^0.2.2",
     "@nestjs/axios": "^0.0.7",
     "@nestjs/common": "9.0.5",
     "@nestjs/config": "^3.0.0",
