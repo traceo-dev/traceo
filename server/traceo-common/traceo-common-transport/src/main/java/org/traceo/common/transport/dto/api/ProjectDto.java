@@ -11,4 +11,7 @@ public class ProjectDto {
     private String name;
     private String description;
     private TraceoSdk sdk;
+
+    private int membersCount;
+    private int incidentsCount;
 }

@@ -53,7 +53,7 @@ public class ProjectServiceImpl implements ProjectService {
         UserEntity user = userEntity.get();
 
         try {
-            ProjectEntity projectPayload = ProjectEntity.mapModelToEntity(dto);
+            ProjectEntity projectPayload = ProjectEntity.mapToEntity(dto);
             projectPayload.setOwner(userEntity.get());
 
             ProjectEntity project = projectRepository.save(projectPayload);

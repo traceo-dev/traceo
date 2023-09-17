@@ -1,4 +1,4 @@
-package org.traceo.common.jpa.entities;
+package org.traceo.common.jpa.base;
 
 import jakarta.persistence.*;
 import lombok.Getter;

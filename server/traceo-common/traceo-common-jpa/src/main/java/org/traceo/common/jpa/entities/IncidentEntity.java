@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.traceo.common.jpa.base.BaseEntity;
 import org.traceo.common.transport.dto.IncidentTraceDto;
 import org.traceo.common.transport.enums.IncidentStatus;
 import org.traceo.common.transport.enums.TraceoSdk;

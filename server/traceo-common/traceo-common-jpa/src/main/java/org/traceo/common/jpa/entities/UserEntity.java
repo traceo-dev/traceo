@@ -3,6 +3,8 @@ package org.traceo.common.jpa.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.traceo.common.jpa.base.BaseEntity;
+import org.traceo.common.transport.dto.api.UserDto;
 import org.traceo.common.transport.enums.UserStatus;
 
 
@@ -29,4 +31,15 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "last_active_at")
     private long lastActiveAt;
+
+    public static UserDto mapToModel(UserEntity entity) {
+        UserDto dto = new UserDto();
+        dto.setName(entity.getName());
+        dto.setAdmin(entity.isAdmin());
+        dto.setStatus(entity.getStatus());
+        dto.setEmail(entity.getEmail());
+        dto.setUsername(entity.getUsername());
+        dto.setGravatar(entity.getGravatar());
+        return dto;
+    }
 }

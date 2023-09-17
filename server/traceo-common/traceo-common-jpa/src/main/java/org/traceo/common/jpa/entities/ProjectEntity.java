@@ -3,6 +3,8 @@ package org.traceo.common.jpa.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Formula;
+import org.traceo.common.jpa.base.BaseEntity;
 import org.traceo.common.transport.dto.api.ProjectDto;
 import org.traceo.common.transport.enums.TraceoSdk;
 
@@ -22,7 +24,7 @@ public class ProjectEntity extends BaseEntity {
     private String description;
 
     @Column(nullable = false)
-    private TraceoSdk sdk; //TODO: enum
+    private TraceoSdk sdk;
 
     @Column(name = "api_key")
     private String apiKey;
@@ -65,7 +67,13 @@ public class ProjectEntity extends BaseEntity {
     }, mappedBy = "project")
     private Set<DatasourceEntity> datasources = new HashSet<>();
 
-    public static ProjectEntity mapModelToEntity(ProjectDto projectDto) {
+    @Formula("(SELECT COUNT(*) FROM MemberEntity m WHERE m.project_id = id)")
+    private int membersCount = 0;
+
+    @Formula("(SELECT COUNT(*) FROM IncidentEntity i WHERE i.project_id = id)")
+    private int incidentsCount = 0;
+
+    public static ProjectEntity mapToEntity(ProjectDto projectDto) {
         ProjectEntity entity = new ProjectEntity();
         entity.setName(projectDto.getName());
         entity.setDescription(projectDto.getDescription());
@@ -73,13 +81,15 @@ public class ProjectEntity extends BaseEntity {
         return entity;
     }
 
-    public static ProjectDto mapEntityToModel(ProjectEntity entity) {
+    public static ProjectDto mapToModel(ProjectEntity entity) {
         ProjectDto dto = new ProjectDto();
         dto.setId(entity.getId());
         dto.setMainDashboardId(entity.getMainDashboardId());
         dto.setName(entity.getName());
         dto.setDescription(entity.getDescription());
         dto.setSdk(entity.getSdk());
+        dto.setIncidentsCount(entity.getIncidentsCount());
+        dto.setMembersCount(entity.getMembersCount());
         return dto;
     }
 }

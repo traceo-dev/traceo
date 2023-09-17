@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
@@ -21,13 +20,7 @@ import org.traceo.common.jpa.entities.SessionEntity;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.SessionRepository;
 import org.traceo.common.jpa.repositories.UserRepository;
-import org.traceo.common.transport.enums.ResponseStatus;
 import org.traceo.common.transport.enums.UserStatus;
-import org.traceo.common.transport.response.ApiResponse;
-import org.traceo.security.config.ContextHolder;
-import org.traceo.security.model.AuthenticationContextDto;
-import org.traceo.security.model.ContextDetails;
-import org.traceo.utils.CookiesUtils;
 
 import static org.junit.jupiter.api.Assertions.*;
 

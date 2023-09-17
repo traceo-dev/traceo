@@ -1,11 +1,12 @@
 package org.traceo.common.transport.query;
 
+import lombok.Getter;
 import lombok.Setter;
 import org.traceo.common.transport.enums.Order;
 
 import java.io.Serializable;
 
-@Setter
+@Setter @Getter
 public class BaseDtoQuery implements Serializable {
     private String projectId;
     private Order order = Order.DESC;

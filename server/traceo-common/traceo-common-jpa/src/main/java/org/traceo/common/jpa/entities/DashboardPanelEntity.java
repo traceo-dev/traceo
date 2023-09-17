@@ -5,9 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import org.traceo.common.jpa.base.BaseEntity;
 import org.traceo.common.transport.dto.PanelConfigurationDto;
 import org.traceo.common.transport.dto.PanelGridPosition;
-import org.traceo.common.transport.dto.api.DashboardDto;
 import org.traceo.common.transport.dto.api.DashboardPanelDto;
 
 import java.util.Objects;

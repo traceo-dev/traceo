@@ -12,8 +12,6 @@ import org.traceo.api.exceptions.NotUniqueField;
 import org.traceo.common.transport.dto.api.UserDto;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.UserRepository;
-import org.traceo.common.transport.enums.ResponseStatus;
-import org.traceo.common.transport.response.ApiResponse;
 
 import static org.junit.jupiter.api.Assertions.*;
 
