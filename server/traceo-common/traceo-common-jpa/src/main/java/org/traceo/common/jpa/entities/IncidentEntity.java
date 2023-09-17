@@ -20,9 +20,6 @@ import java.util.Map;
 @Getter
 @Setter
 public class IncidentEntity extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
 
     @Column(nullable = false)
     private TraceoSdk sdk;

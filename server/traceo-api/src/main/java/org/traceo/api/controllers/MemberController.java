@@ -32,25 +32,25 @@ public class MemberController {
     @PostMapping("/project/add")
     private ResponseEntity<ApiResponse> create(@RequestBody MemberDto dto) {
         String id = memberService.create(dto);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(new CreateResponse(id)), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(new CreateResponse(id)), HttpStatus.CREATED);
 
     }
 
     @PatchMapping
     private ResponseEntity<ApiResponse> update(@RequestBody MemberDto dto) {
         memberService.update(dto);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping
     private ResponseEntity<ApiResponse> remove(@RequestParam String id) {
         memberService.remove(id);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/leave")
     private ResponseEntity<ApiResponse> leaveProject(@RequestParam String id) {
         memberService.leave(id);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.NO_CONTENT);
     }
 }

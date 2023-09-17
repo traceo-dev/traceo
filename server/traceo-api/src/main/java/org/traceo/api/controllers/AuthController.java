@@ -45,7 +45,7 @@ public class AuthController {
             HttpServletRequest request
     ) {
         authService.login(new AuthCredentials(username, password), response, request);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.CREATED);
     }
 
     @GetMapping("/logout")
@@ -73,7 +73,7 @@ public class AuthController {
 
         return new ResponseEntity<>(
                 ApiResponse.ofSuccess("Password updated."),
-                HttpStatus.OK
+                HttpStatus.NO_CONTENT
         );
     }
 }

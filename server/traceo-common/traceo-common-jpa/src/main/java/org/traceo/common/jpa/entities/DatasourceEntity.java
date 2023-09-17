@@ -13,9 +13,6 @@ import org.traceo.common.transport.enums.DatasourceProvider;
 @Getter
 @Setter
 public class DatasourceEntity extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
 
     @Column(unique = true, nullable = false)
     private String name;

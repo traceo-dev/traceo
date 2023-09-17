@@ -48,42 +48,42 @@ public class DashboardController {
     @PostMapping
     private ResponseEntity<ApiResponse> createDashboard(@RequestBody DashboardDto dto) {
         String id = dashboardService.create(dto);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(new CreateResponse((id))), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(new CreateResponse((id))), HttpStatus.CREATED);
     }
 
     @PostMapping("/panel")
     private ResponseEntity<ApiResponse> createDashboardPanel(@RequestBody DashboardPanelDto dto) {
         String id = dashboardPanelService.create(dto);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(new CreateResponse((id))), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(new CreateResponse((id))), HttpStatus.CREATED);
     }
 
     @PatchMapping()
     private ResponseEntity<ApiResponse> updateDashboard(@RequestBody DashboardDto dto) {
         dashboardService.update(dto);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping("/panel")
     private ResponseEntity<ApiResponse> updateDashboardPanel(@RequestBody DashboardPanelDto dto) {
         dashboardPanelService.update(dto);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping("/layout")
     private ResponseEntity<ApiResponse> updateDashboardLayout(@RequestBody DashboardLayoutDto dto) {
         dashboardService.updateLayout(dto);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping()
     private ResponseEntity<ApiResponse> removeDashboard(@RequestParam String dashboardId, @RequestParam String projectId) {
         dashboardService.remove(dashboardId);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/panel/{id}")
     private ResponseEntity<ApiResponse> removePanel(@PathVariable String id) {
         dashboardPanelService.remove(id);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.NO_CONTENT);
     }
 }

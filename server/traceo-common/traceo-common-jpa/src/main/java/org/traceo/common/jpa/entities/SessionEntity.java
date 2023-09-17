@@ -12,9 +12,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class SessionEntity extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
 
     @Column(unique = true, name = "session_id")
     private String sessionID;

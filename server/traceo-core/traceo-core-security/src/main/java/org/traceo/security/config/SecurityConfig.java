@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -46,6 +47,9 @@ public class SecurityConfig {
                 .formLogin(FormLoginConfigurer::disable)
                 .cors(CorsConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling((exc) -> {
+                    exc.authenticationEntryPoint(this.unauthorizedEntryPoint());
+                })
                 .logout((l) -> l.deleteCookies().permitAll())
                 .build();
     }

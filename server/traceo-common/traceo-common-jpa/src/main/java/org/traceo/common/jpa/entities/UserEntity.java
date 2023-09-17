@@ -10,9 +10,6 @@ import org.traceo.common.transport.enums.UserStatus;
 @Table(name = "traceo_user")
 @Getter @Setter
 public class UserEntity extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
 
     private String name;
     private String username;

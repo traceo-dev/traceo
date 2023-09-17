@@ -10,9 +10,6 @@ import org.traceo.common.transport.enums.MemberRole;
 @Getter
 @Setter
 public class MemberEntity extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
 
     @Column(nullable = false)
     private MemberRole role = MemberRole.NONE;

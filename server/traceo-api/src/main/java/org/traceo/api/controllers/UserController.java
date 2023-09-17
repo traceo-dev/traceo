@@ -48,7 +48,7 @@ public class UserController {
     @PatchMapping()
     public ResponseEntity<ApiResponse> update(@Valid @RequestBody UserDto dto) {
         userService.update(dto);
-        return new ResponseEntity<>(ApiResponse.ofSuccess("User updated"), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess("User updated"), HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/new")
@@ -59,13 +59,13 @@ public class UserController {
                 ApiResponse.ofSuccess("New user account has been created",
                         new CreateResponse(userId)
                 ),
-                HttpStatus.OK
+                HttpStatus.CREATED
         );
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> delete(@PathVariable String id) {
         userService.delete(id);
-        return new ResponseEntity<>(ApiResponse.ofSuccess("New user account has been removed"), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess("New user account has been removed"), HttpStatus.NO_CONTENT);
     }
 }

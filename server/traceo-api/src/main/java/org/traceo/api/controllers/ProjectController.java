@@ -71,7 +71,7 @@ public class ProjectController {
 
         return new ResponseEntity<>(
                 ApiResponse.ofSuccess("Project created.", new CreateResponse(id)),
-                HttpStatus.OK
+                HttpStatus.CREATED
         );
     }
 
@@ -81,7 +81,7 @@ public class ProjectController {
 
         return new ResponseEntity<>(
                 ApiResponse.ofSuccess("Project updated."),
-                HttpStatus.OK
+                HttpStatus.NO_CONTENT
         );
     }
 
@@ -91,7 +91,7 @@ public class ProjectController {
 
         return new ResponseEntity<>(
                 ApiResponse.ofSuccess("Project removed."),
-                HttpStatus.OK
+                HttpStatus.NO_CONTENT
         );
     }
 
@@ -101,7 +101,7 @@ public class ProjectController {
 
         return new ResponseEntity<>(
                 ApiResponse.ofSuccess("Api key has been generated."),
-                HttpStatus.OK
+                HttpStatus.CREATED
         );
     }
 
@@ -111,7 +111,7 @@ public class ProjectController {
 
         return new ResponseEntity<>(
                 ApiResponse.ofSuccess("Api key has been removed."),
-                HttpStatus.OK
+                HttpStatus.NO_CONTENT
         );
     }
 }

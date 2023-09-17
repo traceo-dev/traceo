@@ -37,12 +37,12 @@ public class IncidentController {
     @PatchMapping
     private ResponseEntity<ApiResponse> updateIncident(@RequestBody IncidentDto dto) {
         incidentService.update(dto);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")
     private ResponseEntity<ApiResponse> deleteIncident(@PathVariable String id) {
         incidentService.delete(id);
-        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.OK);
+        return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.NO_CONTENT);
     }
 }

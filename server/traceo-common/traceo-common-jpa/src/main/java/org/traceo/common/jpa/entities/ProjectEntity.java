@@ -15,10 +15,6 @@ import java.util.Set;
 @Setter
 public class ProjectEntity extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-
     @Column(unique = true)
     private String name;
 

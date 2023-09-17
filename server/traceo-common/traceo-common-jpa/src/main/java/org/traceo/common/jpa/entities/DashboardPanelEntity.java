@@ -17,10 +17,6 @@ import java.util.Objects;
 @Getter
 @Setter
 public class DashboardPanelEntity extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-
     @Column(nullable = false)
     private String title;
 

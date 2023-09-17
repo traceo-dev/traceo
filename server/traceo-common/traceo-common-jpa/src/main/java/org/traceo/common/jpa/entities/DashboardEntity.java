@@ -13,9 +13,6 @@ import java.util.List;
 @Getter
 @Setter
 public class DashboardEntity extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
 
     @Column(nullable = false)
     private String name;
