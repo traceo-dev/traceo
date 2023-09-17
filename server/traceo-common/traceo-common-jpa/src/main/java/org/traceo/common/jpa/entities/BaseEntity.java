@@ -1,9 +1,6 @@
 package org.traceo.common.jpa.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -14,6 +11,8 @@ import org.hibernate.id.uuid.UuidGenerator;
 import java.time.LocalDateTime;
 
 @Getter @Setter
+@MappedSuperclass
+@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
