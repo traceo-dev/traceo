@@ -39,12 +39,11 @@ public class AuthController {
 
     @PostMapping("/login")
     private ResponseEntity<ApiResponse> login(
-            @RequestParam String username,
-            @RequestParam String password,
+            @RequestBody AuthCredentials credentials,
             HttpServletResponse response,
             HttpServletRequest request
     ) {
-        authService.login(new AuthCredentials(username, password), response, request);
+        authService.login(credentials, response, request);
         return new ResponseEntity<>(ApiResponse.ofSuccess(), HttpStatus.CREATED);
     }
 

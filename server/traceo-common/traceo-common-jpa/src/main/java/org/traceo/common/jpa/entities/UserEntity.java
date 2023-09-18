@@ -30,7 +30,7 @@ public class UserEntity extends BaseEntity {
     private boolean isPasswordUpdated;
 
     @Column(name = "last_active_at")
-    private long lastActiveAt;
+    private Long lastActiveAt;
 
     public static UserDto mapToModel(UserEntity entity) {
         UserDto dto = new UserDto();

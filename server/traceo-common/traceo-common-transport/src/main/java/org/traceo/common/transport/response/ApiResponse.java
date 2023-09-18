@@ -7,7 +7,7 @@ import org.traceo.common.transport.enums.ResponseStatus;
 @Getter @Setter
 public class ApiResponse {
     private String message;
-    private ResponseStatus status;
+    private String status;
     private Object data;
 
     public static ApiResponse ofError() {
@@ -46,7 +46,7 @@ public class ApiResponse {
 
     public ApiResponse(ResponseStatus status, String message, Object data) {
         this.message = message;
-        this.status = status;
+        this.status = status.getValue();
         this.data = data;
     }
 

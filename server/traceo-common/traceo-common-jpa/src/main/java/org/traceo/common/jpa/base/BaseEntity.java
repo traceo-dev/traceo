@@ -16,18 +16,14 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @GenericGenerator(
-            name = "UUID",
-            type = UuidGenerator.class
-    )
     @Column(name = "id", nullable = false, updatable = false)
     private String id;
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updateAt;
 }
