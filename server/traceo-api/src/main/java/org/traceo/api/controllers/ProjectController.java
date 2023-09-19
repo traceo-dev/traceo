@@ -15,7 +15,7 @@ import org.traceo.common.transport.response.ApiResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/project")
+@RequestMapping("/api/project")
 public class ProjectController {
     private final ProjectService projectService;
     private final ProjectQueryService projectQueryService;

@@ -13,7 +13,7 @@ import org.traceo.common.transport.response.ApiResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
     private final UserQueryService userQueryService;

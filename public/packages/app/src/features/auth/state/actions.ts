@@ -5,7 +5,7 @@ import { ApiResponse, IUser } from "@traceo/types";
 
 export const loadSignedInUser = (): ThunkResult<void> => {
   return async (dispatch) => {
-    const { data } = await api.get<ApiResponse<IUser>>("/api/user");
+    const { data } = await api.get<ApiResponse<IUser>>("/api/user/signed-in");
     dispatch(userLoaded(data));
   };
 };

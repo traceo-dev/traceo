@@ -12,7 +12,7 @@ import org.traceo.common.transport.response.ApiResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/incident")
+@RequestMapping("/api/incident")
 public class IncidentController {
     private final IncidentService incidentService;
     private final IncidentQueryService incidentQueryService;

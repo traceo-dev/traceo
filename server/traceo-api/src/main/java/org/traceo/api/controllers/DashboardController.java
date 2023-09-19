@@ -15,7 +15,7 @@ import org.traceo.common.transport.response.ApiResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/dashboard")
+@RequestMapping("/api/dashboard")
 public class DashboardController {
     private final DashboardService dashboardService;
     private final DashboardPanelService dashboardPanelService;

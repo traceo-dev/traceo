@@ -13,7 +13,7 @@ import org.traceo.common.transport.response.ApiResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/member")
+@RequestMapping("/api/member")
 public class MemberController {
     private final MemberService memberService;
     private final MemberQueryService memberQueryService;

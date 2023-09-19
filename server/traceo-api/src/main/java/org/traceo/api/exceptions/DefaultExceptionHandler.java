@@ -11,7 +11,6 @@ import org.traceo.common.transport.enums.ResponseStatus;
 public class DefaultExceptionHandler {
 
     @ExceptionHandler({
-            RuntimeException.class,
             ModifyException.class,
             NotUniqueField.class
     })

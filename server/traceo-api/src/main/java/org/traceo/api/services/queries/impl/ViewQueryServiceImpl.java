@@ -24,7 +24,7 @@ public class ViewQueryServiceImpl implements ViewQueryService {
     @Value("${traceo.env:development}")
     private EnvType env;
 
-    @Value("${traceo.env:version}")
+    @Value("${traceo.version:version}")
     private String version;
 
     @Autowired
@@ -50,6 +50,6 @@ public class ViewQueryServiceImpl implements ViewQueryService {
         config.setVersion(version);
         config.setDemoMode(isDemo);
 
-        return null;
+        return config;
     }
 }
