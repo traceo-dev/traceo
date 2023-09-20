@@ -1,13 +1,12 @@
 package org.traceo.common.jpa.listeners;
 
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PostPersist;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.traceo.common.jpa.entities.MemberEntity;
 import org.traceo.common.jpa.entities.ProjectEntity;
@@ -16,22 +15,23 @@ import org.traceo.common.jpa.repositories.MemberRepository;
 import org.traceo.common.jpa.repositories.UserRepository;
 import org.traceo.common.transport.enums.MemberRole;
 
-@Configuration
-@EntityListeners(AuditingEntityListener.class)
+@Component
 public class ProjectEntityListener {
     private final static Logger logger = LoggerFactory.getLogger(ProjectEntityListener.class);
 
+    @Lazy
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
+    @Lazy
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @PostPersist
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(readOnly = true)
     public void onInsert(ProjectEntity entity) throws Exception {
         try {
-            UserEntity admin = userRepository.findByUsername("admin@localhost").orElseThrow(EntityNotFoundException::new);
+            UserEntity admin = userRepository.findByEmail("admin@localhost").orElseThrow(EntityNotFoundException::new);
 
             MemberEntity member = new MemberEntity();
             member.setProject(entity);

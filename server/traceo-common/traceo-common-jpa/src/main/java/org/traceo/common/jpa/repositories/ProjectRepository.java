@@ -11,6 +11,7 @@ import org.traceo.common.jpa.entities.ProjectEntity;
 import org.traceo.common.transport.dto.api.ProjectDto;
 import org.traceo.common.transport.enums.MemberRole;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -24,6 +25,9 @@ public interface ProjectRepository extends BaseRepository<ProjectEntity> {
 
     @Query("SELECT m.role FROM MemberEntity m WHERE m.user.id = :userId AND m.project.id = :projectId")
     MemberRole getProjectPermission(@Param("userId") String userId, @Param("projectId") String projectId);
+
+    @Query("SELECT p FROM MemberEntity m LEFT JOIN ProjectEntity p ON m.project.id = p.id LEFT JOIN UserEntity u ON m.user.id = u.id WHERE u.id = :userId")
+    List<ProjectEntity> getUserProjects(@Param("userId") String userId);
 
     @Transactional
     @Modifying

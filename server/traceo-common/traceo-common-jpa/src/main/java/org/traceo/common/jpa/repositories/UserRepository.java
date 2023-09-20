@@ -15,6 +15,8 @@ import java.util.Optional;
 public interface UserRepository extends BaseRepository<UserEntity> {
     Optional<UserEntity> findByUsername(String username);
 
+    Optional<UserEntity> findByEmail(String email);
+
     Optional<UserEntity> findByUsernameOrEmail(String username, String email);
 
     @Transactional

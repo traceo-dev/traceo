@@ -3,12 +3,10 @@ package org.traceo.api.services.queries.impl;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.traceo.api.models.query.ProjectsQueryDto;
 import org.traceo.api.models.query.UsersQueryDto;
 import org.traceo.api.services.queries.UserQueryService;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.UserRepository;
-import org.traceo.common.transport.dto.api.ProjectDto;
 import org.traceo.common.transport.dto.api.UserDto;
 import org.traceo.utils.JpaUtils;
 
@@ -51,10 +49,5 @@ public class UserQueryServiceImpl implements UserQueryService {
                 .stream()
                 .map(UserEntity::mapToModel)
                 .toList();
-    }
-
-    @Override
-    public List<ProjectDto> getUserProjects(String id, ProjectsQueryDto query) {
-        return null;
     }
 }

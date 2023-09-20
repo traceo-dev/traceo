@@ -10,6 +10,7 @@ public class ProjectDto {
     private String mainDashboardId;
     private String name;
     private String description;
+    private String gravatar;
     private TraceoSdk sdk;
 
     private int membersCount;

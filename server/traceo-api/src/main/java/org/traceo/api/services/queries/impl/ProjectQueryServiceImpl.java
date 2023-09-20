@@ -1,8 +1,6 @@
 package org.traceo.api.services.queries.impl;
 
-import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Order;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.traceo.api.models.query.ProjectsQueryDto;
@@ -76,6 +74,13 @@ public class ProjectQueryServiceImpl implements ProjectQueryService {
                 .findProjectDashboards(id)
                 .stream()
                 .map(DashboardEntity::mapToModel)
+                .toList();
+    }
+
+    @Override
+    public List<ProjectDto> getUserProjects(String userId) {
+        return projectRepository.getUserProjects(userId)
+                .stream().map(ProjectEntity::mapToModel)
                 .toList();
     }
 }

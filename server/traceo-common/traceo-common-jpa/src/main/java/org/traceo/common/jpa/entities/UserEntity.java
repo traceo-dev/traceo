@@ -34,6 +34,7 @@ public class UserEntity extends BaseEntity {
 
     public static UserDto mapToModel(UserEntity entity) {
         UserDto dto = new UserDto();
+        dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setAdmin(entity.isAdmin());
         dto.setStatus(entity.getStatus());

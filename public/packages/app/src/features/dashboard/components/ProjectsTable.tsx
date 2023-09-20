@@ -40,9 +40,11 @@ export const ProjectsTable = () => {
     refetch
   } = useReactQuery<MemberProject[]>({
     queryKey: ["projects"],
-    url: "/api/member/projects",
+    url: `/api/project/user/${user.id}` ,
     params: { order, sortBy, search: search, userId: user.id }
   });
+
+  console.log("proj: ", projects);
 
   const hasProjects = !isEmpty(projects);
 

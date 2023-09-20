@@ -7,9 +7,11 @@ import org.traceo.api.exceptions.NotUniqueField;
 import org.traceo.api.exceptions.PermissionException;
 import org.traceo.common.creators.builders.MemberBuilder;
 import org.traceo.common.jpa.entities.DashboardEntity;
+import org.traceo.common.jpa.entities.MemberEntity;
 import org.traceo.common.jpa.entities.ProjectEntity;
 import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.DashboardRepository;
+import org.traceo.common.jpa.repositories.MemberRepository;
 import org.traceo.common.jpa.repositories.ProjectRepository;
 import org.traceo.common.jpa.repositories.UserRepository;
 import org.traceo.common.transport.dto.api.ProjectDto;
@@ -18,6 +20,7 @@ import org.traceo.common.transport.enums.MemberRole;
 import org.traceo.common.transport.enums.UserStatus;
 import org.traceo.security.config.ContextHolder;
 import org.traceo.security.model.ContextDetails;
+import org.traceo.utils.GravatarUtils;
 import org.traceo.utils.RandomGenerator;
 
 import java.security.NoSuchAlgorithmException;
@@ -29,12 +32,14 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
     private final DashboardRepository dashboardRepository;
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, DashboardRepository dashboardRepository) {
+    public ProjectServiceImpl(ProjectRepository projectRepository, UserRepository userRepository, DashboardRepository dashboardRepository, MemberRepository memberRepository) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.dashboardRepository = dashboardRepository;
+        this.memberRepository = memberRepository;
     }
 
     @Override
@@ -55,18 +60,29 @@ public class ProjectServiceImpl implements ProjectService {
         try {
             ProjectEntity projectPayload = ProjectEntity.mapToEntity(dto);
             projectPayload.setOwner(userEntity.get());
+            projectPayload.setGravatar(GravatarUtils.create(dto.getName()));
 
             ProjectEntity project = projectRepository.save(projectPayload);
 
 //            Core admins should be added as members only in jpa listeners
-            boolean isCoreAdmin = user.getEmail().equals("admin@localhost");
+            MemberEntity member = MemberBuilder.standard()
+                    .withProject(project)
+                    .withUser(user)
+                    .withRole(MemberRole.ADMINISTRATOR)
+                    .build();
+            memberRepository.save(member);
 
+//            Create admin member for each new project
+            boolean isCoreAdmin = user.getEmail().equals("admin@localhost");
             if (!isCoreAdmin) {
-                MemberBuilder.standard()
+                UserEntity admin = userRepository.findByEmail("admin@localhost").get();
+                MemberEntity adminMember = MemberBuilder.standard()
                         .withProject(project)
-                        .withUser(user)
+                        .withUser(admin)
                         .withRole(MemberRole.ADMINISTRATOR)
                         .build();
+
+                memberRepository.save(adminMember);
             }
 
 //            Create default dashboard
@@ -93,7 +109,7 @@ public class ProjectServiceImpl implements ProjectService {
         try {
             projectRepository.update(id, dto);
         } catch (RuntimeException e) {
-            throw new RuntimeException("Failed to udpate.", e);
+            throw new RuntimeException("Failed to update.", e);
         }
     }
 

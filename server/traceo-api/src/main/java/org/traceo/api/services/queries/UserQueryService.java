@@ -11,5 +11,4 @@ import java.util.List;
 public interface UserQueryService {
     UserDto getUser(String id);
     List<UserDto> getUsers(UsersQueryDto query);
-    List<ProjectDto> getUserProjects(String id, ProjectsQueryDto query);
 }

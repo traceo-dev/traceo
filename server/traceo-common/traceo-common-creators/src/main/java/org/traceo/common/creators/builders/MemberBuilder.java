@@ -1,22 +1,13 @@
 package org.traceo.common.creators.builders;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.traceo.common.jpa.entities.MemberEntity;
 import org.traceo.common.jpa.entities.ProjectEntity;
 import org.traceo.common.jpa.entities.UserEntity;
-import org.traceo.common.jpa.repositories.MemberRepository;
 import org.traceo.common.transport.enums.MemberRole;
 
 import java.util.Objects;
 
-@Component
-@Slf4j
 public class MemberBuilder {
-
-    @Autowired
-    MemberRepository memberRepository;
 
     public MemberBuilder() {}
 
@@ -47,7 +38,6 @@ public class MemberBuilder {
         Objects.requireNonNull(project, "Project is required!");
         Objects.requireNonNull(user, "User is required!");
 
-        MemberEntity entity = new MemberEntity(user, project, role);
-        return memberRepository.save(entity);
+        return new MemberEntity(user, project, role);
     }
 }

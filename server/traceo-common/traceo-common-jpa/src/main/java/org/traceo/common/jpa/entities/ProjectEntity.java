@@ -41,7 +41,7 @@ public class ProjectEntity extends BaseEntity {
     @Column(name = "is_integrated")
     private boolean isIntegrated = false;
 
-    @Column(name = "main_dashboard_id", nullable = false)
+    @Column(name = "main_dashboard_id")
     private String mainDashboardId;
 
     @OneToMany(cascade = {
@@ -67,10 +67,10 @@ public class ProjectEntity extends BaseEntity {
     }, mappedBy = "project")
     private Set<DatasourceEntity> datasources = new HashSet<>();
 
-    @Formula("(SELECT COUNT(*) FROM MemberEntity m WHERE m.project_id = id)")
+    @Formula("(SELECT COUNT(*) FROM traceo_project_member m WHERE m.project_id = id)")
     private int membersCount = 0;
 
-    @Formula("(SELECT COUNT(*) FROM IncidentEntity i WHERE i.project_id = id)")
+    @Formula("(SELECT COUNT(*) FROM traceo_incident i WHERE i.project_id = id)")
     private int incidentsCount = 0;
 
     public static ProjectEntity mapToEntity(ProjectDto projectDto) {
@@ -90,6 +90,7 @@ public class ProjectEntity extends BaseEntity {
         dto.setSdk(entity.getSdk());
         dto.setIncidentsCount(entity.getIncidentsCount());
         dto.setMembersCount(entity.getMembersCount());
+        dto.setGravatar(entity.getGravatar());
         return dto;
     }
 }
