@@ -6,7 +6,7 @@ export const useMemberRole = () => {
 
   const initialState = {
     isViewer: true,
-    isAdmin: true,
+    admin: true,
     isMaintainer: true
   };
 

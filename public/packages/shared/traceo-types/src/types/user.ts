@@ -1,5 +1,3 @@
-import { IMember } from "./member";
-
 export type AddUserProps = Pick<IUser, "email" | "name" | "username"> & { password: string };
 
 export enum UserRole {
@@ -24,7 +22,7 @@ export interface IUser {
   isPasswordUpdated: boolean;
 
   status: UserStatus;
-  isAdmin: boolean;
+  admin: boolean;
 
   gravatar: string;
 

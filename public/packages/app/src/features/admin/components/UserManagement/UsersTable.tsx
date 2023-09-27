@@ -24,7 +24,7 @@ export const UsersTable: FC<Props> = ({ users, isLoading }) => {
             <CheckCircleFilled className="p-1 text-amber-600" />
           </Tooltip>
         )}
-        {u.isAdmin && (
+        {u.admin && (
           <Tooltip placement="top" title="Server admin">
             <SafetyCertificateFilled />
           </Tooltip>

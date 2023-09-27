@@ -25,7 +25,7 @@ export const buildTree = ({
   permission = MemberRole.NONE
 }: TreeProps): NavItem[] => {
   const treeRoot: NavItem[] = [];
-  const isAdmin = user.isAdmin;
+  console.log("user: ", user);
 
   if (project.id) {
     const isProjectAdmin = permission === MemberRole.ADMINISTRATOR;
@@ -155,7 +155,7 @@ export const buildTree = ({
     });
   }
 
-  if (isAdmin) {
+  if (user.admin) {
     const adminPanelRoot: NavItem = {
       id: "admin_panel",
       label: "Administration",

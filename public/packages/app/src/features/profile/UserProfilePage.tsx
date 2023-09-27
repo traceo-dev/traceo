@@ -50,7 +50,7 @@ const UserProfilePage = () => {
             >
               {({ register, errors }) => (
                 <Fragment>
-                  <FormItem label="Name" error={errors?.name} disabled={user.isAdmin}>
+                  <FormItem label="Name" error={errors?.name} disabled={user.admin}>
                     <Input
                       {...register("name", {
                         required: true
@@ -58,7 +58,7 @@ const UserProfilePage = () => {
                     />
                   </FormItem>
 
-                  <FormItem label="Email" error={errors?.email} disabled={user.isAdmin}>
+                  <FormItem label="Email" error={errors?.email} disabled={user.admin}>
                     <Input
                       {...register("email", {
                         required: false,
@@ -72,7 +72,7 @@ const UserProfilePage = () => {
                 </Fragment>
               )}
             </Form>
-            {!user.isAdmin && (
+            {!user.admin && (
               <ButtonContainer justify="start">
                 <Button form="basic-info-form" type="submit">
                   Update

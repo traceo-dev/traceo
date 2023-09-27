@@ -8,7 +8,7 @@ interface Props {
   constraints?: string;
 }
 export const EmptyProjectsList: FC<Props> = ({ constraints = null }) => {
-  const { isAdmin } = useUser();
+  const { admin } = useUser();
 
   return (
     <Space direction="vertical" className="font-semibold w-full items-center py-5 gap-0">
@@ -23,13 +23,13 @@ export const EmptyProjectsList: FC<Props> = ({ constraints = null }) => {
           <span>
             No results found for: <b>{constraints}</b>
           </span>
-        ) : !isAdmin ? (
+        ) : !admin ? (
           "Contact the administrator and start monitoring your projects!"
         ) : (
           "Start using Traceo by creating your first project or by joining to an existing one."
         )}
       </Typography>
-      {isAdmin && !constraints && (
+      {admin && !constraints && (
         <Link to={"/dashboard/new-project"}>
           <Button size="sm" className="mt-9" icon={<PlusOutlined />}>
             Create project

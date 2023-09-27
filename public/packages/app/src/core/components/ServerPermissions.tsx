@@ -4,7 +4,7 @@ import { FC, Fragment } from "react";
 const ServerPermissions: FC = ({ children }) => {
   const user = useUser();
 
-  const isAdmin = user.isAdmin;
+  const isAdmin = user.admin;
   if (isAdmin) {
     return <Fragment>{children}</Fragment>;
   }

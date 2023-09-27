@@ -44,7 +44,7 @@ export const DashboardPageWrapper: FC<Props> = ({ children, isLoading }) => {
     dispatch(resetProjectState());
   }, []);
 
-  if (!user.isAdmin) {
+  if (!user.admin) {
     return <NotFound />;
   }
 

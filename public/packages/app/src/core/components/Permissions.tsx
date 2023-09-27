@@ -12,7 +12,7 @@ export const Permissions: FC<PermissionsProps> = ({ statuses, children }) => {
   const { permission } = useProject();
   const configs = useConfig();
 
-  const isDemo = !configs.demoMode && !configs.user.isAdmin;
+  const isDemo = !configs.demoMode && !configs.user.admin;
 
   if (permission && statuses.includes(permission) && !isDemo) {
     return <Fragment>{children}</Fragment>;

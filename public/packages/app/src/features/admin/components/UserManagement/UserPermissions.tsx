@@ -13,7 +13,7 @@ export const UserPermissions = () => {
   const isCoreAdmin = user.email === ADMIN_EMAIL;
 
   const onUpdateServerRole = (value: boolean) => {
-    dispatch(updateUser({ id: user.id, isAdmin: value }));
+    dispatch(updateUser({ id: user.id, admin: value }));
   };
 
   return (
@@ -21,7 +21,7 @@ export const UserPermissions = () => {
       <ColumnSection subtitle="Manage permissions and access to all resources of this Traceo instance.">
         <FieldLabel className="w-2/3" label="Server Admin">
           <Select
-            defaultValue={user.isAdmin}
+            defaultValue={user.admin}
             isDisabled={isCoreAdmin}
             onChange={(opt) => onUpdateServerRole(opt?.value)}
             options={[
