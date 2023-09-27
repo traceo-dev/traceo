@@ -7,7 +7,9 @@ import org.traceo.common.jpa.base.BaseEntity;
 import org.traceo.common.transport.dto.api.DashboardDto;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "traceo_dashboard")
@@ -33,7 +35,7 @@ public class DashboardEntity extends BaseEntity {
             CascadeType.REMOVE,
             CascadeType.PERSIST
     })
-    private List<DashboardPanelEntity> panels = new ArrayList<>();
+    private Set<DashboardPanelEntity> panels = new HashSet<>();
 
     public static DashboardEntity mapToEntity(DashboardDto dto, ProjectEntity project) {
         DashboardEntity entity = new DashboardEntity();

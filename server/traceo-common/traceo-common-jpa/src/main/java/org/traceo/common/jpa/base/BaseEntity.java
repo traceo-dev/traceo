@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 @MappedSuperclass
-@Inheritance(strategy= InheritanceType.TABLE_PER_CLASS)
 public class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
