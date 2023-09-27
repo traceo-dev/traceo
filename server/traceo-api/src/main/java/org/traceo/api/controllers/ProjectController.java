@@ -36,8 +36,8 @@ public class ProjectController {
     }
 
     @GetMapping("/user/{id}")
-    private ResponseEntity<ApiResponse> getUserProjects(@PathVariable String id) {
-        List<ProjectDto> response = projectQueryService.getUserProjects(id);
+    private ResponseEntity<ApiResponse> getUserProjects(@PathVariable String id, ProjectsQueryDto query) {
+        List<ProjectDto> response = projectQueryService.getUserProjects(id, query);
 
         return new ResponseEntity<>(
                 ApiResponse.ofSuccess(response),

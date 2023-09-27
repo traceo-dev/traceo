@@ -16,5 +16,5 @@ public interface ProjectQueryService {
     MemberRole getPermission(String id);
     List<DashboardDto> getDashboards(String id);
 
-    List<ProjectDto> getUserProjects(String userId);
+    List<ProjectDto> getUserProjects(String userId, ProjectsQueryDto query);
 }

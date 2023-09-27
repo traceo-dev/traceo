@@ -41,7 +41,7 @@ export const ProjectsTable = () => {
   } = useReactQuery<MemberProject[]>({
     queryKey: ["projects"],
     url: `/api/project/user/${user.id}` ,
-    params: { order, sortBy, search: search, userId: user.id }
+    params: { order, sortBy, search: search }
   });
 
   console.log("proj: ", projects);

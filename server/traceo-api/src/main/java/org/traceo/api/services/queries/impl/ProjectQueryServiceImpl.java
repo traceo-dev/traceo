@@ -1,12 +1,15 @@
 package org.traceo.api.services.queries.impl;
 
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.traceo.api.models.query.ProjectsQueryDto;
 import org.traceo.api.services.queries.ProjectQueryService;
 import org.traceo.common.jpa.entities.DashboardEntity;
+import org.traceo.common.jpa.entities.MemberEntity;
 import org.traceo.common.jpa.entities.ProjectEntity;
+import org.traceo.common.jpa.entities.UserEntity;
 import org.traceo.common.jpa.repositories.ProjectRepository;
 import org.traceo.common.transport.dto.api.DashboardDto;
 import org.traceo.common.transport.dto.api.ProjectDto;
@@ -78,8 +81,32 @@ public class ProjectQueryServiceImpl implements ProjectQueryService {
     }
 
     @Override
-    public List<ProjectDto> getUserProjects(String userId) {
-        return projectRepository.getUserProjects(userId)
+    public List<ProjectDto> getUserProjects(String userId, ProjectsQueryDto query) {
+        Specification<ProjectEntity> specification = (root, specQuery, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+
+            Join<ProjectEntity, MemberEntity> memberJoin = root.join("members");
+            Join<MemberEntity, UserEntity> userJoin = memberJoin.join("user");
+
+            Predicate userPredicate = builder.equal(userJoin.get("id"), userId);
+            predicates.add(userPredicate);
+
+            if (query.getSearch() != null && !query.getSearch().isEmpty()) {
+                String value = JpaUtils.likeWrap(query.getSearch());
+
+                Predicate namePredicate = builder.like(root.get("name"), value);
+                predicates.add(builder.and(namePredicate));
+            }
+
+            switch (query.getOrder()) {
+                case ASC -> specQuery.orderBy(builder.asc(root.get(query.getSortBy())));
+                case DESC -> specQuery.orderBy(builder.desc(root.get(query.getSortBy())));
+            }
+
+            return builder.and(predicates.toArray(new Predicate[0]));
+        };
+
+        return projectRepository.findAll(specification)
                 .stream().map(ProjectEntity::mapToModel)
                 .toList();
     }
