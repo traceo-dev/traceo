@@ -66,7 +66,7 @@
     "typeorm": "^0.3.16"
   },
   "devDependencies": {
-    "@nestjs/cli": "10.1.11",
+    "@nestjs/cli": "10.1.18",
     "@nestjs/schematics": "^10.0.2",
     "@nestjs/testing": "^9.4.3",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
