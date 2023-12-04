@@ -18,7 +18,7 @@
     "@traceo/ui": "0.0.0",
     "@types/history": "^5.0.0",
     "@types/jest": "^29.5.2",
-    "@types/node": "^17.0.8",
+    "@types/node": "^20.10.3",
     "axios": "^1.4.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^9.1.2",
