@@ -8,7 +8,8 @@ import {
     getHealthByValue,
     VitalsEnum,
     TraceoSpan,
-    TraceoMetric
+    TraceoMetric,
+    IncidentStatus
 } from "@traceo/types";
 import dayjs from "dayjs";
 import format from "pg-format";
@@ -73,12 +74,13 @@ export class DatabaseService {
     }
 
     public async getProjectById(id: string, client: PoolClient = this.client): Promise<IProject | undefined> {
-        const result = await client.query<IProject>(`SELECT * FROM project WHERE id = '${id}'`);
+        const result = await client.query<IProject>(`SELECT * FROM project WHERE id = $$${id}$$`);
         return result.rows[0];
     }
 
     public async getIncident({ name, message, projectId }: { name: string, message: string, projectId: string }, client: PoolClient = this.client): Promise<IIncident | undefined> {
-        let sqlQuery = `SELECT * FROM incident WHERE name = '${name}' AND project_id = '${projectId}'`;
+        // help to avoid issues with escaping both single and double quotes
+        let sqlQuery = `SELECT * FROM incident WHERE name = $$${name}$$ AND project_id = $$${projectId}$$`;
 
         if (message) {
             // $4 - help to avoid issues with escaping both single and double quotes
@@ -155,7 +157,7 @@ export class DatabaseService {
     private async updateIncidentOnEvent({ incident_id, timestamp }: { incident_id: string, timestamp: number }): Promise<void> {
         await this.client.query(`
             UPDATE incident
-            SET events_count = COALESCE(events_count, 0) + 1, last_event_at = '${timestamp}'
+            SET events_count = COALESCE(events_count, 0) + 1, last_event_at = '${timestamp}', status = '${IncidentStatus.UNRESOLVED}'
             WHERE id = '${incident_id}'
         `);
     }
